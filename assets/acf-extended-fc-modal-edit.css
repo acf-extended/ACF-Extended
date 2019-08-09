@@ -1,0 +1,6 @@
+/*
+ * Flexible Edit: Hide Collapse
+ */
+.acf-field-flexible-content[data-acfe-flexible-modal-edition="1"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-controls > a.-collapse{
+    display:none;
+}

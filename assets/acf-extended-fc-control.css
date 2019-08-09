@@ -1,0 +1,66 @@
+/*
+ * ACFE: Flexible Icons
+ */
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons{
+    visibility: hidden;
+}
+
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons:before{
+    font-family: dashicons;
+}
+
+.acf-flexible-content .layout:hover > .acf-fc-layout-controls .acf-icon.acfe-flexible-icon.dashicons{
+	visibility: visible;
+}
+
+.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-plus, 
+.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-minus, 
+.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-plus, 
+.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-minus{
+	visibility: hidden;
+}
+
+.acf-flexible-content .layout:hover > .acf-fc-layout-controls .acf-icon.-plus, 
+.acf-flexible-content .layout:hover > .acf-fc-layout-controls .acf-icon.-minus, 
+.acf-flexible-content .layout.-hover > .acf-fc-layout-controls .acf-icon.-plus, 
+.acf-flexible-content .layout.-hover > .acf-fc-layout-controls .acf-icon.-minus{
+	visibility: visible;
+}
+
+
+/*
+ * ACFE: Title Edit
+ */
+.acf-field-acfe-flexible-layout-title{
+    display:none;
+}
+
+input.acfe-flexible-control-title{
+    border:none;
+    box-shadow:none !important;
+    outline:none !important;
+    border-radius:0;
+    border-bottom:1px solid transparent !important;
+    font-weight:600;
+    width:auto !important;
+    padding:0 !important;
+    display:none;
+}
+
+.layout > .acf-fc-layout-handle .acfe-layout-title{
+    cursor:text;
+    position:relative;
+}
+
+.layout > .acf-fc-layout-handle .acfe-layout-title:hover{
+    background:#f4f4f4;
+}
+
+.layout.acfe-flexible-title-edition > .acf-fc-layout-handle .acfe-layout-title input.acfe-flexible-control-title{
+    display:inline-block;
+    border-bottom:1px solid #ddd !important;
+}
+
+.layout.acfe-flexible-title-edition > .acf-fc-layout-handle .acfe-layout-title .acfe-layout-title-text{
+    display:none;
+}
