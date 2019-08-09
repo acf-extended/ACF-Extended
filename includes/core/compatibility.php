@@ -11,7 +11,7 @@ if(!defined('ABSPATH'))
 add_filter('pto/posts_orderby/ignore', 'acfe_compatibility_pto_acf_field_group', 10, 3);
 function acfe_compatibility_pto_acf_field_group($ignore, $orderby, $query){
     
-    if(is_admin() && $query->is_main_query() && $query->get('post_type') == 'acf-field-group')
+    if(is_admin() && $query->is_main_query() && $query->get('post_type') === 'acf-field-group')
         $ignore = true;
 
     return $ignore;

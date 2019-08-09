@@ -2,7 +2,7 @@
     
     <?php
     $title = __('Edit Option');
-    if($_REQUEST['action'] == 'add')
+    if($_REQUEST['action'] === 'add')
         $title = __('Add Option');
     ?>
     <h1 class="wp-heading-inline"><?php echo $title; ?></h1>

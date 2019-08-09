@@ -9,7 +9,7 @@ if(!defined('ABSPATH'))
 add_action('acf/render_field_settings', 'acfe_settings_field_data', 992);
 function acfe_settings_field_data($field){
     
-    if(!isset($field['ID']) || $field['ID'] == 'acfcloneindex')
+    if(!isset($field['ID']) || $field['ID'] === 'acfcloneindex')
         return;
     
     $acfe_field_data_id = false;
