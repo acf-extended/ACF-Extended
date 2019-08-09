@@ -47,7 +47,7 @@ function acfe_field_group_category_submenu_highlight($parent_file){
     
 	global $submenu_file, $current_screen, $pagenow;
     
-	if($current_screen->taxonomy == 'acf-field-group-category' && ($pagenow == 'edit-tags.php' || $pagenow == 'term.php'))
+	if($current_screen->taxonomy === 'acf-field-group-category' && ($pagenow === 'edit-tags.php' || $pagenow === 'term.php'))
         $parent_file = 'edit.php?post_type=acf-field-group';
     
 	return $parent_file;
@@ -59,7 +59,7 @@ function acfe_field_group_category_column($columns){
     
     $new_columns = array();
     foreach($columns as $key => $value) {
-        if($key == 'title')
+        if($key === 'title')
             $new_columns['acf-field-group-category'] = __('Categories');
         
         $new_columns[$key] = $value;
@@ -72,7 +72,7 @@ function acfe_field_group_category_column($columns){
 add_action('manage_acf-field-group_posts_custom_column' , 'acfe_field_group_category_column_html', 10, 2);
 function acfe_field_group_category_column_html($column, $post_id){
     
-    if($column == 'acf-field-group-category'){
+    if($column === 'acf-field-group-category'){
         if(!$terms = get_the_terms($post_id, 'acf-field-group-category')){
             echo '—';
             return;
@@ -114,7 +114,7 @@ function acfe_field_group_category_views($views){
         
         global $wp_query;
         $class = '';
-        if(isset($wp_query->query_vars['acf-field-group-category']) && $wp_query->query_vars['acf-field-group-category'] == $term->slug)
+        if(isset($wp_query->query_vars['acf-field-group-category']) && $wp_query->query_vars['acf-field-group-category'] === $term->slug)
             $class = ' class="current"';
         
         $views['category-' . $term->slug] = '<a href="' . admin_url('edit.php?acf-field-group-category=' . $term->slug . '&post_type=acf-field-group') . '"' . $class . '>' . $term->name . $html . '</a>';

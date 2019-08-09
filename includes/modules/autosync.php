@@ -196,10 +196,10 @@ function acfe_has_field_group_autosync($field_group, $type = false){
     if(!$type)
         return acf_is_array($acfe_autosync);
     
-    if($type == 'json')
+    if($type === 'json')
         return is_array($acfe_autosync) && in_array('json', $acfe_autosync);
     
-    elseif($type == 'php')
+    elseif($type === 'php')
         return is_array($acfe_autosync) && in_array('php', $acfe_autosync);
         
     return false;
@@ -210,7 +210,7 @@ function acfe_has_field_group_autosync($field_group, $type = false){
  */
 function acfe_has_field_group_autosync_file($field_group, $type = 'json'){
     
-    if($type == 'json'){
+    if($type === 'json'){
         
         // acf_is_local_field_group = true if json file found
         $found = false;
@@ -219,7 +219,7 @@ function acfe_has_field_group_autosync_file($field_group, $type = 'json'){
             $local_field_group = acf_get_local_field_group($field_group['key']);
             $get_local = acf_maybe_get($local_field_group, 'local', false);
             
-            if($get_local == 'json'){
+            if($get_local === 'json'){
                 
                 $found = true;
                 
@@ -269,7 +269,7 @@ function acfe_has_field_group_autosync_file($field_group, $type = 'json'){
         
     }
     
-    elseif($type == 'php'){
+    elseif($type === 'php'){
         
         // acf_is_local_field_group = true if php registered
         $found = false;
@@ -277,7 +277,7 @@ function acfe_has_field_group_autosync_file($field_group, $type = 'json'){
             
             $local_field_group = acf_get_local_field_group($field_group['key']);
             $get_local = acf_maybe_get($local_field_group, 'local', false);
-            if($get_local == 'php')
+            if($get_local === 'php')
                 $found = true;
             
         }

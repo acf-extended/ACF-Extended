@@ -447,14 +447,14 @@ add_action('manage_acfe-dt_posts_custom_column', 'acfe_dt_admin_columns_html', 1
 function acfe_dt_admin_columns_html($column, $post_id){
     
     // Name
-    if($column == 'acfe-name'){
+    if($column === 'acfe-name'){
         
         echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . get_field('acfe_dt_name', $post_id) . '</code>';
         
     }
     
     // Post Types
-    elseif($column == 'acfe-post-types'){
+    elseif($column === 'acfe-post-types'){
         
         $post_types = get_field('post_types', $post_id);
         
@@ -488,7 +488,7 @@ function acfe_dt_admin_columns_html($column, $post_id){
     }
     
     // Terms
-    elseif($column == 'acfe-terms'){
+    elseif($column === 'acfe-terms'){
         
         // Name
         $name = get_field('acfe_dt_name', $post_id);
@@ -558,7 +558,7 @@ function acfe_dt_admin_validate_name($valid, $value, $field, $input){
     if(!empty($current_post_id))
         $current_post_type = get_field('acfe_dt_name', $current_post_id);
     
-    if($value == $current_post_type)
+    if($value === $current_post_type)
         return $valid;
     
     // Listing WP Taxonomies
