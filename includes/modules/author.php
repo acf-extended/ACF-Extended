@@ -209,7 +209,7 @@ function acfe_author_post_save($post_id){
 add_filter('acf/pre_update_value', 'acfe_author_meta_update', 10, 4);
 function acfe_author_meta_update($return, $value, $post_id, $field){
     
-    if($field['name'] == 'acfe_author')
+    if($field['name'] === 'acfe_author')
         return false;
     
     return $return;

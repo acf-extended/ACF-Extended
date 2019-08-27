@@ -109,7 +109,7 @@ function acfe_update_value($value, $post_id, $field){
     foreach($field['acfe_update'] as $vkey => $function){
         
         // Fix possible ACF Clone Index
-        if($vkey == 'acfcloneindex')
+        if($vkey === 'acfcloneindex')
             continue;
         
         // Check filters

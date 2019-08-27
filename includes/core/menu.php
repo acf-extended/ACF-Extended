@@ -29,37 +29,37 @@ function acfe_admin_settings_submenu_swap(){
     foreach($submenu['edit.php?post_type=acf-field-group'] as $ikey => $item){
         
         // ACFE: Field Group Category
-        if($item[2] == 'edit-tags.php?taxonomy=acf-field-group-category'){
+        if($item[2] === 'edit-tags.php?taxonomy=acf-field-group-category'){
             $temp_category = $submenu['edit.php?post_type=acf-field-group'][$ikey];
             $temp_category_key = $ikey;
         }
         
         // ACFE: Settings
-        elseif($item[2] == 'acfe-settings'){
+        elseif($item[2] === 'acfe-settings'){
             $temp_settings = $submenu['edit.php?post_type=acf-field-group'][$ikey];
             $temp_settings_key = $ikey;
         }
         
         // Tools
-        elseif($item[2] == 'acf-tools'){
+        elseif($item[2] === 'acf-tools'){
             $temp_tools = $submenu['edit.php?post_type=acf-field-group'][$ikey];
             $temp_tools_key = $ikey;
         }
         
         // Infos
-        elseif($item[2] == 'acf-settings-info'){
+        elseif($item[2] === 'acf-settings-info'){
             $temp_infos = $submenu['edit.php?post_type=acf-field-group'][$ikey];
             $temp_infos_key = $ikey;
         }
         
         // Block Types
-        elseif($item[2] == 'edit.php?post_type=acfe-dbt'){
+        elseif($item[2] === 'edit.php?post_type=acfe-dbt'){
             $temp_block_type = $submenu['edit.php?post_type=acf-field-group'][$ikey];
             $temp_block_type_key = $ikey;
         }
         
         // Options Pages
-        elseif($item[2] == 'edit.php?post_type=acfe-dop'){
+        elseif($item[2] === 'edit.php?post_type=acfe-dop'){
             $temp_options = $submenu['edit.php?post_type=acf-field-group'][$ikey];
             $temp_options_key = $ikey;
         }

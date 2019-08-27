@@ -14,7 +14,7 @@ function acfe_location_post_type_archive_choices($choices){
     foreach($choices as $choice => $choice_label){
         
         $return[$choice] = $choice_label;
-        $return[$choice . '_archive'] = $choice_label . ' Archive' . ($choice == 'all' ? 's' : '');
+        $return[$choice . '_archive'] = $choice_label . ' Archive' . ($choice === 'all' ? 's' : '');
         
     }
     
@@ -34,7 +34,7 @@ function acfe_location_post_type_archive_save(){
     acf_enqueue_scripts();
     
     // Success message
-    if(isset($_GET['message']) && $_GET['message'] == 'acfe_post_type_archive')
+    if(isset($_GET['message']) && $_GET['message'] === 'acfe_post_type_archive')
         acf_add_admin_notice('Options have been saved', 'success');
     
     // Verify Nonce
@@ -370,7 +370,7 @@ function acfe_post_type_archive_render_mb($array, $args){
     
     <?php 
     $id = ($field_group['style'] != 'seamless') ? 'major-publishing-actions' : '';
-    $style = ($field_group['style'] == 'seamless') ? 'padding:0 12px;' : '';
+    $style = ($field_group['style'] === 'seamless') ? 'padding:0 12px;' : '';
     ?>
     
         <div id="<?php echo $id; ?>" style="<?php echo $style; ?>">

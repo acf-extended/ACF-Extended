@@ -246,10 +246,10 @@ function acfe_dpt_filter_save($post_id){
     // Map meta cap
     $register_args['map_meta_cap'] = null;
     
-    if($map_meta_cap == 'false')
+    if($map_meta_cap === 'false')
         $register_args['map_meta_cap'] = false;
     
-    elseif($map_meta_cap == 'true')
+    elseif($map_meta_cap === 'true')
         $register_args['map_meta_cap'] = true;
         
     // Get ACFE option
@@ -438,10 +438,10 @@ function acfe_dpt_filter_template($template){
     foreach(get_post_types(array(), 'objects') as $post_type){
         
         // Get_query_var check
-        $is_query_var = ($query_var && $query_var == $post_type->name);
+        $is_query_var = ($query_var && $query_var === $post_type->name);
         
         // Get_post_type check
-        $get_post_type = (get_post_type() == $post_type->name);
+        $get_post_type = (get_post_type() === $post_type->name);
         
         // Acfe_archive_template
         $acfe_archive_template = (isset($post_type->acfe_archive_template) && !empty($post_type->acfe_archive_template));
@@ -459,7 +459,7 @@ function acfe_dpt_filter_template($template){
         $rule['is_single'] = is_singular($post_type->name);
         
         // Post Exception
-        if($post_type->name == 'post'){
+        if($post_type->name === 'post'){
             $rule['is_archive'] = is_home();
             $rule['has_archive'] = true;
         }
@@ -501,14 +501,14 @@ add_action('manage_acfe-dpt_posts_custom_column', 'acfe_dpt_admin_columns_html',
 function acfe_dpt_admin_columns_html($column, $post_id){
     
     // Name
-    if($column == 'acfe-name'){
+    if($column === 'acfe-name'){
         
         echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . get_field('acfe_dpt_name', $post_id) . '</code>';
         
     }
     
     // Taxonomies
-    elseif($column == 'acfe-taxonomies'){
+    elseif($column === 'acfe-taxonomies'){
         
         $taxonomies = acf_get_array(get_field('taxonomies', $post_id));
         
@@ -542,7 +542,7 @@ function acfe_dpt_admin_columns_html($column, $post_id){
     }
     
     // Posts
-    elseif($column == 'acfe-posts'){
+    elseif($column === 'acfe-posts'){
         
         // Name
         $name = get_field('acfe_dpt_name', $post_id);
@@ -663,7 +663,7 @@ function acfe_dpt_admin_validate_name($valid, $value, $field, $input){
     if(!empty($current_post_id))
         $current_post_type = get_field('acfe_dpt_name', $current_post_id);
     
-    if($value == $current_post_type)
+    if($value === $current_post_type)
         return $valid;
     
     // Listing WP Post Types
