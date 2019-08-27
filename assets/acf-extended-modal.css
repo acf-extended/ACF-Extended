@@ -292,6 +292,20 @@ body.acfe-modal-opened{
     font-weight:600;
 }
 
+.acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a.disabled{
+    pointer-events:none;
+    opacity:0.67;
+}
+
+.acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a.disabled:hover{
+    cursor:default;
+}
+
+.acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a.disabled:focus{
+    box-shadow:none;
+    outline:none;
+}
+
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container.acfe-col-1 ul li{
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;

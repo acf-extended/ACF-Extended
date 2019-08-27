@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/dynamic_taxonomies', true))
+    return;
+
 if(!class_exists('ACFE_Admin_Tool_Export_DT')):
 
 class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{

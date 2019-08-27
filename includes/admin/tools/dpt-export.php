@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/dynamic_post_types', true))
+    return;
+
 if(!class_exists('ACFE_Admin_Tool_Export_DPT')):
 
 class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{

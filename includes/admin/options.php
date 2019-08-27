@@ -3,6 +3,9 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/options', true))
+    return;
 
 /**
  * Options WP List Table

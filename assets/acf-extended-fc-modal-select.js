@@ -46,10 +46,31 @@
             
             var category = $link.data('acfe-flexible-category');
             
-            if(categories.array.indexOf(category) != -1)
-                return true;
+            // With pipes
+            if(category.indexOf('|') != -1){
+                
+                var cats = category.split('|');
+                
+                $(cats).each(function(i, c){
+                    
+                    if(categories.array.indexOf(c) != -1)
+                        return true;
+                    
+                    categories.array.push(c);
+                    
+                });
+                
+            }
             
-            categories.array.push(category);
+            // Without pipes
+            else{
+            
+                if(categories.array.indexOf(category) != -1)
+                    return true;
+                
+                categories.array.push(category);
+            
+            }
             
         });
         
@@ -105,6 +126,52 @@
         // Modal: ACF autofocus fix
         $modal.find('li:first-of-type a').blur();
         
+        // count layouts
+        var $layouts = flexible.$layouts();
+        var countLayouts = function(name){
+            
+            return $layouts.filter(function(){
+                return $(this).data('layout') === name;
+            }).length;
+            
+        };
+        
+        $modal.find('a[data-layout]').each(function(){
+            
+            // vars
+            var $a = $(this);
+            var min = $a.data('min') || 0;
+            var max = $a.data('max') || 0;
+            var name = $a.data('layout') || '';
+            var count = countLayouts( name );
+            
+            // max
+            if(max && count >= max){
+                $a.addClass('disabled');
+                return;
+            }
+            
+            // min
+            if(min && count < min){
+                
+                // vars
+                var required = min - count;
+                var title = acf.__('{required} {label} {identifier} required (min {min})');
+                var identifier = acf._n('layout', 'layouts', required);
+                                    
+                // translate
+                title = title.replace('{required}', required);
+                title = title.replace('{label}', name); // 5.5.0
+                title = title.replace('{identifier}', identifier);
+                title = title.replace('{min}', min);
+                
+                // badge
+                $a.append('<span class="badge" title="' + title + '">' + required + '</span>');
+                
+            }
+        
+        });
+        
         // Modal: Click Categories
         $modal.find('.acfe-flexible-categories a').click(function(e){
             
@@ -119,15 +186,49 @@
             
             $modal.find('a[data-layout] span').each(function(){
                 
+                // Get span
                 var $span = $(this);
                 
-                var current_category = $span.data('acfe-flexible-category');
-                
+                // Show All
                 $span.closest('li').show();
                 
-                if(selected_category != 'acfe-all' && current_category != selected_category){
+                var category = $span.data('acfe-flexible-category');
+                
+                // Specific category
+                if(selected_category !== 'acfe-all'){
                     
+                    // Hide All
                     $span.closest('li').hide();
+                    
+                    // With pipes
+                    if(category.indexOf('|') != -1){
+                        
+                        var cats = category.split('|');
+                        
+                        $(cats).each(function(i, c){
+                            
+                            if(selected_category === c){
+                                
+                                $span.closest('li').show();
+                                
+                                return false;
+                                
+                            }
+                            
+                        });
+                        
+                    }
+                    
+                    // Without pipes
+                    else{
+                        
+                        if(selected_category === category){
+                            
+                            $span.closest('li').show();
+                            
+                        }
+                        
+                    }
                     
                 }
                 
@@ -155,7 +256,7 @@
             // Modal Edition: Open
             if(flexible.has('acfeFlexibleModalEdition')){
                 
-                $layout_added.find('> [data-action="acfe-flexible-modal-edit"]').trigger('click');
+                $layout_added.find('> [data-action="acfe-flexible-modal-edit"]:first').trigger('click');
                 
             }
             

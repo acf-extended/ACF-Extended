@@ -41,7 +41,7 @@
         
         // Open layout modal edition
         if(flexible.has('acfeFlexibleModalEdition'))
-            $layout_added.find('> [data-action="acfe-flexible-modal-edit"]').trigger('click');
+            $layout_added.find('> [data-action="acfe-flexible-modal-edit"]:first').trigger('click');
         
     };
     
@@ -59,6 +59,7 @@
         
         // Vars
         var $controls = $layout.find('> .acf-fc-layout-controls');
+        var $handle = $layout.find('> .acf-fc-layout-handle');
         
         // Remove duplicate
         $layout.find('> .acfe-flexible-opened-actions').remove();
@@ -67,7 +68,7 @@
         var $placeholder = $layout.find('> .acfe-flexible-collapsed-placeholder');
         
         // Placeholder: Not found - Create new element
-        if(!$placeholder.length){
+        if(!$placeholder.length && (flexible.has('acfeFlexiblePlaceholder') || flexible.has('acfeFlexiblePreview'))){
             
             var placeholder_icon = 'dashicons dashicons-edit';
             
@@ -98,8 +99,12 @@
                 // Wrap content
                 $layout.find('> .acf-fields, > .acf-table').wrapAll('<div class="acfe-modal"><div class="acfe-modal-wrapper"><div class="acfe-modal-content"></div></div></div>');
                 
+                // Handle
+                $handle.attr('data-action', 'acfe-flexible-modal-edit');
+                
                 // Placeholder
-                $placeholder.attr('data-action', 'acfe-flexible-modal-edit');
+                if(flexible.has('acfeFlexiblePlaceholder') || flexible.has('acfeFlexiblePreview'))
+                    $placeholder.attr('data-action', 'acfe-flexible-modal-edit');
             
             }
         

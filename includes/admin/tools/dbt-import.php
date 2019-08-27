@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/dynamic_block_types', true))
+    return;
+
 if(!class_exists('ACFE_Admin_Tool_Import_DBT')):
 
 class ACFE_Admin_Tool_Import_DBT extends ACF_Admin_Tool{
