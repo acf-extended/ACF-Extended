@@ -107,13 +107,13 @@ class ACFE_Admin_Options_List extends WP_List_Table{
 	 */
 	public function column_default($item, $column_name){
         
-        if($column_name == 'option_id'){
+        if($column_name === 'option_id'){
             
             return $item['option_id'];
             
         }
         
-        elseif($column_name == 'option_value'){
+        elseif($column_name === 'option_value'){
             
             if(is_serialized($item['option_value']) || $item['option_value'] != strip_tags($item['option_value'])){
                 
@@ -130,7 +130,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
             
         }
         
-        elseif($column_name == 'autoload'){
+        elseif($column_name === 'autoload'){
             
             return $item['autoload'];
             

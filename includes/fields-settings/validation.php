@@ -238,7 +238,7 @@ function acfe_validate_value($valid, $value, $field, $input){
     foreach($field['acfe_validate'] as $orkey => $rules){
         
         // Fix possible ACF Clone Index
-        if($orkey == 'acfcloneindex')
+        if($orkey === 'acfcloneindex')
             continue;
         
         $acfe_validate_rules_and = isset($rules['acfe_validate_rules_and']) && !empty($rules['acfe_validate_rules_and']);
@@ -284,12 +284,12 @@ function acfe_validate_value($valid, $value, $field, $input){
             $match = $function['acfe_validate_match'];
             
             // Equal
-            if($operator == '==' && (($match == 'true' && $result) || ($match == 'false' && !$result) || ($match == 'empty' && empty($result)))){
+            if($operator === '==' && (($match === 'true' && $result) || ($match === 'false' && !$result) || ($match === 'empty' && empty($result)))){
                 $rule_match = true;
             }
             
             // Not Equal
-            elseif($operator == '!=' && (($match == 'true' && !$result) || ($match == 'false' && $result) || ($match == 'empty' && !empty($result)))){
+            elseif($operator === '!=' && (($match === 'true' && !$result) || ($match === 'false' && $result) || ($match === 'empty' && !empty($result)))){
                 $rule_match = true;
             }
 

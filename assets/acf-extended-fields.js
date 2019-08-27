@@ -1,6 +1,6 @@
 (function($){
     
-    if(typeof acf == 'undefined')
+    if(typeof acf === 'undefined')
         return;
     
     /**

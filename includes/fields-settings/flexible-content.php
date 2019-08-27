@@ -547,14 +547,14 @@ function acfe_flexible_wrapper($wrapper, $field){
     if(isset($field['acfe_flexible_layouts_state']) && !empty($field['acfe_flexible_layouts_state'])){
         
         // Collapse
-        if($field['acfe_flexible_layouts_state'] == 'collapse'){
+        if($field['acfe_flexible_layouts_state'] === 'collapse'){
             
             $wrapper['data-acfe-flexible-collapse'] = 1;
             
         }
         
         // Open
-        elseif($field['acfe_flexible_layouts_state'] == 'open'){
+        elseif($field['acfe_flexible_layouts_state'] === 'open'){
             
             $wrapper['data-acfe-flexible-open'] = 1;
             
@@ -839,7 +839,7 @@ function acfe_flexible_layout_title_subfield($field){
     
     global $typenow;
     
-    if(acf_is_screen(array('edit-acf-field-group', 'acf-field-group')) || (isset($typenow) && $typenow == 'acf-field-group'))
+    if(acf_is_screen(array('edit-acf-field-group', 'acf-field-group')) || (isset($typenow) && $typenow === 'acf-field-group'))
         return $field;
     
     if(!isset($field['layouts']) || empty($field['layouts']))
