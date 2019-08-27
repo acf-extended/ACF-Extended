@@ -229,7 +229,7 @@
         var paste = prompt('Paste layouts data in the following field');
         
         // No input
-        if(paste == null || paste == '')
+        if(paste == null || paste === '')
             return;
         
         try{
@@ -312,10 +312,10 @@
             context: flexible,
             confirm: function(e, $el){
                 
-                if($el.attr('data-acfe-flexible-control-action') == 'paste')
+                if($el.attr('data-acfe-flexible-control-action') === 'paste')
                     flexible.acfePasteLayouts();
                 
-                else if($el.attr('data-acfe-flexible-control-action') == 'copy')
+                else if($el.attr('data-acfe-flexible-control-action') === 'copy')
                     flexible.acfeCopyLayouts();
                 
             }

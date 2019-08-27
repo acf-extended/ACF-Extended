@@ -269,7 +269,7 @@ function acfe_render_field_group_settings_side(){
             
             if($('[data-name=acfe_sync_available]').length){
                 
-                if($('[data-name=acfe_sync_available]').find('[data-acfe-autosync-json-active]').attr('data-acfe-autosync-json-active') == '0'){
+                if($('[data-name=acfe_sync_available]').find('[data-acfe-autosync-json-active]').attr('data-acfe-autosync-json-active') === '0'){
                     $('#acf_field_group-acfe_autosync-json').change(function(e){
                         if($(this).prop('checked')){
                             if(!confirm('Local json file was found and is different from this version.' + "\n" + 'Enabling json auto sync will erase the local file with the current field group settings')){

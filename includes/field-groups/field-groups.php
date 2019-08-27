@@ -97,7 +97,7 @@ function acfe_field_groups_column_html($column, $post_id){
     /**
      * Count
      */
-    if($column == 'acfe-count'){
+    if($column === 'acfe-count'){
         
         $field_group = acf_get_field_group($post_id);
         echo esc_html(acf_get_field_count($field_group));
@@ -107,7 +107,7 @@ function acfe_field_groups_column_html($column, $post_id){
     /**
      * Locations
      */
-    elseif($column == 'acfe-locations'){
+    elseif($column === 'acfe-locations'){
         
         $field_group = acf_get_field_group($post_id);
         $choices = acf_get_location_rule_types();
@@ -205,7 +205,7 @@ function acfe_field_groups_column_html($column, $post_id){
                 }
                 
                 $name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[$and['param']]['icon'] . '" title="' . $final[$and['param']]['name'] . ' = ' . $final_name . '"></span>';
-                if($and['operator'] == '!=')
+                if($and['operator'] === '!=')
                     $name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[$and['param']]['icon'] . '" title="' . $final[$and['param']]['name'] . ' != ' . $final_name . '" style="color:#ccc;"></span>';
                 
                 $html[] = $name;
@@ -218,7 +218,7 @@ function acfe_field_groups_column_html($column, $post_id){
     /**
      * Load
      */
-    elseif($column == 'acfe-local'){
+    elseif($column === 'acfe-local'){
         
         if(!$field_group = acf_get_field_group($post_id))
             return;
@@ -226,12 +226,12 @@ function acfe_field_groups_column_html($column, $post_id){
         $local_field_group = acf_get_local_field_group($field_group['key']);
         $local_field_group_type = acf_maybe_get($local_field_group, 'local', false);
         
-        if($local_field_group_type == 'php'){
+        if($local_field_group_type === 'php'){
             echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">php</span>';
             return;
         }
         
-        elseif($local_field_group_type == 'json'){
+        elseif($local_field_group_type === 'json'){
             echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">json</span>';
             return;
         }
@@ -248,7 +248,7 @@ function acfe_field_groups_column_html($column, $post_id){
     /**
      * PHP sync
      */
-    elseif($column == 'acfe-autosync-php'){
+    elseif($column === 'acfe-autosync-php'){
         
         if(!$field_group = acf_get_field_group($post_id))
             return;
@@ -285,7 +285,7 @@ function acfe_field_groups_column_html($column, $post_id){
     /**
      * Json sync
      */
-    elseif($column == 'acfe-autosync-json'){
+    elseif($column === 'acfe-autosync-json'){
 
         if(!$field_group = acf_get_field_group($post_id))
             return;
