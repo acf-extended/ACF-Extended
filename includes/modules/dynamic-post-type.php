@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/dynamic_post_types', true))
+    return;
+
 /**
  * Register Dynamic Post Type
  */

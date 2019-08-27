@@ -18,11 +18,15 @@
     model.events['click .acfe-layout-title-text'] = 'acfeEditLayoutTitle';
     model.acfeEditLayoutTitle = function(e, $el){
         
-        // Stop propagation
-        e.stopPropagation();
-        
         // Get Flexible
         var flexible = this;
+        
+        // Title Edition
+        if(!flexible.has('acfeFlexibleTitleEdition'))
+            return;
+        
+        // Stop propagation
+        e.stopPropagation();
         
         // Toggle
         flexible.acfeEditLayoutTitleToggle(e, $el);
@@ -343,6 +347,9 @@
             target: args.layout,
             append: this.proxy(function($el, $el2){
                 
+                // Add class to duplicated layout
+                $el2.addClass('acfe-layout-duplicated');
+                
                 // append before
                 if(args.before){
                     
@@ -392,7 +399,7 @@
         
         $layout.find('input:radio,input:checkbox').each(function() {
             
-            if(this.checked)
+            if($(this).checked)
                 $(this).attr('checked', 'checked');
             else
                 $(this).attr('checked', false);
@@ -400,7 +407,7 @@
         });
         
         $layout.find('option').each(function(){
-            if(this.selected)
+            if($(this).selected)
                 $(this).attr('selected', 'selected');
             else
                 $(this).attr('selected', false);
@@ -475,6 +482,17 @@
         
         // Clean Page Link
         $layout.find('.acf-field-page-link').each(function(){
+            
+            var $input = $(this);
+            
+            $input.find('> .acf-input span').remove();
+            
+            $input.find('> .acf-input select').removeAttr('tabindex aria-hidden').removeClass();
+            
+        });
+        
+        // Clean Select2
+        $layout.find('.acf-field-select').each(function(){
             
             var $input = $(this);
             
@@ -590,15 +608,19 @@
         // vars
         var $controls = $layout.find('> .acf-fc-layout-controls');
         
-        if(flexible.has('acfeFlexibleCopyPaste')){
+        // Button: Copy
+        if(flexible.has('acfeFlexibleCopyPaste') && !$controls.has('[data-acfe-flexible-control-copy]').length){
             
-            // Button: Copy
             $controls.prepend('<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-category" href="#" title="Copy layout" data-acfe-flexible-control-copy="' + $layout.attr('data-layout') + '"></a>');
         
         }
         
         // Button: Clone
-        $controls.prepend('<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-page" href="#" title="Clone layout" data-acfe-flexible-control-clone="' + $layout.attr('data-layout') + '"></a>');
+        if(!$controls.has('[data-acfe-flexible-control-clone]').length){
+            
+            $controls.prepend('<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-page" href="#" title="Clone layout" data-acfe-flexible-control-clone="' + $layout.attr('data-layout') + '"></a>');
+            
+        }
         
         
         

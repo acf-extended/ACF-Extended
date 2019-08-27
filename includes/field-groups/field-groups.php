@@ -21,6 +21,7 @@ function acfe_field_groups_states($states, $post){
         return $states;
     
     $states[] = $field_group['acfe_display_title'];
+    
     return $states;
     
 }
@@ -163,6 +164,7 @@ function acfe_field_groups_column_html($column, $post_id){
         );
         
         foreach($choices as $key => $sub_choices){
+            
             foreach($sub_choices as $choice_slug => $choice_name){
                 
                 $final_icon = $icon_default;
@@ -180,14 +182,18 @@ function acfe_field_groups_column_html($column, $post_id){
                     'name' => $choice_name,
                     'icon' => $final_icon
                 );
+                
             }
+            
         }
         
         
         
         $html = array();
         foreach($field_group['location'] as $or){
+            
             foreach($or as $and){
+                
                 if(!isset($final[$and['param']]))
                     continue;
                 
@@ -195,13 +201,26 @@ function acfe_field_groups_column_html($column, $post_id){
                 $values = acf_get_location_rule_values($and);
                 
                 if(!empty($values) && is_array($values)){
+                    
                     foreach($values as $value_slug => $value_name){
+                        
                         if($and['value'] != $value_slug)
                             continue;
                         
-                        $final_name = $value_name;
+                        if(is_array($value_name) && isset($value_name[$and['value']])){
+                            
+                            $final_name = $value_name[$and['value']];
+                            
+                        }else{
+                            
+                            $final_name = $value_name;
+                            
+                        }
+                        
                         break;
+                        
                     }
+                    
                 }
                 
                 $name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[$and['param']]['icon'] . '" title="' . $final[$and['param']]['name'] . ' = ' . $final_name . '"></span>';
@@ -209,10 +228,13 @@ function acfe_field_groups_column_html($column, $post_id){
                     $name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[$and['param']]['icon'] . '" title="' . $final[$and['param']]['name'] . ' != ' . $final_name . '" style="color:#ccc;"></span>';
                 
                 $html[] = $name;
+                
             }
+            
         }
         
         echo implode(' ', $html);
+        
     }
     
     /**
@@ -227,18 +249,25 @@ function acfe_field_groups_column_html($column, $post_id){
         $local_field_group_type = acf_maybe_get($local_field_group, 'local', false);
         
         if($local_field_group_type === 'php'){
+            
             echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">php</span>';
+            
             return;
+            
         }
         
         elseif($local_field_group_type === 'json'){
+            
             echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">json</span>';
+            
             return;
+            
         }
         
         else{
         
             echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is not registered locally">DB</span>';
+            
             return;
             
         }
@@ -254,6 +283,7 @@ function acfe_field_groups_column_html($column, $post_id){
             return;
         
         if(!acfe_has_field_group_autosync($field_group, 'php')){
+            
             echo '<span style="color:#ccc" class="dashicons dashicons-no-alt"></span>';
             
             if(acfe_has_field_group_autosync_file($field_group, 'php')){
@@ -261,17 +291,22 @@ function acfe_field_groups_column_html($column, $post_id){
             }
                 
             return;
+            
         }
         
         if(!acf_get_setting('acfe_php_found')){
+            
             echo '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
             
             echo '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acfe-php\' was not found in your theme.<br />You must create it to activate this setting"></span>';
+            
         }
         
         elseif(!acfe_has_field_group_autosync_file($field_group, 'php')){
+            
             echo '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
             echo '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Local file ' . $field_group['key'] . '.php will be created upon update"></span>';
+            
         }
         
         else{

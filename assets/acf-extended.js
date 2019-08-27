@@ -74,7 +74,7 @@
             
             $(window).keydown(function(e){
         
-                if((e.keyCode != 27 && e.keyCode != 13) || !$('body').hasClass('acfe-modal-opened'))
+                if((e.keyCode != 27) || !$('body').hasClass('acfe-modal-opened'))
                     return;
                 
                 acfe.modal.close(args);
@@ -152,17 +152,5 @@
         }
         
     };
-    
-    /*
-    $(window).keydown(function(e){
-        
-        if((e.keyCode != 27 && e.keyCode != 13) || !$('body').hasClass('acfe-modal-opened'))
-            return;
-        
-        acfe.modal.close();
-        return false;
-        
-    });
-    */
     
 })(jQuery);
