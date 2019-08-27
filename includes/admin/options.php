@@ -229,7 +229,7 @@ function acfe_options_load_edit($action){
             
             $redirect = add_query_arg(array('message' => 'updated'));
             
-            if($action == 'add')
+            if($action === 'add')
                 $redirect = sprintf('?page=%s&message=added', esc_attr($_REQUEST['page']));
             
             wp_redirect($redirect);
