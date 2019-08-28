@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.7.9.9
+ * Version:     0.7.9.9.6
  * Author: 		ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -17,7 +17,7 @@ if(!defined('ABSPATH'))
 if(!defined('ACFE_FILE'))       define('ACFE_FILE', __FILE__);
 if(!defined('ACFE_PATH'))       define('ACFE_PATH', plugin_dir_path(__FILE__));
 if(!defined('ACFE_URL'))        define('ACFE_URL', plugin_dir_url(__FILE__));
-if(!defined('ACFE_VERSION'))    define('ACFE_VERSION', '0.7.9.9');
+if(!defined('ACFE_VERSION'))    define('ACFE_VERSION', '0.7.9.9.6');
 if(!defined('ACFE_BASENAME'))   define('ACFE_BASENAME', plugin_basename(__FILE__));
 if(!defined('ACFE_THEME_PATH')) define('ACFE_THEME_PATH', get_stylesheet_directory());
 if(!defined('ACFE_THEME_URL'))  define('ACFE_THEME_URL', get_stylesheet_directory_uri());

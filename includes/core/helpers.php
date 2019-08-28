@@ -97,26 +97,25 @@ function acfe_flexible_render_layout_template($layout, $field){
     // Render: Template
     if(!empty($acfe_flexible_render_template)){
         
-        $path = false;
+        $acfe_flexible_render_template_path = false;
         
-        // File exists
+        // Full path
         if(file_exists($acfe_flexible_render_template)){
             
-            $path = $acfe_flexible_render_template;
-        
-        // Locate Template
-        }else{
+            $acfe_flexible_render_template_path = $acfe_flexible_render_template;
             
-            $path = locate_template(array($acfe_flexible_render_template));
+        }
+        
+        // Parent/child relative
+        else{
+            
+            $acfe_flexible_render_template_path = locate_template(array($acfe_flexible_render_template));
             
         }
         
         // Include
-        if(file_exists($path)){
-            
-            include($path);
-            
-        }
+        if(!empty($acfe_flexible_render_template_path))
+            include($acfe_flexible_render_template_path);
         
     }
     
@@ -131,12 +130,16 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     global $is_preview;
     $handle = acf_slugify($field['name']) . '-layout-' . acf_slugify($layout['name']);
     
-    // Actions
+    /**
+     * Actions
+     */
     do_action('acfe/flexible/layout/enqueue/layout=' . $layout['name'], $field, $layout, $is_preview);
     do_action('acfe/flexible/layout/enqueue/name=' . $field['_name'] . '&layout=' . $layout['name'], $field, $layout, $is_preview);
     do_action('acfe/flexible/layout/enqueue/key=' . $field['key'] . '&layout=' . $layout['name'], $field, $layout, $is_preview);
     
-    // Style
+    /**
+     * Style
+     */
     $acfe_flexible_render_style = false;
         
     // Filters
@@ -151,11 +154,31 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     // Enqueue
     if(!empty($acfe_flexible_render_style)){
         
-        wp_enqueue_style($handle, $acfe_flexible_render_style, array(), false, 'all');
+        $acfe_flexible_render_style_url = false;
+        
+        // Full path
+        if(file_exists($acfe_flexible_render_style)){
+            
+            $acfe_flexible_render_style_url = $acfe_flexible_render_style;
+            
+        }
+        
+        // Parent/child relative
+        else{
+            
+            $acfe_flexible_render_style_url = acfe_locate_file_url(array($acfe_flexible_render_style));
+            
+        }
+        
+        // Include
+        if(!empty($acfe_flexible_render_style_url))
+            wp_enqueue_style($handle, $acfe_flexible_render_style_url, array(), false, 'all');
     
     }
     
-    // Script
+    /**
+     * Script
+     */
     $acfe_flexible_render_script = false;
     
     // Filters
@@ -170,8 +193,26 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     // Enqueue
     if(!empty($acfe_flexible_render_script)){
         
-        wp_enqueue_script($handle, $acfe_flexible_render_script, array(), false, true);
-    
+        $acfe_flexible_render_script_url = false;
+        
+        // Full path
+        if(file_exists($acfe_flexible_render_script)){
+            
+            $acfe_flexible_render_script_url = $acfe_flexible_render_script;
+            
+        }
+        
+        // Parent/child relative
+        else{
+            
+            $acfe_flexible_render_script_url = acfe_locate_file_url(array($acfe_flexible_render_script));
+            
+        }
+        
+        // Include
+        if(!empty($acfe_flexible_render_script_url))
+            wp_enqueue_script($handle, $acfe_flexible_render_script_url, array(), false, true);
+        
     }
     
 }
@@ -277,5 +318,40 @@ function acfe_array_keys_r($array){
     }
 
     return $keys;
+    
+}
+
+/**
+ * Locate File URL
+ * Check if file exists locally and return URL (supports parent/child theme)
+ */
+function acfe_locate_file_url($filenames){
+    
+    $located = '';
+    
+    foreach((array) $filenames as $filename){
+        
+        if(!$filename)
+            continue;
+        
+        // Child
+        if(file_exists(STYLESHEETPATH . '/' . $filename)){
+            
+            $located = get_stylesheet_directory_uri() . '/' . $filename;
+            break;
+            
+        }
+        
+        // Parent
+        elseif(file_exists(TEMPLATEPATH . '/' . $filename)){
+            
+            $located = get_template_directory_uri() . '/' . $filename;
+            break;
+            
+        }
+        
+    }
+ 
+    return $located;
     
 }

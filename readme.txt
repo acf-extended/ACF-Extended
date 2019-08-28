@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 0.7.9.9
+Stable tag: 0.7.9.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -214,6 +214,7 @@ Manage ACF Block Types from ACF > Block Types.
 == 🛠️ Links ==
 
 * Found a bug? [Submit a ticket](https://wordpress.org/support/plugin/acf-extended)
+* Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
 * Enjoying this plugin? [Submit a review](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
 * Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
 * Want to check upcoming features? [Here is my Twitter](https://twitter.com/hwkfr)
@@ -489,6 +490,15 @@ function my_acfe_modules(){
 10. ACF Settings
 
 == Changelog ==
+
+= 0.7.9.9.6 =
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions for accordions fields (Thanks @Damian P.)
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions for FontAwesome fields (Thanks @Damian P.)
+* Field: Flexible Content - Close Button setting is now always available and is not conditional anymore
+* Field: Flexible Content - Render Template/Style/Script path now supports parent/child theme. If a file is found in the child theme, it will be included. Otherwise it will be checked against the parent theme path (Feature Request: @r3dridl3)
+* Field: Flexible Content - Fixed Layout Title Edition not working in some rare cases (Thanks @Damian P.)
+* Field: Post Types & Taxonomies Select - Fixed two PHP noticed
+* General: Added ACF Extended GitHub repository URL in the readme
 
 = 0.7.9.9 =
 * Field: Flexible Content - Settings are now dynamic (and not global anymore) (Thanks @Val) 

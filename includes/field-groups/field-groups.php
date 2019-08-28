@@ -401,7 +401,6 @@ add_action('current_screen', function(){
         <!-- ACFE: Debug -->
         <script type="text/html" id="tmpl-acfe-debug">
             <div class="acf-box">
-                <?php //_print_r(acf_get_local_field_groups()); ?>
             </div>
         </script>
         
