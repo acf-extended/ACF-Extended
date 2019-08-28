@@ -22,17 +22,21 @@ class acfe_field_post_types extends acf_field{
         // force value to array
         $field['value'] = acf_get_array($field['value']);
         
-        if( $field['field_type'] === 'select' ) {
+        if($field['field_type'] === 'select'){
             
-            $this->render_field_select( $field );
+            $this->render_field_select($field);
         
-        } elseif( $field['field_type'] === 'radio' ) {
-            
-            $this->render_field_checkbox( $field );
-            
-        } elseif( $field['field_type'] === 'checkbox' ) {
+        }
         
-            $this->render_field_checkbox( $field );
+        elseif($field['field_type'] === 'radio'){
+            
+            $this->render_field_checkbox($field);
+            
+        }
+        
+        elseif($field['field_type'] === 'checkbox'){
+        
+            $this->render_field_checkbox($field);
             
         }
         
@@ -44,6 +48,8 @@ class acfe_field_post_types extends acf_field{
         $field['type'] = 'select';
         $field['ui'] = 0;
         $field['ajax'] = 0;
+        $field['allow_null'] = 0;
+        $field['multiple'] = 0;
         $field['choices'] = get_post_types(array(
             'public' => true, 
             'show_ui' => true

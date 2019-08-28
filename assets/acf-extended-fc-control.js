@@ -502,6 +502,17 @@
             
         });
         
+        // Clean FontAwesome
+        $layout.find('.acf-field-font-awesome').each(function(){
+            
+            var $input = $(this);
+            
+            $input.find('> .acf-input span').remove();
+            
+            $input.find('> .acf-input select').removeAttr('tabindex aria-hidden');
+            
+        });
+        
         // Clean Tab
         $layout.find('.acf-tab-wrap').each(function(){
             
@@ -543,6 +554,9 @@
             var $input = $(this);
             
             $input.find('> .acf-accordion-title > .acf-accordion-icon').remove();
+            
+            // Append virtual endpoint after each accordion
+            $input.after('<div class="acf-field acf-field-accordion" data-type="accordion"><div class="acf-input"><div class="acf-fields" data-endpoint="1"></div></div></div>');
             
         });
         

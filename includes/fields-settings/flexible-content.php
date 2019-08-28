@@ -89,7 +89,7 @@ function acfe_flexible_settings($field){
         'label'         => __('Layouts: Render'),
         'name'          => 'acfe_flexible_layouts_templates',
         'key'           => 'acfe_flexible_layouts_templates',
-        'instructions'  => __('Set template, style & javascript files for each layouts. You must save the field group to apply this setting'),
+        'instructions'  => __('Set template, style & javascript files for each layouts. This setting is mandatory in order to use <code style="font-size:11px;">get_flexible()</code> function. You must save the field group to apply this setting'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
@@ -149,29 +149,13 @@ function acfe_flexible_settings($field){
         'label'         => __('Layouts: Close Button'),
         'name'          => 'acfe_flexible_close_button',
         'key'           => 'acfe_flexible_close_button',
-        'instructions'  => __('Display a close button to collapse/close the layout'),
+        'instructions'  => __('Display a close button to collapse the layout'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
         'ui'                => true,
         'ui_on_text'        => '',
         'ui_off_text'       => '',
-        'conditional_logic' => array(
-            array(
-                array(
-                    'field'     => 'acfe_flexible_layouts_previews',
-                    'operator'  => '==',
-                    'value'     => '1',
-                )
-            ),
-            array(
-                array(
-                    'field'     => 'acfe_flexible_layouts_placeholder',
-                    'operator'  => '==',
-                    'value'     => '1',
-                )
-            ),
-        )
     ));
     
     // Layouts: Title Edition
@@ -403,6 +387,7 @@ function acfe_flexible_layouts_settings($field){
             'class'         => 'acf-fc-meta-name',
             'prefix'        => $layout_prefix,
             'value'         => $acfe_flexible_category,
+            'placeholder'   => __('Multiple categories can be set using "|"')
             
             /*
             'conditional_logic' => array(
@@ -881,7 +866,7 @@ add_filter('acfe/flexible/render/template', 'acfe_flexible_layout_render_templat
 function acfe_flexible_layout_render_template_setting($return, $field, $layout, $is_preview){
     
     if(isset($layout['acfe_flexible_render_template']) && !empty($layout['acfe_flexible_render_template']))
-        $return = ACFE_THEME_PATH . '/' . $layout['acfe_flexible_render_template'];
+        $return = $layout['acfe_flexible_render_template'];
     
     return $return;
     
@@ -891,7 +876,7 @@ add_filter('acfe/flexible/render/style', 'acfe_flexible_layout_render_style_sett
 function acfe_flexible_layout_render_style_setting($return, $field, $layout, $is_preview){
     
     if(isset($layout['acfe_flexible_render_style']) && !empty($layout['acfe_flexible_render_style']))
-        $return = ACFE_THEME_URL . '/' . $layout['acfe_flexible_render_style'];
+        $return = $layout['acfe_flexible_render_style'];
     
     return $return;
     
@@ -901,7 +886,7 @@ add_filter('acfe/flexible/render/script', 'acfe_flexible_layout_render_script_se
 function acfe_flexible_layout_render_script_setting($return, $field, $layout, $is_preview){
     
     if(isset($layout['acfe_flexible_render_script']) && !empty($layout['acfe_flexible_render_script']))
-        $return = ACFE_THEME_URL . '/' . $layout['acfe_flexible_render_script'];
+        $return = $layout['acfe_flexible_render_script'];
     
     return $return;
     
@@ -923,7 +908,8 @@ function acfe_flexible_layout_title_subfield($field){
     
     foreach($field['layouts'] as $layout_key => &$layout){
         
-        $layout['sub_fields'][] = array(
+        // Add the input as the first sub_field
+        array_unshift($layout['sub_fields'] , array(
             'ID'            => false,
             'label'         => false,
 			'key'           => 'field_acfe_flexible_layout_title',
@@ -940,7 +926,7 @@ function acfe_flexible_layout_title_subfield($field){
                 'class' => '',
                 'width' => '',
             )
-		);
+		));
         
     }
     
