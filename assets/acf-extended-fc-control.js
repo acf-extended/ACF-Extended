@@ -146,10 +146,13 @@
         // Clean Layout
         flexible.acfeCleanLayouts($layout);
         
+        var parent = $el.closest('.acf-flexible-content').find('> input[type=hidden]').attr('name');
+        
         // Clone
         var $layout_added = flexible.acfeDuplicate({
             layout: $layout,
-            before: $layout_original
+            before: $layout_original,
+            parent: parent
         });
         
     }
@@ -163,6 +166,7 @@
         
         // Vars
         var $layout = $el.closest('.layout').clone();
+        var source = flexible.$control().find('> input[type=hidden]').attr('name');
         
         // Fix inputs
         flexible.acfeFixInputs($layout);
@@ -171,7 +175,10 @@
         flexible.acfeCleanLayouts($layout);
         
         // Get layout data
-        var data = JSON.stringify($layout[0].outerHTML);
+        var data = JSON.stringify({
+            source: source,
+            layouts: $layout[0].outerHTML
+        });
         
         // Append Temp Input
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo($el);
@@ -198,6 +205,7 @@
         
         // Get layouts
         var $layouts = flexible.$layoutsWrap().clone();
+        var source = flexible.$control().find('> input[type=hidden]').attr('name');
         
         // Fix inputs
         flexible.acfeFixInputs($layouts);
@@ -206,7 +214,10 @@
         flexible.acfeCleanLayouts($layouts);
         
         // Get layouts data
-        var data = JSON.stringify($layouts.html());
+        var data = JSON.stringify({
+            source: source,
+            layouts: $layouts.html()
+        });
         
         // Append Temp Input
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo(flexible.$el);
@@ -239,7 +250,9 @@
         try{
             
             // Paste HTML
-            var $html = $(JSON.parse(paste));
+            var data = JSON.parse(paste);
+            var source = data.source;
+            var $html = $(data.layouts);
             
             // Parsed layouts
             var $html_layouts = $html.closest('[data-layout]');
@@ -274,9 +287,15 @@
             // Add layouts
             $.each(validated_layouts, function(){
                 
+                var $layout = $(this);
+                var search = source + '[' + $layout.attr('data-id') + ']';
+                var target = flexible.$control().find('> input[type=hidden]').attr('name');
+                
                 flexible.acfeDuplicate({
-                    layout: $(this),
-                    before: false
+                    layout: $layout,
+                    before: false,
+                    search: search,
+                    parent: target
                 });
                 
             });
@@ -335,20 +354,42 @@
         // Arguments
         args = acf.parseArgs(args, {
             layout: '',
-            before: false
+            before: false,
+            parent: false,
+            search: '',
+            replace: '',
         });
         
         // Validate
         if(!this.allowAdd())
             return false;
         
+        var uniqid = acf.uniqid();
+        
+        if(args.parent){
+            
+            if(!args.search){
+                
+                args.search = args.parent + '[' + args.layout.attr('data-id') + ']';
+                
+            }
+            
+            args.replace = args.parent + '[' + uniqid + ']';
+            
+        }
+        
         // Add row
         var $el = acf.duplicate({
             target: args.layout,
+            search: args.search,
+            replace: args.replace,
             append: this.proxy(function($el, $el2){
                 
                 // Add class to duplicated layout
                 $el2.addClass('acfe-layout-duplicated');
+                
+                // Reset UniqID
+                $el2.attr('data-id', uniqid);
                 
                 // append before
                 if(args.before){
