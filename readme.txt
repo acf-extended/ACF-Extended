@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 0.7.9.9.6
+Stable tag: 0.7.9.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -449,7 +449,7 @@ function acf_flexible_layout_render_script($script, $field, $layout, $is_preview
 You can use the following action:
 
 `
-add_filter('acf/init', 'my_acfe_modules');
+add_action('acf/init', 'my_acfe_modules');
 function my_acfe_modules(){
     
     // Disable Ajax Author box
@@ -491,6 +491,10 @@ function my_acfe_modules(){
 
 == Changelog ==
 
+= 0.7.9.9.8 =
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions in multi level flexible content (flexible inside flexible inside flexible...) (Thanks @AsmussenBrandon)
+* Field: Flexible Content - Fixed CSS border glitch
+
 = 0.7.9.9.6 =
 * Field: Flexible Content - Fixed Clone & Copy/Paste functions for accordions fields (Thanks @Damian P.)
 * Field: Flexible Content - Fixed Clone & Copy/Paste functions for FontAwesome fields (Thanks @Damian P.)
@@ -508,7 +512,7 @@ function my_acfe_modules(){
 * Field: Flexible Content - Added "Layout Placeholder" setting, disabled by default (feature request: @Matt H.)
 * Field: Flexible Content - Added "Layout Title Edition" setting, disabled by default
 * Field: Flexible Content - Fixed Enter key closing modal in textarea inputs (thanks @dominikkucharski)
-* Field: Flexible Content - Fixed Clone & Copy/Paste functions on select2 fields (Thanks Brandon A.)
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions on select2 fields (Thanks @AsmussenBrandon)
 * Field: Flexible Content - Multiple Layouts Categories are now allowed in the Selection Modal, using pipes "|". ie: Main|Shopping|Interactive (Feature request: @Damian P.)
 * Field: Flexible Content - Fixed a problem where "Min/Max Layouts" limitation (setting per layout) weren't working properly when using the Layout Selection Modal (Thanks: @Matt H.)
 * Module: Taxonomy - Added Polylang compatibility when translating a term (Thanks @jaakkosaarenketo)
