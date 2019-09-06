@@ -138,10 +138,8 @@
         var $layout_original = $el.closest('.layout');
         var $layout = $el.closest('.layout').clone();
         
-        // Fix TinyMCE attribute value
-        $layout.find('textarea').each(function(){
-            $(this).html(this.value);
-        });
+        // Fix inputs
+        flexible.acfeFixInputs($layout);
         
         // Clean Layout
         flexible.acfeCleanLayouts($layout);
@@ -440,18 +438,22 @@
         
         $layout.find('input:radio,input:checkbox').each(function() {
             
-            if($(this).checked)
+            if(this.checked)
                 $(this).attr('checked', 'checked');
+            
             else
                 $(this).attr('checked', false);
             
         });
         
         $layout.find('option').each(function(){
-            if($(this).selected)
+            
+            if(this.selected)
                 $(this).attr('selected', 'selected');
+                
             else
                 $(this).attr('selected', false);
+            
         });
         
     }

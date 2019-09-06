@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.7.9.9.8
+ * Version:     0.7.9.9.9
  * Author: 		ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe

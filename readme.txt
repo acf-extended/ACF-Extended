@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 0.7.9.9.8
+Stable tag: 0.7.9.9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -490,6 +490,10 @@ function my_acfe_modules(){
 10. ACF Settings
 
 == Changelog ==
+
+= 0.7.9.9.9 =
+* Field: Flexible Content - Fixed Copy/Paste function doing incorrect checks on radio, checkboxes and select inputs
+* Field Group: Fixed field 'Data' button being displayed on newly created fields
 
 = 0.7.9.9.8 =
 * Field: Flexible Content - Fixed Clone & Copy/Paste functions in multi level flexible content (flexible inside flexible inside flexible...) (Thanks @AsmussenBrandon)
