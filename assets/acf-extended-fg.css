@@ -15,6 +15,9 @@
     padding:0;
 }
 
+.acf-field-setting-acfe_field_data{
+    display:none;
+}
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields > .acf-field.acf-field-acfe-bidirectional-enabled > .acf-label,
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields > .acf-field.acf-field-acfe-bidirectional-related > .acf-label,
