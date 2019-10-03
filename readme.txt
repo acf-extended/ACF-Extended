@@ -213,7 +213,7 @@ Manage ACF Block Types from ACF > Block Types.
 
 == 🛠️ Links ==
 
-* Found a bug? [Submit a ticket](https://wordpress.org/support/plugin/acf-extended)
+* Found a bug? [Submit a issue](https://github.com/acf-extended/ACF-Extended/issues/new)
 * Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
 * Enjoying this plugin? [Submit a review](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
 * Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
