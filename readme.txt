@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 0.7.9.4
+Stable tag: 0.7.9.9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,8 @@ All-in-one enhancement suite to enhance WordPress & Advanced Custom Fields.
 **Requires at least ACF Pro 5.7.10**
 
 *If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin, with a life-time licence for unlimited websites.*
+
+[youtube https://www.youtube.com/watch?v=hzkNL0BA3Dk]
 
 == 🏷️ Features ==
 
@@ -212,6 +214,7 @@ Manage ACF Block Types from ACF > Block Types.
 == 🛠️ Links ==
 
 * Found a bug? [Submit a ticket](https://wordpress.org/support/plugin/acf-extended)
+* Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
 * Enjoying this plugin? [Submit a review](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
 * Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
 * Want to check upcoming features? [Here is my Twitter](https://twitter.com/hwkfr)
@@ -441,6 +444,38 @@ function acf_flexible_layout_render_script($script, $field, $layout, $is_preview
 }
 `
 
+= How to disable specific ACF Extended modules? (Dynamic Post Types, Taxonomies, Options Pages etc...) =
+
+You can use the following action:
+
+`
+add_action('acf/init', 'my_acfe_modules');
+function my_acfe_modules(){
+    
+    // Disable Ajax Author box
+    acf_update_setting('acfe/modules/author', false);
+    
+    // Disable ACF > Block Types
+    acf_update_setting('acfe/modules/dynamic_block_types', false);
+    
+    // Disable Tools > Post Types
+    acf_update_setting('acfe/modules/dynamic_post_types', false);
+    
+    // Disable Tools > Taxonomies
+    acf_update_setting('acfe/modules/dynamic_taxonomies', false);
+    
+    // Disable ACF > Options Pages
+    acf_update_setting('acfe/modules/dynamic_options_pages', false);
+    
+    // Disable Settings > Options
+    acf_update_setting('acfe/modules/options', false);
+    
+    // Disable Taxonomies enhancements
+    acf_update_setting('acfe/modules/taxonomies', false);
+    
+}
+`
+
 == Screenshots ==
 
 1. Flexible Content Preview
@@ -455,6 +490,44 @@ function acf_flexible_layout_render_script($script, $field, $layout, $is_preview
 10. ACF Settings
 
 == Changelog ==
+
+= 0.7.9.9.9 =
+* Field: Flexible Content - Fixed Copy/Paste function doing incorrect checks on radio, checkboxes and select inputs
+* Field Group: Fixed field 'Data' button being displayed on newly created fields
+
+= 0.7.9.9.8 =
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions in multi level flexible content (flexible inside flexible inside flexible...) (Thanks @AsmussenBrandon)
+* Field: Flexible Content - Fixed CSS border glitch
+
+= 0.7.9.9.6 =
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions for accordions fields (Thanks @Damian P.)
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions for FontAwesome fields (Thanks @Damian P.)
+* Field: Flexible Content - Close Button setting is now always available and is not conditional anymore
+* Field: Flexible Content - Render Template/Style/Script path now supports parent/child theme. If a file is found in the child theme, it will be included. Otherwise it will be checked against the parent theme path (Feature Request: @r3dridl3)
+* Field: Flexible Content - Fixed Layout Title Edition not working in some rare cases (Thanks @Damian P.)
+* Field: Post Types & Taxonomies Select - Fixed two PHP noticed
+* General: Added ACF Extended GitHub repository URL in the readme
+
+= 0.7.9.9 =
+* Field: Flexible Content - Settings are now dynamic (and not global anymore) (Thanks @Val) 
+* Field: Flexible Content - Added CSS class on cloned layouts
+* Field: Flexible Content - Removed `esc_attr()` from Layout Title Edition, allowing icons to be displayed correctly
+* Field: Flexible Content - Fixed potential duplicated clone buttons in specific cases (Thanks @chrisschrijver)
+* Field: Flexible Content - Added "Layout Placeholder" setting, disabled by default (feature request: @Matt H.)
+* Field: Flexible Content - Added "Layout Title Edition" setting, disabled by default
+* Field: Flexible Content - Fixed Enter key closing modal in textarea inputs (thanks @dominikkucharski)
+* Field: Flexible Content - Fixed Clone & Copy/Paste functions on select2 fields (Thanks @AsmussenBrandon)
+* Field: Flexible Content - Multiple Layouts Categories are now allowed in the Selection Modal, using pipes "|". ie: Main|Shopping|Interactive (Feature request: @Damian P.)
+* Field: Flexible Content - Fixed a problem where "Min/Max Layouts" limitation (setting per layout) weren't working properly when using the Layout Selection Modal (Thanks: @Matt H.)
+* Module: Taxonomy - Added Polylang compatibility when translating a term (Thanks @jaakkosaarenketo)
+* Module: Taxonomy - Fixed spacing when a meta field has no label
+* Field: Bidirectional - Values are now saved as string when Post Object & User "Allow multiple values" setting is disabled (Thanks @screamingdev)
+* Fields Groups: Added `word-break` on field description
+* Fields Groups: Fixed PHP Notice when group location is an attachment (Thanks @herrschuessler)
+* General: Added multiples settings in order to disable specific plugin's modules. See FAQ (Feature request: @Matt H.)
+* General: Added `ACFE_VERSION` constant to force cache flush on plugin update
+* General: PHP Strict Type checks globally (Thanks @Liam S.)
+* General: Added Flexible Content Dynamic Preview Video in readme
 
 = 0.7.9.4 =
 * Module: Author Box - Hotfix

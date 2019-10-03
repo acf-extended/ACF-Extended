@@ -1,0 +1,125 @@
+/* 
+ * ACFE: Better Taxonomy - Archive
+ */
+.edit-tags-php #col-container #col-right{
+    float:none;
+    width:auto;
+}
+
+.edit-tags-php #col-container #col-right .col-wrap{
+    padding:0;
+}
+
+.edit-tags-php #col-left.acfe-bt{
+    float:none;
+    width:100%;
+}
+
+.edit-tags-php #col-left.acfe-bt .col-wrap{
+    padding:0;
+}
+
+.edit-tags-php #col-left.acfe-bt #poststuff{
+    min-width:100%;
+}
+
+.edit-tags-php #acfe-bt-form .submit.acf-field{
+    display:block !important;
+    margin: 0;
+}
+
+/* 
+ * ACFE: Better Taxonomy - Edit
+ */
+.term-php #edittag{
+    max-width:100%;
+    width: 100%;
+    float:left;
+}
+
+.term-php #edittag .form-table{
+    background:#fff;
+    width:100%;
+    border: 1px solid #E1E1E1;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin-bottom: 15px; /* Fix for Yoast / Rank Math Metaboxes below the term */
+}
+
+.term-php #edittag .form-table > tbody > tr > td{
+    background: #fff;
+    border-top: 1px solid #E1E1E1;
+    position:initial;
+}
+
+.term-php #edittag .form-table > tbody > tr:first-of-type > td,
+.term-php #edittag .form-table > tbody > tr:first-of-type > th{
+    border-top: 1px solid #E1E1E1;
+}
+
+.term-php #edittag .form-table > tbody > tr > td p{
+    font-size:13px;
+}
+
+.term-php #edittag .form-table > tbody > tr > th,
+.term-php #edittag .form-table > tbody > tr > td.acf-label{
+    border-top: 1px solid #E1E1E1;
+    border-right: 1px solid #E1E1E1;
+    background: #F9F9F9;
+    padding:15px 12px;
+    width:20%;
+    font-size:13px;
+    position:initial;
+}
+
+.term-php #edittag .form-table > tbody > tr.acf-field{
+    position: initial;
+}
+
+.term-php #edittag .form-table > tbody > tr.acf-tab-wrap > td{
+    background: #F9F9F9;
+    padding:15px 0 0 0;
+}
+
+.term-php #edittag .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group{
+    border-bottom:0;
+    padding:0 0 0 20%;
+}
+
+.term-php #edittag .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a{
+    background: #fff;
+}
+
+.term-php #poststuff.acfe-acfe-bt-admin-column{
+    min-width:auto;
+    padding:0;
+}
+
+.term-php #poststuff.acfe-acfe-bt-admin-column .inside{
+    margin: 0;
+    padding: 0;
+}
+
+.acf-fields.-left > .acf-field.acfe-bt-no-label{
+    padding-left: 20%;
+}
+
+/* 
+ * ACFE: Better Taxonomy - Edit (Fix ACF)
+ */
+.term-php #edittag .acf-fields.-left > .acf-field {
+	padding-left: 0;
+}
+
+.term-php #edittag .acf-fields.-left > .acf-field:before {
+	width:20%;
+}
+
+.term-php #edittag .acf-fields.-left > .acf-field > .acf-label {
+	width: 20%;
+	margin-left: 0;
+	padding: 0 12px;
+}
+
+.term-php #edittag .acf-fields.-left > .acf-field > .acf-input {
+	padding: 0 12px;
+}

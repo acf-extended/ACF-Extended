@@ -21,7 +21,7 @@ function acfe_flexible_settings($field){
         'ui'                => true,
         'ui_on_text'        => '',
         'ui_off_text'       => '',
-    ), true);
+    ));
     
     // Hide Empty Message
     acf_render_field_setting($field, array(
@@ -44,7 +44,7 @@ function acfe_flexible_settings($field){
                 ),
             )
         )
-    ), true);
+    ));
     
     // Empty Message
     acf_render_field_setting($field, array(
@@ -68,7 +68,7 @@ function acfe_flexible_settings($field){
                 )
             )
         )
-    ), true);
+    ));
     
     // Layouts thumbnails
     acf_render_field_setting($field, array(
@@ -82,21 +82,21 @@ function acfe_flexible_settings($field){
         'ui'                => true,
         'ui_on_text'        => '',
         'ui_off_text'       => '',
-    ), true);
+    ));
     
     // Layouts: Render
     acf_render_field_setting($field, array(
         'label'         => __('Layouts: Render'),
         'name'          => 'acfe_flexible_layouts_templates',
         'key'           => 'acfe_flexible_layouts_templates',
-        'instructions'  => __('Set template, style & javascript files for each layouts.. You must save the field group to apply this setting'),
+        'instructions'  => __('Set template, style & javascript files for each layouts. This setting is mandatory in order to use <code style="font-size:11px;">get_flexible()</code> function. You must save the field group to apply this setting'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
         'ui'                => true,
         'ui_on_text'        => '',
         'ui_off_text'       => '',
-    ), true);
+    ));
     
     // Layouts: Preview
     acf_render_field_setting($field, array(
@@ -119,35 +119,72 @@ function acfe_flexible_settings($field){
                 )
             )
         )
-    ), true);
+    ));
+    
+    // Layouts: Placholder
+    acf_render_field_setting($field, array(
+        'label'         => __('Layouts: Placeholder'),
+        'name'          => 'acfe_flexible_layouts_placeholder',
+        'key'           => 'acfe_flexible_layouts_placeholder',
+        'instructions'  => __('Display a placeholder with a pencil icon, making edition easier'),
+        'type'              => 'true_false',
+        'message'           => '',
+        'default_value'     => false,
+        'ui'                => true,
+        'ui_on_text'        => '',
+        'ui_off_text'       => '',
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'acfe_flexible_layouts_previews',
+                    'operator'  => '==',
+                    'value'     => '',
+                )
+            )
+        )
+    ));
     
     // Layouts: Close Button
     acf_render_field_setting($field, array(
         'label'         => __('Layouts: Close Button'),
         'name'          => 'acfe_flexible_close_button',
         'key'           => 'acfe_flexible_close_button',
-        'instructions'  => __('Display a close button to collapse/close the layout'),
+        'instructions'  => __('Display a close button to collapse the layout'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
         'ui'                => true,
         'ui_on_text'        => '',
         'ui_off_text'       => '',
-    ), true);
+    ));
     
-    // Layouts: Copy/Paste Buttons
+    // Layouts: Title Edition
+    acf_render_field_setting($field, array(
+        'label'         => __('Layouts: Title Edition'),
+        'name'          => 'acfe_flexible_title_edition',
+        'key'           => 'acfe_flexible_title_edition',
+        'instructions'  => __('Allow layout title edition'),
+        'type'              => 'true_false',
+        'message'           => '',
+        'default_value'     => false,
+        'ui'                => true,
+        'ui_on_text'        => '',
+        'ui_off_text'       => '',
+    ));
+    
+    // Layouts: Copy/Paste
     acf_render_field_setting($field, array(
         'label'         => __('Layouts: Copy/Paste'),
         'name'          => 'acfe_flexible_copy_paste',
         'key'           => 'acfe_flexible_copy_paste',
-        'instructions'  => __('Display copy/paste layouts buttons'),
+        'instructions'  => __('Allow copy/paste layouts functions'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
         'ui'                => true,
         'ui_on_text'        => '',
         'ui_off_text'       => '',
-    ), true);
+    ));
     
     // Modal: Edition
     acf_render_field_setting($field, array(
@@ -161,7 +198,7 @@ function acfe_flexible_settings($field){
         'ui'                => true,
         'ui_on_text'        => '',
         'ui_off_text'       => '',
-    ), true);
+    ));
     
     // Modal: Selection
     acf_render_field_setting($field, array(
@@ -271,7 +308,7 @@ function acfe_flexible_settings($field){
                 )
             ),
         )
-    ), true);
+    ));
     
     // Layouts: Force State
     acf_render_field_setting($field, array(
@@ -294,7 +331,7 @@ function acfe_flexible_settings($field){
                 )
             )
         )
-    ), true);
+    ));
     
 }
 
@@ -350,6 +387,7 @@ function acfe_flexible_layouts_settings($field){
             'class'         => 'acf-fc-meta-name',
             'prefix'        => $layout_prefix,
             'value'         => $acfe_flexible_category,
+            'placeholder'   => __('Multiple categories can be set using "|"')
             
             /*
             'conditional_logic' => array(
@@ -529,6 +567,13 @@ function acfe_flexible_wrapper($wrapper, $field){
     
     }
     
+    // Layouts: Title Edition
+    if(isset($field['acfe_flexible_title_edition']) && !empty($field['acfe_flexible_title_edition'])){
+        
+        $wrapper['data-acfe-flexible-title-edition'] = 1;
+        
+    }
+    
     // Layouts: Close Button
     if(isset($field['acfe_flexible_close_button']) && !empty($field['acfe_flexible_close_button'])){
         
@@ -562,7 +607,12 @@ function acfe_flexible_wrapper($wrapper, $field){
         
     }
     
-    $thumbnails = array();
+    // Layouts Placeholder
+    if(isset($field['acfe_flexible_layouts_placeholder']) && !empty($field['acfe_flexible_layouts_placeholder'])){
+        
+        $wrapper['data-acfe-flexible-placeholder'] = 1;
+        
+    }
     
     // Layouts Previews
     if(isset($field['acfe_flexible_layouts_templates']) && !empty($field['acfe_flexible_layouts_templates']) && isset($field['acfe_flexible_layouts_previews']) && !empty($field['acfe_flexible_layouts_previews'])){
@@ -686,13 +736,21 @@ function acfe_flexible_layout_title_ajax($title, $field, $layout, $i){
     // Remove thumbnail
     $title = preg_replace('#<div class="acfe-flexible-layout-thumbnail(.*?)</div>#', '', $title);
     
-    // Get Layout Title
-    $acfe_flexible_layout_title = get_sub_field('acfe_flexible_layout_title');
-    if(!empty($acfe_flexible_layout_title))
-        $title = esc_attr(wp_unslash($acfe_flexible_layout_title));
+    // Title Edition
+    if(isset($field['acfe_flexible_title_edition']) && !empty($field['acfe_flexible_title_edition'])){
+        
+        // Get Layout Title
+        $acfe_flexible_layout_title = get_sub_field('acfe_flexible_layout_title');
+        if(!empty($acfe_flexible_layout_title))
+            $title = wp_unslash($acfe_flexible_layout_title);
+        
+        // Return
+        return '<span class="acfe-layout-title acf-js-tooltip" title="' . __('Layout', 'acfe') . ': ' . esc_attr(strip_tags($layout['label'])) . '"><span class="acfe-layout-title-text">' . $title . '</span></span>';
+        
+    }
     
     // Return
-    return '<span class="acfe-layout-title acf-js-tooltip" title="' . __('Layout', 'acfe') . ': ' . esc_attr(strip_tags($layout['label'])) . '"><span class="acfe-layout-title-text">' . $title . '</span></span>';
+    return '<span class="acfe-layout-title-text">' . $title . '</span></span>';
     
 }
 
@@ -808,7 +866,7 @@ add_filter('acfe/flexible/render/template', 'acfe_flexible_layout_render_templat
 function acfe_flexible_layout_render_template_setting($return, $field, $layout, $is_preview){
     
     if(isset($layout['acfe_flexible_render_template']) && !empty($layout['acfe_flexible_render_template']))
-        $return = ACFE_THEME_PATH . '/' . $layout['acfe_flexible_render_template'];
+        $return = $layout['acfe_flexible_render_template'];
     
     return $return;
     
@@ -818,7 +876,7 @@ add_filter('acfe/flexible/render/style', 'acfe_flexible_layout_render_style_sett
 function acfe_flexible_layout_render_style_setting($return, $field, $layout, $is_preview){
     
     if(isset($layout['acfe_flexible_render_style']) && !empty($layout['acfe_flexible_render_style']))
-        $return = ACFE_THEME_URL . '/' . $layout['acfe_flexible_render_style'];
+        $return = $layout['acfe_flexible_render_style'];
     
     return $return;
     
@@ -828,7 +886,7 @@ add_filter('acfe/flexible/render/script', 'acfe_flexible_layout_render_script_se
 function acfe_flexible_layout_render_script_setting($return, $field, $layout, $is_preview){
     
     if(isset($layout['acfe_flexible_render_script']) && !empty($layout['acfe_flexible_render_script']))
-        $return = ACFE_THEME_URL . '/' . $layout['acfe_flexible_render_script'];
+        $return = $layout['acfe_flexible_render_script'];
     
     return $return;
     
@@ -845,9 +903,13 @@ function acfe_flexible_layout_title_subfield($field){
     if(!isset($field['layouts']) || empty($field['layouts']))
         return $field;
     
+    if(!isset($field['acfe_flexible_title_edition']) || empty($field['acfe_flexible_title_edition']))
+        return $field;
+    
     foreach($field['layouts'] as $layout_key => &$layout){
         
-        $layout['sub_fields'][] = array(
+        // Add the input as the first sub_field
+        array_unshift($layout['sub_fields'] , array(
             'ID'            => false,
             'label'         => false,
 			'key'           => 'field_acfe_flexible_layout_title',
@@ -864,7 +926,7 @@ function acfe_flexible_layout_title_subfield($field){
                 'class' => '',
                 'width' => '',
             )
-		);
+		));
         
     }
     

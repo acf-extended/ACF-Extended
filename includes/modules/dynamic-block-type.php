@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/dynamic_block_types', true))
+    return;
+
 /**
  * Require ACF Pro 5.8
  */

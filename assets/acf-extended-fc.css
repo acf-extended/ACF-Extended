@@ -30,7 +30,8 @@
 /*
  * Flexible Layout Collapsed
  */
-.acf-flexible-content .layout.-collapsed > .acf-fc-layout-handle {
+.acf-field-flexible-content[data-acfe-flexible-placeholder="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle,
+.acf-field-flexible-content[data-acfe-flexible-preview="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle{
     border-bottom-width:1px;
 }
 
