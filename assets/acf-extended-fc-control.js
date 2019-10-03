@@ -18,11 +18,15 @@
     model.events['click .acfe-layout-title-text'] = 'acfeEditLayoutTitle';
     model.acfeEditLayoutTitle = function(e, $el){
         
-        // Stop propagation
-        e.stopPropagation();
-        
         // Get Flexible
         var flexible = this;
+        
+        // Title Edition
+        if(!flexible.has('acfeFlexibleTitleEdition'))
+            return;
+        
+        // Stop propagation
+        e.stopPropagation();
         
         // Toggle
         flexible.acfeEditLayoutTitleToggle(e, $el);
@@ -134,18 +138,19 @@
         var $layout_original = $el.closest('.layout');
         var $layout = $el.closest('.layout').clone();
         
-        // Fix TinyMCE attribute value
-        $layout.find('textarea').each(function(){
-            $(this).html(this.value);
-        });
+        // Fix inputs
+        flexible.acfeFixInputs($layout);
         
         // Clean Layout
         flexible.acfeCleanLayouts($layout);
         
+        var parent = $el.closest('.acf-flexible-content').find('> input[type=hidden]').attr('name');
+        
         // Clone
         var $layout_added = flexible.acfeDuplicate({
             layout: $layout,
-            before: $layout_original
+            before: $layout_original,
+            parent: parent
         });
         
     }
@@ -159,6 +164,7 @@
         
         // Vars
         var $layout = $el.closest('.layout').clone();
+        var source = flexible.$control().find('> input[type=hidden]').attr('name');
         
         // Fix inputs
         flexible.acfeFixInputs($layout);
@@ -167,7 +173,10 @@
         flexible.acfeCleanLayouts($layout);
         
         // Get layout data
-        var data = JSON.stringify($layout[0].outerHTML);
+        var data = JSON.stringify({
+            source: source,
+            layouts: $layout[0].outerHTML
+        });
         
         // Append Temp Input
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo($el);
@@ -194,6 +203,7 @@
         
         // Get layouts
         var $layouts = flexible.$layoutsWrap().clone();
+        var source = flexible.$control().find('> input[type=hidden]').attr('name');
         
         // Fix inputs
         flexible.acfeFixInputs($layouts);
@@ -202,7 +212,10 @@
         flexible.acfeCleanLayouts($layouts);
         
         // Get layouts data
-        var data = JSON.stringify($layouts.html());
+        var data = JSON.stringify({
+            source: source,
+            layouts: $layouts.html()
+        });
         
         // Append Temp Input
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo(flexible.$el);
@@ -235,7 +248,9 @@
         try{
             
             // Paste HTML
-            var $html = $(JSON.parse(paste));
+            var data = JSON.parse(paste);
+            var source = data.source;
+            var $html = $(data.layouts);
             
             // Parsed layouts
             var $html_layouts = $html.closest('[data-layout]');
@@ -270,9 +285,15 @@
             // Add layouts
             $.each(validated_layouts, function(){
                 
+                var $layout = $(this);
+                var search = source + '[' + $layout.attr('data-id') + ']';
+                var target = flexible.$control().find('> input[type=hidden]').attr('name');
+                
                 flexible.acfeDuplicate({
-                    layout: $(this),
-                    before: false
+                    layout: $layout,
+                    before: false,
+                    search: search,
+                    parent: target
                 });
                 
             });
@@ -331,17 +352,42 @@
         // Arguments
         args = acf.parseArgs(args, {
             layout: '',
-            before: false
+            before: false,
+            parent: false,
+            search: '',
+            replace: '',
         });
         
         // Validate
         if(!this.allowAdd())
             return false;
         
+        var uniqid = acf.uniqid();
+        
+        if(args.parent){
+            
+            if(!args.search){
+                
+                args.search = args.parent + '[' + args.layout.attr('data-id') + ']';
+                
+            }
+            
+            args.replace = args.parent + '[' + uniqid + ']';
+            
+        }
+        
         // Add row
         var $el = acf.duplicate({
             target: args.layout,
+            search: args.search,
+            replace: args.replace,
             append: this.proxy(function($el, $el2){
+                
+                // Add class to duplicated layout
+                $el2.addClass('acfe-layout-duplicated');
+                
+                // Reset UniqID
+                $el2.attr('data-id', uniqid);
                 
                 // append before
                 if(args.before){
@@ -394,16 +440,20 @@
             
             if(this.checked)
                 $(this).attr('checked', 'checked');
+            
             else
                 $(this).attr('checked', false);
             
         });
         
         $layout.find('option').each(function(){
+            
             if(this.selected)
                 $(this).attr('selected', 'selected');
+                
             else
                 $(this).attr('selected', false);
+            
         });
         
     }
@@ -484,6 +534,28 @@
             
         });
         
+        // Clean Select2
+        $layout.find('.acf-field-select').each(function(){
+            
+            var $input = $(this);
+            
+            $input.find('> .acf-input span').remove();
+            
+            $input.find('> .acf-input select').removeAttr('tabindex aria-hidden').removeClass();
+            
+        });
+        
+        // Clean FontAwesome
+        $layout.find('.acf-field-font-awesome').each(function(){
+            
+            var $input = $(this);
+            
+            $input.find('> .acf-input span').remove();
+            
+            $input.find('> .acf-input select').removeAttr('tabindex aria-hidden');
+            
+        });
+        
         // Clean Tab
         $layout.find('.acf-tab-wrap').each(function(){
             
@@ -525,6 +597,9 @@
             var $input = $(this);
             
             $input.find('> .acf-accordion-title > .acf-accordion-icon').remove();
+            
+            // Append virtual endpoint after each accordion
+            $input.after('<div class="acf-field acf-field-accordion" data-type="accordion"><div class="acf-input"><div class="acf-fields" data-endpoint="1"></div></div></div>');
             
         });
         
@@ -590,15 +665,19 @@
         // vars
         var $controls = $layout.find('> .acf-fc-layout-controls');
         
-        if(flexible.has('acfeFlexibleCopyPaste')){
+        // Button: Copy
+        if(flexible.has('acfeFlexibleCopyPaste') && !$controls.has('[data-acfe-flexible-control-copy]').length){
             
-            // Button: Copy
             $controls.prepend('<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-category" href="#" title="Copy layout" data-acfe-flexible-control-copy="' + $layout.attr('data-layout') + '"></a>');
         
         }
         
         // Button: Clone
-        $controls.prepend('<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-page" href="#" title="Clone layout" data-acfe-flexible-control-clone="' + $layout.attr('data-layout') + '"></a>');
+        if(!$controls.has('[data-acfe-flexible-control-clone]').length){
+            
+            $controls.prepend('<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-page" href="#" title="Clone layout" data-acfe-flexible-control-clone="' + $layout.attr('data-layout') + '"></a>');
+            
+        }
         
         
         

@@ -10,6 +10,7 @@ add_filter('acf/location/rule_values/post_type', 'acfe_location_post_type_all_ch
 function acfe_location_post_type_all_choices($choices){
     
 	$choices = array_merge(array('all' => __('All')), $choices);
+    
     return $choices;
     
 }

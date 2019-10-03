@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/dynamic_options_pages', true))
+    return;
+
 /**
  * Register Dynamic Options Page
  */

@@ -367,7 +367,7 @@ function acfe_bidirectional_update_value($value, $post_id, $field){
     $new_values = acf_get_array($value);
     
     // Bail early if no difference
-    //if($old_values === $new_values)
+    // if($old_values === $new_values)
     //    return $value;
         
     // Values have been removed
@@ -470,6 +470,9 @@ function acfe_bidirectional_relationship($type = 'add', $r_id, $p_field, $p_valu
         
     }
     
+    // Convert strings to integers
+    $r_values = acf_parse_types($r_values);
+    
     // Add Value
     if($type === 'add'){
         
@@ -494,6 +497,23 @@ function acfe_bidirectional_relationship($type = 'add', $r_id, $p_field, $p_valu
         $r_values = $r_new_values;
         
     }
+    
+    /*
+     * Post Object & User 'Allow Multiple' Disabled
+     * Value must not be inside array
+     */
+    if(($r_ref_field['type'] === 'post_object' || $r_ref_field['type'] === 'user') && empty($r_ref_field['multiple']) && isset($r_values[0])){
+        
+        // Get latest value
+        $r_values = end($r_values);
+        
+    }
+    
+    /*
+     * Remove potential empty serialized array in meta value 'a:0:{}'
+     */
+    if(empty($r_values))
+        $r_values = false;
     
     /*
      * Construct a value array in case of ancestors. ie:

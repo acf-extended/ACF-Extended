@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/taxonomies', true))
+    return;
+
 /**
  * Terms List View
  */
@@ -54,11 +58,15 @@ function acfe_better_taxonomy_admin_footer(){
             $(this).append('<div class="acf-input"></div>');
             $(this).find('.acf-input').append($(this).find('> :not("label")'));
             
-            $(this).find('label').wrap('<div class="acf-label"></div>');
-            
-            if($(this).hasClass('submit')){
+            // Add spacing when a meta field has no label
+            var $label = $(this).find('> label');
+            if($label.length){
                 
-                $(this).prepend('<div class="acf-label"><label></label></div>');
+                $label.wrap('<div class="acf-label"></div>');
+                
+            }else{
+                
+                $(this).addClass('acfe-bt-no-label');
                 
             }
             
@@ -87,6 +95,13 @@ function acfe_better_taxonomy_admin_footer(){
         }
         
         $('#acfe-bt-form .acf-tab-wrap.-left').removeClass('-left').addClass('-top');
+        
+        // Polylang Compatibility Fix
+        <?php if(isset($_GET['from_tag']) && !empty($_GET['from_tag']) && isset($_GET['new_lang']) && !empty($_GET['new_lang'])){ ?>
+        
+            $('.acfe-bt-admin-button-add').click();
+
+        <?php } ?>
         
     })(jQuery);
     </script>

@@ -55,11 +55,15 @@
         if(!flexible.has('acfeFlexibleModalEdition'))
             return;
         
-        // Remove Collapse Action
-        flexible.removeEvents({'click [data-name="collapse-layout"]': 'onClickCollapse'});
-        
-        // Remove placeholder Collapse Action
-        flexible.removeEvents({'click .acfe-flexible-collapsed-placeholder': 'onClickCollapse'});
+        if(flexible.has('acfeFlexiblePlaceholder') || flexible.has('acfeFlexiblePreview')){
+            
+            // Remove Collapse Action
+            flexible.removeEvents({'click [data-name="collapse-layout"]': 'onClickCollapse'});
+            
+            // Remove placeholder Collapse Action
+            flexible.removeEvents({'click .acfe-flexible-collapsed-placeholder': 'onClickCollapse'});
+            
+        }
         
     });
     
