@@ -176,7 +176,7 @@ Manage ACF Block Types from ACF > Block Types.
 * Hide Empty Message: Hide the native Flexible Content 'Empty' message
 * Empty Message: Change the native Flexible Content 'Click the Add Row button below...' message
 * Layouts Thumbnails: Add thumbnails for each layout in the layout selection
-* Layouts Render: Add `template.php`, `style.css` & `script.js` files settings for each layout. Those settings can be then accessed in the front-end ([More informations in the FAQ](#faq))
+* Layouts Render: Add `template.php`, `style.css` & `script.js` files settings for each layout. Those settings can be then accessed in the front-end [More informations in the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
 * Layouts Dynamic Preview: Edit & Preview Layouts on-the-fly from your WordPress administration, just like in Gutenberg (Layouts Render must be turned ON)
 * Modal Edition: Edit layouts in a modal
 * Modal Selection: Change the layout selection into a modal
@@ -189,8 +189,8 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 🛠️ Links
 
-* Found a bug? [Submit an issue](acf-extended/ACF-Extended/issues/new)
-* Want to fork me? [GitHub repository](acf-extended/ACF-Extended)
-* Enjoying this plugin? [Submit a review](wordpress.org/support/plugin/acf-extended/reviews/#new-post)
-* Want to keep me awake? [Buy me a coffee](ko-fi.com/acfextended)
-* Want to check upcoming features? [Here is my Twitter](twitter.com/hwkfr)
+* Found a bug? [Submit an issue](https://github.com/acf-extended/ACF-Extended/issues/new)
+* Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
+* Enjoying this plugin? [Submit a review](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
+* Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
+* Want to check upcoming features? [Here is my Twitter](https://twitter.com/hwkfr)
