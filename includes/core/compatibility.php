@@ -3,6 +3,40 @@
 if(!defined('ABSPATH'))
     exit;
 
+add_filter('acf/validate_field_group', 'acfe_compatibility_field_group_location_list', 20);
+function acfe_compatibility_field_group_location_list($field_group){
+    
+    if(!acf_maybe_get($field_group, 'location'))
+        return $field_group;
+    
+    foreach($field_group['location'] as &$or){
+        
+        foreach($or as &$and){
+            
+            // Post Type List
+            if($and['param'] === 'post_type' && acfe_ends_with($and['value'], '_archive')){
+            
+                $and['param'] = 'post_type_list';
+                $and['value'] = substr_replace($and['value'], '', -8);
+            
+            }
+            
+            // Taxonomy List
+            elseif($and['param'] === 'taxonomy' && acfe_ends_with($and['value'], '_archive')){
+                
+                $and['param'] = 'taxonomy_list';
+                $and['value'] = substr_replace($and['value'], '', -8);
+                
+            }
+            
+        }
+        
+    }
+    
+    return $field_group;
+    
+}
+
 /**
  * Plugin: Post Types Order
  * https://wordpress.org/plugins/post-types-order/

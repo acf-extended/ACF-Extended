@@ -3,15 +3,15 @@
 if(!defined('ABSPATH'))
     exit;
 
-class acfe_field_taxonomies extends acf_field{
+class acfe_field_user_roles extends acf_field{
     
     function __construct(){
         
-        $this->name = 'acfe_taxonomies';
-        $this->label = __('Taxonomies', 'acfe');
+        $this->name = 'acfe_user_roles';
+        $this->label = __('User Roles', 'acfe');
         $this->category = 'relational';
         $this->defaults = array(
-            'taxonomy'      => array(),
+            'user_role'      => array(),
             'field_type'    => 'checkbox',
             'multiple' 		=> 0,
 			'allow_null' 	=> 0,
@@ -23,7 +23,6 @@ class acfe_field_taxonomies extends acf_field{
             'layout'        => '',
 			'toggle'        => 0,
 			'allow_custom'  => 0,
-			'return_format' => 'name',
         );
         
         parent::__construct();
@@ -32,7 +31,7 @@ class acfe_field_taxonomies extends acf_field{
 
     function prepare_field($field){
         
-        $field['choices'] = acf_get_taxonomy_labels($field['taxonomy']);
+        $field['choices'] = acfe_get_roles($field['user_role']);
         
         // Set Field Type
         $field['type'] = $field['field_type'];
@@ -46,17 +45,17 @@ class acfe_field_taxonomies extends acf_field{
         if(isset($field['default_value']))
             $field['default_value'] = acf_encode_choices($field['default_value'], false);
         
-        // Allow Taxonomy
+        // Allow User Role
 		acf_render_field_setting( $field, array(
-			'label'			=> __('Allow Taxonomy','acf'),
+			'label'			=> __('Allow User Role','acf'),
 			'instructions'	=> '',
 			'type'			=> 'select',
-			'name'			=> 'taxonomy',
-			'choices'		=> acf_get_taxonomy_labels(),
+			'name'			=> 'user_role',
+			'choices'		=> acfe_get_roles(),
 			'multiple'		=> 1,
 			'ui'			=> 1,
 			'allow_null'	=> 1,
-			'placeholder'	=> __("All taxonomies",'acf'),
+			'placeholder'	=> __("All user roles",'acf'),
 		));
         
         // field_type
@@ -80,19 +79,6 @@ class acfe_field_taxonomies extends acf_field{
 			'name'			=> 'default_value',
 			'type'			=> 'textarea',
 		));
-        
-        // return_format
-        acf_render_field_setting($field, array(
-            'label'			=> __('Return Value', 'acf'),
-            'instructions'	=> '',
-            'type'			=> 'radio',
-            'name'			=> 'return_format',
-            'choices'		=> array(
-                'object'    =>	__('Taxonomy object', 'acfe'),
-                'name'      =>	__('Taxonomy name', 'acfe')
-            ),
-            'layout'	=>	'horizontal',
-        ));
         
 		// Select + Radio: allow_null
 		acf_render_field_setting( $field, array(
@@ -118,30 +104,6 @@ class acfe_field_taxonomies extends acf_field{
                 ),
             )
 		));
-        
-        // placeholder
-        acf_render_field_setting($field, array(
-            'label'			=> __('Placeholder Text','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'placeholder',
-            'placeholder'   => _x('Select', 'verb', 'acf'),
-            'conditional_logic' => array(
-                array(
-                    array(
-                        'field'     => 'field_type',
-                        'operator'  => '==',
-                        'value'     => 'select',
-                    ),
-                    array(
-                        'field'     => 'allow_null',
-                        'operator'  => '==',
-                        'value'     => '1',
-                    ),
-                    
-                )
-            )
-        ));
         
         // Select: multiple
 		acf_render_field_setting( $field, array(
@@ -339,36 +301,7 @@ class acfe_field_taxonomies extends acf_field{
 		));
         
     }
-    
-    
-    function format_value($value, $post_id, $field){
-        
-        // Return: object
-		if($field['return_format'] === 'object'){
-            
-            // array
-            if(acf_is_array($value)){
-                
-                foreach($value as $i => $v){
-                    
-                    $value[$i] = get_taxonomy($v);
-                    
-                }
-            
-            // string
-            }else{
-                
-                $value = get_taxonomy($value);
-                
-            }
-        
-		}
-        
-		// return
-		return $value;
-        
-    }
 
 }
 
-new acfe_field_taxonomies();
+new acfe_field_user_roles();

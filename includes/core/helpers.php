@@ -114,8 +114,27 @@ function acfe_flexible_render_layout_template($layout, $field){
         }
         
         // Include
-        if(!empty($acfe_flexible_render_template_path))
+        if(!empty($acfe_flexible_render_template_path)){
+            
+            do_action('acfe/flexible/render/before_template', $field, $layout, $is_preview);
+            do_action('acfe/flexible/render/before_template/name=' . $field['_name'], $field, $layout, $is_preview);
+            do_action('acfe/flexible/render/before_template/key=' . $field['key'], $field, $layout, $is_preview);
+            
+            do_action('acfe/flexible/layout/render/before_template/layout=' . $layout['name'], $field, $layout, $is_preview);
+            do_action('acfe/flexible/layout/render/before_template/name=' . $field['_name'] . '&layout=' . $layout['name'], $field, $layout, $is_preview);
+            do_action('acfe/flexible/layout/render/before_template/key=' . $field['key'] . '&layout=' . $layout['name'], $field, $layout, $is_preview);
+            
             include($acfe_flexible_render_template_path);
+            
+            do_action('acfe/flexible/render/after_template', $field, $layout, $is_preview);
+            do_action('acfe/flexible/render/after_template/name=' . $field['_name'], $field, $layout, $is_preview);
+            do_action('acfe/flexible/render/after_template/key=' . $field['key'], $field, $layout, $is_preview);
+            
+            do_action('acfe/flexible/layout/render/after_template/layout=' . $layout['name'], $field, $layout, $is_preview);
+            do_action('acfe/flexible/layout/render/after_template/name=' . $field['_name'] . '&layout=' . $layout['name'], $field, $layout, $is_preview);
+            do_action('acfe/flexible/layout/render/after_template/key=' . $field['key'] . '&layout=' . $layout['name'], $field, $layout, $is_preview);
+            
+        }
         
     }
     
@@ -238,6 +257,35 @@ function acfe_get_field_group_from_field($field){
 }
 
 /**
+ * Add custom key to fields and all sub fields
+ */
+function acfe_field_add_key_recursive(&$field, $key, $value){
+    
+    if(isset($field['sub_fields'])){
+        
+        foreach($field['sub_fields'] as &$sub_field){
+            
+            acfe_field_add_key_recursive($sub_field, $key, $value);
+            
+        }
+        
+    }
+    
+    elseif(isset($field['layouts'])){
+        
+        foreach($field['layouts'] as &$layout){
+            
+            acfe_field_add_key_recursive($layout, $key, $value);
+            
+        }
+        
+    }
+    
+    $field[$key] = $value;
+    
+}
+
+/**
  * Is Json
  * Source: https://stackoverflow.com/a/6041773
  */
@@ -248,44 +296,8 @@ function acfe_is_json($string){
         return false;
     
     json_decode($string);
+    
     return (json_last_error() == JSON_ERROR_NONE);
-    
-}
-
-/**
- * Get Roles
- */
-function acfe_get_roles(){
-    
-    global $wp_roles;
-    $choices = array();
-    
-    if(is_multisite())
-        $choices['super_admin'] = __('Super Admin');
-    
-    foreach($wp_roles->roles as $role => $settings){
-        $choices[$role] = $settings['name'];
-    }
-    
-    return $choices;
-    
-}
-
-/**
- * Get Current Roles
- */
-function acfe_get_current_user_roles(){
-    
-    global $current_user;
-    
-    if(!is_object($current_user) || !isset($current_user->roles))
-        return false;
-    
-    $roles = $current_user->roles;
-    if(is_multisite() && current_user_can('setup_network'))
-        $roles[] = 'super_admin';
-    
-    return $roles;
     
 }
 
@@ -353,5 +365,287 @@ function acfe_locate_file_url($filenames){
     }
  
     return $located;
+    
+}
+
+/**
+ * Get Roles
+ */
+function acfe_get_roles($user_roles = array()){
+    
+	if(empty($user_roles)){
+        
+        $user_roles = array();
+        
+        global $wp_roles;
+        
+        if(is_multisite())
+            $user_roles['super_admin'] = __('Super Admin');
+        
+        foreach($wp_roles->roles as $role => $settings){
+            
+            $user_roles[$role] = $settings['name'];
+            
+        }
+		
+	}
+    
+    return $user_roles;
+    
+}
+
+/**
+ * Get Current Roles
+ */
+function acfe_get_current_user_roles(){
+    
+    global $current_user;
+    
+    if(!is_object($current_user) || !isset($current_user->roles))
+        return false;
+    
+    $roles = $current_user->roles;
+    
+    if(is_multisite() && current_user_can('setup_network'))
+        $roles[] = 'super_admin';
+    
+    return $roles;
+    
+}
+
+/**
+ * Get post types objects
+ */
+function acfe_get_post_type_objects($args = array()){
+    
+    // vars
+    $return = array();
+    
+    // Post Types
+    $posts_types = acf_get_post_types($args);
+    
+    // Choices
+    if(!empty($posts_types)){
+        
+        foreach($posts_types as $post_type){
+            
+            $post_type_object = get_post_type_object($post_type);
+            
+            $return[$post_type_object->name] = $post_type_object;
+            
+        }
+        
+    }
+    
+    return $return;
+    
+}
+
+/**
+ * Get taxonomy objects
+ */
+function acfe_get_taxonomy_objects($args = array()){
+    
+    // vars
+    $return = array();
+    
+    // Post Types
+    $taxonomies = acf_get_taxonomies($args);
+    
+    // Choices
+    if(!empty($taxonomies)){
+        
+        foreach($taxonomies as $taxonomy){
+            
+            $taxonomy_object = get_taxonomy($taxonomy);
+            
+            $return[$taxonomy_object->name] = $taxonomy_object;
+            
+        }
+        
+    }
+    
+    return $return;
+    
+}
+
+/**
+ * Get post statuses
+ */
+function acfe_get_pretty_post_statuses($posts_statuses = array()){
+	
+	if(empty($posts_statuses)){
+		
+		$posts_statuses = get_post_stati(array(), 'names');
+		
+	}
+    
+    $return = array();
+    
+    // Choices
+    if(!empty($posts_statuses)){
+        
+        foreach($posts_statuses as $post_status){
+            
+            $post_status_object = get_post_status_object($post_status);
+            
+            $return[$post_status_object->name] = $post_status_object->label . ' (' . $post_status_object->name . ')';
+            
+        }
+        
+    }
+    
+    return $return;
+	
+}
+
+/**
+ * Get forms
+ */
+function acfe_get_pretty_forms($forms = array()){
+	
+	if(empty($forms)){
+        
+        $forms = get_posts(array(
+            'post_type'         => 'acfe-form',
+            'posts_per_page'    => -1,
+            'fields'            => 'ids',
+        ));
+		
+	}
+    
+    $return = array();
+    
+    // Choices
+    if(!empty($forms)){
+        
+        foreach($forms as $form_id){
+            
+            $form_name = get_the_title($form_id);
+            
+            $return[$form_id] = $form_name;
+            
+        }
+        
+    }
+    
+    return $return;
+	
+}
+
+/**
+ * Starts with
+ */
+function acfe_starts_with($haystack, $needle){
+        
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+
+}
+
+/**
+ * Ends with
+ */
+function acfe_ends_with($haystack, $needle){
+        
+    $length = strlen($needle);
+    
+    if($length == 0)
+        return true;
+
+    return (substr($haystack, -$length) === $needle);
+    
+}
+
+add_filter('acf/load_field', 'acfe_load_field');
+function acfe_load_field($field){
+    
+    if(acf_is_screen(array('edit-acf-field-group', 'acf-field-group', 'acf_page_acf-tools')))
+        return $field;
+    
+    // Everywhere
+    $field = apply_filters('acfe/load_field', $field);
+    
+    // Admin
+    if(acfe_form_is_admin()){
+        
+        $field = apply_filters('acfe/load_field_admin', $field);
+        
+    }
+    
+    // Front
+    elseif(acfe_form_is_front()){
+        
+        $field = apply_filters('acfe/load_field_front', $field);
+        
+    }
+    
+    return $field;
+    
+}
+
+if(function_exists('acf_add_filter_variations')){
+    
+    acf_add_filter_variations('acfe/load_field', array('type', 'name', 'key'), 0);
+    acf_add_filter_variations('acfe/load_field_front', array('type', 'name', 'key'), 0);
+    acf_add_filter_variations('acfe/load_field_admin', array('type', 'name', 'key'), 0);
+    
+}
+
+function acfe_form_is_admin(){
+    
+    if((is_admin() && !wp_doing_ajax()) || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') !== 'acf_form'))
+        return true;
+    
+    return false;
+    
+}
+
+function acfe_form_is_front(){
+    
+    if(!is_admin() || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') === 'acf_form'))
+        return true;
+    
+    return false;
+    
+}
+
+function acfe_array_insert_before($key, array &$array, $new_key, $new_value){
+    
+    if(!array_key_exists($key, $array))
+        return $array;
+    
+    $new = array();
+    
+    foreach($array as $k => $value){
+        
+        if($k === $key)
+            $new[$new_key] = $new_value;
+        
+        $new[$k] = $value;
+        
+    }
+    
+    return $new;
+    
+}
+
+function acfe_array_insert_after($key, array &$array, $new_key, $new_value){
+    
+    if(!array_key_exists($key, $array))
+        return $array;
+    
+    $new = array();
+    
+    foreach($array as $k => $value){
+        
+        $new[$k] = $value;
+        
+        if($k === $key)
+            $new[$new_key] = $new_value;
+        
+    }
+    
+    return $new;
     
 }

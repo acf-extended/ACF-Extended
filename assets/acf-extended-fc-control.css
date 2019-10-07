@@ -27,6 +27,20 @@
 	visibility: visible;
 }
 
+.acf-flexible-content .layout > .acf-fc-layout-controls .acf-icon.disabled{
+    color: #ccc;
+    cursor: initial;
+}
+
+.acf-flexible-content .layout > .acf-fc-layout-controls .acf-icon.disabled:hover{
+    color: #ccc;
+    background: #F5F5F5;
+}
+
+.acf-flexible-content[data-acfe-flexible-lock="1"] .layout .acf-fc-layout-handle{
+    cursor:initial;
+}
+
 
 /*
  * ACFE: Title Edit

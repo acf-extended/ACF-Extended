@@ -135,21 +135,51 @@
         var flexible = this;
         
         // Vars
-        var $layout_original = $el.closest('.layout');
-        var $layout = $el.closest('.layout').clone();
+        var $layout = $el.closest('.layout');
+        var layout_name = $layout.data('layout');
+        
+        // Popup min/max
+        var $popup = $(flexible.$popup().html());
+        var $layouts = flexible.$layouts();
+
+        var countLayouts = function(name){
+            return $layouts.filter(function(){
+                return $(this).data('layout') === name;
+            }).length;
+        };
+        
+         // vars
+        var $a = $popup.find('[data-layout="' + layout_name + '"]');
+        var min = $a.data('min') || 0;
+        var max = $a.data('max') || 0;
+        var count = countLayouts(layout_name);
+        
+        // max
+        if(max && count >= max){
+            
+            $el.addClass('disabled');
+            return false;
+            
+        }else{
+            
+            $el.removeClass('disabled');
+            
+        }
+        
+        var $_layout = $layout.clone();
         
         // Fix inputs
-        flexible.acfeFixInputs($layout);
+        flexible.acfeFixInputs($_layout);
         
         // Clean Layout
-        flexible.acfeCleanLayouts($layout);
+        flexible.acfeCleanLayouts($_layout);
         
         var parent = $el.closest('.acf-flexible-content').find('> input[type=hidden]').attr('name');
         
         // Clone
         var $layout_added = flexible.acfeDuplicate({
-            layout: $layout,
-            before: $layout_original,
+            layout: $_layout,
+            before: $layout,
             parent: parent
         });
         
@@ -258,6 +288,16 @@
             if(!$html_layouts.length)
                 return alert('No layouts data available');
             
+            // Popup min/max
+            var $popup = $(flexible.$popup().html());
+            var $layouts = flexible.$layouts();
+            
+            var countLayouts = function(name){
+                return $layouts.filter(function(){
+                    return $(this).data('layout') === name;
+                }).length;
+            };
+            
             // init
             var validated_layouts = [];
             
@@ -265,6 +305,17 @@
             $html_layouts.each(function(){
                 
                 var $this = $(this);
+                var layout_name = $this.data('layout');
+                
+                // vars
+                var $a = $popup.find('[data-layout="' + layout_name + '"]');
+                var min = $a.data('min') || 0;
+                var max = $a.data('max') || 0;
+                var count = countLayouts(layout_name);
+                
+                // max
+                if(max && count >= max)
+                    return;
                 
                 // Validate layout against available layouts
                 var get_clone_layout = flexible.$clone($this.attr('data-layout'));
@@ -280,7 +331,7 @@
             
             // Nothing to add
             if(!validated_layouts.length)
-                return alert('No corresponding layouts found');
+                return alert('No layouts could be pasted');
             
             // Add layouts
             $.each(validated_layouts, function(){
@@ -605,57 +656,84 @@
         
     }
     
+    // Flexible: Lock Layouts
+    model.acfeOnHover = function(){
+        
+        var flexible = this;
+        
+        // remove event
+        flexible.off('mouseover');
+        
+    }
+    
     /*
      * Spawn
      */
     acf.addAction('new_field/type=flexible_content', function(flexible){
         
-        if(!flexible.has('acfeFlexibleCopyPaste'))
-            return;
-        
-        /* 
-         * Stylised Button
-         */
-        if(flexible.has('acfeFlexibleStylisedButton')){
+        if(flexible.has('acfeFlexibleLock')){
             
-            var $dropdown = $('' +
-            '<a href="#" class="button" style="padding-left:5px;padding-right:5px; margin-left:3px;" data-name="acfe-flexible-control-button">' +
-            '   <span class="dashicons dashicons-arrow-down-alt2" style="vertical-align:text-top;width:auto;height:auto;font-size:13px;line-height:20px;"></span>' +
-            '</a>' +
+            flexible.removeEvents({'mouseover': 'onHover'});
             
-            '<script type="text-html" class="tmpl-acfe-flexible-control-popup">' +
-            '   <ul>' +
-            '       <li><a href="#" data-acfe-flexible-control-action="copy">Copy layouts</a></li>' +
-            '       <li><a href="#" data-acfe-flexible-control-action="paste">Paste layouts</a></li>' +
-            '   </ul>' +
-            '</script>');
+            flexible.addEvents({'mouseover': 'acfeOnHover'});
             
-            // Add button
-            flexible.$el.find('> .acf-input > .acf-flexible-content > .acfe-flexible-stylised-button > .acf-actions > .acf-button').after($dropdown);
-            
-        
         }
         
-        /* 
-         * Unstylised
-         */
-        else{
+        if(flexible.has('acfeFlexibleRemoveButton')){
             
-            var $dropdown = $('' +
-            '<a href="#" class="button button-primary" style="padding-left:5px;padding-right:5px; margin-left:3px;" data-name="acfe-flexible-control-button">' +
-            '   <span class="dashicons dashicons-arrow-down-alt2" style="vertical-align:text-top;width:auto;height:auto;font-size:13px;line-height:20px;"></span>' +
-            '</a>' +
+            flexible.$actions().remove();
+            flexible.$el.find('.acfe-flexible-stylised-button').remove();
             
-            '<script type="text-html" class="tmpl-acfe-flexible-control-popup">' +
-            '   <ul>' +
-            '       <li><a href="#" data-acfe-flexible-control-action="copy">Copy layouts</a></li>' +
-            '       <li><a href="#" data-acfe-flexible-control-action="paste">Paste layouts</a></li>' +
-            '   </ul>' +
-            '</script>');
             
-            // Add button
-            flexible.$el.find('> .acf-input > .acf-flexible-content > .acf-actions > .acf-button').after($dropdown);
+        }
+        
+        if(flexible.has('acfeFlexibleCopyPaste')){
             
+            /* 
+             * Stylised Button
+             */
+            if(flexible.has('acfeFlexibleStylisedButton')){
+                
+                var $dropdown = $('' +
+                '<a href="#" class="button" style="padding-left:5px;padding-right:5px; margin-left:3px;" data-name="acfe-flexible-control-button">' +
+                '   <span class="dashicons dashicons-arrow-down-alt2" style="vertical-align:text-top;width:auto;height:auto;font-size:13px;line-height:20px;"></span>' +
+                '</a>' +
+                
+                '<script type="text-html" class="tmpl-acfe-flexible-control-popup">' +
+                '   <ul>' +
+                '       <li><a href="#" data-acfe-flexible-control-action="copy">Copy layouts</a></li>' +
+                '       <li><a href="#" data-acfe-flexible-control-action="paste">Paste layouts</a></li>' +
+                '   </ul>' +
+                '</script>');
+                
+                // Add button
+                flexible.$el.find('> .acf-input > .acf-flexible-content > .acfe-flexible-stylised-button > .acf-actions > .acf-button').after($dropdown);
+                
+            
+            }
+            
+            /* 
+             * Unstylised
+             */
+            else{
+                
+                var $dropdown = $('' +
+                '<a href="#" class="button button-primary" style="padding-left:5px;padding-right:5px; margin-left:3px;" data-name="acfe-flexible-control-button">' +
+                '   <span class="dashicons dashicons-arrow-down-alt2" style="vertical-align:text-top;width:auto;height:auto;font-size:13px;line-height:20px;"></span>' +
+                '</a>' +
+                
+                '<script type="text-html" class="tmpl-acfe-flexible-control-popup">' +
+                '   <ul>' +
+                '       <li><a href="#" data-acfe-flexible-control-action="copy">Copy layouts</a></li>' +
+                '       <li><a href="#" data-acfe-flexible-control-action="paste">Paste layouts</a></li>' +
+                '   </ul>' +
+                '</script>');
+                
+                // Add button
+                flexible.$el.find('> .acf-input > .acf-flexible-content > .acf-actions > .acf-button').after($dropdown);
+                
+            }
+        
         }
         
     });

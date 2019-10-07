@@ -185,7 +185,7 @@ function acfe_admin_settings_html(){
             ),
             array(
                 'name'  => 'enqueue_datetimepicker',
-                'label' => 'Enqueue Datepiker/time',
+                'label' => 'Enqueue Date/timepicker',
                 'value' => '<code>' . (acf_get_setting('enqueue_datetimepicker') ? __('True'): __('False')) . '</code>',
                 'description' => 'Allows ACF to enqueue and load the datetimepicker JS/CSS library.<br />Defaults to true'
             ),

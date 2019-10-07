@@ -50,6 +50,7 @@ function acfe_field_groups_third_party_footer(){
     // vars
     $i = -1;
     $columns = array(
+        'acfe-source',
         'acfe-count',
         'acfe-locations',
         'acfe-local'
@@ -74,11 +75,25 @@ function acfe_field_groups_third_party_footer(){
                     <span class="row-title"><?php echo esc_html($title); ?></span>
                 </strong>
                 <div class="row-actions">
+                
+                    <span>
+                        <a href="<?php echo add_query_arg(array('action' => 'php', 'keys' => $key), acf_get_admin_tool_url('acfe-fg-local')); ?>">PHP</a> | 
+                    </span>
+                    
+                    <span>
+                        <a href="<?php echo add_query_arg(array('action' => 'json', 'keys' => $key), acf_get_admin_tool_url('acfe-fg-local')); ?>">Json</a> | 
+                    </span>
+                    
+                    <span>
+                        <a href="<?php echo add_query_arg(array('action' => 'sync', 'keys' => $key), acf_get_admin_tool_url('acfe-fg-local')); ?>">Sync</a> | 
+                    </span>
+                    
                     <span class="acfe-key">
                         <span style="color:#555;">
                             <code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;"><?php echo esc_html($key); ?></code>
                         </span>
                     </span>
+                    
                 </div>
             </td>
             <?php foreach($columns as $column): ?>
@@ -113,8 +128,8 @@ function acfe_get_third_party_field_groups(){
     foreach($get_local_field_groups as $field_group){
         
         // Exclude ACFE Field Groups
-        if(stripos($field_group['key'], 'group_acfe_') === 0)
-            continue;
+        //if(stripos($field_group['key'], 'group_acfe_') === 0)
+        //    continue;
         
         $locals[] = $field_group;
         

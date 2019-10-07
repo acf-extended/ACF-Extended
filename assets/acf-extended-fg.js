@@ -8,6 +8,7 @@ jQuery(document).ready(function($){
     });
     
     $('.acfe_modal_open').click(function(e){
+        
         e.preventDefault();
         
         var key = $(this).attr('data-modal-key');
@@ -20,5 +21,7 @@ jQuery(document).ready(function($){
         });
         
     });
+    
+    $('.acf-field[data-name="active"]').after($('.acf-field[data-name="acfe_form"]'));
     
 });
