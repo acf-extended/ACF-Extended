@@ -3,25 +3,6 @@
 if(!defined('ABSPATH'))
     exit;
 
-add_filter('acf/field_wrapper_attributes', 'acfe_fields_wrapper', 10, 2);
-function acfe_fields_wrapper($wrapper, $field){
-    
-    if(!acf_maybe_get($field, 'label')){
-    
-        $wrapper['class'] .= ' acfe-no-label';
-    
-    }
-    
-    if(acf_maybe_get($field, 'acfe_instructions_tooltip')){
-        
-        $wrapper['data-acfe-instructions-tooltip'] = 1;
-        
-    }
-    
-    return $wrapper;
-    
-}
-
 add_filter('acf/pre_render_fields', 'acfe_fields_wrapper_instructions', 10, 2);
 function acfe_fields_wrapper_instructions($fields, $post_id){
     
@@ -38,7 +19,7 @@ function acfe_fields_wrapper_instructions($fields, $post_id){
             
             foreach($fields as &$field){
                 
-                acfe_field_add_key_recursive($field, 'acfe_instructions_tooltip', true);
+                acfe_field_add_key_recursive($field, 'acfe_instructions_tooltip', ($field['instructions'] ? acf_esc_html($field['instructions']) : ''));
                 
             }
             
@@ -46,8 +27,25 @@ function acfe_fields_wrapper_instructions($fields, $post_id){
         
     }
     
-    acf_log($fields);
-    
     return $fields;
+    
+}
+
+add_filter('acf/field_wrapper_attributes', 'acfe_fields_wrapper', 10, 2);
+function acfe_fields_wrapper($wrapper, $field){
+    
+    if(!acf_maybe_get($field, 'label')){
+    
+        $wrapper['class'] .= ' acfe-no-label';
+    
+    }
+    
+    if(acf_maybe_get($field, 'acfe_instructions_tooltip')){
+        
+        $wrapper['data-acfe-instructions-tooltip'] = acf_esc_html($field['acfe_instructions_tooltip']);
+        
+    }
+    
+    return $wrapper;
     
 }

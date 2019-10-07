@@ -173,31 +173,13 @@
             return;
         
         var $label = field.$el.find('> .acf-label > label');
-        var $instructions_label = field.$el.find('> .acf-label > .description');
-        var $instructions_input = field.$el.find('> .acf-input > .description');
         
-        if($instructions_label.length || $instructions_input.length){
+        if($label.length){
             
-            if($instructions_label.length){
-                
-                var $instructions = $instructions_label;
-                
-            }else if($instructions_input){
-                
-                var $instructions = $instructions_input;
-                
-            }
-            
-            if($label.length){
-                
-                $label.before($instructions);
-                
-                $instructions.replaceWith('<span class="acf-js-tooltip dashicons dashicons-info" style="float:right; font-size:16px; color:#ccc;" title="' + _.escape($instructions.html()) + '"></span>');
-                
-            }
+            $label.before('<span class="acf-js-tooltip dashicons dashicons-info" style="float:right; font-size:16px; color:#ccc;" title="' + _.escape(field.get('acfeInstructionsTooltip')) + '"></span>');
             
         }
-        
+            
     })
     
 })(jQuery);
