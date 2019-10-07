@@ -816,7 +816,7 @@ class acfe_form{
                         // Current post
                         if($_post_id_data === 'current_post'){
                             
-                            $_post_id = get_the_ID();
+                            $_post_id = acf_get_valid_post_id();
                         
                         // Custom Post ID
                         }elseif($_post_id_data === 'custom_post_id'){
@@ -1502,7 +1502,7 @@ class acfe_form{
                         // Current post
                         if($_post_id_data === 'current_post'){
                             
-                            $_post_id = get_the_ID();
+                            $_post_id = acf_get_valid_post_id();
                         
                         // Custom Post ID
                         }elseif($_post_id_data === 'custom_post_id'){
@@ -2241,9 +2241,6 @@ class acfe_form_front extends acf_form_front{
             }
             
         }
-		
-        // reset post_id
-        $args['post_id'] = null;
 		
 		// uploader (always set incase of multiple forms on the page)
 		acf_update_setting('uploader', $args['uploader']);
