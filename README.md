@@ -276,6 +276,10 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 📋 Changelog
 
+### 0.8 RC3
+* Module: Dynamic Forms - Fixed Post ID on submission
+* Module: Field Group - Fixed tooltip instructions placement
+
 ### 0.8 RC2
 * Module: Dynamic Forms Added
 * Module: Dynamic Forms - Added PHP helper `acfe_form('my_form_name');` & `acfe_form(188);` to display a form
