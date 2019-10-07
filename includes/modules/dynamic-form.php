@@ -2047,43 +2047,46 @@ if(!class_exists('acfe_form_front')):
 class acfe_form_front extends acf_form_front{
     
     /*
-     * ACF Form: render_form
+     * ACF Form: render_form()
      *
      */
     function render_form($args = array()){
         
         // array
-		if( is_array($args) ) {
+		if(is_array($args)){
 			
-			$args = $this->validate_form( $args );
-			
-		// id
-		} else {
-			
-			$args = $this->get_form( $args );
+			$args = $this->validate_form($args);
 			
 		}
-		
-		
+        
+        // id
+        else{
+			
+			$args = $this->get_form($args);
+			
+		}
+        
+        
 		// bail early if no args
-		if( !$args ) return false;
+		if(!$args)
+            return false;
 		
-		
+        
 		// load values from this post
 		$post_id = $args['post_id'];
 		
-		
+        
 		// dont load values for 'new_post'
-		if( $post_id === 'new_post' ) $post_id = false;
+		if($post_id === 'new_post')
+            $post_id = false;
 		
-		
+        
 		// register local fields
-		foreach( $this->fields as $k => $field ) {
+		foreach($this->fields as $k => $field){
 			
 			acf_add_local_field($field);
 			
 		}
-		
 		
 		// vars
 		$field_groups = array();
@@ -2091,13 +2094,12 @@ class acfe_form_front extends acf_form_front{
 		
 		
 		// post_title
-		if( $args['post_title'] ) {
+		if($args['post_title']){
 			
 			// load local field
 			$_post_title = acf_get_field('_post_title');
 			$_post_title['value'] = $post_id ? get_post_field('post_title', $post_id) : '';
-			
-			
+            
 			// append
 			$fields[] = $_post_title;
 			
@@ -2105,57 +2107,57 @@ class acfe_form_front extends acf_form_front{
 		
 		
 		// post_content
-		if( $args['post_content'] ) {
+		if($args['post_content']){
 			
 			// load local field
 			$_post_content = acf_get_field('_post_content');
 			$_post_content['value'] = $post_id ? get_post_field('post_content', $post_id) : '';
 			
-			
 			// append
 			$fields[] = $_post_content;
-					
+            
 		}
 		
+        
         // Custom HTML
-		if( isset($args['custom_html']) && !empty($args['custom_html']) ) {
+		if(acf_maybe_get($args, 'custom_html')){
 			
 			$field_groups = false;
-		
+            
 		}
         
 		// specific fields
-		elseif( $args['fields'] ) {
+		elseif($args['fields']){
 			
-			foreach( $args['fields'] as $selector ) {
+			foreach($args['fields'] as $selector){
 				
 				// append field ($strict = false to allow for better compatibility with field names)
-				$fields[] = acf_maybe_get_field( $selector, $post_id, false );
+				$fields[] = acf_maybe_get_field($selector, $post_id, false);
 				
 			}
 			
 		}
         
         // Field groups
-        elseif( $args['field_groups'] ) {
+        elseif($args['field_groups']){
 			
-			foreach( $args['field_groups'] as $selector ) {
+			foreach($args['field_groups'] as $selector){
 			
-				$field_groups[] = acf_get_field_group( $selector );
+				$field_groups[] = acf_get_field_group($selector);
 				
 			}
 			
 		}
         
         // New post: field groups
-        elseif( $args['post_id'] == 'new_post' ) {
+        elseif($args['post_id'] == 'new_post'){
 			
-			$field_groups = acf_get_field_groups( $args['new_post'] );
-		
+			$field_groups = acf_get_field_groups($args['new_post']);
+            
 		}
         
         // Current post: field groups
-        else {
+        else{
 			
 			$field_groups = acf_get_field_groups(array(
 				'post_id' => $args['post_id']
@@ -2164,20 +2166,19 @@ class acfe_form_front extends acf_form_front{
 		}
         
         
-		
-		
 		//load fields based on field groups
-		if( !empty($field_groups) ) {
+		if(!empty($field_groups)){
 			
-			foreach( $field_groups as $field_group ) {
+			foreach($field_groups as $field_group){
 				
-				$field_group_fields = acf_get_fields( $field_group );
+				$field_group_fields = acf_get_fields($field_group);
 				
-				if( !empty($field_group_fields) ) {
+				if(!empty($field_group_fields)){
 					
-					foreach( array_keys($field_group_fields) as $i ) {
+					foreach(array_keys($field_group_fields) as $i){
 						
 						$fields[] = acf_extract_var($field_group_fields, $i);
+                        
 					}
 					
 				}
@@ -2185,10 +2186,10 @@ class acfe_form_front extends acf_form_front{
 			}
 		
 		}
-		
-		
+        
+        
 		// honeypot
-		if( $args['honeypot'] ) {
+		if($args['honeypot']){
 			
 			$fields[] = acf_get_field('_validate_email');
 			
@@ -2196,15 +2197,17 @@ class acfe_form_front extends acf_form_front{
 		
 		
 		// updated message
-		if( !empty($_GET['updated']) ) {
+		if(!empty($_GET['updated'])){
             
             if($args['updated_message']){
                 
                 if(!empty($args['html_updated_message'])){
                     
-                    printf( $args['html_updated_message'], $args['updated_message'] );
+                    printf($args['html_updated_message'], $args['updated_message']);
                     
-                }else{
+                }
+                
+                else{
                     
                     echo $args['updated_message'];
                     
@@ -2212,10 +2215,11 @@ class acfe_form_front extends acf_form_front{
                 
             }
             
-            if(isset($args['updated_hide_form']) && !empty($args['updated_hide_form']))
+            if(acf_maybe_get($args, 'updated_hide_form'))
                 return;
 			
 		}
+        
         
         add_filter('acf/prepare_field', function($field) use($args){
             
@@ -2225,6 +2229,7 @@ class acfe_form_front extends acf_form_front{
             return $field;
             
         });
+        
         
         if(acf_maybe_get($args, 'map')){
             
@@ -2242,62 +2247,67 @@ class acfe_form_front extends acf_form_front{
             
         }
 		
+        
 		// uploader (always set incase of multiple forms on the page)
 		acf_update_setting('uploader', $args['uploader']);
 		
 		
 		// display form
-		if( $args['form'] ): ?>
+		if($args['form']): ?>
 		
-		<form <?php acf_esc_attr_e( $args['form_attributes']); ?>>
+		<form <?php acf_esc_attr_e($args['form_attributes']); ?>>
 			
-		<?php endif; 
-			
-		// render post data
-		acf_form_data(array( 
-			'screen'	=> 'acf_form',
-			'post_id'	=> $args['post_id'],
-			'form'		=> acf_encrypt(json_encode($args))
-		));
-		
-		?>
-		
-		<div class="acf-fields acf-form-fields -<?php echo $args['label_placement']; ?>">
-			<?php
+            <?php endif; 
+                
+            // render post data
+            acf_form_data(array( 
+                'screen'	=> 'acf_form',
+                'post_id'	=> $args['post_id'],
+                'form'		=> acf_encrypt(json_encode($args))
+            ));
             
-			// html before fields
-			echo $args['html_before_fields'];
-			
-            if(isset($args['custom_html']) && !empty($args['custom_html'])) {
-                
-                echo acfe_form_render_fields($args['custom_html'], $post_id, $args);
+            ?>
             
-            } else {
+            <div class="acf-fields acf-form-fields -<?php echo $args['label_placement']; ?>">
+            
+                <?php
                 
-                // render
-                acf_render_fields( $fields, $post_id, $args['field_el'], $args['instruction_placement'] );
+                // html before fields
+                echo $args['html_before_fields'];
                 
-            }
-			
-			// html after fields
-			echo $args['html_after_fields'];
-			
-			
-			?>
-		</div>
-		
-		<?php if((!isset($args['form_submit']) && $args['form']) || (isset($args['form_submit']) && !empty($args['form_submit']))): ?>
-		
-            <div class="acf-form-submit">
+                // Custom HTML
+                if(isset($args['custom_html']) && !empty($args['custom_html'])){
+                    
+                    echo acfe_form_render_fields($args['custom_html'], $post_id, $args);
                 
-                <?php printf( $args['html_submit_button'], $args['submit_value'] ); ?>
-                <?php echo $args['html_submit_spinner']; ?>
+                }
+                
+                // Normal Render
+                else{
+                    
+                    acf_render_fields($fields, $post_id, $args['field_el'], $args['instruction_placement']);
+                    
+                }
+                
+                // html after fields
+                echo $args['html_after_fields'];
+                
+                ?>
                 
             </div>
-        
-        <?php endif; ?>
+            
+            <?php if((!isset($args['form_submit']) && $args['form']) || (isset($args['form_submit']) && !empty($args['form_submit']))): ?>
+            
+                <div class="acf-form-submit">
+                    
+                    <?php printf($args['html_submit_button'], $args['submit_value']); ?>
+                    <?php echo $args['html_submit_spinner']; ?>
+                    
+                </div>
+            
+            <?php endif; ?>
 		
-        <?php if( $args['form'] ): ?>
+        <?php if($args['form']): ?>
 		</form>
 		<?php endif;
         
