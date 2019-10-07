@@ -528,7 +528,7 @@ function acfe_flexible_layouts_settings($field){
 add_filter('acf/field_wrapper_attributes', 'acfe_flexible_wrapper', 10, 2);
 function acfe_flexible_wrapper($wrapper, $field){
     
-    if($field['type'] != 'flexible_content')
+    if($field['type'] !== 'flexible_content')
         return $wrapper;
     
     // Stylised button
@@ -627,8 +627,35 @@ function acfe_flexible_wrapper($wrapper, $field){
     $layout_placeholder_icon = apply_filters('acfe/flexible/placeholder/icon/name=' . $field['_name'], $layout_placeholder_icon, $field);
     $layout_placeholder_icon = apply_filters('acfe/flexible/placeholder/icon/key=' . $field['key'], $layout_placeholder_icon, $field);
     
-    if(!empty($layout_placeholder_icon))
+    if(!empty($layout_placeholder_icon)){
+        
         $wrapper['data-acfe-flexible-placeholder-icon'] = $layout_placeholder_icon;
+        
+    }
+    
+    // Lock sortable
+    $acfe_flexible_lock_sortable = false;
+    $acfe_flexible_lock_sortable = apply_filters('acfe/flexible/lock', $acfe_flexible_lock_sortable, $field);
+    $acfe_flexible_lock_sortable = apply_filters('acfe/flexible/lock/name=' . $field['_name'], $acfe_flexible_lock_sortable, $field);
+    $acfe_flexible_lock_sortable = apply_filters('acfe/flexible/lock/key=' . $field['key'], $acfe_flexible_lock_sortable, $field);
+    
+    if($acfe_flexible_lock_sortable){
+        
+        $wrapper['data-acfe-flexible-lock'] = 1;
+        
+    }
+    
+    // Remove button
+    $acfe_flexible_remove_button = false;
+    $acfe_flexible_remove_button = apply_filters('acfe/flexible/remove_button', $acfe_flexible_remove_button, $field);
+    $acfe_flexible_remove_button = apply_filters('acfe/flexible/remove_button/name=' . $field['_name'], $acfe_flexible_remove_button, $field);
+    $acfe_flexible_remove_button = apply_filters('acfe/flexible/remove_button/key=' . $field['key'], $acfe_flexible_remove_button, $field);
+    
+    if($acfe_flexible_remove_button){
+        
+        $wrapper['data-acfe-flexible-remove-button'] = 1;
+        
+    }
     
     return $wrapper;
     
@@ -652,8 +679,11 @@ function acfe_flexible_layout_title_prepare($field){
     
     foreach($field['layouts'] as $k => &$layout){
         
-        // Thumbnail
+        // vars
         $thumbnail = false;
+        $span_class = false;
+        
+        // thumbnail
         if(isset($field['acfe_flexible_layouts_thumbnails']) && !empty($field['acfe_flexible_layouts_thumbnails'])){
             
             $class = $style = array();
@@ -714,6 +744,13 @@ function acfe_flexible_layout_title_prepare($field){
             
         }
         
+        // No Thumbnails
+        else{
+            
+            $span_class = 'class="no-thumbnail"';
+            
+        }
+        
         // Category
         $category = '';
         if(isset($layout['acfe_flexible_category']) && !empty($layout['acfe_flexible_category'])){
@@ -722,7 +759,7 @@ function acfe_flexible_layout_title_prepare($field){
             
         }
         
-        $layout['label'] = $thumbnail . '<span '.$category.'>' . $layout['label'] . '</span>';
+        $layout['label'] = $thumbnail . '<span '.$category.' ' . $span_class . '>' . $layout['label'] . '</span>';
         
     }
     

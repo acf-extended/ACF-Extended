@@ -3,15 +3,15 @@
 if(!defined('ABSPATH'))
     exit;
 
-class acfe_field_taxonomies extends acf_field{
+class acfe_field_forms extends acf_field{
     
     function __construct(){
         
-        $this->name = 'acfe_taxonomies';
-        $this->label = __('Taxonomies', 'acfe');
+        $this->name = 'acfe_forms';
+        $this->label = __('Forms', 'acfe');
         $this->category = 'relational';
         $this->defaults = array(
-            'taxonomy'      => array(),
+            'post_type'     => array(),
             'field_type'    => 'checkbox',
             'multiple' 		=> 0,
 			'allow_null' 	=> 0,
@@ -32,7 +32,7 @@ class acfe_field_taxonomies extends acf_field{
 
     function prepare_field($field){
         
-        $field['choices'] = acf_get_taxonomy_labels($field['taxonomy']);
+        $field['choices'] = acfe_get_pretty_forms($field['forms']);
         
         // Set Field Type
         $field['type'] = $field['field_type'];
@@ -46,17 +46,17 @@ class acfe_field_taxonomies extends acf_field{
         if(isset($field['default_value']))
             $field['default_value'] = acf_encode_choices($field['default_value'], false);
         
-        // Allow Taxonomy
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Allow Taxonomy','acf'),
+        // Allow Form
+		acf_render_field_setting($field, array(
+			'label'			=> __('Allow Forms','acf'),
 			'instructions'	=> '',
 			'type'			=> 'select',
-			'name'			=> 'taxonomy',
-			'choices'		=> acf_get_taxonomy_labels(),
+			'name'			=> 'forms',
+			'choices'		=> acfe_get_pretty_forms(),
 			'multiple'		=> 1,
 			'ui'			=> 1,
 			'allow_null'	=> 1,
-			'placeholder'	=> __("All taxonomies",'acf'),
+			'placeholder'	=> __("All forms",'acf'),
 		));
         
         // field_type
@@ -74,7 +74,7 @@ class acfe_field_taxonomies extends acf_field{
         ));
         
         // default_value
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Default Value','acf'),
 			'instructions'	=> __('Enter each default value on a new line','acf'),
 			'name'			=> 'default_value',
@@ -88,14 +88,14 @@ class acfe_field_taxonomies extends acf_field{
             'type'			=> 'radio',
             'name'			=> 'return_format',
             'choices'		=> array(
-                'object'    =>	__('Taxonomy object', 'acfe'),
-                'name'      =>	__('Taxonomy name', 'acfe')
+                'id'    =>	__('Form ID', 'acfe'),
+                'name'  =>	__('Form name', 'acfe')
             ),
             'layout'	=>	'horizontal',
         ));
         
 		// Select + Radio: allow_null
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Allow Null?','acf'),
 			'instructions'	=> '',
 			'name'			=> 'allow_null',
@@ -144,7 +144,7 @@ class acfe_field_taxonomies extends acf_field{
         ));
         
         // Select: multiple
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Select multiple values?','acf'),
 			'instructions'	=> '',
 			'name'			=> 'multiple',
@@ -162,7 +162,7 @@ class acfe_field_taxonomies extends acf_field{
 		));
         
         // Select: ui
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Stylised UI','acf'),
 			'instructions'	=> '',
 			'name'			=> 'ui',
@@ -181,7 +181,7 @@ class acfe_field_taxonomies extends acf_field{
 				
 		
 		// Select: ajax
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Use AJAX to lazy load choices?','acf'),
 			'instructions'	=> '',
 			'name'			=> 'ajax',
@@ -204,7 +204,7 @@ class acfe_field_taxonomies extends acf_field{
 		));
 		
 		// Radio: other_choice
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Other','acf'),
 			'instructions'	=> '',
 			'name'			=> 'other_choice',
@@ -224,7 +224,7 @@ class acfe_field_taxonomies extends acf_field{
 		
 		
 		// Radio: save_other_choice
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Save Other','acf'),
 			'instructions'	=> '',
 			'name'			=> 'save_other_choice',
@@ -248,7 +248,7 @@ class acfe_field_taxonomies extends acf_field{
 		));
         
         // Checkbox: layout
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Layout','acf'),
 			'instructions'	=> '',
 			'type'			=> 'radio',
@@ -277,7 +277,7 @@ class acfe_field_taxonomies extends acf_field{
 		));
         
         // Checkbox: toggle
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
 			'label'			=> __('Toggle','acf'),
 			'instructions'	=> __('Prepend an extra checkbox to toggle all choices','acf'),
 			'name'			=> 'toggle',
@@ -295,7 +295,7 @@ class acfe_field_taxonomies extends acf_field{
 		));
         
         // Checkbox: other_choice
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Allow Custom','acf'),
 			'instructions'	=> '',
 			'name'			=> 'allow_custom',
@@ -315,7 +315,7 @@ class acfe_field_taxonomies extends acf_field{
 		
 		
 		// Checkbox: save_other_choice
-		acf_render_field_setting( $field, array(
+		acf_render_field_setting($field, array(
 			'label'			=> __('Save Custom','acf'),
 			'instructions'	=> '',
 			'name'			=> 'save_custom',
@@ -343,32 +343,34 @@ class acfe_field_taxonomies extends acf_field{
     
     function format_value($value, $post_id, $field){
         
-        // Return: object
-		if($field['return_format'] === 'object'){
+        // Return: name
+		if($field['return_format'] === 'name'){
             
             // array
             if(acf_is_array($value)){
                 
                 foreach($value as $i => $v){
                     
-                    $value[$i] = get_taxonomy($v);
+                    $form_name = get_field('acfe_form_name', $v);
+                    
+                    $value[$i] = $form_name;
                     
                 }
             
             // string
             }else{
                 
-                $value = get_taxonomy($value);
+                $value = get_field('acfe_form_name', $value);
                 
             }
-        
-		}
+            
+        }
         
 		// return
 		return $value;
         
     }
-
+    
 }
 
-new acfe_field_taxonomies();
+new acfe_field_forms();

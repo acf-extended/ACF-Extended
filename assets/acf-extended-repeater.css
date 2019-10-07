@@ -1,0 +1,60 @@
+/* 
+ * ACF Field: Repeater Block Fix (Add spacing)
+ */
+.acf-repeater.-row > table,
+.acf-repeater.-block > table{
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    background: none;
+    border: 0;
+    margin-top: -15px;
+    margin-bottom: -7px;
+}
+
+.acf-repeater.-row > table > *,
+.acf-repeater.-block > table > *{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.acf-repeater.-row > table > tbody > tr > td,
+.acf-repeater.-block > table > tbody > tr > td{
+    border-top: 1px solid #E1E1E1;
+    border-bottom: 1px solid #E1E1E1;
+}
+
+.acf-repeater.-row > table > tbody > tr > td:first-of-type,
+.acf-repeater.-block > table > tbody > tr > td:first-of-type{
+    border-left: 1px solid #E1E1E1;
+}
+
+.acf-repeater.-row > table > tbody > tr > td:last-of-type,
+.acf-repeater.-block > table > tbody > tr > td:last-of-type{
+    border-right: 1px solid #E1E1E1;
+}
+
+/* 
+ * ACF Field: Repeater Table Fix (Remove headings when empty)
+ */
+.acf-repeater.-table.-empty > .acf-table{
+    display:none;
+}
+
+/* 
+ * ACF Field: Repeater Add Row
+ */
+.acf-field-repeater > .acf-input > .acf-repeater > .acfe-repeater-stylised-button{
+    padding: 40px 20px;
+    border: #ccc dashed 2px;
+    text-align: center;
+}
+
+.acf-field-repeater > .acf-input > .acf-repeater > .acfe-repeater-stylised-button > .acf-actions{
+    text-align: center;
+}
+
+.acf-field-flexible-content > .acf-input > .acf-repeater .acf-actions .acf-button .dashicons{
+    width: auto;
+    height: auto;
+    vertical-align: text-top;
+}

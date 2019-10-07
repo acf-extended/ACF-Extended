@@ -55,6 +55,7 @@
 .layout > .acfe-flexible-collapsed-placeholder > .acfe-flexible-placeholder{
     height:110px;
     overflow:hidden;
+    text-align:initial;
 }
 
 .layout > .acfe-flexible-collapsed-placeholder > button{
@@ -169,7 +170,7 @@
     background-repeat:no-repeat;
     background-position:center;
     position:relative;
-    margin-bottom:10px;
+    margin-bottom:15px;
 }
 
 .acfe-flexible-layout-thumbnail.acfe-flexible-layout-thumbnail-not-found:after{

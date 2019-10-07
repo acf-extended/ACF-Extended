@@ -3,15 +3,15 @@
 if(!defined('ABSPATH'))
     exit;
 
-class acfe_field_taxonomies extends acf_field{
+class acfe_field_post_statuses extends acf_field{
     
     function __construct(){
         
-        $this->name = 'acfe_taxonomies';
-        $this->label = __('Taxonomies', 'acfe');
+        $this->name = 'acfe_post_statuses';
+        $this->label = __('Post statuses', 'acfe');
         $this->category = 'relational';
         $this->defaults = array(
-            'taxonomy'      => array(),
+            'post_status'   => array(),
             'field_type'    => 'checkbox',
             'multiple' 		=> 0,
 			'allow_null' 	=> 0,
@@ -20,7 +20,7 @@ class acfe_field_taxonomies extends acf_field{
 			'ui'			=> 0,
 			'ajax'			=> 0,
 			'placeholder'	=> '',
-            'layout'        => '',
+			'layout'        => '',
 			'toggle'        => 0,
 			'allow_custom'  => 0,
 			'return_format' => 'name',
@@ -32,7 +32,7 @@ class acfe_field_taxonomies extends acf_field{
 
     function prepare_field($field){
         
-        $field['choices'] = acf_get_taxonomy_labels($field['taxonomy']);
+        $field['choices'] = acfe_get_pretty_post_statuses($field['post_status']);
         
         // Set Field Type
         $field['type'] = $field['field_type'];
@@ -46,17 +46,17 @@ class acfe_field_taxonomies extends acf_field{
         if(isset($field['default_value']))
             $field['default_value'] = acf_encode_choices($field['default_value'], false);
         
-        // Allow Taxonomy
+        // Allow Post Status
 		acf_render_field_setting( $field, array(
-			'label'			=> __('Allow Taxonomy','acf'),
+			'label'			=> __('Allow Post Status','acf'),
 			'instructions'	=> '',
 			'type'			=> 'select',
-			'name'			=> 'taxonomy',
-			'choices'		=> acf_get_taxonomy_labels(),
+			'name'			=> 'post_status',
+			'choices'		=> acfe_get_pretty_post_statuses(),
 			'multiple'		=> 1,
 			'ui'			=> 1,
 			'allow_null'	=> 1,
-			'placeholder'	=> __("All taxonomies",'acf'),
+			'placeholder'	=> __("All post statuses",'acf'),
 		));
         
         // field_type
@@ -88,8 +88,8 @@ class acfe_field_taxonomies extends acf_field{
             'type'			=> 'radio',
             'name'			=> 'return_format',
             'choices'		=> array(
-                'object'    =>	__('Taxonomy object', 'acfe'),
-                'name'      =>	__('Taxonomy name', 'acfe')
+                'object'    =>	__('Post status object', 'acfe'),
+                'name'      =>	__('Post status name', 'acfe')
             ),
             'layout'	=>	'horizontal',
         ));
@@ -351,14 +351,14 @@ class acfe_field_taxonomies extends acf_field{
                 
                 foreach($value as $i => $v){
                     
-                    $value[$i] = get_taxonomy($v);
+                    $value[$i] = get_post_status_object($v);
                     
                 }
             
             // string
             }else{
                 
-                $value = get_taxonomy($value);
+                $value = get_post_status_object($value);
                 
             }
         
@@ -371,4 +371,4 @@ class acfe_field_taxonomies extends acf_field{
 
 }
 
-new acfe_field_taxonomies();
+new acfe_field_post_statuses();

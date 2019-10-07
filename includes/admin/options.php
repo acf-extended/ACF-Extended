@@ -537,7 +537,7 @@ add_action('acf/save_post', 'acfe_options_edit_save_post', 5);
 function acfe_options_edit_save_post($post_id){
     
     // Validate
-    if(!in_array($post_id, array('acfe_options_edit')))
+    if($post_id !== 'acfe_options_edit')
         return;
     
     // Vars

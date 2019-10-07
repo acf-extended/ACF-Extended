@@ -31,16 +31,20 @@ function acfe_roles_prepare_field($field){
     $render_field = false;
     
     foreach($current_user_roles as $current_user_role){
+        
         foreach($field['acfe_permissions'] as $field_role){
+            
             if($current_user_role !== $field_role)
                 continue;
             
             $render_field = true;
             break;
+            
         }
         
         if($render_field)
             break;
+        
     }
     
     if(!$render_field)

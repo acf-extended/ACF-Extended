@@ -6,8 +6,8 @@ if(!defined('ABSPATH'))
 /**
  * Admin: Enqueue everywhere + conditional
  */
-add_action('admin_enqueue_scripts', 'acfe_enqueue_admin');
-function acfe_enqueue_admin(){
+add_action('admin_enqueue_scripts', 'acfe_enqueue_admin_scripts');
+function acfe_enqueue_admin_scripts(){
     
     // Enqueue ACF input
     wp_enqueue_style('acf-input');
@@ -35,13 +35,21 @@ function acfe_enqueue_admin(){
 }
 
 /**
- * Admin: Enqueue where ACF is loaded
+ * Admin + WP: Enqueue where ACF is loaded
  */
-add_action('acf/input/admin_enqueue_scripts', 'acfe_enqueue_fields');
-function acfe_enqueue_fields(){
+add_action('acf/enqueue_scripts', 'acfe_enqueue_scripts');
+function acfe_enqueue_scripts(){
     
     // ACF Extended: Fields
     wp_enqueue_script('acf-extended-fields', plugins_url('assets/acf-extended-fields.js', ACFE_FILE), array('jquery'), ACFE_VERSION);
+    
+}
+
+/**
+ * Admin: Enqueue where ACF is loaded
+ */
+add_action('acf/input/admin_enqueue_scripts', 'acfe_enqueue_admin_input_scripts');
+function acfe_enqueue_admin_input_scripts(){
     
     // ACF Extended: Modal
     wp_enqueue_style('acf-extended-modal', plugins_url('assets/acf-extended-modal.css', ACFE_FILE), false, ACFE_VERSION);
@@ -50,6 +58,11 @@ function acfe_enqueue_fields(){
     if(acf_is_screen(array('edit-acf-field-group', 'acf-field-group')))
         return;
     
+    // ACF Extended: Repeater
+    wp_enqueue_style('acf-extended-repeater', plugins_url('assets/acf-extended-repeater.css', ACFE_FILE), false, ACFE_VERSION);
+    wp_enqueue_script('acf-extended-repeater', plugins_url('assets/acf-extended-repeater.js', ACFE_FILE), array('jquery'), ACFE_VERSION);
+    
+    // ACF Extended: Flexible Content
     wp_enqueue_style('acf-extended-fc', plugins_url('assets/acf-extended-fc.css', ACFE_FILE), false, ACFE_VERSION);
     wp_enqueue_script('acf-extended-fc', plugins_url('assets/acf-extended-fc.js', ACFE_FILE), array('jquery'), ACFE_VERSION);
     

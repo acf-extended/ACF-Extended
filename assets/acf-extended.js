@@ -12,6 +12,8 @@
         // Open
         open: function($target, args){
             
+            var model = this;
+            
             args = acf.parseArgs(args, {
                 title: '',
                 footer: false,
@@ -19,6 +21,8 @@
                 destroy: false,
                 onClose: false,
             });
+            
+            model.args = args;
             
             $target.addClass('-open');
             
@@ -40,11 +44,13 @@
                 
             }
             
-            $target.find('> .acfe-modal-wrapper').prepend('<div class="acfe-modal-title"><span class="title">' + args.title + '</span><button class="close"></button></div>');
+            $target.find('> .acfe-modal-wrapper').prepend('<div class="acfe-modal-wrapper-overlay"></div><div class="acfe-modal-title"><span class="title">' + args.title + '</span><button class="close"></button></div>');
             
             $target.find('.acfe-modal-title > .close').click(function(e){
+                
                 e.preventDefault();
-                acfe.modal.close(args);
+                model.close(args);
+                
             });
             
             if(args.footer){
@@ -52,8 +58,10 @@
                 $target.find('> .acfe-modal-wrapper').append('<div class="acfe-modal-footer"><button class="button button-primary">' + args.footer + '</button></div>');
                 
                 $target.find('.acfe-modal-footer > button').click(function(e){
+                    
                     e.preventDefault();
-                    acfe.modal.close(args);
+                    model.close(args);
+                    
                 });
                 
             }
@@ -64,23 +72,28 @@
             
             if(!$body.hasClass('acfe-modal-opened')){
 				
-				var overlay = $('<div class="acfe-modal-overlay" />').click(function(){
-                    acfe.modal.close(args);
-                });
+				var overlay = $('<div class="acfe-modal-overlay" />');
                 
 				$body.addClass('acfe-modal-opened').append(overlay);
+                
+                $body.find('.acfe-modal-overlay').click(function(e){
+                    
+                    e.preventDefault();
+                    model.close(model.args);
+                    
+                });
+                
+                $(window).keydown(function(e){
+            
+                    if(e.keyCode !== 27 || !$('body').hasClass('acfe-modal-opened'))
+                        return;
+                    
+                    e.preventDefault();
+                    model.close(model.args);
+                    
+                });
 				
 			}
-            
-            $(window).keydown(function(e){
-        
-                if((e.keyCode != 27) || !$('body').hasClass('acfe-modal-opened'))
-                    return;
-                
-                acfe.modal.close(args);
-                return false;
-                
-            });
             
             acfe.modal.multiple();
             
@@ -98,6 +111,7 @@
             
             var $target = acfe.modal.modals.pop();
 			
+			$target.find('.acfe-modal-wrapper-overlay').remove();
 			$target.find('.acfe-modal-title').remove();
 			$target.find('.acfe-modal-footer').remove();
             
@@ -132,11 +146,11 @@
             $.each(acfe.modal.modals, function(i){
                 
                 if(last == i){
-                    $(this).css('margin-left', '');
+                    $(this).removeClass('acfe-modal-sub').css('margin-left', '');
                     return;
                 }
                 
-                $(this).css('margin-left',  - (500 / (i+1)));
+                $(this).addClass('acfe-modal-sub').css('margin-left',  - (500 / (i+1)));
                 
 			});
             
@@ -152,5 +166,38 @@
         }
         
     };
+    
+    acf.addAction('ready_field', function(field){
+        
+        if(!field.has('acfeInstructionsTooltip'))
+            return;
+        
+        var $label = field.$el.find('> .acf-label > label');
+        var $instructions_label = field.$el.find('> .acf-label > .description');
+        var $instructions_input = field.$el.find('> .acf-input > .description');
+        
+        if($instructions_label.length || $instructions_input.length){
+            
+            if($instructions_label.length){
+                
+                var $instructions = $instructions_label;
+                
+            }else if($instructions_input){
+                
+                var $instructions = $instructions_input;
+                
+            }
+            
+            if($label.length){
+                
+                $label.before($instructions);
+                
+                $instructions.replaceWith('<span class="acf-js-tooltip dashicons dashicons-info" style="float:right; font-size:16px; color:#ccc;" title="' + _.escape($instructions.html()) + '"></span>');
+                
+            }
+            
+        }
+        
+    })
     
 })(jQuery);

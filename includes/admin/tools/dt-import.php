@@ -118,6 +118,28 @@ class ACFE_Admin_Tool_Import_DT extends ACF_Admin_Tool{
             update_field('update_count_callback', $args['update_count_callback'], $post_id);
             update_field('sort', $args['sort'], $post_id);
             
+            // Meta box callback
+            if(!isset($args['meta_box_cb']) || $args['meta_box_cb'] === null){
+                
+                update_field('meta_box_cb', 'null', $post_id);
+                update_field('meta_box_cb_custom', '', $post_id);
+                
+            }
+            
+            elseif($args['meta_box_cb'] === false){
+                
+                update_field('meta_box_cb', 'false', $post_id);
+                update_field('meta_box_cb_custom', '', $post_id);
+                
+            }
+                
+            elseif(empty($args['meta_box_cb']) || is_string($args['meta_box_cb'])){
+                
+                update_field('meta_box_cb', 'custom', $post_id);
+                update_field('meta_box_cb_custom', $args['meta_box_cb'], $post_id);
+                
+            }
+            
             // Labels
             if(!empty($args['labels'])){
                 

@@ -1,8 +1,10 @@
 .acf-field-setting-acfe_permissions > .acf-input > .acf-fields,
+.acf-field-setting-acfe_settings > .acf-input > .acf-fields,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields,
 .acf-field-setting-acfe_update > .acf-input > .acf-fields,
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields,
+.acf-field-setting-acfe_settings > .acf-input > .acf-fields > .acf-field.acf-field-acfe-settings-rules-or,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields > .acf-field.acf-field-acfe-validate-rules-or,
 .acf-field-setting-acfe_update > .acf-input > .acf-fields > .acf-field.acf-field-acfe-update-functions{
     border:0;
@@ -10,6 +12,7 @@
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_permissions > .acf-input > .acf-fields > .acf-field,
+.acf-field-setting-acfe_settings > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_update > .acf-input > .acf-fields > .acf-field{
     padding:0;
@@ -21,12 +24,14 @@
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields > .acf-field.acf-field-acfe-bidirectional-enabled > .acf-label,
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields > .acf-field.acf-field-acfe-bidirectional-related > .acf-label,
+.acf-field-setting-acfe_settings > .acf-input > .acf-fields > .acf-field.acf-field-acfe-settings-activate > .acf-label,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields > .acf-field.acf-field-acfe-validate-activate > .acf-label,
 .acf-field-setting-acfe_update > .acf-input > .acf-fields > .acf-field.acf-field-acfe-update-activate > .acf-label{
     display:none;
 }
 
 .acf-field-setting-acfe_update > .acf-input .acf-repeater.-empty.-table > table,
+.acf-field-setting-acfe_settings > .acf-input .acf-repeater.-empty.-table > table,
 .acf-field-setting-acfe_validate > .acf-input .acf-repeater.-empty.-table > table,
 .acf-field-acfe-meta > .acf-input .acf-repeater.-empty.-table > table{
     border:0;
@@ -34,18 +39,21 @@
 }
 
 .acf-field-setting-acfe_update > .acf-input .acf-repeater.-empty.-table > table > thead,
+.acf-field-setting-acfe_settings > .acf-input .acf-repeater.-empty.-table > table > thead,
 .acf-field-setting-acfe_validate > .acf-input .acf-repeater.-empty.-table > table > thead,
 .acf-field-acfe-meta > .acf-input .acf-repeater.-empty.-table > table > thead{
     display:none;
 }
 
 .acf-field-setting-acfe_update > .acf-input > .acf-repeater .acf-actions,
+.acf-field-setting-acfe_settings > .acf-input > .acf-repeater .acf-actions,
 .acf-field-setting-acfe_validate > .acf-input > .acf-repeater .acf-actions,
 .acf-field-acfe-meta > .acf-input > .acf-repeater .acf-actions{
     text-align:left;
 }
 
 .acf-field-setting-acfe_update > .acf-input > .acf-repeater .acf-actions .acf-button.button-primary,
+.acf-field-setting-acfe_settings > .acf-input > .acf-repeater .acf-actions .acf-button.button-primary,
 .acf-field-setting-acfe_validate > .acf-input > .acf-repeater .acf-actions .acf-button.button-primary,
 .acf-field-acfe-meta > .acf-input > .acf-repeater .acf-actions .acf-button.button-primary{
     color: #555;
@@ -53,6 +61,38 @@
     background: #f7f7f7;
     box-shadow: 0 1px 0 #ccc;
     text-shadow:none;
+}
+
+.acf-repeater.-row > table,
+.acf-repeater.-block > table{
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    background: none;
+    border: 0;
+    margin-top: -15px;
+    margin-bottom: -7px;
+}
+
+.acf-repeater.-row > table > *,
+.acf-repeater.-block > table > *{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.acf-repeater.-row > table > tbody > tr > td,
+.acf-repeater.-block > table > tbody > tr > td{
+    border-top: 1px solid #E1E1E1;
+    border-bottom: 1px solid #E1E1E1;
+}
+
+.acf-repeater.-row > table > tbody > tr > td:first-of-type,
+.acf-repeater.-block > table > tbody > tr > td:first-of-type{
+    border-left: 1px solid #E1E1E1;
+}
+
+.acf-repeater.-row > table > tbody > tr > td:last-of-type,
+.acf-repeater.-block > table > tbody > tr > td:last-of-type{
+    border-right: 1px solid #E1E1E1;
 }
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields > .acf-field.acf-field-acfe-bidirectional-related{
@@ -90,6 +130,10 @@ td.acf-field-group-category a{
 
 .column-acfe-local{
     width:50px;
+}
+
+.column-acfe-source{
+    width:150px;
 }
 
 .column-acfe-autosync-php,
@@ -140,4 +184,29 @@ td.acf-field-group-category a{
 
 .acf-field-setting-fc_layout > .acf-input > .acf-fc-meta > .acf-fc-meta-label:first-of-type{
     margin:0;
+}
+
+/*
+ * ACFE Column
+ */
+.acf-field-object-acfe-column .acf-field-setting-label,
+.acf-field-object-acfe-column .acf-field-setting-name,
+.acf-field-object-acfe-column .acf-field-setting-instructions,
+.acf-field-object-acfe-column .acf-field-setting-required,
+.acf-field-object-acfe-column .acf-field-setting-warning,
+.acf-field-object-acfe-column .acf-field-setting-wrapper{
+    display: none;
+}
+
+.acf-field-object + .acf-field-object-acfe-column:before {
+	display: block;
+    content: "";
+    height: 5px;
+    width: 100%;
+    background: #f9f9f9;
+    border-bottom: #f0f0f0 solid 1px;
+}
+
+.acf-field-object-acfe-column .li-field-name{
+    visibility: hidden;
 }

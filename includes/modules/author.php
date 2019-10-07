@@ -59,81 +59,6 @@ function acfe_author_field_group_permissions($field_groups){
 }
 
 /**
- * Register Author Field
- */
-add_action('admin_init', 'acfe_author_field_group');
-function acfe_author_field_group(){
-    
-    // Get Post Types Locations
-    $get_post_types = get_post_types_by_support('author');
-    if(empty($get_post_types))
-        return;
-    
-    // Set Locations
-    $locations = array();
-    
-    foreach($get_post_types as $post_type){
-        
-        $locations[] = array(
-            array(
-                'param'     => 'post_type',
-                'operator'  => '==',
-                'value'     => $post_type,
-            )
-        );
-        
-    }
-    
-    // Roles
-    global $wp_roles;
-    
-    $authors_roles = array();
-    foreach($wp_roles->roles as $role_name => $role){
-        
-        if(!isset($role['capabilities']['level_1']) || empty($role['capabilities']['level_1']))
-            continue;
-        
-        $authors_roles[] = $role_name;
-        
-    }
-    
-    acf_add_local_field_group(array(
-        'title'                 => __('Author'),
-        'key'                   => 'group_acfe_author',
-        'menu_order'            => 99999,
-        'position'              => 'side',
-        'style'                 => 'default',
-        'label_placement'       => 'top',
-        'instruction_placement' => 'label',
-        'hide_on_screen'        => '',
-        'active'                => 1,
-        'description'           => '',
-        'location'              => $locations,
-        'fields'                => array(
-            array(
-                'label'                 => '',
-                'key'                   => 'acfe_author',
-                'name'                  => 'acfe_author',
-                'type'                  => 'user',
-                'instructions'          => '',
-                'required'              => 0,
-                'conditional_logic'     => 0,
-                'allow_null'            => 0,
-                'multiple'              => 0,
-                'return_format'         => 'array',
-                'role'                  => $authors_roles,
-                'wrapper'               => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                )
-            ),
-        )
-    ));
-    
-}
-
-/**
  * Remove Native WP Metabox
  */
 add_action('admin_menu','acfe_author_remove_default_metabox');
@@ -231,4 +156,75 @@ function acfe_author_meta_hide_on_screen($style, $field_group){
     
     return $style;
     
+}
+
+// Get Post Types Locations
+$get_post_types = get_post_types_by_support('author');
+if(!empty($get_post_types)){
+
+    // Set Locations
+    $locations = array();
+
+    foreach($get_post_types as $post_type){
+        
+        $locations[] = array(
+            array(
+                'param'     => 'post_type',
+                'operator'  => '==',
+                'value'     => $post_type,
+            )
+        );
+        
+    }
+
+    // Roles
+    global $wp_roles;
+
+    $authors_roles = array();
+    foreach($wp_roles->roles as $role_name => $role){
+        
+        if(!isset($role['capabilities']['level_1']) || empty($role['capabilities']['level_1']))
+            continue;
+        
+        $authors_roles[] = $role_name;
+        
+    }
+
+    /**
+     * Add Local Field Group
+     */
+    acf_add_local_field_group(array(
+        'title'                 => __('Author'),
+        'key'                   => 'group_acfe_author',
+        'menu_order'            => 99999,
+        'position'              => 'side',
+        'style'                 => 'default',
+        'label_placement'       => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen'        => '',
+        'active'                => 1,
+        'description'           => '',
+        'location'              => $locations,
+        'fields'                => array(
+            array(
+                'label'                 => '',
+                'key'                   => 'acfe_author',
+                'name'                  => 'acfe_author',
+                'type'                  => 'user',
+                'instructions'          => '',
+                'required'              => 0,
+                'conditional_logic'     => 0,
+                'allow_null'            => 0,
+                'multiple'              => 0,
+                'return_format'         => 'array',
+                'role'                  => $authors_roles,
+                'wrapper'               => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                )
+            ),
+        )
+    ));
+
 }

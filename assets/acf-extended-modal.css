@@ -74,6 +74,16 @@ body.acfe-modal-opened{
     width: calc(100vw - 60px);
     max-width:1100px;
     max-height: calc(100vh - 60px);
+    position:relative;
+}
+
+.acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-wrapper-overlay{
+    position:absolute;
+    z-index:1;
+    background:rgba(0,0,0,0.7);
+    height:100%;
+    width:100%;
+    pointer-events:none;
 }
 
 /*
@@ -115,6 +125,10 @@ body.acfe-modal-opened{
     pointer-events: auto;
 }
 
+.acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-title{
+    pointer-events: none;
+}
+
 .acfe-modal.-open .acfe-modal-title > span.title{
     line-height: 50px;
     color: #23282d;
@@ -138,9 +152,9 @@ body.acfe-modal-opened{
 .acfe-modal.-open .acfe-modal-title > button.close{
     height: 50px;
     width: 50px;
-    color: #72777c;
+    color: #666;
     border:0;
-    border-left: 1px solid #ddd;
+    border-left: 0;
     margin: 0;
     padding:0;
     border-radius: 0;
@@ -154,17 +168,15 @@ body.acfe-modal-opened{
 }
 
 .acfe-modal.-open .acfe-modal-title > button.close:hover{
-    background: #ddd;
-    border-color: #ccc;
-    color: #000;
+    color: #00a0d2;
 }
 
 .acfe-modal.-open .acfe-modal-title > button.close:before{
     height: 50px;
     width: 50px;
     line-height: 50px !important;
-    font: normal 22px/1 dashicons;
-    content: "\f335";
+    font: normal 20px/1 dashicons;
+    content: "\f158";
     margin: 0;
     padding:0;
 }
@@ -179,6 +191,10 @@ body.acfe-modal-opened{
     display:block;
     position:relative;
     pointer-events: auto;
+}
+
+.acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-content{
+    pointer-events: none;
 }
 
 /*
@@ -287,9 +303,13 @@ body.acfe-modal-opened{
 
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a span{
     display:block;
-    font-size:13px;
+    font-size:16px;
     text-align:center;
     font-weight:600;
+}
+
+.acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a span.no-thumbnail{
+    text-align:left;
 }
 
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a.disabled{
@@ -394,6 +414,10 @@ body.acfe-modal-opened{
     text-align:right;
     border-top: 1px solid #ddd;
     pointer-events: auto;
+}
+
+.acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-footer{
+    pointer-events: none;
 }
 
 .acfe-modal.-open .acfe-modal-footer > button{

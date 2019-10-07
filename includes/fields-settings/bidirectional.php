@@ -101,7 +101,7 @@ function acfe_bidirectional_ajax(){
     ));
     
     // Not our field setting. Stop
-    if($options['field_key'] != 'acfe_bidirectional_related')
+    if($options['field_key'] !== 'acfe_bidirectional_related')
         return;
     
     $response = acfe_bidirectional_ajax_query($options);
@@ -117,6 +117,8 @@ function acfe_bidirectional_ajax_query($options = array()){
     
     // Current field group
     $field_group = acf_get_field_group($options['post_id']);
+    
+    acf_disable_filters();
     
     // Get field groups
     $r_field_groups = acf_get_field_groups();
