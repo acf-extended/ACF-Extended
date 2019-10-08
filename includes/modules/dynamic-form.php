@@ -1294,9 +1294,13 @@ class acfe_form{
         if(!$form_name || !$form_id)
             return;
         
-        do_action('acfe/form/submit', $form);
-        do_action('acfe/form/submit/name=' . $form_name, $form);
-        do_action('acfe/form/submit/id=' . $form_id, $form);
+        acf_setup_meta($_POST['acf'], 'acfe_form_submit', true);
+        
+            do_action('acfe/form/submit', $form);
+            do_action('acfe/form/submit/name=' . $form_name, $form);
+            do_action('acfe/form/submit/id=' . $form_id, $form);
+        
+        acf_reset_meta('acfe_form_submit');
         
         // Actions
         if(have_rows('acfe_form_actions', $form_id)):
