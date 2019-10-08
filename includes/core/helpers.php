@@ -649,3 +649,38 @@ function acfe_array_insert_after($key, array &$array, $new_key, $new_value){
     return $new;
     
 }
+
+function acfe_form_add_field_error($selector, $message = ''){
+    
+    // General error
+    if(empty($selector))
+        return acf_add_validation_error('', $message);
+    
+    $row = acf_get_loop('active');
+    
+    if($row){
+        
+        $field = acf_get_sub_field($selector, $row['field']);
+        
+    }
+    
+    else{
+        
+        $field = acf_get_field($selector);
+        
+    }
+    
+    
+    
+    // Field not found: General error
+    if(!$field)
+        return acf_add_validation_error('', $message);
+    
+    // Specific field error
+    add_filter('acf/validate_value/key=' . $field['key'], function($valid) use($message){
+        
+        return $message;
+        
+    });
+    
+}

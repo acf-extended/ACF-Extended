@@ -20,7 +20,12 @@ class acfe_form{
         add_action('init',                                                          array($this, 'register_post_types'));
         add_action('acf/save_post',                                                 array($this, 'save_form'), 20);
         add_action('pre_get_posts',                                                 array($this, 'admin_list'));
-        add_action('acf/submit_form',                                               array($this, 'submit'), 10, 2);
+        
+        // Validation
+        add_action('acf/validate_save_post',                                        array($this, 'validate'), 4);
+        
+        // Submit
+        add_action('acf/submit_form',                                               array($this, 'submit'), 5, 2);
 		
 		// filters
 		add_filter('acf/get_post_types',                                            array($this, 'filter_post_type'), 10, 2);
@@ -56,8 +61,6 @@ class acfe_form{
 		
         add_filter('acf/validate_post_id',                                          array($this, 'validate_post_id'), 10, 2);
         add_filter('gettext',                                                       array($this, 'error_translation'), 99, 3);
-        add_filter('acf/load_field_groups',                                         array($this, 'get_field_groups'));
-        add_filter('acf/location/rule_match/post_type',                             array($this, 'get_field_group_visibility'), 10, 4);
         
         add_filter('manage_edit-acfe-form_columns',                                 array($this, 'form_admin_columns'));
         add_action('manage_acfe-form_posts_custom_column',                          array($this, 'form_admin_columns_html'), 10, 2);
@@ -75,16 +78,26 @@ class acfe_form{
         // globals
 		global $typenow;
         
-        // Restrict
-		if($typenow !== 'acfe-form')
-			return;
+        // ACFE Form
+		if($typenow === 'acfe-form'){
         
-        // vars
-		$this->fields_groups = $this->get_fields_groups();
+            // vars
+            $this->fields_groups = $this->get_fields_groups();
+            
+            add_action('add_meta_boxes',        array($this, 'add_meta_boxes'));
+            
+            add_filter('acf/pre_render_fields', array($this, 'render_integration'), 10, 2);
         
-        add_action('add_meta_boxes',        array($this, 'add_meta_boxes'));
+        }
         
-        add_filter('acf/pre_render_fields', array($this, 'render_integration'), 10, 2);
+        // ACFE Form Submission
+        elseif($typenow === 'acfe-form-submission'){
+            
+            add_filter('acf/load_field_groups',     array($this, 'submission_set_field_groups_active'));
+            
+            add_filter('acf/location/rule_match',   array($this, 'submission_get_field_groups'), 10, 4);
+            
+        }
         
     }
     
@@ -154,6 +167,7 @@ class acfe_form{
                 'exclude_from_search'   => true,
                 'publicly_queryable'    => true,
                 'capabilities'          => array(
+                    'create_posts'          => false,
                     'publish_posts'         => acf_get_setting('capability'),
                     'edit_posts'            => acf_get_setting('capability'),
                     'edit_others_posts'     => acf_get_setting('capability'),
@@ -1239,14 +1253,50 @@ class acfe_form{
         
     }
     
+    function validate(){
+        
+        if(!acfe_form_is_front())
+            return;
+        
+		if(empty($_POST['_acf_form']))
+            return;
+        
+    	$form = json_decode(acf_decrypt($_POST['_acf_form']), true);
+        
+        if(empty($form))
+            return;
+        
+        $form_name = acf_maybe_get($form, 'acfe_form_name');
+        $form_id = acf_maybe_get($form, 'acfe_form_id');
+        
+        if(!$form_name || !$form_id)
+            return;
+        
+        acf_setup_meta($_POST['acf'], 'acfe_form_validation', true);
+        
+            do_action('acfe/form/validation', $form);
+            do_action('acfe/form/validation/name=' . $form_name, $form);
+            do_action('acfe/form/validation/id=' . $form_id, $form);
+        
+        acf_reset_meta('acfe_form_validation');
+        
+    }
+    
     // Form submission
     function submit($form, $post_id){
         
-        if(!isset($form['acfe_form_id']) || !isset($form['acfe_form_name']))
+        if(!acfe_form_is_front())
             return;
         
-        $form_id = $form['acfe_form_id'];
-        $form_name = $form['acfe_form_name'];
+        $form_name = acf_maybe_get($form, 'acfe_form_name');
+        $form_id = acf_maybe_get($form, 'acfe_form_id');
+        
+        if(!$form_name || !$form_id)
+            return;
+        
+        do_action('acfe/form/submit', $form);
+        do_action('acfe/form/submit/name=' . $form_name, $form);
+        do_action('acfe/form/submit/id=' . $form_id, $form);
         
         // Actions
         if(have_rows('acfe_form_actions', $form_id)):
@@ -1719,7 +1769,7 @@ class acfe_form{
     }
 
     // Set active to true for submissions in order to set visibility
-    function get_field_groups($field_groups){
+    function submission_set_field_groups_active($field_groups){
         
         if(empty($field_groups))
             return $field_groups;
@@ -1741,9 +1791,9 @@ class acfe_form{
         
     }
     
-    function get_field_group_visibility($result, $rule, $screen, $field_group){
+    function submission_get_field_groups($result, $rule, $screen, $field_group){
         
-        if(!isset($screen['post_type']) || $screen['post_type'] !== 'acfe-form-submission')
+        if(!acf_maybe_get($screen, 'post_type') || $screen['post_type'] !== 'acfe-form-submission')
             return $result;
         
         $post_id = $screen['post_id'];
@@ -1751,7 +1801,7 @@ class acfe_form{
         $_field_groups = get_field('acfe_form_submission_field_groups', $post_id);
         
         if(empty($_field_groups))
-            return $result;
+            return false;
         
         foreach($_field_groups as $_field_group_key){
             
@@ -1762,7 +1812,7 @@ class acfe_form{
             
         }
         
-        return $result;
+        return false;
         
     }
     

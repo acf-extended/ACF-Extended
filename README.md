@@ -276,6 +276,14 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 📋 Changelog
 
+### 0.8 RC4
+* Module: Dynamic Forms - Added `action('acfe/form/validation', $form)` & `action('acfe/form/validation/name=form_name', $form)` to validate form before submission. `get_field()`, `have_rows()`, `get_sub_field()` functions can be used.
+* Module: Dynamic Forms - Added `acfe_form_add_field_error('field_name_or_key', 'message')` helper to add error on specific field during the validation
+* Module: Dynamic Forms - Added `action('acfe/form/submit', $form)` & `action('acfe/form/submit/name=form_name', $form)` to add custom action on submission
+* Module: Dynamic Forms - Fixed form submit priority
+* Module: Dynamic Forms - Fixed Submission field group display
+* Module: Dynamic Forms - Removed Submission "Add new" capability
+
 ### 0.8 RC3
 * Module: Dynamic Forms - Fixed Post ID on submission
 * Module: Field Group - Fixed tooltip instructions placement
