@@ -276,6 +276,11 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 📋 Changelog
 
+### 0.8 RC5
+* Module: Dynamic Forms - Added Fields errors position setting: Above, below or grouped
+* Module: Dynamic Forms - Added Fields errors class setting
+* Module: Dynamic Forms - `acf_form_head()` is no more needed. Everything is automatic now
+
 ### 0.8 RC4
 * Module: Dynamic Forms - Added `action('acfe/form/validation', $form)` & `action('acfe/form/validation/name=form_name', $form)` to validate form before submission. `get_field()`, `have_rows()`, `get_sub_field()` functions can be used.
 * Module: Dynamic Forms - Added `acfe_form_add_field_error('field_name_or_key', 'message')` helper to add error on specific field during the validation

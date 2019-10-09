@@ -85,16 +85,17 @@ body.post-type-acfe-dbt #minor-publishing{
     min-height:1px;
 }
 
-.acf-fields > .acf-field.acfe-no-label > .acf-label > label{
+.acf-field.acfe-no-label > .acf-label{
+    margin:0;
     display:none;
 }
 
 /* 
  * ACF: Field fix empty label on field group label placement top
  */
-.acf-fields:not(.-left) > .acf-field.acfe-no-label > .acf-label{
+.acf-fields.-left > .acf-field.acfe-no-label > .acf-label{
     margin:0;
-    display:none;
+    display:block;
 }
  
 /*
