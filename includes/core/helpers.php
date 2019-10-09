@@ -175,14 +175,14 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
         
         $acfe_flexible_render_style_url = false;
         
-        // Full path
-        if(file_exists($acfe_flexible_render_style)){
+        // URL: https://www.domain.com/template/style.js
+        if(stripos($acfe_flexible_render_style, 'http://') === 0 || stripos($acfe_flexible_render_style, 'https://') === 0 || stripos($acfe_flexible_render_style, '//') === 0){
             
             $acfe_flexible_render_style_url = $acfe_flexible_render_style;
             
         }
         
-        // Parent/child relative
+        // Path: template/style.css
         else{
             
             $acfe_flexible_render_style_url = acfe_locate_file_url(array($acfe_flexible_render_style));
@@ -214,14 +214,14 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
         
         $acfe_flexible_render_script_url = false;
         
-        // Full path
-        if(file_exists($acfe_flexible_render_script)){
+        // URL: https://www.domain.com/template/script.js
+        if(stripos($acfe_flexible_render_script, 'http://') === 0 || stripos($acfe_flexible_render_script, 'https://') === 0 || stripos($acfe_flexible_render_script, '//') === 0){
             
             $acfe_flexible_render_script_url = $acfe_flexible_render_script;
             
         }
         
-        // Parent/child relative
+        // Path: template/script.js
         else{
             
             $acfe_flexible_render_script_url = acfe_locate_file_url(array($acfe_flexible_render_script));

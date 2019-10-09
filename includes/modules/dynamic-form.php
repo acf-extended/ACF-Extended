@@ -108,12 +108,12 @@ class acfe_form{
         
         // ACFE Form
         register_post_type('acfe-form', array(
-            'label'                 => 'Forms',
-            'description'           => 'Forms',
+            'label'                 => __('Forms', 'acf'),
+            'description'           => __('Forms', 'acf'),
             'labels'                => array(
-                'name'          => 'Forms',
-                'singular_name' => 'Form',
-                'menu_name'     => 'Forms',
+                'name'          => __('Forms', 'acf'),
+                'singular_name' => __('Form', 'acf'),
+                'menu_name'     => __('Forms', 'acf'),
                 'edit_item'     => 'Edit Form',
                 'add_new_item'  => 'New Form',
             ),
@@ -147,12 +147,12 @@ class acfe_form{
             
             // ACFE Form Submission
             register_post_type('acfe-form-submission', array(
-                'label'                 => 'Submissions',
-                'description'           => 'Submissions',
+                'label'                 => __('Submissions', 'acf'),
+                'description'           => __('Submissions', 'acf'),
                 'labels'                => array(
-                    'name'          => 'Submissions',
-                    'singular_name' => 'Submission',
-                    'menu_name'     => 'Submissions',
+                    'name'          => __('Submissions', 'acf'),
+                    'singular_name' => __('Submission', 'acf'),
+                    'menu_name'     => __('Submissions', 'acf'),
                     'edit_item'     => 'Edit Submission',
                     'add_new_item'  => 'New Submission',
                 ),
@@ -263,7 +263,7 @@ class acfe_form{
         
         foreach($fields_groups as $field_group){
             
-            if(isset($field_group['acfe_form']) && !empty($field_group['acfe_form']))
+            if(acf_maybe_get($field_group, 'acfe_form'))
                 continue;
             
             // Update field group
