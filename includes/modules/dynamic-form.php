@@ -122,7 +122,7 @@ class acfe_form{
             'public'                => false,
             'show_ui'               => true,
             'show_in_menu'          => true,
-            'menu_icon'             => 'dashicons-layout',
+            'menu_icon'             => 'dashicons-feedback',
             'show_in_admin_bar'     => false,
             'show_in_nav_menus'     => false,
             'can_export'            => false,
@@ -228,6 +228,8 @@ class acfe_form{
                 $field_group = acf_get_field_group($field_group_key);
                 if(!$field_group)
                     continue;
+                
+                $field_group['fields'] = acf_get_fields($field_group);
                 
                 $return[] = $field_group;
                 
@@ -357,9 +359,7 @@ class acfe_form{
                 
                 <div class="acf-input">
                     
-                    <?php $fields = acf_get_fields($field_group); ?>
-                    
-                    <?php if(!empty($fields)){ ?>
+                    <?php if(!empty($field_group['fields'])){ ?>
                         
                         <table class="acf-table">
                             <thead>
@@ -373,7 +373,7 @@ class acfe_form{
                                 <?php 
                                 
                                     $array = array();
-                                    foreach($fields as $field){
+                                    foreach($field_group['fields'] as $field){
                                         
                                         $this->get_fields_labels_recursive($array, $field);
                                         
@@ -581,11 +581,10 @@ class acfe_form{
         
         foreach($data as $field_group){
             
-            $fields = acf_get_fields($field_group);
-            if(empty($fields))
+            if(empty($field_group['fields']))
                 continue;
             
-            foreach($fields as $s_field){
+            foreach($field_group['fields'] as $s_field){
                 
                 $field_groups[$field_group['title']][] = $s_field;
                 
@@ -942,11 +941,10 @@ class acfe_form{
             
             foreach($mapped_field_groups as $field_group){
                 
-                $fields = acf_get_fields($field_group);
-                if(empty($fields))
+                if(empty($field_group['fields']))
                     continue;
                 
-                foreach($fields as $field){
+                foreach($field_group['fields'] as $field){
                     
                     $mapped_fields[] = $field;
                     
@@ -1900,7 +1898,7 @@ class acfe_form{
         $fields[] = array(
             'type'      => 'message',
             'name'      => '',
-            'label'     => 'Content shortcode',
+            'label'     => 'Shortcode',
             'value'     => '',
             'message'   => '<code>[acfe_form name="' . $form_name . '"]</code> or <code>[acfe_form ID="' . $form_id . '"]</code>',
             'new_lines' => false,
@@ -1922,11 +1920,112 @@ class acfe_form{
         $fields[] = array(
             'type'      => 'message',
             'name'      => '',
-            'label'     => 'PHP integration',
+            'label'     => 'PHP Form Integration',
             'value'     => '',
             'message'   => $html,
             'new_lines' => false,
         );
+        
+        if(!empty($this->fields_groups)){
+            
+            foreach($this->fields_groups as $field_group){
+                
+                if(empty($field_group['fields']))
+                    continue;
+                
+                $_fields = $field_group['fields'];
+                break;
+                
+            }
+            
+            if(!empty($_fields)){
+                
+                $field = $_fields[0];
+                
+                ob_start();
+                ?>
+                <pre>&lt;?php
+
+add_filter(&apos;acf/validate_value/name=<?php echo $field['name']; ?>&apos;, &apos;my_<?php echo $field['name']; ?>_validation&apos;, 10, 4);
+function my_<?php echo $field['name']; ?>_validation($valid, $value, $field, $input){
+    
+    if(!$valid)
+        return $valid;
+    
+    if($value === &apos;Hello&apos;)
+        $valid = &apos;Hello is not allowed&apos;;
+    
+    return $valid;
+    
+}</pre>
+                <?php $html = ob_get_clean();
+                
+                $fields[] = array(
+                    'type'      => 'message',
+                    'name'      => '',
+                    'label'     => 'PHP Field Validation',
+                    'value'     => '',
+                    'message'   => $html,
+                    'new_lines' => false,
+                );
+                
+                ob_start();
+                ?>
+                <pre>&lt;?php 
+
+add_action(&apos;acfe/form/validation/name=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $form_name; ?>_validation&apos;);
+function my_<?php echo $form_name; ?>_validation($form){
+    
+    $<?php echo $field['name']; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);
+    
+    if($<?php echo $field['name']; ?> === &apos;Hello&apos;){
+        
+        acfe_form_add_field_error(&apos;<?php echo $field['name']; ?>&apos;, &apos;Hello is not allowed&apos;);
+        
+    }
+    
+}</pre>
+                <?php $html = ob_get_clean();
+                
+                $fields[] = array(
+                    'type'      => 'message',
+                    'name'      => '',
+                    'label'     => 'PHP Form Validation',
+                    'value'     => '',
+                    'message'   => $html,
+                    'new_lines' => false,
+                );
+                
+                ob_start();
+                ?>
+                <pre>&lt;?php
+
+add_action(&apos;acfe/form/submit/name=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $form_name; ?>_submit&apos;);
+function my_<?php echo $form_name; ?>_submit($form){
+    
+    $<?php echo $field['name']; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);
+    
+    if($<?php echo $field['name']; ?> === &apos;do_something&apos;){
+        
+        // Do something
+        
+    }
+    
+}</pre>
+                <?php $html = ob_get_clean();
+                
+                $fields[] = array(
+                    'type'      => 'message',
+                    'name'      => '',
+                    'label'     => 'PHP Form Submit: Custom Action',
+                    'value'     => '',
+                    'message'   => $html,
+                    'new_lines' => false,
+                );
+                
+            }
+            
+        }
         
         return $fields;
         
