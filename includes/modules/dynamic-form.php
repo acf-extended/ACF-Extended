@@ -21,6 +21,9 @@ class acfe_form{
         add_action('acf/save_post',                                                 array($this, 'save_form'), 20);
         add_action('pre_get_posts',                                                 array($this, 'admin_list'));
         
+        // Enqueue / Redirect
+        add_action('template_redirect',                                             array($this, 'init'));
+        
         // Validation
         add_action('acf/validate_save_post',                                        array($this, 'validate'), 4);
         
@@ -744,12 +747,14 @@ class acfe_form{
         
         // General
         $args['form'] = get_field('acfe_form_form_element', $form_id);
+        $args['form_attributes']['class'] = 'acfe-form';
+        $args['form_attributes']['id'] = '';
         
         if(!empty($args['form'])){
             
             $form_attributes = get_field('acfe_form_attributes', $form_id);
             
-            $args['form_attributes']['class'] = $form_attributes['acfe_form_attributes_class'];
+            $args['form_attributes']['class'] .= ' ' . $form_attributes['acfe_form_attributes_class'];
             $args['form_attributes']['id'] = $form_attributes['acfe_form_attributes_id'];
             
         }
@@ -759,6 +764,9 @@ class acfe_form{
         $args['fields_wrapper_class'] = $acfe_form_fields_attributes['acfe_form_fields_wrapper_class'];
         $args['fields_class'] = $acfe_form_fields_attributes['acfe_form_fields_class'];
         
+        if(!empty($args['fields_class']))
+            $args['form_attributes']['data-acfe-form-fields-class'] = $args['fields_class'];
+        
         $args['html_before_fields'] = get_field('acfe_form_html_before_fields', $form_id);
         $args['custom_html'] = get_field('acfe_form_custom_html', $form_id);
         $args['html_after_fields'] = get_field('acfe_form_html_after_fields', $form_id);
@@ -766,6 +774,17 @@ class acfe_form{
         $args['submit_value'] = get_field('acfe_form_submit_value', $form_id);
         $args['html_submit_button'] = get_field('acfe_form_html_submit_button', $form_id);
         $args['html_submit_spinner'] = get_field('acfe_form_html_submit_spinner', $form_id);
+        
+        // Validation
+        $args['errors_position'] = get_field('acfe_form_errors_position', $form_id);
+        
+        if(!empty($args['errors_position']))
+            $args['form_attributes']['data-acfe-form-errors-position'] = $args['errors_position'];
+        
+        $args['errors_class'] = get_field('acfe_form_errors_class', $form_id);
+        
+        if(!empty($args['errors_class']))
+            $args['form_attributes']['data-acfe-form-errors-class'] = $args['errors_class'];
         
         // Submission
         $args['updated_message'] = get_field('acfe_form_updated_message', $form_id);
@@ -825,7 +844,7 @@ class acfe_form{
                         $_post_author = $_post_author_group['acfe_form_post_update_post_author'];
                         
                         // var
-                        $_post_id = null;
+                        $_post_id = $args['post_id'];
                         
                         // Current post
                         if($_post_id_data === 'current_post'){
@@ -1250,6 +1269,15 @@ class acfe_form{
         }
         
         return $acf;
+        
+    }
+    
+    function init(){
+        
+        if(!isset($_POST['_acf_form']) || !isset($_POST['_acf_nonce']))
+			return;
+        
+        acf()->form_front->check_submit_form();
         
     }
     
@@ -1880,8 +1908,7 @@ class acfe_form{
         
         ob_start();
         ?>
-        <pre>&lt;?php acf_form_head(); ?&gt;
-&lt;?php get_header(); ?&gt;
+        <pre>&lt;?php get_header(); ?&gt;
     
     &lt;!-- Using Form Name --&gt;
     &lt;?php acfe_form(&apos;<?php echo $form_name; ?>&apos;); ?&gt;
@@ -2125,6 +2152,8 @@ class acfe_form_front extends acf_form_front{
 		if(!$args)
             return false;
 		
+        // load acf scripts
+		acf_enqueue_scripts();
         
 		// load values from this post
 		$post_id = $args['post_id'];
@@ -2277,8 +2306,8 @@ class acfe_form_front extends acf_form_front{
         
         add_filter('acf/prepare_field', function($field) use($args){
             
-            $field['wrapper']['class'] .= $args['fields_wrapper_class'];
-            $field['class'] .= $args['fields_class'];
+            $field['wrapper']['class'] .= ' ' . $args['fields_wrapper_class'];
+            $field['class'] .= ' ' . $args['fields_class'];
             
             return $field;
             
@@ -2829,6 +2858,63 @@ Fields may be included using <code>{field:field_key}</code><br/><code>{field:fie
 			'placement' => 'top',
 			'endpoint' => 0,
 		),
+        array(
+			'key' => 'field_acfe_form_errors_position',
+			'label' => 'Errors position',
+			'name' => 'acfe_form_errors_position',
+			'type' => 'radio',
+			'instructions' => 'Choose where to display errors',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'hide_admin' => 0,
+			'acfe_permissions' => '',
+			'choices' => array(
+				'above' => 'Above fields',
+				'below' => 'Below fields',
+				'group' => 'Group errors',
+			),
+			'allow_null' => 0,
+			'other_choice' => 0,
+			'default_value' => 'above',
+			'layout' => 'vertical',
+			'return_format' => 'value',
+			'save_other_choice' => 0,
+		),
+        array(
+			'key' => 'field_acfe_form_errors_class',
+			'label' => 'Errors class',
+			'name' => 'acfe_form_errors_class',
+			'type' => 'text',
+			'instructions' => 'Add class to error message',
+			'required' => 0,
+			'conditional_logic' => array(
+                array(
+                    array(
+                        'field' => 'field_acfe_form_errors_position',
+                        'operator' => '!=',
+                        'value' => 'group',
+                    )
+                )
+            ),
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'hide_admin' => 0,
+			'acfe_permissions' => '',
+			'default_value' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+		),
+        
 		array(
 			'key' => 'field_acfe_form_updated_message',
 			'label' => 'Success message',
