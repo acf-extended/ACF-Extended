@@ -276,6 +276,11 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 📋 Changelog
 
+### 0.8 RC6
+* Module: Settings - Added ACF Extended tab to list the plugin's current settings
+* Module: Dynamic Forms - Fixed the 'Advanced setting' update when a field group is added to a form
+* Field: Flexible Content - Fixed Style/Script render filters when returning a full URL
+
 ### 0.8 RC5
 * Module: Dynamic Forms - Added Fields errors position setting: Above, below or grouped
 * Module: Dynamic Forms - Added Fields errors class setting

@@ -14,6 +14,9 @@ class acfe_field_recaptcha extends acf_field{
             'required'      => 0,
             'disabled'      => 0,
             'readonly'      => 0,
+            'version'       => 'v2',
+            'theme'         => 'light',
+            'size'          => 'normal',
         );
         
         parent::__construct();

@@ -6,12 +6,14 @@ if(!defined('ABSPATH'))
 add_action('acf/update_field_group', 'acfe_field_group_update', 0);
 function acfe_field_group_update($field_group){
     
+    acf_disable_filters('local');
+    
+    // Get Fields
+    $fields = acf_get_fields($field_group);
+    if(empty($fields))
+        return;
+    
     if(isset($field_group['acfe_form']) && !empty($field_group['acfe_form'])){
-
-        // Get Fields
-        $fields = acf_get_fields($field_group);
-        if(empty($fields))
-            return;
 
         // Update Fields
         acfe_field_group_fields_add_fields_form($fields);
@@ -20,19 +22,16 @@ function acfe_field_group_update($field_group){
     
     elseif(!isset($field_group['acfe_form']) || empty($field_group['acfe_form'])){
         
-        // Get Fields
-        $fields = acf_get_fields($field_group);
-        if(empty($fields))
-            return;
-
         // Update Fields
         acfe_field_group_fields_add_fields_form($fields, false);
         
     }
     
+    acf_enable_filter('local');
+    
 }
 
-function acfe_field_group_fields_add_fields_form($fields, $add_remove = true){
+function acfe_field_group_fields_add_fields_form($fields, $add = true){
     
     if(empty($fields))
         return;
@@ -46,7 +45,7 @@ function acfe_field_group_fields_add_fields_form($fields, $add_remove = true){
         // Group / Clone
         if(isset($field['sub_fields']) && !empty($field['sub_fields'])){
             
-            acfe_field_group_fields_add_fields_form($field['sub_fields'], $add_remove);
+            acfe_field_group_fields_add_fields_form($field['sub_fields'], $add);
             
         }
         
@@ -57,7 +56,7 @@ function acfe_field_group_fields_add_fields_form($fields, $add_remove = true){
                 
                 if(isset($layout['sub_fields']) && !empty($layout['sub_fields'])){
                     
-                    acfe_field_group_fields_add_fields_form($layout['sub_fields'], $add_remove);
+                    acfe_field_group_fields_add_fields_form($layout['sub_fields'], $add);
                     
                 } 
             }
@@ -65,9 +64,9 @@ function acfe_field_group_fields_add_fields_form($fields, $add_remove = true){
         }
         
         // Add
-        if($add_remove){
+        if($add){
             
-            if(isset($field['acfe_form']) && !empty($field['acfe_form']))
+            if(acf_maybe_get($field, 'acfe_form'))
                 continue;
             
             $field['acfe_form'] = true;
@@ -77,26 +76,16 @@ function acfe_field_group_fields_add_fields_form($fields, $add_remove = true){
         // Remove
         else{
             
-            if(isset($field['acfe_form'])){
-                
-                unset($field['acfe_form']);
-                
-                if(isset($field['acfe_settings']))
-                    unset($field['acfe_settings']);
-                
-                if(isset($field['acfe_validate']))
-                    unset($field['acfe_validate']);
-                
-                if(isset($field['acfe_update']))
-                    unset($field['acfe_update']);
-                
-            }
-            
-            else{
-                
+            if(!acf_maybe_get($field, 'acfe_form'))
                 continue;
-                
-            }
+            
+            unset($field['acfe_form']);
+            
+            if(isset($field['acfe_settings']))
+                unset($field['acfe_settings']);
+            
+            if(isset($field['acfe_validate']))
+                unset($field['acfe_validate']);
             
         }
         

@@ -13,6 +13,9 @@ function acfe_compatibility_field_group_location_list($field_group){
         
         foreach($or as &$and){
             
+            if(!isset($and['value']))
+                continue;
+            
             // Post Type List
             if($and['param'] === 'post_type' && acfe_ends_with($and['value'], '_archive')){
             
@@ -34,6 +37,18 @@ function acfe_compatibility_field_group_location_list($field_group){
     }
     
     return $field_group;
+    
+}
+
+add_filter('acf/validate_field', 'acfe_compatibility_field_acfe_update', 20);
+function acfe_compatibility_field_acfe_update($field){
+    
+    if(!acf_maybe_get($field, 'acfe_update'))
+        return $field;
+    
+    unset($field['acfe_update']);
+    
+    return $field;
     
 }
 
