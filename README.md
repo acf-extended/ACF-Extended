@@ -299,6 +299,9 @@ Manage ACF Block Types from ACF > Block Types.
 * Module: Field Group - Fixed tooltip instructions placement
 
 ### 0.8 RC2
+* Module: Added 'Dev mode' which replace the WP Post Meta box with more details data (in posts & terms). It also enable `SCRIPT_DEBUG`. Can be activated using `acf_update_setting('acfe/dev', true)` or `define('ACFE_dev', true)`
+
+### 0.8 RC1
 * Module: Dynamic Forms Added
 * Module: Dynamic Forms - Added PHP helper `acfe_form('my_form_name');` & `acfe_form(188);` to display a form
 * Module: Dynamic Forms - Added shortcode `[acfe_form name="my_form_name"]` & `[acfe_form ID="188"]` to display a form
@@ -358,7 +361,6 @@ Manage ACF Block Types from ACF > Block Types.
 * Location: Old Location "Post Type Archive" & "Taxonomy Archive" (in the admin list) have been renamed "Post Type List" & "Taxonomy List"
 * Location: Post Type List/Taxonomy List - Fixed Image & File Upload fields being forced on basic mode (Thanks @dominikkucharski)
 * Location: New Location "Post Type Archive" creates an option page under post types menu when argument `acfe_admin_archive` is set to true (also available in Dynamic Post Type)
-* Module: Added "Dev mode" which replace the WP Post Meta box with more details data (in posts & terms). It also enable SCRIPT_DEBUG. Enabled when `acf_update_setting('acfe/dev', true)` or `define('ACFE_dev', true)`
 * Module: Dynamic Taxonomy - Added missing `meta_box_cb` setting (thanks @DavidGMiles)
 * Module: Options - Fixed potential validation problem
 * General: Improved ACF Extended modal CSS style & Added Modal inside modal overlay
