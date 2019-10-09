@@ -1766,7 +1766,7 @@ class acfe_form{
                     
                     $action_name = get_sub_field('acfe_form_custom_action');
                     
-                    do_action($action_name, $form_name, $post_id, $form);
+                    do_action($action_name, $form_name, $form);
                     
                 }
                 
@@ -4574,7 +4574,7 @@ All fields may be included using <code>{fields}</code>.',
 							'label' => 'Action name',
 							'name' => 'acfe_form_custom_action',
 							'type' => 'text',
-							'instructions' => '',
+							'instructions' => 'Trigger: <code>do_action(\'action_name\', $form_name, $form)</code>',
 							'required' => 1,
 							'conditional_logic' => 0,
 							'wrapper' => array(
