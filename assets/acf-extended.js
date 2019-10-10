@@ -180,6 +180,14 @@
             
         }
             
-    })
+    });
+    
+    acf.addAction('new_field/name=acfe_form_custom_action', function(field){
+        
+        var $instructions = field.$el.find('> .acf-label > .description');
+        
+        field.$el.find('> .acf-input').append($instructions);
+            
+    });
     
 })(jQuery);

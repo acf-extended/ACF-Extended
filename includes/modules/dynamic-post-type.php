@@ -688,7 +688,6 @@ function acfe_dpt_admin_validate_name($valid, $value, $field, $input){
         'acfe-dop',
         'acfe-dpt',
         'acfe-form',
-        'acfe-form-submission',
         
     );
     

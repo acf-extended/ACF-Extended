@@ -185,13 +185,16 @@ Display all ACF settings in one page.
 
 Manage ACF Forms from your WordPress administration. All ACF settings are available, and few were added:
 
-* Render custom HTML field groups. Allowing to render 2 (or more) field groups with custom HTML between them
-* Apply custom CSS class to all fields wrappers and fields
+* Render custom HTML field groups. Allowing to render multiple field groups with custom HTML between them
+* Apply custom CSS class to all fields & wrappers
+* Apply custom CSS class to fields errors
+* Group errors above the form, or display them above or below fields
 * Hide form on successful submission
-* Choose which actions should be triggered on submission: Create submission, Create/Update Post, Send an e-mail or trigger a custom action
-* Integration example in the administration
-* Display a form using `acfe_form('my_form_name');` or `acfe_form(188);`
-* Custom shortcode is available: `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
+* Choose which actions should be triggered on submission: Create/Update Post, Create/Update User, Send an e-mail or trigger a custom action
+* Integration, validation & custom submission examples in the administration
+* Display forms using `acfe_form('my_form_name')` or `acfe_form(188)` helpers
+* Display forms using shortcodes `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
+* The function `acf_form_head()` is not needed anymore
 
 ### WordPress: Dynamic Post Types
 
@@ -276,6 +279,12 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 📋 Changelog
 
+### 0.8 RC7
+* Module: Dynamic Forms - Added Create & Update User action
+* Module: Dynamic Forms - Removed Submission post type & action. User should now create its own post type
+* Module: Dynamic Forms - Moved the 'Forms' menu to ACF submenu
+* Settings: Fixed `save_json` setting being incorrectly displayed in the ACF Setting tab
+
 ### 0.8 RC6
 * Module: Settings - Added ACF Extended tab to list the plugin's current settings
 * Module: Dynamic Forms - Fixed the 'Advanced setting' update when a field group is added to a form
@@ -284,7 +293,7 @@ Manage ACF Block Types from ACF > Block Types.
 ### 0.8 RC5
 * Module: Dynamic Forms - Added Fields errors position setting: Above, below or grouped
 * Module: Dynamic Forms - Added Fields errors class setting
-* Module: Dynamic Forms - `acf_form_head()` is no more needed. Everything is automatic now
+* Module: Dynamic Forms - `acf_form_head()` is not needed anymore. Everything is automatic now
 
 ### 0.8 RC4
 * Module: Dynamic Forms - Added `action('acfe/form/validation', $form)` & `action('acfe/form/validation/name=form_name', $form)` to validate form before submission. `get_field()`, `have_rows()`, `get_sub_field()` functions can be used.
