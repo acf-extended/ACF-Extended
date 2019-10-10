@@ -45,21 +45,21 @@
         var errors_class = $form.data('acfe-form-errors-class');
         
         // Class
-        if(errors_class.length){
+        if(errors_class && errors_class.length){
             
             field.$el.find('.acf-notice.-error').addClass(errors_class);
             
         }
         
         // Move below
-        if(errors_position === 'below'){
+        if(errors_position && errors_position === 'below'){
             
             field.$el.find('.acf-notice.-error').insertAfter(field.$el.find('.acf-input-wrap'));
             
         }
         
         // Group errors
-        else if(errors_position === 'group'){
+        else if(errors_position && errors_position === 'group'){
             
             var label = field.$el.find('.acf-label label').text().trim();
             var placeholder = field.$el.find('.acf-input-wrap [placeholder!=""]').attr('placeholder');
@@ -67,13 +67,13 @@
             
             field.$el.find('.acf-notice.-error').remove();
             
-            if(label.length && label !== '*'){
+            if(label && label.length && label !== '*'){
                 
                 message = label + ': ' + message;
                 
             }
             
-            else if(placeholder.length){
+            else if(placeholder && placeholder.length){
                 
                 message = placeholder + ': ' + message;
                 

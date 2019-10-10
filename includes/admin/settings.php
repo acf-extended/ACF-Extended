@@ -83,7 +83,7 @@ function acfe_admin_settings_html(){
                     array(
                         'name'  => 'save_json',
                         'label' => 'Json folder (save)',
-                        'value' => '<code>' . acf_get_setting('dir') . '</code>',
+                        'value' => '<code>' . acf_get_setting('save_json') . '</code>',
                         'description' => 'Absolute path to folder where json files will be created when field groups are saved.<br />Defaults to ‘acf-json’ folder within current theme'
                     ),
                     array(
@@ -255,12 +255,6 @@ function acfe_admin_settings_html(){
                         'label' => 'Module: Dynamic Forms',
                         'value' => '<code>' . (acf_get_setting('acfe/modules/dynamic_forms', true) ? __('True'): __('False')) . '</code>',
                         'description' => 'Show/hide the Forms module. Defaults to true'
-                    ),
-                    array(
-                        'name'  => 'acfe/modules/dynamic_forms_submissions',
-                        'label' => 'Module: Dynamic Forms - Submissions',
-                        'value' => '<code>' . (acf_get_setting('acfe/modules/dynamic_forms_submissions', true) ? __('True'): __('False')) . '</code>',
-                        'description' => 'Show/hide the Forms Submissions module. Defaults to true'
                     ),
                     array(
                         'name'  => 'acfe/modules/dynamic_post_types',

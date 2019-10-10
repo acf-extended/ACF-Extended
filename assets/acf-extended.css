@@ -120,17 +120,23 @@ body.post-type-acfe-dbt #minor-publishing{
     margin-top: -15px;
 }
 .acf-fields > .acf-field-group.acfe-field-group-layout-row.acfe-no-label > .acf-input > .acf-fields{
-    border:0;
+    border-width:0;
 }
 .acf-fields > .acf-field-group.acfe-field-group-layout-row > .acf-input > .acf-fields{
-    border-left:0;
-    border-right:0;
-    border-bottom:0;
+    border-left-width:0;
+    border-right-width:0;
+    border-bottom-width:0;
 }
 .acf-fields > .acf-field-group.acfe-field-group-layout-block > .acf-input > .acf-fields{
-    border:0;
+    border-width:0;
 }
 
+.acf-fields.-left > .acf-field-group.acfe-field-group-layout-row > .acf-input{
+    margin:0;
+}
+.acf-fields.-left > .acf-field-group.acfe-field-group-layout-row > .acf-input > .acf-fields{
+    border-width:1px;
+}
 .acf-fields.-left > .acf-field-group.acfe-field-group-layout-block:not([data-acfe-group-modal="1"]) > .acf-input,
 .acf-fields.-left > .acf-field-group.acfe-field-group-layout-table:not([data-acfe-group-modal="1"]) > .acf-input{
     padding:0;
@@ -142,12 +148,30 @@ body.post-type-acfe-dbt #minor-publishing{
 }
 .acf-fields.-left > .acf-field-group.acfe-field-group-layout-block > .acf-input > .acf-fields,
 .acf-fields.-left > .acf-field-group.acfe-field-group-layout-table > .acf-input > .acf-table{
-    border:0;
+    border-width:0;
 }
 
 .acf-fields > .acf-field-group[data-acfe-group-modal="1"] > .acf-input > .acfe-modal > .acfe-modal-wrapper > .acfe-modal-content > .acf-table,
 .acf-fields > .acf-field-group[data-acfe-group-modal="1"] > .acf-input > .acfe-modal > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields{
-    border:0;
+    border-width:0;
+}
+
+.acf-postbox.seamless > .acf-fields > .acf-field-group.acfe-field-group-layout-block > .acf-input,
+.acf-postbox.seamless > .acf-fields > .acf-field-group.acfe-field-group-layout-row > .acf-input,
+.acf-postbox.seamless > .acf-fields > .acf-field-group.acfe-field-group-layout-table > .acf-table{
+    margin:0;
+}
+
+.acf-postbox.seamless > .acf-fields > .acf-field-group.acfe-field-group-layout-block > .acf-input > .acf-fields,
+.acf-postbox.seamless > .acf-fields > .acf-field-group.acfe-field-group-layout-row > .acf-input > .acf-fields,
+.acf-postbox.seamless > .acf-fields > .acf-field-group.acfe-field-group-layout-table > .acf-input > .acf-table{
+    border-width:1px;
+}
+
+.acf-postbox.seamless > .acf-fields.-left > .acf-field-group.acfe-field-group-layout-block > .acf-input,
+.acf-postbox.seamless > .acf-fields.-left > .acf-field-group.acfe-field-group-layout-row > .acf-input,
+.acf-postbox.seamless > .acf-fields.-left > .acf-field-group.acfe-field-group-layout-table > .acf-input{
+    padding:0 12px;
 }
 
 /*
@@ -164,18 +188,22 @@ body.post-type-acfe-dbt #minor-publishing{
     margin-top: -15px;
 }
 .acf-fields > .acf-field-clone.acfe-field-clone-layout-row.acfe-no-label > .acf-input > .acf-fields{
-    border:0;
+    border-width:0;
 }
 .acf-fields > .acf-field-clone.acfe-field-clone-layout-row > .acf-input > .acf-fields{
-    border-left:0;
-    border-right:0;
-    border-bottom:0;
+    border-left-width:0;
+    border-right-width:0;
+    border-bottom-width:0;
 }
 .acf-fields > .acf-field-clone.acfe-field-clone-layout-block > .acf-input > .acf-fields{
-    border:0;
+    border-width:0;
 }
-.acf-fields > .acf-field.acf-field-clone{
-    padding: 15px 12px;
+
+.acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-row > .acf-input{
+    margin:0;
+}
+.acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-row > .acf-input > .acf-fields{
+    border-width:1px;
 }
 .acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-block:not([data-acfe-clone-modal="1"]) > .acf-input,
 .acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-table:not([data-acfe-clone-modal="1"]) > .acf-input{
@@ -188,12 +216,30 @@ body.post-type-acfe-dbt #minor-publishing{
 }
 .acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-block > .acf-input > .acf-fields,
 .acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-table > .acf-input > .acf-table{
-    border:0;
+    border-width:0;
 }
 
 .acf-fields > .acf-field-clone[data-acfe-clone-modal="1"] > .acf-input > .acfe-modal > .acfe-modal-wrapper > .acfe-modal-content > .acf-table,
 .acf-fields > .acf-field-clone[data-acfe-clone-modal="1"] > .acf-input > .acfe-modal > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields{
-    border:0;
+    border-width:0;
+}
+
+.acf-postbox.seamless > .acf-fields > .acf-field-clone.acfe-field-clone-layout-block > .acf-input,
+.acf-postbox.seamless > .acf-fields > .acf-field-clone.acfe-field-clone-layout-row > .acf-input,
+.acf-postbox.seamless > .acf-fields > .acf-field-clone.acfe-field-clone-layout-table > .acf-table{
+    margin:0;
+}
+
+.acf-postbox.seamless > .acf-fields > .acf-field-clone.acfe-field-clone-layout-block > .acf-input > .acf-fields,
+.acf-postbox.seamless > .acf-fields > .acf-field-clone.acfe-field-clone-layout-row > .acf-input > .acf-fields,
+.acf-postbox.seamless > .acf-fields > .acf-field-clone.acfe-field-clone-layout-table > .acf-input > .acf-table{
+    border-width:1px;
+}
+
+.acf-postbox.seamless > .acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-block > .acf-input,
+.acf-postbox.seamless > .acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-row > .acf-input,
+.acf-postbox.seamless > .acf-fields.-left > .acf-field-clone.acfe-field-clone-layout-table > .acf-input{
+    padding:0 12px;
 }
 
 /* 
@@ -294,7 +340,24 @@ body.post-type-acfe-dbt #minor-publishing{
 .acf-field[data-name="acfe_form_post_update_post_title_custom"],
 .acf-field[data-name="acfe_form_post_update_post_name_custom"],
 .acf-field[data-name="acfe_form_post_update_post_content_custom"],
-.acf-field[data-name="acfe_form_post_update_post_author_custom"]{
+.acf-field[data-name="acfe_form_post_update_post_author_custom"],
+
+.acf-field[data-name="acfe_form_user_create_email_custom"],
+.acf-field[data-name="acfe_form_user_create_username_custom"],
+.acf-field[data-name="acfe_form_user_create_password_custom"],
+.acf-field[data-name="acfe_form_user_create_first_name_custom"],
+.acf-field[data-name="acfe_form_user_create_last_name_custom"],
+.acf-field[data-name="acfe_form_user_create_nickname_custom"],
+.acf-field[data-name="acfe_form_user_create_display_name_custom"],
+
+.acf-field[data-name="acfe_form_user_update_user_id_custom"],
+.acf-field[data-name="acfe_form_user_update_email_custom"],
+.acf-field[data-name="acfe_form_user_update_username_custom"],
+.acf-field[data-name="acfe_form_user_update_password_custom"],
+.acf-field[data-name="acfe_form_user_update_first_name_custom"],
+.acf-field[data-name="acfe_form_user_update_last_name_custom"],
+.acf-field[data-name="acfe_form_user_update_nickname_custom"],
+.acf-field[data-name="acfe_form_user_update_display_name_custom"]{
     border-top:0;
     padding-top:0;
 }

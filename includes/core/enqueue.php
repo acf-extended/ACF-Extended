@@ -13,6 +13,10 @@ function acfe_enqueue_admin_scripts(){
     wp_enqueue_style('acf-input');
     wp_enqueue_script('acf-input');
     
+    // ACF Extended
+    wp_enqueue_script('acf-extended', plugins_url('assets/acf-extended.js', ACFE_FILE), array('jquery'), ACFE_VERSION);
+    wp_enqueue_style('acf-extended', plugins_url('assets/acf-extended.css', ACFE_FILE), false, ACFE_VERSION);
+    
     // Better Taxonomies
     if(acf_get_setting('acfe/modules/taxonomies', true)){
         
