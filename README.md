@@ -183,9 +183,9 @@ Display all ACF settings in one page.
 
 ### ACF: Dynamic Forms
 
-Manage ACF Forms from your WordPress administration. All ACF settings are available, and few were added:
+Manage ACF Forms from your WordPress administration. All ACF Form settings are available. But also:
 
-* Render custom HTML field groups. Allowing to render multiple field groups with custom HTML between them
+* Render multiple field groups in one single form with custom HTML between them
 * Apply custom CSS class to all fields & wrappers
 * Apply custom CSS class to fields errors
 * Group errors above the form, or display them above or below fields
