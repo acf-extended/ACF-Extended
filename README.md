@@ -190,7 +190,12 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Apply custom CSS class to fields errors
 * Group errors above the form, or display them above or below fields
 * Hide form on successful submission
-* Choose which actions should be triggered on submission: Create/Update Post, Create/Update User, Send an e-mail or trigger a custom action
+* Map fields and change their settings based on the location (front-end/back-end)
+* Add multiple actions on form submission:
+  * Create or Update Posts
+  * Create or Update Users
+  * Send multiple e-mails
+  * Trigger a custom PHP action
 * Integration, validation & custom submission examples in the administration
 * Display forms using `acfe_form('my_form_name')` or `acfe_form(188)` helpers
 * Display forms using shortcodes `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
