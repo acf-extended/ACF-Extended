@@ -30,6 +30,9 @@ class acfe_form{
         
         // Submit
         add_action('acf/submit_form',                                               array($this, 'submit'), 5, 2);
+        
+        // Submit: Actions
+        add_action('acfe/form/submit',                                              array($this, 'submit_actions'), 0, 2);
 		
 		// filters
 		add_filter('acf/get_post_types',                                            array($this, 'filter_post_type'), 10, 2);
@@ -242,23 +245,6 @@ class acfe_form{
             'ID'            => $post_id,
             'post_name'     => $name,
         ));
-        
-        $fields_groups = $this->get_fields_groups($post_id);
-        
-        if(empty($fields_groups))
-            return;
-        
-        foreach($fields_groups as $field_group){
-            
-            if(acf_maybe_get($field_group, 'acfe_form'))
-                continue;
-            
-            // Update field group
-            $field_group['acfe_form'] = true;
-            
-            acf_update_field_group($field_group);
-            
-        }
         
     }
     
@@ -900,14 +886,9 @@ class acfe_form{
                         $_user_id_data = $_user_id_data_group['acfe_form_user_update_user_id'];
                         $_user_id_data_custom = $_user_id_data_group['acfe_form_user_update_user_id_custom'];
                         
-                        $_user_email_group = get_sub_field('acfe_form_user_update_email_group');
-                        $_user_email = $_user_email_group['acfe_form_user_update_email'];
-                        
-                        $_user_username_group = get_sub_field('acfe_form_user_update_username_group');
-                        $_user_username = $_user_username_group['acfe_form_user_update_username'];
-                        
-                        $_user_password_group = get_sub_field('acfe_form_user_update_password_group');
-                        $_user_password = $_user_password_group['acfe_form_user_update_password'];
+                        $_user_email = get_sub_field('acfe_form_user_update_email');
+                        $_user_username = get_sub_field('acfe_form_user_update_username');
+                        $_user_password = get_sub_field('acfe_form_user_update_password');
                         
                         $_user_first_name_group = get_sub_field('acfe_form_user_update_first_name_group');
                         $_user_first_name = $_user_first_name_group['acfe_form_user_update_first_name'];
@@ -942,61 +923,64 @@ class acfe_form{
                         
                         $user_data = get_userdata($_user_id);
                         
-                        acf_log($user_data);
-                        
-                        // ID
-                        $args['post_id'] = 'user_' . $_user_id;
-                        
-                        // Email
-                        if(acf_is_field_key($_user_email)){
+                        if(!empty($user_data)){
                             
-                            $args['map'][$_user_email]['value'] = $user_data->user_email;
+                            // ID
+                            $args['post_id'] = 'user_' . $_user_id;
                             
+                            // Email
+                            if(acf_is_field_key($_user_email)){
+                                
+                                $args['map'][$_user_email]['value'] = $user_data->user_email;
+                                
+                            }
+                            
+                            // Username
+                            if(acf_is_field_key($_user_username)){
+                                
+                                $args['map'][$_user_username]['value'] = $user_data->user_login;
+                                $args['map'][$_user_username]['maxlength'] = 60;
+                                
+                            }
+                            
+                            // Password
+                            if(acf_is_field_key($_user_password)){
+                                
+                                //$args['map'][$_user_password]['value'] = $user_data->user_pass;
+                                
+                            }
+                            
+                            // First name
+                            if(acf_is_field_key($_user_first_name)){
+                                
+                                $args['map'][$_user_first_name]['value'] = $user_data->first_name;
+                                
+                            }
+                            
+                            // Last name
+                            if(acf_is_field_key($_user_last_name)){
+                                
+                                $args['map'][$_user_last_name]['value'] = $user_data->last_name;
+                                
+                            }
+                            
+                            // Nickname
+                            if(acf_is_field_key($_user_nickname)){
+                                
+                                $args['map'][$_user_nickname]['value'] = $user_data->nickname;
+                                
+                            }
+                            
+                            // Display name
+                            if(acf_is_field_key($_user_display_name)){
+                                
+                                $args['map'][$_user_display_name]['value'] = $user_data->display_name;
+                                
+                            }
+                            
+                            break;
+                        
                         }
-                        
-                        // Username
-                        if(acf_is_field_key($_user_username)){
-                            
-                            $args['map'][$_user_username]['value'] = $user_data->user_login;
-                            
-                        }
-                        
-                        // Password
-                        if(acf_is_field_key($_user_password)){
-                            
-                            $args['map'][$_user_password]['value'] = $user_data->user_pass;
-                            
-                        }
-                        
-                        // First name
-                        if(acf_is_field_key($_user_first_name)){
-                            
-                            $args['map'][$_user_first_name]['value'] = $user_data->first_name;
-                            
-                        }
-                        
-                        // Last name
-                        if(acf_is_field_key($_user_last_name)){
-                            
-                            $args['map'][$_user_last_name]['value'] = $user_data->last_name;
-                            
-                        }
-                        
-                        // Nickname
-                        if(acf_is_field_key($_user_nickname)){
-                            
-                            $args['map'][$_user_nickname]['value'] = $user_data->nickname;
-                            
-                        }
-                        
-                        // Display name
-                        if(acf_is_field_key($_user_display_name)){
-                            
-                            $args['map'][$_user_display_name]['value'] = $user_data->display_name;
-                            
-                        }
-                        
-                        break;
                         
                     }
                     
@@ -1361,7 +1345,7 @@ class acfe_form{
     
     function init(){
         
-        if(!isset($_POST['_acf_form']) || !isset($_POST['_acf_nonce']))
+        if(!acf_maybe_get_POST('_acf_form') || !acf_maybe_get_POST('_acf_nonce'))
 			return;
         
         acf()->form_front->check_submit_form();
@@ -1373,7 +1357,7 @@ class acfe_form{
         if(!acfe_form_is_front())
             return;
         
-		if(empty($_POST['_acf_form']))
+		if(!acf_maybe_get_POST('_acf_form'))
             return;
         
     	$form = json_decode(acf_decrypt($_POST['_acf_form']), true);
@@ -1383,15 +1367,16 @@ class acfe_form{
         
         $form_name = acf_maybe_get($form, 'acfe_form_name');
         $form_id = acf_maybe_get($form, 'acfe_form_id');
+        $post_id = acf_maybe_get_POST($form, '_acf_post_id');
         
         if(!$form_name || !$form_id)
             return;
         
         acf_setup_meta($_POST['acf'], 'acfe_form_validation', true);
         
-            do_action('acfe/form/validation', $form);
-            do_action('acfe/form/validation/name=' . $form_name, $form);
-            do_action('acfe/form/validation/id=' . $form_id, $form);
+            do_action('acfe/form/validation', $form, $post_id);
+            do_action('acfe/form/validation/name=' . $form_name, $form, $post_id);
+            do_action('acfe/form/validation/id=' . $form_id, $form, $post_id);
         
         acf_reset_meta('acfe_form_validation');
         
@@ -1411,11 +1396,18 @@ class acfe_form{
         
         acf_setup_meta($_POST['acf'], 'acfe_form_submit', true);
         
-            do_action('acfe/form/submit', $form);
-            do_action('acfe/form/submit/name=' . $form_name, $form);
-            do_action('acfe/form/submit/id=' . $form_id, $form);
+            do_action('acfe/form/submit', $form, $post_id);
+            do_action('acfe/form/submit/name=' . $form_name, $form, $post_id);
+            do_action('acfe/form/submit/id=' . $form_id, $form, $post_id);
         
         acf_reset_meta('acfe_form_submit');
+        
+    }
+    
+    function submit_actions($form, $post_id){
+        
+        $form_name = acf_maybe_get($form, 'acfe_form_name');
+        $form_id = acf_maybe_get($form, 'acfe_form_id');
         
         // Actions
         if(have_rows('acfe_form_actions', $form_id)):
@@ -1738,17 +1730,9 @@ class acfe_form{
                     // Create User
                     if($user_behavior === 'create_user'){
                         
-                        $_user_email_group = get_sub_field('acfe_form_user_create_email_group');
-                        $_user_email = $_user_email_group['acfe_form_user_create_email'];
-                        $_user_email_custom = $_user_email_group['acfe_form_user_create_email_custom'];
-                        
-                        $_user_username_group = get_sub_field('acfe_form_user_create_username_group');
-                        $_user_username = $_user_username_group['acfe_form_user_create_username'];
-                        $_user_username_custom = $_user_username_group['acfe_form_user_create_username_custom'];
-                        
-                        $_user_password_group = get_sub_field('acfe_form_user_create_password_group');
-                        $_user_password = $_user_password_group['acfe_form_user_create_password'];
-                        $_user_password_custom = $_user_password_group['acfe_form_user_create_password_custom'];
+                        $_user_email = get_sub_field('acfe_form_user_create_email');
+                        $_user_username = get_sub_field('acfe_form_user_create_username');
+                        $_user_password = get_sub_field('acfe_form_user_create_password');
                         
                         $_user_first_name_group = get_sub_field('acfe_form_user_create_first_name_group');
                         $_user_first_name = $_user_first_name_group['acfe_form_user_create_first_name'];
@@ -1775,10 +1759,6 @@ class acfe_form{
                             
                             $args['user_email'] = $this->map_field_value($_user_email, $acf);
                             
-                        }elseif($_user_email === 'custom'){
-                            
-                            $args['user_email'] = $this->map_text_value($_user_email_custom, $acf);
-                            
                         }
                         
                         // Username
@@ -1787,10 +1767,6 @@ class acfe_form{
                         if(acf_is_field_key($_user_username)){
                             
                             $args['user_login'] = $this->map_field_value($_user_username, $acf);
-                            
-                        }elseif($_user_username === 'custom'){
-                            
-                            $args['user_login'] = $this->map_text_value($_user_username_custom, $acf);
                             
                         }
                         
@@ -1805,10 +1781,6 @@ class acfe_form{
                                 
                                 $args['user_pass'] = wp_generate_password(8, false);
                                 
-                        }elseif($_user_password === 'custom'){
-                            
-                            $args['user_pass'] = $this->map_text_value($_user_password_custom, $acf);
-                            
                         }
                         
                         // First name
@@ -1879,17 +1851,9 @@ class acfe_form{
                         $_user_id_data = $_user_id_data_group['acfe_form_user_update_user_id'];
                         $_user_id_data_custom = $_user_id_data_group['acfe_form_user_update_user_id_custom'];
                         
-                        $_user_email_group = get_sub_field('acfe_form_user_update_email_group');
-                        $_user_email = $_user_email_group['acfe_form_user_update_email'];
-                        $_user_email_custom = $_user_email_group['acfe_form_user_update_email_custom'];
-                        
-                        $_user_username_group = get_sub_field('acfe_form_user_update_username_group');
-                        $_user_username = $_user_username_group['acfe_form_user_update_username'];
-                        $_user_username_custom = $_user_username_group['acfe_form_user_update_username_custom'];
-                        
-                        $_user_password_group = get_sub_field('acfe_form_user_update_password_group');
-                        $_user_password = $_user_password_group['acfe_form_user_update_password'];
-                        $_user_password_custom = $_user_password_group['acfe_form_user_update_password_custom'];
+                        $_user_email = get_sub_field('acfe_form_user_update_email');
+                        $_user_username = get_sub_field('acfe_form_user_update_username');
+                        $_user_password = get_sub_field('acfe_form_user_update_password');
                         
                         $_user_first_name_group = get_sub_field('acfe_form_user_update_first_name_group');
                         $_user_first_name = $_user_first_name_group['acfe_form_user_update_first_name'];
@@ -1932,20 +1896,12 @@ class acfe_form{
                             
                             $args['user_email'] = $this->map_field_value($_user_email, $acf);
                             
-                        }elseif($_user_email === 'custom'){
-                            
-                            $args['user_email'] = $this->map_text_value($_user_email_custom, $acf);
-                            
                         }
                         
                         // Username
                         if(acf_is_field_key($_user_username)){
                             
                             $args['user_login'] = $this->map_field_value($_user_username, $acf);
-                            
-                        }elseif($_user_username === 'custom'){
-                            
-                            $args['user_login'] = $this->map_text_value($_user_username_custom, $acf);
                             
                         }
                         
@@ -1957,10 +1913,6 @@ class acfe_form{
                         }elseif($_user_password === 'generate_password'){
                             
                             $args['user_pass'] = wp_generate_password(8, false);
-                            
-                        }elseif($_user_password === 'custom'){
-                            
-                            $args['user_pass'] = $this->map_text_value($_user_password_custom, $acf);
                             
                         }
                         
@@ -4588,14 +4540,14 @@ All fields may be included using <code>{fields}</code>.',
 							'return_format' => 'value',
 							'save_other_choice' => 0,
 						),
-						array(
-							'key' => 'field_acfe_form_user_create_email_group',
-							'label' => 'E-mail',
-							'name' => 'acfe_form_user_create_email_group',
-							'type' => 'group',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => array(
+                        array(
+                            'key' => 'field_acfe_form_user_create_email',
+                            'label' => 'E-mail',
+                            'name' => 'acfe_form_user_create_email',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(
 								array(
 									array(
 										'field' => 'field_acfe_form_user_behavior',
@@ -4604,79 +4556,30 @@ All fields may be included using <code>{fields}</code>.',
 									),
 								),
 							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'layout' => 'block',
-							'acfe_group_modal' => 0,
-							'sub_fields' => array(
-								array(
-									'key' => 'field_acfe_form_user_create_email',
-									'label' => '',
-									'name' => 'acfe_form_user_create_email',
-									'type' => 'select',
-									'instructions' => '',
-									'required' => 0,
-									'conditional_logic' => 0,
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'choices' => array(
-										'custom' => 'Custom e-mail',
-									),
-									'default_value' => array(
-									),
-									'allow_null' => 0,
-									'multiple' => 0,
-									'ui' => 0,
-									'return_format' => 'value',
-									'ajax' => 0,
-									'placeholder' => '',
-								),
-								array(
-									'key' => 'field_acfe_form_user_create_email_custom',
-									'label' => '',
-									'name' => 'acfe_form_user_create_email_custom',
-									'type' => 'text',
-									'instructions' => '',
-									'required' => 1,
-									'conditional_logic' => array(
-										array(
-											array(
-												'field' => 'field_acfe_form_user_create_email',
-												'operator' => '==',
-												'value' => 'custom',
-											),
-										),
-									),
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name}',
-									'prepend' => '',
-									'append' => '',
-									'maxlength' => '',
-								),
-							),
-						),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 0,
+                            'multiple' => 0,
+                            'ui' => 0,
+                            'return_format' => 'value',
+                            'ajax' => 0,
+                            'placeholder' => '',
+                        ),
 						array(
-							'key' => 'field_acfe_form_user_create_username_group',
-							'label' => 'Username',
-							'name' => 'acfe_form_user_create_username_group',
-							'type' => 'group',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => array(
+                            'key' => 'field_acfe_form_user_create_username',
+                            'label' => 'Username',
+                            'name' => 'acfe_form_user_create_username',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(
 								array(
 									array(
 										'field' => 'field_acfe_form_user_behavior',
@@ -4685,79 +4588,30 @@ All fields may be included using <code>{fields}</code>.',
 									),
 								),
 							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'layout' => 'block',
-							'acfe_group_modal' => 0,
-							'sub_fields' => array(
-								array(
-									'key' => 'field_acfe_form_user_create_username',
-									'label' => '',
-									'name' => 'acfe_form_user_create_username',
-									'type' => 'select',
-									'instructions' => '',
-									'required' => 0,
-									'conditional_logic' => 0,
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'choices' => array(
-										'custom' => 'Custom username',
-									),
-									'default_value' => array(
-									),
-									'allow_null' => 0,
-									'multiple' => 0,
-									'ui' => 0,
-									'return_format' => 'value',
-									'ajax' => 0,
-									'placeholder' => '',
-								),
-								array(
-									'key' => 'field_acfe_form_user_create_username_custom',
-									'label' => '',
-									'name' => 'acfe_form_user_create_username_custom',
-									'type' => 'text',
-									'instructions' => '',
-									'required' => 1,
-									'conditional_logic' => array(
-										array(
-											array(
-												'field' => 'field_acfe_form_user_create_username',
-												'operator' => '==',
-												'value' => 'custom',
-											),
-										),
-									),
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name}',
-									'prepend' => '',
-									'append' => '',
-									'maxlength' => '',
-								),
-							),
-						),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 0,
+                            'multiple' => 0,
+                            'ui' => 0,
+                            'return_format' => 'value',
+                            'ajax' => 0,
+                            'placeholder' => '',
+                        ),
 						array(
-							'key' => 'field_acfe_form_user_create_password_group',
-							'label' => 'Password',
-							'name' => 'acfe_form_user_create_password_group',
-							'type' => 'group',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => array(
+                            'key' => 'field_acfe_form_user_create_password',
+                            'label' => 'Password',
+                            'name' => 'acfe_form_user_create_password',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(
 								array(
 									array(
 										'field' => 'field_acfe_form_user_behavior',
@@ -4766,72 +4620,24 @@ All fields may be included using <code>{fields}</code>.',
 									),
 								),
 							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'layout' => 'block',
-							'acfe_group_modal' => 0,
-							'sub_fields' => array(
-								array(
-									'key' => 'field_acfe_form_user_create_password',
-									'label' => '',
-									'name' => 'acfe_form_user_create_password',
-									'type' => 'select',
-									'instructions' => '',
-									'required' => 0,
-									'conditional_logic' => 0,
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'choices' => array(
-										'generate_password' => 'Generate password',
-										'custom' => 'Custom password',
-									),
-									'default_value' => array(
-									),
-									'allow_null' => 0,
-									'multiple' => 0,
-									'ui' => 0,
-									'return_format' => 'value',
-									'ajax' => 0,
-									'placeholder' => '',
-								),
-								array(
-									'key' => 'field_acfe_form_user_create_password_custom',
-									'label' => '',
-									'name' => 'acfe_form_user_create_password_custom',
-									'type' => 'text',
-									'instructions' => '',
-									'required' => 1,
-									'conditional_logic' => array(
-										array(
-											array(
-												'field' => 'field_acfe_form_user_create_password',
-												'operator' => '==',
-												'value' => 'custom',
-											),
-										),
-									),
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name}',
-									'prepend' => '',
-									'append' => '',
-									'maxlength' => '',
-								),
-							),
-						),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(
+                                'generate_password' => 'Generate password',
+                            ),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 0,
+                            'multiple' => 0,
+                            'ui' => 0,
+                            'return_format' => 'value',
+                            'ajax' => 0,
+                            'placeholder' => '',
+                        ),
 						array(
 							'key' => 'field_acfe_form_user_create_first_name_group',
 							'label' => 'First name',
@@ -5269,14 +5075,14 @@ All fields may be included using <code>{fields}</code>.',
 								),
 							),
 						),
-						array(
-							'key' => 'field_acfe_form_user_update_email_group',
-							'label' => 'E-mail',
-							'name' => 'acfe_form_user_update_email_group',
-							'type' => 'group',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => array(
+                        array(
+                            'key' => 'field_acfe_form_user_update_email',
+                            'label' => 'E-mail',
+                            'name' => 'acfe_form_user_update_email',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(
 								array(
 									array(
 										'field' => 'field_acfe_form_user_behavior',
@@ -5285,79 +5091,30 @@ All fields may be included using <code>{fields}</code>.',
 									),
 								),
 							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'layout' => 'block',
-							'acfe_group_modal' => 0,
-							'sub_fields' => array(
-								array(
-									'key' => 'field_acfe_form_user_update_email',
-									'label' => '',
-									'name' => 'acfe_form_user_update_email',
-									'type' => 'select',
-									'instructions' => '',
-									'required' => 0,
-									'conditional_logic' => 0,
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'choices' => array(
-										'custom' => 'Custom e-mail',
-									),
-									'default_value' => array(
-									),
-									'allow_null' => 1,
-									'multiple' => 0,
-									'ui' => 0,
-									'return_format' => 'value',
-									'placeholder' => 'Default',
-									'ajax' => 0,
-								),
-								array(
-									'key' => 'field_acfe_form_user_update_email_custom',
-									'label' => '',
-									'name' => 'acfe_form_user_update_email_custom',
-									'type' => 'text',
-									'instructions' => '',
-									'required' => 1,
-									'conditional_logic' => array(
-										array(
-											array(
-												'field' => 'field_acfe_form_user_update_email',
-												'operator' => '==',
-												'value' => 'custom',
-											),
-										),
-									),
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name}',
-									'prepend' => '',
-									'append' => '',
-									'maxlength' => '',
-								),
-							),
-						),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 1,
+                            'multiple' => 0,
+                            'ui' => 0,
+                            'return_format' => 'value',
+                            'placeholder' => 'Default',
+                            'ajax' => 0,
+                        ),
 						array(
-							'key' => 'field_acfe_form_user_update_username_group',
-							'label' => 'Username',
-							'name' => 'acfe_form_user_update_username_group',
-							'type' => 'group',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => array(
+                            'key' => 'field_acfe_form_user_update_username',
+                            'label' => 'Username',
+                            'name' => 'acfe_form_user_update_username',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(
 								array(
 									array(
 										'field' => 'field_acfe_form_user_behavior',
@@ -5366,79 +5123,30 @@ All fields may be included using <code>{fields}</code>.',
 									),
 								),
 							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'layout' => 'block',
-							'acfe_group_modal' => 0,
-							'sub_fields' => array(
-								array(
-									'key' => 'field_acfe_form_user_update_username',
-									'label' => '',
-									'name' => 'acfe_form_user_update_username',
-									'type' => 'select',
-									'instructions' => '',
-									'required' => 0,
-									'conditional_logic' => 0,
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'choices' => array(
-										'custom' => 'Custom username',
-									),
-									'default_value' => array(
-									),
-									'allow_null' => 1,
-									'multiple' => 0,
-									'ui' => 0,
-									'return_format' => 'value',
-									'placeholder' => 'Default',
-									'ajax' => 0,
-								),
-								array(
-									'key' => 'field_acfe_form_user_update_username_custom',
-									'label' => '',
-									'name' => 'acfe_form_user_update_username_custom',
-									'type' => 'text',
-									'instructions' => '',
-									'required' => 1,
-									'conditional_logic' => array(
-										array(
-											array(
-												'field' => 'field_acfe_form_user_update_username',
-												'operator' => '==',
-												'value' => 'custom',
-											),
-										),
-									),
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name}',
-									'prepend' => '',
-									'append' => '',
-									'maxlength' => '',
-								),
-							),
-						),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 1,
+                            'multiple' => 0,
+                            'ui' => 0,
+                            'return_format' => 'value',
+                            'placeholder' => 'Default',
+                            'ajax' => 0,
+                        ),
 						array(
-							'key' => 'field_acfe_form_user_update_password_group',
-							'label' => 'Password',
-							'name' => 'acfe_form_user_update_password_group',
-							'type' => 'group',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => array(
+                            'key' => 'field_acfe_form_user_update_password',
+                            'label' => 'Password',
+                            'name' => 'acfe_form_user_update_password',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(
 								array(
 									array(
 										'field' => 'field_acfe_form_user_behavior',
@@ -5447,72 +5155,24 @@ All fields may be included using <code>{fields}</code>.',
 									),
 								),
 							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'layout' => 'block',
-							'acfe_group_modal' => 0,
-							'sub_fields' => array(
-								array(
-									'key' => 'field_acfe_form_user_update_password',
-									'label' => '',
-									'name' => 'acfe_form_user_update_password',
-									'type' => 'select',
-									'instructions' => '',
-									'required' => 0,
-									'conditional_logic' => 0,
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'choices' => array(
-										'generate_password' => 'Generate password',
-										'custom' => 'Custom password',
-									),
-									'default_value' => array(
-									),
-									'allow_null' => 1,
-									'multiple' => 0,
-									'ui' => 0,
-									'return_format' => 'value',
-									'placeholder' => 'Default',
-									'ajax' => 0,
-								),
-								array(
-									'key' => 'field_acfe_form_user_update_password_custom',
-									'label' => '',
-									'name' => 'acfe_form_user_update_password_custom',
-									'type' => 'text',
-									'instructions' => '',
-									'required' => 1,
-									'conditional_logic' => array(
-										array(
-											array(
-												'field' => 'field_acfe_form_user_update_password',
-												'operator' => '==',
-												'value' => 'custom',
-											),
-										),
-									),
-									'wrapper' => array(
-										'width' => '',
-										'class' => '',
-										'id' => '',
-									),
-									'acfe_permissions' => '',
-									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name}',
-									'prepend' => '',
-									'append' => '',
-									'maxlength' => '',
-								),
-							),
-						),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(
+                                'generate_password' => 'Generate password',
+                            ),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 1,
+                            'multiple' => 0,
+                            'ui' => 0,
+                            'return_format' => 'value',
+                            'placeholder' => 'Default',
+                            'ajax' => 0,
+                        ),
 						array(
 							'key' => 'field_acfe_form_user_update_first_name_group',
 							'label' => 'First name',
