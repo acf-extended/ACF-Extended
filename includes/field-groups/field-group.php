@@ -6,28 +6,26 @@ if(!defined('ABSPATH'))
 add_action('acf/update_field_group', 'acfe_field_group_update', 0);
 function acfe_field_group_update($field_group){
     
-    acf_disable_filters('local');
-    
     // Get Fields
     $fields = acf_get_fields($field_group);
     if(empty($fields))
         return;
     
-    if(isset($field_group['acfe_form']) && !empty($field_group['acfe_form'])){
+    // Add acfe_form
+    if(acf_maybe_get($field_group, 'acfe_form')){
 
         // Update Fields
         acfe_field_group_fields_add_fields_form($fields);
     
     }
     
-    elseif(!isset($field_group['acfe_form']) || empty($field_group['acfe_form'])){
+    // Remove acfe_form
+    else{
         
         // Update Fields
         acfe_field_group_fields_add_fields_form($fields, false);
         
     }
-    
-    acf_enable_filter('local');
     
 }
 
