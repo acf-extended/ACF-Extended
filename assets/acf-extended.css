@@ -342,6 +342,17 @@ body.post-type-acfe-dbt #minor-publishing{
 .acf-field[data-name="acfe_form_post_update_post_content_custom"],
 .acf-field[data-name="acfe_form_post_update_post_author_custom"],
 
+.acf-field[data-name="acfe_form_term_create_name_custom"],
+.acf-field[data-name="acfe_form_term_create_slug_custom"],
+.acf-field[data-name="acfe_form_term_create_parent_custom"],
+.acf-field[data-name="acfe_form_term_create_description_custom"],
+
+.acf-field[data-name="acfe_form_term_update_term_id_custom"],
+.acf-field[data-name="acfe_form_term_update_name_custom"],
+.acf-field[data-name="acfe_form_term_update_slug_custom"],
+.acf-field[data-name="acfe_form_term_update_parent_custom"],
+.acf-field[data-name="acfe_form_term_update_description_custom"],
+
 .acf-field[data-name="acfe_form_user_create_email_custom"],
 .acf-field[data-name="acfe_form_user_create_username_custom"],
 .acf-field[data-name="acfe_form_user_create_password_custom"],
