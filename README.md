@@ -4,11 +4,11 @@
 
 🚀 All-in-one enhancement suite that improves WordPress & Advanced Custom Fields. This plugin aims to provide a powerful administration framework with a wide range of improvements & optimizations.
 
-[ACF-Extended.com](acf-extended.com) (in development)
+[ACF-Extended.com](https://www.acf-extended.com) (in development)
 
 **Requires at least ACF Pro 5.7.10**
 
-*If you don't already own [ACF Pro](advancedcustomfields.com/pro), you should consider it. It's one of the most powerful WordPress plugin, with a life-time licence for unlimited websites.*
+*If you don't already own [ACF Pro](http://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin, with a life-time licence for unlimited websites.*
 
 [![ACF Extended: Flexible Content Dynamic Preview](https://img.youtube.com/vi/hzkNL0BA3Dk/maxresdefault.jpg)](https://www.youtube.com/watch?v=hzkNL0BA3Dk)
 
