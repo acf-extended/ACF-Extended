@@ -98,7 +98,7 @@ Sync local field groups back to the database and edit their fields just like any
 * **Bidirectional fields**
 An advanced bidirectional setting (also called post-to-post) is available for the following fields: Relationship, Post object, User & Taxonomy terms.
 Fields will work bidirectionally and automatically update each others. Works in groups & clones (prefixed field names must be turned off).
-[Usage example is available in the FAQ](#faq)
+[Usage example is available in the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
 
 * **Advanced settings**
 A more sophisticated field settings based on specified location (administration/front-end). Example: Field is required only in front-end
