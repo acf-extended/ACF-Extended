@@ -284,6 +284,27 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 📋 Changelog
 
+### 0.8 RC8
+* Module: Dynamic Forms - Added Term Action (Create/Update)
+* Module: Dynamic Forms - Added `filter('acfe/form/load/post_id', $post_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/term_id', $term_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/user_id', $user_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/fields', $fields_mapping)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/insert_post_args', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/insert_post', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/update_post_args', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/update_post', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/insert_term_args', $args, $form)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/insert_term', $form, $term_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/update_term_args', $args, $form, $term_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/update_term', $form, $term_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/insert_user_args', $args, $form)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/insert_user', $form, $user_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/update_user_args', $args, $form, $user_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/update_user', $form, $user_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/mail_args', $args, $form)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/mail', $form, $args)`
+
 ### 0.8 RC7
 * Module: Dynamic Forms - Added Create & Update User action
 * Module: Dynamic Forms - Removed Submission post type & action. User should now create its own post type

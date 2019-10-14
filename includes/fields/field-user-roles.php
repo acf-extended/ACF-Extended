@@ -105,6 +105,30 @@ class acfe_field_user_roles extends acf_field{
             )
 		));
         
+        // placeholder
+        acf_render_field_setting($field, array(
+            'label'			=> __('Placeholder Text','acf'),
+            'instructions'	=> __('Appears within the input','acf'),
+            'type'			=> 'text',
+            'name'			=> 'placeholder',
+            'placeholder'   => _x('Select', 'verb', 'acf'),
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'allow_null',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    
+                )
+            )
+        ));
+        
         // Select: multiple
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Select multiple values?','acf'),

@@ -241,6 +241,9 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
  */
 function acfe_get_field_group_from_field($field){
     
+    if(!acf_maybe_get($field, 'parent'))
+        return false;
+    
     $field_parent = $field['parent'];
     
     if(!$field_ancestors = acf_get_field_ancestors($field))
@@ -683,4 +686,62 @@ function acfe_form_add_field_error($selector, $message = ''){
         
     });
     
+}
+
+/*
+ * Similar to acf_get_taxonomy_terms() but returns array('256' => 'Category name') instead of array('category:category_name' => 'Category name')
+ */
+function acfe_get_taxonomy_terms_ids($taxonomies = array()){
+	
+	// force array
+	$taxonomies = acf_get_array($taxonomies);
+	
+	// get pretty taxonomy names
+	$taxonomies = acf_get_pretty_taxonomies( $taxonomies );
+	
+	// vars
+	$r = array();
+	
+	// populate $r
+	foreach( array_keys($taxonomies) as $taxonomy ) {
+		
+		// vars
+		$label = $taxonomies[ $taxonomy ];
+		$is_hierarchical = is_taxonomy_hierarchical( $taxonomy );
+		$terms = acf_get_terms(array(
+			'taxonomy'		=> $taxonomy,
+			'hide_empty' 	=> false
+		));
+		
+		
+		// bail early i no terms
+		if( empty($terms) ) continue;
+		
+		
+		// sort into hierachial order!
+		if( $is_hierarchical ) {
+			
+			$terms = _get_term_children( 0, $terms, $taxonomy );
+			
+		}
+		
+		
+		// add placeholder		
+		$r[ $label ] = array();
+		
+		
+		// add choices
+		foreach( $terms as $term ) {
+		
+			$k = "{$term->term_id}"; 
+			$r[ $label ][ $k ] = acf_get_term_title( $term );
+			
+		}
+		
+	}
+		
+	
+	// return
+	return $r;
+	
 }

@@ -103,9 +103,9 @@ add_action('wp_ajax_nopriv_acfe/fields/button', 'my_acf_button_ajax');
 function my_acf_button_ajax(){
     
     /**
-     * @bool/string $post_id Current post ID
-     * @string      $field_key Button's field key
-     * @string      $field_name Button's field name
+     * @bool/string $_POST['post_id'] Current post ID
+     * @string      $_POST['field_key'] Button's field key
+     * @string      $_POST['field_name'] Button's field name
      */
     
     echo 'Hello World';
