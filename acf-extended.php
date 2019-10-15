@@ -27,16 +27,16 @@ class ACFE{
     /**
      * ACFE: Construct
      */
-	function __construct(){
+    function __construct(){
         // ...
     }
     
     /**
      * ACFE: Initialize
      */
-	function initialize(){
-		
-		// Constants
+    function initialize(){
+        
+        // Constants
         $this->define('ACFE',               true);
         $this->define('ACFE_FILE',          __FILE__);
         $this->define('ACFE_PATH',          plugin_dir_path(__FILE__));
@@ -47,13 +47,13 @@ class ACFE{
         $this->define('ACFE_THEME_URL',     get_stylesheet_directory_uri());
         
         // Define settings
-		$this->settings = array(
-			'acfe_php'          => true,
-			'acfe_php_save'     => ACFE_THEME_PATH . '/acfe-php',
-			'acfe_php_load'     => array(ACFE_THEME_PATH . '/acfe-php'),
-			'acfe_php_found'    => false,
-			'acfe/dev'          => false,
-		);
+        $this->settings = array(
+            'acfe_php'          => true,
+            'acfe_php_save'     => ACFE_THEME_PATH . '/acfe-php',
+            'acfe_php_load'     => array(ACFE_THEME_PATH . '/acfe-php'),
+            'acfe_php_found'    => false,
+            'acfe/dev'          => false,
+        );
         
         // Init
         include_once(ACFE_PATH . 'init.php');
@@ -61,7 +61,7 @@ class ACFE{
         // Load
         add_action('plugins_loaded', array($this, 'load'));
         
-	}
+    }
     
     /**
      * ACFE: Load
@@ -217,10 +217,10 @@ class ACFE{
      */
     function define($name, $value = true){
         
-		if(!defined($name))
-			define($name, $value);
+        if(!defined($name))
+            define($name, $value);
         
-	}
+    }
     
     /**
      * ACFE: Has ACF
@@ -241,16 +241,16 @@ class ACFE{
 
 function acfe(){
     
-	global $acfe;
-	
-	if(!isset($acfe)){
-        
-		$acfe = new ACFE();
-		$acfe->initialize();
-        
-	}
+    global $acfe;
     
-	return $acfe;
+    if(!isset($acfe)){
+        
+        $acfe = new ACFE();
+        $acfe->initialize();
+        
+    }
+    
+    return $acfe;
     
 }
 
