@@ -10,16 +10,16 @@ if(!acf_get_setting('acfe/modules/dynamic_forms', true))
 if(!class_exists('acfe_form')):
 
 class acfe_form{
-	
-	public $post_type = '';
-	public $fields_groups = array();
     
-	function __construct(){
+    public $post_type = '';
+    public $fields_groups = array();
+    
+    function __construct(){
         
         // Post Type
         $this->post_type = 'acfe-form';
-		
-		// Admin
+        
+        // Admin
         add_action('init',                                                          array($this, 'init'));
         add_action('admin_menu',                                                    array($this, 'admin_menu'));
         add_action('current_screen',                                                array($this, 'current_screen'));
@@ -31,8 +31,8 @@ class acfe_form{
         
         // Shortcode
         add_shortcode('acfe_form',                                                  array($this, 'add_shortcode'));
-		
-		// Fields
+        
+        // Fields
         add_filter('acf/prepare_field/name=acfe_form_actions',                      array($this, 'prepare_actions'));
         add_filter('acf/prepare_field/name=acfe_form_email_files',                  array($this, 'prepare_email_files'));
         add_filter('acf/prepare_field/name=acfe_form_field_groups',                 array($this, 'field_groups_choices'));
@@ -94,7 +94,7 @@ class acfe_form{
         add_filter('acf/prepare_field/name=acfe_form_user_meta',                    array($this, 'map_fields'));
         add_filter('acf/prepare_field/name=acfe_form_term_meta',                    array($this, 'map_fields'));
         
-	}
+    }
     
     function init(){
         
@@ -1364,24 +1364,24 @@ endif;
 
 function acfe_form_render_fields($content, $post_id, $args){
     
-	return acf()->acfe_form->render_fields($content, $post_id, $args);
-	
+    return acf()->acfe_form->render_fields($content, $post_id, $args);
+    
 }
 
 function acfe_form_map_field_value($field, $acf){
     
-	return acf()->acfe_form->map_field_value($field, $acf);
-	
+    return acf()->acfe_form->map_field_value($field, $acf);
+    
 }
 
 function acfe_form_map_field_get_value($field){
     
-	return acf()->acfe_form->map_field_get_value($field);
-	
+    return acf()->acfe_form->map_field_get_value($field);
+    
 }
 
 function acfe_form_filter_meta($meta, $acf){
     
-	return acf()->acfe_form->filter_meta($meta, $acf);
-	
+    return acf()->acfe_form->filter_meta($meta, $acf);
+    
 }

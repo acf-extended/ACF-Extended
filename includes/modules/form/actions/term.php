@@ -11,7 +11,7 @@ if(!class_exists('acfe_form_term')):
 
 class acfe_form_term{
     
-	function __construct(){
+    function __construct(){
         
         add_filter('acfe/form/load/action/term', array($this, 'load'), 1);
         add_action('acfe/form/submit/action/term', array($this, 'submit'), 1, 3);
