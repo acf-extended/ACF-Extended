@@ -11,149 +11,250 @@
 if(!defined('ABSPATH'))
     exit;
 
-/**
- * ACFE: Constants
- */
-if(!defined('ACFE_FILE'))       define('ACFE_FILE', __FILE__);
-if(!defined('ACFE_PATH'))       define('ACFE_PATH', plugin_dir_path(__FILE__));
-if(!defined('ACFE_URL'))        define('ACFE_URL', plugin_dir_url(__FILE__));
-if(!defined('ACFE_VERSION'))    define('ACFE_VERSION', '0.8-rc8');
-if(!defined('ACFE_BASENAME'))   define('ACFE_BASENAME', plugin_basename(__FILE__));
-if(!defined('ACFE_THEME_PATH')) define('ACFE_THEME_PATH', get_stylesheet_directory());
-if(!defined('ACFE_THEME_URL'))  define('ACFE_THEME_URL', get_stylesheet_directory_uri());
+if(!class_exists('ACFE')):
 
-/**
- * ACFE: Init
- */
-require_once(ACFE_PATH . 'init.php');
-
-/**
- * ACFE: Load
- */
-add_action('acf/init', 'acfe_load', 99);
-function acfe_load(){
+class ACFE{
     
-    if(!acfe_is_acf_pro())
-        return;
+    // Version
+    var $version = '0.8-rc8';
+    
+    // Settings
+    var $settings = array();
+    
+    // ACF
+    var $acf = false;
     
     /**
-     * Settings
+     * ACFE: Construct
      */
-    acf_update_setting('acfe_php', true);
-    acf_update_setting('acfe_php_save', ACFE_THEME_PATH . '/acfe-php');
-    acf_update_setting('acfe_php_load', array(ACFE_THEME_PATH . '/acfe-php'));
-    acf_update_setting('acfe_php_found', false);
+	function __construct(){
+        // ...
+    }
     
     /**
-     * Core
+     * ACFE: Initialize
      */
-    require_once(ACFE_PATH . 'includes/core/compatibility.php');
-    require_once(ACFE_PATH . 'includes/core/enqueue.php');
-    require_once(ACFE_PATH . 'includes/core/helpers.php');
-    require_once(ACFE_PATH . 'includes/core/menu.php');
+	function initialize(){
+		
+		// Constants
+        $this->define('ACFE',               true);
+        $this->define('ACFE_FILE',          __FILE__);
+        $this->define('ACFE_PATH',          plugin_dir_path(__FILE__));
+        $this->define('ACFE_URL',           plugin_dir_url(__FILE__));
+        $this->define('ACFE_VERSION',       $this->version);
+        $this->define('ACFE_BASENAME',      plugin_basename(__FILE__));
+        $this->define('ACFE_THEME_PATH',    get_stylesheet_directory());
+        $this->define('ACFE_THEME_URL',     get_stylesheet_directory_uri());
+        
+        // Define settings
+		$this->settings = array(
+			'acfe_php'          => true,
+			'acfe_php_save'     => ACFE_THEME_PATH . '/acfe-php',
+			'acfe_php_load'     => array(ACFE_THEME_PATH . '/acfe-php'),
+			'acfe_php_found'    => false,
+			'acfe/dev'          => false,
+		);
+        
+        // Init
+        include_once(ACFE_PATH . 'init.php');
+        
+        // Load
+        add_action('plugins_loaded', array($this, 'load'));
+        
+	}
     
     /**
-     * Admin Pages
+     * ACFE: Load
      */
-    require_once(ACFE_PATH . 'includes/admin/options.php');
-    require_once(ACFE_PATH . 'includes/admin/plugins.php');
-    require_once(ACFE_PATH . 'includes/admin/settings.php');
+    function load(){
+        
+        if(!$this->has_acf())
+            return;
+        
+        // Settings
+        foreach($this->settings as $name => $value){
+            
+            acf_update_setting($name, $value);
+            
+        }
+        
+        // Load
+        add_action('acf/init',                  array($this, 'includes'), 99);
+        
+        // Fields
+        add_action('acf/include_field_types',   array($this, 'fields'));
+        
+        // Tools
+        add_action('acf/include_admin_tools',   array($this, 'tools'));
+        
+    }
     
     /**
-     * Fields
+     * ACFE: includes
      */
-    require_once(ACFE_PATH . 'includes/fields/field-clone.php');
-    require_once(ACFE_PATH . 'includes/fields/field-file.php');
-    require_once(ACFE_PATH . 'includes/fields/field-flexible-content.php');
-    require_once(ACFE_PATH . 'includes/fields/field-group.php');
-    require_once(ACFE_PATH . 'includes/fields/field-image.php');
-    require_once(ACFE_PATH . 'includes/fields/field-repeater.php');
-    require_once(ACFE_PATH . 'includes/fields/field-select.php');
-    require_once(ACFE_PATH . 'includes/fields/field-textarea.php');
+    function includes(){
+        
+        /**
+         * Core
+         */
+        acfe_include('includes/core/compatibility.php');
+        acfe_include('includes/core/enqueue.php');
+        acfe_include('includes/core/helpers.php');
+        acfe_include('includes/core/menu.php');
+        
+        /**
+         * Admin Pages
+         */
+        acfe_include('includes/admin/options.php');
+        acfe_include('includes/admin/plugins.php');
+        acfe_include('includes/admin/settings.php');
+        
+        /**
+         * Fields
+         */
+        acfe_include('includes/fields/field-clone.php');
+        acfe_include('includes/fields/field-file.php');
+        acfe_include('includes/fields/field-flexible-content.php');
+        acfe_include('includes/fields/field-group.php');
+        acfe_include('includes/fields/field-image.php');
+        acfe_include('includes/fields/field-repeater.php');
+        acfe_include('includes/fields/field-select.php');
+        acfe_include('includes/fields/field-textarea.php');
+        
+        /**
+         * Fields settings
+         */
+        acfe_include('includes/fields-settings/bidirectional.php');
+        acfe_include('includes/fields-settings/data.php');
+        acfe_include('includes/fields-settings/fields.php');
+        acfe_include('includes/fields-settings/permissions.php');
+        acfe_include('includes/fields-settings/settings.php');
+        acfe_include('includes/fields-settings/validation.php');
+        
+        /**
+         * Field Groups
+         */
+        acfe_include('includes/field-groups/field-group.php');
+        acfe_include('includes/field-groups/field-group-category.php');
+        acfe_include('includes/field-groups/field-groups.php');
+        acfe_include('includes/field-groups/field-groups-third-party.php');
+        
+        /**
+         * Locations
+         */
+        acfe_include('includes/locations/post-type-all.php');
+        acfe_include('includes/locations/post-type-archive.php');
+        acfe_include('includes/locations/post-type-list.php');
+        acfe_include('includes/locations/taxonomy-list.php');
+        
+        /**
+         * Modules
+         */
+        acfe_include('includes/modules/author.php');
+        acfe_include('includes/modules/autosync.php');
+        acfe_include('includes/modules/dev.php');
+        acfe_include('includes/modules/dynamic-block-type.php');
+        acfe_include('includes/modules/dynamic-options-page.php');
+        acfe_include('includes/modules/dynamic-post-type.php');
+        acfe_include('includes/modules/dynamic-taxonomy.php');
+        acfe_include('includes/modules/taxonomy.php');
+        
+        /**
+         * Module: Dynamic Form
+         */
+        acfe_include('includes/modules/form/admin.php');
+        acfe_include('includes/modules/form/field-group.php');
+        acfe_include('includes/modules/form/form-front.php');
+        acfe_include('includes/modules/form/actions/custom.php');
+        acfe_include('includes/modules/form/actions/email.php');
+        acfe_include('includes/modules/form/actions/option.php');
+        acfe_include('includes/modules/form/actions/post.php');
+        acfe_include('includes/modules/form/actions/term.php');
+        acfe_include('includes/modules/form/actions/user.php');
+        
+    }
     
     /**
-     * Fields settings
+     * ACFE: Fields
      */
-    require_once(ACFE_PATH . 'includes/fields-settings/bidirectional.php');
-    require_once(ACFE_PATH . 'includes/fields-settings/data.php');
-    require_once(ACFE_PATH . 'includes/fields-settings/fields.php');
-    require_once(ACFE_PATH . 'includes/fields-settings/permissions.php');
-    require_once(ACFE_PATH . 'includes/fields-settings/settings.php');
-    require_once(ACFE_PATH . 'includes/fields-settings/validation.php');
+    function fields(){
+        
+        acfe_include('includes/fields/field-advanced-link.php');
+        acfe_include('includes/fields/field-button.php');
+        acfe_include('includes/fields/field-column.php');
+        acfe_include('includes/fields/field-dynamic-message.php');
+        acfe_include('includes/fields/field-forms.php');
+        acfe_include('includes/fields/field-hidden.php');
+        acfe_include('includes/fields/field-post-statuses.php');
+        acfe_include('includes/fields/field-post-types.php');
+        acfe_include('includes/fields/field-recaptcha.php');
+        acfe_include('includes/fields/field-slug.php');
+        acfe_include('includes/fields/field-taxonomies.php');
+        acfe_include('includes/fields/field-user-roles.php');
+        
+    }
     
     /**
-     * Field Groups
+     * ACFE: Tools
      */
-    require_once(ACFE_PATH . 'includes/field-groups/field-group.php');
-    require_once(ACFE_PATH . 'includes/field-groups/field-group-category.php');
-    require_once(ACFE_PATH . 'includes/field-groups/field-groups.php');
-    require_once(ACFE_PATH . 'includes/field-groups/field-groups-third-party.php');
+    function tools(){
+        
+        acfe_include('includes/admin/tools/dbt-export.php');
+        acfe_include('includes/admin/tools/dbt-import.php');
+        acfe_include('includes/admin/tools/dpt-export.php');
+        acfe_include('includes/admin/tools/dpt-import.php');
+        acfe_include('includes/admin/tools/dt-export.php');
+        acfe_include('includes/admin/tools/dt-import.php');
+        acfe_include('includes/admin/tools/dop-export.php');
+        acfe_include('includes/admin/tools/dop-import.php');
+        
+        acfe_include('includes/admin/tools/fg-local.php');
+        
+    }
     
     /**
-     * Locations
+     * ACFE: Define
      */
-    require_once(ACFE_PATH . 'includes/locations/post-type-all.php');
-    require_once(ACFE_PATH . 'includes/locations/post-type-archive.php');
-    require_once(ACFE_PATH . 'includes/locations/post-type-list.php');
-    require_once(ACFE_PATH . 'includes/locations/taxonomy-list.php');
+    function define($name, $value = true){
+        
+		if(!defined($name))
+			define($name, $value);
+        
+	}
     
     /**
-     * Modules
+     * ACFE: Has ACF
      */
-    require_once(ACFE_PATH . 'includes/modules/author.php');
-    require_once(ACFE_PATH . 'includes/modules/autosync.php');
-    require_once(ACFE_PATH . 'includes/modules/dev.php');
-    require_once(ACFE_PATH . 'includes/modules/dynamic-block-type.php');
-    require_once(ACFE_PATH . 'includes/modules/dynamic-form.php');
-    require_once(ACFE_PATH . 'includes/modules/dynamic-options-page.php');
-    require_once(ACFE_PATH . 'includes/modules/dynamic-post-type.php');
-    require_once(ACFE_PATH . 'includes/modules/dynamic-taxonomy.php');
-    require_once(ACFE_PATH . 'includes/modules/taxonomy.php');
+    function has_acf(){
+        
+        if($this->acf)
+            return true;
+        
+        $this->acf = class_exists('ACF') && defined('ACF_PRO') && defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.7.10', '>=');
+        
+        return $this->acf;
+        
+    }
     
 }
 
-/**
- * ACFE: Fields
- */
-add_action('acf/include_field_types', 'acfe_fields');
-function acfe_fields(){
-    
-    if(!acfe_is_acf_pro())
-        return;
-    
-    require_once(ACFE_PATH . 'includes/fields/field-advanced-link.php');
-    require_once(ACFE_PATH . 'includes/fields/field-button.php');
-    require_once(ACFE_PATH . 'includes/fields/field-column.php');
-    require_once(ACFE_PATH . 'includes/fields/field-dynamic-message.php');
-    require_once(ACFE_PATH . 'includes/fields/field-forms.php');
-    require_once(ACFE_PATH . 'includes/fields/field-hidden.php');
-    require_once(ACFE_PATH . 'includes/fields/field-post-statuses.php');
-    require_once(ACFE_PATH . 'includes/fields/field-post-types.php');
-    require_once(ACFE_PATH . 'includes/fields/field-recaptcha.php');
-    require_once(ACFE_PATH . 'includes/fields/field-slug.php');
-    require_once(ACFE_PATH . 'includes/fields/field-taxonomies.php');
-    require_once(ACFE_PATH . 'includes/fields/field-user-roles.php');
 
+function acfe(){
+    
+	global $acfe;
+	
+	if(!isset($acfe)){
+        
+		$acfe = new ACFE();
+		$acfe->initialize();
+        
+	}
+    
+	return $acfe;
+    
 }
 
-/**
- * ACFE: Tools
- */
-add_action('acf/include_admin_tools', 'acfe_tools');
-function acfe_tools(){
-    
-    if(!acfe_is_acf_pro())
-        return;
-    
-    require_once(ACFE_PATH . 'includes/admin/tools/dbt-export.php');
-    require_once(ACFE_PATH . 'includes/admin/tools/dbt-import.php');
-    require_once(ACFE_PATH . 'includes/admin/tools/dpt-export.php');
-    require_once(ACFE_PATH . 'includes/admin/tools/dpt-import.php');
-    require_once(ACFE_PATH . 'includes/admin/tools/dt-export.php');
-    require_once(ACFE_PATH . 'includes/admin/tools/dt-import.php');
-    require_once(ACFE_PATH . 'includes/admin/tools/dop-export.php');
-    require_once(ACFE_PATH . 'includes/admin/tools/dop-import.php');
-    
-    require_once(ACFE_PATH . 'includes/admin/tools/fg-local.php');
-    
-}
+// Instantiate.
+acfe();
+
+endif;
