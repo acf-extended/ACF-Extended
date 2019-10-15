@@ -4,11 +4,17 @@ if(!defined('ABSPATH'))
     exit;
 
 /**
- * ACFE: Is ACF Pro Active
+ * ACFE: Include
  */
-function acfe_is_acf_pro(){
+function acfe_include($filename = ''){
     
-    return class_exists('ACF') && defined('ACF_PRO') && defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.7.10', '>=');
+	$file_path = ACFE_PATH . ltrim($filename, '/');
+    
+	if(file_exists($file_path)){
+        
+		include_once($file_path);
+        
+	}
     
 }
 
@@ -18,7 +24,7 @@ function acfe_is_acf_pro(){
 add_action('after_plugin_row_' . ACFE_BASENAME, 'acfe_plugin_row', 5, 3);
 function acfe_plugin_row($plugin_file, $plugin_data, $status){
     
-    if(acfe_is_acf_pro())
+    if(acfe()->has_acf())
         return;
     
     ?>
