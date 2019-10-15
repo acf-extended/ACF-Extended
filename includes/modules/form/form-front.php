@@ -29,7 +29,7 @@ class acfe_form_front extends acf_form_front{
     function acfe_init(){
         
         if(!acf_maybe_get_POST('_acf_form') || !acf_maybe_get_POST('_acf_nonce'))
-			return;
+            return;
         
         acf()->form_front->check_submit_form();
         
@@ -40,10 +40,10 @@ class acfe_form_front extends acf_form_front{
         if(!acfe_form_is_front())
             return;
         
-		if(!acf_maybe_get_POST('_acf_form'))
+        if(!acf_maybe_get_POST('_acf_form'))
             return;
         
-    	$form = json_decode(acf_decrypt($_POST['_acf_form']), true);
+        $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
         
         if(empty($form))
             return;
@@ -297,153 +297,153 @@ class acfe_form_front extends acf_form_front{
     function render_form($args = array()){
         
         // array
-		if(is_array($args)){
-			
-			$args = $this->validate_form($args);
-			
-		}
+        if(is_array($args)){
+            
+            $args = $this->validate_form($args);
+            
+        }
         
         // id
         else{
-			
-			$args = $this->get_form($args);
-			
-		}
+            
+            $args = $this->get_form($args);
+            
+        }
         
         
-		// bail early if no args
-		if(!$args)
+        // bail early if no args
+        if(!$args)
             return false;
-		
+        
         // load acf scripts
-		acf_enqueue_scripts();
+        acf_enqueue_scripts();
         
-		// load values from this post
-		$post_id = $args['post_id'];
-		
+        // load values from this post
+        $post_id = $args['post_id'];
         
-		// dont load values for 'new_post'
-		if($post_id === 'new_post')
+        
+        // dont load values for 'new_post'
+        if($post_id === 'new_post')
             $post_id = false;
-		
         
-		// register local fields
-		foreach($this->fields as $k => $field){
-			
-			acf_add_local_field($field);
-			
-		}
-		
-		// vars
-		$field_groups = array();
-		$fields = array();
-		
-		
-		// post_title
-		if($args['post_title']){
-			
-			// load local field
-			$_post_title = acf_get_field('_post_title');
-			$_post_title['value'] = $post_id ? get_post_field('post_title', $post_id) : '';
+        
+        // register local fields
+        foreach($this->fields as $k => $field){
             
-			// append
-			$fields[] = $_post_title;
-			
-		}
-		
-		
-		// post_content
-		if($args['post_content']){
-			
-			// load local field
-			$_post_content = acf_get_field('_post_content');
-			$_post_content['value'] = $post_id ? get_post_field('post_content', $post_id) : '';
-			
-			// append
-			$fields[] = $_post_content;
+            acf_add_local_field($field);
             
-		}
-		
+        }
+        
+        // vars
+        $field_groups = array();
+        $fields = array();
+        
+        
+        // post_title
+        if($args['post_title']){
+            
+            // load local field
+            $_post_title = acf_get_field('_post_title');
+            $_post_title['value'] = $post_id ? get_post_field('post_title', $post_id) : '';
+            
+            // append
+            $fields[] = $_post_title;
+            
+        }
+        
+        
+        // post_content
+        if($args['post_content']){
+            
+            // load local field
+            $_post_content = acf_get_field('_post_content');
+            $_post_content['value'] = $post_id ? get_post_field('post_content', $post_id) : '';
+            
+            // append
+            $fields[] = $_post_content;
+            
+        }
+        
         
         // Custom HTML
-		if(acf_maybe_get($args, 'custom_html')){
-			
-			$field_groups = false;
+        if(acf_maybe_get($args, 'custom_html')){
             
-		}
+            $field_groups = false;
+            
+        }
         
-		// specific fields
-		elseif($args['fields']){
-			
-			foreach($args['fields'] as $selector){
-				
-				// append field ($strict = false to allow for better compatibility with field names)
-				$fields[] = acf_maybe_get_field($selector, $post_id, false);
-				
-			}
-			
-		}
+        // specific fields
+        elseif($args['fields']){
+            
+            foreach($args['fields'] as $selector){
+                
+                // append field ($strict = false to allow for better compatibility with field names)
+                $fields[] = acf_maybe_get_field($selector, $post_id, false);
+                
+            }
+            
+        }
         
         // Field groups
         elseif($args['field_groups']){
-			
-			foreach($args['field_groups'] as $selector){
-			
-				$field_groups[] = acf_get_field_group($selector);
-				
-			}
-			
-		}
+            
+            foreach($args['field_groups'] as $selector){
+            
+                $field_groups[] = acf_get_field_group($selector);
+                
+            }
+            
+        }
         
         // New post: field groups
         elseif($args['post_id'] == 'new_post'){
-			
-			$field_groups = acf_get_field_groups($args['new_post']);
             
-		}
+            $field_groups = acf_get_field_groups($args['new_post']);
+            
+        }
         
         // Current post: field groups
         else{
-			
-			$field_groups = acf_get_field_groups(array(
-				'post_id' => $args['post_id']
-			));
-			
-		}
+            
+            $field_groups = acf_get_field_groups(array(
+                'post_id' => $args['post_id']
+            ));
+            
+        }
         
         
-		//load fields based on field groups
-		if(!empty($field_groups)){
-			
-			foreach($field_groups as $field_group){
-				
-				$field_group_fields = acf_get_fields($field_group);
-				
-				if(!empty($field_group_fields)){
-					
-					foreach(array_keys($field_group_fields) as $i){
-						
-						$fields[] = acf_extract_var($field_group_fields, $i);
+        //load fields based on field groups
+        if(!empty($field_groups)){
+            
+            foreach($field_groups as $field_group){
+                
+                $field_group_fields = acf_get_fields($field_group);
+                
+                if(!empty($field_group_fields)){
+                    
+                    foreach(array_keys($field_group_fields) as $i){
                         
-					}
-					
-				}
-			
-			}
-		
-		}
+                        $fields[] = acf_extract_var($field_group_fields, $i);
+                        
+                    }
+                    
+                }
+            
+            }
+        
+        }
         
         
-		// honeypot
-		if($args['honeypot']){
-			
-			$fields[] = acf_get_field('_validate_email');
-			
-		}
-		
-		
-		// updated message
-		if(!empty($_GET['updated'])){
+        // honeypot
+        if($args['honeypot']){
+            
+            $fields[] = acf_get_field('_validate_email');
+            
+        }
+        
+        
+        // updated message
+        if(!empty($_GET['updated'])){
             
             if($args['updated_message']){
                 
@@ -463,8 +463,8 @@ class acfe_form_front extends acf_form_front{
             
             if(acf_maybe_get($args, 'updated_hide_form'))
                 return;
-			
-		}
+            
+        }
         
         add_filter('acf/prepare_field', function($field) use($args){
             
@@ -492,15 +492,15 @@ class acfe_form_front extends acf_form_front{
             
         }
         
-		// uploader (always set incase of multiple forms on the page)
-		acf_update_setting('uploader', $args['uploader']);
-		
-		
-		// display form
-		if($args['form']): ?>
-		
-		<form <?php acf_esc_attr_e($args['form_attributes']); ?>>
-			
+        // uploader (always set incase of multiple forms on the page)
+        acf_update_setting('uploader', $args['uploader']);
+        
+        
+        // display form
+        if($args['form']): ?>
+        
+        <form <?php acf_esc_attr_e($args['form_attributes']); ?>>
+            
             <?php endif; 
                 
             // render post data
@@ -550,10 +550,10 @@ class acfe_form_front extends acf_form_front{
                 </div>
             
             <?php endif; ?>
-		
+        
         <?php if($args['form']): ?>
-		</form>
-		<?php endif;
+        </form>
+        <?php endif;
         
     }
     
@@ -564,7 +564,7 @@ acf()->form_front = new acfe_form_front();
 endif;
 
 function acfe_form($args = array()){
-	
-	acf()->form_front->acfe_prepare($args);
-	
+    
+    acf()->form_front->acfe_prepare($args);
+    
 }

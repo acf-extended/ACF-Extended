@@ -11,7 +11,7 @@ if(!class_exists('acfe_form_option')):
 
 class acfe_form_option{
     
-	function __construct(){
+    function __construct(){
         
         add_filter('acfe/form/load/action/option', array($this, 'load'), 1);
         add_action('acfe/form/submit/action/option', array($this, 'submit'), 1, 3);

@@ -11,7 +11,7 @@ if(!class_exists('acfe_form_post')):
 
 class acfe_form_post{
     
-	function __construct(){
+    function __construct(){
         
         add_filter('acfe/form/load/action/post', array($this, 'load'), 1);
         add_action('acfe/form/submit/action/post', array($this, 'submit'), 1, 3);

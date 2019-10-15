@@ -11,7 +11,7 @@ if(!class_exists('acfe_form_custom')):
 
 class acfe_form_custom{
     
-	function __construct(){
+    function __construct(){
         
         add_action('acfe/form/submit/action/custom', array($this, 'submit'), 1, 3);
         

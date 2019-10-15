@@ -11,7 +11,7 @@ if(!class_exists('acfe_form_email')):
 
 class acfe_form_email{
     
-	function __construct(){
+    function __construct(){
         
         add_action('acfe/form/submit/action/email', array($this, 'submit'), 1, 3);
         
