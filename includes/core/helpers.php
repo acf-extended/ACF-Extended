@@ -689,17 +689,6 @@ function acfe_add_validation_error($selector = '', $message = ''){
 }
 
 /*
- * Return ID in ACF post_id like: user_123 or term_74 or 85
- */
-function acfe_get_abs_post_id($post_id = 0){
-    
-    $info = acf_get_post_id_info($post_id);
-    
-    return $info['id'];
-    
-}
-
-/*
  * Similar to acf_get_taxonomy_terms() but returns array('256' => 'Category name') instead of array('category:category_name' => 'Category name')
  */
 function acfe_get_taxonomy_terms_ids($taxonomies = array()){

@@ -396,6 +396,7 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Location: New Location "Post Type Archive" creates an option page under post types menu when argument `acfe_admin_archive` is set to true (also available in Dynamic Post Type)
 * Module: Settings - Added ACF Extended tab to list the plugin's current settings
 * Module: Settings - Fixed `save_json` setting being incorrectly displayed in the ACF Setting tab
+* Module: PHP Sync - Fixed a problem where field group would not be recognized as loaded in PHP if Json AutoSync is also activated
 * Module: PHP Sync - Renamed PHP Sync settings to `acfe/php`, `acfe/php_save`, `acfe/php_load`, `acfe/php_found`
 * Module: Dev Mode - Added mode which replace the WP Post Meta box with more details data (in posts & terms). It also enable `SCRIPT_DEBUG`. Can be activated using `acf_update_setting('acfe/dev', true)` or `define('ACFE_dev', true)`
 * Module: Dynamic Taxonomy - Added missing `meta_box_cb` setting (thanks @DavidGMiles)

@@ -3,10 +3,6 @@
 if(!defined('ABSPATH'))
     exit;
 
-// Check setting
-if(!acf_get_setting('acfe/modules/dynamic_forms', true))
-    return;
-
 acf_add_local_field_group(array(
     'key' => 'group_acfe_dynamic_form',
     'title' => 'Dynamic Form',
