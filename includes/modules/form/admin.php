@@ -1243,35 +1243,22 @@ function my_<?php echo $_form_name; ?>_submit($form, $target_post_id){
         // Actions
         elseif($column == 'actions'){
             
-            $posts = $emails = $customs = $users = array();
+            $customs = $emails = $posts = $terms = $users = array();
             $found = false;
             
             if(have_rows('acfe_form_actions', $post_id)):
                 while(have_rows('acfe_form_actions', $post_id)): the_row();
-                    
-                    // Post
-                    if(get_row_layout() === 'post'){
+                
+                    // Custom
+                    if(get_row_layout() === 'custom'){
                         
-                        $behavior = get_sub_field('acfe_form_post_behavior');
+                        $action_name = get_sub_field('acfe_form_custom_action');
                         
-                        // Insert
-                        if($behavior === 'insert_post'){
-                            
-                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-edit" title="Create post"></span>';
-                            $found = true;
-                            
-                        }
-                        
-                        // Update
-                        elseif($behavior === 'update_post'){
-                            
-                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-update" title="Update post"></span>';
-                            $found = true;
-                            
-                        }
+                        $customs[] = '<span class="acf-js-tooltip dashicons dashicons-editor-code" title="Custom action: ' . $action_name . '"></span>';
+                        $found = true;
                         
                     }
-                    
+                
                     // E-mail
                     elseif(get_row_layout() === 'email'){
                         
@@ -1280,33 +1267,89 @@ function my_<?php echo $_form_name; ?>_submit($form, $target_post_id){
                         
                     }
                     
-                    // Custom
-                    elseif(get_row_layout() === 'custom'){
+                    // Post
+                    elseif(get_row_layout() === 'post'){
                         
-                        $customs[] = '<span class="acf-js-tooltip dashicons dashicons-editor-code" title="Custom action"></span>';
-                        $found = true;
+                        $action = get_sub_field('acfe_form_post_action');
+                        
+                        // Insert
+                        if($action === 'insert_post'){
+                            
+                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-edit" title="Create post"></span>';
+                            $found = true;
+                            
+                        }
+                        
+                        // Update
+                        elseif($action === 'update_post'){
+                            
+                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-update" title="Update post"></span>';
+                            $found = true;
+                            
+                        }
+                        
+                    }
+                    
+                    // Term
+                    elseif(get_row_layout() === 'term'){
+                        
+                        $action = get_sub_field('acfe_form_term_action');
+                        
+                        // Insert
+                        if($action === 'insert_term'){
+                            
+                            $terms[] = '<span class="acf-js-tooltip dashicons dashicons-category" title="Create term"></span>';
+                            $found = true;
+                            
+                        }
+                        
+                        // Update
+                        elseif($action === 'update_term'){
+                            
+                            $terms[] = '<span class="acf-js-tooltip dashicons dashicons-category" title="Update term"></span>';
+                            $found = true;
+                            
+                        }
                         
                     }
                     
                     // User
                     elseif(get_row_layout() === 'user'){
                         
-                        $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="User"></span>';
-                        $found = true;
+                        $action = get_sub_field('acfe_form_user_action');
+                        
+                        // Insert
+                        if($action === 'insert_user'){
+                            
+                            $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="Create user"></span>';
+                            $found = true;
+                            
+                        }
+                        
+                        // Update
+                        elseif($action === 'update_user'){
+                            
+                            $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="Update user"></span>';
+                            $found = true;
+                            
+                        }
                         
                     }
                 
                 endwhile;
             endif;
             
-            if(!empty($posts))
-                echo implode('', $posts);
+            if(!empty($customs))
+                echo implode('', $customs);
             
             if(!empty($emails))
                 echo implode('', $emails);
             
-            if(!empty($customs))
-                echo implode('', $customs);
+            if(!empty($posts))
+                echo implode('', $posts);
+            
+            if(!empty($terms))
+                echo implode('', $terms);
             
             if(!empty($users))
                 echo implode('', $users);
