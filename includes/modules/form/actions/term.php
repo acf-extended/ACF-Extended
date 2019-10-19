@@ -81,7 +81,7 @@ class acfe_form_term{
         
         // Invalid Term ID
         if(!$_term_id)
-            return;
+            return $form;
         
         // Name
         if(acf_is_field_key($_name)){
