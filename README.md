@@ -179,14 +179,6 @@ Select any terms of any taxonomies (format: checkbox or select)
 * **New Field: User roles selection**
 Select any user role (format: checkbox, radio or select)
 
-### ACF: Settings
-
-* **ACF: Settings page**
-Display all ACF settings in one page.
-
-* **ACF Extended: Settings page**
-Display all ACF Extended settings in one page.
-
 ### WordPress: Dynamic Post Types
 
 Create and manage post types from your WordPress administration (Tools > Post Types). All WordPress post types arguments can be set and managed. But also:
@@ -221,6 +213,24 @@ Manage WordPress options from Settings > Options.
 * View, add, edit and delete options
 * Working with strings, serialized & Json values
 
+### ACF: Settings
+
+* **ACF: Settings page**
+Display all ACF settings in one page.
+
+* **ACF Extended: Settings page**
+Display all ACF Extended settings in one page.
+
+### ACF: Dev Mode
+
+View all custom Post Meta & Terms Meta in a readable format
+
+* Arrays & Json are converted to be `print_r()`
+* ACF fields meta are grouped together
+* ACF field groups related to fields are displayed when available
+* Dev mode also enable `SCRIPT_DEBUG`
+* Activate using `acf_update_setting('acfe/dev', true)` or `define('ACFE_dev', true)`
+
 ### ACF: Options Pages
 
 Manage ACF Options Pages from ACF > Options.
@@ -228,6 +238,7 @@ Manage ACF Options Pages from ACF > Options.
 * View, add, edit and delete options pages
 * All arguments are available
 * Manual Import & Export is available in the ACF > Tools page
+
 
 ### ACF: Block Types (Gutenberg)
 
