@@ -192,29 +192,11 @@ Select any user role (format: checkbox, radio or select)
 
 = ACF: Settings =
 
-* **Settings page**
+* **ACF: Settings page**
 Display all ACF settings in one page.
 
-= ACF: Dynamic Forms =
-
-Manage ACF Forms from your WordPress administration. All ACF Form settings are available. But also:
-
-* Render multiple field groups in one single form with custom HTML between them
-* Apply custom CSS class to all fields & wrappers
-* Apply custom CSS class to fields errors
-* Group errors above the form, display them above fields, below fields or them
-* Hide form on successful submission
-* Map fields and change their settings based on the location (front-end/back-end)
-* Add multiple actions on form submission:
-* Create or Update Posts
-* Create or Update Terms
-* Create or Update Users
-* Send multiple e-mails
-* Trigger custom PHP actions
-* Integration, validation & custom submission examples in the administration
-* Display forms using `acfe_form('my_form_name')` or `acfe_form(188)` helpers
-* Display forms using shortcodes `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
-* The function `acf_form_head()` is not needed anymore
+* **ACF Extended: Settings page**
+Display all ACF Extended settings in one page.
 
 = WordPress: Dynamic Post Types =
 
@@ -288,6 +270,27 @@ Manage ACF Block Types from ACF > Block Types.
 * One Click: the 'Add row' button will add a layout without the selection modal if there is only one layout available in the flexible content
 * Lock Flexible Content: Disable sortable layouts using `filter('acfe/flexible/lock/name=my_flexible', true, $field)`
 * Remove action button: Remove the action button using `filter('acfe/flexible/remove_button/name=my_flexible', true, $field)`
+
+= ACF: Dynamic Forms =
+
+Manage ACF Forms from your WordPress administration. All ACF Form settings are available. But also:
+
+* Render multiple field groups in one single form with custom HTML between them
+* Apply custom CSS class to all fields & wrappers
+* Apply custom CSS class to fields errors
+* Group errors above the form, display them above fields, below fields or them
+* Hide form on successful submission
+* Map fields and change their settings based on the location (front-end/back-end)
+* Add multiple actions on form submission:
+* Create or Update Posts
+* Create or Update Terms
+* Create or Update Users
+* Send multiple e-mails
+* Trigger custom PHP actions
+* Integration, validation & custom submission examples in the administration
+* Display forms using `acfe_form('my_form_name')` or `acfe_form(188)` helpers
+* Display forms using shortcodes `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
+* The function `acf_form_head()` is not needed anymore
 
 == ❤️ Supporters ==
 
