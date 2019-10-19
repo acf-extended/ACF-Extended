@@ -361,11 +361,19 @@ class acfe_form{
     function render_meta_boxes($array, $data){
         
         foreach($this->fields_groups as $field_group){ ?>
+        
+            <?php 
+            acf_disable_filters();
+            
+                $field_group_db = acf_get_field_group($field_group['key']);
+            
+            acf_enable_filters();
+            ?>
             
             <div class="acf-field">
         
                 <div class="acf-label">
-                    <label for="acf-_post_title"><a href="<?php echo admin_url('post.php?post=' . $field_group['ID'] . '&action=edit'); ?>"><?php echo $field_group['title']; ?></a></label>
+                    <label><a href="<?php echo admin_url('post.php?post=' . $field_group_db['ID'] . '&action=edit'); ?>"><?php echo $field_group['title']; ?></a></label>
                     <p class="description"><?php echo $field_group['key']; ?></p>
                 </div>
                 
@@ -1218,7 +1226,11 @@ function my_<?php echo $_form_name; ?>_submit($form, $target_post_id){
             
             foreach($field_groups as $field_group_key){
                 
-                $field_group = acf_get_field_group($field_group_key);
+                acf_disable_filters();
+                
+                    $field_group = acf_get_field_group($field_group_key);
+                
+                acf_enable_filters();
                 
                 $fg[] = '<a href="' . admin_url('post.php?post=' . $field_group['ID'] . '&action=edit') . '">' . $field_group['title'] . '</a>';
                 
