@@ -167,7 +167,7 @@ class ACFE{
         acfe_include('includes/modules/form/form-front.php');
         acfe_include('includes/modules/form/actions/custom.php');
         acfe_include('includes/modules/form/actions/email.php');
-        acfe_include('includes/modules/form/actions/option.php');
+        //acfe_include('includes/modules/form/actions/option.php');
         acfe_include('includes/modules/form/actions/post.php');
         acfe_include('includes/modules/form/actions/term.php');
         acfe_include('includes/modules/form/actions/user.php');

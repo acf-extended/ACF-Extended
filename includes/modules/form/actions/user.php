@@ -91,7 +91,7 @@ class acfe_form_user{
         
         // Invalid User ID
         if(!$_user_id)
-            return;
+            return $form;
         
         $user_data = get_userdata($_user_id);
         

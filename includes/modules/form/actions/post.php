@@ -87,7 +87,7 @@ class acfe_form_post{
         
         // Invalid Post ID
         if(!$_post_id)
-            return;
+            return $form;
         
         // Post type
         if(acf_is_field_key($_post_type)){
