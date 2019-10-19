@@ -40,6 +40,7 @@ function acfe_admin_settings_html(){
                 
                 $load_json = acf_get_setting('load_json');
                 $load_json_text = '';
+                
                 if(!empty($load_json))
                     $load_json_text = implode("<br />", $load_json);
 
@@ -237,6 +238,12 @@ function acfe_admin_settings_html(){
                 
                 <?php
                 
+                $load_php = acf_get_setting('acfe/php_load');
+                $load_php_text = '';
+                
+                if(!empty($load_php))
+                    $load_php_text = implode("<br />", $load_php);
+                
                 $settings = array(
                     array(
                         'name'  => 'acfe/modules/author',
@@ -325,8 +332,32 @@ function acfe_admin_settings_html(){
                     array(
                         'name'  => 'acfe/dev',
                         'label' => 'Dev mode',
-                        'value' => '<code>' . (acf_get_setting('acfe/dev', false) ? __('True'): __('False')) . '</code>',
+                        'value' => '<code>' . (acf_get_setting('acfe/dev') ? __('True'): __('False')) . '</code>',
                         'description' => 'Show/hide the advanced WP post meta box. Defaults to false'
+                    ),
+                    array(
+                        'name'  => 'acfe/php',
+                        'label' => 'PHP',
+                        'value' => '<code>' . (acf_get_setting('acfe/php') ? __('True'): __('False')) . '</code>',
+                        'description' => 'Allow PHP Sync'
+                    ),
+                    array(
+                        'name'  => 'acfe/php_found',
+                        'label' => 'PHP: Found',
+                        'value' => '<code>' . (acf_get_setting('acfe/php_found') ? __('True'): __('False')) . '</code>',
+                        'description' => 'Found PHP Sync path'
+                    ),
+                    array(
+                        'name'  => 'acfe/php_save',
+                        'label' => 'PHP: Save',
+                        'value' => '<code>' . acf_get_setting('acfe/php_save') . '</code>',
+                        'description' => 'PHP Sync Path found'
+                    ),
+                    array(
+                        'name'  => 'acfe/php_load',
+                        'label' => 'PHP: Load',
+                        'value' => '<code>' . $load_php_text . '</code>',
+                        'description' => 'PHP Sync Load path'
                     ),
                 );
                 ?>

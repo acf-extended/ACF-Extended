@@ -653,7 +653,7 @@ function acfe_array_insert_after($key, array &$array, $new_key, $new_value){
     
 }
 
-function acfe_form_add_field_error($selector, $message = ''){
+function acfe_add_validation_error($selector = '', $message = ''){
     
     // General error
     if(empty($selector))
@@ -685,6 +685,17 @@ function acfe_form_add_field_error($selector, $message = ''){
         return $message;
         
     });
+    
+}
+
+/*
+ * Return ID in ACF post_id like: user_123 or term_74 or 85
+ */
+function acfe_get_abs_post_id($post_id = 0){
+    
+    $info = acf_get_post_id_info($post_id);
+    
+    return $info['id'];
     
 }
 

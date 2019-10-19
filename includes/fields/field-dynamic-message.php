@@ -25,7 +25,7 @@ class acfe_field_dynamic_message extends acf_field{
         ?>
         Write your own PHP/HTML content using the following hook:<br /><br />
 <pre>
-add_action('acf/prepare_field/name=<?php echo $field_name; ?>', 'my_acf_dynamic_message');
+add_action('acf/render_field/name=<?php echo $field_name; ?>', 'my_acf_dynamic_message');
 function my_acf_dynamic_message(){
     
     echo 'Hello World';

@@ -14,6 +14,9 @@ class acfe_form{
     public $post_type = '';
     public $fields_groups = array();
     
+    public $posts = array();
+    public $users = array();
+    
     function __construct(){
         
         // Post Type
@@ -27,72 +30,60 @@ class acfe_form{
         // ACF
         add_filter('acf/get_post_types',                                            array($this, 'filter_post_type'), 10, 2);
         add_filter('acf/pre_load_post_id',                                          array($this, 'validate_post_id'), 10, 2);
-        add_filter('gettext',                                                       array($this, 'error_translation'), 99, 3);
-        
-        // Shortcode
-        add_shortcode('acfe_form',                                                  array($this, 'add_shortcode'));
         
         // Fields
         add_filter('acf/prepare_field/name=acfe_form_actions',                      array($this, 'prepare_actions'));
-        add_filter('acf/prepare_field/name=acfe_form_email_files',                  array($this, 'prepare_email_files'));
         add_filter('acf/prepare_field/name=acfe_form_field_groups',                 array($this, 'field_groups_choices'));
-
-        add_filter('acf/prepare_field/name=acfe_form_option_name',                  array($this, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_email_files',                  array($this, 'prepare_email_files'));
         
-        add_filter('acf/prepare_field/name=acfe_form_post_create_post_type',        array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_create_post_status',      array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_create_post_title',       array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_create_post_name',        array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_create_post_content',     array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_create_post_author',      array($this, 'map_fields_deep'));
-
-        add_filter('acf/prepare_field/name=acfe_form_post_update_post_id',          array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_update_post_type',        array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_update_post_status',      array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_update_post_title',       array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_update_post_name',        array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_update_post_content',     array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_update_post_author',      array($this, 'map_fields_deep'));
+        // Posts
+        $this->posts = array(
+            'acfe_form_post_save_target',
+            'acfe_form_post_save_post_parent',
+            'acfe_form_post_load_source',
+        );
         
-        add_filter('acf/prepare_field/name=acfe_form_user_create_email',            array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_create_username',         array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_create_password',         array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_create_first_name',       array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_create_last_name',        array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_create_nickname',         array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_create_display_name',     array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_create_role',             array($this, 'map_fields_deep'));
+        foreach($this->posts as $tag){
+            
+            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_post'));
+            
+        }
         
-        add_filter('acf/prepare_field/name=acfe_form_term_create_name',             array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_create_slug',             array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_create_parent',           array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_create_description',      array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_create_taxonomy',         array($this, 'map_fields_deep'));
+        // Users
+        $this->users = array(
+            'acfe_form_post_save_post_author',
+            'acfe_form_user_save_target',
+            'acfe_form_user_load_source',
+        );
         
-        add_filter('acf/prepare_field/name=acfe_form_term_update_term_id',          array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_update_name',             array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_update_slug',             array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_update_parent',           array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_update_description',      array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_update_taxonomy',         array($this, 'map_fields_deep'));
+        foreach($this->users as $tag){
+            
+            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_user'));
+            
+        }
         
-        add_filter('acf/prepare_field/name=acfe_form_user_update_user_id',          array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_email',            array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_email_load',       array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_username',         array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_password',         array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_first_name',       array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_last_name',        array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_nickname',         array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_display_name',     array($this, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_update_role',             array($this, 'map_fields_deep'));
+        // Terms
+        $this->terms = array(
+            'acfe_form_term_save_target',
+            'acfe_form_term_save_parent',
+            'acfe_form_term_load_source',
+        );
         
-        add_filter('acf/prepare_field/name=acfe_form_email_file',                   array($this, 'map_fields_deep'));
+        foreach($this->terms as $tag){
+            
+            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_term'));
+            
+        }
         
-        add_filter('acf/prepare_field/name=acfe_form_option_meta',                  array($this, 'map_fields'));
-        add_filter('acf/prepare_field/name=acfe_form_post_meta',                    array($this, 'map_fields'));
-        add_filter('acf/prepare_field/name=acfe_form_user_meta',                    array($this, 'map_fields'));
-        add_filter('acf/prepare_field/name=acfe_form_term_meta',                    array($this, 'map_fields'));
+        // Ajax
+        add_action('wp_ajax_acf/fields/select/query',                               array($this, 'ajax_query_post'), 5);
+        add_action('wp_ajax_nopriv_acf/fields/select/query',                        array($this, 'ajax_query_post'), 5);
+        
+        add_action('wp_ajax_acf/fields/select/query',                               array($this, 'ajax_query_user'), 5);
+        add_action('wp_ajax_nopriv_acf/fields/select/query',                        array($this, 'ajax_query_user'), 5);
+        
+        add_action('wp_ajax_acf/fields/select/query',                               array($this, 'ajax_query_term'), 5);
+        add_action('wp_ajax_nopriv_acf/fields/select/query',                        array($this, 'ajax_query_term'), 5);
         
     }
     
@@ -656,8 +647,8 @@ class acfe_form{
     function render_fields($content, $post_id, $args){
         
         // Mapping
-        $form_id = $args['acfe_form_id'];
-        $form_name = $args['acfe_form_name'];
+        $form_id = $args['form_id'];
+        $form_name = $args['form_name'];
         
         $mapped_field_groups = $this->get_fields_groups($form_id);
         $mapped_fields = array();
@@ -788,19 +779,19 @@ class acfe_form{
         
     }
     
-    function format_value($value, $field){
+    function format_value($value, $post_id = 0, $field){
         
-        $return = acf_format_value($value, false, $field);
+        $return = acf_format_value($value, $post_id, $field);
         
         // Post Object & Relationship
-        if($field['type'] == 'post_object' || $field['type'] == 'relationship'){
+        if($field['type'] === 'post_object' || $field['type'] === 'relationship'){
             
             $value = acf_get_array($value);
             $array = array();
             
-            foreach($value as $post_id){
+            foreach($value as $p_id){
                 
-                $array[] = get_the_title($post_id);
+                $array[] = get_the_title($p_id);
                 
             }
             
@@ -809,7 +800,7 @@ class acfe_form{
         }
         
         // User
-        elseif($field['type'] == 'user'){
+        elseif($field['type'] === 'user'){
             
             $value = acf_get_array($value);
             $array = array();
@@ -826,7 +817,7 @@ class acfe_form{
         }
         
         // Taxonomy
-        elseif($field['type'] == 'taxonomy'){
+        elseif($field['type'] === 'taxonomy'){
             
             $value = acf_get_array($value);
             $array = array();
@@ -839,6 +830,13 @@ class acfe_form{
             }
             
             $return = implode(', ', $array);
+            
+        }
+        
+        // Image / File
+        elseif($field['type'] === 'image' || $field['type'] === 'file'){
+            
+            $return = $return['title'];
             
         }
         
@@ -860,9 +858,11 @@ class acfe_form{
                 continue;
             
             $data[] = array(
+                'label' => $field['label'],
                 'name'  => $field['name'],
                 'key'   => $field['key'],
-                'value' => $this->format_value($value, $field),
+                'field' => $field,
+                'value' => $value,
             );
             
             if(is_array($value)){
@@ -877,7 +877,7 @@ class acfe_form{
         
     }
     
-    function map_field_value($field_key, $acf = false){
+    function map_field_value($content, $acf = false, $post_id = 0){
         
         if(!$acf)
             $acf = $_POST['acf'];
@@ -919,7 +919,7 @@ class acfe_form{
                             if($field['name'] !== $field_key && $field['key'] !== $field_key)
                                 continue;
                                 
-                            $content = str_replace('{field:' . $field_key . '}', $field['value'], $content);
+                            $content = str_replace('{field:' . $field_key . '}', $this->format_value($field['value'], $post_id, $field['field']), $content);
                             break;
                             
                         }
@@ -941,7 +941,9 @@ class acfe_form{
                     
                     foreach($data as $field){
                         
-                        $content_html .= $field['name'] . ': ' . $field['value'] . "<br/>\n";
+                        $label = !empty($field['label']) ? $field['label'] : $field['name'];
+                        
+                        $content_html .= $label . ': ' . $this->format_value($field['value'], $post_id, $field['field']) . "<br/>\n";
                         
                     }
                     
@@ -1001,50 +1003,6 @@ class acfe_form{
 
         return $null;
         
-    }
-
-    // Remove '1 field requires attention'
-    function error_translation($translated_text, $text, $domain){
-        
-        if($domain !== 'acf')
-            return $translated_text;
-
-        if(in_array($text, array('1 field requires attention', '%d fields require attention')))
-            return ' ';
-
-        return $translated_text;
-        
-    }
-    
-    function add_shortcode($atts){
-
-        $atts = shortcode_atts(array(
-            'name'  => false,
-            'ID'    => false
-        ), $atts, 'acfe_form');
-        
-        if(!empty($atts['name'])){
-            
-            ob_start();
-            
-                acfe_form($atts['name']);
-            
-            return ob_get_clean();
-            
-        }
-        
-        if(!empty($atts['ID'])){
-            
-            ob_start();
-            
-                acfe_form($atts['ID']);
-            
-            return ob_get_clean();
-            
-        }
-        
-        return;
-    
     }
     
     function render_integration($fields, $post_id){
@@ -1161,7 +1119,7 @@ function my_<?php echo $_form_name; ?>_validation($form, $target_post_id){
     
     if($<?php echo $_field_name; ?> === &apos;Hello&apos;){
         
-        acfe_form_add_field_error(&apos;<?php echo $field['name']; ?>&apos;, &apos;Hello is not allowed&apos;);
+        acfe_add_validation_error(&apos;<?php echo $field['name']; ?>&apos;, &apos;Hello is not allowed&apos;);
         
     }
     
@@ -1284,8 +1242,8 @@ function my_<?php echo $_form_name; ?>_submit($form, $target_post_id){
                         
                         $behavior = get_sub_field('acfe_form_post_behavior');
                         
-                        // Create
-                        if($behavior === 'create_post'){
+                        // Insert
+                        if($behavior === 'insert_post'){
                             
                             $posts[] = '<span class="acf-js-tooltip dashicons dashicons-edit" title="Create post"></span>';
                             $found = true;
@@ -1355,33 +1313,558 @@ function my_<?php echo $_form_name; ?>_submit($form, $target_post_id){
         
     }
     
+    function ajax_query_post(){
+        
+        if(!acf_verify_ajax())
+            die();
+        
+        // get choices
+        $response = $this->get_ajax_query_post($_POST);
+        
+        // return
+        if(!$response)
+            return;
+        
+        // return ajax
+        acf_send_ajax_results($response);
+        
+    }
+    
+    function get_ajax_query_post($options = array()){
+        
+        // defaults
+        $options = acf_parse_args($options, array(
+            'post_id'		=> 0,
+            's'				=> '',
+            'field_key'		=> '',
+            'paged'			=> 1
+        ));
+        
+        // load field
+        $field = acf_get_field($options['field_key']);
+        if(!$field)
+            return false;
+        
+        // Target field name
+        if(!in_array($field['name'], $this->posts))
+            return false;
+        
+        $field_type = acf_get_field_type('post_object');
+        
+        // vars
+        $results = array();
+        $args = array();
+        $s = false;
+        $is_search = false;
+        
+        // paged
+        $args['posts_per_page'] = 20;
+        $args['paged'] = $options['paged'];
+        
+        // search
+        if($options['s'] !== ''){
+            
+            // strip slashes (search may be integer)
+            $s = wp_unslash( strval($options['s']) );
+            
+            // update vars
+            $args['s'] = $s;
+            $is_search = true;
+            
+        }
+        
+        // post_type
+        $args['post_type'] = acf_get_post_types();
+        
+        // get posts grouped by post type
+        $groups = acf_get_grouped_posts($args);
+        
+        // bail early if no posts
+        if(empty($groups))
+            return false;
+        
+        if(!$is_search && $args['paged'] === 1){
+            
+            $results[] = array(
+                'text'		=> 'Generic',
+                'children'	=> array(
+                    array(
+                        'id'    => 'current_post',
+                        'text'  => 'Current Post',
+                    )
+                )
+            );
+        
+        }
+        
+        // loop
+        foreach(array_keys($groups) as $group_title){
+            
+            // vars
+            $posts = acf_extract_var($groups, $group_title);
+            
+            // data
+            $data = array(
+                'text'		=> $group_title,
+                'children'	=> array()
+            );
+            
+            // convert post objects to post titles
+            foreach(array_keys($posts) as $post_id){
+                
+                $posts[$post_id] = $field_type->get_post_title($posts[$post_id], $field, $options['post_id'], $is_search);
+                
+            }
+            
+            // order posts by search
+            if($is_search && empty($args['orderby'])){
+                
+                $posts = acf_order_by_search($posts, $args['s']);
+                
+            }
+            
+            // append to $data
+            foreach(array_keys($posts) as $post_id){
+                
+                $data['children'][] = $field_type->get_post_result($post_id, $posts[$post_id]);
+                
+            }
+            
+            // append to $results
+            $results[] = $data;
+            
+        }
+        
+        
+        // optgroup or single
+        $post_type = acf_get_array($args['post_type']);
+        
+        if(count($post_type) == 1){
+            
+            $results = $results[0]['children'];
+            
+        }
+        
+        // vars
+        $response = array(
+            'results'	=> $results,
+            'limit'		=> $args['posts_per_page']
+        );
+        
+        // return
+        return $response;
+        
+    }
+    
+    function prepare_value_post($field){
+        
+        if(!acf_maybe_get($field, 'value'))
+            return $field;
+        
+        $field['choices'] = array();
+        $field['choices']['current_post'] = 'Current Post';
+        
+        $field_type = acf_get_field_type('post_object');
+        $field['post_type'] = acf_get_post_types();
+        
+        // load posts
+		$posts = $field_type->get_posts($field['value'], $field);
+		
+		if($posts){
+				
+			foreach(array_keys($posts) as $i){
+				
+				// vars
+				$post = acf_extract_var($posts, $i);
+				
+				// append to choices
+				$field['choices'][$post->ID] = $field_type->get_post_title( $post, $field );
+				
+			}
+			
+		}
+        
+        return $field;
+        
+    }
+    
+    function ajax_query_user(){
+        
+        if(!acf_verify_ajax())
+            die();
+        
+        // get choices
+        $response = $this->get_ajax_query_user($_POST);
+        
+        // return
+        if(!$response)
+            return;
+        
+        // return ajax
+        acf_send_ajax_results($response);
+        
+    }
+    
+    function get_ajax_query_user($options = array()){
+        
+        // defaults
+        $options = acf_parse_args($options, array(
+            'post_id'		=> 0,
+            's'				=> '',
+            'field_key'		=> '',
+            'paged'			=> 1
+        ));
+        
+        
+        // load field
+        $field = acf_get_field($options['field_key']);
+        if(!$field)
+            return false;
+        
+        // Target field name
+        if(!in_array($field['name'], $this->users))
+            return false;
+        
+        $field_type = acf_get_field_type('user');
+        
+        // vars
+        $results = array();
+        $args = array();
+        $s = false;
+        $is_search = false;
+        
+        // paged
+        $args['users_per_page'] = 20;
+        $args['paged'] = $options['paged'];
+        
+        // search
+        if($options['s'] !== ''){
+            
+            // strip slashes (search may be integer)
+            $s = wp_unslash( strval($options['s']) );
+            
+            // update vars
+            $args['s'] = $s;
+            $is_search = true;
+            
+        }
+        
+        // role
+        if(!empty($field['role'])){
+        
+            $args['role'] = acf_get_array( $field['role'] );
+            
+        }
+        
+        // search
+        if($is_search){
+            
+            // append to $args
+            $args['search'] = '*' . $options['s'] . '*';
+            
+            // add reference
+            $field_type->field = $field;
+            
+            // add filter to modify search colums
+            add_filter('user_search_columns', array($field_type, 'user_search_columns'), 10, 3);
+            
+        }
+        
+        // get users
+        $groups = acf_get_grouped_users($args);
+        
+        // Current user
+        if(!$is_search && $args['paged'] === 1){
+            
+            $results[] = array(
+                'text'		=> 'Generic',
+                'children'	=> array(
+                    array(
+                        'id'    => 'current_user',
+                        'text'  => 'Current User',
+                    ),
+                    array(
+                        'id'    => 'current_post_author',
+                        'text'  => 'Current Post Author',
+                    ),
+                )
+            );
+        
+        }
+        
+        // loop
+        if(!empty($groups)){
+            
+            foreach(array_keys($groups) as $group_title){
+                
+                // vars
+                $users = acf_extract_var( $groups, $group_title );
+                $data = array(
+                    'text'		=> $group_title,
+                    'children'	=> array()
+                );
+                
+                // append users
+                foreach( array_keys($users) as $user_id ) {
+                    
+                    $users[ $user_id ] = $field_type->get_result( $users[ $user_id ], $field, $options['post_id'] );
+                    
+                };
+                
+                // order by search
+                if( $is_search && empty($args['orderby']) ) {
+                    
+                    $users = acf_order_by_search( $users, $args['s'] );
+                    
+                }
+                
+                // append to $data
+                foreach( $users as $id => $title ) {
+                    
+                    $data['children'][] = array(
+                        'id'	=> $id,
+                        'text'	=> $title
+                    );
+                    
+                }
+                
+                // append to $r
+                $results[] = $data;
+                
+            }
+            
+            // optgroup or single
+            if(!empty($args['role']) && count($args['role']) == 1){
+                
+                $results = $results[0]['children'];
+                
+            }
+        }
+        
+        // vars
+        $response = array(
+            'results'	=> $results,
+            'limit'		=> $args['users_per_page']
+        );
+        
+        // return
+        return $response;
+        
+    }
+    
+    function prepare_value_user($field){
+        
+        if(!acf_maybe_get($field, 'value'))
+            return $field;
+        
+        $field['choices'] = array();
+        $field['choices']['current_user'] = 'Current User';
+        $field['choices']['current_post_author'] = 'Current Post Author';
+        
+        $field_type = acf_get_field_type('user');
+        
+        // Clean value into an array of IDs.
+        $user_ids = array_map('intval', acf_array($field['value']));
+        
+        // Find users in database (ensures all results are real).
+        $users = acf_get_users(array(
+            'include' => $user_ids
+        ));
+        
+        // Append.
+        if($users){
+            
+            foreach($users as $user){
+                $field['choices'][$user->ID] = $field_type->get_result($user, $field);
+            }
+            
+        }
+        
+        return $field;
+        
+    }
+    
+    function ajax_query_term(){
+        
+        if(!acf_verify_ajax())
+            die();
+        
+        // get choices
+        $response = $this->get_ajax_query_term($_POST);
+        
+        // return
+        if(!$response)
+            return;
+        
+        // return ajax
+        acf_send_ajax_results($response);
+        
+    }
+    
+    function get_ajax_query_term($options = array()){
+        
+        // defaults
+        $options = acf_parse_args($options, array(
+            'post_id'		=> 0,
+            's'				=> '',
+            'field_key'		=> '',
+            'paged'			=> 1
+        ));
+        
+        // load field
+        $field = acf_get_field($options['field_key']);
+        if(!$field)
+            return false;
+        
+        // Target field name
+        if(!in_array($field['name'], $this->terms))
+            return false;
+        
+        // vars
+        $results = array();
+        $args = array();
+        $s = false;
+        $is_search = false;
+        
+        // paged
+        $args['posts_per_page'] = 20;
+        $args['paged'] = $options['paged'];
+        
+        // search
+        if($options['s'] !== ''){
+            
+            // strip slashes (search may be integer)
+            $s = wp_unslash( strval($options['s']) );
+            
+            // update vars
+            $args['s'] = $s;
+            $is_search = true;
+            
+        }
+        
+        $terms_args = array(
+            'number' => $args['posts_per_page'],
+            'offset' => ($args['paged'] - 1) * $args['posts_per_page'],
+        );
+        
+        // get grouped terms
+        $terms = acf_get_grouped_terms($terms_args);
+        $groups = acf_get_choices_from_grouped_terms($terms, 'name');
+        
+        // bail early if no posts
+        if(empty($groups))
+            return false;
+        
+        if(!$is_search && $args['paged'] === 1){
+            
+            $results[] = array(
+                'text'		=> 'Generic',
+                'children'	=> array(
+                    array(
+                        'id'    => 'current_term',
+                        'text'  => 'Current Term',
+                    )
+                )
+            );
+        
+        }
+        
+        // loop
+        foreach(array_keys($groups) as $group_title){
+            
+            // vars
+            $terms = acf_extract_var($groups, $group_title);
+            
+            // data
+            $data = array(
+                'text'		=> $group_title,
+                'children'	=> array()
+            );
+            
+            if($is_search && empty($args['orderby'])){
+                
+                $terms = acf_order_by_search($terms, $args['s']);
+                
+            }
+            
+            // append to $data
+            foreach($terms as $term_id => $name){
+                
+                $data['children'][] = array(
+                    'id' => $term_id, 
+                    'text' => $name
+                );
+                
+            }
+            
+            // append to $results
+            $results[] = $data;
+            
+        }
+        
+        // vars
+        $response = array(
+            'results'	=> $results,
+            'limit'		=> $args['posts_per_page']
+        );
+        
+        // return
+        return $response;
+        
+    }
+    
+    function prepare_value_term($field){
+        
+        if(!acf_maybe_get($field, 'value'))
+            return $field;
+        
+        $value = $field['value'];
+        
+        $field['choices'] = array();
+        $field['choices']['current_term'] = 'Current Term';
+        
+        if(is_array($value))
+            $value = $value[0];
+        
+        $term = get_term($value);
+        
+        if($term){
+            
+            $field['choices'][$term->term_id] = $term->name;
+            
+        }
+        
+        return $field;
+        
+    }
+    
 }
 
 // initialize
-acf()->acfe_form = new acfe_form();
+acfe()->acfe_form = new acfe_form();
 
 endif;
 
 function acfe_form_render_fields($content, $post_id, $args){
     
-    return acf()->acfe_form->render_fields($content, $post_id, $args);
+    return acfe()->acfe_form->render_fields($content, $post_id, $args);
     
 }
 
-function acfe_form_map_field_value($field, $acf){
+function acfe_form_map_field_value($field, $acf, $post_id = 0){
     
-    return acf()->acfe_form->map_field_value($field, $acf);
+    return acfe()->acfe_form->map_field_value($field, $acf, $post_id);
     
 }
 
 function acfe_form_map_field_get_value($field){
     
-    return acf()->acfe_form->map_field_get_value($field);
+    return acfe()->acfe_form->map_field_get_value($field);
     
 }
 
 function acfe_form_filter_meta($meta, $acf){
     
-    return acf()->acfe_form->filter_meta($meta, $acf);
+    return acfe()->acfe_form->filter_meta($meta, $acf);
     
 }

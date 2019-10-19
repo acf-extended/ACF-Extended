@@ -13,26 +13,29 @@ class acfe_form_email{
     
     function __construct(){
         
-        add_action('acfe/form/submit/action/email', array($this, 'submit'), 1, 3);
+        add_action('acfe/form/submit/action/email',                 array($this, 'submit'), 1, 2);
+        
+        add_filter('acf/prepare_field/name=acfe_form_email_file',   array(acfe()->acfe_form, 'map_fields_deep'));
         
     }
     
-    function submit($form, $post_id, $acf){
+    function submit($form, $post_id){
         
-        $form_name = acf_maybe_get($form, 'acfe_form_name');
-        $form_id = acf_maybe_get($form, 'acfe_form_id');
+        $form_name = acf_maybe_get($form, 'form_name');
+        $form_id = acf_maybe_get($form, 'form_id');
+        $post_info = acf_get_post_id_info($post_id);
         
         $from = get_sub_field('acfe_form_email_from');
-        $from = acfe_form_map_field_value($from, $acf);
+        $from = acfe_form_map_field_value($from, $_POST['acf']);
         
         $to = get_sub_field('acfe_form_email_to');
-        $to = acfe_form_map_field_value($to, $acf);
+        $to = acfe_form_map_field_value($to, $_POST['acf']);
         
         $subject = get_sub_field('acfe_form_email_subject');
-        $subject = acfe_form_map_field_value($subject, $acf);
+        $subject = acfe_form_map_field_value($subject, $_POST['acf']);
         
         $content = get_sub_field('acfe_form_email_content');
-        $content = acfe_form_map_field_value($content, $acf);
+        $content = acfe_form_map_field_value($content, $_POST['acf']);
         
         $headers = array();
         $attachments = array();
@@ -40,8 +43,11 @@ class acfe_form_email{
         if(have_rows('acfe_form_email_files')):
             while(have_rows('acfe_form_email_files')): the_row();
             
-                $file = get_sub_field('acfe_form_email_file');
-                $file = acfe_form_map_field_value($file, $acf);
+                $file_field_key = get_sub_field('acfe_form_email_file');
+                $file_id = acfe_form_map_field_value($file_field_key, $_POST['acf']);
+                
+                $field = acf_get_field($file_field_key);
+                $file = acf_format_value($file_id, 0, $field);
                 
                 if(!acf_maybe_get($file, 'ID'))
                     continue;
@@ -64,18 +70,14 @@ class acfe_form_email{
             'attachments'   => $attachments,
         );
         
-        $args = apply_filters('acfe/form/submit/mail_args',                      $args, $form);
-        $args = apply_filters('acfe/form/submit/mail_args/name=' . $form_name,   $args, $form);
-        $args = apply_filters('acfe/form/submit/mail_args/id=' . $form_id,       $args, $form);
+        $args = apply_filters('acfe/form/submit/action/mail/args',                      $args, $form, $post_id);
+        $args = apply_filters('acfe/form/submit/action/mail/args/name=' . $form_name,   $args, $form, $post_id);
+        $args = apply_filters('acfe/form/submit/action/mail/args/id=' . $form_id,       $args, $form, $post_id);
         
-        if($args === false)
+        if(!$args)
             return;
          
         wp_mail($args['to'], $args['subject'], $args['content'], $args['headers'], $args['attachments']);
-        
-        do_action('acfe/form/submit/mail',                       $form, $args);
-        do_action('acfe/form/submit/mail/name=' . $form_name,    $form, $args);
-        do_action('acfe/form/submit/mail/id=' . $form_id,        $form, $args);
         
     }
     

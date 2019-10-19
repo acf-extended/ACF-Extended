@@ -13,16 +13,26 @@ class acfe_form_custom{
     
     function __construct(){
         
-        add_action('acfe/form/submit/action/custom', array($this, 'submit'), 1, 3);
+        add_filter('acf/validate_value/name=acfe_form_custom_action', array($this, 'validate'), 10, 4);
         
     }
     
-    function submit($form, $post_id, $acf){
+    function validate($valid, $value, $field, $input){
         
-        $action_name = get_sub_field('acfe_form_custom_action');
+        if(!$valid)
+            return $valid;
         
-        do_action($action_name, $form, $post_id);
+        $reserved = array(
+            'custom',
+            'email',
+            'post',
+            'term',
+        );
         
+        if(in_array($value, $reserved))
+            $valid = 'This action name is not authorized';
+        
+        return $valid;
     }
     
 }
