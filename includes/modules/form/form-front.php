@@ -64,7 +64,7 @@ class acfe_form_front{
     function check_submit_form(){
         
         // Verify nonce.
-		if(!acf_verify_nonce('acf_form'))
+		if(is_admin() || !acf_verify_nonce('acf_form'))
 			return false;
 		
 		// Confirm form has been submitted.
