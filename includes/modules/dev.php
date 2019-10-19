@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 // Check setting
-if((!acf_get_setting('acfe/dev', false) && (!defined('ACFE_dev') || !ACFE_dev)) && (!acf_get_setting('acfe/super_dev', false) && (!defined('ACFE_super_dev') || !ACFE_super_dev)))
+if((!acf_get_setting('acfe/dev') && (!defined('ACFE_dev') || !ACFE_dev)) && (!acf_get_setting('acfe/super_dev') && (!defined('ACFE_super_dev') || !ACFE_super_dev)))
     return;
 
 if(!class_exists('acfe_dev')):

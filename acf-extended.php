@@ -48,11 +48,19 @@ class ACFE{
         
         // Define settings
         $this->settings = array(
-            'acfe/php'          => true,
-            'acfe/php_save'     => ACFE_THEME_PATH . '/acfe-php',
-            'acfe/php_load'     => array(ACFE_THEME_PATH . '/acfe-php'),
-            'acfe/php_found'    => false,
-            'acfe/dev'          => false,
+            'acfe/php'                              => true,
+            'acfe/php_save'                         => ACFE_THEME_PATH . '/acfe-php',
+            'acfe/php_load'                         => array(ACFE_THEME_PATH . '/acfe-php'),
+            'acfe/php_found'                        => false,
+            'acfe/dev'                              => false,
+            'acfe/modules/author'                   => true,
+            'acfe/modules/dynamic_block_types'      => true,
+            'acfe/modules/dynamic_forms'            => true,
+            'acfe/modules/dynamic_options_pages'    => true,
+            'acfe/modules/dynamic_post_types'       => true,
+            'acfe/modules/dynamic_taxonomies'       => true,
+            'acfe/modules/options'                  => true,
+            'acfe/modules/taxonomies'               => true,
         );
         
         // Init
@@ -80,6 +88,9 @@ class ACFE{
         
         // Load
         add_action('acf/init',                  array($this, 'includes'), 99);
+        
+        // AutoSync
+        add_action('acf/include_fields',        array($this, 'autosync'), 5);
         
         // Fields
         add_action('acf/include_field_types',   array($this, 'fields'));
@@ -151,26 +162,22 @@ class ACFE{
          * Modules
          */
         acfe_include('includes/modules/author.php');
-        acfe_include('includes/modules/autosync.php');
         acfe_include('includes/modules/dev.php');
         acfe_include('includes/modules/dynamic-block-type.php');
+        acfe_include('includes/modules/dynamic-form.php');
         acfe_include('includes/modules/dynamic-options-page.php');
         acfe_include('includes/modules/dynamic-post-type.php');
         acfe_include('includes/modules/dynamic-taxonomy.php');
         acfe_include('includes/modules/taxonomy.php');
         
-        /**
-         * Module: Dynamic Form
-         */
-        acfe_include('includes/modules/form/admin.php');
-        acfe_include('includes/modules/form/field-group.php');
-        acfe_include('includes/modules/form/form-front.php');
-        acfe_include('includes/modules/form/actions/custom.php');
-        acfe_include('includes/modules/form/actions/email.php');
-        //acfe_include('includes/modules/form/actions/option.php');
-        acfe_include('includes/modules/form/actions/post.php');
-        acfe_include('includes/modules/form/actions/term.php');
-        acfe_include('includes/modules/form/actions/user.php');
+    }
+    
+    /**
+     * ACFE: AutoSync
+     */
+    function autosync(){
+        
+        acfe_include('includes/modules/autosync.php');
         
     }
     

@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 // Check setting
-if(!acf_get_setting('acfe/modules/dynamic_post_types', true))
+if(!acf_get_setting('acfe/modules/dynamic_post_types'))
     return;
 
 if(!class_exists('ACFE_Admin_Tool_Import_DPT')):

@@ -3,10 +3,6 @@
 if(!defined('ABSPATH'))
     exit;
 
-// Check setting
-if(!acf_get_setting('acfe/modules/dynamic_forms', true))
-    return;
-
 if(!class_exists('acfe_form_email')):
 
 class acfe_form_email{

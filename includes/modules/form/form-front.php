@@ -3,10 +3,6 @@
 if(!defined('ABSPATH'))
     exit;
 
-// Check setting
-if(!acf_get_setting('acfe/modules/dynamic_forms', true))
-    return;
-
 if(!class_exists('acfe_form_front')):
 
 class acfe_form_front{
@@ -259,8 +255,11 @@ class acfe_form_front{
         
         $acfe_form_fields_attributes = get_field('acfe_form_fields_attributes', $form_id);
         
-        $defaults['fields_attributes']['wrapper_class'] = $acfe_form_fields_attributes['acfe_form_fields_wrapper_class'];
-        $defaults['fields_attributes']['class'] = $acfe_form_fields_attributes['acfe_form_fields_class'];
+        if(isset($acfe_form_fields_attributes['acfe_form_fields_wrapper_class']))
+            $defaults['fields_attributes']['wrapper_class'] = $acfe_form_fields_attributes['acfe_form_fields_wrapper_class'];
+        
+        if(isset($acfe_form_fields_attributes['acfe_form_fields_class']))
+            $defaults['fields_attributes']['class'] = $acfe_form_fields_attributes['acfe_form_fields_class'];
         
         $defaults['html_before_fields'] = get_field('acfe_form_html_before_fields', $form_id);
         $defaults['custom_html'] = get_field('acfe_form_custom_html', $form_id);
