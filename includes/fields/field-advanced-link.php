@@ -194,6 +194,8 @@ class acfe_field_advanced_link extends acf_field{
             ),
             
         );
+        
+        $fields = apply_filters('acfe/fields/advanced_link/fields', $fields, $field, $link);
 		
         ?>
         

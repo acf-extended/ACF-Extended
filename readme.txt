@@ -152,7 +152,7 @@ Switch font family to monospace and allow tab indent
 = ACF: New Fields =
 
 * **New Field: Advanced Link**
-Display a modern Link Selection in a modal
+Display a modern Link Selection in a modal. Add custom fields using `filter('acfe/fields/advanced_link/fields', $fields, $field, $link)`
 
 * **New Field: Button**
 Display a custom submit or button. Built-in ajax call on click. Example available in the field administration
@@ -642,7 +642,7 @@ function my_acfe_modules(){
 * Field: Post Status Selection - Added Field
 * Field: User Roles Selection - Added Field
 * Field: Hidden Input - Added Field
-* Field: Advanced Link - Added Field
+* Field: Advanced Link - Added Field. Added `filter('acfe/fields/advanced_link/fields', $fields, $field, $link)` allowing developers to add custom field to the modal
 * Field: Taxonomy Terms - Added Field
 * Field: Group - Added Modal Edition setting allowing users to edit group values in a modal
 * Field: Group - Added CSS fixes for better integration
