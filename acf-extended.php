@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.8 RC8
+ * Version:     0.8 RC
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Version
-    var $version = '0.8-rc8';
+    var $version = '0.8-rc';
     
     // Settings
     var $settings = array();
@@ -48,10 +48,10 @@ class ACFE{
         
         // Define settings
         $this->settings = array(
-            'acfe_php'          => true,
-            'acfe_php_save'     => ACFE_THEME_PATH . '/acfe-php',
-            'acfe_php_load'     => array(ACFE_THEME_PATH . '/acfe-php'),
-            'acfe_php_found'    => false,
+            'acfe/php'          => true,
+            'acfe/php_save'     => ACFE_THEME_PATH . '/acfe-php',
+            'acfe/php_load'     => array(ACFE_THEME_PATH . '/acfe-php'),
+            'acfe/php_found'    => false,
             'acfe/dev'          => false,
         );
         
@@ -190,6 +190,7 @@ class ACFE{
         acfe_include('includes/fields/field-recaptcha.php');
         acfe_include('includes/fields/field-slug.php');
         acfe_include('includes/fields/field-taxonomies.php');
+        acfe_include('includes/fields/field-taxonomy-terms.php');
         acfe_include('includes/fields/field-user-roles.php');
         
     }

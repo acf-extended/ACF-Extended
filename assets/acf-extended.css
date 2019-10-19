@@ -328,47 +328,23 @@ body.post-type-acfe-dbt #minor-publishing{
 /*
  * ACFE Form
  */
-.acf-field[data-name="acfe_form_submission_post_title_custom"],
-.acf-field[data-name="acfe_form_submission_post_author_custom"],
+.acf-field[data-name="acfe_form_post_save_post_title_custom"],
+.acf-field[data-name="acfe_form_post_save_post_name_custom"],
+.acf-field[data-name="acfe_form_post_save_post_content_custom"],
 
-.acf-field[data-name="acfe_form_post_create_post_title_custom"],
-.acf-field[data-name="acfe_form_post_create_post_name_custom"],
-.acf-field[data-name="acfe_form_post_create_post_content_custom"],
-.acf-field[data-name="acfe_form_post_create_post_author_custom"],
+.acf-field[data-name="acfe_form_term_save_name_custom"],
+.acf-field[data-name="acfe_form_term_save_slug_custom"],
+.acf-field[data-name="acfe_form_term_save_description_custom"],
 
-.acf-field[data-name="acfe_form_post_update_post_id_custom"],
-.acf-field[data-name="acfe_form_post_update_post_title_custom"],
-.acf-field[data-name="acfe_form_post_update_post_name_custom"],
-.acf-field[data-name="acfe_form_post_update_post_content_custom"],
-.acf-field[data-name="acfe_form_post_update_post_author_custom"],
-
-.acf-field[data-name="acfe_form_term_create_name_custom"],
-.acf-field[data-name="acfe_form_term_create_slug_custom"],
-.acf-field[data-name="acfe_form_term_create_parent_custom"],
-.acf-field[data-name="acfe_form_term_create_description_custom"],
-
-.acf-field[data-name="acfe_form_term_update_term_id_custom"],
-.acf-field[data-name="acfe_form_term_update_name_custom"],
-.acf-field[data-name="acfe_form_term_update_slug_custom"],
-.acf-field[data-name="acfe_form_term_update_parent_custom"],
-.acf-field[data-name="acfe_form_term_update_description_custom"],
-
-.acf-field[data-name="acfe_form_user_create_email_custom"],
-.acf-field[data-name="acfe_form_user_create_username_custom"],
-.acf-field[data-name="acfe_form_user_create_password_custom"],
-.acf-field[data-name="acfe_form_user_create_first_name_custom"],
-.acf-field[data-name="acfe_form_user_create_last_name_custom"],
-.acf-field[data-name="acfe_form_user_create_nickname_custom"],
-.acf-field[data-name="acfe_form_user_create_display_name_custom"],
-
-.acf-field[data-name="acfe_form_user_update_user_id_custom"],
-.acf-field[data-name="acfe_form_user_update_email_custom"],
-.acf-field[data-name="acfe_form_user_update_username_custom"],
-.acf-field[data-name="acfe_form_user_update_password_custom"],
-.acf-field[data-name="acfe_form_user_update_first_name_custom"],
-.acf-field[data-name="acfe_form_user_update_last_name_custom"],
-.acf-field[data-name="acfe_form_user_update_nickname_custom"],
-.acf-field[data-name="acfe_form_user_update_display_name_custom"]{
+.acf-field[data-name="acfe_form_user_save_email_custom"],
+.acf-field[data-name="acfe_form_user_save_username_custom"],
+.acf-field[data-name="acfe_form_user_save_password_custom"],
+.acf-field[data-name="acfe_form_user_save_first_name_custom"],
+.acf-field[data-name="acfe_form_user_save_last_name_custom"],
+.acf-field[data-name="acfe_form_user_save_nickname_custom"],
+.acf-field[data-name="acfe_form_user_save_display_name_custom"],
+.acf-field[data-name="acfe_form_user_save_website_custom"],
+.acf-field[data-name="acfe_form_user_save_description_custom"]{
     border-top:0;
     padding-top:0;
 }
@@ -391,6 +367,14 @@ body.post-type-acfe-dbt #minor-publishing{
     background: #f7f7f7;
     box-shadow: 0 1px 0 #ccc;
     text-shadow:none;
+}
+
+form.acfe-form.is-invalid[data-hide-error="1"] > .acf-error-message.-dismiss{
+    display:none;
+}
+
+form.acfe-form.is-invalid[data-errors-position="below"] .acf-field .acf-notice{
+    margin:15px 0 0;
 }
 
 /*

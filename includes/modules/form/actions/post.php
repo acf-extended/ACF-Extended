@@ -13,412 +13,509 @@ class acfe_form_post{
     
     function __construct(){
         
-        add_filter('acfe/form/load/action/post', array($this, 'load'), 1);
-        add_action('acfe/form/submit/action/post', array($this, 'submit'), 1, 3);
+        /*
+         * Form
+         */
+        add_filter('acfe/form/load/action/post',                                    array($this, 'load'), 1, 2);
+        add_action('acfe/form/submit/action/post',                                  array($this, 'submit'), 1, 2);
+        
+        /*
+         * Admin
+         */
+        add_filter('acf/prepare_field/name=acfe_form_post_save_meta',               array(acfe()->acfe_form, 'map_fields'));
+        add_filter('acf/prepare_field/name=acfe_form_post_load_meta',               array(acfe()->acfe_form, 'map_fields_deep'));
+        
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_type',           array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_status',         array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_title',          array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_name',           array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_content',        array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_author',         array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_parent',         array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_terms',          array(acfe()->acfe_form, 'map_fields_deep'));
         
     }
     
-    function load($args){
+    function load($form, $post_id){
         
-        $form_name = acf_maybe_get($args, 'acfe_form_name');
-        $form_id = acf_maybe_get($args, 'acfe_form_id');
+        // Form
+        $form_name = acf_maybe_get($form, 'form_name');
+        $form_id = acf_maybe_get($form, 'form_id');
+        $post_info = acf_get_post_id_info($post_id);
         
-        // Behavior
-        $post_behavior = get_sub_field('acfe_form_post_behavior');
+        // Action
+        $post_action = get_sub_field('acfe_form_post_action');
         
-        // Update Post
-        if($post_behavior !== 'update_post')
-            return $args;
+        // Load values
+        $load_values = get_sub_field('acfe_form_post_load_values');
+        $load_source = get_sub_field('acfe_form_post_load_source');
+        $load_meta = get_sub_field('acfe_form_post_load_meta');
         
-        if(!get_sub_field('acfe_form_post_update_load'))
-            return $args;
+        // Load values
+        if(!$load_values)
+            return $form;
         
-        $_post_id_group = get_sub_field('acfe_form_post_update_post_id_group');
-        $_post_id_data = $_post_id_group['acfe_form_post_update_post_id'];
-        $_post_id_custom = $_post_id_group['acfe_form_post_update_post_id_custom'];
+        $_post_type = get_sub_field('acfe_form_post_map_post_type');
+        $_post_status = get_sub_field('acfe_form_post_map_post_status');
+        $_post_title = get_sub_field('acfe_form_post_map_post_title');
+        $_post_name = get_sub_field('acfe_form_post_map_post_name');
+        $_post_content = get_sub_field('acfe_form_post_map_post_content');
+        $_post_author = get_sub_field('acfe_form_post_map_post_author');
+        $_post_parent = get_sub_field('acfe_form_post_map_post_parent');
+        $_post_terms = get_sub_field('acfe_form_post_map_post_terms');
         
-        $_post_type = get_sub_field('acfe_form_post_update_post_type');
-        $_post_status = get_sub_field('acfe_form_post_update_post_status');
-        
-        $_post_title_group = get_sub_field('acfe_form_post_update_post_title_group');
-        $_post_title = $_post_title_group['acfe_form_post_update_post_title'];
-        
-        $_post_name_group = get_sub_field('acfe_form_post_update_post_name_group');
-        $_post_name = $_post_name_group['acfe_form_post_update_post_name'];
-        
-        $_post_content_group = get_sub_field('acfe_form_post_update_post_content_group');
-        $_post_content = $_post_content_group['acfe_form_post_update_post_content'];
-        
-        $_post_author_group = get_sub_field('acfe_form_post_update_post_author_group');
-        $_post_author = $_post_author_group['acfe_form_post_update_post_author'];
-        
-        // var
-        $_post_id = $args['post_id'];
-        
-        // Current post
-        if($_post_id_data === 'current_post'){
-            
-            $_post_id = acf_get_valid_post_id();
+        $_post_id = 0;
         
         // Custom Post ID
-        }elseif($_post_id_data === 'custom_post_id'){
+        if($load_source !== 'current_post'){
             
-            $_post_id = acfe_form_map_field_get_value($_post_id_custom);
-        
-        // Field
-        }elseif(acf_is_field_key($_post_id_data)){
-            
-            $_post_id = get_field($_post_id_data);
+            $_post_id = $load_source;
         
         }
         
-        $_post_id = apply_filters('acfe/form/load/post_id',                      $_post_id, $args);
-        $_post_id = apply_filters('acfe/form/load/post_id/name=' . $form_name,   $_post_id, $args);
-        $_post_id = apply_filters('acfe/form/load/post_id/id=' . $form_id,       $_post_id, $args);
+        // Current Post
+        elseif($load_source === 'current_post'){
+            
+            if($post_info['type'] === 'post')
+                $_post_id = $post_info['id'];
+            
+        }
         
-        // ID
-        $args['post_id'] = $_post_id;
+        $_post_id = apply_filters('acfe/form/load/action/post/' . $post_action . '_id',                      $_post_id, $form);
+        $_post_id = apply_filters('acfe/form/load/action/post/' . $post_action . '_id/name=' . $form_name,   $_post_id, $form);
+        $_post_id = apply_filters('acfe/form/load/action/post/' . $post_action . '_id/id=' . $form_id,       $_post_id, $form);
+        
+        // Invalid Post ID
+        if(!$_post_id)
+            return;
         
         // Post type
         if(acf_is_field_key($_post_type)){
             
-            $args['map'][$_post_type]['value'] = get_post_field('post_type', $_post_id);
+            $key = array_search($_post_type, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_post_type]['value'] = get_post_field('post_type', $_post_id);
+                
+            }
             
         }
         
         // Post status
         if(acf_is_field_key($_post_status)){
             
-            $args['map'][$_post_status]['value'] = get_post_field('post_status', $_post_id);
+            $key = array_search($_post_type, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_post_status]['value'] = get_post_field('post_status', $_post_id);
+                
+            }
             
         }
         
         // Post title
         if(acf_is_field_key($_post_title)){
             
-            $args['map'][$_post_title]['value'] = get_post_field('post_title', $_post_id);
+            $key = array_search($_post_title, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_post_title]['value'] = get_post_field('post_title', $_post_id);
+            
+            }
             
         }
         
         // Post name
         if(acf_is_field_key($_post_name)){
             
-            $args['map'][$_post_name]['value'] = get_post_field('post_name', $_post_id);
+            $key = array_search($_post_name, $load_meta);
+            
+            if($key !== false){
+            
+                unset($load_meta[$key]);
+                $form['map'][$_post_name]['value'] = get_post_field('post_name', $_post_id);
+            
+            }
             
         }
         
         // Post content
         if(acf_is_field_key($_post_content)){
             
-            $args['map'][$_post_content]['value'] = get_post_field('post_content', $_post_id);
+            $key = array_search($_post_content, $load_meta);
+            
+            if($key !== false){
+            
+                unset($load_meta[$key]);
+                $form['map'][$_post_content]['value'] = get_post_field('post_content', $_post_id);
+            
+            }
             
         }
         
         // Post author
         if(acf_is_field_key($_post_author)){
             
-            $args['map'][$_post_author]['value'] = get_post_field('post_author', $_post_id);
+            $key = array_search($_post_author, $load_meta);
+            
+            if($key !== false){
+            
+                unset($load_meta[$key]);
+                $form['map'][$_post_author]['value'] = get_post_field('post_author', $_post_id);
+            
+            }
             
         }
         
-        return $args;
+        // Post parent
+        if(acf_is_field_key($_post_parent)){
+            
+            $key = array_search($_post_parent, $load_meta);
+            
+            if($key !== false){
+            
+                unset($load_meta[$key]);
+                $form['map'][$_post_parent]['value'] = get_post_field('post_parent', $_post_id);
+            
+            }
+            
+        }
+        
+        // Post terms
+        if(acf_is_field_key($_post_terms)){
+            
+            $key = array_search($_post_terms, $load_meta);
+            
+            if($key !== false){
+            
+                unset($load_meta[$key]);
+                
+                $taxonomies = acf_get_taxonomies(array(
+                    'post_type' => get_post_type($_post_id)
+                ));
+                
+                if(!empty($taxonomies)){
+                    
+                    $terms = array();
+                    
+                    foreach($taxonomies as $taxonomy){
+                        
+                        $get_the_terms = get_the_terms($_post_id, $taxonomy);
+                        if(!$get_the_terms || is_wp_error($get_the_terms))
+                            continue;
+                        
+                        $terms = array_merge($terms, $get_the_terms);
+                        
+                    }
+                    
+                    $return = wp_list_pluck($terms, 'term_id');
+                    
+                    $form['map'][$_post_terms]['value'] = $return;
+                    
+                }
+                
+                
+            
+            }
+            
+        }
+        
+        // Load others values
+        if(!empty($load_meta)){
+            
+            foreach($load_meta as $field_key){
+                
+                $field = acf_get_field($field_key);
+                
+                $form['map'][$field_key]['value'] = acf_get_value($_post_id, $field);
+                
+            }
+            
+        }
+        
+        return $form;
         
     }
     
-    function submit($form, $post_id, $acf){
+    function submit($form, $post_id){
         
-        $form_name = acf_maybe_get($form, 'acfe_form_name');
-        $form_id = acf_maybe_get($form, 'acfe_form_id');
+        $form_name = acf_maybe_get($form, 'form_name');
+        $form_id = acf_maybe_get($form, 'form_id');
+        $post_info = acf_get_post_id_info($post_id);
         
-        // Behavior
-        $post_behavior = get_sub_field('acfe_form_post_behavior');
+        // Action
+        $post_action = get_sub_field('acfe_form_post_action');
         
-        // Create Post
-        if($post_behavior === 'create_post'){
+        // Mapping
+        $map = array(
+            'post_type'     => get_sub_field('acfe_form_post_map_post_type'),
+            'post_status'   => get_sub_field('acfe_form_post_map_post_status'),
+            'post_title'    => get_sub_field('acfe_form_post_map_post_title'),
+            'post_name'     => get_sub_field('acfe_form_post_map_post_name'),
+            'post_content'  => get_sub_field('acfe_form_post_map_post_content'),
+            'post_author'   => get_sub_field('acfe_form_post_map_post_author'),
+            'post_parent'   => get_sub_field('acfe_form_post_map_post_parent'),
+            'post_terms'    => get_sub_field('acfe_form_post_map_post_terms'),
+        );
+        
+        // Fields
+        $_target = get_sub_field('acfe_form_post_save_target');
+        
+        $_post_type = get_sub_field('acfe_form_post_save_post_type');
+        $_post_status = get_sub_field('acfe_form_post_save_post_status');
+        
+        $_post_title_group = get_sub_field('acfe_form_post_save_post_title_group');
+        $_post_title = $_post_title_group['acfe_form_post_save_post_title'];
+        $_post_title_custom = $_post_title_group['acfe_form_post_save_post_title_custom'];
+        
+        $_post_name_group = get_sub_field('acfe_form_post_save_post_name_group');
+        $_post_name = $_post_name_group['acfe_form_post_save_post_name'];
+        $_post_name_custom = $_post_name_group['acfe_form_post_save_post_name_custom'];
+        
+        $_post_content_group = get_sub_field('acfe_form_post_save_post_content_group');
+        $_post_content = $_post_content_group['acfe_form_post_save_post_content'];
+        $_post_content_custom = $_post_content_group['acfe_form_post_save_post_content_custom'];
+        
+        $_post_author = get_sub_field('acfe_form_post_save_post_author');
+        $_post_parent = get_sub_field('acfe_form_post_save_post_parent');
+        $_post_terms = get_sub_field('acfe_form_post_save_post_terms');
+        
+        $_post_id = 0;
+        
+        // Insert Post
+        if($post_action === 'insert_post'){
             
-            $_post_type = get_sub_field('acfe_form_post_create_post_type');
-            $_post_status = get_sub_field('acfe_form_post_create_post_status');
-            
-            $_post_title_group = get_sub_field('acfe_form_post_create_post_title_group');
-            $_post_title = $_post_title_group['acfe_form_post_create_post_title'];
-            $_post_title_custom = $_post_title_group['acfe_form_post_create_post_title_custom'];
-            
-            $_post_name_group = get_sub_field('acfe_form_post_create_post_name_group');
-            $_post_name = $_post_name_group['acfe_form_post_create_post_name'];
-            $_post_name_custom = $_post_name_group['acfe_form_post_create_post_name_custom'];
-            
-            $_post_content_group = get_sub_field('acfe_form_post_create_post_content_group');
-            $_post_content = $_post_content_group['acfe_form_post_create_post_content'];
-            $_post_content_custom = $_post_content_group['acfe_form_post_create_post_content_custom'];
-            
-            $_post_author_group = get_sub_field('acfe_form_post_create_post_author_group');
-            $_post_author = $_post_author_group['acfe_form_post_create_post_author'];
-            $_post_author_custom = $_post_author_group['acfe_form_post_create_post_author_custom'];
-            
-            // Insert Post
-            $_post_id = wp_insert_post(array(
-                'post_title' => 'post'
-            ));
-            
-            $args = array();
-            
-            // ID
-            $args['ID'] = $_post_id;
-            
-            // Post type
-            $args['post_type'] = acfe_form_map_field_value($_post_type, $acf);
-            
-            // Post status
-            $args['post_status'] = acfe_form_map_field_value($_post_status, $acf);
+            $temp_title = false;
             
             // Post title
-            $args['post_title'] = $_post_id;
-            
-            if(acf_is_field_key($_post_title)){
+            if(!empty($map['post_title'])){
                 
-                $args['post_title'] = acfe_form_map_field_value($_post_title, $acf);
+                $temp_title = acfe_form_map_field_value($map['post_title'], $_POST['acf'], $_post_id);
+                
+            }elseif($_post_title === 'generated_id'){
+                
+                $temp_title = true;
                 
             }elseif($_post_title === 'custom'){
                 
-                $args['post_title'] = acfe_form_map_field_value($_post_title_custom, $acf);
+                $temp_title = acfe_form_map_field_value($_post_title_custom, $_POST['acf'], $_post_id);
                 
             }
             
-            // Post name
-            $args['post_name'] = $args['post_title'];
-            
-            if(acf_is_field_key($_post_name)){
+            if(!empty($temp_title)){
                 
-                $args['post_name'] = acfe_form_map_field_value($_post_name, $acf);
-                
-            }elseif($_post_name === 'generated_id'){
-                
-                $args['post_name'] = $_post_id;
-                
-            }elseif($_post_name === 'custom'){
-                
-                $args['post_name'] = acfe_form_map_field_value($_post_name_custom, $acf);
-                
-            }
-            
-            // Post content
-            if(acf_is_field_key($_post_content)){
-                
-                $args['post_content'] = acfe_form_map_field_value($_post_content, $acf);
-                
-            }elseif($_post_content === 'custom'){
-                
-                $args['post_content'] = acfe_form_map_field_value($_post_content_custom, $acf);
-                
-            }
-            
-            // Post author
-            if($_post_author === 'current_user'){
-                
-                $args['post_author'] = get_current_user_id();
-                
-            }elseif($_post_author === 'custom_user_id'){
-                
-                $args['post_author'] = $_post_author_custom;
-                
-            }elseif(acf_is_field_key($_post_author)){
-                
-                $args['post_author'] = acfe_form_map_field_value($_post_author, $acf);
-                
-            }
-            
-            $args = apply_filters('acfe/form/submit/insert_post_args',                      $args, $form, $_post_id);
-            $args = apply_filters('acfe/form/submit/insert_post_args/name=' . $form_name,   $args, $form, $_post_id);
-            $args = apply_filters('acfe/form/submit/insert_post_args/id=' . $form_id,       $args, $form, $_post_id);
-            
-            if($args === false)
-                return;
-            
-            // Update Post
-            $_post_id = wp_update_post($args);
-            
-            do_action('acfe/form/submit/insert_post',                       $form, $_post_id, $args);
-            do_action('acfe/form/submit/insert_post/name=' . $form_name,    $form, $_post_id, $args);
-            do_action('acfe/form/submit/insert_post/id=' . $form_id,        $form, $_post_id, $args);
-            
-            // Meta save
-            $_meta = get_sub_field('acfe_form_post_meta');
-            
-            $data = acfe_form_filter_meta($_meta, $acf);
-            
-            if(!empty($data)){
-                
-                // Save meta fields
-                acf_save_post($_post_id, $data);
+                $_post_id = wp_insert_post(array(
+                    'post_title' => 'Post'
+                ));
             
             }
             
         }
         
         // Update Post
-        elseif($post_behavior === 'update_post'){
-            
-            $_post_id_group = get_sub_field('acfe_form_post_update_post_id_group');
-            $_post_id_data = $_post_id_group['acfe_form_post_update_post_id'];
-            $_post_id_custom = $_post_id_group['acfe_form_post_update_post_id_custom'];
-            
-            $_post_type = get_sub_field('acfe_form_post_update_post_type');
-            $_post_status = get_sub_field('acfe_form_post_update_post_status');
-            
-            $_post_title_group = get_sub_field('acfe_form_post_update_post_title_group');
-            $_post_title = $_post_title_group['acfe_form_post_update_post_title'];
-            $_post_title_custom = $_post_title_group['acfe_form_post_update_post_title_custom'];
-            
-            $_post_name_group = get_sub_field('acfe_form_post_update_post_name_group');
-            $_post_name = $_post_name_group['acfe_form_post_update_post_name'];
-            $_post_name_custom = $_post_name_group['acfe_form_post_update_post_name_custom'];
-            
-            $_post_content_group = get_sub_field('acfe_form_post_update_post_content_group');
-            $_post_content = $_post_content_group['acfe_form_post_update_post_content'];
-            $_post_content_custom = $_post_content_group['acfe_form_post_update_post_content_custom'];
-            
-            $_post_author_group = get_sub_field('acfe_form_post_update_post_author_group');
-            $_post_author = $_post_author_group['acfe_form_post_update_post_author'];
-            $_post_author_custom = $_post_author_group['acfe_form_post_update_post_author_custom'];
-            
-            // var
-            $_post_id = false;
-            
-            // Current post
-            if($_post_id_data === 'current_post'){
-                
-                $_post_id = acf_get_valid_post_id();
+        elseif($post_action === 'update_post'){
             
             // Custom Post ID
-            }elseif($_post_id_data === 'custom_post_id'){
+            if($_target !== 'current_post'){
                 
-                $_post_id = $_post_id_custom;
+                $_post_id = $_target;
             
-            // Field
-            }elseif(acf_is_field_key($_post_id_data)){
+            }
+            
+            // Current Post
+            elseif($_target === 'current_post'){
                 
-                $_post_id = acfe_form_map_field_value($_post_id_data, $acf);
+                if($post_info['type'] === 'post')
+                    $_post_id = $post_info['id'];
                 
             }
             
-            $args = array();
+        }
+        
+        // Invalid Post ID
+        if(!$_post_id)
+            return;
+        
+        $args = array();
+        
+        // ID
+        $args['ID'] = $_post_id;
+        
+        // Post type
+        if(!empty($map['post_type'])){
             
-            // ID
-            $args['ID'] = $_post_id;
+            $args['post_type'] = acfe_form_map_field_value($map['post_type'], $_POST['acf'], $_post_id);
             
-            // Post type
-            if(!empty($_post_type)){
+        }elseif(!empty($_post_type)){
+            
+            $args['post_type'] = $_post_type;
+        
+        }
+        
+        // Post status
+        if(!empty($map['post_status'])){
+            
+            $args['post_status'] = acfe_form_map_field_value($map['post_status'], $_POST['acf'], $_post_id);
+            
+        }elseif(!empty($_post_status)){
+            
+            $args['post_status'] = $_post_status;
+        
+        }
+        
+        // Post title
+        if(!empty($map['post_title'])){
+            
+            $args['post_title'] = acfe_form_map_field_value($map['post_title'], $_POST['acf'], $_post_id);
+            
+        }elseif($_post_title === 'generated_id'){
+            
+            $args['post_title'] = $_post_id;
+            
+        }elseif($_post_title === 'custom'){
+            
+            $args['post_title'] = acfe_form_map_field_value($_post_title_custom, $_POST['acf'], $_post_id);
+            
+        }
+        
+        // Post name
+        if(!empty($map['post_name'])){
+            
+            $args['post_name'] = acfe_form_map_field_value($map['post_name'], $_POST['acf'], $_post_id);
+            
+        }elseif($_post_name === 'generated_id'){
+            
+            $args['post_name'] = $_post_id;
+            
+        }elseif($_post_name === 'custom'){
+            
+            $args['post_name'] = acfe_form_map_field_value($_post_name_custom, $_POST['acf'], $_post_id);
+            
+        }
+        
+        // Post content
+        if(!empty($map['post_content'])){
+            
+            $args['post_content'] = acfe_form_map_field_value($map['post_content'], $_POST['acf'], $_post_id);
+            
+        }elseif($_post_content === 'custom'){
+            
+            $args['post_content'] = acfe_form_map_field_value($_post_content_custom, $_POST['acf'], $_post_id);
+            
+        }
+        
+        // Post author
+        if(!empty($map['post_author'])){
+            
+            $args['post_author'] = acfe_form_map_field_value($map['post_author'], $_POST['acf'], $_post_id);
+            
+        }elseif(!empty($_post_author)){
+            
+            // Custom user ID
+            $args['post_author'] = $_post_author;
+            
+            // Current User
+            if($_post_author === 'current_user'){
                 
-                $args['post_type'] = acfe_form_map_field_value($_post_type, $acf);
+                $args['post_author'] = get_current_user_id();
+            
+            // Current Post Author
+            }elseif($_post_author === 'current_post_author'){
+                
+                if($post_info['type'] === 'post')
+                    $args['post_author'] = get_post_field('post_author', $post_info['id']);
                 
             }
             
-            // Post status
-            if(!empty($_post_status)){
-                
-                $args['post_status'] = acfe_form_map_field_value($_post_status, $acf);
-                
-            }
+        }
+        
+        // Post parent
+        if(!empty($map['post_parent'])){
             
-            // Post title
-            if(!empty($_post_title)){
+            $args['post_parent'] = acfe_form_map_field_value($map['post_parent'], $_POST['acf'], $_post_id);
+            
+        }elseif(!empty($_post_parent)){
+            
+            // Custom Post ID
+            $args['post_parent'] = $_post_parent;
+            
+            // Current Post
+            if($_post_parent === 'current_post'){
                 
-                if(acf_is_field_key($_post_title)){
-                    
-                    $args['post_title'] = acfe_form_map_field_value($_post_title, $acf);
-                    
-                }elseif($_post_title === 'generated_id'){
-                    
-                    $args['post_title'] = $_post_id;
-                    
-                }elseif($_post_title === 'custom'){
-                    
-                    $args['post_title'] = acfe_form_map_field_value($_post_title_custom, $acf);
-                    
-                }
+                if($post_info['type'] === 'post')
+                    $args['post_parent'] = $post_info['id'];
                 
             }
             
-            // Post name
-            if(!empty($_post_name)){
-                
-                if(acf_is_field_key($_post_name)){
-                    
-                    $args['post_name'] = acfe_form_map_field_value($_post_name, $acf);
-                    
-                }elseif($_post_name === 'generated_id'){
-                    
-                    $args['post_name'] = $_post_id;
-                    
-                }elseif($_post_name === 'custom'){
-                    
-                    $args['post_name'] = acfe_form_map_field_value($_post_name_custom, $acf);
-                    
-                }
-                
-            }
+        }
+        
+        $terms = array();
+        
+        // Post terms
+        if(!empty($map['post_terms'])){
             
-            // Post content
-            if(!empty($_post_content)){
+            $terms = acf_array(acfe_form_map_field_value($map['post_terms'], $_POST['acf'], $_post_id));
+            
+        }elseif(!empty($_post_terms)){
+            
+            $terms = acf_array($_post_terms);
+            
+        }
+        
+        // Tax input
+        if(!empty($terms)){
+            
+            foreach($terms as $term){
                 
-                if(acf_is_field_key($_post_content)){
-                    
-                    $args['post_content'] = acfe_form_map_field_value($_post_content, $acf);
-                    
-                }elseif($_post_content === 'custom'){
-                    
-                    $args['post_content'] = acfe_form_map_field_value($_post_content_custom, $acf);
-                    
-                }
+                $args['tax_input'][$term->taxonomy][] = $term->term_id;
                 
             }
             
-            // Post author
-            if(!empty($_post_author)){
-                
-                if($_post_author === 'current_user'){
-                    
-                    $args['post_author'] = get_current_user_id();
-                    
-                }elseif($_post_author === 'custom_user_id'){
-                    
-                    $args['post_author'] = $_post_author_custom;
-                    
-                }elseif(acf_is_field_key($_post_author)){
-                    
-                    $args['post_author'] = acfe_form_map_field_value($_post_author, $acf);
-                    
-                }
-                
-            }
+        }
+        
+        $args = apply_filters('acfe/form/submit/action/post/' . $post_action . '_args',                     $args, $form, $_post_id);
+        $args = apply_filters('acfe/form/submit/action/post/' . $post_action . '_args/name=' . $form_name,  $args, $form, $_post_id);
+        $args = apply_filters('acfe/form/submit/action/post/' . $post_action . '_args/id=' . $form_id,      $args, $form, $_post_id);
+        
+        if($args === false)
+            return;
+        
+        // Update Post
+        $_post_id = wp_update_post($args);
+        
+        do_action('acfe/form/submit/action/post/' . $post_action,                           $form, $_post_id, $args);
+        do_action('acfe/form/submit/action/post/' . $post_action . '/name=' . $form_name,   $form, $_post_id, $args);
+        do_action('acfe/form/submit/action/post/' . $post_action . '/id=' . $form_id,       $form, $_post_id, $args);
+        
+        // Meta save
+        $save_meta = get_sub_field('acfe_form_post_save_meta');
+        
+        if(!empty($save_meta)){
             
-            $args = apply_filters('acfe/form/submit/update_post_args',                      $args, $form, $_post_id);
-            $args = apply_filters('acfe/form/submit/update_post_args/name=' . $form_name,   $args, $form, $_post_id);
-            $args = apply_filters('acfe/form/submit/update_post_args/id=' . $form_id,       $args, $form, $_post_id);
-            
-            if($args === false)
-                return;
-            
-            // Update Post
-            $_post_id = wp_update_post($args);
-            
-            do_action('acfe/form/submit/update_post',                       $form, $_post_id, $args);
-            do_action('acfe/form/submit/update_post/name=' . $form_name,    $form, $_post_id, $args);
-            do_action('acfe/form/submit/update_post/id=' . $form_id,        $form, $_post_id, $args);
-            
-            // Meta save
-            $_meta = get_sub_field('acfe_form_post_meta');
-            
-            $data = acfe_form_filter_meta($_meta, $acf);
+            $data = acfe_form_filter_meta($save_meta, $_POST['acf']);
             
             if(!empty($data)){
                 
+                // Backup original acf post data
+                $acf = $_POST['acf'];
+                
                 // Save meta fields
                 acf_save_post($_post_id, $data);
+                
+                // Restore original acf post data
+                $_POST['acf'] = $acf;
             
             }
             
         }
+        
+        
         
     }
     

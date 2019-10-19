@@ -439,7 +439,7 @@ function acfe_render_field_acfe_sync_warnings($field){
     // Fix to load local fiel groups
     acf_enable_filters();
     
-        if(acfe_has_field_group_autosync($field_group, 'php') && !acf_get_setting('acfe_php_found')){
+        if(acfe_has_field_group_autosync($field_group, 'php') && !acf_get_setting('acfe/php_found')){
             echo '<p class="description"><span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="dashicons dashicons-warning"></span> Folder <code style="font-size:11px;">/acfe-php</code> was not found in your theme. You must create it to activate PHP Sync</p>';
         }
         

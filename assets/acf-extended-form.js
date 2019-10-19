@@ -3,6 +3,16 @@
     if(typeof acf === 'undefined')
         return;
     
+    $(document).ready(function($){
+        
+        if($('.acfe-form[data-hide-unload="1"]').length){
+            
+            acf.unload.disable();
+            
+        }
+        
+    });
+    
     // Datepicker: Add field class
     acf.addAction('new_field/type=date_picker', function(field){
         
@@ -11,7 +21,7 @@
         if(!$form.length)
             return;
         
-        var field_class = $form.data('acfe-form-fields-class');
+        var field_class = $form.data('fields-class');
         
         if(field_class)
             field.$inputText().addClass(field_class);
@@ -26,7 +36,7 @@
         if(!$form.length)
             return;
         
-        var field_class = $form.data('acfe-form-fields-class');
+        var field_class = $form.data('fields-class');
         
         if(field_class)
             field.$search().addClass(field_class);
@@ -41,8 +51,8 @@
         if(!$form.length)
             return;
         
-        var errors_position = $form.data('acfe-form-errors-position');
-        var errors_class = $form.data('acfe-form-errors-class');
+        var errors_position = $form.data('errors-position');
+        var errors_class = $form.data('errors-class');
         
         // Class
         if(errors_class && errors_class.length){
@@ -85,6 +95,13 @@
                 $form_error = $('<div class="acf-notice -error acf-error-message acfe-form-error" />').prependTo($form);
             
             $form_error.append('<p>' + message + '</p>');
+            
+        }
+        
+        // Hide errors
+        else if(errors_position && errors_position === 'hide'){
+            
+            field.$el.find('.acf-notice.-error').remove();
             
         }
         

@@ -39,7 +39,7 @@ function acfe_field_groups_column($columns){
     $columns['acfe-local'] = __('Load');
     
     // PHP sync
-    if(acf_get_setting('acfe_php'))
+    if(acf_get_setting('acfe/php'))
         $columns['acfe-autosync-php'] = __('PHP sync');
     
     // Json sync
@@ -322,7 +322,7 @@ function acfe_field_groups_column_html($column, $post_id){
             
         }
         
-        if(!acf_get_setting('acfe_php_found')){
+        if(!acf_get_setting('acfe/php_found')){
             
             echo '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
             

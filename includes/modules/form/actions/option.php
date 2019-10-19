@@ -20,8 +20,8 @@ class acfe_form_option{
     
     function load($args){
         
-        $form_name = acf_maybe_get($args, 'acfe_form_name');
-        $form_id = acf_maybe_get($args, 'acfe_form_id');
+        $form_name = acf_maybe_get($args, 'form_name');
+        $form_id = acf_maybe_get($args, 'form_id');
         
         if(!get_sub_field('acfe_form_option_load'))
             return $args;
@@ -58,8 +58,8 @@ class acfe_form_option{
     
     function submit($form, $post_id, $acf){
         
-        $form_name = acf_maybe_get($form, 'acfe_form_name');
-        $form_id = acf_maybe_get($form, 'acfe_form_id');
+        $form_name = acf_maybe_get($form, 'form_name');
+        $form_id = acf_maybe_get($form, 'form_id');
         
         $_option_name_group = get_sub_field('acfe_form_option_name_group');
         $_option_name = $_option_name_group['acfe_form_option_name'];

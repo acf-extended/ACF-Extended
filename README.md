@@ -173,6 +173,9 @@ A slug text input (ie: `my-text-input`)
 * **New Field: Taxonomy selection**
 Select any taxonomy (format: checkbox, radio or select)
 
+* **New Field: Taxonomy Terms selection**
+Select any terms of any taxonomies (format: checkbox or select)
+
 * **New Field: User roles selection**
 Select any user role (format: checkbox, radio or select)
 
@@ -188,7 +191,7 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Render multiple field groups in one single form with custom HTML between them
 * Apply custom CSS class to all fields & wrappers
 * Apply custom CSS class to fields errors
-* Group errors above the form, or display them above or below fields
+* Group errors above the form, display them above fields, below fields or them
 * Hide form on successful submission
 * Map fields and change their settings based on the location (front-end/back-end)
 * Add multiple actions on form submission:
@@ -285,64 +288,42 @@ Manage ACF Block Types from ACF > Block Types.
 
 ## 📋 Changelog
 
-### 0.8 RC8
-* Module: Dynamic Forms - Added Term Action (Create/Update)
-* Module: Dynamic Forms - Added `filter('acfe/form/load/post_id', $post_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/term_id', $term_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/user_id', $user_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/fields', $fields_mapping)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/insert_post_args', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/insert_post', $form, $post_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/update_post_args', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/update_post', $form, $post_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/insert_term_args', $args, $form)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/insert_term', $form, $term_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/update_term_args', $args, $form, $term_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/update_term', $form, $term_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/insert_user_args', $args, $form)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/insert_user', $form, $user_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/update_user_args', $args, $form, $user_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/update_user', $form, $user_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/mail_args', $args, $form)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/mail', $form, $args)`
-
-### 0.8 RC7
-* Module: Dynamic Forms - Added Create & Update User action
-* Module: Dynamic Forms - Removed Submission post type & action. User should now create its own post type
-* Module: Dynamic Forms - Moved the 'Forms' menu to ACF submenu
-* Settings: Fixed `save_json` setting being incorrectly displayed in the ACF Setting tab
-
-### 0.8 RC6
-* Module: Settings - Added ACF Extended tab to list the plugin's current settings
-* Module: Dynamic Forms - Fixed the 'Advanced setting' update when a field group is added to a form
-* Field: Flexible Content - Fixed Style/Script render filters when returning a full URL
-
-### 0.8 RC5
-* Module: Dynamic Forms - Added Fields errors position setting: Above, below or grouped
-* Module: Dynamic Forms - Added Fields errors class setting
-* Module: Dynamic Forms - `acf_form_head()` is not needed anymore. Everything is automatic now
-
-### 0.8 RC4
-* Module: Dynamic Forms - Added `action('acfe/form/validation', $form)` & `action('acfe/form/validation/name=form_name', $form)` to validate form before submission. `get_field()`, `have_rows()`, `get_sub_field()` functions can be used.
-* Module: Dynamic Forms - Added `acfe_form_add_field_error('field_name_or_key', 'message')` helper to add error on specific field during the validation
-* Module: Dynamic Forms - Added `action('acfe/form/submit', $form)` & `action('acfe/form/submit/name=form_name', $form)` to add custom action on submission
-* Module: Dynamic Forms - Fixed form submit priority
-* Module: Dynamic Forms - Fixed Submission field group display
-* Module: Dynamic Forms - Removed Submission "Add new" capability
-
-### 0.8 RC3
-* Module: Dynamic Forms - Fixed Post ID on submission
-* Module: Field Group - Fixed tooltip instructions placement
-
-### 0.8 RC2
-* Module: Added 'Dev mode' which replace the WP Post Meta box with more details data (in posts & terms). It also enable `SCRIPT_DEBUG`. Can be activated using `acf_update_setting('acfe/dev', true)` or `define('ACFE_dev', true)`
-
-### 0.8 RC1
-* Module: Dynamic Forms Added
-* Module: Dynamic Forms - Added PHP helper `acfe_form('my_form_name');` & `acfe_form(188);` to display a form
+### 0.8 RC
+* Module: Dynamic Forms - Added module. Forms UI available under ACF menu
+* Module: Dynamic Forms - Added PHP helper `acfe_form('my_form_name')` & `acfe_form(188)` to display a form
 * Module: Dynamic Forms - Added shortcode `[acfe_form name="my_form_name"]` & `[acfe_form ID="188"]` to display a form
 * Module: Dynamic Forms - Added setting to disable Dynamic Forms: `acf_update_setting('acfe/modules/dynamic_forms', false)`
-* Module: Dynamic Forms - Added setting to disable Dynamic Forms Submissions feature (and post type): `acf_update_setting('acfe/modules/dynamic_forms_submissions', false)`
+* Module: Dynamic Forms - Added `action('acfe/form/validation', $form, $post_id)` & `action('acfe/form/validation/name=form_name', $form, $post_id)` to validate form before submission. `get_field()`, `have_rows()`, `get_sub_field()` functions can be used.
+* Module: Dynamic Forms - Added `acfe_add_validation_error('field_name_or_key', 'message')` helper to add error on specific field during the validation
+* Module: Dynamic Forms - Added `action('acfe/form/submit', $form, $post_id)` & `action('acfe/form/submit/name=form_name', $form, $post_id)` to add custom action on submission
+* Module: Dynamic Forms - Added `filter('acfe/form/load/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/custom_action/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/custom_action/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/mail/args/name=my_form', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/post/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/post/insert_post_id/name=my_form', $post_id, $form)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/post/update_post_id/name=my_form', $post_id, $form)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/post/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/post/insert_post_args/name=my_form', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/post/update_post_args/name=my_form', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/post/insert_post/name=my_form', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/post/update_post/name=my_form', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/term/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/term/insert_term_id/name=my_form', $post_id, $form)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/term/update_term_id/name=my_form', $post_id, $form)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/term/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/term/insert_term_args/name=my_form', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/term/update_term_args/name=my_form', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/term/insert_term/name=my_form', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/term/update_term/name=my_form', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/user/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/user/insert_user_id/name=my_form', $post_id, $form)`
+* Module: Dynamic Forms - Added `filter('acfe/form/load/action/user/update_user_id/name=my_form', $post_id, $form)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/user/name=my_form', $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/user/insert_user_args/name=my_form', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/user/update_user_args/name=my_form', $args, $form, $post_id)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/user/insert_user/name=my_form', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added `action('acfe/form/submit/action/user/update_user/name=my_form', $form, $post_id, $args)`
 * Field: Added Dynamic Form Select field
 * Field: Added Google reCaptcha field (compatible v2 & v3)
 * Field: Google reCaptcha - Added global setting: `acfe/field/recaptcha/site_key` (API site key)
@@ -366,6 +347,7 @@ Manage ACF Block Types from ACF > Block Types.
 * Field: User Roles Selection - Added Field
 * Field: Hidden Input - Added Field
 * Field: Advanced Link - Added Field
+* Field: Taxonomy Terms - Added Field
 * Field: Group - Added Modal Edition setting allowing users to edit group values in a modal
 * Field: Group - Added CSS fixes for better integration
 * Field: Clone - Added Modal Edition setting allowing users to edit clone values in a modal (Only in group mode)
@@ -380,6 +362,7 @@ Manage ACF Block Types from ACF > Block Types.
 * Field: Flexible Content - Added `action('acfe/flexible/render/before_template', $field, $layout, $is_preview)` to add wrapper around the template render (with 6 variations)
 * Field: Flexible Content - Added `action('acfe/flexible/render/after_template', $field, $layout, $is_preview)` to add wrapper around the template render (with 6 variations)
 * Field: Flexible Content - Fixed `text-align:center` applied to placeholder css
+* Field: Flexible Content - Fixed Style/Script render filters when returning a full URL
 * Field: Repeater - Added Stylised button setting
 * Field: Repeater - Added CSS fixes when table is empty
 * Field: Fixed fields label CSS when label is empty (top & left placement)
@@ -397,6 +380,10 @@ Manage ACF Block Types from ACF > Block Types.
 * Location: Old Location "Post Type Archive" & "Taxonomy Archive" (in the admin list) have been renamed "Post Type List" & "Taxonomy List"
 * Location: Post Type List/Taxonomy List - Fixed Image & File Upload fields being forced on basic mode (Thanks @dominikkucharski)
 * Location: New Location "Post Type Archive" creates an option page under post types menu when argument `acfe_admin_archive` is set to true (also available in Dynamic Post Type)
+* Module: Settings - Added ACF Extended tab to list the plugin's current settings
+* Module: Settings - Fixed `save_json` setting being incorrectly displayed in the ACF Setting tab
+* Module: PHP Sync - Renamed PHP Sync settings to `acfe/php`, `acfe/php_save`, `acfe/php_load`, `acfe/php_found`
+* Module: Dev Mode - Added mode which replace the WP Post Meta box with more details data (in posts & terms). It also enable `SCRIPT_DEBUG`. Can be activated using `acf_update_setting('acfe/dev', true)` or `define('ACFE_dev', true)`
 * Module: Dynamic Taxonomy - Added missing `meta_box_cb` setting (thanks @DavidGMiles)
 * Module: Options - Fixed potential validation problem
 * General: Improved ACF Extended modal CSS style & Added Modal inside modal overlay

@@ -421,4 +421,51 @@
 
     acf.registerFieldType(Column);
     
+    var acfe_form_map_fields = function(field){
+        
+        var name = field.get('name');
+        var $layout = field.$el.closest('.layout');
+        var $message = $layout.find('.acf-field[data-name="' + name + '_message"] > .acf-input');
+        
+        var selected = field.$input().find('option:selected').text();
+        
+        if(selected.length){
+            $message.html(selected);
+        }
+        
+        field.$input().on('change', function(){
+            
+            $message.html($(this).find('option:selected').text());
+            
+        });
+        
+    };
+    
+    acf.addAction('new_field/name=acfe_form_post_map_target', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_type', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_status', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_title', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_name', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_content', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_author', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_parent', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_post_map_post_terms', acfe_form_map_fields);
+    
+    acf.addAction('new_field/name=acfe_form_user_map_email', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_username', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_password', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_first_name', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_last_name', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_nickname', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_display_name', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_website', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_description', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_user_map_role', acfe_form_map_fields);
+    
+    acf.addAction('new_field/name=acfe_form_term_map_name', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_term_map_slug', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_term_map_taxonomy', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_term_map_parent', acfe_form_map_fields);
+    acf.addAction('new_field/name=acfe_form_term_map_description', acfe_form_map_fields);
+    
 })(jQuery);

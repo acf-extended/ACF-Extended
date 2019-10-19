@@ -13,442 +13,589 @@ class acfe_form_user{
     
     function __construct(){
         
-        add_filter('acfe/form/load/action/user', array($this, 'load'), 1);
-        add_action('acfe/form/submit/action/user', array($this, 'submit'), 1, 3);
+        /*
+         * Form
+         */
+        add_filter('acfe/form/load/action/user',                                    array($this, 'load'), 1, 2);
+        add_action('acfe/form/submit/action/user',                                  array($this, 'submit'), 1, 2);
+        
+        /*
+         * Admin
+         */
+        add_filter('acf/prepare_field/name=acfe_form_user_save_meta',               array(acfe()->acfe_form, 'map_fields'));
+        add_filter('acf/prepare_field/name=acfe_form_user_load_meta',               array(acfe()->acfe_form, 'map_fields_deep'));
+        
+        add_filter('acf/prepare_field/name=acfe_form_user_map_email',               array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_username',            array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_password',            array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_first_name',          array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_last_name',           array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_nickname',            array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_display_name',        array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_website',             array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_description',         array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_role',                array(acfe()->acfe_form, 'map_fields_deep'));
         
     }
     
-    function load($args){
+    function load($form, $post_id){
         
-        $form_name = acf_maybe_get($args, 'acfe_form_name');
-        $form_id = acf_maybe_get($args, 'acfe_form_id');
+        $form_name = acf_maybe_get($form, 'form_name');
+        $form_id = acf_maybe_get($form, 'form_id');
+        $post_info = acf_get_post_id_info($post_id);
         
-        // Behavior
-        $user_behavior = get_sub_field('acfe_form_user_behavior');
+        // Action
+        $user_action = get_sub_field('acfe_form_user_action');
         
-        // Update User
-        if($user_behavior !== 'update_user')
-            return $args;
+        // Load values
+        $load_values = get_sub_field('acfe_form_user_load_values');
+        $load_source = get_sub_field('acfe_form_user_load_source');
+        $load_meta = get_sub_field('acfe_form_user_load_meta');
         
-        if(!get_sub_field('acfe_form_user_update_load'))
-            return $args;
+        // Load values
+        if(!$load_values)
+            return $form;
         
-        $_user_id_data_group = get_sub_field('acfe_form_user_update_user_id_group');
-        $_user_id_data = $_user_id_data_group['acfe_form_user_update_user_id'];
-        $_user_id_data_custom = $_user_id_data_group['acfe_form_user_update_user_id_custom'];
+        $_email = get_sub_field('acfe_form_user_map_email');
+        $_username = get_sub_field('acfe_form_user_map_username');
+        $_password = get_sub_field('acfe_form_user_map_password');
+        $_first_name = get_sub_field('acfe_form_user_map_first_name');
+        $_last_name = get_sub_field('acfe_form_user_map_last_name');
+        $_nickname = get_sub_field('acfe_form_user_map_nickname');
+        $_display_name = get_sub_field('acfe_form_user_map_display_name');
+        $_website = get_sub_field('acfe_form_user_map_website');
+        $_description = get_sub_field('acfe_form_user_map_description');
+        $_role = get_sub_field('acfe_form_user_map_role');
         
-        $_user_email = get_sub_field('acfe_form_user_update_email');
-        $_user_username = get_sub_field('acfe_form_user_update_username');
-        $_user_password = get_sub_field('acfe_form_user_update_password');
-        
-        $_user_first_name_group = get_sub_field('acfe_form_user_update_first_name_group');
-        $_user_first_name = $_user_first_name_group['acfe_form_user_update_first_name'];
-        
-        $_user_last_name_group = get_sub_field('acfe_form_user_update_last_name_group');
-        $_user_last_name = $_user_last_name_group['acfe_form_user_update_last_name'];
-        
-        $_user_nickname_group = get_sub_field('acfe_form_user_update_nickname_group');
-        $_user_nickname = $_user_nickname_group['acfe_form_user_update_nickname'];
-        
-        $_user_display_name_group = get_sub_field('acfe_form_user_update_display_name_group');
-        $_user_display_name = $_user_display_name_group['acfe_form_user_update_display_name'];
-        
-        $_user_role = get_sub_field('acfe_form_user_update_role');
-        
-        // var
-        $_user_id = $args['post_id'];
-        
-        // Current post
-        if($_user_id_data === 'current_user'){
+        // Custom User ID
+        $_user_id = $load_source;
+
+        // Current User
+        if($load_source === 'current_user'){
             
             $_user_id = get_current_user_id();
-        
-        // Custom Post ID
-        }elseif($_user_id_data === 'custom_user_id'){
             
-            $_user_id = $_user_id_data_custom;
-        
-        }elseif(acf_is_field_key($_user_id_data)){
-            
-            $_user_id = get_field($_user_id_data);
-        
         }
         
-        $_user_id = apply_filters('acfe/form/load/user_id',                      $_user_id, $args);
-        $_user_id = apply_filters('acfe/form/load/user_id/name=' . $form_name,   $_user_id, $args);
-        $_user_id = apply_filters('acfe/form/load/user_id/id=' . $form_id,       $_user_id, $args);
+        // Current Post Author
+        elseif($load_source === 'current_post_author'){
+            
+            if($post_info['type'] === 'post')
+                $_user_id = get_post_field('post_author', $post_id);
+            
+        }
+        
+        $_user_id = apply_filters('acfe/form/load/action/user/' . $user_action . '_id',                      $_user_id, $form);
+        $_user_id = apply_filters('acfe/form/load/action/user/' . $user_action . '_id/name=' . $form_name,   $_user_id, $form);
+        $_user_id = apply_filters('acfe/form/load/action/user/' . $user_action . '_id/id=' . $form_id,       $_user_id, $form);
+        
+        // Invalid User ID
+        if(!$_user_id)
+            return;
         
         $user_data = get_userdata($_user_id);
         
-        if(!empty($user_data)){
-            
-            // ID
-            $args['post_id'] = 'user_' . $_user_id;
-            
-            // Email
-            if(acf_is_field_key($_user_email)){
-                
-                $args['map'][$_user_email]['value'] = $user_data->user_email;
-                
-            }
-            
-            // Username
-            if(acf_is_field_key($_user_username)){
-                
-                $args['map'][$_user_username]['value'] = $user_data->user_login;
-                $args['map'][$_user_username]['maxlength'] = 60;
-                
-            }
-            
-            // Password
-            if(acf_is_field_key($_user_password)){
-                
-                //$args['map'][$_user_password]['value'] = $user_data->user_pass;
-                
-            }
-            
-            // First name
-            if(acf_is_field_key($_user_first_name)){
-                
-                $args['map'][$_user_first_name]['value'] = $user_data->first_name;
-                
-            }
-            
-            // Last name
-            if(acf_is_field_key($_user_last_name)){
-                
-                $args['map'][$_user_last_name]['value'] = $user_data->last_name;
-                
-            }
-            
-            // Nickname
-            if(acf_is_field_key($_user_nickname)){
-                
-                $args['map'][$_user_nickname]['value'] = $user_data->nickname;
-                
-            }
-            
-            // Display name
-            if(acf_is_field_key($_user_display_name)){
-                
-                $args['map'][$_user_display_name]['value'] = $user_data->display_name;
-                
-            }
-            
-            // Role
-            if(acf_is_field_key($_user_role)){
-                
-                $args['map'][$_user_role]['value'] = $user_data->role;
-                
-            }
+        // Check if userdata has been found
+        if(!$user_data)
+            return $form;
         
+        // Email
+        if(acf_is_field_key($_email)){
+            
+            $key = array_search($_email, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_email]['value'] = $user_data->user_email;
+                
+            }
+            
         }
         
-        return $args;
+        // Username
+        if(acf_is_field_key($_username)){
+            
+            $key = array_search($_username, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_username]['value'] = $user_data->user_login;
+                $form['map'][$_username]['maxlength'] = 60;
+                
+            }
+            
+        }
+        
+        // Password
+        if(acf_is_field_key($_password)){
+            
+            $key = array_search($_password, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                //$form['map'][$_password]['value'] = $user_data->user_pass;
+                
+            }
+            
+        }
+        
+        // First name
+        if(acf_is_field_key($_first_name)){
+            
+            $key = array_search($_first_name, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_first_name]['value'] = $user_data->first_name;
+                
+            }
+            
+        }
+        
+        // Last name
+        if(acf_is_field_key($_last_name)){
+            
+            $key = array_search($_last_name, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_last_name]['value'] = $user_data->last_name;
+                
+            }
+            
+        }
+        
+        // Nickname
+        if(acf_is_field_key($_nickname)){
+            
+            $key = array_search($_nickname, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_nickname]['value'] = $user_data->nickname;
+                
+            }
+            
+        }
+        
+        // Display name
+        if(acf_is_field_key($_display_name)){
+            
+            $key = array_search($_display_name, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_display_name]['value'] = $user_data->display_name;
+                
+            }
+            
+        }
+        
+        // Website
+        if(acf_is_field_key($_website)){
+            
+            $key = array_search($_website, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_website]['value'] = $user_data->website;
+                
+            }
+            
+        }
+        
+        // Description
+        if(acf_is_field_key($_description)){
+            
+            $key = array_search($_description, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_description]['value'] = $user_data->description;
+                
+            }
+            
+        }
+        
+        // Role
+        if(acf_is_field_key($_role)){
+            
+            $key = array_search($_role, $load_meta);
+            
+            if($key !== false){
+                
+                unset($load_meta[$key]);
+                $form['map'][$_role]['value'] = implode(', ', $user_data->roles);
+                
+            }
+            
+        }
+        
+        // Load others values
+        if(!empty($load_meta)){
+            
+            foreach($load_meta as $field_key){
+                
+                $field = acf_get_field($field_key);
+                
+                $form['map'][$field_key]['value'] = acf_get_value('user_' . $_user_id, $field);
+                
+            }
+            
+        }
+        
+        return $form;
         
     }
     
-    function submit($form, $post_id, $acf){
+    function submit($form, $post_id){
         
-        $form_name = acf_maybe_get($form, 'acfe_form_name');
-        $form_id = acf_maybe_get($form, 'acfe_form_id');
+        $form_name = acf_maybe_get($form, 'form_name');
+        $form_id = acf_maybe_get($form, 'form_id');
+        $post_info = acf_get_post_id_info($post_id);
         
-        // Behavior
-        $user_behavior = get_sub_field('acfe_form_user_behavior');
+        // Action
+        $user_action = get_sub_field('acfe_form_user_action');
         
-        // Create User
-        if($user_behavior === 'create_user'){
-            
-            $_user_email = get_sub_field('acfe_form_user_create_email');
-            $_user_username = get_sub_field('acfe_form_user_create_username');
-            $_user_password = get_sub_field('acfe_form_user_create_password');
-            
-            $_user_first_name_group = get_sub_field('acfe_form_user_create_first_name_group');
-            $_user_first_name = $_user_first_name_group['acfe_form_user_create_first_name'];
-            $_user_first_name_custom = $_user_first_name_group['acfe_form_user_create_first_name_custom'];
-            
-            $_user_last_name_group = get_sub_field('acfe_form_user_create_last_name_group');
-            $_user_last_name = $_user_last_name_group['acfe_form_user_create_last_name'];
-            $_user_last_name_custom = $_user_last_name_group['acfe_form_user_create_last_name_custom'];
-            
-            $_user_nickname_group = get_sub_field('acfe_form_user_create_nickname_group');
-            $_user_nickname = $_user_nickname_group['acfe_form_user_create_nickname'];
-            $_user_nickname_custom = $_user_nickname_group['acfe_form_user_create_nickname_custom'];
-            
-            $_user_display_name_group = get_sub_field('acfe_form_user_create_display_name_group');
-            $_user_display_name = $_user_display_name_group['acfe_form_user_create_display_name'];
-            $_user_display_name_custom = $_user_display_name_group['acfe_form_user_create_display_name_custom'];
-            
-            $_user_role = get_sub_field('acfe_form_user_create_role');
-            
-            $args = array();
-            
-            // Email
-            $args['user_email'] = acfe_form_map_field_value($_user_email, $acf);
-            
-            // Username
-            $args['user_login'] = acfe_form_map_field_value($_user_username, $acf);
-            
-            // Password
-            $args['user_pass'] = '';
-            
-            if(acf_is_field_key($_user_password)){
-                
-                $args['user_pass'] = acfe_form_map_field_value($_user_password, $acf);
-                
-            }elseif($_user_password === 'generate_password'){
-                    
-                    $args['user_pass'] = wp_generate_password(8, false);
-                    
-            }
-            
-            // First name
-            if(acf_is_field_key($_user_first_name)){
-                
-                $args['first_name'] = acfe_form_map_field_value($_user_first_name, $acf);
-                
-            }elseif($_user_first_name === 'custom'){
-                
-                $args['first_name'] = acfe_form_map_field_value($_user_first_name_custom, $acf);
-                
-            }
-            
-            // Last name
-            if(acf_is_field_key($_user_last_name)){
-                
-                $args['last_name'] = acfe_form_map_field_value($_user_last_name, $acf);
-                
-            }elseif($_user_last_name === 'custom'){
-                
-                $args['last_name'] = acfe_form_map_field_value($_user_last_name_custom, $acf);
-                
-            }
-            
-            // Nickname
-            if(acf_is_field_key($_user_nickname)){
-                
-                $args['nickname'] = acfe_form_map_field_value($_user_nickname, $acf);
-                
-            }elseif($_user_nickname === 'custom'){
-                
-                $args['nickname'] = acfe_form_map_field_value($_user_nickname_custom, $acf);
-                
-            }
-            
-            // Display name
-            if(acf_is_field_key($_user_display_name)){
-                
-                $args['display_name'] = acfe_form_map_field_value($_user_display_name, $acf);
-                
-            }elseif($_user_display_name === 'custom'){
-                
-                $args['display_name'] = acfe_form_map_field_value($_user_display_name_custom, $acf);
-                
-            }
-            
-            // Role
-            if(!empty($_user_role)){
-                
-                $args['role'] = acfe_form_map_field_value($_user_role, $acf);
-                
-            }
-            
-            $args = apply_filters('acfe/form/submit/insert_user_args',                      $args, $form);
-            $args = apply_filters('acfe/form/submit/insert_user_args/name=' . $form_name,   $args, $form);
-            $args = apply_filters('acfe/form/submit/insert_user_args/id=' . $form_id,       $args, $form);
-            
-            if($args === false)
-                return;
-            
-            // User
-            $_user_id = wp_insert_user($args);
-            
-            do_action('acfe/form/submit/insert_user',                       $form, $_user_id, $args);
-            do_action('acfe/form/submit/insert_user/name=' . $form_name,    $form, $_user_id, $args);
-            do_action('acfe/form/submit/insert_user/id=' . $form_id,        $form, $_user_id, $args);
-            
-            // Meta save
-            $_meta = get_sub_field('acfe_form_user_meta');
-            
-            $data = acfe_form_filter_meta($_meta, $acf);
-            
-            if(!empty($data)){
-                
-                // Save meta fields
-                acf_save_post('user_' . $_user_id, $data);
-            
-            }
-            
-        }
+        // Mapping
+        $map = array(
+            'user_email'    => get_sub_field('acfe_form_user_map_email'),
+            'user_login'    => get_sub_field('acfe_form_user_map_username'),
+            'user_pass'     => get_sub_field('acfe_form_user_map_password'),
+            'first_name'    => get_sub_field('acfe_form_user_map_first_name'),
+            'last_name'     => get_sub_field('acfe_form_user_map_last_name'),
+            'nickname'      => get_sub_field('acfe_form_user_map_nickname'),
+            'display_name'  => get_sub_field('acfe_form_user_map_display_name'),
+            'user_url'      => get_sub_field('acfe_form_user_map_website'),
+            'description'   => get_sub_field('acfe_form_user_map_description'),
+            'role'          => get_sub_field('acfe_form_user_map_role'),
+        );
         
-        // Update User
-        elseif($user_behavior === 'update_user'){
+        // Fields
+        $_target = get_sub_field('acfe_form_user_save_target');
+        
+        $_user_email_group = get_sub_field('acfe_form_user_save_email_group');
+        $_user_email = $_user_email_group['acfe_form_user_save_email'];
+        $_user_email_custom = $_user_email_group['acfe_form_user_save_email_custom'];
+        
+        $_user_login_group = get_sub_field('acfe_form_user_save_username_group');
+        $_user_login = $_user_login_group['acfe_form_user_save_username'];
+        $_user_login_custom = $_user_login_group['acfe_form_user_save_username_custom'];
+        
+        $_user_pass_group = get_sub_field('acfe_form_user_save_password_group');
+        $_user_pass = $_user_pass_group['acfe_form_user_save_password'];
+        $_user_pass_custom = $_user_pass_group['acfe_form_user_save_password_custom'];
+        
+        $_first_name_group = get_sub_field('acfe_form_user_save_first_name_group');
+        $_first_name = $_first_name_group['acfe_form_user_save_first_name'];
+        $_first_name_custom = $_first_name_group['acfe_form_user_save_first_name_custom'];
+        
+        $_last_name_group = get_sub_field('acfe_form_user_save_last_name_group');
+        $_last_name = $_last_name_group['acfe_form_user_save_last_name'];
+        $_last_name_custom = $_last_name_group['acfe_form_user_save_last_name_custom'];
+        
+        $_nickname_group = get_sub_field('acfe_form_user_save_nickname_group');
+        $_nickname = $_nickname_group['acfe_form_user_save_nickname'];
+        $_nickname_custom = $_nickname_group['acfe_form_user_save_nickname_custom'];
+        
+        $_display_name_group = get_sub_field('acfe_form_user_save_display_name_group');
+        $_display_name = $_display_name_group['acfe_form_user_save_display_name'];
+        $_display_name_custom = $_display_name_group['acfe_form_user_save_display_name_custom'];
+        
+        $_user_url_group = get_sub_field('acfe_form_user_save_website_group');
+        $_user_url = $_user_url_group['acfe_form_user_save_website'];
+        $_user_url_custom = $_user_url_group['acfe_form_user_save_website_custom'];
+        
+        $_description_group = get_sub_field('acfe_form_user_save_description_group');
+        $_description = $_description_group['acfe_form_user_save_description'];
+        $_description_custom = $_description_group['acfe_form_user_save_description_custom'];
+        
+        $_role = get_sub_field('acfe_form_user_save_role');
+        
+        // args
+        $args = array();
+        
+        // Insert user
+        $_user_id = 0;
+        
+        // Update user
+        if($user_action === 'update_user'){
             
-            $_user_id_data_group = get_sub_field('acfe_form_user_update_user_id_group');
-            $_user_id_data = $_user_id_data_group['acfe_form_user_update_user_id'];
-            $_user_id_data_custom = $_user_id_data_group['acfe_form_user_update_user_id_custom'];
+            // Custom User ID
+            $_user_id = $_target;
             
-            $_user_email = get_sub_field('acfe_form_user_update_email');
-            $_user_username = get_sub_field('acfe_form_user_update_username');
-            $_user_password = get_sub_field('acfe_form_user_update_password');
-            
-            $_user_first_name_group = get_sub_field('acfe_form_user_update_first_name_group');
-            $_user_first_name = $_user_first_name_group['acfe_form_user_update_first_name'];
-            $_user_first_name_custom = $_user_first_name_group['acfe_form_user_update_first_name_custom'];
-            
-            $_user_last_name_group = get_sub_field('acfe_form_user_update_last_name_group');
-            $_user_last_name = $_user_last_name_group['acfe_form_user_update_last_name'];
-            $_user_last_name_custom = $_user_last_name_group['acfe_form_user_update_last_name_custom'];
-            
-            $_user_nickname_group = get_sub_field('acfe_form_user_update_nickname_group');
-            $_user_nickname = $_user_nickname_group['acfe_form_user_update_nickname'];
-            $_user_nickname_custom = $_user_nickname_group['acfe_form_user_update_nickname_custom'];
-            
-            $_user_display_name_group = get_sub_field('acfe_form_user_update_display_name_group');
-            $_user_display_name = $_user_display_name_group['acfe_form_user_update_display_name'];
-            $_user_display_name_custom = $_user_display_name_group['acfe_form_user_update_display_name_custom'];
-            
-            $_user_role = get_sub_field('acfe_form_user_update_role');
-            
-            // var
-            $_user_id = false;
-            
-            // Current user
-            if($_user_id_data === 'current_user'){
+            // Current User
+            if($_target === 'current_user'){
                 
                 $_user_id = get_current_user_id();
             
-            // Custom User ID
-            }elseif($_user_id_data === 'custom_user_id'){
-                
-                $_user_id = $_user_id_data_custom;
-            
             }
             
-            $args = array();
+            // Current Post Author
+            elseif($_target === 'current_post_author'){
+                
+                if($post_info['type'] === 'post')
+                    $_user_id = get_post_field('post_author', $post_info['id']);
+                
+                // Invalid User ID
+                if(!$_user_id)
+                    return;
+                
+            }
             
             // ID
             $args['ID'] = $_user_id;
             
-            // Email
-            if(!empty($_user_email)){
+        }
+        
+        // Email
+        if(!empty($map['user_email'])){
+            
+            $args['user_email'] = acfe_form_map_field_value($map['user_email'], $_POST['acf'], $_user_id);
+            
+        }elseif($_user_email === 'custom'){
+            
+            $args['user_email'] = acfe_form_map_field_value($_user_email_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Username
+        if(!empty($map['user_login'])){
+            
+            $args['user_login'] = acfe_form_map_field_value($map['user_login'], $_POST['acf'], $_user_id);
+            
+        }elseif($_user_login === 'custom'){
+            
+            $args['user_login'] = acfe_form_map_field_value($_user_login_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Password
+        if(!empty($map['user_pass'])){
+            
+            $args['user_pass'] = acfe_form_map_field_value($map['user_pass'], $_POST['acf'], $_user_id);
+            
+        }elseif($_user_pass === 'generate_password'){
+            
+            $args['user_pass'] = wp_generate_password(8, false);
+            
+        }elseif($_user_pass === 'custom'){
+            
+            $args['user_pass'] = acfe_form_map_field_value($_user_pass_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // First name
+        if(!empty($map['first_name'])){
+            
+            $args['first_name'] = acfe_form_map_field_value($map['first_name'], $_POST['acf'], $_user_id);
+            
+        }elseif($_first_name === 'custom'){
+            
+            $args['first_name'] = acfe_form_map_field_value($_first_name_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Last name
+        if(!empty($map['last_name'])){
+            
+            $args['last_name'] = acfe_form_map_field_value($map['last_name'], $_POST['acf'], $_user_id);
+            
+        }elseif($_last_name === 'custom'){
+            
+            $args['last_name'] = acfe_form_map_field_value($_last_name_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Nickname
+        if(!empty($map['nickname'])){
+            
+            $args['nickname'] = acfe_form_map_field_value($map['nickname'], $_POST['acf'], $_user_id);
+            
+        }elseif($_nickname === 'custom'){
+            
+            $args['nickname'] = acfe_form_map_field_value($_nickname_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Display name
+        if(!empty($map['display_name'])){
+            
+            $args['display_name'] = acfe_form_map_field_value($map['display_name'], $_POST['acf'], $_user_id);
+            
+        }elseif($_display_name === 'custom'){
+            
+            $args['display_name'] = acfe_form_map_field_value($_display_name_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Website
+        if(!empty($map['user_url'])){
+            
+            $args['user_url'] = acfe_form_map_field_value($map['user_url'], $_POST['acf'], $_user_id);
+            
+        }elseif($_user_url === 'custom'){
+            
+            $args['user_url'] = acfe_form_map_field_value($_user_url_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Description
+        if(!empty($map['description'])){
+            
+            $args['description'] = acfe_form_map_field_value($map['description'], $_POST['acf'], $_user_id);
+            
+        }elseif($_description === 'custom'){
+            
+            $args['description'] = acfe_form_map_field_value($_description_custom, $_POST['acf'], $_user_id);
+            
+        }
+        
+        // Role
+        if(!empty($map['role'])){
+            
+            $args['role'] = acfe_form_map_field_value($map['role'], $_POST['acf'], $_user_id);
+            
+        }elseif(!empty($_role)){
+            
+            $args['role'] = $_role;
+            
+        }
+        
+        $args = apply_filters('acfe/form/submit/action/user/' . $user_action . '_args',                     $args, $form);
+        $args = apply_filters('acfe/form/submit/action/user/' . $user_action . '_args/name=' . $form_name,  $args, $form);
+        $args = apply_filters('acfe/form/submit/action/user/' . $user_action . '_args/id=' . $form_id,      $args, $form);
+        
+        // Insert User
+        if($user_action === 'insert_user'){
+            
+            if(!isset($args['user_email']) || !isset($args['user_login']) || !isset($args['user_pass'])){
                 
-                $args['user_email'] = acfe_form_map_field_value($_user_email, $acf);
+                $args = false;
                 
             }
             
-            // Username
-            if(!empty($_user_username)){
-                
-                $args['user_login'] = acfe_form_map_field_value($_user_username, $acf);
-                
-            }
+        }
+        
+        if($args === false)
+            return;
+        
+        // Insert User
+        if($user_action === 'insert_user'){
             
-            // Password
-            if(!empty($_user_password)){
+            $_insert_user = wp_insert_user($args);
+            
+        }
+        
+        // Update User
+        elseif($user_action === 'update_user'){
+            
+            $_insert_user = wp_update_user($args);
+            
+            if(!is_wp_error($_insert_user)){
+            
+                $_user_id = $_insert_user;
                 
-                if(acf_is_field_key($_user_password)){
+                // Update User Login + Nicename
+                if(acf_maybe_get($args, 'user_login')){
                     
-                    $args['user_pass'] = acfe_form_map_field_value($_user_password, $acf);
+                    // Sanitize
+                    $sanitized_user_login = sanitize_user($args['user_login'], true);
                     
-                }elseif($_user_password === 'generate_password'){
+                    // Filter
+                    $pre_user_login = apply_filters('pre_user_login', $sanitized_user_login);
                     
-                    $args['user_pass'] = wp_generate_password(8, false);
+                    // Trim
+                    $user_login = trim($pre_user_login);
+                    
+                    $error = false;
+                    
+                    if(empty($user_login)){
+                        
+                        $error = new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.'));
+                        
+                    }elseif(mb_strlen($user_login) > 60){
+                        
+                        $error = new WP_Error('user_login_too_long', __('Username may not be longer than 60 characters.'));
+                        
+                    }
+                    
+                    if(username_exists($user_login)){
+                        
+                        $error = new WP_Error('existing_user_login', __('Sorry, that username already exists!'));
+                        
+                    }
+                    
+                    $user_nicename = sanitize_user($user_login, true);
+                    
+                    if(mb_strlen($user_nicename) > 50){
+                        
+                        $error = new WP_Error('user_nicename_too_long', __('Nicename may not be longer than 50 characters.'));
+                        
+                    }
+                    
+                    $user_nicename = sanitize_title($user_nicename);
+                    
+                    $user_nicename = apply_filters('pre_user_nicename', $user_nicename);
+                    
+                    if(!is_wp_error($error)){
+                    
+                        global $wpdb;
+                        
+                        $wpdb->update($wpdb->users, 
+                            array(
+                                'user_login'    => $user_login,
+                                'user_nicename' => $user_nicename,
+                            ), 
+                            array(
+                                'ID' => $_user_id
+                            )
+                        );
+                    
+                    }
                     
                 }
                 
             }
             
-            // First name
-            if(!empty($_user_first_name)){
-                
-                if(acf_is_field_key($_user_first_name)){
-                    
-                    $args['first_name'] = acfe_form_map_field_value($_user_first_name, $acf);
-                    
-                }elseif($_user_first_name === 'custom'){
-                    
-                    $args['first_name'] = acfe_form_map_field_value($_user_first_name_custom, $acf);
-                    
-                }
-                
-            }
+        }
+        
+        // User Error
+        if(is_wp_error($_insert_user))
+            return;
+        
+        $_user_id = $_insert_user;
+        
+        do_action('acfe/form/submit/action/user/' . $user_action,                           $form, $_user_id, $args);
+        do_action('acfe/form/submit/action/user/' . $user_action . '/name=' . $form_name,   $form, $_user_id, $args);
+        do_action('acfe/form/submit/action/user/' . $user_action . '/id=' . $form_id,       $form, $_user_id, $args);
+        
+        // Meta save
+        $save_meta = get_sub_field('acfe_form_user_save_meta');
+        
+        if(!empty($save_meta)){
             
-            // Last name
-            if(!empty($_user_last_name)){
-                
-                if(acf_is_field_key($_user_last_name)){
-                    
-                    $args['last_name'] = acfe_form_map_field_value($_user_last_name, $acf);
-                    
-                }elseif($_user_last_name === 'custom'){
-                    
-                    $args['last_name'] = acfe_form_map_field_value($_user_last_name_custom, $acf);
-                    
-                }
-                
-            }
-            
-            // Nickname
-            if(!empty($_user_nickname)){
-                
-                if(acf_is_field_key($_user_nickname)){
-                    
-                    $args['nickname'] = acfe_form_map_field_value($_user_nickname, $acf);
-                    
-                }elseif($_user_nickname === 'custom'){
-                    
-                    $args['nickname'] = acfe_form_map_field_value($_user_nickname_custom, $acf);
-                    
-                }
-                
-            }
-            
-            // Display name
-            if(!empty($_user_display_name)){
-                
-                if(acf_is_field_key($_user_display_name)){
-                    
-                    $args['display_name'] = acfe_form_map_field_value($_user_display_name, $acf);
-                    
-                }elseif($_user_display_name === 'custom'){
-                    
-                    $args['display_name'] = acfe_form_map_field_value($_user_display_name_custom, $acf);
-                    
-                }
-                
-            }
-            
-            // Role
-            if(!empty($_user_role)){
-                
-                $args['role'] = acfe_form_map_field_value($_user_role, $acf);
-                
-            }
-            
-            $args = apply_filters('acfe/form/submit/update_user_args',                      $args, $form, $_user_id);
-            $args = apply_filters('acfe/form/submit/update_user_args/name=' . $form_name,   $args, $form, $_user_id);
-            $args = apply_filters('acfe/form/submit/update_user_args/id=' . $form_id,       $args, $form, $_user_id);
-            
-            if($args === false)
-                return;
-            
-            // User
-            $_user_id = wp_update_user($args);
-            
-            do_action('acfe/form/submit/update_user',                       $form, $_user_id, $args);
-            do_action('acfe/form/submit/update_user/name=' . $form_name,    $form, $_user_id, $args);
-            do_action('acfe/form/submit/update_user/id=' . $form_id,        $form, $_user_id, $args);
-            
-            // Meta save
-            $_meta = get_sub_field('acfe_form_user_meta');
-            
-            $data = acfe_form_filter_meta($_meta, $acf);
+            $data = acfe_form_filter_meta($save_meta, $_POST['acf']);
             
             if(!empty($data)){
                 
+                // Backup original acf post data
+                $acf = $_POST['acf'];
+                
                 // Save meta fields
                 acf_save_post('user_' . $_user_id, $data);
+                
+                // Restore original acf post data
+                $_POST['acf'] = $acf;
             
             }
             
