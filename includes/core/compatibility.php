@@ -3,6 +3,30 @@
 if(!defined('ABSPATH'))
     exit;
 
+/**
+ * ACF Extended: 0.8
+ * Settings: Renamed acfe_php* to acfe/php*
+ */
+if(acf_get_setting('acfe_php') !== null){
+    acf_update_setting('acfe/php', acf_get_setting('acfe_php'));
+}
+
+if(acf_get_setting('php_save') !== null){
+    acf_update_setting('acfe/php_save', acf_get_setting('php_save'));
+}
+
+if(acf_get_setting('php_load') !== null){
+    acf_update_setting('acfe/php_load', acf_get_setting('php_load'));
+}
+
+if(acf_get_setting('php_found') !== null){
+    acf_update_setting('acfe/php_found', acf_get_setting('php_found'));
+}
+
+/**
+ * ACF Extended: 0.8
+ * Field Group Location: Archive renamed to List
+ */
 add_filter('acf/validate_field_group', 'acfe_compatibility_field_group_location_list', 20);
 function acfe_compatibility_field_group_location_list($field_group){
     
@@ -40,6 +64,10 @@ function acfe_compatibility_field_group_location_list($field_group){
     
 }
 
+/**
+ * ACF Extended: 0.8
+ * Field Filter Value: Removed from this version
+ */
 add_filter('acf/validate_field', 'acfe_compatibility_field_acfe_update', 20);
 function acfe_compatibility_field_acfe_update($field){
     
