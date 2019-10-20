@@ -381,6 +381,8 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Field: Flexible Content - Added `action('acfe/flexible/render/after_template', $field, $layout, $is_preview)` to add wrapper around the template render (with 6 variations)
 * Field: Flexible Content - Fixed `text-align:center` applied to placeholder css
 * Field: Flexible Content - Fixed Style/Script render filters when returning a full URL
+* Field: Flexible Content - Fixed a bug where the layout Title Edition input could disappear when clicking on the handle
+* Field: Flexible Content - Fixed a bug where the close button would not appear after adding a new layout
 * Field: Repeater - Added Stylised button setting
 * Field: Repeater - Added CSS fixes when table is empty
 * Field: Repeater - Added `filter('acfe/repeater/lock', true, $field)` to lock repeater rows (disable sortable)

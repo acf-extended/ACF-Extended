@@ -13,7 +13,27 @@
      * Actions
      */
     
-    // Layout: Edit Title
+    // Layout: Edit Title (handle click)
+    model.events['click .acf-fc-layout-handle'] = 'acfeEditLayoutTitleToggleHandle';
+    model.acfeEditLayoutTitleToggleHandle = function(e, $el){
+        
+        var flexible = this;
+        
+        // Title Edition
+        if(!flexible.has('acfeFlexibleTitleEdition'))
+            return;
+        
+        // Vars
+        var $layout = $el.closest('.layout');
+        
+        if($layout.hasClass('acfe-flexible-title-edition')){
+            
+            $layout.find('> .acf-fc-layout-handle > .acfe-layout-title > input[data-acfe-flexible-control-title-input]').trigger('focusout');
+            
+        }
+        
+    }
+    
     model.events['focusout input.acfe-flexible-control-title'] = 'acfeEditLayoutTitleToggle';
     model.events['click .acfe-layout-title-text'] = 'acfeEditLayoutTitle';
     model.acfeEditLayoutTitle = function(e, $el){
@@ -41,28 +61,6 @@
         var $layout = $el.closest('.layout');
         var $handle = $layout.find('> .acf-fc-layout-handle');
         var $title = $handle.find('.acfe-layout-title');
-        
-        
-        if(flexible.has('acfeFlexibleModalEdition')){
-            
-            var $hidden = $layout.find('> .acfe-modal > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields > .acf-field-acfe-flexible-layout-title > .acf-input > .acf-input-wrap > input');
-        
-        }else{
-            
-            var $hidden = $layout.find('> .acf-fields > .acf-field-acfe-flexible-layout-title > .acf-input > .acf-input-wrap > input');
-            
-        }
-        
-        // Hidden Input
-        if($hidden.length){
-            
-            // Add Edit Title
-            $hidden.addClass('acfe-flexible-control-title').attr('data-acfe-flexible-control-title-input', 1).insertAfter($handle);
-            
-            // Remove legacy field
-            $layout.find('> .acf-fields > .acf-field-acfe-flexible-layout-title').remove();
-        
-        }
         
         if($layout.hasClass('acfe-flexible-title-edition')){
             
@@ -757,6 +755,8 @@
         
         // vars
         var $controls = $layout.find('> .acf-fc-layout-controls');
+        var $handle = $layout.find('> .acf-fc-layout-handle');
+        var $title = $handle.find('.acfe-layout-title');
         
         // Button: Copy
         if(flexible.has('acfeFlexibleCopyPaste') && !$controls.has('[data-acfe-flexible-control-copy]').length){
@@ -769,6 +769,31 @@
         if(!$controls.has('[data-acfe-flexible-control-clone]').length){
             
             $controls.prepend('<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-page" href="#" title="Clone layout" data-acfe-flexible-control-clone="' + $layout.attr('data-layout') + '"></a>');
+            
+        }
+        
+        if(flexible.has('acfeFlexibleTitleEdition')){
+            
+            if(flexible.has('acfeFlexibleModalEdition')){
+                
+                var $hidden = $layout.find('> .acfe-modal > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields > .acf-field-acfe-flexible-layout-title > .acf-input > .acf-input-wrap > input');
+            
+            }else{
+                
+                var $hidden = $layout.find('> .acf-fields > .acf-field-acfe-flexible-layout-title > .acf-input > .acf-input-wrap > input');
+                
+            }
+            
+            // Hidden Input
+            if($hidden.length){
+                
+                // Add Edit Title
+                $hidden.addClass('acfe-flexible-control-title').attr('data-acfe-flexible-control-title-input', 1).insertAfter($handle);
+                
+                // Remove legacy field
+                $layout.find('> .acf-fields > .acf-field-acfe-flexible-layout-title').remove();
+            
+            }
             
         }
         
