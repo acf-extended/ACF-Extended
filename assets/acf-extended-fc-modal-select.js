@@ -241,31 +241,14 @@
             
             e.preventDefault();
             
+            // Close modal
+            acfe.modal.close(true);
+            
             // Add layout
             var $layout_added = flexible.add({
                 layout: $(this).data('layout'),
                 before: $layout_source
             });
-            
-            // Close modal
-            acfe.modal.close(true);
-            
-            if(!$layout_added)
-                return;
-            
-            // Modal Edition: Open
-            if(flexible.has('acfeFlexibleModalEdition')){
-                
-                $layout_added.find('> [data-action="acfe-flexible-modal-edit"]:first').trigger('click');
-                
-            }
-            
-            // Normal Edition: Open
-            else{
-                
-                flexible.openLayout($layout_added);
-                
-            }
             
         });
         
