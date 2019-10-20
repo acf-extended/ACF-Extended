@@ -695,6 +695,7 @@ acf_add_local_field_group(array(
                 'acfe_flexible_modal_enabled' => '0',
             ),
             'acfe_flexible_layouts_state' => 'open',
+            'acfe_flexible_layouts_remove_collapse' => 1,
             'layouts' => array(
                 
                 /*
