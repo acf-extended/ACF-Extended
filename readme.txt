@@ -291,7 +291,7 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Render multiple field groups in one single form with custom HTML between them
 * Apply custom CSS class to all fields & wrappers
 * Apply custom CSS class to fields errors
-* Group errors above the form, display them above fields, below fields or them
+* Group errors above the form, display them above fields, below fields or hide them
 * Hide form on successful submission
 * Map fields and change their settings based on the location (front-end/back-end)
 * Add multiple actions on form submission:

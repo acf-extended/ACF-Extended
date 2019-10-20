@@ -49,8 +49,8 @@ acf_add_local_field_group(array(
             'label' => 'Field groups',
             'name' => 'acfe_form_field_groups',
             'type' => 'select',
-            'instructions' => 'Select field groups to map fields',
-            'required' => 0,
+            'instructions' => 'Select field groups to map fields in the Actions tab',
+            'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
@@ -290,7 +290,7 @@ acf_add_local_field_group(array(
             'label' => 'HTML Form render',
             'name' => 'acfe_form_custom_html',
             'type' => 'textarea',
-            'instructions' => 'Render your own customized HTML. This will bypass the field groups render.<br /><br />
+            'instructions' => 'Render your own customized HTML. This will bypass the native field groups render.<br /><br />
     Field groups may be included using <code>{field_group:group_key}</code><br/><code>{field_group:Group title}</code><br/><br/>
     Fields may be included using <code>{field:field_key}</code><br/><code>{field:field_name}</code>',
             'required' => 0,
