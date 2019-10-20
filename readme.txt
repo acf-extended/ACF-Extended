@@ -142,7 +142,11 @@ Choose the uploader type: Basic or native WP uploader
 
 * **Field Repeater: Stylised button**
 Add style to 'Add Row' button
+
+* **Field Repeater: Disable Sortable**
 Disable sortable rows using `filter('acfe/repeater/lock/name=my_repeater', true, $field)`
+
+* **Field Repeater: Remove Actions**
 Remove the actions buttons using `filter('acfe/repeater/remove_actions/name=my_repeater', true, $field)`
 
 * **Field Select: Placeholder**
@@ -608,34 +612,7 @@ function my_acfe_modules(){
 * Module: Dynamic Forms - Added `action('acfe/form/validation', $form, $post_id)` & `action('acfe/form/validation/name=form_name', $form, $post_id)` to validate form before submission. `get_field()`, `have_rows()`, `get_sub_field()` functions can be used.
 * Module: Dynamic Forms - Added `acfe_add_validation_error('field_name_or_key', 'message')` helper to add error on specific field during the validation
 * Module: Dynamic Forms - Added `action('acfe/form/submit', $form, $post_id)` & `action('acfe/form/submit/name=form_name', $form, $post_id)` to add custom action on submission
-* Module: Dynamic Forms - Added `filter('acfe/form/load/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/custom_action/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/custom_action/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/mail/args/name=my_form', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/post/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/post/insert_post_id/name=my_form', $post_id, $form)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/post/update_post_id/name=my_form', $post_id, $form)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/post/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/post/insert_post_args/name=my_form', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/post/update_post_args/name=my_form', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/post/insert_post/name=my_form', $form, $post_id, $args)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/post/update_post/name=my_form', $form, $post_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/term/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/term/insert_term_id/name=my_form', $post_id, $form)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/term/update_term_id/name=my_form', $post_id, $form)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/term/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/term/insert_term_args/name=my_form', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/term/update_term_args/name=my_form', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/term/insert_term/name=my_form', $form, $post_id, $args)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/term/update_term/name=my_form', $form, $post_id, $args)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/user/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/user/insert_user_id/name=my_form', $post_id, $form)`
-* Module: Dynamic Forms - Added `filter('acfe/form/load/action/user/update_user_id/name=my_form', $post_id, $form)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/user/name=my_form', $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/user/insert_user_args/name=my_form', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `filter('acfe/form/submit/action/user/update_user_args/name=my_form', $args, $form, $post_id)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/user/insert_user/name=my_form', $form, $post_id, $args)`
-* Module: Dynamic Forms - Added `action('acfe/form/submit/action/user/update_user/name=my_form', $form, $post_id, $args)`
+* Module: Dynamic Forms - Added 8 new hooks per form action allowing developers to customize each action
 * Field: Added Dynamic Form Select field
 * Field: Added Google reCaptcha field (compatible v2 & v3)
 * Field: Google reCaptcha - Added global setting: `acfe/field/recaptcha/site_key` (API site key)
