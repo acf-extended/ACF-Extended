@@ -880,6 +880,9 @@ function acfe_flexible_layout_preview(){
     if(!$layout)
         die;
     
+    if(!acf_maybe_get($layout, 'acfe_flexible_thumbnail'))
+        $layout['acfe_flexible_thumbnail'] = false;
+    
     // Flexible Thumbnails
     $layout['acfe_flexible_thumbnail'] = apply_filters('acfe/flexible/thumbnail/name=' . $field['_name'], $layout['acfe_flexible_thumbnail'], $field, $layout);
     $layout['acfe_flexible_thumbnail'] = apply_filters('acfe/flexible/thumbnail/key=' . $field['key'], $layout['acfe_flexible_thumbnail'], $field, $layout);
