@@ -600,7 +600,7 @@ function my_acfe_modules(){
 
 == Changelog ==
 
-= 0.8 RC =
+= 0.8 =
 * Module: Dynamic Forms - Added module. Forms UI available under ACF menu
 * Module: Dynamic Forms - Added PHP helper `acfe_form('my_form_name')` & `acfe_form(188)` to display a form
 * Module: Dynamic Forms - Added shortcode `[acfe_form name="my_form_name"]` & `[acfe_form ID="188"]` to display a form
