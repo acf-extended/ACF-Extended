@@ -1,4 +1,11 @@
 /* 
+ * ACF Field: Repeater Lock
+ */
+.acf-field-repeater[data-acfe-repeater-lock="1"] > .acf-input > .acf-repeater > .acf-table > tbody > .acf-row > .acf-row-handle{
+    cursor:initial;
+}
+
+/* 
  * ACF Field: Repeater Block Fix (Add spacing)
  */
 .acf-repeater.-row > table,

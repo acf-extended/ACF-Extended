@@ -233,7 +233,7 @@
             return;
             
         // Layout State: Collapse
-        if(flexible.has('acfeFlexibleCollapse')){
+        if(flexible.has('acfeFlexibleClose')){
             
             flexible.acfeCloseLayoutInit($layout);
             

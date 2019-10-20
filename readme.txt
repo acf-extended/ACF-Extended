@@ -142,6 +142,8 @@ Choose the uploader type: Basic or native WP uploader
 
 * **Field Repeater: Stylised button**
 Add style to 'Add Row' button
+Disable sortable rows using `filter('acfe/repeater/lock/name=my_repeater', true, $field)`
+Remove the actions buttons using `filter('acfe/repeater/remove_actions/name=my_repeater', true, $field)`
 
 * **Field Select: Placeholder**
 Change the default "Select" placeholder text
@@ -276,10 +278,11 @@ Manage ACF Block Types from ACF > Block Types.
 * Modal Selection Columns: Change the layout modal columns grid. 1, 2, 3, 4, 5 or 6 columns available
 * Modal Selection Categories: Add category for each layout in the layout modal
 * Layouts State: Force layouts to be collapsed or opened by default
+* Layouts Collapse: Remove collapse action
 * Button Label: Supports Dashicons icons elments `<span>`
 * One Click: the 'Add row' button will add a layout without the selection modal if there is only one layout available in the flexible content
 * Lock Flexible Content: Disable sortable layouts using `filter('acfe/flexible/lock/name=my_flexible', true, $field)`
-* Remove action button: Remove the action button using `filter('acfe/flexible/remove_button/name=my_flexible', true, $field)`
+* Remove Actions Buttons: Remove the action buttons using `filter('acfe/flexible/remove_actions/name=my_flexible', true, $field)`
 
 = ACF: Dynamic Forms =
 
@@ -663,10 +666,11 @@ function my_acfe_modules(){
 * Field: Clone - Added CSS fixes for better integration
 * Field: Textarea - Added Code mode setting to switch font family to monospace and allow tab indent
 * Field: Select - Added placeholder setting when allow null is activated
+* Field: Flexible Content - Added 'Remove Collapse Action' setting
 * Field: Flexible Content - Added `filter('acfe/flexible/lock', true, $field)` to lock flexible content layouts (disable sortable)
 * Field: Flexible Content - Added `filter('acfe/flexible/lock/name=my_flexible', true, $field)` to lock flexible content layouts (disable sortable)
-* Field: Flexible Content - Added `filter('acfe/flexible/remove_button', true, $field)` to remove the "Add layout" button
-* Field: Flexible Content - Added `filter('acfe/flexible/remove_button/name=my_flexible', true, $field)` to remove the "Add layout" button
+* Field: Flexible Content - Added `filter('acfe/flexible/remove_actions', true, $field)` to remove the "Add layout" button
+* Field: Flexible Content - Added `filter('acfe/flexible/remove_actions/name=my_flexible', true, $field)` to remove the "Add layout" button
 * Field: Flexible Content - Clone & Copy/Paste functions are now compatible with min/max settings for each layout
 * Field: Flexible Content - Added `action('acfe/flexible/render/before_template', $field, $layout, $is_preview)` to add wrapper around the template render (with 6 variations)
 * Field: Flexible Content - Added `action('acfe/flexible/render/after_template', $field, $layout, $is_preview)` to add wrapper around the template render (with 6 variations)
@@ -674,6 +678,10 @@ function my_acfe_modules(){
 * Field: Flexible Content - Fixed Style/Script render filters when returning a full URL
 * Field: Repeater - Added Stylised button setting
 * Field: Repeater - Added CSS fixes when table is empty
+* Field: Repeater - Added `filter('acfe/repeater/lock', true, $field)` to lock repeater rows (disable sortable)
+* Field: Repeater - Added `filter('acfe/repeater/lock/name=my_repeater', true, $field)` to repeater rows (disable sortable)
+* Field: Repeater - Added `filter('acfe/repeater/remove_actions', true, $field)` to remove the "Add row" button
+* Field: Repeater - Added `filter('acfe/repeater/remove_actions/name=my_repeater', true, $field)` to remove the "Add row" button
 * Field: Fixed fields label CSS when label is empty (top & left placement)
 * Fields: "Advanced Validation" settings are now disabled by default. To display them, the "Advanced settings" must be turned ON in the field group
 * Fields: Added "Advanced Settings" allowing administrator to set custom field properties based on the current screen (administration/front-end). "Form settings" must be turned ON in the field group

@@ -671,6 +671,7 @@
      */
     acf.addAction('new_field/type=flexible_content', function(flexible){
         
+        // ACFE: Lock
         if(flexible.has('acfeFlexibleLock')){
             
             flexible.removeEvents({'mouseover': 'onHover'});
@@ -679,11 +680,25 @@
             
         }
         
-        if(flexible.has('acfeFlexibleRemoveButton')){
+        // ACFE: Remove Actions
+        if(flexible.has('acfeFlexibleRemoveActions')){
             
             flexible.$actions().remove();
-            flexible.$el.find('.acfe-flexible-stylised-button').remove();
             
+            flexible.$layouts().find('> .acf-fc-layout-controls > [data-name="add-layout"]').remove();
+            flexible.$layouts().find('> .acf-fc-layout-controls > [data-name="remove-layout"]').remove();
+            flexible.$layouts().find('> .acf-fc-layout-controls > [data-acfe-flexible-control-clone="layout"]').remove();
+            
+            flexible.$control().find('> .acfe-flexible-stylised-button').remove();
+            
+            
+        }
+        
+        // ACFE: Remove Collapse
+        if(flexible.has('acfeFlexibleRemoveCollapse')){
+            
+            flexible.removeEvents({'click [data-name="collapse-layout"]': 'onClickCollapse'});
+            flexible.$layouts().find('> .acf-fc-layout-controls > [data-name="collapse-layout"]').remove();
             
         }
         

@@ -333,6 +333,34 @@ function acfe_flexible_settings($field){
         )
     ));
     
+    // Layouts: Remove Collapse
+    acf_render_field_setting($field, array(
+        'label'         => __('Layouts: Remove Collapse'),
+        'name'          => 'acfe_flexible_layouts_remove_collapse',
+        'key'           => 'acfe_flexible_layouts_remove_collapse',
+        'instructions'  => __('Remove collapse action'),
+        'type'              => 'true_false',
+        'message'           => '',
+        'default_value'     => false,
+        'ui'                => true,
+        'ui_on_text'        => '',
+        'ui_off_text'       => '',
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'acfe_flexible_modal_edition',
+                    'operator'  => '!=',
+                    'value'     => '1',
+                ),
+                array(
+                    'field'     => 'acfe_flexible_layouts_state',
+                    'operator'  => '==',
+                    'value'     => 'open',
+                )
+            )
+        )
+    ));
+    
 }
 
 add_action('acf/render_field', 'acfe_flexible_layouts_settings_before', 0);
@@ -532,21 +560,21 @@ function acfe_flexible_wrapper($wrapper, $field){
         return $wrapper;
     
     // Stylised button
-    if(isset($field['acfe_flexible_stylised_button']) && !empty($field['acfe_flexible_stylised_button'])){
+    if(acf_maybe_get($field, 'acfe_flexible_stylised_button')){
         
         $wrapper['data-acfe-flexible-stylised-button'] = 1;
         
     }
     
     // Hide Empty Message
-    if(isset($field['acfe_flexible_hide_empty_message']) && !empty($field['acfe_flexible_hide_empty_message']) || isset($field['acfe_flexible_stylised_button']) && !empty($field['acfe_flexible_stylised_button'])){
+    if(acf_maybe_get($field, 'acfe_flexible_hide_empty_message') || acf_maybe_get($field, 'acfe_flexible_stylised_button')){
         
         $wrapper['data-acfe-flexible-hide-empty-message'] = 1;
         
     }
     
     // Modal: Edition
-    if(isset($field['acfe_flexible_modal_edition']) && !empty($field['acfe_flexible_modal_edition'])){
+    if(acf_maybe_get($field, 'acfe_flexible_modal_edition')){
         
         $wrapper['data-acfe-flexible-modal-edition'] = 1;
     
@@ -568,54 +596,65 @@ function acfe_flexible_wrapper($wrapper, $field){
     }
     
     // Layouts: Title Edition
-    if(isset($field['acfe_flexible_title_edition']) && !empty($field['acfe_flexible_title_edition'])){
+    if(acf_maybe_get($field, 'acfe_flexible_title_edition')){
         
         $wrapper['data-acfe-flexible-title-edition'] = 1;
         
     }
     
     // Layouts: Close Button
-    if(isset($field['acfe_flexible_close_button']) && !empty($field['acfe_flexible_close_button'])){
+    if(acf_maybe_get($field, 'acfe_flexible_close_button')){
         
         $wrapper['data-acfe-flexible-close-button'] = 1;
         
     }
     
     // Layouts: Copy/paste
-    if(isset($field['acfe_flexible_copy_paste']) && !empty($field['acfe_flexible_copy_paste'])){
+    if(acf_maybe_get($field, 'acfe_flexible_copy_paste')){
         
         $wrapper['data-acfe-flexible-copy-paste'] = 1;
         
     }
     
     // Layouts: State
-    if(isset($field['acfe_flexible_layouts_state']) && !empty($field['acfe_flexible_layouts_state'])){
+    if(!acf_maybe_get($field, 'acfe_flexible_modal_edition')){
         
-        // Collapse
-        if($field['acfe_flexible_layouts_state'] === 'collapse'){
+        if(acf_maybe_get($field, 'acfe_flexible_layouts_state')){
             
-            $wrapper['data-acfe-flexible-collapse'] = 1;
+            // Collapse
+            if($field['acfe_flexible_layouts_state'] === 'collapse'){
+                
+                $wrapper['data-acfe-flexible-close'] = 1;
+                
+            }
+            
+            // Open
+            elseif($field['acfe_flexible_layouts_state'] === 'open'){
+                
+                $wrapper['data-acfe-flexible-open'] = 1;
+                
+            }
             
         }
         
-        // Open
-        elseif($field['acfe_flexible_layouts_state'] === 'open'){
+        // Layouts Remove Collapse
+        if(acf_maybe_get($field, 'acfe_flexible_layouts_remove_collapse')){
             
-            $wrapper['data-acfe-flexible-open'] = 1;
+            $wrapper['data-acfe-flexible-remove-collapse'] = 1;
             
         }
-        
+    
     }
     
     // Layouts Placeholder
-    if(isset($field['acfe_flexible_layouts_placeholder']) && !empty($field['acfe_flexible_layouts_placeholder'])){
+    if(acf_maybe_get($field, 'acfe_flexible_layouts_placeholder')){
         
         $wrapper['data-acfe-flexible-placeholder'] = 1;
         
     }
     
     // Layouts Previews
-    if(isset($field['acfe_flexible_layouts_templates']) && !empty($field['acfe_flexible_layouts_templates']) && isset($field['acfe_flexible_layouts_previews']) && !empty($field['acfe_flexible_layouts_previews'])){
+    if(acf_maybe_get($field, 'acfe_flexible_layouts_templates') && acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
         
         $wrapper['data-acfe-flexible-preview'] = 1;
         
@@ -645,15 +684,15 @@ function acfe_flexible_wrapper($wrapper, $field){
         
     }
     
-    // Remove button
-    $acfe_flexible_remove_button = false;
-    $acfe_flexible_remove_button = apply_filters('acfe/flexible/remove_button', $acfe_flexible_remove_button, $field);
-    $acfe_flexible_remove_button = apply_filters('acfe/flexible/remove_button/name=' . $field['_name'], $acfe_flexible_remove_button, $field);
-    $acfe_flexible_remove_button = apply_filters('acfe/flexible/remove_button/key=' . $field['key'], $acfe_flexible_remove_button, $field);
+    // Remove actions
+    $acfe_flexible_remove_actions = false;
+    $acfe_flexible_remove_actions = apply_filters('acfe/flexible/remove_actions', $acfe_flexible_remove_actions, $field);
+    $acfe_flexible_remove_actions = apply_filters('acfe/flexible/remove_actions/name=' . $field['_name'], $acfe_flexible_remove_actions, $field);
+    $acfe_flexible_remove_actions = apply_filters('acfe/flexible/remove_actions/key=' . $field['key'], $acfe_flexible_remove_actions, $field);
     
-    if($acfe_flexible_remove_button){
+    if($acfe_flexible_remove_actions){
         
-        $wrapper['data-acfe-flexible-remove-button'] = 1;
+        $wrapper['data-acfe-flexible-remove-actions'] = 1;
         
     }
     

@@ -468,4 +468,17 @@
     acf.addAction('new_field/name=acfe_form_term_map_parent', acfe_form_map_fields);
     acf.addAction('new_field/name=acfe_form_term_map_description', acfe_form_map_fields);
     
+    acf.addAction('new_field/type=flexible_content', function(flexible){
+        
+        if(flexible.get('name') !== 'acfe_form_actions')
+            return;
+        
+        flexible.on('click', '[data-name="add-layout"]', function(e){
+            
+            $('body').find('.acf-fc-popup').addClass('acfe-fc-popup-grey');
+            
+        });
+        
+    });
+    
 })(jQuery);

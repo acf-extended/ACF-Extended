@@ -1,5 +1,5 @@
 /*
- * Flexible Sortable
+ * Flexible: Sortable
  */
 .acf-flexible-content > .values > .ui-sortable-placeholder{
     height:147px;
@@ -8,7 +8,7 @@
 }
 
 /*
- * Flexible Layout Handle
+ * Flexible: Layout Handle
  */
 .acf-flexible-content .layout .acf-fc-layout-handle {
 	color: #444;
@@ -16,7 +16,7 @@
 }
 
 /*
- * Flexible Field Error
+ * Flexible: Field Error
  */
 .layout.acfe-flexible-modal-edit-error > .acf-fc-layout-handle{
     color:#f33b28;
@@ -28,11 +28,50 @@
 }
 
 /*
- * Flexible Layout Collapsed
+ * Flexible: Layout Collapsed
  */
 .acf-field-flexible-content[data-acfe-flexible-placeholder="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle,
 .acf-field-flexible-content[data-acfe-flexible-preview="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle{
     border-bottom-width:1px;
+}
+
+.acf-field-flexible-content[data-acfe-flexible-lock="1"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
+    cursor:initial;
+}
+
+.acf-field-flexible-content[data-acfe-flexible-remove-collapse="1"][data-acfe-flexible-lock!="1"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
+    cursor:initial;
+}
+
+/*
+ * Flexible: Popup Grey
+ */
+.acf-fc-popup.top.acfe-fc-popup-grey:before{
+    border-top-color: #e1e1e1;
+}
+.acf-tooltip.bottom.acfe-fc-popup-grey:before{
+    border-bottom-color: #e1e1e1;
+}
+.acf-fc-popup.acfe-fc-popup-grey{
+    background: #fcfcfc;
+    border-radius: 3px;
+    color: #444;
+    border: 1px solid #e1e1e1;
+    font-size: 13px;
+}
+.acf-tooltip.top.acfe-fc-popup-grey{
+	margin-top: -16px;
+}
+.acf-tooltip.bottom.acfe-fc-popup-grey{
+	margin-bottom: -16px;
+}
+
+.acf-fc-popup.acfe-fc-popup-grey a{
+    color: #444;
+}
+
+.acf-fc-popup.acfe-fc-popup-grey a:hover{
+    color: #fff;
 }
 
 /*
