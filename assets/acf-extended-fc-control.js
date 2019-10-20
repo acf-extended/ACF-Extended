@@ -756,7 +756,6 @@
         // vars
         var $controls = $layout.find('> .acf-fc-layout-controls');
         var $handle = $layout.find('> .acf-fc-layout-handle');
-        var $title = $handle.find('.acfe-layout-title');
         
         // Button: Copy
         if(flexible.has('acfeFlexibleCopyPaste') && !$controls.has('[data-acfe-flexible-control-copy]').length){
