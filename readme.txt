@@ -603,7 +603,7 @@ function my_acfe_modules(){
 
 = 0.8.1 =
 * Field: Advanced Link - Added instructions to add custom fields in the field administration
-* Field: Advanced Link - Added filters `acfe/fields/advanced_link/fields/name=my_field`/name= & `acfe/fields/advanced_link/fields/key=field_xxxxxxx`
+* Field: Advanced Link - Added filters `acfe/fields/advanced_link/fields/name=my_field` & `acfe/fields/advanced_link/fields/key=field_xxxxxxx`
 * Field: Advanced Link - Changed values keys to: `type`, `url`, `post`, `title` & `target`
 * Field: Button - Updated JS hook `acf.doAction('acfe/fields/button/before_ajax', $el, data)`
 * Field: Button - Updated JS hook `acf.doAction('acfe/fields/button/ajax_success', response, $el, data)`
