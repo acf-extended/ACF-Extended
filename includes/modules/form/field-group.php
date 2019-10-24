@@ -257,7 +257,7 @@ acf_add_local_field_group(array(
                     'acfe_permissions' => '',
                     'default_value' => '',
                     'placeholder' => '',
-                    'prepend' => 'field class',
+                    'prepend' => 'input class',
                     'append' => '',
                     'maxlength' => '',
                 ),

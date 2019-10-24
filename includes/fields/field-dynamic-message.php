@@ -18,7 +18,7 @@ class acfe_field_dynamic_message extends acf_field{
     function render_field_settings($field){
         
         $field_name = 'field_name';
-        if(isset($field['name']) && !empty($field['name']))
+        if(acf_maybe_get($field, 'name'))
             $field_name = $field['name'];
         
         ob_start();
