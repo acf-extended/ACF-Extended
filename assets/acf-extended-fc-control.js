@@ -164,10 +164,10 @@
             
         }
         
-        var $_layout = $layout.clone();
-        
         // Fix inputs
-        flexible.acfeFixInputs($_layout);
+        flexible.acfeFixInputs($layout);
+        
+        var $_layout = $layout.clone();
         
         // Clean Layout
         flexible.acfeCleanLayouts($_layout);

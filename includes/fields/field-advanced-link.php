@@ -15,7 +15,7 @@ class acfe_field_advanced_link extends acf_field{
         );
         
         acf_add_local_field(array(
-            'key'       => 'acfe_advanced_link_post',
+            'key'       => 'post',
             'label'     => __('Post', 'acf'),
             'type'      => 'post_object',
             'required'  => false,
@@ -27,15 +27,64 @@ class acfe_field_advanced_link extends acf_field{
 
     }
     
+    function render_field_settings($field){
+        
+        $field_name = 'field_name';
+        if(acf_maybe_get($field, 'name'))
+            $field_name = $field['name'];
+        
+        ob_start();
+        ?>
+        Add your own fields using the following hook:<br /><br />
+<pre>
+add_filter('acfe/fields/advanced_link/fields/name=<?php echo $field_name; ?>', 'my_acf_advanced_link_fields', 10, 3);
+function my_acf_advanced_link_fields($fields, $field, $value){
+    
+    /**
+     * @array $fields   Sub fields array
+     * @array $field    Advanced Link field
+     * @array $value    The field values
+     */
+    
+    $fields[] = array(
+        'prefix'    => $field['name'],
+        'name'      => 'my_field',
+        'key'       => 'acfe_advanced_link_my_field',
+        'label'     => 'My field',
+        'type'      => 'true_false',
+        'ui'        => true,
+        'value'     => isset($value['my_field']) ? $value['my_field'] : ''
+    );
+    
+    return $fields;
+    
+}
+</pre>
+        <?php
+        
+        $message = ob_get_clean();
+        
+        // field_type
+        acf_render_field_setting($field, array(
+            'label'			=> __('Instructions','acf'),
+            'instructions'	=> '',
+            'type'			=> 'message',
+            'name'			=> 'instructions',
+            'message'       => $message,
+            'new_lines'     => false
+        ));
+        
+    }
+    
     function get_link($value = ''){
 		
 		// vars
         $value = wp_parse_args($value, array(
-			'acfe_advanced_link_type'   => 'url',
-            'acfe_advanced_link_url'    => '',
-            'acfe_advanced_link_post'   => '',
-			'acfe_advanced_link_title'  => '',
-			'acfe_advanced_link_target' => false,
+            'post'      => '',
+			'type'      => 'url',
+            'url'       => '',
+			'title'     => '',
+			'target'    => false,
 		));
         
 		$link = array(
@@ -47,24 +96,24 @@ class acfe_field_advanced_link extends acf_field{
 		);
         
         
-        $link['type'] = $value['acfe_advanced_link_type'];
-        $link['title'] = $value['acfe_advanced_link_title'];
-        if($value['acfe_advanced_link_target'])
+        $link['type'] = $value['type'];
+        $link['title'] = $value['title'];
+        if($value['target'])
             $link['target'] = '_blank';
         
         // URL
-        if($value['acfe_advanced_link_type'] === 'url'){
+        if($value['type'] === 'url'){
             
-            $link['url'] = $value['acfe_advanced_link_url'];
+            $link['url'] = $value['url'];
             
         // Post
-        }elseif($value['acfe_advanced_link_type'] === 'post'){
+        }elseif($value['type'] === 'post'){
             
-            $link['post'] = $value['acfe_advanced_link_post'];
+            $link['post'] = $value['post'];
             
-            if(!empty($value['acfe_advanced_link_post'])){
+            if(!empty($value['post'])){
                 
-                $link['url'] = get_permalink($value['acfe_advanced_link_post']);
+                $link['url'] = get_permalink($value['post']);
                 
             }
             
@@ -116,7 +165,7 @@ class acfe_field_advanced_link extends acf_field{
             array(
                 'prefix'	=> $field['name'],
                 'name'		=> 'type',
-                'key'		=> 'acfe_advanced_link_type',
+                'key'		=> 'type',
                 'label'		=> __('Type', 'acf'),
                 'type'		=> 'radio',
                 'value'		=> $link['type'],
@@ -131,7 +180,7 @@ class acfe_field_advanced_link extends acf_field{
             array(
                 'prefix'	=> $field['name'],
                 'name'		=> 'url',
-                'key'		=> 'acfe_advanced_link_url',
+                'key'		=> 'url',
                 'label'		=> __('URL', 'acf'),
                 'type'		=> 'text',
                 'value'		=> $link['url'],
@@ -140,7 +189,7 @@ class acfe_field_advanced_link extends acf_field{
                 'conditional_logic' => array(
                     array(
                         array(
-                            'field'     => 'acfe_advanced_link_type',
+                            'field'     => 'type',
                             'operator'  => '==',
                             'value'     => 'url',
                         )
@@ -152,7 +201,7 @@ class acfe_field_advanced_link extends acf_field{
             array(
                 'prefix'	=> $field['name'],
                 'name'		=> 'post',
-                'key'		=> 'acfe_advanced_link_post',
+                'key'		=> 'post',
                 'label'		=> __('Post', 'acf'),
                 'type'		=> 'post_object',
                 'value'		=> $link['post'],
@@ -162,7 +211,7 @@ class acfe_field_advanced_link extends acf_field{
                 'conditional_logic' => array(
                     array(
                         array(
-                            'field'     => 'acfe_advanced_link_type',
+                            'field'     => 'type',
                             'operator'  => '==',
                             'value'     => 'post',
                         )
@@ -173,7 +222,7 @@ class acfe_field_advanced_link extends acf_field{
             array(
                 'prefix'	=> $field['name'],
                 'name'		=> 'title',
-                'key'		=> 'acfe_advanced_link_title',
+                'key'		=> 'title',
                 'label'		=> __('Link text', 'acf'),
                 'type'		=> 'text',
                 'value'		=> $link['title'],
@@ -184,7 +233,7 @@ class acfe_field_advanced_link extends acf_field{
             array(
                 'prefix'	=> $field['name'],
                 'name'		=> 'target',
-                'key'		=> 'acfe_advanced_link_target',
+                'key'		=> 'target',
                 'label'		=> __('Target', 'acf'),
                 'type'		=> 'true_false',
                 'value'		=> $link['target'],
@@ -196,6 +245,8 @@ class acfe_field_advanced_link extends acf_field{
         );
         
         $fields = apply_filters('acfe/fields/advanced_link/fields', $fields, $field, $link);
+        $fields = apply_filters('acfe/fields/advanced_link/fields/name=' . $field['_name'], $fields, $field, $link);
+        $fields = apply_filters('acfe/fields/advanced_link/fields/key=' . $field['key'], $fields, $field, $link);
 		
         ?>
         
@@ -251,7 +302,7 @@ class acfe_field_advanced_link extends acf_field{
             return $valid;
 		
 		// URL is required
-		if(empty($value) || (empty($value['acfe_advanced_link_url'] && empty($value['acfe_advanced_link_post']))))
+		if(empty($value) || (empty($value['url'] && empty($value['post']))))
 			return false;
         
 		// return

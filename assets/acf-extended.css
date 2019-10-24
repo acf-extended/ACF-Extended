@@ -447,6 +447,7 @@ code, kbd, pre, samp{
 .acf-fields > .acf-field.acf-field-acfe-column[data-endpoint="1"]{
 	clear: both;
     border-top: 1px solid #eee;
+    width:100%;
 }
 
 .acf-fields > .acf-field.acf-field-acfe-column[data-columns="1/6"] {

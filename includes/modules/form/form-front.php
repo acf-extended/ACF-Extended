@@ -32,9 +32,9 @@ class acfe_form_front{
         if(empty($form))
             return;
         
+        $post_id = acf_maybe_get($form, 'post_id', false);
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
-        $post_id = acf_maybe_get($form, '_acf_post_id');
         
         if(!$form_name || !$form_id)
             return;
@@ -60,17 +60,16 @@ class acfe_form_front{
     function check_submit_form(){
         
         // Verify nonce.
-		if(is_admin() || !acf_verify_nonce('acf_form'))
-			return false;
-		
-		// Confirm form has been submitted.
+		if(!acf_verify_nonce('acfe_form'))
+			return;
+        
         if(!acf_maybe_get_POST('_acf_form'))
             return;
-		
-		$form = json_decode(acf_decrypt($_POST['_acf_form']), true);
         
-        if(!$form)
-            return false;
+        $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
+        
+        if(empty($form))
+            return;
         
         // ACF
         $_POST['acf'] = isset($_POST['acf']) ? $_POST['acf'] : array();
@@ -93,7 +92,7 @@ class acfe_form_front{
     function submit_form($form){
     	
     	// vars
-    	$post_id = acf_maybe_get($form, 'post_id', 0);
+    	$post_id = acf_maybe_get($form, 'post_id', false);
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
         
@@ -148,15 +147,15 @@ class acfe_form_front{
 		
 	}
     
-    function validate_form($args){
+    function validate_form($param){
         
         $form_name = false;
         $form_id = false;
         
         // String
-        if(is_string($args)){
+        if(is_string($param)){
             
-            $form = get_page_by_path($args, OBJECT, 'acfe-form');
+            $form = get_page_by_path($param, OBJECT, 'acfe-form');
             if(!$form)
                 return false;
             
@@ -167,13 +166,13 @@ class acfe_form_front{
         }
         
         // Int
-        elseif(is_int($args)){
+        elseif(is_int($param)){
             
-            if(get_post_type($args) !== 'acfe-form')
+            if(get_post_type($param) !== 'acfe-form')
                 return false;
             
             // Form
-            $form_id = $args;
+            $form_id = $param;
             $form_name = get_field('acfe_form_name', $form_id);
             
         }
@@ -290,7 +289,7 @@ class acfe_form_front{
         $defaults['field_el'] = get_field('acf-field_acfe_form_form_field_el', $form_id);
         $defaults['instruction_placement'] = get_field('acfe_form_instruction_placement', $form_id);
         
-        $args = wp_parse_args($args, $defaults);
+        $args = wp_parse_args($param, $defaults);
         
         // Override
         if(!empty($args['fields_attributes']['class']))
@@ -417,8 +416,19 @@ class acfe_form_front{
                     
                 }
                 
-                if($args['updated_hide_form'])
+                if($args['updated_hide_form']){
+                    
+                    ?>
+                    <script>
+                    if(window.history.replaceState){
+                        window.history.replaceState( null, null, window.location.href );
+                    }
+                    </script>
+                    <?php
+                    
                     return;
+                    
+                }
             
             }
             
@@ -427,6 +437,9 @@ class acfe_form_front{
         if(!empty($args['fields_attributes']['wrapper_class']) || !empty($args['fields_attributes']['class'])){
         
             add_filter('acf/prepare_field', function($field) use($args){
+                
+                if(!$field)
+                    return $field;
                 
                 if(!empty($args['fields_attributes']['wrapper_class']))
                     $field['wrapper']['class'] .= ' ' . $args['fields_attributes']['wrapper_class'];
@@ -446,6 +459,9 @@ class acfe_form_front{
             foreach($args['map'] as $field_key => $array){
                 
                 add_filter('acf/prepare_field/key=' . $field_key, function($field) use($array){
+                    
+                    if(!$field)
+                        return $field;
                     
                     $field = array_merge($field, $array);
                     
@@ -469,7 +485,7 @@ class acfe_form_front{
                 
             // render post data
             acf_form_data(array( 
-                'screen'	=> 'acf_form',
+                'screen'	=> 'acfe_form',
                 'post_id'	=> $args['post_id'],
                 'form'		=> acf_encrypt(json_encode($args))
             ));
@@ -552,8 +568,6 @@ class acfe_form_front{
             return ob_get_clean();
             
         }
-        
-        return;
     
     }
     

@@ -131,6 +131,8 @@
 				layout:		$layout.data('layout'),
 				value:		acf.serialize($layout, prefix)
 			};
+            
+            acf.doAction('acfe/fields/flexible_content/before_preview', flexible.$el, ajaxData);
 			
 			// ajax
 			$.ajax({
@@ -139,6 +141,9 @@
 				dataType: 'html',
 				type: 'post',
 				success: function(response){
+                    
+                    acf.doAction('acfe/fields/flexible_content/preview', response, flexible.$el, ajaxData);
+                    
 					if(response){
                         
 						$placeholder.find('> .acfe-flexible-placeholder').html(response);
@@ -148,6 +153,7 @@
                         $placeholder.removeClass('acfe-flexible-collapsed-preview');
                         
                     }
+                    
 				},
                 complete: function(){
                     

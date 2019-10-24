@@ -120,8 +120,6 @@
             if(this.get('ajax')){
                 
                 e.preventDefault();
-                
-                acf.doAction('acfe/fields/button/before_ajax', this.$el);
 
                 // serialize form data
                 var data = {
@@ -130,6 +128,8 @@
                     field_key: this.get('key')
                 };
                 
+                acf.doAction('acfe/fields/button/before_ajax', this.$el, data);
+                
                 // ajax
                 $.ajax({
                     url: acf.get('ajaxurl'),
@@ -137,18 +137,16 @@
                     type: 'post',
                     dataType: 'json',
                     context: this,
-                    success: this.onAjaxSuccess,
+                    success: function(response){
+                        
+                        acf.doAction('acfe/fields/button/ajax_success', response, this.$el, data);
+                        
+                    }
                 });
                 
             }
             
-        },
-        
-        onAjaxSuccess: function(response){
-            
-            acf.doAction('acfe/fields/button/ajax_success', response, this.$el);
-            
-        },
+        }
         
     });
 
@@ -396,9 +394,12 @@
                 
             }
             
-			if(this.get('endpoint')){
+            if(this.get('endpoint')){
                 
-				return this.remove();
+                this.$el.find('> .acf-label').remove();
+                this.$el.find('> .acf-input').remove();
+                
+                return;
                 
             }
             

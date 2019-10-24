@@ -309,6 +309,22 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 
 ## 📋 Changelog
 
+### 0.8.1
+* Field: Advanced Link - Added instructions to add custom fields in the field administration
+* Field: Advanced Link - Added filters `acfe/fields/advanced_link/fields/name=my_field`/name= & `acfe/fields/advanced_link/fields/key=field_xxxxxxx`
+* Field: Advanced Link - Changed values keys to: `type`, `url`, `post`, `title` & `target`
+* Field: Button - Updated JS hook `acf.doAction('acfe/fields/button/before_ajax', $el, data)`
+* Field: Button - Updated JS hook `acf.doAction('acfe/fields/button/ajax_success', response, $el, data)`
+* Field: Column - Fixed endpoint column not correctly closing the row
+* Field: Flexible Content - Added JS hook `acf.doAction('acfe/fields/flexible_content/before_preview', $el, data)`
+* Field: Flexible Content - Added JS hook `acf.doAction('acfe/fields/flexible_content/preview', response, $el, data)`
+* Field: Flexible Content - Clone/Copy/Paste - Fixed a problem where new select option values weren't properly duplicated (thanks @chrisschrijver)
+* Module: Dynamic Forms - Advanced settings: Fixed `prepare_field` on form front
+* Module: Dynamic Forms - Fixed a compatibility problem if a dynamic form was named `form`
+* Module: Dynamic Forms - Rename `field class` to `input class`
+* Module: Dynamic Forms - Fixed a problem where native ACF Form would not properly work (thanks @maximelessard)
+* Module: Dynamic Forms - Added Javascript to avoid re-submission on page refresh when 'Hide form' is set to ON
+
 ### 0.8
 * Module: Dynamic Forms - Added module. Forms UI available under ACF menu
 * Module: Dynamic Forms - Added PHP helper `acfe_form('my_form_name')` & `acfe_form(188)` to display a form

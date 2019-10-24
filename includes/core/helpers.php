@@ -597,7 +597,7 @@ if(function_exists('acf_add_filter_variations')){
 
 function acfe_form_is_admin(){
     
-    if((is_admin() && !wp_doing_ajax()) || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') !== 'acf_form'))
+    if((is_admin() && !wp_doing_ajax()) || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') !== 'acfe_form'))
         return true;
     
     return false;
@@ -606,7 +606,7 @@ function acfe_form_is_admin(){
 
 function acfe_form_is_front(){
     
-    if(!is_admin() || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') === 'acf_form'))
+    if(!is_admin() || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') === 'acfe_form'))
         return true;
     
     return false;
