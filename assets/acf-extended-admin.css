@@ -1,0 +1,197 @@
+/*
+ * ACFE General
+ */
+pre{
+    display: block;
+    padding: 9.5px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+    white-space: pre-wrap;
+    overflow: auto;
+}
+
+code, kbd, pre, samp{
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 1em;
+}
+
+/* 
+ * ACFE: Postbox
+ */
+.acfe-postbox.acfe-postbox-no-handle h2.hndle{
+    cursor:initial;
+}
+
+.acfe-postbox.acfe-postbox-no-handle .handlediv{
+    display:none;
+}
+
+/* 
+ * ACFE: Dynamic Post Type 'Setting' Button
+ */
+.wrap .acfe-dpt-admin-config,
+.wrap .acfe-dpt-admin-config:active,
+.wrap .acfe-dt-admin-config,
+.wrap .acfe-dt-admin-config:active{
+    padding-left:4px;
+    padding-right:4px;
+}
+
+.wrap .acfe-dpt-admin-config span,
+.wrap .acfe-dt-admin-config span{
+    font-size: 16px;
+    vertical-align: text-top;
+    color:#444;
+}
+
+.wrap .acfe-dpt-admin-config:hover span,
+.wrap .acfe-dt-admin-config:hover span{
+    color:#fff;
+}
+
+/* 
+ * ACFE: Dynamic Post Type
+ */
+body.post-type-acfe-dpt #minor-publishing{
+    display:none;
+}
+
+/* 
+ * ACFE: Dynamic Taxonomy
+ */
+body.post-type-acfe-dt #minor-publishing{
+    display:none;
+}
+
+/* 
+ * ACFE: Dynamic Options Page
+ */
+body.post-type-acfe-dop #minor-publishing{
+    display:none;
+}
+
+/* 
+ * ACFE: Dynamic Block Type
+ */
+body.post-type-acfe-dbt #minor-publishing{
+    display:none;
+}
+
+/* 
+ * ACFE: Author Label
+ */
+.acf-field.acf-field-acfe-author > .acf-label{
+    display:none;
+}
+
+/* 
+ * Gutenberg: Fix metaboxes
+ */
+.edit-post-layout__metaboxes:not(:empty) .edit-post-meta-boxes-area{
+    margin:10px 10px 0;
+}
+
+.edit-post-layout__metaboxes:not(:empty) {
+    background:#f3f4f5;
+}
+
+.edit-post-layout__metaboxes .edit-post-meta-boxes-area .postbox{
+    margin-bottom:10px;
+}
+
+/* Firefox fix only */
+@supports (-moz-appearance:meterbar){
+    .edit-post-layout__metaboxes .postbox{
+        box-shadow:0 1px 1px 1px rgba(0,0,0,.04);
+    }
+}
+
+/*
+ * ACF Tools
+ */
+#acf-admin-tool-acfe_tool_dbt_export ul,
+#acf-admin-tool-acfe_tool_dpt_export ul,
+#acf-admin-tool-acfe_tool_dt_export ul,
+#acf-admin-tool-acfe_tool_dop_export ul{
+    column-width: 200px;
+}
+
+.acf-meta-box-wrap.-grid #acf-admin-tool-acfe-fg-local{
+    display:none;
+}
+
+/*
+ * ACFE WP Options
+ */
+.settings_page_acfe-options .column-option_id{
+    width:65px;
+}
+
+.settings_page_acfe-options .column-option_name{
+    width:435px;
+}
+
+.settings_page_acfe-options .column-autoload{
+    width:100px;
+    text-align:center;
+}
+
+/*
+ * ACFE Form
+ */
+.acf-field[data-name="acfe_form_post_save_post_title_custom"],
+.acf-field[data-name="acfe_form_post_save_post_name_custom"],
+.acf-field[data-name="acfe_form_post_save_post_content_custom"],
+
+.acf-field[data-name="acfe_form_term_save_name_custom"],
+.acf-field[data-name="acfe_form_term_save_slug_custom"],
+.acf-field[data-name="acfe_form_term_save_description_custom"],
+
+.acf-field[data-name="acfe_form_user_save_email_custom"],
+.acf-field[data-name="acfe_form_user_save_username_custom"],
+.acf-field[data-name="acfe_form_user_save_password_custom"],
+.acf-field[data-name="acfe_form_user_save_first_name_custom"],
+.acf-field[data-name="acfe_form_user_save_last_name_custom"],
+.acf-field[data-name="acfe_form_user_save_nickname_custom"],
+.acf-field[data-name="acfe_form_user_save_display_name_custom"],
+.acf-field[data-name="acfe_form_user_save_website_custom"],
+.acf-field[data-name="acfe_form_user_save_description_custom"]{
+    border-top:0;
+    padding-top:0;
+}
+
+.acf-field.acf-field-acfe-form-attributes > .acf-input > .acf-fields > .acf-field{
+    border-left-width:0;
+}
+
+.acf-field.acf-field-acfe-form-fields-attributes > .acf-input > .acf-fields > .acf-field{
+    border-left-width:0;
+}
+
+.acf-field-repeater.acf-field-acfe-form-email-files > .acf-input > .acf-repeater > .acf-actions{
+    text-align:left;
+}
+
+.acf-field-repeater.acf-field-acfe-form-email-files > .acf-input > .acf-repeater > .acf-actions > .acf-button{
+    color: #555;
+    border-color: #ccc;
+    background: #f7f7f7;
+    box-shadow: 0 1px 0 #ccc;
+    text-shadow:none;
+}
+
+/*
+ * ACFE Dev Mode
+ */
+.postbox#acfe-wp-custom-fields > .inside,
+.postbox#acfe-acf-custom-fields > .inside{
+    padding:0;
+    margin:0;
+}

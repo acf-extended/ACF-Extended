@@ -3,6 +3,8 @@
 if(!defined('ABSPATH'))
     exit;
 
+if(!class_exists('acfe_field_button')):
+
 class acfe_field_button extends acf_field{
     
     function __construct(){
@@ -198,4 +200,7 @@ acf.addAction('acfe/fields/button/ajax_success', function(response, $el){
     
 }
 
-new acfe_field_button();
+// initialize
+acf_register_field_type('acfe_field_button');
+
+endif;

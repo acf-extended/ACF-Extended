@@ -1111,11 +1111,11 @@ function my_<?php echo $_field_name; ?>_validation($valid, $value, $field, $inpu
                 <pre>&lt;?php 
 
 add_action(&apos;acfe/form/validation/name=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_validation&apos;, 10, 2);
-function my_<?php echo $_form_name; ?>_validation($form, $target_post_id){
+function my_<?php echo $_form_name; ?>_validation($form, $current_post_id){
     
     /**
      * @array       $form Form arguments
-     * @bool/string $target_post_id Targeted post id
+     * @bool/string $current_post_id Current post id
      */
     
     $<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);
@@ -1147,11 +1147,11 @@ function my_<?php echo $_form_name; ?>_validation($form, $target_post_id){
                 <pre>&lt;?php
 
 add_action(&apos;acfe/form/submit/name=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_submit&apos;, 10, 2);
-function my_<?php echo $_form_name; ?>_submit($form, $target_post_id){
+function my_<?php echo $_form_name; ?>_submit($form, $current_post_id){
     
     /**
      * @array       $form Form arguments
-     * @bool/string $target_post_id Targeted post id
+     * @bool/string $current_post_id Current post id
      */
     
     $<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);

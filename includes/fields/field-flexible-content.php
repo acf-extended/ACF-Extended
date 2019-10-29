@@ -553,11 +553,8 @@ function acfe_flexible_layouts_settings($field){
     
 }
 
-add_filter('acf/field_wrapper_attributes', 'acfe_flexible_wrapper', 10, 2);
+add_filter('acfe/field_wrapper_attributes/type=flexible_content', 'acfe_flexible_wrapper', 10, 2);
 function acfe_flexible_wrapper($wrapper, $field){
-    
-    if($field['type'] !== 'flexible_content')
-        return $wrapper;
     
     // Stylised button
     if(acf_maybe_get($field, 'acfe_flexible_stylised_button')){

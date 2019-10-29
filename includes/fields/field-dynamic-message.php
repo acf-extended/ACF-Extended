@@ -3,6 +3,8 @@
 if(!defined('ABSPATH'))
     exit;
 
+if(!class_exists('acfe_field_dynamic_message')):
+
 class acfe_field_dynamic_message extends acf_field{
     
     function __construct(){
@@ -50,4 +52,7 @@ function my_acf_dynamic_message(){
     
 }
 
-new acfe_field_dynamic_message();
+// initialize
+acf_register_field_type('acfe_field_dynamic_message');
+
+endif;

@@ -111,25 +111,31 @@ function acfe_field_groups_column_html($column, $post_id){
         
         $field_group = acf_get_field_group($post_id);
         
+        $source = false;
+        
         // ACF Extended
         if(strpos($post_id, 'group_acfe_') === 0){
             
-            echo 'ACF Extended';
+            $source = 'ACF Extended';
             
         }
         
         // Advanced Forms
         elseif($post_id === 'group_form_settings' || $post_id === 'group_entry_data'){
             
-            echo 'Advanced Forms';
+            $source = 'Advanced Forms';
             
         }
         
         else{
             
-            echo '<span style="color:#aaa;">'; _e('Unknown', 'acf'); echo '</span>';
+            $source = '<span style="color:#aaa;">' . __('Unknown', 'acf') . '</span>';
             
         }
+        
+        $source = apply_filters('acfe/field_groups_third_party/source', $source, $post_id, $field_group);
+        
+        echo $source;
     
     }
     
