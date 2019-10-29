@@ -64,7 +64,30 @@
         // Move below
         if(errors_position && errors_position === 'below'){
             
-            field.$el.find('.acf-notice.-error').insertAfter(field.$el.find('.acf-input-wrap'));
+            if(field.$control().length){
+                
+                field.$el.find('.acf-notice.-error').insertAfter(field.$control());
+                
+            }else if(field.$input().length){
+                
+                field.$el.find('.acf-notice.-error').insertAfter(field.$input());
+                
+            }
+            
+            var $selector = false;
+            
+            if(field.$control().length){
+                
+                $selector = field.$control();
+                
+            }else if(field.$input().length){
+                
+                $selector = field.$input();
+                
+            }
+            
+            if($selector)
+                field.$el.find('.acf-notice.-error').insertAfter($selector);
             
         }
         

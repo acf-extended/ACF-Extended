@@ -1,7 +1,216 @@
+function acfe_recaptcha(){
+    
+    (function($){
+        
+        if(typeof acf === 'undefined')
+            return;
+        
+        $.each(acf.getFields({type: 'acfe_recaptcha'}), function(i, field){
+            
+            field.render();
+            
+        });
+    
+    })(jQuery);
+    
+}
+
 (function($){
     
     if(typeof acf === 'undefined')
         return;
+    
+    /**
+     * Field: reCaptcha
+     */
+    var reCaptcha = acf.Field.extend({
+        
+        type: 'acfe_recaptcha',
+        
+        actions: {
+            'validation_failure' : 'validationFailure'
+        },
+        
+        $control: function(){
+			return this.$('.acfe-field-recaptcha');
+		},
+		
+		$input: function(){
+			return this.$('input[type="hidden"]');
+		},
+		
+		$selector: function(){
+			return this.$control().find('> div');
+		},
+        
+		selector: function(){
+			return this.$selector()[0];
+		},
+        
+        version: function(){
+			return this.get('version');
+		},
+        
+        render: function(){
+            
+            var field = this;
+            
+            if(this.version() === 'v2'){
+                
+                this.recaptcha = grecaptcha.render(this.selector(), {
+                    'sitekey':  this.$control().data('site-key'),
+                    'theme':    this.$control().data('size'),
+                    'size':     this.$control().data('theme'),
+                    
+                    
+                    'callback': function(response){
+                        
+                        field.$input().val(response).change();
+                        field.$input().closest('.acf-input').find('> .acf-notice.-error').hide();
+                        
+                    },
+                    
+                    'error-callback': function(){
+                        
+                        field.$input().val('error').change();
+                        
+                    },
+                    
+                    'expired-callback': function(){
+                        
+                        field.$input().val('expired').change();
+                        
+                    }
+                });
+            
+            }
+            
+            else if(this.version() === 'v3'){
+                
+                this.recaptcha = function(){
+                    
+                    grecaptcha.ready(function(){
+                        grecaptcha.execute(this.$control().data('site-key'), {action: 'homepage'}).then(function(response){
+                            
+                            field.$input().val(response).change();
+                            field.$input().closest('.acf-input').find('> .acf-notice.-error').hide();
+                            
+                        });
+                    });
+                    
+                };
+                
+            }
+            
+        },
+        
+        validationFailure: function($form){
+            
+            grecaptcha.reset(this.recaptcha);
+            
+        }
+        
+    });
+
+    acf.registerFieldType(reCaptcha);
+    
+    
+    /**
+     * Field: Code Editor
+     */
+    var CodeEditor = acf.Field.extend({
+        
+        wait: 'ready',
+        
+        type: 'acfe_code_editor',
+        
+        events: {
+			'showField': 'onShow',
+		},
+        
+        $control: function(){
+            
+            return this.$el.find('> .acf-input > .acf-input-wrap');
+            
+        },
+        
+        $input: function(){
+            
+            return this.$el.find('> .acf-input > .acf-input-wrap > textarea');
+            
+        },
+        
+        input: function(){
+            
+            return this.$input()[0];
+            
+        },
+        
+        rows: function(){
+            
+            return this.$input().attr('rows');
+            
+        },
+        
+        initialize: function(){
+            
+            this.rows = this.$input().attr('rows');
+            this.mode = this.$control().data('mode');
+            this.lines = this.$control().data('lines');
+            this.indentUnit = this.$control().data('indent_unit');
+            
+            this.editor = wp.CodeMirror.fromTextArea(this.input(), {
+                lineNumbers: this.lines,
+                lineWrapping: true,
+                styleActiveLine: false,
+                continueComments: true,
+                indentUnit: this.indentUnit,
+                tabSize: 1,
+                indentWithTabs: true,
+                mode: this.mode,
+                //mode: 'htmlmixed',
+                extraKeys: {
+                    Tab: function(cm){
+                        cm.execCommand("indentMore")
+                    },
+                    "Shift-Tab": function(cm){
+                        cm.execCommand("indentLess")
+                    },
+                },
+            });
+            
+            if(this.rows){
+                
+                this.editor.getScrollerElement().style.minHeight = this.rows * 22 + 'px';
+                
+                this.editor.refresh();
+                
+            }
+            
+            field = this;
+            
+            this.editor.on('change', function(){
+                
+                field.editor.save();
+                
+            });
+            
+        },
+        
+        onShow: function(){
+            
+            if(this.editor){
+                
+                this.editor.refresh();
+                
+            }
+            
+        }
+        
+    });
+
+    acf.registerFieldType(CodeEditor);
+    
     
     /**
      * Field: Textarea
@@ -421,6 +630,31 @@
     });
 
     acf.registerFieldType(Column);
+    
+    acf.addFilter('select2_ajax_data', function(ajaxData, data, $el, field, select){
+        
+        if(ajaxData.action !== 'acf/fields/acfe_field_taxonomy_allow_terms/query')
+            return ajaxData;
+        
+        // Taxonomies
+        var $taxonomies = $el.closest('.acf-field-settings').find('> .acf-field-setting-taxonomy > .acf-input > select > option:selected');
+        
+        var tax = [];
+        
+        $taxonomies.each(function(){
+            tax.push($(this).val());
+        });
+        
+        ajaxData.taxonomies = tax;
+        
+        // Terms level
+        var $level = $el.closest('.acf-field-settings').find('> .acf-field-setting-allow_terms > .acf-input input[type="number"]');
+        
+        ajaxData.level = $level.val();
+        
+        return ajaxData;
+        
+    });
     
     var acfe_form_map_fields = function(field){
         

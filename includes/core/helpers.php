@@ -597,7 +597,7 @@ if(function_exists('acf_add_filter_variations')){
 
 function acfe_form_is_admin(){
     
-    if((is_admin() && !wp_doing_ajax()) || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') !== 'acfe_form'))
+    if((is_admin() && !wp_doing_ajax()) || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') !== 'acfe_form' && acf_maybe_get_POST('_acf_screen') !== 'acf_form'))
         return true;
     
     return false;
@@ -606,10 +606,24 @@ function acfe_form_is_admin(){
 
 function acfe_form_is_front(){
     
-    if(!is_admin() || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') === 'acfe_form'))
+    if(!is_admin() || (is_admin() && wp_doing_ajax() && (acf_maybe_get_POST('_acf_screen') === 'acfe_form' || acf_maybe_get_POST('_acf_screen') === 'acf_form')))
         return true;
     
     return false;
+    
+}
+
+function acfe_form_decrypt_args(){
+    
+    if(!acf_maybe_get_POST('_acf_form'))
+        return false;
+    
+    $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
+    
+    if(empty($form))
+        return false;
+    
+    return $form;
     
 }
 
@@ -744,4 +758,28 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
 	// return
 	return $r;
 	
+}
+
+function acfe_get_term_level($term, $taxonomy){
+    
+    $ancestors = get_ancestors($term, $taxonomy);
+    
+    return count($ancestors) + 1;
+    
+}
+
+function acfe_number_suffix($num){
+    
+    if(!in_array(($num % 100), array(11,12,13))){
+        
+        switch($num % 10){
+            case 1:  return $num . 'st';
+            case 2:  return $num . 'nd';
+            case 3:  return $num . 'rd';
+        }
+        
+    }
+    
+    return $num . 'th';
+    
 }

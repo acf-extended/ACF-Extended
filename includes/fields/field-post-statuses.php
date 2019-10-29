@@ -3,6 +3,8 @@
 if(!defined('ABSPATH'))
     exit;
 
+if(!class_exists('acfe_field_post_statuses')):
+
 class acfe_field_post_statuses extends acf_field{
     
     function __construct(){
@@ -371,4 +373,7 @@ class acfe_field_post_statuses extends acf_field{
 
 }
 
-new acfe_field_post_statuses();
+// initialize
+acf_register_field_type('acfe_field_post_statuses');
+
+endif;

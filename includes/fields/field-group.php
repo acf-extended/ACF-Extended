@@ -7,6 +7,26 @@ add_action('acf/render_field_settings/type=group', 'acfe_field_group_settings');
 function acfe_field_group_settings($field){
     
     acf_render_field_setting($field, array(
+        'label'         => __('Seemless Style'),
+        'name'          => 'acfe_seemless_style',
+        'key'           => 'acfe_seemless_style',
+        'instructions'  => __('Enable better CSS integration: remove borders and padding'),
+        'type'              => 'true_false',
+        'message'           => '',
+        'default_value'     => false,
+        'ui'                => true,
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'acfe_group_modal',
+                    'operator'  => '!=',
+                    'value'     => '1',
+                )
+            )
+        )
+    ));
+    
+    acf_render_field_setting($field, array(
         'label'         => __('Edition modal'),
         'name'          => 'acfe_group_modal',
         'key'           => 'acfe_group_modal',
@@ -51,11 +71,8 @@ function acfe_field_group_settings($field){
     
 }
 
-add_filter('acf/field_wrapper_attributes', 'acfe_field_group_wrapper', 10, 2);
+add_filter('acfe/field_wrapper_attributes/type=group', 'acfe_field_group_wrapper', 10, 2);
 function acfe_field_group_wrapper($wrapper, $field){
-    
-    if($field['type'] !== 'group')
-        return $wrapper;
     
     if(isset($field['acfe_group_modal']) && !empty($field['acfe_group_modal'])){
         
@@ -76,6 +93,12 @@ function acfe_field_group_wrapper($wrapper, $field){
 
 add_filter('acf/prepare_field/type=group', 'acfe_field_group_type_class', 99);
 function acfe_field_group_type_class($field){
+    
+    if(acf_maybe_get($field, 'acfe_seemless_style')){
+        
+        $field['wrapper']['class'] .= ' acfe-seemless-style';
+        
+    }
     
     $field['wrapper']['class'] .= ' acfe-field-group-layout-' . $field['layout'];
     

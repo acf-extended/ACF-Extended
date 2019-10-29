@@ -24,12 +24,9 @@ class acfe_form_front{
         if(!acfe_form_is_front())
             return;
         
-        if(!acf_maybe_get_POST('_acf_form'))
-            return;
+        $form = acfe_form_decrypt_args();
         
-        $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
-        
-        if(empty($form))
+        if(!$form)
             return;
         
         $post_id = acf_maybe_get($form, 'post_id', false);
@@ -63,12 +60,9 @@ class acfe_form_front{
 		if(!acf_verify_nonce('acfe_form'))
 			return;
         
-        if(!acf_maybe_get_POST('_acf_form'))
-            return;
+        $form = acfe_form_decrypt_args();
         
-        $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
-        
-        if(empty($form))
+        if(!$form)
             return;
         
         // ACF
@@ -289,7 +283,8 @@ class acfe_form_front{
         $defaults['field_el'] = get_field('acf-field_acfe_form_form_field_el', $form_id);
         $defaults['instruction_placement'] = get_field('acfe_form_instruction_placement', $form_id);
         
-        $args = wp_parse_args($param, $defaults);
+        //$args = wp_parse_args($param, $defaults);
+        $args = $defaults;
         
         // Override
         if(!empty($args['fields_attributes']['class']))

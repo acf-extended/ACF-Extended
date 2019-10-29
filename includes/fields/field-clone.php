@@ -7,6 +7,31 @@ add_action('acf/render_field_settings/type=clone', 'acfe_field_clone_settings');
 function acfe_field_clone_settings($field){
     
     acf_render_field_setting($field, array(
+        'label'         => __('Seemless Style'),
+        'name'          => 'acfe_seemless_style',
+        'key'           => 'acfe_seemless_style',
+        'instructions'  => __('Enable better CSS integration: remove borders and padding'),
+        'type'              => 'true_false',
+        'message'           => '',
+        'default_value'     => false,
+        'ui'                => true,
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'display',
+                    'operator'  => '==',
+                    'value'     => 'group',
+                ),
+                array(
+                    'field'     => 'acfe_clone_modal',
+                    'operator'  => '!=',
+                    'value'     => '1',
+                )
+            )
+        )
+    ));
+    
+    acf_render_field_setting($field, array(
         'label'         => __('Edition modal'),
         'name'          => 'acfe_clone_modal',
         'key'           => 'acfe_clone_modal',
@@ -37,18 +62,15 @@ function acfe_field_clone_settings($field){
     
 }
 
-add_filter('acf/field_wrapper_attributes', 'acfe_field_clone_wrapper', 10, 2);
+add_filter('acfe/field_wrapper_attributes/type=clone', 'acfe_field_clone_wrapper', 10, 2);
 function acfe_field_clone_wrapper($wrapper, $field){
     
-    if($field['type'] !== 'clone')
-        return $wrapper;
-    
-    if(isset($field['acfe_clone_modal']) && !empty($field['acfe_clone_modal'])){
+    if(acf_maybe_get($field, 'acfe_clone_modal')){
         
         $wrapper['data-acfe-clone-modal'] = 1;
         $wrapper['data-acfe-clone-modal-button'] = __('Edit', 'acf');
         
-        if(isset($field['acfe_clone_modal_button']) && !empty($field['acfe_clone_modal_button'])){
+        if(acf_maybe_get($field, 'acfe_clone_modal_button')){
             
             $wrapper['data-acfe-clone-modal-button'] = $field['acfe_clone_modal_button'];
             
@@ -95,8 +117,17 @@ function acfe_field_clone_ajax_query($field_groups){
 add_filter('acf/prepare_field/type=clone', 'acfe_field_clone_type_class', 99);
 function acfe_field_clone_type_class($field){
     
-    if(acf_maybe_get($field, 'layout'))
+    if(acf_maybe_get($field, 'acfe_seemless_style')){
+        
+        $field['wrapper']['class'] .= ' acfe-seemless-style';
+        
+    }
+    
+    if(acf_maybe_get($field, 'layout')){
+        
         $field['wrapper']['class'] .= ' acfe-field-clone-layout-' . $field['layout'];
+        
+    }
     
     return $field;
     

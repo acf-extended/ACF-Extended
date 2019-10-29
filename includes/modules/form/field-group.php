@@ -106,6 +106,7 @@ acf_add_local_field_group(array(
             ),
             'acfe_permissions' => '',
             'layout' => 'block',
+            'acfe_seemless_style' => true,
             'acfe_group_modal' => 0,
             'conditional_logic' => array(
                 array(
@@ -218,6 +219,7 @@ acf_add_local_field_group(array(
             ),
             'acfe_permissions' => '',
             'layout' => 'block',
+            'acfe_seemless_style' => true,
             'acfe_group_modal' => 0,
             'conditional_logic' => array(),
             'sub_fields' => array(
@@ -267,7 +269,7 @@ acf_add_local_field_group(array(
             'key' => 'field_acfe_form_html_before_fields',
             'label' => 'HTML Before render',
             'name' => 'acfe_form_html_before_fields',
-            'type' => 'textarea',
+            'type' => 'acfe_code_editor',
             'instructions' => 'Extra HTML to add before the fields',
             'required' => 0,
             'conditional_logic' => 0,
@@ -276,20 +278,17 @@ acf_add_local_field_group(array(
                 'class' => '',
                 'id' => '',
             ),
-            'hide_admin' => 0,
             'acfe_permissions' => '',
             'default_value' => '',
             'placeholder' => '',
             'maxlength' => '',
             'rows' => 2,
-            'new_lines' => '',
-            'acfe_textarea_code' => 1,
         ),
         array(
             'key' => 'field_acfe_form_custom_html',
             'label' => 'HTML Form render',
             'name' => 'acfe_form_custom_html',
-            'type' => 'textarea',
+            'type' => 'acfe_code_editor',
             'instructions' => 'Render your own customized HTML. This will bypass the native field groups render.<br /><br />
     Field groups may be included using <code>{field_group:group_key}</code><br/><code>{field_group:Group title}</code><br/><br/>
     Fields may be included using <code>{field:field_key}</code><br/><code>{field:field_name}</code>',
@@ -306,14 +305,12 @@ acf_add_local_field_group(array(
             'placeholder' => '',
             'maxlength' => '',
             'rows' => 12,
-            'new_lines' => '',
-            'acfe_textarea_code' => 1,
         ),
         array(
             'key' => 'field_acfe_form_html_after_fields',
             'label' => 'HTML After render',
             'name' => 'acfe_form_html_after_fields',
-            'type' => 'textarea',
+            'type' => 'acfe_code_editor',
             'instructions' => 'Extra HTML to add after the fields',
             'required' => 0,
             'conditional_logic' => 0,
@@ -322,14 +319,11 @@ acf_add_local_field_group(array(
                 'class' => '',
                 'id' => '',
             ),
-            'hide_admin' => 0,
             'acfe_permissions' => '',
             'default_value' => '',
             'placeholder' => '',
             'maxlength' => '',
             'rows' => 2,
-            'new_lines' => '',
-            'acfe_textarea_code' => 1,
         ),
         array(
             'key' => 'field_acfe_form_form_submit',
@@ -385,7 +379,7 @@ acf_add_local_field_group(array(
             'key' => 'field_acfe_form_html_submit_button',
             'label' => 'Submit button',
             'name' => 'acfe_form_html_submit_button',
-            'type' => 'textarea',
+            'type' => 'acfe_code_editor',
             'instructions' => 'HTML used to render the submit button.',
             'required' => 0,
             'conditional_logic' => array(
@@ -402,20 +396,17 @@ acf_add_local_field_group(array(
                 'class' => '',
                 'id' => '',
             ),
-            'hide_admin' => 0,
             'acfe_permissions' => '',
             'default_value' => '<input type="submit" class="acf-button button button-primary button-large" value="%s" />',
             'placeholder' => '',
             'maxlength' => '',
             'rows' => 2,
-            'new_lines' => '',
-            'acfe_textarea_code' => 1,
         ),
         array(
             'key' => 'field_acfe_form_html_submit_spinner',
             'label' => 'Submit spinner',
             'name' => 'acfe_form_html_submit_spinner',
-            'type' => 'textarea',
+            'type' => 'acfe_code_editor',
             'instructions' => 'HTML used to render the submit button loading spinner.',
             'required' => 0,
             'conditional_logic' => array(
@@ -432,14 +423,11 @@ acf_add_local_field_group(array(
                 'class' => '',
                 'id' => '',
             ),
-            'hide_admin' => 0,
             'acfe_permissions' => '',
             'default_value' => '<span class="acf-spinner"></span>',
             'placeholder' => '',
             'maxlength' => '',
             'rows' => 2,
-            'new_lines' => '',
-            'acfe_textarea_code' => 1,
         ),
         array(
             'key' => 'field_acfe_form_tab_submission',
@@ -587,7 +575,7 @@ acf_add_local_field_group(array(
             'key' => 'field_acfe_form_html_updated_message',
             'label' => 'Success wrapper HTML',
             'name' => 'acfe_form_html_updated_message',
-            'type' => 'textarea',
+            'type' => 'acfe_code_editor',
             'instructions' => 'HTML used to render the updated message.<br /><br />
     If used, you have to include the following code <code>%s</code> to print the actual \'Success message\' above.',
             'required' => 0,
@@ -597,14 +585,11 @@ acf_add_local_field_group(array(
                 'class' => '',
                 'id' => '',
             ),
-            'hide_admin' => 0,
             'acfe_permissions' => '',
             'default_value' => '<div id="message" class="updated">%s</div>',
             'placeholder' => '',
             'maxlength' => '',
             'rows' => 2,
-            'new_lines' => '',
-            'acfe_textarea_code' => 1,
         ),
         array(
             'key' => 'field_acfe_form_updated_hide_form',
@@ -711,7 +696,7 @@ acf_add_local_field_group(array(
                             'key' => 'field_acfe_form_custom_action',
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_action',
-                            'type' => 'text',
+                            'type' => 'acfe_slug',
                             'instructions' => 'Trigger:<br /><code>filter(\'acfe/form/load/action/action_name\', $form, $post_id)</code><br /><code>action(\'acfe/form/submit/action/action_name\', $form, $post_id)</code>',
                             'required' => 1,
                             'conditional_logic' => 0,
@@ -1252,6 +1237,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+							'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -1355,6 +1341,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -1458,6 +1445,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -2160,6 +2148,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -2262,6 +2251,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -2476,6 +2466,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -2937,6 +2928,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3039,6 +3031,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3141,6 +3134,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3244,6 +3238,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3346,6 +3341,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3448,6 +3444,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3550,6 +3547,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3652,6 +3650,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3754,6 +3753,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
+                            'acfe_seemless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(

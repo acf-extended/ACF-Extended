@@ -692,14 +692,6 @@
             
         }
         
-        // ACFE: Remove Collapse
-        if(flexible.has('acfeFlexibleRemoveCollapse')){
-            
-            flexible.removeEvents({'click [data-name="collapse-layout"]': 'onClickCollapse'});
-            flexible.$layouts().find('> .acf-fc-layout-controls > [data-name="collapse-layout"]').remove();
-            
-        }
-        
         if(flexible.has('acfeFlexibleCopyPaste')){
             
             /* 

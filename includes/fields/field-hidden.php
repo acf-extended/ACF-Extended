@@ -3,6 +3,8 @@
 if(!defined('ABSPATH'))
     exit;
 
+if(!class_exists('acfe_field_hidden')):
+
 class acfe_field_hidden extends acf_field{
     
     function __construct(){
@@ -47,4 +49,7 @@ class acfe_field_hidden extends acf_field{
     
 }
 
-new acfe_field_hidden();
+// initialize
+acf_register_field_type('acfe_field_hidden');
+
+endif;

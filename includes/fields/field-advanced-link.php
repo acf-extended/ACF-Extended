@@ -3,6 +3,8 @@
 if(!defined('ABSPATH'))
     exit;
 
+if(!class_exists('acfe_field_advanced_link')):
+
 class acfe_field_advanced_link extends acf_field{
     
     function __construct(){
@@ -312,4 +314,7 @@ function my_acf_advanced_link_fields($fields, $field, $value){
     
 }
 
-new acfe_field_advanced_link();
+// initialize
+acf_register_field_type('acfe_field_advanced_link');
+
+endif;

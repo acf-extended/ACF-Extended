@@ -23,11 +23,8 @@ function acfe_repeater_settings($field){
     
 }
 
-add_filter('acf/field_wrapper_attributes', 'acfe_repeater_wrapper', 10, 2);
+add_filter('acfe/field_wrapper_attributes/type=repeater', 'acfe_repeater_wrapper', 10, 2);
 function acfe_repeater_wrapper($wrapper, $field){
-    
-    if($field['type'] !== 'repeater')
-        return $wrapper;
     
     // Stylised button
     if(isset($field['acfe_repeater_stylised_button']) && !empty($field['acfe_repeater_stylised_button'])){

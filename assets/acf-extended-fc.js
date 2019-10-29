@@ -132,7 +132,11 @@
 				value:		acf.serialize($layout, prefix)
 			};
             
-            acf.doAction('acfe/fields/flexible_content/before_preview', flexible.$el, ajaxData);
+            acf.doAction('acfe/fields/flexible_content/before_preview',                                                                     flexible.$el, $layout, ajaxData);
+            acf.doAction('acfe/fields/flexible_content/before_preview/name=' + flexible.get('name'),                                        flexible.$el, $layout, ajaxData);
+            acf.doAction('acfe/fields/flexible_content/before_preview/key=' + flexible.get('key'),                                          flexible.$el, $layout, ajaxData);
+            acf.doAction('acfe/fields/flexible_content/before_preview/name=' + flexible.get('name') + '&layout=' + $layout.data('layout'),  flexible.$el, $layout, ajaxData);
+            acf.doAction('acfe/fields/flexible_content/before_preview/key=' + flexible.get('key') + '&layout=' + $layout.data('layout'),    flexible.$el, $layout, ajaxData);
 			
 			// ajax
 			$.ajax({
@@ -141,8 +145,6 @@
 				dataType: 'html',
 				type: 'post',
 				success: function(response){
-                    
-                    acf.doAction('acfe/fields/flexible_content/preview', response, flexible.$el, ajaxData);
                     
 					if(response){
                         
@@ -153,6 +155,12 @@
                         $placeholder.removeClass('acfe-flexible-collapsed-preview');
                         
                     }
+                    
+                    acf.doAction('acfe/fields/flexible_content/preview',                                                                     response, flexible.$el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/name=' + flexible.get('name'),                                        response, flexible.$el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/key=' + flexible.get('key'),                                          response, flexible.$el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/name=' + flexible.get('name') + '&layout=' + $layout.data('layout'),  response, flexible.$el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/key=' + flexible.get('key') + '&layout=' + $layout.data('layout'),    response, flexible.$el, $layout, ajaxData);
                     
 				},
                 complete: function(){
@@ -224,6 +232,14 @@
             flexible.acfeLayoutInit($layout);
             
             return;
+            
+        }
+        
+        // Flexible has Remove Collapse
+        if(flexible.has('acfeFlexibleRemoveCollapse')){
+            
+            flexible.removeEvents({'click [data-name="collapse-layout"]': 'onClickCollapse'});
+            $layout.find('> .acf-fc-layout-controls > [data-name="collapse-layout"]').remove();
             
         }
         

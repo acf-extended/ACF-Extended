@@ -3,6 +3,8 @@
 if(!defined('ABSPATH'))
     exit;
 
+if(!class_exists('acfe_field_forms')):
+
 class acfe_field_forms extends acf_field{
     
     function __construct(){
@@ -373,4 +375,7 @@ class acfe_field_forms extends acf_field{
     
 }
 
-new acfe_field_forms();
+// initialize
+acf_register_field_type('acfe_field_forms');
+
+endif;

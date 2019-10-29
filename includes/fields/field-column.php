@@ -3,6 +3,8 @@
 if(!defined('ABSPATH'))
     exit;
 
+if(!class_exists('acfe_field_column')):
+
 class acfe_field_column extends acf_field{
     
     function __construct(){
@@ -11,10 +13,11 @@ class acfe_field_column extends acf_field{
         $this->label = __('Column', 'acfe');
         $this->category = 'layout';
         $this->defaults = array(
-            'columns' => '3/6'
+            'columns' => '3/6',
+            'endpoint' => false,
         );
         
-        add_filter('acf/field_wrapper_attributes', array($this, 'field_wrapper_attributes'), 10, 2);
+        add_filter('acfe/field_wrapper_attributes/type=acfe_column', array($this, 'field_wrapper_attributes'), 10, 2);
         
         parent::__construct();
         
@@ -60,16 +63,13 @@ class acfe_field_column extends acf_field{
     
     function field_wrapper_attributes($wrapper, $field){
         
-        if($field['type'] !== 'acfe_column')
-            return $wrapper;
-        
-        if(isset($field['endpoint']) && !empty($field['endpoint'])){
+        if($field['endpoint']){
             
             $wrapper['data-endpoint'] = $field['endpoint'];
             
         }
         
-        elseif(isset($field['columns']) && !empty($field['columns'])){
+        elseif($field['columns']){
             
             $wrapper['data-columns'] = $field['columns'];
             
@@ -96,10 +96,10 @@ class acfe_field_column extends acf_field{
     function load_field($field){
         
         $columns = '';
-        if(isset($field['columns']))
+        if($field['columns'])
             $columns = ' ' . $field['columns'];
         
-        if(isset($field['endpoint']) && !empty($field['endpoint']))
+        if($field['endpoint'])
             $columns = ' endpoint';
         
         $field['label'] = '(Column' . $columns .')';
@@ -122,4 +122,7 @@ class acfe_field_column extends acf_field{
 
 }
 
-new acfe_field_column();
+// initialize
+acf_register_field_type('acfe_field_column');
+
+endif;
