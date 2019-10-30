@@ -47,8 +47,7 @@ class acfe_form_front{
         acf_setup_meta($_POST['acf'], 'acfe_form_validation', true);
         
             do_action('acfe/form/validation',                       $form, $post_id);
-            do_action('acfe/form/validation/name=' . $form_name,    $form, $post_id);
-            do_action('acfe/form/validation/id=' . $form_id,        $form, $post_id);
+            do_action('acfe/form/validation/form=' . $form_name,    $form, $post_id);
         
         acf_reset_meta('acfe_form_validation');
         
@@ -106,20 +105,28 @@ class acfe_form_front{
                     // Custom Action
                     if($action === 'custom'){
                         
-                        $action = get_sub_field('acfe_form_custom_action');
+                        $custom_action = get_sub_field('acfe_form_custom_action');
+                        
+                        do_action('acfe/form/submit/' . $custom_action,                         $form, $post_id);
+                        do_action('acfe/form/submit/' . $custom_action . '/form=' . $form_name, $form, $post_id);
                         
                     }
                     
-                    do_action('acfe/form/submit/action/' . $action,                         $form, $post_id);
-                    do_action('acfe/form/submit/action/' . $action . '/name=' . $form_name, $form, $post_id);
-                    do_action('acfe/form/submit/action/' . $action . '/id=' . $form_id,     $form, $post_id);
+                    // ACFE Actions
+                    else{
+                    
+                        $alias = get_sub_field('acfe_form_custom_alias');
+                        
+                        do_action('acfe/form/prepare/' . $action,                         $form, $post_id, $alias);
+                        do_action('acfe/form/prepare/' . $action . '/form=' . $form_name, $form, $post_id, $alias);
+                    
+                    }
                 
                 endwhile;
             endif;
             
             do_action('acfe/form/submit',                       $form, $post_id);
-            do_action('acfe/form/submit/name=' . $form_name,    $form, $post_id);
-            do_action('acfe/form/submit/id=' . $form_id,        $form, $post_id);
+            do_action('acfe/form/submit/form=' . $form_name,    $form, $post_id);
         
         acf_reset_meta('acfe_form_submit');
 		
@@ -302,6 +309,10 @@ class acfe_form_front{
         if(!empty($args['errors_class']))
             $args['form_attributes']['data-errors-class'] = $args['errors_class'];
         
+        // Args
+        $args = apply_filters('acfe/form/load',                       $args, $args['post_id']);
+        $args = apply_filters('acfe/form/load/form=' . $form_name,    $args, $args['post_id']);
+        
         // Load
         if(have_rows('acfe_form_actions', $form_id)):
             while(have_rows('acfe_form_actions', $form_id)): the_row();
@@ -314,18 +325,14 @@ class acfe_form_front{
                     $action = get_sub_field('acfe_form_custom_action');
                     
                 }
+                
+                $alias = get_sub_field('acfe_form_custom_alias');
             
-                $args = apply_filters('acfe/form/load/action/' . $action,                          $args, $args['post_id']);
-                $args = apply_filters('acfe/form/load/action/' . $action . '/name=' . $form_name,  $args, $args['post_id']);
-                $args = apply_filters('acfe/form/load/action/' . $action . '/id=' . $form_id,      $args, $args['post_id']);
+                $args = apply_filters('acfe/form/load/' . $action,                          $args, $args['post_id'], $alias);
+                $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,  $args, $args['post_id'], $alias);
                 
             endwhile;
         endif;
-        
-        // Args
-        $args = apply_filters('acfe/form/load',                       $args, $args['post_id']);
-        $args = apply_filters('acfe/form/load/name=' . $form_name,    $args, $args['post_id']);
-        $args = apply_filters('acfe/form/load/id=' . $form_id,        $args, $args['post_id']);
         
         return $args;
         

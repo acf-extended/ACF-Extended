@@ -371,7 +371,7 @@ function acfe_bidirectional_update_value($value, $post_id, $field){
     // Bail early if no difference
     // if($old_values === $new_values)
     //    return $value;
-        
+
     // Values have been removed
     if(!empty($old_values)){
         foreach($old_values as $r_id){
@@ -394,6 +394,25 @@ function acfe_bidirectional_update_value($value, $post_id, $field){
             acfe_bidirectional_relationship('add', $r_id, $field, $request['id']);
             
         }
+    }
+    
+    $force_update = false;
+    $force_update = apply_filters('acfe/bidirectional/force_update',                          $force_update, $field, $post_id);
+    $force_update = apply_filters('acfe/bidirectional/force_update/type=' . $field['type'],   $force_update, $field, $post_id);
+    $force_update = apply_filters('acfe/bidirectional/force_update/name=' . $field['name'],   $force_update, $field, $post_id);
+    $force_update = apply_filters('acfe/bidirectional/force_update/key=' . $field['key'],     $force_update, $field, $post_id);
+    
+    if($force_update){
+        
+        // Force new values to be saved
+        if(!empty($new_values)){
+            foreach($new_values as $r_id){
+                
+                acfe_bidirectional_relationship('add', $r_id, $field, $request['id']);
+                
+            }
+        }
+        
     }
     
     return $value;

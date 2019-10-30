@@ -606,7 +606,9 @@ function my_acfe_modules(){
 
 = 0.8.2 =
 * Dynamic Forms: Fixed error position 'below' not working on some specific fields (Select)
-* Dynamic Forms:  `acfe_form_is_front()` & `acfe_form_is_admin()` helpers now also check native ACF Form screen
+* Dynamic Forms: `acfe_form_is_front()` & `acfe_form_is_admin()` helpers now also check native ACF Form screen
+* Dynamic Forms: Added action alias name setting for each action allowing better targeting when using hooks
+* Dynamic Forms: Reworked forms actions hooks and added 'Advanced' tab for each action with code examples
 * Field: Groups/Clones - CSS integration tweaks are now optional (Thanks @Brandon A.)
 * Field: Groups/Clones - Added "Seemless style" setting which enable better CSS integration (remove borders and padding)
 * Field: Code Editor - Added Field (use the WP Core CodeMirror script)
@@ -616,10 +618,13 @@ function my_acfe_modules(){
 * Field: Flexible Content - Updated JS filters & added variations `acf.doAction('acfe/fields/flexible_content/preview/name=my_flexible&layout=my_layout', response, flexible.$el, $layout, ajaxData)`
 * Field: Flexible Content - Fixed "Remove Collapse" setting not working on newly added layout (Moved RemoveCollapse from acf-extended-fc-control.js to acf-extended-fc.js (acfe/flexible/layouts))
 * Fields: Fields are now registered using `acf_register_field_type()`. This will allow developers to use `acf_get_field_type('acfe_field')`
+* Fields settings: Bidirectional - Added filter which allow to force related field to be updated when migrating from already existant values
+* Fields settings: Bidirectional - Added `filter('acfe/bidirectional/force_update/name=my_field', true, $field, $post_id)` (available with /type & /key) (Feature request: @anjanphukan)
 * Field Groups: Fixed CSS which wrongly hide instructions when there's no field label (Thanks @Damien C.)
 * Field Groups: Third Party - Added PHP filter to change source column output `filter('acfe/field_groups_third_party/source', $source, $post_id, $field_group)`
 * General: Added `filter('acfe/field_wrapper_attributes/type=$field_type', $wrapper, $field)` (also with /name & /key variations)
 * General: Splitted CSS for front-end/back-end
+* General: Fixed ACF Setting Tab "Module: Taxonomies Enhancements" title (thanks @doublesharp)
 
 = 0.8.1 =
 * Field: Advanced Link - Added instructions to add custom fields in the field administration
