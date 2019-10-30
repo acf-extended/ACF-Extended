@@ -9,8 +9,8 @@ class acfe_form_option{
     
     function __construct(){
         
-        add_filter('acfe/form/load/action/option', array($this, 'load'), 1);
-        add_action('acfe/form/submit/action/option', array($this, 'submit'), 1, 3);
+        add_filter('acfe/form/load/option',     array($this, 'load'), 1);
+        add_action('acfe/form/submit/option',   array($this, 'submit'), 1, 3);
         
     }
     

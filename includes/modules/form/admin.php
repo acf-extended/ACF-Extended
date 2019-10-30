@@ -1083,6 +1083,11 @@ class acfe_form{
 add_filter(&apos;acf/validate_value/name=<?php echo $field['name']; ?>&apos;, &apos;my_<?php echo $_field_name; ?>_validation&apos;, 10, 4);
 function my_<?php echo $_field_name; ?>_validation($valid, $value, $field, $input){
     
+    /**
+     * Perform custom validation on a field's value
+     * Reference: <a href="https://www.advancedcustomfields.com/resources/acf-validate_value/" target="_blank">https://www.advancedcustomfields.com/resources/acf-validate_value/</a>
+     */
+    
     if(!$valid)
         return $valid;
     
@@ -1110,14 +1115,19 @@ function my_<?php echo $_field_name; ?>_validation($valid, $value, $field, $inpu
                 ?>
                 <pre>&lt;?php 
 
-add_action(&apos;acfe/form/validation/name=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_validation&apos;, 10, 2);
-function my_<?php echo $_form_name; ?>_validation($form, $current_post_id){
+add_action(&apos;acfe/form/validation/form=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_validation&apos;, 10, 2);
+function my_<?php echo $_form_name; ?>_validation($form, $post_id){
     
     /**
-     * @array       $form Form arguments
-     * @bool/string $current_post_id Current post id
+     * @array       $form       Form arguments
+     * @int/string  $post_id    Current post id
      */
     
+    
+    /**
+     * Get the form input value named '<?php echo $field['name']; ?>'
+     * This is the value entered by the user during the form submission
+     */
     $<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);
     $<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, false, false);
     
@@ -1126,6 +1136,13 @@ function my_<?php echo $_form_name; ?>_validation($form, $current_post_id){
         acfe_add_validation_error(&apos;<?php echo $field['name']; ?>&apos;, &apos;Hello is not allowed&apos;);
         
     }
+    
+    
+    /**
+     * Get the field value '<?php echo $field['name']; ?>' from the post ID 145
+     */
+    $post_<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145);
+    $post_<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145, false);
     
 }</pre>
                 <?php $html = ob_get_clean();
@@ -1146,14 +1163,19 @@ function my_<?php echo $_form_name; ?>_validation($form, $current_post_id){
                 ?>
                 <pre>&lt;?php
 
-add_action(&apos;acfe/form/submit/name=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_submit&apos;, 10, 2);
-function my_<?php echo $_form_name; ?>_submit($form, $current_post_id){
+add_action(&apos;acfe/form/submit/form=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_submit&apos;, 10, 2);
+function my_<?php echo $_form_name; ?>_submit($form, $post_id){
     
     /**
-     * @array       $form Form arguments
-     * @bool/string $current_post_id Current post id
+     * @array       $form       Form arguments
+     * @int/string  $post_id    Current post id
      */
     
+    
+    /**
+     * Get the form input value named '<?php echo $field['name']; ?>'
+     * This is the value entered by the user during the form submission
+     */
     $<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);
     $<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, false, false);
     
@@ -1162,6 +1184,13 @@ function my_<?php echo $_form_name; ?>_submit($form, $current_post_id){
         // Do something
         
     }
+    
+    
+    /**
+     * Get the field value '<?php echo $field['name']; ?>' from the post ID 145
+     */
+    $post_<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145);
+    $post_<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145, false);
     
 }</pre>
                 <?php $html = ob_get_clean();

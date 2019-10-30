@@ -9,13 +9,13 @@ class acfe_form_email{
     
     function __construct(){
         
-        add_action('acfe/form/submit/action/email',                 array($this, 'submit'), 1, 2);
+        add_action('acfe/form/prepare/email',                       array($this, 'submit'), 1, 3);
         
         add_filter('acf/prepare_field/name=acfe_form_email_file',   array(acfe()->acfe_form, 'map_fields_deep'));
         
     }
     
-    function submit($form, $post_id){
+    function submit($form, $post_id, $alias){
         
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
@@ -66,14 +66,24 @@ class acfe_form_email{
             'attachments'   => $attachments,
         );
         
-        $args = apply_filters('acfe/form/submit/action/mail/args',                      $args, $form, $post_id);
-        $args = apply_filters('acfe/form/submit/action/mail/args/name=' . $form_name,   $args, $form, $post_id);
-        $args = apply_filters('acfe/form/submit/action/mail/args/id=' . $form_id,       $args, $form, $post_id);
+        $args = apply_filters('acfe/form/submit/email/args',                      $args, $form, $action);
+        $args = apply_filters('acfe/form/submit/email/args/name=' . $form_name,   $args, $form, $action);
+        $args = apply_filters('acfe/form/submit/email/args/id=' . $form_id,       $args, $form, $action);
+        
+        if(!empty($action))
+            $args = apply_filters('acfe/form/submit/email/args/action=' . $action, $args, $form, $action);
         
         if(!$args)
             return;
          
         wp_mail($args['to'], $args['subject'], $args['content'], $args['headers'], $args['attachments']);
+        
+        do_action('acfe/form/submit/email',                     $args, $form, $action);
+        do_action('acfe/form/submit/email/name=' . $form_name,  $args, $form, $action);
+        do_action('acfe/form/submit/email/id=' . $form_id,      $args, $form, $action);
+        
+        if(!empty($action))
+            do_action('acfe/form/submit/email/action=' . $action, $args, $form, $action);
         
     }
     

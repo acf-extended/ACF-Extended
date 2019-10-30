@@ -12,8 +12,9 @@ class acfe_form_post{
         /*
          * Form
          */
-        add_filter('acfe/form/load/action/post',                                    array($this, 'load'), 1, 2);
-        add_action('acfe/form/submit/action/post',                                  array($this, 'submit'), 1, 2);
+        add_filter('acfe/form/load/post',                                           array($this, 'load'), 1, 3);
+        add_action('acfe/form/prepare/post',                                        array($this, 'prepare'), 1, 3);
+        add_action('acfe/form/submit/post',                                         array($this, 'submit'), 10, 5);
         
         /*
          * Admin
@@ -30,9 +31,13 @@ class acfe_form_post{
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_parent',         array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_terms',          array(acfe()->acfe_form, 'map_fields_deep'));
         
+        add_filter('acf/render_field/name=acfe_form_post_advanced_load',            array($this, 'advanced_load'));
+        add_filter('acf/render_field/name=acfe_form_post_advanced_save_args',       array($this, 'advanced_save_args'));
+        add_filter('acf/render_field/name=acfe_form_post_advanced_save',            array($this, 'advanced_save'));
+        
     }
     
-    function load($form, $post_id){
+    function load($form, $post_id, $action){
         
         // Form
         $form_name = acf_maybe_get($form, 'form_name');
@@ -77,9 +82,11 @@ class acfe_form_post{
             
         }
         
-        $_post_id = apply_filters('acfe/form/load/action/post/' . $post_action . '_id',                      $_post_id, $form);
-        $_post_id = apply_filters('acfe/form/load/action/post/' . $post_action . '_id/name=' . $form_name,   $_post_id, $form);
-        $_post_id = apply_filters('acfe/form/load/action/post/' . $post_action . '_id/id=' . $form_id,       $_post_id, $form);
+        $_post_id = apply_filters('acfe/form/load/post_id',                      $_post_id, $form, $action);
+        $_post_id = apply_filters('acfe/form/load/post_id/form=' . $form_name,   $_post_id, $form, $action);
+        
+        if(!empty($action))
+            $_post_id = apply_filters('acfe/form/load/post_id/action=' . $action, $_post_id, $form, $action);
         
         // Invalid Post ID
         if(!$_post_id)
@@ -239,7 +246,7 @@ class acfe_form_post{
         
     }
     
-    function submit($form, $post_id){
+    function prepare($form, $post_id, $action){
         
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
@@ -475,9 +482,11 @@ class acfe_form_post{
             
         }
         
-        $args = apply_filters('acfe/form/submit/action/post/' . $post_action . '_args',                     $args, $form, $_post_id);
-        $args = apply_filters('acfe/form/submit/action/post/' . $post_action . '_args/name=' . $form_name,  $args, $form, $_post_id);
-        $args = apply_filters('acfe/form/submit/action/post/' . $post_action . '_args/id=' . $form_id,      $args, $form, $_post_id);
+        $args = apply_filters('acfe/form/submit/post_args',                     $args, $post_action, $form, $action);
+        $args = apply_filters('acfe/form/submit/post_args/form=' . $form_name,  $args, $post_action, $form, $action);
+        
+        if(!empty($action))
+            $args = apply_filters('acfe/form/submit/post_args/action=' . $action, $args, $post_action, $form, $action);
         
         if($args === false)
             return;
@@ -485,9 +494,16 @@ class acfe_form_post{
         // Update Post
         $_post_id = wp_update_post($args);
         
-        do_action('acfe/form/submit/action/post/' . $post_action,                           $form, $_post_id, $args);
-        do_action('acfe/form/submit/action/post/' . $post_action . '/name=' . $form_name,   $form, $_post_id, $args);
-        do_action('acfe/form/submit/action/post/' . $post_action . '/id=' . $form_id,       $form, $_post_id, $args);
+        // Save meta
+        do_action('acfe/form/submit/post',                     $_post_id, $post_action, $args, $form, $action);
+        do_action('acfe/form/submit/post/form=' . $form_name,  $_post_id, $post_action, $args, $form, $action);
+        
+        if(!empty($action))
+            $args = do_action('acfe/form/submit/post/action=' . $action, $_post_id, $post_action, $args, $form, $action);
+        
+    }
+    
+    function submit($_post_id, $post_action, $args, $form, $action){
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_post_save_meta');
@@ -511,7 +527,168 @@ class acfe_form_post{
             
         }
         
+    }
+    
+    function advanced_load($field){
         
+        $form_id = 100;
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value')){
+            
+            $form_id = $field['value'];
+            $form_name = get_field('acfe_form_name', $form_id);
+            
+        }
+        
+        ?>You may use the following hooks:<br /><br />
+<pre>
+add_filter('acfe/form/load/post_id', 'my_form_post_values_source', 10, 3);
+add_filter('acfe/form/load/post_id/form=<?php echo $form_name; ?>', 'my_form_post_values_source', 10, 3);
+add_filter('acfe/form/load/post_id/action=my-post-action', 'my_form_post_values_source', 10, 3);
+</pre>
+<br />
+<pre>
+add_filter('acfe/form/load/post_id/form=<?php echo $form_name; ?>', 'my_form_post_values_source', 10, 3);
+function my_form_post_values_source($post_id, $form, $action){
+    
+    /**
+     * @int     $post_id    Post ID used as source
+     * @array   $form       The form settings
+     * @string  $action     The action alias name
+     */
+    
+    
+    /**
+     * Force to load values from the post ID 145
+     */
+    $post_id = 145;
+    
+    
+    /**
+     * Return
+     */
+    return $post_id;
+    
+}
+</pre><?php
+        
+    }
+    
+    function advanced_save_args($field){
+        
+        $form_id = 100;
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value')){
+            
+            $form_id = $field['value'];
+            $form_name = get_field('acfe_form_name', $form_id);
+            
+        }
+        
+        ?>You may use the following hooks:<br /><br />
+<pre>
+add_filter('acfe/form/submit/post_args', 'my_form_post_args', 10, 4);
+add_filter('acfe/form/submit/post_args/form=<?php echo $form_name; ?>', 'my_form_post_args', 10, 4);
+add_filter('acfe/form/submit/post_args/action=my-post-action', 'my_form_post_args', 10, 4);
+</pre>
+<br />
+<pre>
+add_filter('acfe/form/submit/post_args/form=<?php echo $form_name; ?>', 'my_form_post_args', 10, 4);
+function my_form_post_args($args, $type, $form, $action){
+    
+    /**
+     * @array   $args   The generated post arguments
+     * @string  $type   Action type: 'insert_post' or 'update_post'
+     * @array   $form   The form settings
+     * @string  $action The action alias name
+     */
+    
+    
+    /**
+     * Force specific post title if the action type is 'insert_post'
+     */
+    if($type === 'insert_post'){
+        
+        $args['post_title'] = 'My title';
+        
+    }
+    
+    
+    /**
+     * Get the form input value named 'my_field'
+     * This is the value entered by the user during the form submission
+     */
+    $my_field = get_field('my_field');
+    
+    
+    /**
+     * Get the field value 'my_field' from the post ID 145
+     */
+    $my_post_field = get_field('my_field', 145);
+    
+    
+    /**
+     * Return arguments
+     * Note: Return false will stop post & meta insert/update
+     */
+    return $args;
+    
+}
+</pre><?php
+        
+    }
+    
+    function advanced_save($field){
+        
+        $form_id = 100;
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value')){
+            
+            $form_id = $field['value'];
+            $form_name = get_field('acfe_form_name', $form_id);
+            
+        }
+        
+        ?>You may use the following hooks:<br /><br />
+<pre>
+add_action('acfe/form/submit/post', 'my_form_post_save', 10, 5);
+add_action('acfe/form/submit/post/form=<?php echo $form_name; ?>', 'my_form_post_save', 10, 5);
+add_action('acfe/form/submit/post/action=my-post-action', 'my_form_post_save', 10, 5);
+</pre>
+<br />
+<pre>
+/**
+ * At this point the post & meta fields are already saved in the database
+ */
+add_action('acfe/form/submit/post/form=<?php echo $form_name; ?>', 'my_form_post_save', 10, 5);
+function my_form_post_save($post_id, $type, $args, $form, $action){
+    
+    /**
+     * @int     $post_id    The targeted post ID
+     * @string  $type       Action type: 'insert_post' or 'update_post'
+     * @array   $args       The generated post arguments
+     * @array   $form       The form settings
+     * @string  $action     The action alias name
+     */
+    
+    
+    /**
+     * Get the value from the form input named 'my_field'
+     * This is the value entered by the user during the form submission
+     */
+    $my_field = get_field('my_field');
+    
+    
+    /**
+     * Get the field value 'my_field' from the currently saved post
+     */
+    $my_post_field = get_field('my_field', $post_id);
+    
+}
+</pre><?php
         
     }
     

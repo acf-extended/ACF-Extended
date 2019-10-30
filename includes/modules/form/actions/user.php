@@ -12,8 +12,9 @@ class acfe_form_user{
         /*
          * Form
          */
-        add_filter('acfe/form/load/action/user',                                    array($this, 'load'), 1, 2);
-        add_action('acfe/form/submit/action/user',                                  array($this, 'submit'), 1, 2);
+        add_filter('acfe/form/load/user',                                           array($this, 'load'), 1, 3);
+        add_action('acfe/form/prepare/user',                                        array($this, 'prepare'), 1, 3);
+        add_action('acfe/form/submit/user',                                         array($this, 'submit'), 10, 5);
         
         /*
          * Admin
@@ -32,9 +33,13 @@ class acfe_form_user{
         add_filter('acf/prepare_field/name=acfe_form_user_map_description',         array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_map_role',                array(acfe()->acfe_form, 'map_fields_deep'));
         
+        add_filter('acf/render_field/name=acfe_form_user_advanced_load',            array($this, 'advanced_load'));
+        add_filter('acf/render_field/name=acfe_form_user_advanced_save_args',       array($this, 'advanced_save_args'));
+        add_filter('acf/render_field/name=acfe_form_user_advanced_save',            array($this, 'advanced_save'));
+        
     }
     
-    function load($form, $post_id){
+    function load($form, $post_id, $action){
         
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
@@ -81,9 +86,11 @@ class acfe_form_user{
             
         }
         
-        $_user_id = apply_filters('acfe/form/load/action/user/' . $user_action . '_id',                      $_user_id, $form);
-        $_user_id = apply_filters('acfe/form/load/action/user/' . $user_action . '_id/name=' . $form_name,   $_user_id, $form);
-        $_user_id = apply_filters('acfe/form/load/action/user/' . $user_action . '_id/id=' . $form_id,       $_user_id, $form);
+        $_user_id = apply_filters('acfe/form/load/user_id',                      $_user_id, $form, $action);
+        $_user_id = apply_filters('acfe/form/load/user_id/form=' . $form_name,   $_user_id, $form, $action);
+        
+        if(!empty($action))
+            $_user_id = apply_filters('acfe/form/load/user_id/action=' . $action, $_user_id, $form, $action);
         
         // Invalid User ID
         if(!$_user_id)
@@ -253,7 +260,7 @@ class acfe_form_user{
         
     }
     
-    function submit($form, $post_id){
+    function prepare($form, $post_id, $action){
         
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
@@ -467,9 +474,11 @@ class acfe_form_user{
             
         }
         
-        $args = apply_filters('acfe/form/submit/action/user/' . $user_action . '_args',                     $args, $form);
-        $args = apply_filters('acfe/form/submit/action/user/' . $user_action . '_args/name=' . $form_name,  $args, $form);
-        $args = apply_filters('acfe/form/submit/action/user/' . $user_action . '_args/id=' . $form_id,      $args, $form);
+        $args = apply_filters('acfe/form/submit/user_args',                     $args, $user_action, $form, $action);
+        $args = apply_filters('acfe/form/submit/user_args/form=' . $form_name,  $args, $user_action, $form, $action);
+        
+        if(!empty($action))
+            $args = apply_filters('acfe/form/submit/user_args/action=' . $action, $args, $user_action, $form, $action);
         
         // Insert User
         if($user_action === 'insert_user'){
@@ -571,9 +580,16 @@ class acfe_form_user{
         
         $_user_id = $_insert_user;
         
-        do_action('acfe/form/submit/action/user/' . $user_action,                           $form, $_user_id, $args);
-        do_action('acfe/form/submit/action/user/' . $user_action . '/name=' . $form_name,   $form, $_user_id, $args);
-        do_action('acfe/form/submit/action/user/' . $user_action . '/id=' . $form_id,       $form, $_user_id, $args);
+        // Save meta
+        do_action('acfe/form/submit/user',                     $_user_id, $user_action, $args, $form, $action);
+        do_action('acfe/form/submit/user/form=' . $form_name,  $_user_id, $user_action, $args, $form, $action);
+        
+        if(!empty($action))
+            do_action('acfe/form/submit/user/action=' . $action, $_user_id, $user_action, $args, $form, $action);
+        
+    }
+    
+    function submit($_user_id, $user_action, $args, $form, $action){
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_user_save_meta');
@@ -596,6 +612,153 @@ class acfe_form_user{
             }
             
         }
+        
+    }
+    
+    function advanced_load($field){
+        
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value'))
+            $form_name = get_field('acfe_form_name', $field['value']);
+        
+        ?>You may use the following hooks:<br /><br />
+<pre>
+add_filter('acfe/form/load/user_id', 'my_form_user_values_source', 10, 3);
+add_filter('acfe/form/load/user_id/form=<?php echo $form_name; ?>', 'my_form_user_values_source', 10, 3);
+add_filter('acfe/form/load/user_id/action=my-user-action', 'my_form_user_values_source', 10, 3);
+</pre>
+<br />
+<pre>
+add_filter('acfe/form/load/user_id/form=<?php echo $form_name; ?>', 'my_form_user_values_source', 10, 3);
+function my_form_user_values_source($user_id, $form, $action){
+    
+    /**
+     * @int     $user_id    User ID used as source
+     * @array   $form       The form settings
+     * @string  $action     The action alias name
+     */
+    
+    
+    /**
+     * Force to load values from the user ID 12
+     */
+    $user_id = 12;
+    
+    
+    /**
+     * Return
+     */
+    return $user_id;
+    
+}
+</pre><?php
+        
+    }
+    
+    function advanced_save_args($field){
+        
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value'))
+            $form_name = get_field('acfe_form_name', $field['value']);
+        
+        ?>You may use the following hooks:<br /><br />
+<pre>
+add_filter('acfe/form/submit/user_args', 'my_form_user_args', 10, 4);
+add_filter('acfe/form/submit/user_args/form=<?php echo $form_name; ?>', 'my_form_user_args', 10, 4);
+add_filter('acfe/form/submit/user_args/action=my-user-action', 'my_form_user_args', 10, 4);
+</pre>
+<br />
+<pre>
+add_filter('acfe/form/submit/user_args/form=<?php echo $form_name; ?>', 'my_form_user_args', 10, 4);
+function my_form_user_args($args, $type, $form, $action){
+    
+    /**
+     * @array   $args   The generated user arguments
+     * @string  $type   Action type: 'insert_user' or 'update_user'
+     * @array   $form   The form settings
+     * @string  $action The action alias name
+     */
+    
+    
+    /**
+     * Force specific first name if the action type is 'insert_user'
+     */
+    if($type === 'insert_user'){
+        
+        $args['first_name'] = 'My name';
+        
+    }
+    
+    
+    /**
+     * Get the form input value named 'my_field'
+     * This is the value entered by the user during the form submission
+     */
+    $my_field = get_field('my_field');
+    
+    
+    /**
+     * Get the field value 'my_field' from the post ID 145
+     */
+    $my_post_field = get_field('my_field', 145);
+    
+    
+    /**
+     * Return arguments
+     * Note: Return false will stop post & meta insert/update
+     */
+    return $args;
+    
+}
+</pre><?php
+        
+    }
+    
+    function advanced_save($field){
+        
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value'))
+            $form_name = get_field('acfe_form_name', $field['value']);
+        
+        ?>You may use the following hooks:<br /><br />
+<pre>
+add_action('acfe/form/submit/user', 'my_form_user_save', 10, 5);
+add_action('acfe/form/submit/user/form=<?php echo $form_name; ?>', 'my_form_user_save', 10, 5);
+add_action('acfe/form/submit/user/action=my-user-action', 'my_form_user_save', 10, 5);
+</pre>
+<br />
+<pre>
+/**
+ * At this point the user is already saved into the database
+ */
+add_action('acfe/form/submit/user/name=<?php echo $form_name; ?>', 'my_form_user_save', 10, 5);
+function my_form_user_save($user_id, $type, $args, $form, $action){
+    
+    /**
+     * @int     $user_id    The targeted user ID
+     * @string  $type       Action type: 'insert_user' or 'update_user'
+     * @array   $args       The generated user arguments
+     * @array   $form       The form settings
+     * @string  $action     The action alias name
+     */
+    
+    /**
+     * Get the form input value named 'my_field'
+     * This is the value entered by the user during the form submission
+     */
+    $my_field = get_field('my_field');
+    
+    
+    /**
+     * Get the field value 'my_field' from the currently saved user
+     */
+    $my_user_field = get_field('my_field', 'user_' . $user_id);
+    
+}
+</pre><?php
         
     }
     

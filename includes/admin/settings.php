@@ -289,7 +289,7 @@ function acfe_admin_settings_html(){
                     ),
                     array(
                         'name'  => 'acfe/modules/taxonomies',
-                        'label' => 'Module: Author',
+                        'label' => 'Module: Taxonomies Enhancements',
                         'value' => '<code>' . (acf_get_setting('acfe/modules/taxonomies', true) ? __('True'): __('False')) . '</code>',
                         'description' => 'Show/hide the Taxonomies enhancements module. Defaults to true'
                     ),
