@@ -16,7 +16,7 @@
 * Flexible Content as Page Builder
 * Post Meta Overview
 * WordPress Admin Enhancementss
-* + Tons of other features
+* ... And many more features
 
 ## 👍 Philosophy
 

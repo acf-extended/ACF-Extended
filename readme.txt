@@ -27,7 +27,7 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 * Flexible Content as Page Builder
 * Post Meta Overview
 * WordPress Admin Enhancementss
-* + Tons of other features
+* ... And many more features
 
 == 👍 Philosophy ==
 
