@@ -30,7 +30,7 @@
 * Join the [ACF community on Slack](https://wpacf.slack.com)
 * Visit our website [ACF-Extended.com](https://www.acf-extended.com) (WIP)
 * Visit the official [ACF Extended WP Repo](https://wordpress.org/plugins/acf-extended/)
-* Have a question? [Check the FAQ](https://wordpress.org/plugins/acf-extended/#faq-header)
+* Have a question? [Check the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
 * Found a bug? [Submit an issue](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=&template=bug_report.md&title=)
 * A feature request? [Submit an idea](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=feature+request&template=feature_request.md&title=)
 * Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)

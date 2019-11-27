@@ -40,7 +40,7 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 
 * Join the [ACF community on Slack](https://wpacf.slack.com)
 * Visit our website [ACF-Extended.com](https://www.acf-extended.com) (WIP)
-* Have a question? [Check the FAQ](https://wordpress.org/plugins/acf-extended/#faq-header)
+* Have a question? [Check the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
 * Found a bug? [Submit a ticket](https://wordpress.org/support/plugin/acf-extended)
 * A feature request? [Submit an idea](https://wordpress.org/support/plugin/acf-extended)
 * Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
