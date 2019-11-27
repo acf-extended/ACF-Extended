@@ -371,6 +371,7 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Module: Dynamic Forms - Added "Post field groups" setting in the "Advanced" tab to override displayed field groups by a specific post field groups
 * Module: Dynamic Forms - Added fallback when rendering complex fields values (array)
 * Module: Dynamic Forms - Added `filter('acfe/form/format_value/name=my_field', $value, $unformatted_value, $post_id, $field)` to format field output used in email/post/term/user actions. (Also works with `/type` & `/key` selectors)
+* Module: Dynamic Forms - Added Javascript ACF Action on successful form submission: `acf.doAction('acfe/form/submit/success/name=my-form')`
 * Module: Dynamic Forms - Added compatibility fix for the plugin "MC ACF Flexible Template" (Thanks @MarcinKilarski)
 * Module: Dynamic Forms - Added Manual Json Export & Import tools
 * Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added Manual Export in the single view
