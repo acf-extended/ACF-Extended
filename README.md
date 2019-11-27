@@ -38,9 +38,9 @@
 * Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
 * Want to follow me? [Here is my Twitter](https://twitter.com/hwkfr)
 
-## 🔨 Flexible Content Highlight
+## 📺 Flexible Content Showcase
 
-[![ACF Extended: Flexible Content Dynamic Preview](https://img.youtube.com/vi/hzkNL0BA3Dk/maxresdefault.jpg)](https://www.youtube.com/watch?v=hzkNL0BA3Dk)
+[![ACF Extended: Flexible Content Dynamic Preview](https://www.acf-extended.com/acf-extended-flexible-content-video.jpg)](https://www.youtube.com/watch?v=hzkNL0BA3Dk)
 
 ## 📝 Requirements
 
