@@ -423,6 +423,21 @@ class acfe_form_front{
             $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
             
             if(acf_maybe_get($form, 'form_name') === $args['form_name']){
+                
+                ?>
+                <script>
+                jQuery(document).ready(function($){
+                    
+                    if(typeof acf !== 'undefined'){
+                    
+                        acf.doAction('acfe/form/submit/success');
+                        acf.doAction('acfe/form/submit/success/name=<?php echo $args['form_name']; ?>');
+                        
+                    }
+
+                });
+                </script>
+                <?php
             
                 if(!empty($args['updated_message'])){
                     
