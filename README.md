@@ -360,7 +360,8 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Field: Taxonomy Terms - Added "Load Terms" & "Save Terms" allowing the user the load & add terms to the current post, just like ACF does with the "Taxonomy" field (Feature request: @gptrading)
 * Field Settings: Bidirectional - Fixed multiple sub fields check which bail too early during the field relation selection process (Thanks @doublesharp)
 * Fields Groups: Fixed Json/PHP Sync warnings that were not properly checking the ACF setting `load_json` paths (Thanks @doublesharp)
-* Fields Groups: Added Export: Json & PHP in the Field Group single view (sidebar)
+* Fields Groups: Added Export Json & PHP in the Field Group single view (sidebar)
+* Fields Groups: Categories are now synced with field groups during the export/import process
 * Module: Author - Fixed duplicated post revision when udpating an ACF value (Thanks: @François B.)
 * Module: Author - Fixed an issue where the module would not show up on post types which are registered using a priority higher or equal to 5 (Thanks @yangkennyk)
 * Module: Dev Mode - Added fields counter in the metabox title (Feature request: @Damien C.)
