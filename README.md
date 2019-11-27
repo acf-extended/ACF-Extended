@@ -4,13 +4,49 @@
 
 🚀 All-in-one enhancement suite that improves WordPress & Advanced Custom Fields. This plugin aims to provide a powerful administration framework with a wide range of improvements & optimizations.
 
-[ACF-Extended.com](https://www.acf-extended.com) (in development)
+## ⭐ Highlight
 
-**Requires at least ACF Pro 5.7.10**
+* New Field Groups Locations
+* 14+ New ACF Fields
+* 10+ ACF Fields Enhanced
+* Bidirectional Fields
+* Post Types / Taxonomies Manager
+* Options Pages / Block Types Manager
+* ACF Forms Manager
+* Flexible Content as Page Builder
+* Post Meta Overview
+* WordPress Admin Enhancementss
+* + Tons of other features
 
-*If you don't already own [ACF Pro](http://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin, with a life-time licence for unlimited websites.*
+## 👍 Philosophy
+
+* 100% free
+* Seemless integration
+* No extra menu, ads or notices
+* Built by developers, for developers
+
+## 🛠️ Links
+
+* Join the [ACF community on Slack](https://wpacf.slack.com)
+* Visit our website [ACF-Extended.com](https://www.acf-extended.com) (WIP)
+* Visit the official [ACF Extended WP Repo](https://wordpress.org/plugins/acf-extended/)
+* Have a question? [Check the FAQ](https://wordpress.org/plugins/acf-extended/#faq-header)
+* Found a bug? [Submit an issue](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=&template=bug_report.md&title=)
+* A feature request? [Submit an idea](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=feature+request&template=feature_request.md&title=)
+* Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
+* Enjoying this plugin? [Submit a review](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
+* Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
+* Want to follow me? [Here is my Twitter](https://twitter.com/hwkfr)
+
+## 🔨 Flexible Content Highlight
 
 [![ACF Extended: Flexible Content Dynamic Preview](https://img.youtube.com/vi/hzkNL0BA3Dk/maxresdefault.jpg)](https://www.youtube.com/watch?v=hzkNL0BA3Dk)
+
+## 📝 Requirements
+
+**This plugin requires at least ACF Pro 5.7.10**
+
+If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin, with a life-time licence for unlimited websites.
 
 ## 🏷️ Features
 
@@ -305,14 +341,6 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Display forms using shortcodes `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
 * The function `acf_form_head()` is not needed anymore
 * Manual Import & Export is available in the ACF > Tools page
-
-## 🛠️ Links
-
-* Found a bug? [Submit an issue](https://github.com/acf-extended/ACF-Extended/issues/new)
-* Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
-* Enjoying this plugin? [Submit a review](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
-* Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
-* Want to check upcoming features? [Here is my Twitter](https://twitter.com/hwkfr)
 
 ## 📋 Changelog
 
