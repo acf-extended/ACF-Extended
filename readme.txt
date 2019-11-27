@@ -248,7 +248,7 @@ Display all ACF Extended settings in one page.
 
 Display all custom Post Meta & Terms Meta in a readable format
 
-* Arrays & json are converted to be `print_r()`
+* Arrays & json are converted to `print_r()`
 * ACF fields meta are grouped together
 * ACF field groups related to fields are displayed when available
 * Dev mode also enable `SCRIPT_DEBUG`
@@ -619,37 +619,37 @@ function my_acfe_modules(){
 == Changelog ==
 
 = 0.8.3 =
-* Field: Advanced Link - Added "Allowed Post Types" & "Allowed Taxonomy" setting to filter allowed Post types & Taxonomy terms in the post selection
-* Field: Flexible Content - Categories in the Layouts Selection Modal are now sticky, the vertical scrollbar is applied to layouts only (Thanks @Damien C.)
-* Field: Flexible Content - Added filter to disable a secondary ACF ajax query on layout collapse: `filter('acfe/flexible/remove_ajax_title/name=my_flexible', false, $field);`
+* Field: Advanced Link - Added "Allowed Post Types" & "Allowed Taxonomies" setting to filter allowed Post types & Taxonomy terms in the post selection
+* Field: Flexible Content - Categories in the Layouts Selection Modal are now sticky, the vertical scrollbar is now applied to layouts (Thanks @Damien C.)
+* Field: Flexible Content - Added filter to disable a potentially unecessary ACF ajax call when closing a layout: `filter('acfe/flexible/remove_ajax_title/name=my_flexible', false, $field);`
 * Field: Flexible Content - Fixed Layout Title Edition input which could disappear in some rare cases
 * Field: Flexible Content - Fixed `z-index` CSS conflict in modals when the flexible content was inside an accordion field (Thanks @Damian P.)
 * Field: Flexible Content - Fixed `border-bottom` CSS on layout handle when edition modal is set to ON
-* Field: Flexible Content - Fixed an issue where Categories in Layouts Modal would still appear even when Categories are set to OFF
+* Field: Flexible Content - Fixed an issue where Categories in the Layouts Modal would still appear when setting was set to ON then to OFF
 * Field: Post Object - Added "Allow custom value" setting when "Advanced UI" is ON
 * Field: Post Object - Added "Save custom value as post" setting when "Allow custom value" is ON
 * Field: reCaptcha - Changed `file_get_contents()` to `curl` method for better compatibility (Thanks @Brandon A.)
-* Field: Select - Placeholder setting is now also available if Advanced UI is set to ON
-* Fields: Select2 - CSS enhancements have been moved to the WP admin and is not enqueued in the front-end anymore (Thanks @jaakkosaarenketo)
-* Field: Taxonomy Terms - Added "Load Terms" & "Save Terms" allowing the user the load & set current post terms, just like ACF does with the "Taxonomy" field (Feature request: @gptrading)
-* Field Settings: Bidirectional - Fixed multiple sub fields check during the field relation selection process (Thanks @doublesharp)
-* Fields Groups: Fixed Json/PHP Sync warnings that were not using the ACF setting `load_json` folders (Thanks @doublesharp)
-* Fields Groups: Added Export to Json & PHP in the single Field Group sidebar
+* Field: Select - Placeholder setting is now also available if "Advanced UI" is set to ON
+* Fields: Select2 - CSS enhancements have been moved to the WP admin and are not enqueued in the front-end anymore (Thanks @jaakkosaarenketo)
+* Field: Taxonomy Terms - Added "Load Terms" & "Save Terms" allowing the user the load & add terms to the current post, just like ACF does with the "Taxonomy" field (Feature request: @gptrading)
+* Field Settings: Bidirectional - Fixed multiple sub fields check which bail too early during the field relation selection process (Thanks @doublesharp)
+* Fields Groups: Fixed Json/PHP Sync warnings that were not properly checking the ACF setting `load_json` paths (Thanks @doublesharp)
+* Fields Groups: Added Export: Json & PHP in the Field Group single view (sidebar)
 * Module: Author - Fixed duplicated post revision when udpating an ACF value (Thanks: @François B.)
 * Module: Author - Fixed an issue where the module would not show up on post types which are registered using a priority higher or equal to 5 (Thanks @yangkennyk)
 * Module: Dev Mode - Added fields counter in the metabox title (Feature request: @Damien C.)
 * Module: Dynamic Forms - Added the ability to use `{field:field_name}` & `{field:field_key}` values in the "Updated message" setting (Feature request: @alexene22)
 * Module: Dynamic Forms - Better handling of select/checkbox/radio values render (Thanks @jabbadu)
-* Module: Dynamic Forms - Fixed the ACF form submit button which would be still displayed if the setting was set to OFF (Thanks @Damien C.)
+* Module: Dynamic Forms - Fixed the ACF form submit button which would be still displayed, even if the setting was set to OFF (Thanks @Damien C.)
 * Module: Dynamic Forms - Added "Post field groups" setting in the "Advanced" tab to override displayed field groups by a specific post field groups
-* Module: Dynamic Forms - Added fallback for complex values render (array)
+* Module: Dynamic Forms - Added fallback when rendering complex fields values (array)
 * Module: Dynamic Forms - Added `filter('acfe/form/format_value/name=my_field', $value, $unformatted_value, $post_id, $field)` to format field output used in email/post/term/user actions. (Also works with `/type` & `/key` selectors)
 * Module: Dynamic Forms - Added compatibility fix for the plugin "MC ACF Flexible Template" (Thanks @MarcinKilarski)
 * Module: Dynamic Forms - Added Manual Json Export & Import tools
-* Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added Manual Export in the Single view
-* Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added compatibility fix for PolyLang, allowing user to translate modules items
+* Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added Manual Export in the single view
+* Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added compatibility fix for PolyLang, allowing user to translate modules items (Thanks @Drashka)
 * Module: Dynamic Post Types / Taxonomies / Block Types / Options - Added Manual PHP Export action (Feature request: @jaakkosaarenketo)
-* General: Added CSS styles to match WP 5.3 Updated UI
+* General: Added CSS styles to match WP 5.3 Update UI
 
 = 0.8.2 =
 * Dynamic Forms: Fixed error position 'below' not working on some specific fields (Select)
