@@ -127,7 +127,20 @@ class acfe_field_user_roles extends acf_field{
                         'value'     => '1',
                     ),
                     
-                )
+                ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    
+                ),
             )
         ));
         

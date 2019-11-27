@@ -305,18 +305,6 @@ function acfe_is_json($string){
 }
 
 /**
- * Folder Exists
- */
-function acfe_folder_exists($folder){
-    
-    if(!is_dir(ACFE_THEME_PATH . '/' . $folder))
-        return false;
-    
-    return true;
-    
-}
-
-/**
  * Array Keys Recursive
  */
 function acfe_array_keys_r($array){

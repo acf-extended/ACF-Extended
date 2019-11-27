@@ -212,9 +212,11 @@ function acfe_bidirectional_setting_find_related($r_field, $r_field_group, &$cho
         foreach($r_field['sub_fields'] as $r_sub_field){
             
             // Recursive call
-            return acfe_bidirectional_setting_find_related($r_sub_field, $r_field_group, $choices);
+            acfe_bidirectional_setting_find_related($r_sub_field, $r_field_group, $choices);
             
         }
+        
+        return;
         
     }
     

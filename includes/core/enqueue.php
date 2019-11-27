@@ -47,7 +47,13 @@ function acfe_enqueue_scripts(){
     
     // ACF Extended: Fields
     wp_enqueue_script('acf-extended-fields', plugins_url('assets/acf-extended-fields.js', ACFE_FILE), array('jquery'), ACFE_VERSION);
-    wp_enqueue_script('acf-extended-form', plugins_url('assets/acf-extended-form.js', ACFE_FILE), array('jquery'), ACFE_VERSION);
+    
+    // Front only
+    if(!is_admin()){
+        
+        wp_enqueue_script('acf-extended-form', plugins_url('assets/acf-extended-form.js', ACFE_FILE), array('jquery'), ACFE_VERSION);
+        
+    }
     
 }
 

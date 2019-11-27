@@ -16,11 +16,18 @@ function acfe_field_select_settings($field){
         'conditional_logic' => array(
             array(
                 array(
+                    'field'     => 'ui',
+                    'operator'  => '==',
+                    'value'     => '1',
+                )
+            ),
+            array(
+                array(
                     'field'     => 'allow_null',
                     'operator'  => '==',
                     'value'     => '1',
                 )
-            )
+            ),
         )
     ));
     

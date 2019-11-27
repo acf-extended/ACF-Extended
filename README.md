@@ -36,7 +36,7 @@ Display an alternative field group title in post edition screen.
 Add a personal note in the field group administration. Only visible to administrators
 
 * **Custom meta data**
-Add custom metas (key/value) in the field group administration
+Add custom metas (key/value) in the field group administration. Data can be retrieved using `acf_get_field_group()`
 
 * **View raw data**
 Display raw field group data in a modal to check your configuration & settings
@@ -60,7 +60,7 @@ Display field group on post types admin list screen. Fields are saved in the opt
 Display field group on taxonomies admin list screen. Fields are saved in the option: `tax_{taxonomy}_options`
 
 * **New field group location: Post type Archive**
-Creates an option page under post types menu when argument `acfe_admin_archive` is set to true. Fields are saved in the option: `{post_type}_archive`
+Display field group on the post type archive (option page). The post type argument `acfe_admin_archive` must be set to `true`. This feature is also available in the Dynamic Post Type UI. Fields are saved in the option: `{post_type}_archive`
 
 ### ACF: Field Groups List
 
@@ -101,10 +101,10 @@ Fields will work bidirectionally and automatically update each others. Works in 
 [Usage example is available in the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
 
 * **Advanced settings**
-A more sophisticated field settings based on specified location (administration/front-end). Example: Field is required only in front-end
+A more sophisticated field settings based on specified location (administration/front-end). Example: Field is required only in front-end. The field group "Advanced settings" must be turned ON.
 
 * **Advanced validation**
-A more sophisticated validation conditions (AND/OR) with custom error messages based on specified location (administration/front-end)
+A more sophisticated validation conditions (AND/OR) with custom error messages based on specified location (administration/front-end). The field group "Advanced settings" must be turned ON.
 
 * **Permissions**
 Add permission layer to fields. Choose which roles can view & edit fields in the post edition screen. (can be combinated with field groups permissions)
@@ -129,6 +129,9 @@ Choose if an image field should be considered as post featured thumbnail
 * **Field Image: Uploader type**
 Choose the uploader type: Basic or native WP uploader
 
+* **Field Post Object: Allow custom values**
+Allow user to enter custom value which will be saved as a new post
+
 * **Field Repeater: Stylised button**
 Add style to 'Add Row' button
 
@@ -147,7 +150,7 @@ Switch font family to monospace and allow tab indent
 ### ACF: New Fields
 
 * **New Field: Advanced Link**
-Display a modern Link Selection in a modal. Add custom fields using `filter('acfe/fields/advanced_link/fields', $fields, $field, $link)`
+Display a modern Link Selection in a modal. Post selection can be filtered via post types & taxonomies terms. Add custom fields using `filter('acfe/fields/advanced_link/fields', $fields, $field, $link)`
 
 * **New Field: Button**
 Display a custom submit or button. Built-in ajax call on click. Example available in the field administration
@@ -196,7 +199,7 @@ Create and manage post types from your WordPress administration (Tools > Post Ty
 * Manage Posts per page, order by and order for the post type administration screen
 * Set custom single template (ie: `my-single.php`) instead of the native `single-{post_type}.php`
 * Set custom archive template (ie: `my-archive.php`) instead of the native `archive-{post_type}.php`
-* Manual Import & Export is available in the ACF > Tools page
+* Manual PHP/Json Import & Export is available in the ACF > Tools page
 
 ### WordPress: Dynamic Taxonomies
 
@@ -205,7 +208,7 @@ Create and manage taxonomies from your WordPress administration (Tools > Taxonom
 * Manage Posts per page, order by and order for the taxonomy term archive
 * Manage Posts per page, order by and order for the taxonomy administration screen
 * Set custom taxonomy template (ie: `my-taxonomy.php`) instead of the native `taxonomy-{taxonomy}.php`
-* Manual Import & Export is available in the ACF > Tools page
+* Manual PHP/Json Import & Export is available in the ACF > Tools page
 
 ### WordPress: Ajax Author Box
 
@@ -246,7 +249,7 @@ Manage ACF Options Pages from ACF > Options.
 
 * View, add, edit and delete options pages
 * All arguments are available
-* Manual Import & Export is available in the ACF > Tools page
+* Manual PHP/Json Import & Export is available in the ACF > Tools page
 
 
 ### ACF: Block Types (Gutenberg)
@@ -255,7 +258,7 @@ Manage ACF Block Types from ACF > Block Types.
 
 * View, add, edit and delete Block Types
 * All arguments are available
-* Manual Import & Export is available in the ACF > Tools page
+* Manual PHP/Json Import & Export is available in the ACF > Tools page
 * Requires ACF Pro 5.8
 
 ### ACF: Flexible Content Enhancement
@@ -301,6 +304,7 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Display forms using `acfe_form('my_form_name')` or `acfe_form(188)` helpers
 * Display forms using shortcodes `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
 * The function `acf_form_head()` is not needed anymore
+* Manual Import & Export is available in the ACF > Tools page
 
 ## 🛠️ Links
 
@@ -311,6 +315,39 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Want to check upcoming features? [Here is my Twitter](https://twitter.com/hwkfr)
 
 ## 📋 Changelog
+
+### 0.8.3
+* Field: Advanced Link - Added "Allowed Post Types" & "Allowed Taxonomy" setting to filter allowed Post types & Taxonomy terms in the post selection
+* Field: Flexible Content - Categories in the Layouts Selection Modal are now sticky, the vertical scrollbar is applied to layouts only (Thanks @Damien C.)
+* Field: Flexible Content - Added filter to disable a secondary ACF ajax query on layout collapse: `filter('acfe/flexible/remove_ajax_title/name=my_flexible', false, $field);`
+* Field: Flexible Content - Fixed Layout Title Edition input which could disappear in some rare cases
+* Field: Flexible Content - Fixed `z-index` CSS conflict in modals when the flexible content was inside an accordion field (Thanks @Damian P.)
+* Field: Flexible Content - Fixed `border-bottom` CSS on layout handle when edition modal is set to ON
+* Field: Flexible Content - Fixed an issue where Categories in Layouts Modal would still appear even when Categories are set to OFF
+* Field: Post Object - Added "Allow custom value" setting when "Advanced UI" is ON
+* Field: Post Object - Added "Save custom value as post" setting when "Allow custom value" is ON
+* Field: reCaptcha - Changed `file_get_contents()` to `curl` method for better compatibility (Thanks @Brandon A.)
+* Field: Select - Placeholder setting is now also available if Advanced UI is set to ON
+* Fields: Select2 - CSS enhancements have been moved to the WP admin and is not enqueued in the front-end anymore (Thanks @jaakkosaarenketo)
+* Field: Taxonomy Terms - Added "Load Terms" & "Save Terms" allowing the user the load & set current post terms, just like ACF does with the "Taxonomy" field (Feature request: @gptrading)
+* Field Settings: Bidirectional - Fixed multiple sub fields check during the field relation selection process (Thanks @doublesharp)
+* Fields Groups: Fixed Json/PHP Sync warnings that were not using the ACF setting `load_json` folders (Thanks @doublesharp)
+* Fields Groups: Added Export to Json & PHP in the single Field Group sidebar
+* Module: Author - Fixed duplicated post revision when udpating an ACF value (Thanks: @François B.)
+* Module: Author - Fixed an issue where the module would not show up on post types which are registered using a priority higher or equal to 5 (Thanks @yangkennyk)
+* Module: Dev Mode - Added fields counter in the metabox title (Feature request: @Damien C.)
+* Module: Dynamic Forms - Added the ability to use `{field:field_name}` & `{field:field_key}` values in the "Updated message" setting (Feature request: @alexene22)
+* Module: Dynamic Forms - Better handling of select/checkbox/radio values render (Thanks @jabbadu)
+* Module: Dynamic Forms - Fixed the ACF form submit button which would be still displayed if the setting was set to OFF (Thanks @Damien C.)
+* Module: Dynamic Forms - Added "Post field groups" setting in the "Advanced" tab to override displayed field groups by a specific post field groups
+* Module: Dynamic Forms - Added fallback for complex values render (array)
+* Module: Dynamic Forms - Added `filter('acfe/form/format_value/name=my_field', $value, $unformatted_value, $post_id, $field)` to format field output used in email/post/term/user actions. (Also works with `/type` & `/key` selectors)
+* Module: Dynamic Forms - Added compatibility fix for the plugin "MC ACF Flexible Template" (Thanks @MarcinKilarski)
+* Module: Dynamic Forms - Added Manual Json Export & Import tools
+* Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added Manual Export in the Single view
+* Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added compatibility fix for PolyLang, allowing user to translate modules items
+* Module: Dynamic Post Types / Taxonomies / Block Types / Options - Added Manual PHP Export action (Feature request: @jaakkosaarenketo)
+* General: Added CSS styles to match WP 5.3 Updated UI
 
 ### 0.8.2
 * Dynamic Forms: Fixed error position 'below' not working on some specific fields (Select)

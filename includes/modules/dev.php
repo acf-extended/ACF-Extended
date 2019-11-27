@@ -182,13 +182,13 @@ class acfe_dev{
         
         if(!empty($this->wp_meta)){
             
-            add_meta_box('acfe-wp-custom-fields', 'WP Custom fields', array($this, 'wp_render_meta_box'), $post_type, 'normal', 'low');
+            add_meta_box('acfe-wp-custom-fields', 'WP Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">'.count($this->wp_meta).'</span>', array($this, 'wp_render_meta_box'), $post_type, 'normal', 'low');
             
         }
         
         if(!empty($this->acf_meta)){
             
-            add_meta_box('acfe-acf-custom-fields', 'ACF Custom fields', array($this, 'acf_render_meta_box'), $post_type, 'normal', 'low');
+            add_meta_box('acfe-acf-custom-fields', 'ACF Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">'.count($this->acf_meta).'</span>', array($this, 'acf_render_meta_box'), $post_type, 'normal', 'low');
             
         }
         

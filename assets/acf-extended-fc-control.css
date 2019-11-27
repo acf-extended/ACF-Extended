@@ -59,6 +59,7 @@ input.acfe-flexible-control-title{
     width:auto !important;
     padding:0 !important;
     display:none;
+    min-height:20px;
 }
 
 .layout > .acf-fc-layout-handle .acfe-layout-title{

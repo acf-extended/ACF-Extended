@@ -100,15 +100,24 @@
             
             field.$el.find('.acf-notice.-error').remove();
             
+            // Try label
             if(label && label.length && label !== '*'){
                 
                 message = label + ': ' + message;
                 
             }
             
-            else if(placeholder && placeholder.length){
+            // Try placeholder
+            else if(placeholder && placeholder.length && placeholder !== ''){
                 
                 message = placeholder + ': ' + message;
+                
+            }
+            
+            // If everything fails, use field name
+            else{
+                
+                message = field.get('name') + ': ' + message;
                 
             }
             
@@ -132,6 +141,9 @@
     
     // Remove error message on validation
     acf.addAction('validation_begin', function($form){
+        
+        if(typeof $form === 'undefined')
+            return;
         
         $form.find('.acf-error-message').remove();
         

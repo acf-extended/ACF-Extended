@@ -227,20 +227,24 @@ function acfe_render_field_group_settings(){
 /**
  * Field Group Options: Sidebar - Submit Div
  */
-add_action('post_submitbox_misc_actions', 'acfe_render_field_group_submitbox');
-function acfe_render_field_group_submitbox(){
+add_action('post_submitbox_misc_actions', 'acfe_render_field_group_submitbox', 11);
+function acfe_render_field_group_submitbox($post){
     
-    if(get_post_type(get_the_ID()) !== 'acf-field-group')
+    if($post->post_type !== 'acf-field-group')
         return;
     
-    $field_group = acf_get_field_group(get_the_ID());
+    global $field_group;
     ?>
-    <div class="misc-pub-section misc-pub-acfe-field-group-key">
-        <span style="font-size:16px;color: #82878c;" class="dashicons dashicons-tag"></span> <code style="font-size: 12px;"><?php echo $field_group['key']; ?></code>
+    <div class="misc-pub-section misc-pub-acfe-field-group-key" style="padding-top:2px;">
+        <span style="font-size:16px;color: #82878c;width: 20px;margin-right: 2px;" class="dashicons dashicons-tag"></span> <code style="font-size: 12px;"><?php echo $field_group['key']; ?></code>
+    </div>
+    <div class="misc-pub-section misc-pub-acfe-field-group-export" style="padding-top:2px;">
+        <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> Export: <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=php&keys=' . $field_group['key']); ?>">PHP</a> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=json&keys=' . $field_group['key']); ?>">Json</a>
     </div>
     <script type="text/javascript">
     (function($) {
-        $('.misc-pub-acfe-field-group-key').insertBefore('.misc-pub-post-status');
+        $('.misc-pub-acfe-field-group-key').insertAfter('.misc-pub-post-status');
+        $('.misc-pub-acfe-field-group-export').insertAfter('.misc-pub-post-status');
     })(jQuery);	
     </script>
     <?php
@@ -457,7 +461,7 @@ function acfe_render_field_acfe_sync_warnings($field){
     // Json
     if(acfe_has_field_group_autosync($field_group, 'json') && !acfe_has_field_group_autosync_file($field_group, 'json')){
         
-        if(!acfe_folder_exists('acf-json')){
+        if(!acf_get_setting('acfe/json_found')){
             
             echo '<p class="description"><span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="dashicons dashicons-warning"></span> Folder <code style="font-size:11px;">/acf-json</code> was not found in your theme. You must create it to activate Json Sync.</p>';
             

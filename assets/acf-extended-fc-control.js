@@ -12,8 +12,9 @@
     /*
      * Actions
      */
-    
-    // Layout: Edit Title (handle click)
+    /*
+     * Actions
+     */
     model.events['click .acf-fc-layout-handle'] = 'acfeEditLayoutTitleToggleHandle';
     model.acfeEditLayoutTitleToggleHandle = function(e, $el){
         
@@ -28,13 +29,12 @@
         
         if($layout.hasClass('acfe-flexible-title-edition')){
             
-            $layout.find('> .acf-fc-layout-handle > .acfe-layout-title > input[data-acfe-flexible-control-title-input]').trigger('focusout');
+            $layout.find('> .acf-fc-layout-handle > .acfe-layout-title > input.acfe-flexible-control-title').trigger('blur');
             
         }
         
     }
     
-    model.events['focusout input.acfe-flexible-control-title'] = 'acfeEditLayoutTitleToggle';
     model.events['click .acfe-layout-title-text'] = 'acfeEditLayoutTitle';
     model.acfeEditLayoutTitle = function(e, $el){
         
@@ -53,6 +53,7 @@
         
     }
     
+    model.events['blur input.acfe-flexible-control-title'] = 'acfeEditLayoutTitleToggle';
     model.acfeEditLayoutTitleToggle = function(e, $el){
         
         var flexible = this;
@@ -688,6 +689,14 @@
             flexible.$layouts().find('> .acf-fc-layout-controls > [data-acfe-flexible-control-clone="layout"]').remove();
             
             flexible.$control().find('> .acfe-flexible-stylised-button').remove();
+            
+            
+        }
+        
+        // ACFE: Remove Ajax Title
+        if(flexible.has('acfeFlexibleRemoveAjaxTitle')){
+            
+            flexible.renderLayout = function($layout){};
             
             
         }

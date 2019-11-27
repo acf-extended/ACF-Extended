@@ -13,23 +13,41 @@ class acfe_field_advanced_link extends acf_field{
         $this->label = __('Advanced Link', 'acfe');
         $this->category = 'relational';
         $this->defaults = array(
-            
+            'post_type' => array(),
+			'taxonomy'  => array(),
         );
-        
-        acf_add_local_field(array(
-            'key'       => 'post',
-            'label'     => __('Post', 'acf'),
-            'type'      => 'post_object',
-            'required'  => false,
-            'post_type' => false,
-            'taxonomy'  => false,
-        ));
 
         parent::__construct();
 
     }
     
     function render_field_settings($field){
+        
+        // default_value
+		acf_render_field_setting($field, array(
+			'label'			=> __('Filter by Post Type','acf'),
+			'instructions'	=> '',
+			'type'			=> 'select',
+			'name'			=> 'post_type',
+			'choices'		=> acf_get_pretty_post_types(),
+			'multiple'		=> 1,
+			'ui'			=> 1,
+			'allow_null'	=> 1,
+			'placeholder'	=> __("All post types",'acf'),
+		));
+        
+		// default_value
+		acf_render_field_setting($field, array(
+			'label'			=> __('Filter by Taxonomy','acf'),
+			'instructions'	=> '',
+			'type'			=> 'select',
+			'name'			=> 'taxonomy',
+			'choices'		=> acf_get_taxonomy_terms(),
+			'multiple'		=> 1,
+			'ui'			=> 1,
+			'allow_null'	=> 1,
+			'placeholder'	=> __("All taxonomies",'acf'),
+		));
         
         $field_name = 'field_name';
         if(acf_maybe_get($field, 'name'))
@@ -201,15 +219,15 @@ function my_acf_advanced_link_fields($fields, $field, $value){
             ),
             
             array(
-                'prefix'	=> $field['name'],
-                'name'		=> 'post',
-                'key'		=> 'post',
-                'label'		=> __('Post', 'acf'),
-                'type'		=> 'post_object',
-                'value'		=> $link['post'],
-                'required'	=> false,
-                'class'     => 'input-post',
-                'allow_null' => 1,
+                'prefix'        => $field['name'],
+                'name'          => 'post',
+                'key'           => 'post',
+                'label'         => __('Post', 'acf'),
+                'type'          => 'post_object',
+                'value'         => $link['post'],
+                'required'      => false,
+                'class'         => 'input-post',
+                'allow_null'    => 1,
                 'conditional_logic' => array(
                     array(
                         array(

@@ -187,10 +187,10 @@ body.acfe-modal-opened{
 .acfe-modal.-open .acfe-modal-content{
     height:100%;
     background:#fff;
-    overflow:auto;
     display:block;
     position:relative;
     pointer-events: auto;
+    overflow:auto;
 }
 
 .acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-content{
@@ -203,7 +203,7 @@ body.acfe-modal-opened{
 .acfe-modal.-open .acfe-modal-content .nav-tab-wrapper{
     padding:0;
     margin:0;
-    border-color:#ddd;
+    border-bottom:1px solid #ddd;
 }
 
 .acfe-modal.-open .acfe-modal-content .nav-tab-wrapper a{
@@ -255,6 +255,11 @@ body.acfe-modal-opened{
     margin-left: auto;
 }
 
+.acfe-modal.-open .acfe-modal-content .acfe-flexible-categories ~ .acfe-flex-container{
+    overflow:auto;
+    height:calc(100% - 39px);
+}
+
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul{
     margin: 0;
     margin-right: -7px;
@@ -297,8 +302,12 @@ body.acfe-modal-opened{
 }
 
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a:hover{
-    background:#0073aa;
+    background:#007cba;
     color:#fff;
+}
+
+body:not(.acf-admin-5-3) .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a:hover{
+    background:#0073aa;
 }
 
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a span{

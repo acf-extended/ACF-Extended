@@ -30,6 +30,10 @@
 /*
  * Flexible: Layout Collapsed
  */
+.acf-field-flexible-content[data-acfe-flexible-modal-edition="1"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
+    border-bottom-width:0;
+}
+
 .acf-field-flexible-content[data-acfe-flexible-placeholder="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle,
 .acf-field-flexible-content[data-acfe-flexible-preview="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle{
     border-bottom-width:1px;
@@ -79,7 +83,7 @@
  */
 .layout > .acfe-flexible-collapsed-placeholder{
     text-align:center;
-    background:#fafafa;
+    background:#f9f9f9;
     display:block;
     text-decoration:none;
     position:relative;
@@ -87,7 +91,7 @@
 }
 
 .layout > .acfe-flexible-collapsed-placeholder:focus{
-    border-color: #cccccc;
+    border-color: #ccc;
     box-shadow: none;
 }
 
@@ -103,8 +107,7 @@
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
-    background: #fafafa;
-    border-color: #999;
+    border-color: #ccd0d4;
     color: #23282d;
     border-radius:100px;
     box-shadow:none;
@@ -113,6 +116,10 @@
     height: 30px;
     padding:0;
     display:block;
+}
+
+body:not(.acf-admin-5-3) .layout > .acfe-flexible-collapsed-placeholder > button{
+    border-color: #999;
 }
 
 .layout > .acfe-flexible-collapsed-placeholder > button:active{
@@ -125,11 +132,16 @@
 }
 
 .layout > .acfe-flexible-collapsed-placeholder > button span{
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     vertical-align:middle;
     line-height: 28px;
     font-size:18px;
+}
+
+body:not(.acf-admin-5-3) .layout > .acfe-flexible-collapsed-placeholder > button span{
+    width: 30px;
+    height: 30px;
 }
 
 .layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview{
@@ -150,7 +162,7 @@
 }
 
 .layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview.acfe-is-loading{
-    background:#fafafa;
+    background:#f9f9f9;
     min-height:110px;
 }
 

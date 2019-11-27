@@ -141,7 +141,20 @@ class acfe_field_taxonomies extends acf_field{
                         'value'     => '1',
                     ),
                     
-                )
+                ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    
+                ),
             )
         ));
         
