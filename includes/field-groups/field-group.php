@@ -433,7 +433,7 @@ function acfe_render_field_sync_available($field){
 add_action('acf/render_field', 'acfe_render_field_acfe_sync_warnings', 5);
 function acfe_render_field_acfe_sync_warnings($field){
     
-    if($field['_name'] != 'acfe_autosync')
+    if($field['_name'] !== 'acfe_autosync')
         return;
     
     global $field_group;
@@ -588,5 +588,75 @@ function acfc_field_group_default_options($field_group){
         $field_group['label_placement'] = 'left';
     
     return $field_group;
+    
+}
+
+add_filter('acf/prepare_field_group_for_export', 'acfc_field_group_export_categories');
+function acfc_field_group_export_categories($field_group){
+    
+    $_field_group = acf_get_field_group($field_group['key']);
+    if(empty($_field_group))
+        return $field_group;
+    
+    if(!acf_maybe_get($_field_group, 'ID'))
+        return $field_group;
+    
+    $categories = get_the_terms($_field_group['ID'], 'acf-field-group-category');
+    
+    if(empty($categories) || is_wp_error($categories))
+        return $field_group;
+    
+    $field_group['acfe_categories'] = array();
+    
+    foreach($categories as $term){
+        
+        $field_group['acfe_categories'][$term->slug] = $term->name;
+        
+    }
+    
+    return $field_group;
+    
+}
+
+add_action('acf/import_field_group', 'acfc_field_group_import_categories');
+function acfc_field_group_import_categories($field_group){
+    
+    if(!$categories = acf_maybe_get($field_group, 'acfe_categories'))
+        return;
+    
+    foreach($categories as $term_slug => $term_name){
+        
+        $new_term_id = false;
+        $get_term = get_term_by('slug', $term_slug, 'acf-field-group-category');
+        
+        // Term doesn't exists
+        if(empty($get_term)){
+            
+            $new_term = wp_insert_term($term_name, 'acf-field-group-category', array(
+                'slug' => $term_slug
+            ));
+            
+            if(!is_wp_error($new_term)){
+                
+                $new_term_id = $new_term->term_id;
+                
+            }
+            
+        }
+        
+        // Term already exists
+        else{
+            
+            $new_term_id = $get_term->term_id;
+            
+        }
+        
+        if($new_term_id){
+            
+            wp_set_post_terms($field_group['ID'], array($new_term_id), 'acf-field-group-category', true);
+            
+        }
+        
+    }
     
 }
