@@ -375,7 +375,7 @@ function acfe_field_groups_column_html($column, $post_id){
                 
                 echo '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
                 
-                if(!acfe_folder_exists('acf-json')){
+                if(!acf_get_setting('acfe/json_found')){
                     
                     echo '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acf-json\' was not found in your theme.<br />You must create it to activate this setting"></span>';
                     
@@ -407,10 +407,12 @@ function hwk_post_type_exemple_row_actions($actions, $post){
     
     $field_group = acf_get_field_group($post->ID);
     
-    $actions['acfe-export-php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&keys=' . $field_group['key']) . '">PHP</a>';
-    $actions['acfe-export-json'] = '<span class="acfe-form" data-action="'.admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export').'"><input type="hidden" name="_acf_nonce" value="' . wp_create_nonce('export') . '" /><input type="hidden" name="action" value="download" /><input type="hidden" name="keys" value="' . $field_group['key'] . '" /><a href="#">Json</a></span>';
-    //$actions['acfe-id'] = '<span style="color:#555;">ID: ' . $field_group['ID'] . '</span>';
+    $actions['acfe-export-php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=php&keys=' . $field_group['key']) . '">PHP</a>';
+    $actions['acfe-export-json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=json&keys=' . $field_group['key']) . '">Json</a>';
+    
     $actions['acfe-key'] = '<span style="color:#555;"><code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . $field_group['key'] . '</code></span>';
+    
+    //$actions['acfe-id'] = '<span style="color:#555;">ID: ' . $field_group['ID'] . '</span>';
     
     return $actions;
     
@@ -447,20 +449,9 @@ add_action('current_screen', function(){
             // ACFE: Debug
             //$('#posts-filter').append($('#tmpl-acfe-debug').html());
             
-            
             // Fix no field groups found
             $('#the-list tr.no-items td').attr('colspan', 9);
-    
-            // ACFE: Table Row Actions - Export Wrap Form
-            $('.acfe-export-json .acfe-form').each(function(k, v){
-                $(this).wrapAll('<form action="' + $(this).attr('data-action') + '" method="post" style="display:inline;"></form>');
-            });
             
-            // ACFE: Table Row Actions - Export Submit Form
-            $('.acfe-export-json a').click(function(e){
-                e.preventDefault();
-                $(this).closest('form').submit();
-            });
         })(jQuery);
         </script>
         <?php

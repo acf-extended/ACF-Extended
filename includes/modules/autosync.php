@@ -10,7 +10,9 @@ $acfe_php = acf_get_setting('acfe/php');
 $acfe_php_load = acf_get_setting('acfe/php_load');
 
 if(!empty($acfe_php) && !empty($acfe_php_load)){
+    
     foreach($acfe_php_load as $path){
+        
         if(!is_readable($path))
             continue;
         
@@ -21,10 +23,31 @@ if(!empty($acfe_php) && !empty($acfe_php_load)){
             continue;
         
         foreach($files as $file){
+            
             require_once($file);
+            
         }
         
     }
+    
+}
+
+$acfe_json = acf_get_setting('json');
+$acfe_json_load = acf_get_setting('load_json');
+
+if(!empty($acfe_json) && !empty($acfe_json_load)){
+    
+    foreach($acfe_json_load as $path){
+        
+        if(!is_dir($path))
+            continue;
+        
+        acf_update_setting('acfe/json_found', true);
+        
+        break;
+        
+    }
+    
 }
 
 /**

@@ -250,7 +250,14 @@ class acfe_field_recaptcha extends acf_field{
                 $secret_key = acf_get_setting('acfe/field/recaptcha/secret_key', $field['secret_key']);
 
                 // API Call
-                $api = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$value}");
+                $curl = curl_init();
+
+                curl_setopt($curl, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$value}");
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                $api = curl_exec($curl);
+
+                curl_close($curl);
                 
                 // No response
                 if(empty($api))

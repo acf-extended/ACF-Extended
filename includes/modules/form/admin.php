@@ -22,6 +22,7 @@ class acfe_form{
         add_action('init',                                                          array($this, 'init'));
         add_action('admin_menu',                                                    array($this, 'admin_menu'));
         add_action('current_screen',                                                array($this, 'current_screen'));
+        add_filter('post_row_actions',                                              array($this, 'row_actions'), 10, 2);
         
         // ACF
         add_filter('acf/get_post_types',                                            array($this, 'filter_post_type'), 10, 2);
@@ -31,6 +32,17 @@ class acfe_form{
         add_filter('acf/prepare_field/name=acfe_form_actions',                      array($this, 'prepare_actions'));
         add_filter('acf/prepare_field/name=acfe_form_field_groups',                 array($this, 'field_groups_choices'));
         add_filter('acf/prepare_field/name=acfe_form_email_files',                  array($this, 'prepare_email_files'));
+        
+        // Format values
+        add_filter('acfe/form/format_value/type=post_object',                       array($this, 'format_value_post_object'), 5, 4);
+        add_filter('acfe/form/format_value/type=relationship',                      array($this, 'format_value_post_object'), 5, 4);
+        add_filter('acfe/form/format_value/type=user',                              array($this, 'format_value_user'), 5, 4);
+        add_filter('acfe/form/format_value/type=taxonomy',                          array($this, 'format_value_taxonomy'), 5, 4);
+        add_filter('acfe/form/format_value/type=image',                             array($this, 'format_value_file'), 5, 4);
+        add_filter('acfe/form/format_value/type=file',                              array($this, 'format_value_file'), 5, 4);
+        add_filter('acfe/form/format_value/type=select',                            array($this, 'format_value_select'), 5, 4);
+        add_filter('acfe/form/format_value/type=checkbox',                          array($this, 'format_value_select'), 5, 4);
+        add_filter('acfe/form/format_value/type=radio',                             array($this, 'format_value_select'), 5, 4);
         
         // Posts
         $this->posts = array(
@@ -140,6 +152,12 @@ class acfe_form{
         if($typenow !== $this->post_type)
             return;
         
+        // customize post_status
+		global $wp_post_statuses;
+		
+		// modify publish post status
+		$wp_post_statuses['publish']->label_count = _n_noop('Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'acf');
+        
         add_action('load-edit.php',     array($this, 'load_list'));
         add_action('load-post.php',     array($this, 'load_post'));
         add_action('load-post-new.php', array($this, 'load_post_new'));
@@ -185,6 +203,9 @@ class acfe_form{
         
         add_filter('acf/pre_render_fields', array($this, 'render_integration'), 10, 2);
         
+        // Misc actions
+        add_action('post_submitbox_misc_actions', array($this, 'misc_actions'));
+        
     }
     
     function load_post_new(){
@@ -213,6 +234,18 @@ class acfe_form{
         
         // Footer
         add_action('admin_footer', array($this, 'load_footer'));
+        
+    }
+    
+    function misc_actions($post){
+        
+        $name = get_field('acfe_form_name', $post->ID);
+        
+        ?>
+        <div class="misc-pub-section misc-pub-acfe-field-group-export" style="padding-top:2px;">
+            <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> Export: <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_form_export&action=json&keys=' . $name); ?>">Json</a>
+        </div>
+        <?php
         
     }
     
@@ -265,6 +298,20 @@ class acfe_form{
         }
         
         return $post_types;
+        
+    }
+    
+    function row_actions($actions, $post){
+
+        if($post->post_type !== $this->post_type || $post->post_status !== 'publish')
+            return $actions;
+        
+        $post_id = $post->ID;
+        $name = get_field('acfe_form_name', $post_id);
+        
+        $actions['acfe_form_export_json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_form_export&action=json&keys=' . $name) . '">' . __('Json') . '</a>';
+        
+        return $actions;
         
     }
     
@@ -783,68 +830,118 @@ class acfe_form{
         
     }
     
+    // Post Object & Relationship
+    function format_value_post_object($value, $_value, $post_id, $field){
+        
+        $value = acf_get_array($_value);
+        $array = array();
+        
+        foreach($value as $p_id){
+            
+            $array[] = get_the_title($p_id);
+            
+        }
+        
+        return implode(', ', $array);
+        
+    }
+    
+    // User
+    function format_value_user($value, $_value, $post_id, $field){
+        
+        $value = acf_get_array($_value);
+        $array = array();
+        
+        foreach($value as $user_id){
+            
+            $user_data = get_userdata($user_id);
+            $array[] = $user_data->user_nicename;
+            
+        }
+        
+        return implode(', ', $array);
+        
+    }
+    
+    // Taxonomy
+    function format_value_taxonomy($value, $_value, $post_id, $field){
+        
+        $value = acf_get_array($_value);
+        $array = array();
+        
+        foreach($value as $term_id){
+            
+            $term = get_term($term_id);
+            $array[] = $term->name;
+            
+        }
+        
+        return implode(', ', $array);
+        
+    }
+    
+    // Image / File
+    function format_value_file($value, $_value, $post_id, $field){
+        
+        if(isset($_value['title']))
+            return $_value['title'];
+        
+        return $value;
+        
+    }
+    
+    // Select / Checkbox / Radio
+    function format_value_select($value, $_value, $post_id, $field){
+        
+        $value = acf_get_array($_value);
+        $array = array();
+        
+        foreach($value as $v){
+            
+            $array[] = acf_maybe_get($field['choices'], $v, $v);
+            
+        }
+        
+        return implode(', ', $array);
+        
+    }
+    
+    function format_value_array($value){
+        
+        if(!is_array($value))
+            return $value;
+        
+        $return = array();
+        
+        foreach($value as $i => $v){
+            
+            $return[] = $this->format_value_array($v);
+            
+        }
+        
+        return implode(', ', $return);
+        
+    }
+    
     function format_value($value, $post_id = 0, $field){
         
-        $return = acf_format_value($value, $post_id, $field);
+        $_value = $value;
         
-        // Post Object & Relationship
-        if($field['type'] === 'post_object' || $field['type'] === 'relationship'){
+        $value = acf_format_value($value, $post_id, $field);
+        
+        $value = apply_filters('acfe/form/format_value',                        $value, $_value, $post_id, $field);
+        $value = apply_filters('acfe/form/format_value/type=' . $field['type'], $value, $_value, $post_id, $field);
+        $value = apply_filters('acfe/form/format_value/key=' . $field['key'],   $value, $_value, $post_id, $field);
+        $value = apply_filters('acfe/form/format_value/name=' . $field['name'], $value, $_value, $post_id, $field);
+        
+        // Is Array? Fallback
+        if(is_array($value)){
             
-            $value = acf_get_array($value);
-            $array = array();
-            
-            foreach($value as $p_id){
-                
-                $array[] = get_the_title($p_id);
-                
-            }
-            
-            $return = implode(', ', $array);
+            $value = $this->format_value_array($value);
             
         }
         
-        // User
-        elseif($field['type'] === 'user'){
-            
-            $value = acf_get_array($value);
-            $array = array();
-            
-            foreach($value as $user_id){
-                
-                $user_data = get_userdata($user_id);
-                $array[] = $user_data->user_nicename;
-                
-            }
-            
-            $return = implode(', ', $array);
-            
-        }
-        
-        // Taxonomy
-        elseif($field['type'] === 'taxonomy'){
-            
-            $value = acf_get_array($value);
-            $array = array();
-            
-            foreach($value as $term_id){
-                
-                $term = get_term($term_id);
-                $array[] = $term->name;
-                
-            }
-            
-            $return = implode(', ', $array);
-            
-        }
-        
-        // Image / File
-        elseif($field['type'] === 'image' || $field['type'] === 'file'){
-            
-            $return = $return['title'];
-            
-        }
-        
-        return $return;
+        return $value;
         
     }
     
@@ -854,6 +951,9 @@ class acfe_form{
             return false;
             
         foreach($array as $field_key => $value){
+            
+            if(!acf_is_field_key($field_key))
+                continue;
             
             $field = acf_get_field($field_key);
             

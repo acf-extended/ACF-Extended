@@ -24,4 +24,8 @@ jQuery(document).ready(function($){
     
     $('.acf-field[data-name="active"]').after($('.acf-field[data-name="acfe_form"]'));
     
+    $('.acf-field-setting-acfe_settings > .acf-input > .acf-repeater .acf-actions .acf-button').removeClass('button-primary');
+    $('.acf-field-setting-acfe_validate > .acf-input > .acf-repeater .acf-actions .acf-button').removeClass('button-primary');
+    $('.acf-field-acfe-meta > .acf-input > .acf-repeater .acf-actions .acf-button').removeClass('button-primary');
+    
 });

@@ -15,7 +15,7 @@ class acfe_form_email{
         
     }
     
-    function submit($form, $post_id, $alias){
+    function submit($form, $post_id, $action){
         
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');

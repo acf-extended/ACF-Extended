@@ -345,19 +345,25 @@ function acfe_admin_settings_html(){
                         'name'  => 'acfe/php_found',
                         'label' => 'PHP: Found',
                         'value' => '<code>' . (acf_get_setting('acfe/php_found') ? __('True'): __('False')) . '</code>',
-                        'description' => 'Found PHP Sync path'
+                        'description' => 'Found PHP Sync load folder'
                     ),
                     array(
                         'name'  => 'acfe/php_save',
                         'label' => 'PHP: Save',
                         'value' => '<code>' . acf_get_setting('acfe/php_save') . '</code>',
-                        'description' => 'PHP Sync Path found'
+                        'description' => 'Found PHP Sync save folder'
                     ),
                     array(
                         'name'  => 'acfe/php_load',
                         'label' => 'PHP: Load',
                         'value' => '<code>' . $load_php_text . '</code>',
                         'description' => 'PHP Sync Load path'
+                    ),
+                    array(
+                        'name'  => 'acfe/json_found',
+                        'label' => 'Json: Found',
+                        'value' => '<code>' . (acf_get_setting('acfe/json_found') ? __('True'): __('False')) . '</code>',
+                        'description' => 'Found Json Sync load folder'
                     ),
                 );
                 ?>

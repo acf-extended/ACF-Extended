@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.8.2
+ * Version:     0.8.3
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Version
-    var $version = '0.8.2';
+    var $version = '0.8.3';
     
     // Settings
     var $settings = array();
@@ -52,6 +52,7 @@ class ACFE{
             'acfe/php_save'                         => ACFE_THEME_PATH . '/acfe-php',
             'acfe/php_load'                         => array(ACFE_THEME_PATH . '/acfe-php'),
             'acfe/php_found'                        => false,
+            'acfe/json_found'                       => false,
             'acfe/dev'                              => false,
             'acfe/modules/author'                   => true,
             'acfe/modules/dynamic_block_types'      => true,
@@ -98,6 +99,9 @@ class ACFE{
         // Tools
         add_action('acf/include_admin_tools',   array($this, 'tools'));
         
+        // Compatibility
+        acfe_include('includes/core/compatibility.php');
+        
     }
     
     /**
@@ -108,7 +112,6 @@ class ACFE{
         /**
          * Core
          */
-        acfe_include('includes/core/compatibility.php');
         acfe_include('includes/core/enqueue.php');
         acfe_include('includes/core/helpers.php');
         acfe_include('includes/core/menu.php');
@@ -128,6 +131,7 @@ class ACFE{
         acfe_include('includes/fields/field-flexible-content.php');
         acfe_include('includes/fields/field-group.php');
         acfe_include('includes/fields/field-image.php');
+        acfe_include('includes/fields/field-post-object.php');
         acfe_include('includes/fields/field-repeater.php');
         acfe_include('includes/fields/field-select.php');
         acfe_include('includes/fields/field-textarea.php');
@@ -217,7 +221,10 @@ class ACFE{
         acfe_include('includes/admin/tools/dop-export.php');
         acfe_include('includes/admin/tools/dop-import.php');
         
+        acfe_include('includes/admin/tools/form-export.php');
+        acfe_include('includes/admin/tools/form-import.php');
         acfe_include('includes/admin/tools/fg-local.php');
+        acfe_include('includes/admin/tools/fg-export.php');
         
     }
     

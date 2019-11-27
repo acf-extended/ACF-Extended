@@ -5,6 +5,9 @@ function acfe_recaptcha(){
         if(typeof acf === 'undefined')
             return;
         
+        /**
+         * Field: reCaptcha (render)
+         */
         $.each(acf.getFields({type: 'acfe_recaptcha'}), function(i, field){
             
             field.render();
@@ -114,7 +117,6 @@ function acfe_recaptcha(){
 
     acf.registerFieldType(reCaptcha);
     
-    
     /**
      * Field: Code Editor
      */
@@ -211,7 +213,6 @@ function acfe_recaptcha(){
 
     acf.registerFieldType(CodeEditor);
     
-    
     /**
      * Field: Textarea
      */
@@ -251,7 +252,6 @@ function acfe_recaptcha(){
 
     acf.registerFieldType(Textarea);
     
-    
     /**
      * Field: Slug
      */
@@ -286,7 +286,6 @@ function acfe_recaptcha(){
     });
 
     acf.registerFieldType(ACFE_Slug);
-    
     
     /**
      * Field: Button
@@ -360,7 +359,6 @@ function acfe_recaptcha(){
     });
 
     acf.registerFieldType(ACFE_Button);
-    
     
     /**
      * Field: Advanced Link
@@ -493,7 +491,6 @@ function acfe_recaptcha(){
 	});
 	
 	acf.registerFieldType(ACFE_Advanced_Link);
-    
     
     /**
      * Field: Group
@@ -631,9 +628,12 @@ function acfe_recaptcha(){
 
     acf.registerFieldType(Column);
     
+    /**
+     * Field: Taxonomy Terms - Ajax
+     */
     acf.addFilter('select2_ajax_data', function(ajaxData, data, $el, field, select){
         
-        if(ajaxData.action !== 'acf/fields/acfe_field_taxonomy_allow_terms/query')
+        if(ajaxData.action !== 'acfe/fields/taxonomy_terms/allow_query')
             return ajaxData;
         
         // Taxonomies
@@ -656,6 +656,87 @@ function acfe_recaptcha(){
         
     });
     
+    /**
+     * Field: Post Object - Ajax
+     */
+    acf.addFilter('select2_ajax_data', function(ajaxData, data, $el, field, select){
+        
+        if(field.get('key') !== 'post' || field.get('type') !== 'post_object')
+            return ajaxData;
+        
+        var advanced_link = acf.getInstance($el.closest('.acf-field-acfe-advanced-link'));
+        
+        ajaxData.field_key = advanced_link.get('key');
+        
+        return ajaxData;
+        
+    });
+    
+    /**
+     * Field: Post Object - Args
+     */
+    acf.addFilter('select2_args', function(options, $select, data, field, instance){
+        
+        if(field.get('type') !== 'post_object' || !field.get('acfeAllowCustom'))
+            return options;
+        
+        options.tags = true;
+        
+        options.createTag = function (params){
+            
+            var term = $.trim(params.term);
+            
+            if(term === '')
+                return null;
+            
+            return {
+                id: term,
+                text: term,
+                newTag: true
+            }
+            
+        };
+        
+        options.insertTag = function(data, tag){
+            
+            var found = false;
+            
+            $.each(data, function(index, value){
+                
+                if($.trim(tag.text).toUpperCase() === $.trim(value.text).toUpperCase()){
+                    
+                    found = true;
+                    return false;
+                    
+                }
+                
+            });
+
+            if(!found)
+                data.unshift(tag);
+            
+        }
+        
+        return options;
+        
+    });
+    
+    /**
+     * Module: Author
+     */
+    acf.add_action('new_field/name=acfe_author', function(field){
+        
+        field.on('change', function(e){
+            
+            e.stopPropagation();
+            
+        });
+        
+    });
+    
+    /**
+     * Module: Dynamic Forms - Fields Mapping
+     */
     var acfe_form_map_fields = function(field){
         
         var name = field.get('name');
@@ -703,6 +784,9 @@ function acfe_recaptcha(){
     acf.addAction('new_field/name=acfe_form_term_map_parent', acfe_form_map_fields);
     acf.addAction('new_field/name=acfe_form_term_map_description', acfe_form_map_fields);
     
+    /**
+     * Module: Dynamic Forms (actions)
+     */
     acf.addAction('new_field/type=flexible_content', function(flexible){
         
         if(flexible.get('name') !== 'acfe_form_actions')

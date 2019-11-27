@@ -190,4 +190,10 @@
             
     });
     
+    acf.addAction('new_field/name=acfe_form_email_files', function(field){
+        
+        field.$el.find('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
+            
+    });
+    
 })(jQuery);

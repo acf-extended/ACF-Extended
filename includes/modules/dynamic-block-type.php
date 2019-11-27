@@ -147,6 +147,22 @@ function acfe_dbt_exclude($post_types, $args){
     
 }
 
+add_action('post_submitbox_misc_actions', 'acfe_dbt_misc_actions');
+function acfe_dbt_misc_actions($post){
+    
+    if($post->post_type !== 'acfe-dbt')
+        return;
+    
+    $name = get_field('name', $post->ID);
+    
+    ?>
+    <div class="misc-pub-section misc-pub-acfe-field-group-export" style="padding-top:2px;">
+        <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> Export: <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=php&keys=' . $name); ?>">PHP</a> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=json&keys=' . $name); ?>">Json</a>
+    </div>
+    <?php
+    
+}
+
 /**
  * Dynamic Block Types Save
  */
@@ -458,13 +474,14 @@ function acfe_dbt_admin_columns_html($column, $post_id){
 add_filter('post_row_actions','acfe_dbt_admin_row', 10, 2);
 function acfe_dbt_admin_row($actions, $post){
 
-    if($post->post_type != 'acfe-dbt' || $post->post_status != 'publish')
+    if($post->post_type !== 'acfe-dbt' || $post->post_status !== 'publish')
         return $actions;
     
     $post_id = $post->ID;
     $name = get_field('name', $post_id);
     
-    $actions['acfe_dpt_export_json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&keys=' . $name) . '">' . __('Json') . '</a>';
+    $actions['acfe_dpt_export_php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=php&keys=' . $name) . '">' . __('PHP') . '</a>';
+    $actions['acfe_dpt_export_json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=json&keys=' . $name) . '">' . __('Json') . '</a>';
     
     return $actions;
     

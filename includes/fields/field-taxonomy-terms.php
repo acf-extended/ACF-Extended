@@ -7,6 +7,9 @@ if(!class_exists('acfe_field_taxonomy_terms')):
 
 class acfe_field_taxonomy_terms extends acf_field{
     
+    // vars
+	var $save_post_terms = array();
+    
     function __construct(){
         
         $this->name = 'acfe_taxonomy_terms';
@@ -16,22 +19,30 @@ class acfe_field_taxonomy_terms extends acf_field{
             'taxonomy'      => array(),
             'allow_terms'   => array(),
             'field_type'    => 'checkbox',
+            'choices'		=> array(),
+            'default_value'	=> '',
+            'return_format' => 'id',
+            'ui'			=> 0,
             'multiple' 		=> 0,
-			'allow_null' 	=> 0,
-			'choices'		=> array(),
-			'default_value'	=> '',
-			'ui'			=> 0,
-			'ajax'			=> 0,
-			'placeholder'	=> '',
+            'allow_null' 	=> 0,
+            'ajax'			=> 0,
+            'placeholder'	=> '',
             'layout'        => '',
-			'toggle'        => 0,
-			'allow_custom'  => 0,
-			'return_format' => 'id',
+            'toggle'        => 0,
+            'load_terms'    => 0,
+            'save_terms'    => 0,
+            'allow_custom'  => 0,
         );
         
         // ajax
-		add_action('wp_ajax_acf/fields/acfe_field_taxonomy_allow_terms/query',				array($this, 'ajax_query'));
-		add_action('wp_ajax_nopriv_acf/fields/acfe_field_taxonomy_allow_terms/query',		array($this, 'ajax_query'));
+		add_action('wp_ajax_acfe/fields/taxonomy_terms/allow_query',        array($this, 'ajax_query_allowed_terms'));
+		add_action('wp_ajax_nopriv_acfe/fields/taxonomy_terms/allow_query', array($this, 'ajax_query_allowed_terms'));
+        
+        add_action('wp_ajax_acf/fields/acfe_taxonomy_terms/query',          array($this, 'ajax_query'));
+		add_action('wp_ajax_nopriv_acf/fields/acfe_taxonomy_terms/query',   array($this, 'ajax_query'));
+        
+        // actions
+		add_action('acf/save_post', array($this, 'save_post'), 15, 1);
         
         parent::__construct();
         
@@ -48,10 +59,30 @@ class acfe_field_taxonomy_terms extends acf_field{
 		
 		// return
 		acf_send_ajax_results($response);
+        
+	}
+    
+    function get_ajax_query($options = array()){
+        
+        //acf_log($options);
+        
+    }
+    
+    function ajax_query_allowed_terms(){
+		
+		// validate
+		if(!acf_verify_ajax())
+            die();
+		
+		// get choices
+		$response = $this->get_ajax_query_allowed_terms($_POST);
+		
+		// return
+		acf_send_ajax_results($response);
 			
 	}
     
-	function get_ajax_query($options = array()){
+	function get_ajax_query_allowed_terms($options = array()){
 		
    		// defaults
    		$options = acf_parse_args($options, array(
@@ -169,8 +200,8 @@ class acfe_field_taxonomy_terms extends acf_field{
 		return $response;
 			
 	}
-
-    function prepare_field($field){
+    
+    function get_available_terms($field){
         
         // Allow Terms
         $choices = array();
@@ -313,11 +344,23 @@ class acfe_field_taxonomy_terms extends acf_field{
             
         }
         
-        //$field['choices'] = acfe_get_taxonomy_terms_ids($field['taxonomy']);
-        $field['choices'] = $choices;
+        return $choices;
+        
+    }
+
+    function prepare_field($field){
+        
+        // Available choices
+        $field['choices'] = $this->get_available_terms($field);
         
         // Set Field Type
         $field['type'] = $field['field_type'];
+        
+        if($field['type'] === 'select' && $field['ui'] && $field['ajax']){
+            
+            $field['ajax_action'] = 'acf/fields/acfe_taxonomy_terms/query';
+            
+        }
         
         return $field;
         
@@ -419,7 +462,7 @@ class acfe_field_taxonomy_terms extends acf_field{
 			'allow_null'	=> 1,
             'ajax'          => 1,
 			'placeholder'	=> __("All terms",'acf'),
-			'ajax_action'	=> 'acf/fields/acfe_field_taxonomy_allow_terms/query',
+			'ajax_action'	=> 'acfe/fields/taxonomy_terms/allow_query',
 		));
         
         // Select: Terms level
@@ -470,7 +513,25 @@ class acfe_field_taxonomy_terms extends acf_field{
             'layout'	=>	'horizontal',
         ));
         
-		// Select: allow_null
+        // Select: ui
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Stylised UI','acf'),
+			'instructions'	=> '',
+			'name'			=> 'ui',
+			'type'			=> 'true_false',
+			'ui'			=> 1,
+            'conditions' => array(
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                ),
+            )
+		));
+        
+        // Select: allow_null
 		acf_render_field_setting($field, array(
 			'label'			=> __('Allow Null?','acf'),
 			'instructions'	=> '',
@@ -503,12 +564,25 @@ class acfe_field_taxonomy_terms extends acf_field{
                         'value'     => 'select',
                     ),
                     array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    
+                ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
                         'field'     => 'allow_null',
                         'operator'  => '==',
                         'value'     => '1',
                     ),
                     
-                )
+                ),
             )
         ));
         
@@ -530,25 +604,6 @@ class acfe_field_taxonomy_terms extends acf_field{
             )
 		));
         
-        // Select: ui
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Stylised UI','acf'),
-			'instructions'	=> '',
-			'name'			=> 'ui',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
-            'conditions' => array(
-                array(
-                    array(
-                        'field'     => 'field_type',
-                        'operator'  => '==',
-                        'value'     => 'select',
-                    ),
-                ),
-            )
-		));
-				
-		
 		// Select: ajax
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Use AJAX to lazy load choices?','acf'),
@@ -612,51 +667,158 @@ class acfe_field_taxonomy_terms extends acf_field{
             )
 		));
         
-        // Checkbox: other_choice
+        // save_terms
 		acf_render_field_setting( $field, array(
-			'label'			=> __('Allow Custom','acf'),
-			'instructions'	=> '',
-			'name'			=> 'allow_custom',
+			'label'			=> __('Save Terms','acf'),
+			'instructions'	=> __('Connect selected terms to the post','acf'),
+			'name'			=> 'save_terms',
 			'type'			=> 'true_false',
 			'ui'			=> 1,
-			'message'		=> __("Allow 'custom' values to be added", 'acf'),
-            'conditions' => array(
-                array(
-                    array(
-                        'field'     => 'field_type',
-                        'operator'  => '==',
-                        'value'     => 'checkbox',
-                    ),
-                ),
-            )
 		));
-		
-		
-		// Checkbox: save_other_choice
+        
+		// load_terms
 		acf_render_field_setting( $field, array(
-			'label'			=> __('Save Custom','acf'),
-			'instructions'	=> '',
-			'name'			=> 'save_custom',
+			'label'			=> __('Load Terms','acf'),
+			'instructions'	=> __('Load value from posts terms','acf'),
+			'name'			=> 'load_terms',
 			'type'			=> 'true_false',
 			'ui'			=> 1,
-			'message'		=> __("Save 'custom' values to the field's choices", 'acf'),
-            'conditions' => array(
-                array(
-                    array(
-                        'field'     => 'field_type',
-                        'operator'  => '==',
-                        'value'     => 'checkbox',
-                    ),
-                    array(
-                        'field'     => 'allow_custom',
-                        'operator'  => '==',
-                        'value'     => 1,
-                    ),
-                ),
-            )
 		));
         
     }
+    
+    function load_value($value, $post_id, $field){
+		
+		// get valid terms
+		//$value = acf_get_valid_terms($value, $field['taxonomy']);
+		
+		// load_terms
+		if($field['load_terms']){
+            
+            $taxonomy = $field['taxonomy'];
+            
+            if(empty($taxonomy))
+                $taxonomy = acf_get_taxonomies();
+			
+			// get terms
+			$info = acf_get_post_id_info($post_id);
+			$term_ids = wp_get_object_terms($info['id'], $taxonomy, array('fields' => 'ids', 'orderby' => 'none'));
+			
+			// bail early if no terms
+			if(empty($term_ids) || is_wp_error($term_ids))
+                return false;
+			
+			// sort
+			if(!empty($value)){
+				
+				$order = array();
+				
+				foreach($term_ids as $i => $v){
+					
+					$order[$i] = array_search($v, $value);
+					
+				}
+				
+				array_multisort($order, $term_ids);
+				
+			}
+            
+			// update value
+			$value = $term_ids;
+            
+		}
+        
+		// return
+		return $value;
+		
+	}
+    
+    function update_value($value, $post_id, $field){
+        
+        // vars
+        if(is_array($value)){
+        
+            $value = array_filter($value);
+            
+        }
+        
+        
+        // save_terms
+        if($field['save_terms']){
+            
+            // vars
+            $taxonomies = $field['taxonomy'];
+            
+            if(empty($taxonomies))
+                $taxonomies = acf_get_taxonomies();
+            
+            // force value to array
+            $term_ids = acf_get_array($value);
+            
+            // convert to int
+            $term_ids = array_map('intval', $term_ids);
+            
+            foreach($taxonomies as $taxonomy){
+                
+                $terms = array();
+                
+                foreach($term_ids as $term_id){
+                    
+                    $term = get_term($term_id);
+                    $term_taxonomy = $term->taxonomy;
+                    
+                    if($term_taxonomy !== $taxonomy)
+                        continue;
+                    
+                    $terms[] = $term_id;
+                    
+                }
+                
+                // get existing term id's (from a previously saved field)
+                $old_term_ids = isset($this->save_post_terms[$taxonomy]) ? $this->save_post_terms[$taxonomy] : array();
+                
+                // append
+                $this->save_post_terms[$taxonomy] = array_merge($old_term_ids, $terms);
+                
+            }
+            
+            // if called directly from frontend update_field()
+            if(!did_action('acf/save_post')){
+                
+                $this->save_post($post_id);
+                
+                return $value;
+                
+            }
+            
+        }
+        
+        // return
+        return $value;
+        
+	}
+    
+    function save_post($post_id){
+		
+		// bail ealry if no terms
+		if(empty($this->save_post_terms))
+            return;
+        
+		// vars
+		$info = acf_get_post_id_info($post_id);
+		
+		// loop
+		foreach($this->save_post_terms as $taxonomy => $term_ids){
+			
+			// save
+			wp_set_object_terms($info['id'], $term_ids, $taxonomy, false);
+			
+		}
+		
+		// reset array ( WP saves twice )
+		$this->save_post_terms = array();
+		
+	}
     
     function format_value($value, $post_id, $field){
         
