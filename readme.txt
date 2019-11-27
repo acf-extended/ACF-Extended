@@ -48,7 +48,7 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 * Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
 * Want to follow me? [Here is my Twitter](https://twitter.com/hwkfr)
 
-== 🔨 Flexible Content Highlight ==
+== 📺 Flexible Content Showcase ==
 
 [youtube https://www.youtube.com/watch?v=hzkNL0BA3Dk]
 
