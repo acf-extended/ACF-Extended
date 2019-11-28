@@ -329,6 +329,9 @@ class acfe_form_front{
                 }
                 
                 $alias = get_sub_field('acfe_form_custom_alias');
+                
+                if(!empty($alias))
+                    $args = apply_filters('acfe/form/load/action=' . $alias,  $args, $args['post_id']);
             
                 $args = apply_filters('acfe/form/load/' . $action,                          $args, $args['post_id'], $alias);
                 $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,  $args, $args['post_id'], $alias);
