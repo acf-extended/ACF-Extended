@@ -22,10 +22,10 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 * 10+ ACF Fields Enhanced
 * Bidirectional Fields
 * Advanced Fields Validation
-* ACF Options Pages / Block Types Manager
-* ACF Forms Manager
 * Flexible Content as Page Builder
-* ACF & WP Meta Overview
+* ACF Forms Manager
+* ACF Options Pages / Block Types Manager
+* ACF & WordPress Meta Overview
 * WordPress Post Types / Taxonomies Manager
 * WordPress Options Manager
 * WordPress Admin Enhancements
