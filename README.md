@@ -20,7 +20,7 @@
 * WordPress Admin Enhancements
 * ... And many more features
 
-## 🤟 Philosophy ==
+## 🤟 Philosophy
 
 * 100% free
 * Seemless integration
