@@ -801,7 +801,7 @@ function acfe_flexible_layout_title_prepare($field){
         
         // Category
         $category = '';
-        if(isset($field['acfe_flexible_modal']['acfe_flexible_modal_categories']) && acf_maybe_get($layout, 'acfe_flexible_category')){
+        if(isset($field['acfe_flexible_modal']['acfe_flexible_modal_categories']) && !empty($field['acfe_flexible_modal']['acfe_flexible_modal_categories']) && acf_maybe_get($layout, 'acfe_flexible_category')){
             
             $category = 'data-acfe-flexible-category="' . $layout['acfe_flexible_category'] . '"';
             
