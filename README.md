@@ -10,15 +10,17 @@
 * 14+ New ACF Fields
 * 10+ ACF Fields Enhanced
 * Bidirectional Fields
-* Post Types / Taxonomies Manager
-* Options Pages / Block Types Manager
+* Advanced Fields Validation
+* ACF Options Pages / Block Types Manager
 * ACF Forms Manager
 * Flexible Content as Page Builder
-* Post Meta Overview
-* WordPress Admin Enhancementss
+* ACF & WP Meta Overview
+* WordPress Post Types / Taxonomies Manager
+* WordPress Options Manager
+* WordPress Admin Enhancements
 * ... And many more features
 
-## 👍 Philosophy
+## 🤟 Philosophy ==
 
 * 100% free
 * Seemless integration
@@ -343,6 +345,13 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * Manual Import & Export is available in the ACF > Tools page
 
 ## 📋 Changelog
+
+### 0.8.3.1
+* Field: Flexible Content - Fixed PHP `Undefined index: acfe_flexible_modal` notice
+* Fields: Select2 CSS Enhanced - Fixed forced height when in multiple mode
+* Fields: Select2 CSS Enhanced - Global standardization of generic select input & select2 style
+* Module: Dynamic Forms - Added missing hook `filter('acfe/form/load/action=my-action-alias',  $args, $post_id);`
+* General: Fixed typo in Readme
 
 ### 0.8.3
 * Field: Advanced Link - Added "Allowed Post Types" & "Allowed Taxonomies" setting to filter allowed Post types & Taxonomy terms in the post selection
