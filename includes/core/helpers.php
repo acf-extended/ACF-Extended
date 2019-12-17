@@ -16,6 +16,7 @@ function get_flexible($selector, $post_id = false){
     // Vars
     $field = acf_get_field($selector);
     $flexible = acf_get_field_type('flexible_content');
+    global $is_preview;
     $is_preview = false;
     
     // Actions
