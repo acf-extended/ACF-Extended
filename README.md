@@ -29,7 +29,8 @@
 
 ## 🛠️ Links
 
-* Join the [ACF community on Slack](https://join.slack.com/t/wpacf/shared_invite/enQtODQ3OTY0MjY3MTA0LTJjNGUzN2E4ZTcxZWUwZWYyNWY3OTUwYzQzOTMzNDk1MjI3NzMzYjI3ZGYzNGIxN2I1NjM1ZjEzNmE1MGRmNTY)
+* Join the [ACF Slack community](https://join.slack.com/t/wpacf/shared_invite/enQtODc2MjczMzM3NzQ1LTQxNmY2ZGY3OTU2NDkxNTliYmNhMmY1NDMwZGM4NmYxNzgwZTI5MDUzMDFlMGQ5YzcwNDc0ZWM0MDVmODI4NmI)
+* Check the [ACF Extended Trello board](https://trello.com/b/QEgpU7CL/acf-extended)
 * Visit our website [ACF-Extended.com](https://www.acf-extended.com) (WIP)
 * Visit the official [ACF Extended WP Repo](https://wordpress.org/plugins/acf-extended/)
 * Have a question? [Check the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
