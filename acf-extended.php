@@ -68,7 +68,7 @@ class ACFE{
         include_once(ACFE_PATH . 'init.php');
         
         // Load
-        add_action('plugins_loaded', array($this, 'load'));
+        add_action('after_setup_theme', array($this, 'load'));
         
     }
     
