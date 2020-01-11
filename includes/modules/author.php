@@ -82,7 +82,7 @@ class acfe_author{
              * Add Local Field Group
              */
             acf_add_local_field_group(array(
-                'title'                 => __('Author'),
+                'title'                 => __('Author', 'acfe'),
                 'key'                   => 'group_acfe_author',
                 'menu_order'            => 99999,
                 'position'              => 'side',
