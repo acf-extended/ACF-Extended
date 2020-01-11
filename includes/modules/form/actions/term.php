@@ -387,7 +387,7 @@ class acfe_form_term{
         if(acf_maybe_get($field, 'value'))
             $form_name = get_field('acfe_form_name', $field['value']);
         
-        ?>You may use the following hooks:<br /><br />
+        echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_filter('acfe/form/load/term_id', 'my_form_term_values_source', 10, 3);
 add_filter('acfe/form/load/term_id/form=<?php echo $form_name; ?>', 'my_form_term_values_source', 10, 3);
@@ -428,7 +428,7 @@ function my_form_term_values_source($term_id, $form, $action){
         if(acf_maybe_get($field, 'value'))
             $form_name = get_field('acfe_form_name', $field['value']);
         
-        ?>You may use the following hooks:<br /><br />
+        echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_filter('acfe/form/submit/term_args', 'my_form_term_args', 10, 4);
 add_filter('acfe/form/submit/term_args/form=<?php echo $form_name; ?>', 'my_form_term_args', 10, 4);
@@ -488,7 +488,7 @@ function my_form_term_args($args, $type, $form, $action){
         if(acf_maybe_get($field, 'value'))
             $form_name = get_field('acfe_form_name', $field['value']);
         
-        ?>You may use the following hooks:<br /><br />
+        echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_action('acfe/form/submit/term', 'my_form_term_save', 10, 5);
 add_action('acfe/form/submit/term/form=<?php echo $form_name; ?>', 'my_form_term_save', 10, 5);
