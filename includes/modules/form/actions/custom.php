@@ -26,7 +26,7 @@ class acfe_form_custom{
         );
         
         if(in_array($value, $reserved))
-            $valid = 'This action name is not authorized';
+            $valid = __('This action name is not authorized', 'acfe');
         
         return $valid;
     }
