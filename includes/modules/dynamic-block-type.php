@@ -20,14 +20,14 @@ add_action('init', 'acfe_dbt_register');
 function acfe_dbt_register(){
     
     register_post_type('acfe-dbt', array(
-        'label'                 => 'Block Type',
-        'description'           => 'Block Type',
+        'label'                 => __('Block Type', 'acfe'), 
+        'description'           => __('Block Type', 'acfe'),
         'labels'                => array(
-            'name'          => 'Block Types',
-            'singular_name' => 'Block Type',
-            'menu_name'     => 'Block Types',
-            'edit_item'     => 'Edit Block Type',
-            'add_new_item'  => 'New Block Type',
+            'name'          => __('Block Types', 'acfe'),
+            'singular_name' => __('Block Type', 'acfe'),
+            'menu_name'     => __('Block Types', 'acfe'),
+            'edit_item'     => __('Edit Block Type', 'acfe'),
+            'add_new_item'  => __('New Block Type', 'acfe'),
         ),
         'supports'              => false,
         'hierarchical'          => false,
@@ -66,7 +66,7 @@ function acfe_dbt_menu(){
     if(!acf_get_setting('show_admin'))
         return;
     
-    add_submenu_page('edit.php?post_type=acf-field-group', __('Block Types'), __('Block Types'), acf_get_setting('capability'), 'edit.php?post_type=acfe-dbt');
+    add_submenu_page('edit.php?post_type=acf-field-group', __('Block Types', 'acfe'), __('Block Types', 'acfe'), acf_get_setting('capability'), 'edit.php?post_type=acfe-dbt');
     
 }
 
@@ -386,10 +386,10 @@ function acfe_dbt_admin_columns($columns){
     if(isset($columns['date']))
         unset($columns['date']);
     
-    $columns['name'] = __('Name');
-    $columns['category'] = __('Category');
-    $columns['post_types'] = __('Post Types');
-    $columns['render'] = __('Render');
+    $columns['name'] = __('Name', 'acfe');
+    $columns['category'] = __('Category', 'acfe');
+    $columns['post_types'] = __('Post Types', 'acfe');
+    $columns['render'] = __('Render', 'acfe');
     
     return $columns;
     
@@ -534,7 +534,7 @@ function acfe_dbt_load_meta_boxes(){
         'acfe-dbt-field-groups', 
         
         // Title
-        __('Field groups', 'acf'), 
+        __('Field groups', 'acfe'), 
         
         // Render
         'acfe_dbt_load_meta_boxes_render', 
@@ -642,7 +642,7 @@ function acfe_dbt_get_fields_labels_recursive(&$array, $field){
     $ancestors = isset($field['ancestors']) ? $field['ancestors'] : count(acf_get_field_ancestors($field));
     $label = str_repeat('- ', $ancestors) . $label;
     
-    $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acf') . ')';
+    $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acfe') . ')';
     $label .= $field['required'] ? ' <span class="acf-required">*</span>' : '';
     
     $array[$field['key']] = $label;
@@ -688,7 +688,7 @@ acf_add_local_field_group(array(
     'fields' => array(
         array(
             'key' => 'field_acfe_dbt_tab_general',
-            'label' => 'General',
+            'label' => __('General', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -710,7 +710,7 @@ acf_add_local_field_group(array(
             'label' => 'Title',
             'name' => 'title',
             'type' => 'text',
-            'instructions' => '(String) The display title for your block.',
+            'instructions' => __('(String) The display title for your block.', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -729,11 +729,11 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dbt_name',
-            'label' => 'Name',
+            'label' => __('Name', 'acfe'),
             'name' => 'name',
             'type' => 'acfe_slug',
-            'instructions' => '(String) A unique name that identifies the block (without namespace).<br />
-Note: A block name can only contain lowercase alphanumeric characters and dashes, and must begin with a letter.',
+            'instructions' => __('(String) A unique name that identifies the block (without namespace).<br />
+Note: A block name can only contain lowercase alphanumeric characters and dashes, and must begin with a letter.', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -756,10 +756,10 @@ Note: A block name can only contain lowercase alphanumeric characters and dashes
         ),
         array(
             'key' => 'field_acfe_dbt_description',
-            'label' => 'Description',
+            'label' => __('Description', 'acfe'),
             'name' => 'description',
             'type' => 'textarea',
-            'instructions' => '(String) (Optional) This is a short description for your block.',
+            'instructions' => __('(String) (Optional) This is a short description for your block.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -778,10 +778,10 @@ Note: A block name can only contain lowercase alphanumeric characters and dashes
         ),
         array(
             'key' => 'field_acfe_dbt_category',
-            'label' => 'Category',
+            'label' => __('Category', 'acfe'),
             'name' => 'category',
             'type' => 'text',
-            'instructions' => '(String) Blocks are grouped into categories to help users browse and discover them. The core provided categories are [ common | formatting | layout | widgets | embed ]. Plugins and Themes can also register custom block categories.',
+            'instructions' => __('(String) Blocks are grouped into categories to help users browse and discover them. The core provided categories are [ common | formatting | layout | widgets | embed ]. Plugins and Themes can also register custom block categories.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -800,14 +800,14 @@ Note: A block name can only contain lowercase alphanumeric characters and dashes
         ),
         array(
             'key' => 'field_acfe_dbt_keywords',
-            'label' => 'Keywords',
+            'label' => __('Keywords', 'acfe'),
             'name' => 'keywords',
             'type' => 'textarea',
-            'instructions' => '(Array) (Optional) An array of search terms to help user discover the block while searching.<br />
+            'instructions' => __('(Array) (Optional) An array of search terms to help user discover the block while searching.<br />
 One line for each keyword. ie:<br /><br />
 quote<br />
 mention<br />
-cite',
+cite', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -826,10 +826,10 @@ cite',
         ),
         array(
             'key' => 'field_acfe_dbt_post_types',
-            'label' => 'Post types',
+            'label' => __('Post types', 'acfe'),
             'name' => 'post_types',
             'type' => 'acfe_post_types',
-            'instructions' => '(Array) (Optional) An array of post types to restrict this block type to.',
+            'instructions' => __('(Array) (Optional) An array of post types to restrict this block type to.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -845,15 +845,15 @@ cite',
         ),
         array(
             'key' => 'field_acfe_dbt_mode',
-            'label' => 'Mode',
+            'label' => __('Mode', 'acfe'),
             'name' => 'mode',
             'type' => 'select',
-            'instructions' => '(String) (Optional) The display mode for your block. Available settings are “auto”, “preview” and “edit”. Defaults to “auto”.<br /><br />
+            'instructions' => __('(String) (Optional) The display mode for your block. Available settings are “auto”, “preview” and “edit”. Defaults to “auto”.<br /><br />
 auto: Preview is shown by default but changes to edit form when block is selected.<br />
 preview: Preview is always shown. Edit form appears in sidebar when block is selected.<br />
 edit: Edit form is always shown.<br /><br />
 
-Note. When in “preview” or “edit” modes, an icon will appear in the block toolbar to toggle between modes.',
+Note. When in “preview” or “edit” modes, an icon will appear in the block toolbar to toggle between modes.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -881,10 +881,10 @@ Note. When in “preview” or “edit” modes, an icon will appear in the bloc
         ),
         array(
             'key' => 'field_acfe_dbt_align',
-            'label' => 'Align',
+            'label' => __('Align', 'acfe'),
             'name' => 'align',
             'type' => 'select',
-            'instructions' => '(String) (Optional) The default block alignment. Available settings are “left”, “center”, “right”, “wide” and “full”. Defaults to an empty string.',
+            'instructions' => __('(String) (Optional) The default block alignment. Available settings are “left”, “center”, “right”, “wide” and “full”. Defaults to an empty string.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -914,7 +914,7 @@ Note. When in “preview” or “edit” modes, an icon will appear in the bloc
         ),
         array(
             'key' => 'field_acfe_dbt_tab_icon',
-            'label' => 'Icon',
+            'label' => __('Icon', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -933,11 +933,11 @@ Note. When in “preview” or “edit” modes, an icon will appear in the bloc
         ),
         array(
             'key' => 'field_acfe_dbt_icon_type',
-            'label' => 'Icon Type',
+            'label' => __('Icon Type', 'acfe'),
             'name' => 'icon_type',
             'type' => 'select',
-            'instructions' => 'Simple: Specify a Dashicons class or SVG path<br />
-Colors: Specify colors & Dashicons class',
+            'instructions' => __('Simple: Specify a Dashicons class or SVG path<br />
+Colors: Specify colors & Dashicons class', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -963,10 +963,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_icon_text',
-            'label' => 'Icon',
+            'label' => __('Icon', 'acfe'),
             'name' => 'icon_text',
             'type' => 'text',
-            'instructions' => '(String) (Optional) An icon property can be specified to make it easier to identify a block. These can be any of WordPress’ Dashicons, or a custom svg element.',
+            'instructions' => __('(String) (Optional) An icon property can be specified to make it easier to identify a block. These can be any of WordPress’ Dashicons, or a custom svg element.', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -993,10 +993,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_icon_background',
-            'label' => 'Icon background',
+            'label' => __('Icon background', 'acfe'),
             'name' => 'icon_background',
             'type' => 'color_picker',
-            'instructions' => 'Specifying a background color to appear with the icon e.g.: in the inserter.',
+            'instructions' => __('Specifying a background color to appear with the icon e.g.: in the inserter.', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -1019,10 +1019,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_icon_foreground',
-            'label' => 'Icon foreground',
+            'label' => __('Icon foreground', 'acfe'),
             'name' => 'icon_foreground',
             'type' => 'color_picker',
-            'instructions' => 'Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)',
+            'instructions' => __('Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -1045,10 +1045,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_icon_src',
-            'label' => 'Icon src',
+            'label' => __('Icon src', 'acfe'),
             'name' => 'icon_src',
             'type' => 'text',
-            'instructions' => 'Specifying a dashicon for the block',
+            'instructions' => __('Specifying a dashicon for the block', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -1075,7 +1075,7 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_tab_render',
-            'label' => 'Render',
+            'label' => __('Render', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1094,10 +1094,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_render_template',
-            'label' => 'Render template',
+            'label' => __('Render template', 'acfe'),
             'name' => 'render_template',
             'type' => 'text',
-            'instructions' => '(String) The path to a template file used to render the block HTML. This can either be a relative path to a file within the active theme or a full path to any file.',
+            'instructions' => __('(String) The path to a template file used to render the block HTML. This can either be a relative path to a file within the active theme or a full path to any file.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1116,10 +1116,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_render_callback',
-            'label' => 'Render callback',
+            'label' => __('Render callback',
             'name' => 'render_callback',
             'type' => 'text',
-            'instructions' => '(Callable) (Optional) Instead of providing a render_template, a callback function name may be specified to output the block’s HTML.',
+            'instructions' => __('(Callable) (Optional) Instead of providing a render_template, a callback function name may be specified to output the block’s HTML.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1138,7 +1138,7 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_tab_enqueue',
-            'label' => 'Enqueue',
+            'label' => __('Enqueue', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1157,10 +1157,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_enqueue_style',
-            'label' => 'Enqueue style',
+            'label' => __('Enqueue style', 'acfe'),
             'name' => 'enqueue_style',
             'type' => 'text',
-            'instructions' => '(String) (Optional) The url to a .css file to be enqueued whenever your block is displayed (front-end and back-end).',
+            'instructions' => __('(String) (Optional) The url to a .css file to be enqueued whenever your block is displayed (front-end and back-end).', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1179,10 +1179,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_enqueue_script',
-            'label' => 'Enqueue script',
+            'label' => __('Enqueue script', 'acfe'),
             'name' => 'enqueue_script',
             'type' => 'text',
-            'instructions' => '(String) (Optional) The url to a .js file to be enqueued whenever your block is displayed (front-end and back-end).',
+            'instructions' => __('(String) (Optional) The url to a .js file to be enqueued whenever your block is displayed (front-end and back-end).', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1201,10 +1201,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_enqueue_assets',
-            'label' => 'Enqueue assets',
+            'label' => __('Enqueue assets', 'acfe'),
             'name' => 'enqueue_assets',
             'type' => 'text',
-            'instructions' => '(Callable) (Optional) A callback function that runs whenever your block is displayed (front-end and back-end) and enqueues scripts and/or styles.',
+            'instructions' => __('(Callable) (Optional) A callback function that runs whenever your block is displayed (front-end and back-end) and enqueues scripts and/or styles.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1223,7 +1223,7 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_tab_supports',
-            'label' => 'Supports',
+            'label' => __('Supports', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1242,10 +1242,10 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_supports_align',
-            'label' => 'Align',
+            'label' => __('Align', 'acfe'),
             'name' => 'supports_align',
             'type' => 'true_false',
-            'instructions' => 'This property adds block controls which allow the user to change the block’s alignment. Defaults to true. Set to false to hide the alignment toolbar. Set to an array of specific alignment names to customize the toolbar.',
+            'instructions' => __('This property adds block controls which allow the user to change the block’s alignment. Defaults to true. Set to false to hide the alignment toolbar. Set to an array of specific alignment names to customize the toolbar.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1264,14 +1264,14 @@ Colors: Specify colors & Dashicons class',
         ),
         array(
             'key' => 'field_acfe_dbt_supports_align_args',
-            'label' => 'Align arguments',
+            'label' => __('Align arguments', 'acfe'),
             'name' => 'supports_align_args',
             'type' => 'textarea',
-            'instructions' => 'Set to an array of specific alignment names to customize the toolbar.<br />
+            'instructions' => __('Set to an array of specific alignment names to customize the toolbar.<br />
 One line for each name. ie:<br /><br />
 left<br />
 right<br />
-full',
+full', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -1298,10 +1298,10 @@ full',
         ),
         array(
             'key' => 'field_acfe_dbt_supports_mode',
-            'label' => 'Mode',
+            'label' => __('Mode', 'acfe'),
             'name' => 'supports_mode',
             'type' => 'true_false',
-            'instructions' => 'This property allows the user to toggle between edit and preview modes via a button. Defaults to true.',
+            'instructions' => __('This property allows the user to toggle between edit and preview modes via a button. Defaults to true.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1320,10 +1320,10 @@ full',
         ),
         array(
             'key' => 'field_acfe_dbt_supports_multiple',
-            'label' => 'Multiple',
+            'label' => __('Multiple', 'acfe'),
             'name' => 'supports_multiple',
             'type' => 'true_false',
-            'instructions' => 'This property allows the block to be added multiple times. Defaults to true.',
+            'instructions' => __('This property allows the block to be added multiple times. Defaults to true.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
