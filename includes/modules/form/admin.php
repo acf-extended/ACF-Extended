@@ -99,14 +99,14 @@ class acfe_form{
         
         // Post Type
         register_post_type($this->post_type, array(
-            'label'                 => __('Forms', 'acf'),
-            'description'           => __('Forms', 'acf'),
+            'label'                 => __('Forms', 'acfe'),
+            'description'           => __('Forms', 'acfe'),
             'labels'                => array(
-                'name'          => __('Forms', 'acf'),
-                'singular_name' => __('Form', 'acf'),
-                'menu_name'     => __('Forms', 'acf'),
-                'edit_item'     => 'Edit Form',
-                'add_new_item'  => 'New Form',
+                'name'          => __('Forms', 'acfe'),
+                'singular_name' => __('Form', 'acfe'),
+                'menu_name'     => __('Forms', 'acfe'),
+                'edit_item'     => __('Edit Form', 'acfe'),
+                'add_new_item'  => __('New Form', 'acfe'),
             ),
             'supports'              => array('title'),
             'hierarchical'          => false,
@@ -141,7 +141,7 @@ class acfe_form{
         if(!acf_get_setting('show_admin'))
             return;
         
-        add_submenu_page('edit.php?post_type=acf-field-group', __('Forms', 'acf'), __('Forms', 'acf'), acf_get_setting('capability'), 'edit.php?post_type=' . $this->post_type);
+        add_submenu_page('edit.php?post_type=acf-field-group', __('Forms', 'acfe'), __('Forms', 'acfe'), acf_get_setting('capability'), 'edit.php?post_type=' . $this->post_type);
         
     }
     
@@ -156,7 +156,7 @@ class acfe_form{
 		global $wp_post_statuses;
 		
 		// modify publish post status
-		$wp_post_statuses['publish']->label_count = _n_noop('Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'acf');
+		$wp_post_statuses['publish']->label_count = _n_noop('Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'acfe');
         
         add_action('load-edit.php',     array($this, 'load_list'));
         add_action('load-post.php',     array($this, 'load_post'));
@@ -243,7 +243,7 @@ class acfe_form{
         
         ?>
         <div class="misc-pub-section misc-pub-acfe-field-group-export" style="padding-top:2px;">
-            <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> Export: <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_form_export&action=json&keys=' . $name); ?>">Json</a>
+            <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> <?php echo ('Export:', 'acfe') ?> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_form_export&action=json&keys=' . $name); ?>">Json</a>
         </div>
         <?php
         
@@ -383,7 +383,7 @@ class acfe_form{
             'acfe-form-details', 
             
             // Title
-            __('Fields', 'acf'), 
+            __('Fields', 'acfe'), 
             
             // Render
             array($this, 'render_meta_boxes'), 
@@ -426,10 +426,10 @@ class acfe_form{
                         
                         <table class="acf-table">
                             <thead>
-                                <th class="acf-th" width="25%"><strong>Label</strong></th>
-                                <th class="acf-th" width="25%"><strong>Name</strong></th>
-                                <th class="acf-th" width="25%"><strong>Key</strong></th>
-                                <th class="acf-th" width="25%"><strong>Type</strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo ('Label', 'acfe') ?></strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo ('Name', 'acfe') ?></strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo ('Key', 'acfe') ?></strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo ('Type', 'acfe') ?></strong></th>
                             </thead>
                             
                             <tbody>
@@ -493,7 +493,7 @@ class acfe_form{
         $ancestors = isset($field['ancestors']) ? $field['ancestors'] : count(acf_get_field_ancestors($field));
         $label = str_repeat('- ', $ancestors) . $label;
         
-        $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acf') . ')';
+        $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acfe') . ')';
         $label .= $field['required'] ? ' <span class="acf-required">*</span>' : '';
         
         $array[$field['key']] = $label;
@@ -556,13 +556,13 @@ class acfe_form{
     
     function prepare_actions($field){
         
-        $field['instructions'] = 'Add actions on form submission';
-        
-        $data = $this->fields_groups;
+        $field['instructions'] = __('Add actions on form submission', 'acfe');
+               
+	    $data = $this->fields_groups;
         
         if(empty($data)){
             
-            $field['instructions'] .= '<br /><u>No field groups are currently mapped</u>';
+            $field['instructions'] .= '<br /><u>' . __('No field groups are currently mapped', 'acfe') . '</u>';
             
         }
         
@@ -649,7 +649,7 @@ class acfe_form{
                     // First level
                     if(!$deep){
                         
-                        $label = !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acf') . ')';
+                        $label = !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acfe') . ')';
                         $label .= $field['required'] ? ' *' : '';
                         
                         $choices[$field_group_title][$field['key']] = $label. ' (' . $field['key'] . ')';
@@ -678,7 +678,7 @@ class acfe_form{
         $ancestors = isset($field['ancestors']) ? $field['ancestors'] : count(acf_get_field_ancestors($field));
         $label = str_repeat('- ', $ancestors) . $label;
         
-        $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acf') . ')';
+        $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acfe') . ')';
         $label .= $field['required'] ? ' *' : '';
         
         $choices[$field['key']] = $label. ' (' . $field['key'] . ')';
@@ -1130,7 +1130,7 @@ class acfe_form{
         $fields[] = array(
             'type'      => 'message',
             'name'      => '',
-            'label'     => 'Shortcode',
+            'label'     => __('Shortcode', 'acfe'),
             'value'     => '',
             'message'   => '<code>[acfe_form name="' . $form_name . '"]</code> or <code>[acfe_form ID="' . $form_id . '"]</code>',
             'new_lines' => false,
@@ -1149,7 +1149,7 @@ class acfe_form{
         $fields[] = array(
             'type'      => 'message',
             'name'      => '',
-            'label'     => 'PHP Form Integration',
+            'label'     => __('PHP Form Integration', 'acfe'),
             'value'     => '',
             'message'   => $html,
             'new_lines' => false,
@@ -1202,7 +1202,7 @@ function my_<?php echo $_field_name; ?>_validation($valid, $value, $field, $inpu
                 $fields[] = array(
                     'type'      => 'message',
                     'name'      => '',
-                    'label'     => 'PHP Field Validation',
+                    'label'     => __('PHP Field Validation', 'acfe')
                     'value'     => '',
                     'message'   => $html,
                     'new_lines' => false,
@@ -1250,7 +1250,7 @@ function my_<?php echo $_form_name; ?>_validation($form, $post_id){
                 $fields[] = array(
                     'type'      => 'message',
                     'name'      => '',
-                    'label'     => 'PHP Form Validation',
+                    'label'     => __('PHP Form Validation', 'acfe'),
                     'value'     => '',
                     'message'   => $html,
                     'new_lines' => false,
@@ -1298,7 +1298,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                 $fields[] = array(
                     'type'      => 'message',
                     'name'      => '',
-                    'label'     => 'PHP Form Submit: Custom Action',
+                    'label'     => __('PHP Form Submit: Custom Action', 'acfe'),
                     'value'     => '',
                     'message'   => $html,
                     'new_lines' => false,
@@ -1317,10 +1317,10 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         if(isset($columns['date']))
             unset($columns['date']);
         
-        $columns['name'] = __('Name');
-        $columns['field_groups'] = __('Field groups', 'acf');
-        $columns['actions'] = __('Actions');
-        $columns['shortcode'] = __('Shortcode');
+        $columns['name'] = __('Name', 'acfe');
+        $columns['field_groups'] = __('Field groups', 'acfe');
+        $columns['actions'] = __('Actions', 'acfe');
+        $columns['shortcode'] = __('Shortcode', 'acfe');
         
         return $columns;
         
@@ -1379,7 +1379,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                         
                         $action_name = get_sub_field('acfe_form_custom_action');
                         
-                        $customs[] = '<span class="acf-js-tooltip dashicons dashicons-editor-code" title="Custom action: ' . $action_name . '"></span>';
+                        $customs[] = '<span class="acf-js-tooltip dashicons dashicons-editor-code" title="' . __('Custom action: ', 'acfe') . $action_name . '"></span>';
                         $found = true;
                         
                     }
@@ -1387,7 +1387,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                     // E-mail
                     elseif(get_row_layout() === 'email'){
                         
-                        $emails[] = '<span class="acf-js-tooltip dashicons dashicons-email" title="E-mail"></span>';
+                        $emails[] = '<span class="acf-js-tooltip dashicons dashicons-email" title="' . __('Email ', 'acfe') . '"></span>';
                         $found = true;
                         
                     }
@@ -1400,7 +1400,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                         // Insert
                         if($action === 'insert_post'){
                             
-                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-edit" title="Create post"></span>';
+                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-edit" title="' . __('Create post', 'acfe') . '"></span>';
                             $found = true;
                             
                         }
@@ -1408,7 +1408,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                         // Update
                         elseif($action === 'update_post'){
                             
-                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-update" title="Update post"></span>';
+                            $posts[] = '<span class="acf-js-tooltip dashicons dashicons-update" title="' . __('Update post', 'acfe') . '"></span>';
                             $found = true;
                             
                         }
@@ -1423,7 +1423,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                         // Insert
                         if($action === 'insert_term'){
                             
-                            $terms[] = '<span class="acf-js-tooltip dashicons dashicons-category" title="Create term"></span>';
+                            $terms[] = '<span class="acf-js-tooltip dashicons dashicons-category" title="' . __('Create term', 'acfe') . '"></span>';
                             $found = true;
                             
                         }
@@ -1431,7 +1431,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                         // Update
                         elseif($action === 'update_term'){
                             
-                            $terms[] = '<span class="acf-js-tooltip dashicons dashicons-category" title="Update term"></span>';
+                            $terms[] = '<span class="acf-js-tooltip dashicons dashicons-category" title="' . __('Update term', 'acfe') . '"></span>';
                             $found = true;
                             
                         }
@@ -1446,7 +1446,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                         // Insert
                         if($action === 'insert_user'){
                             
-                            $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="Create user"></span>';
+                            $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="' . __('Create user', 'acfe') . '"></span>';
                             $found = true;
                             
                         }
@@ -1454,7 +1454,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
                         // Update
                         elseif($action === 'update_user'){
                             
-                            $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="Update user"></span>';
+                            $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="' . __('Update user', 'acfe') . '"></span>';
                             $found = true;
                             
                         }
@@ -1566,11 +1566,11 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         if(!$is_search && $args['paged'] === 1){
             
             $results[] = array(
-                'text'		=> 'Generic',
+                'text'		=> __('Generic', 'acfe'),
                 'children'	=> array(
                     array(
                         'id'    => 'current_post',
-                        'text'  => 'Current Post',
+                        'text'  => __('Current Post', 'acfe'),
                     )
                 )
             );
@@ -1642,7 +1642,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
             return $field;
         
         $field['choices'] = array();
-        $field['choices']['current_post'] = 'Current Post';
+        $field['choices']['current_post'] = __('Current Post', 'acfe');
         
         $field_type = acf_get_field_type('post_object');
         $field['post_type'] = acf_get_post_types();
@@ -1757,15 +1757,15 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         if(!$is_search && $args['paged'] === 1){
             
             $results[] = array(
-                'text'		=> 'Generic',
+                'text'		=> __('Generic', 'acfe'),
                 'children'	=> array(
                     array(
                         'id'    => 'current_user',
-                        'text'  => 'Current User',
+                        'text'  => __('Current User', 'acfe'),
                     ),
                     array(
                         'id'    => 'current_post_author',
-                        'text'  => 'Current Post Author',
+                        'text'  => __('Current Post Author', 'acfe'),
                     ),
                 )
             );
@@ -1838,9 +1838,9 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
             return $field;
         
         $field['choices'] = array();
-        $field['choices']['current_user'] = 'Current User';
-        $field['choices']['current_post_author'] = 'Current Post Author';
-        
+        $field['choices']['current_user'] = __('Current User', 'acfe');
+        $field['choices']['current_post_author'] = __('Current Post Author', 'acfe');
+		
         $field_type = acf_get_field_type('user');
         
         // Clean value into an array of IDs.
@@ -1938,11 +1938,11 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         if(!$is_search && $args['paged'] === 1){
             
             $results[] = array(
-                'text'		=> 'Generic',
+                'text'		=> __('Generic', 'acfe'),
                 'children'	=> array(
                     array(
                         'id'    => 'current_term',
-                        'text'  => 'Current Term',
+                        'text'  => __('Current Term', 'acfe'),
                     )
                 )
             );
@@ -2001,7 +2001,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         $value = $field['value'];
         
         $field['choices'] = array();
-        $field['choices']['current_term'] = 'Current Term';
+        $field['choices']['current_term'] = __('Current Term', 'acfe');
         
         if(is_array($value))
             $value = $value[0];
