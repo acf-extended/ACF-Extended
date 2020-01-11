@@ -14,14 +14,14 @@ add_action('init', 'acfe_dpt_register');
 function acfe_dpt_register(){
     
     register_post_type('acfe-dpt', array(
-        'label'                 => 'Post Types',
-        'description'           => 'Post Types',
+        'label'                 => __('Post Types', 'acfe'),
+        'description'           => __('Post Types', 'acfe'),
         'labels'                => array(
-            'name'          => 'Post Types',
-            'singular_name' => 'Post Type',
-            'menu_name'     => 'Post Types',
-            'edit_item'     => 'Edit Post Type',
-            'add_new_item'  => 'New Post Type',
+            'name'          => __('Post Types', 'acfe'),
+            'singular_name' => __('Post Type', 'acfe'),
+            'menu_name'     => __('Post Types', 'acfe'),
+            'edit_item'     => __('Edit Post Type', 'acfe'),
+            'add_new_item'  => __('New Post Type', 'acfe'),
         ),
         'supports'              => false,
         'hierarchical'          => false,
@@ -510,9 +510,9 @@ function acfe_dpt_admin_columns($columns){
     if(isset($columns['date']))
         unset($columns['date']);
     
-    $columns['acfe-name'] = __('Name');
-    $columns['acfe-taxonomies'] = __('Taxonomies');
-    $columns['acfe-posts'] = __('Posts');
+    $columns['acfe-name'] = __('Name', 'acfe');
+    $columns['acfe-taxonomies'] = __('Taxonomies', 'acfe');
+    $columns['acfe-posts'] = __('Posts', 'acfe');
     
     return $columns;
     
@@ -728,7 +728,7 @@ function acfe_dpt_admin_validate_name($valid, $value, $field, $input){
             if($value != $post_type->name)
                 continue;
             
-            $valid = __('This post type name already exists');
+            $valid = __('This post type name already exists', 'acfe');
         }
     }
 	
@@ -765,7 +765,7 @@ acf_add_local_field_group(array(
     'fields' => array(
         array(
             'key' => 'field_acfe_dpt_tab_general',
-            'label' => 'General',
+            'label' => __('General', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -782,10 +782,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_label',
-            'label' => 'Label',
+            'label' => __('Label', 'acfe'),
             'name' => 'label',
             'type' => 'text',
-            'instructions' => 'General name for the post type, usually plural. Default is Posts/Pages',
+            'instructions' => __('General name for the post type, usually plural. Default is Posts/Pages', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -807,10 +807,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_name',
-            'label' => 'Name',
+            'label' => __('Name', 'acfe'),
             'name' => 'acfe_dpt_name',
             'type' => 'acfe_slug',
-            'instructions' => 'Post type name. Max. 20 characters, cannot contain capital letters or spaces',
+            'instructions' => __('Post type name. Max. 20 characters, cannot contain capital letters or spaces', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -829,10 +829,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_description',
-            'label' => 'Description',
+            'label' => __('Description', 'acfe'),
             'name' => 'description',
             'type' => 'text',
-            'instructions' => 'A short descriptive summary of the post type',
+            'instructions' => __('A short descriptive summary of the post type', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -851,10 +851,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_hierarchical',
-            'label' => 'Hierarchical',
+            'label' => __('Hierarchical', 'acfe'),
             'name' => 'hierarchical',
             'type' => 'true_false',
-            'instructions' => 'Whether the post type is hierarchical (e.g. page). Allows Parent to be specified. The \'supports\' parameter should contain \'page-attributes\' to show the parent select box on the editor page.',
+            'instructions' => __('Whether the post type is hierarchical (e.g. page). Allows Parent to be specified. The \'supports\' parameter should contain \'page-attributes\' to show the parent select box on the editor page.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -873,10 +873,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_supports',
-            'label' => 'Supports',
+            'label' => __('Supports', 'acfe'),
             'name' => 'supports',
             'type' => 'checkbox',
-            'instructions' => 'An alias for calling add_post_type_support() directly. As of 3.5, boolean false can be passed as value instead of an array to prevent default (title and editor) behavior.',
+            'instructions' => __('An alias for calling add_post_type_support() directly. As of 3.5, boolean false can be passed as value instead of an array to prevent default (title and editor) behavior.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -913,10 +913,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_taxonomies',
-            'label' => 'Taxonomies',
+            'label' => __('Taxonomies', 'acfe'),
             'name' => 'taxonomies',
             'type' => 'acfe_taxonomies',
-            'instructions' => 'An array of registered taxonomies like category or post_tag that will be used with this post type. This can be used in lieu of calling register_taxonomy_for_object_type() directly. Custom taxonomies still need to be registered with register_taxonomy()',
+            'instructions' => __('An array of registered taxonomies like category or post_tag that will be used with this post type. This can be used in lieu of calling register_taxonomy_for_object_type() directly. Custom taxonomies still need to be registered with register_taxonomy()', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -934,10 +934,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_public',
-            'label' => 'Public',
+            'label' => __('Public', 'acfe'),
             'name' => 'public',
             'type' => 'true_false',
-            'instructions' => 'Controls how the type is visible to authors (show_in_nav_menus, show_ui) and readers (exclude_from_search, publicly_queryable)',
+            'instructions' => __('Controls how the type is visible to authors (show_in_nav_menus, show_ui) and readers (exclude_from_search, publicly_queryable)', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -956,10 +956,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_exclude_from_search',
-            'label' => 'Exclude from search',
+            'label' => __('Exclude from search', 'acfe'),
             'name' => 'exclude_from_search',
             'type' => 'true_false',
-            'instructions' => 'Whether to exclude posts with this post type from front end search results',
+            'instructions' => __('Whether to exclude posts with this post type from front end search results', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -978,10 +978,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_publicly_queryable',
-            'label' => 'Publicly queryable',
+            'label' => __('Publicly queryable', 'acfe'),
             'name' => 'publicly_queryable',
             'type' => 'true_false',
-            'instructions' => 'Whether queries can be performed on the front end as part of parse_request()',
+            'instructions' => __('Whether queries can be performed on the front end as part of parse_request()', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1000,10 +1000,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_can_export',
-            'label' => 'Can export',
+            'label' => __('Can export', 'acfe'),
             'name' => 'can_export',
             'type' => 'true_false',
-            'instructions' => 'Can this post type be exported',
+            'instructions' => __('Can this post type be exported', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1022,10 +1022,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_delete_with_user',
-            'label' => 'Delete with user',
+            'label' => __('Delete with user', 'acfe'),
             'name' => 'delete_with_user',
             'type' => 'select',
-            'instructions' => 'Whether to delete posts of this type when deleting a user. If true, posts of this type belonging to the user will be moved to trash when then user is deleted.<br /><br />If false, posts of this type belonging to the user will not be trashed or deleted. If not set (the default), posts are trashed if the post type supports author. Otherwise posts are not trashed or deleted',
+            'instructions' => __('Whether to delete posts of this type when deleting a user. If true, posts of this type belonging to the user will be moved to trash when then user is deleted.<br /><br />If false, posts of this type belonging to the user will not be trashed or deleted. If not set (the default), posts are trashed if the post type supports author. Otherwise posts are not trashed or deleted', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1052,7 +1052,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_tab_labels',
-            'label' => 'Labels',
+            'label' => __('Labels', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1069,11 +1069,11 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dpt_labels',
-            'label' => 'Labels',
+            'label' => __('Labels', 'acfe'),
             'name' => 'labels',
             'type' => 'group',
-            'instructions' => 'An array of labels for this post type. By default, post labels are used for non-hierarchical post types and page labels for hierarchical ones.<br /><br />
-Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' is set to value of \'name\'.',
+            'instructions' => __('An array of labels for this post type. By default, post labels are used for non-hierarchical post types and page labels for hierarchical ones.<br /><br />
+Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' is set to value of \'name\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1086,7 +1086,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
             'sub_fields' => array(
                 array(
                     'key' => 'field_acfe_dpt_singular_name',
-                    'label' => 'Singular name',
+                    'label' => __('Singular name', 'acfe'),
                     'name' => 'singular_name',
                     'type' => 'text',
                     'instructions' => '',
@@ -1108,7 +1108,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_add_new',
-                    'label' => 'Add new',
+                    'label' => __('Add new', 'acfe'),
                     'name' => 'add_new',
                     'type' => 'text',
                     'instructions' => '',
@@ -1130,7 +1130,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_add_new_item',
-                    'label' => 'Add new item',
+                    'label' => __('Add new item', 'acfe'),
                     'name' => 'add_new_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1152,7 +1152,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_edit_item',
-                    'label' => 'Edit item',
+                    'label' => __('Edit item', 'acfe'),
                     'name' => 'edit_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1174,7 +1174,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_new_item',
-                    'label' => 'New item',
+                    'label' => __('New item', 'acfe'),
                     'name' => 'new_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1196,7 +1196,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_view_item',
-                    'label' => 'View item',
+                    'label' => __('View item', 'acfe'),
                     'name' => 'view_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1218,7 +1218,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_view_items',
-                    'label' => 'View items',
+                    'label' => __('View items', 'acfe'),
                     'name' => 'view_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1240,7 +1240,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_search_items',
-                    'label' => 'Search items',
+                    'label' => __('Search items', 'acfe'),
                     'name' => 'search_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1262,7 +1262,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_not_found',
-                    'label' => 'Not found',
+                    'label' => __('Not found', 'acfe'),
                     'name' => 'not_found',
                     'type' => 'text',
                     'instructions' => '',
@@ -1284,7 +1284,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_not_found_in_trash',
-                    'label' => 'Not found in trash',
+                    'label' => __('Not found in trash', 'acfe'),
                     'name' => 'not_found_in_trash',
                     'type' => 'text',
                     'instructions' => '',
@@ -1306,7 +1306,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_parent_item_colon',
-                    'label' => 'Parent item colon',
+                    'label' => __('Parent item colon', 'acfe'),
                     'name' => 'parent_item_colon',
                     'type' => 'text',
                     'instructions' => '',
@@ -1328,7 +1328,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_all_items',
-                    'label' => 'All items',
+                    'label' => __('All items', 'acfe'),
                     'name' => 'all_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1350,7 +1350,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_archives',
-                    'label' => 'Archives',
+                    'label' => __('Archives', 'acfe'),
                     'name' => 'archives',
                     'type' => 'text',
                     'instructions' => '',
@@ -1372,7 +1372,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_attributes',
-                    'label' => 'Attributes',
+                    'label' => __('Attributes', 'acfe'),
                     'name' => 'attributes',
                     'type' => 'text',
                     'instructions' => '',
@@ -1394,7 +1394,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_insert_into_item',
-                    'label' => 'Insert into item',
+                    'label' => __('Insert into item', 'acfe'),
                     'name' => 'insert_into_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1416,7 +1416,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_uploaded_to_this_item',
-                    'label' => 'Uploaded to this item',
+                    'label' => __('Uploaded to this item', 'acfe'),
                     'name' => 'uploaded_to_this_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1438,7 +1438,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_featured_image',
-                    'label' => 'Featured image',
+                    'label' => __('Featured image', 'acfe'),
                     'name' => 'featured_image',
                     'type' => 'text',
                     'instructions' => '',
@@ -1460,7 +1460,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_set_featured_image',
-                    'label' => 'Set featured image',
+                    'label' => __('Set featured image', 'acfe'),
                     'name' => 'set_featured_image',
                     'type' => 'text',
                     'instructions' => '',
@@ -1482,7 +1482,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_remove_featured_image',
-                    'label' => 'Remove featured image',
+                    'label' => __('Remove featured image', 'acfe'),
                     'name' => 'remove_featured_image',
                     'type' => 'text',
                     'instructions' => '',
@@ -1504,7 +1504,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_use_featured_image',
-                    'label' => 'Use featured image',
+                    'label' => __('Use featured image', 'acfe'),
                     'name' => 'use_featured_image',
                     'type' => 'text',
                     'instructions' => '',
@@ -1526,7 +1526,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_menu_name',
-                    'label' => 'Menu name',
+                    'label' => __('Menu name', 'acfe'),
                     'name' => 'menu_name',
                     'type' => 'text',
                     'instructions' => '',
@@ -1548,7 +1548,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_filter_items_list',
-                    'label' => 'Filter items list',
+                    'label' => __('Filter items list', 'acfe'),
                     'name' => 'filter_items_list',
                     'type' => 'text',
                     'instructions' => '',
@@ -1570,7 +1570,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_items_list_navigation',
-                    'label' => 'Items list navigation',
+                    'label' => __('Items list navigation', 'acfe'),
                     'name' => 'items_list_navigation',
                     'type' => 'text',
                     'instructions' => '',
@@ -1592,7 +1592,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_items_list',
-                    'label' => 'Items list',
+                    'label' => __('Items list', 'acfe'),
                     'name' => 'items_list',
                     'type' => 'text',
                     'instructions' => '',
@@ -1614,7 +1614,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_name_admin_bar',
-                    'label' => 'Name admin bar',
+                    'label' => __('Name admin bar', 'acfe'),
                     'name' => 'name_admin_bar',
                     'type' => 'text',
                     'instructions' => '',
@@ -1636,7 +1636,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_item_published',
-                    'label' => 'Item published',
+                    'label' => __('Item published', 'acfe'),
                     'name' => 'item_published',
                     'type' => 'text',
                     'instructions' => '',
@@ -1658,7 +1658,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_item_published_privately',
-                    'label' => 'Item published privately',
+                    'label' => __('Item published privately', 'acfe'),
                     'name' => 'item_published_privately',
                     'type' => 'text',
                     'instructions' => '',
@@ -1680,7 +1680,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_item_reverted_to_draft',
-                    'label' => 'Item reverted to draft',
+                    'label' => __('Item reverted to draft', 'acfe'),
                     'name' => 'item_reverted_to_draft',
                     'type' => 'text',
                     'instructions' => '',
@@ -1702,7 +1702,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_item_scheduled',
-                    'label' => 'Item scheduled',
+                    'label' => __('Item scheduled', 'acfe'),
                     'name' => 'item_scheduled',
                     'type' => 'text',
                     'instructions' => '',
@@ -1724,7 +1724,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
                 ),
                 array(
                     'key' => 'field_acfe_dpt_item_updated',
-                    'label' => 'Item updated',
+                    'label' => __('Item updated', 'acfe'),
                     'name' => 'item_updated',
                     'type' => 'text',
                     'instructions' => '',
@@ -1748,7 +1748,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_tab_menu',
-            'label' => 'Menu',
+            'label' => __('Menu', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1765,10 +1765,10 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_menu_position',
-            'label' => 'Menu position',
+            'label' => __('Menu position', 'acfe'),
             'name' => 'menu_position',
             'type' => 'number',
-            'instructions' => 'The position in the menu order the post type should appear. show_in_menu must be true',
+            'instructions' => __('The position in the menu order the post type should appear. show_in_menu must be true', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1789,10 +1789,10 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_menu_icon',
-            'label' => 'Menu icon',
+            'label' => __('Menu icon', 'acfe'),
             'name' => 'menu_icon',
             'type' => 'text',
-            'instructions' => 'The url to the icon to be used for this menu or the name of the icon from the iconfont (<a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">Dashicons</a>)',
+            'instructions' => __('The url to the icon to be used for this menu or the name of the icon from the iconfont (<a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">Dashicons</a>)', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1811,10 +1811,10 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_show_ui',
-            'label' => 'Show UI',
+            'label' => __('Show UI', 'acfe'),
             'name' => 'show_ui',
             'type' => 'true_false',
-            'instructions' => 'Whether to generate a default UI for managing this post type in the admin',
+            'instructions' => __('Whether to generate a default UI for managing this post type in the admin', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1833,10 +1833,10 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_show_in_menu',
-            'label' => 'Show in menu',
+            'label' => __('Show in menu', 'acfe'),
             'name' => 'show_in_menu',
             'type' => 'true_false',
-            'instructions' => 'Where to show the post type in the admin menu. show_ui must be true',
+            'instructions' => __('Where to show the post type in the admin menu. show_ui must be true', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1855,10 +1855,10 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_show_in_menu_text',
-            'label' => 'Show in menu (text)',
+            'label' => __('Show in menu (text)', 'acfe'),
             'name' => 'show_in_menu_text',
             'type' => 'text',
-            'instructions' => 'If an existing top level page such as \'tools.php\' or \'edit.php?post_type=page\', the post type will be placed as a sub menu of that',
+            'instructions' => __('If an existing top level page such as \'tools.php\' or \'edit.php?post_type=page\', the post type will be placed as a sub menu of that', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -1885,10 +1885,10 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_show_in_nav_menus',
-            'label' => 'Show in nav menus',
+            'label' => __('Show in nav menus', 'acfe'),
             'name' => 'show_in_nav_menus',
             'type' => 'true_false',
-            'instructions' => 'Whether post_type is available for selection in navigation menus',
+            'instructions' => __('Whether post_type is available for selection in navigation menus', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1907,10 +1907,10 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_show_in_admin_bar',
-            'label' => 'Show in admin bar',
+            'label' => __('Show in admin bar', 'acfe'),
             'name' => 'show_in_admin_bar',
             'type' => 'true_false',
-            'instructions' => 'Where to show the post type in the admin menu. show_ui must be true',
+            'instructions' => __('Where to show the post type in the admin menu. show_ui must be true', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1929,7 +1929,7 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_tab_capability',
-            'label' => 'Capability',
+            'label' => __('Capability', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1946,14 +1946,14 @@ Default: if empty, \'name\' is set to value of \'label\', and \'singular_name\' 
         ),
         array(
             'key' => 'field_acfe_dpt_capability_type',
-            'label' => 'Capability type',
+            'label' => __('Capability type', 'acfe'),
             'name' => 'capability_type',
             'type' => 'textarea',
-            'instructions' => 'The string to use to build the read, edit, and delete capabilities.<br />
+            'instructions' => __('The string to use to build the read, edit, and delete capabilities.<br />
 May be passed as an array to allow for alternative plurals when using this argument as a base to construct the capabilities, like this:<br /><br />
 
 story<br />
-stories',
+stories', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1972,16 +1972,16 @@ stories',
         ),
         array(
             'key' => 'field_acfe_dpt_capabilities',
-            'label' => 'Capabilities',
+            'label' => __('Capabilities', 'acfe'),
             'name' => 'capabilities',
             'type' => 'textarea',
-            'instructions' => 'An array of the capabilities for this post type. Specify capabilities like this:<br /><br />
+            'instructions' => __('An array of the capabilities for this post type. Specify capabilities like this:<br /><br />
 
 edit_post<br />
 read_post<br />
 delete_post<br />
 edit_posts<br />
-etc...',
+etc...', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2000,7 +2000,7 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_map_meta_cap',
-            'label' => 'Map meta cap',
+            'label' => __('Map meta cap', 'acfe'),
             'name' => 'map_meta_cap',
             'type' => 'select',
             'instructions' => '',
@@ -2031,7 +2031,7 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_tab_archive',
-            'label' => 'Archive',
+            'label' => __('Archive', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -2048,10 +2048,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_archive_template',
-            'label' => 'Template',
+            'label' => __('Template', 'acfe'),
             'name' => 'acfe_dpt_archive_template',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Which template file to load for the archive query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>',
+            'instructions' => __('ACF Extended: Which template file to load for the archive query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2070,10 +2070,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_has_archive',
-            'label' => 'Has archive',
+            'label' => __('Has archive', 'acfe'),
             'name' => 'has_archive',
             'type' => 'true_false',
-            'instructions' => 'Enables post type archives.',
+            'instructions' => __('Enables post type archives.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2092,10 +2092,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_has_archive_slug',
-            'label' => 'Slug',
+            'label' => __('Slug', 'acfe'),
             'name' => 'has_archive_slug',
             'type' => 'text',
-            'instructions' => 'Will use post type name as archive slug by default.',
+            'instructions' => __('Will use post type name as archive slug by default.', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -2122,10 +2122,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_archive_posts_per_page',
-            'label' => 'Posts per page',
+            'label' => __('Posts per page', 'acfe'),
             'name' => 'acfe_dpt_archive_posts_per_page',
             'type' => 'number',
-            'instructions' => 'ACF Extended: Number of posts to display in the archive page',
+            'instructions' => __('ACF Extended: Number of posts to display in the archive page', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2146,10 +2146,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_archive_orderby',
-            'label' => 'Order by',
+            'label' => __('Order by', 'acfe'),
             'name' => 'acfe_dpt_archive_orderby',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Sort retrieved posts by parameter in the archive page. Defaults to \'date (post_date)\'.',
+            'instructions' => __('ACF Extended: Sort retrieved posts by parameter in the archive page. Defaults to \'date (post_date)\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2172,10 +2172,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_archive_order',
-            'label' => 'Order',
+            'label' => __('Order', 'acfe'),
             'name' => 'acfe_dpt_archive_order',
             'type' => 'select',
-            'instructions' => 'ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the archive page. Defaults to \'DESC\'.',
+            'instructions' => __('ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the archive page. Defaults to \'DESC\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2202,7 +2202,7 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_tab_single',
-            'label' => 'Single',
+            'label' => __('Single', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -2219,10 +2219,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_single_template',
-            'label' => 'Template',
+            'label' => __('Template', 'acfe'),
             'name' => 'acfe_dpt_single_template',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Which template file to load for the archive query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>',
+            'instructions' => __('ACF Extended: Which template file to load for the archive query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2241,10 +2241,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_rewrite',
-            'label' => 'Rewrite',
+            'label' => __('Rewrite', 'acfe'),
             'name' => 'rewrite',
             'type' => 'true_false',
-            'instructions' => 'Triggers the handling of rewrites for this post type. To prevent rewrites, set to false.',
+            'instructions' => __('Triggers the handling of rewrites for this post type. To prevent rewrites, set to false.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2263,10 +2263,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_rewrite_args_select',
-            'label' => 'Rewrite Arguments',
+            'label' => __('Rewrite Arguments', 'acfe'),
             'name' => 'rewrite_args_select',
             'type' => 'true_false',
-            'instructions' => 'Use additional rewrite arguments',
+            'instructions' => __('Use additional rewrite arguments', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -2293,10 +2293,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_rewrite_args',
-            'label' => 'Rewrite Arguments',
+            'label' => __('Rewrite Arguments', 'acfe'),
             'name' => 'rewrite_args',
             'type' => 'group',
-            'instructions' => 'Additional arguments',
+            'instructions' => __('Additional arguments', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -2324,10 +2324,10 @@ etc...',
             'sub_fields' => array(
                 array(
                     'key' => 'field_acfe_dpt_rewrite_slug',
-                    'label' => 'Slug',
+                    'label' => __('Slug', 'acfe'),
                     'name' => 'acfe_dpt_rewrite_slug',
                     'type' => 'text',
-                    'instructions' => 'Customize the permalink structure slug. Defaults to the post type name value. Should be translatable.',
+                    'instructions' => __('Customize the permalink structure slug. Defaults to the post type name value. Should be translatable.', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
@@ -2354,10 +2354,10 @@ etc...',
                 ),
                 array(
                     'key' => 'field_acfe_dpt_rewrite_with_front',
-                    'label' => 'With front',
+                    'label' => __('With front', 'acfe'),
                     'name' => 'acfe_dpt_rewrite_with_front',
                     'type' => 'true_false',
-                    'instructions' => 'Should the permalink structure be prepended with the front base. (example: if your permalink structure is /blog/, then your links will be: false->/news/, true->/blog/news/). Defaults to true.',
+                    'instructions' => __('Should the permalink structure be prepended with the front base. (example: if your permalink structure is /blog/, then your links will be: false->/news/, true->/blog/news/). Defaults to true.', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
@@ -2384,10 +2384,10 @@ etc...',
                 ),
                 array(
                     'key' => 'field_acfe_dpt_rewrite_feeds',
-                    'label' => 'Feeds',
+                    'label' => __('Feeds', 'acfe'),
                     'name' => 'feeds',
                     'type' => 'true_false',
-                    'instructions' => 'Should a feed permalink structure be built for this post type. Defaults to has_archive value.',
+                    'instructions' => __('Should a feed permalink structure be built for this post type. Defaults to has_archive value.', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
@@ -2414,10 +2414,10 @@ etc...',
                 ),
                 array(
                     'key' => 'field_acfe_dpt_rewrite_pages',
-                    'label' => 'Pages',
+                    'label' => __('Pages', 'acfe'),
                     'name' => 'pages',
                     'type' => 'true_false',
-                    'instructions' => 'Should the permalink structure provide for pagination. Defaults to true.',
+                    'instructions' => __('Should the permalink structure provide for pagination. Defaults to true.', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
@@ -2446,7 +2446,7 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_tab_admin',
-            'label' => 'Admin',
+            'label' => __('Admin', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -2463,10 +2463,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_admin_archive',
-            'label' => 'Archive Page',
+            'label' => __('Archive Page', 'acfe'),
             'name' => 'acfe_dpt_admin_archive',
             'type' => 'true_false',
-            'instructions' => 'Add archive page to the post type administration.',
+            'instructions' => __('Add archive page to the post type administration.', 'acfe'),
             'required' => 0,
             'wrapper' => array(
                 'width' => '',
@@ -2484,10 +2484,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_admin_posts_per_page',
-            'label' => 'Posts per page',
+            'label' => __('Posts per page', 'acfe'),
             'name' => 'acfe_dpt_admin_posts_per_page',
             'type' => 'number',
-            'instructions' => 'ACF Extended: Number of posts to display on the admin list screen',
+            'instructions' => __('ACF Extended: Number of posts to display on the admin list screen', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2508,10 +2508,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_admin_orderby',
-            'label' => 'Order by',
+            'label' => __('Order by', 'acfe'),
             'name' => 'acfe_dpt_admin_orderby',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Sort retrieved posts by parameter in the admin list screen. Defaults to \'date (post_date)\'.',
+            'instructions' => __('ACF Extended: Sort retrieved posts by parameter in the admin list screen. Defaults to \'date (post_date)\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2534,10 +2534,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_admin_order',
-            'label' => 'Order',
+            'label' => __('Order', 'acfe'),
             'name' => 'acfe_dpt_admin_order',
             'type' => 'select',
-            'instructions' => 'ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the admin list screen. Defaults to \'DESC\'.',
+            'instructions' => __('ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the admin list screen. Defaults to \'DESC\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2564,7 +2564,7 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_tab_rest',
-            'label' => 'REST',
+            'label' => __('REST', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -2581,10 +2581,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_show_in_rest',
-            'label' => 'Show in rest',
+            'label' => __('Show in rest', 'acfe'),
             'name' => 'show_in_rest',
             'type' => 'true_false',
-            'instructions' => 'Whether to expose this post type in the REST API',
+            'instructions' => __('Whether to expose this post type in the REST API', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2603,10 +2603,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_rest_base',
-            'label' => 'Rest base',
+            'label' => __('Rest base', 'acfe'),
             'name' => 'rest_base',
             'type' => 'text',
-            'instructions' => 'The base slug that this post type will use when accessed using the REST API',
+            'instructions' => __('The base slug that this post type will use when accessed using the REST API', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2625,10 +2625,10 @@ etc...',
         ),
         array(
             'key' => 'field_acfe_dpt_rest_controller_class',
-            'label' => 'Rest controller class',
+            'label' => __('Rest controller class', 'acfe'),
             'name' => 'rest_controller_class',
             'type' => 'text',
-            'instructions' => 'An optional custom controller to use instead of WP_REST_Posts_Controller. Must be a subclass of WP_REST_Controller',
+            'instructions' => __('An optional custom controller to use instead of WP_REST_Posts_Controller. Must be a subclass of WP_REST_Controller', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
