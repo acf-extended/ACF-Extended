@@ -5,11 +5,11 @@ if(!defined('ABSPATH'))
 
 acf_add_local_field_group(array(
     'key' => 'group_acfe_dynamic_form',
-    'title' => 'Dynamic Form',
+    'title' => __('Dynamic Form', 'acfe'),
     'fields' => array(
         array(
             'key' => 'field_acfe_form_tab_general',
-            'label' => 'General',
+            'label' => __('General', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -26,10 +26,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_name',
-            'label' => 'Form name',
+            'label' => __('Form name', 'acfe'),
             'name' => 'acfe_form_name',
             'type' => 'acfe_slug',
-            'instructions' => 'The unique form slug',
+            'instructions' => __('The unique form slug', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -46,10 +46,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_field_groups',
-            'label' => 'Field groups',
+            'label' => __('Field groups', 'acfe'),
             'name' => 'acfe_form_field_groups',
             'type' => 'select',
-            'instructions' => 'Render & map fields of the following field groups',
+            'instructions' => __('Render & map fields of the following field groups', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -71,10 +71,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_form_element',
-            'label' => 'Form element',
+            'label' => __('Form element', 'acfe'),
             'name' => 'acfe_form_form_element',
             'type' => 'true_false',
-            'instructions' => 'Whether or not to create a <code>&lt;form&gt;</code> element',
+            'instructions' => __('Whether or not to create a <code>&lt;form&gt;</code> element', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -91,10 +91,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_attributes',
-            'label' => 'Form attributes',
+            'label' => __('Form attributes', 'acfe'),
             'name' => 'acfe_form_attributes',
             'type' => 'group',
-            'instructions' => 'Form class and id',
+            'instructions' => __('Form class and id', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -204,10 +204,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_fields_attributes',
-            'label' => 'Fields class',
+            'label' => __('Fields class', 'acfe'),
             'name' => 'acfe_form_fields_attributes',
             'type' => 'group',
-            'instructions' => 'Add class to all fields',
+            'instructions' => __('Add class to all fields', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -265,10 +265,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_html_before_fields',
-            'label' => 'HTML Before render',
+            'label' => __('HTML Before render', 'acfe'),
             'name' => 'acfe_form_html_before_fields',
             'type' => 'acfe_code_editor',
-            'instructions' => 'Extra HTML to add before the fields',
+            'instructions' => __('Extra HTML to add before the fields', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -284,12 +284,12 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_custom_html',
-            'label' => 'HTML Form render',
+            'label' => __('HTML Form render', 'acfe'),
             'name' => 'acfe_form_custom_html',
             'type' => 'acfe_code_editor',
-            'instructions' => 'Render your own customized HTML. This will override the native field groups render.<br /><br />
+            'instructions' => __('Render your own customized HTML. This will override the native field groups render.<br /><br />
     Field groups may be included using <code>{field_group:group_key}</code><br/><code>{field_group:Group title}</code><br/><br/>
-    Fields may be included using <code>{field:field_key}</code><br/><code>{field:field_name}</code>',
+    Fields may be included using <code>{field:field_key}</code><br/><code>{field:field_name}</code>', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -305,10 +305,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_html_after_fields',
-            'label' => 'HTML After render',
+            'label' => __('HTML After render', 'acfe'),
             'name' => 'acfe_form_html_after_fields',
             'type' => 'acfe_code_editor',
-            'instructions' => 'Extra HTML to add after the fields',
+            'instructions' => __('Extra HTML to add after the fields', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -324,10 +324,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_form_submit',
-            'label' => 'Submit button',
+            'label' => __('Submit button', 'acfe'),
             'name' => 'acfe_form_form_submit',
             'type' => 'true_false',
-            'instructions' => 'Whether or not to create a form submit button. Defaults to true',
+            'instructions' => __('Whether or not to create a form submit button. Defaults to true', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -344,10 +344,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_submit_value',
-            'label' => 'Submit value',
+            'label' => __('Submit value', 'acfe'),
             'name' => 'acfe_form_submit_value',
             'type' => 'text',
-            'instructions' => 'The text displayed on the submit button',
+            'instructions' => __('The text displayed on the submit button', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -364,7 +364,7 @@ acf_add_local_field_group(array(
                 'id' => '',
             ),
             'acfe_permissions' => '',
-            'default_value' => 'Submit',
+            'default_value' => __('Submit', 'acfe'),
             'placeholder' => '',
             'prepend' => '',
             'append' => '',
@@ -372,10 +372,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_html_submit_button',
-            'label' => 'Submit button',
+            'label' => __('Submit button', 'acfe'),
             'name' => 'acfe_form_html_submit_button',
             'type' => 'acfe_code_editor',
-            'instructions' => 'HTML used to render the submit button.',
+            'instructions' => __('HTML used to render the submit button.', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -399,10 +399,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_html_submit_spinner',
-            'label' => 'Submit spinner',
+            'label' => __('Submit spinner', 'acfe'),
             'name' => 'acfe_form_html_submit_spinner',
             'type' => 'acfe_code_editor',
-            'instructions' => 'HTML used to render the submit button loading spinner.',
+            'instructions' => __('HTML used to render the submit button loading spinner.', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -426,7 +426,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_tab_submission',
-            'label' => 'Submission',
+            'label' => __('Submission', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -443,10 +443,10 @@ acf_add_local_field_group(array(
         ),
         array(
 			'key' => 'field_acfe_form_hide_error',
-			'label' => 'Hide general error',
+			'label' => __('Hide general error', 'acfe'),
 			'name' => 'acfe_form_hide_error',
 			'type' => 'true_false',
-			'instructions' => 'Hide the general error message: "Validation failed. 1 field requires attention"',
+			'instructions' => __('Hide the general error message: "Validation failed. 1 field requires attention"', 'acfe'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array(
@@ -463,10 +463,10 @@ acf_add_local_field_group(array(
 		),
         array(
 			'key' => 'field_acfe_form_hide_unload',
-			'label' => 'Hide confirmation on exit',
+			'label' => __('Hide confirmation on exit', 'acfe'),
 			'name' => 'acfe_form_hide_unload',
 			'type' => 'true_false',
-			'instructions' => 'Do not prompt user on page refresh',
+			'instructions' => __('Do not prompt user on page refresh', 'acfe'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array(
@@ -483,10 +483,10 @@ acf_add_local_field_group(array(
 		),
         array(
             'key' => 'field_acfe_form_errors_position',
-            'label' => 'Fields errors position',
+            'label' => __('Fields errors position', 'acfe'),
             'name' => 'acfe_form_errors_position',
             'type' => 'radio',
-            'instructions' => 'Choose where to display field errors',
+            'instructions' => __('Choose where to display field errors', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -510,10 +510,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_errors_class',
-            'label' => 'Fields errors class',
+            'label' => __('Fields errors class', 'acfe'),
             'name' => 'acfe_form_errors_class',
             'type' => 'text',
-            'instructions' => 'Add class to error message',
+            'instructions' => __('Add class to error message', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -544,10 +544,10 @@ acf_add_local_field_group(array(
         
         array(
             'key' => 'field_acfe_form_updated_message',
-            'label' => 'Success message',
+            'label' => __('Success message', 'acfe'),
             'name' => 'acfe_form_updated_message',
             'type' => 'wysiwyg',
-            'instructions' => 'A message displayed above the form after being redirected. Can also be empty for no message.<br /><br />You may use <code>{field:field_name}</code> or <code>{field:field_key}</code> template tags.',
+            'instructions' => __('A message displayed above the form after being redirected. Can also be empty for no message.<br /><br />You may use <code>{field:field_name}</code> or <code>{field:field_key}</code> template tags.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -556,7 +556,7 @@ acf_add_local_field_group(array(
                 'id' => '',
             ),
             'acfe_permissions' => '',
-            'default_value' => __('Post updated', 'acf'),
+            'default_value' => __('Post updated', 'acfe'),
             'tabs' => 'all',
             'toolbar' => 'full',
             'media_upload' => 1,
@@ -564,11 +564,11 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_html_updated_message',
-            'label' => 'Success wrapper HTML',
+            'label' => __('Success wrapper HTML', 'acfe'),
             'name' => 'acfe_form_html_updated_message',
             'type' => 'acfe_code_editor',
-            'instructions' => 'HTML used to render the updated message.<br /><br />
-    If used, you have to include the following code <code>%s</code> to print the actual \'Success message\' above.',
+            'instructions' => __('HTML used to render the updated message.<br /><br />
+    If used, you have to include the following code <code>%s</code> to print the actual \'Success message\' above.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -584,10 +584,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_updated_hide_form',
-            'label' => 'Hide form',
+            'label' => __('Hide form', 'acfe'),
             'name' => 'acfe_form_updated_hide_form',
             'type' => 'true_false',
-            'instructions' => 'Hide form on successful submission',
+            'instructions' => __('Hide form on successful submission', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(),
             'wrapper' => array(
@@ -604,12 +604,12 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_return',
-            'label' => 'Redirection',
+            'label' => __('Redirection', 'acfe'),
             'name' => 'acfe_form_return',
             'type' => 'text',
-            'instructions' => 'The URL to be redirected to after the form is submit. Defaults to the current URL.<br /><br />
+            'instructions' => __('The URL to be redirected to after the form is submit. Defaults to the current URL.<br /><br />
     A special placeholder <code>%post_url%</code> will be converted to post\'s permalink (handy if creating a new post)<br /><br />
-    A special placeholder <code>%post_id%</code> will be converted to post\'s ID (handy if creating a new post)<br />',
+    A special placeholder <code>%post_id%</code> will be converted to post\'s ID (handy if creating a new post)<br />', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -626,7 +626,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_tab_actions',
-            'label' => 'Actions',
+            'label' => __('Actions', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -643,7 +643,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_actions',
-            'label' => 'Actions',
+            'label' => __('Actions', 'acfe'),
             'name' => 'acfe_form_actions',
             'type' => 'flexible_content',
             'instructions' => '',
@@ -676,15 +676,15 @@ acf_add_local_field_group(array(
                 'layout_custom' => array(
                     'key' => 'layout_custom',
                     'name' => 'custom',
-                    'label' => 'Custom action',
+                    'label' => __('Custom action', 'acfe'),
                     'display' => 'row',
                     'sub_fields' => array(
                         array(
                             'key' => 'field_acfe_form_custom_action',
-                            'label' => 'Action name',
+                            'label' => __('Action name', 'acfe'),
                             'name' => 'acfe_form_custom_action',
                             'type' => 'acfe_slug',
-                            'instructions' => 'Use the following hook:<br /><code>action(\'acfe/form/submit/my-custom-action\', $form, $current_post_id)</code>',
+                            'instructions' => __('Use the following hook:<br /><code>action(\'acfe/form/submit/my-custom-action\', $form, $current_post_id)</code>', 'acfe'),
                             'required' => 1,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -710,12 +710,12 @@ acf_add_local_field_group(array(
                 'layout_email' => array(
                     'key' => 'layout_email',
                     'name' => 'email',
-                    'label' => 'Email action',
+                    'label' => __('Email action', 'acfe'),
                     'display' => 'row',
                     'sub_fields' => array(
                         array(
                             'key' => 'field_acfe_form_email_instructions',
-                            'label' => 'Instructions',
+                            'label' => __('Instructions', 'acfe'),
                             'name' => '',
                             'type' => 'message',
                             'instructions' => '',
@@ -727,14 +727,14 @@ acf_add_local_field_group(array(
                                 'id' => '',
                             ),
                             'acfe_permissions' => '',
-                            'message' => 'Fields may be included using <code>{field:field_key}</code> or <code>{field:title}</code>.<br />
-    All fields may be included using <code>{fields}</code>.',
+                            'message' => __('Fields may be included using <code>{field:field_key}</code> or <code>{field:title}</code>.<br />
+    All fields may be included using <code>{fields}</code>.', 'acfe'),
                             'new_lines' => '',
                             'esc_html' => 0,
                         ),
                         array(
                             'key' => 'field_acfe_form_email_custom_alias',
-                            'label' => 'Action alias',
+                            'label' => __('Action alias', 'acfe'),
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
                             'instructions' => '',
@@ -754,7 +754,7 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_email_from',
-                            'label' => 'From',
+                            'label' => __('From', 'acfe'),
                             'name' => 'acfe_form_email_from',
                             'type' => 'text',
                             'instructions' => '',
@@ -767,14 +767,14 @@ acf_add_local_field_group(array(
                             ),
                             'acfe_permissions' => '',
                             'default_value' => '',
-                            'placeholder' => 'Name <email@domain.com>',
+                            'placeholder' => __('Name', 'acfe') . '<email@domain.com>',
                             'prepend' => '',
                             'append' => '',
                             'maxlength' => '',
                         ),
                         array(
                             'key' => 'field_acfe_form_email_to',
-                            'label' => 'To',
+                            'label' => __('To', 'acfe'),
                             'name' => 'acfe_form_email_to',
                             'type' => 'text',
                             'instructions' => '',
@@ -793,7 +793,7 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_email_subject',
-                            'label' => 'Subject',
+                            'label' => __('Subject', 'acfe'),
                             'name' => 'acfe_form_email_subject',
                             'type' => 'text',
                             'instructions' => '',
@@ -813,7 +813,7 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_email_content',
-                            'label' => 'Content',
+                            'label' => __('Content', 'acfe'),
                             'name' => 'acfe_form_email_content',
                             'type' => 'wysiwyg',
                             'instructions' => '',
@@ -833,7 +833,7 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_email_files',
-                            'label' => 'Attachments',
+                            'label' => __('Attachments', 'acfe'),
                             'name' => 'acfe_form_email_files',
                             'type' => 'repeater',
                             'instructions' => '',
@@ -850,11 +850,11 @@ acf_add_local_field_group(array(
                             'min' => 0,
                             'max' => 0,
                             'layout' => 'table',
-                            'button_label' => 'Add file',
+                            'button_label' => __('Add file', 'acfe'),
                             'sub_fields' => array(
                                 array(
                                     'key' => 'field_acfe_form_email_file',
-                                    'label' => 'File',
+                                    'label' => __('File', 'acfe'),
                                     'name' => 'acfe_form_email_file',
                                     'type' => 'select',
                                     'instructions' => '',
@@ -1023,12 +1023,12 @@ acf_add_local_field_group(array(
 				'layout_post' => array(
 					'key' => 'layout_post',
 					'name' => 'post',
-					'label' => 'Post action',
+					'label' => __('Post action', 'acfe'),
 					'display' => 'row',
 					'sub_fields' => array(
 						array(
 							'key' => 'field_acfe_form_post_tab_save',
-							'label' => 'Save',
+							'label' => __('Save', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -1045,7 +1045,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_action',
-							'label' => 'Action',
+							'label' => __('Action', 'acfe'),
 							'name' => 'acfe_form_post_action',
 							'type' => 'radio',
 							'instructions' => '',
@@ -1058,8 +1058,8 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'choices' => array(
-								'insert_post' => 'Create post',
-								'update_post' => 'Update post',
+								'insert_post' => __('Create post', 'acfe'),
+								'update_post' => __('Update post', 'acfe'),
 							),
 							'allow_null' => 0,
 							'other_choice' => 0,
@@ -1070,7 +1070,7 @@ acf_add_local_field_group(array(
 						),
                         array(
                             'key' => 'field_acfe_form_post_custom_alias',
-                            'label' => 'Action alias',
+                            'label' => __('Action alias', 'acfe'),
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
                             'instructions' => '',
@@ -1090,7 +1090,7 @@ acf_add_local_field_group(array(
                         ),
 						array(
 							'key' => 'field_acfe_form_post_save_target',
-							'label' => 'Target',
+							'label' => __('Target', 'acfe'),
 							'name' => 'acfe_form_post_save_target',
 							'type' => 'select',
 							'instructions' => '',
@@ -1124,7 +1124,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_type',
-							'label' => 'Post type',
+							'label' => __('Post type', 'acfe'),
 							'name' => 'acfe_form_post_save_post_type',
 							'type' => 'acfe_post_types',
 							'instructions' => '',
@@ -1160,7 +1160,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_type_message',
-							'label' => 'Post type',
+							'label' => __('Post type', 'acfe'),
 							'name' => 'acfe_form_post_map_post_type_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1182,7 +1182,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_status',
-							'label' => 'Post status',
+							'label' => __('Post status', 'acfe'),
 							'name' => 'acfe_form_post_save_post_status',
 							'type' => 'acfe_post_statuses',
 							'instructions' => '',
@@ -1218,7 +1218,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_status_message',
-							'label' => 'Post status',
+							'label' => __('Post status', 'acfe'),
 							'name' => 'acfe_form_post_map_post_status_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1240,7 +1240,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_title_group',
-							'label' => 'Post title',
+							'label' => __('Post title', 'acfe'),
 							'name' => 'acfe_form_post_save_post_title_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -1278,8 +1278,8 @@ acf_add_local_field_group(array(
 									),
 									'acfe_permissions' => '',
 									'choices' => array(
-										'generated_id' => 'Generated ID',
-										'custom' => 'Custom title',
+										'generated_id' => __('Generated ID', 'acfe'),
+										'custom' => __('Custom title', 'acfe'),
 									),
 									'default_value' => array(
 									),
@@ -1313,7 +1313,7 @@ acf_add_local_field_group(array(
 									),
 									'acfe_permissions' => '',
 									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name} *',
+									'placeholder' => __('Available tag:', 'acfe') . ' {field:name} *',
 									'prepend' => '',
 									'append' => '',
 									'maxlength' => '',
@@ -1322,7 +1322,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_title_message',
-							'label' => 'Post title',
+							'label' => __('Post title', 'acfe'),
 							'name' => 'acfe_form_post_map_post_title_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1344,7 +1344,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_name_group',
-							'label' => 'Post slug',
+							'label' => __('Post slug', 'acfe'),
 							'name' => 'acfe_form_post_save_post_name_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -1426,7 +1426,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_name_message',
-							'label' => 'Post slug',
+							'label' => __('Post slug', 'acfe'),
 							'name' => 'acfe_form_post_map_post_name_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1448,7 +1448,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_content_group',
-							'label' => 'Post content',
+							'label' => __('Post content', 'acfe'),
 							'name' => 'acfe_form_post_save_post_content_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -1486,7 +1486,7 @@ acf_add_local_field_group(array(
 									),
 									'acfe_permissions' => '',
 									'choices' => array(
-										'custom' => 'Custom content',
+										'custom' => __('Custom content', 'acfe'),
 									),
 									'default_value' => array(
 									),
@@ -1529,7 +1529,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_content_message',
-							'label' => 'Post content',
+							'label' => __('Post content', 'acfe'),
 							'name' => 'acfe_form_post_map_post_content_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1551,7 +1551,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_author',
-							'label' => 'Post author',
+							'label' => __('Post author', 'acfe'),
 							'name' => 'acfe_form_post_save_post_author',
 							'type' => 'select',
 							'instructions' => '',
@@ -1583,7 +1583,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_author_message',
-							'label' => 'Post author',
+							'label' => __('Post author', 'acfe'),
 							'name' => 'acfe_form_post_map_post_author_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1605,7 +1605,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_parent',
-							'label' => 'Post parent',
+							'label' => __('Post parent', 'acfe'),
 							'name' => 'acfe_form_post_save_post_parent',
 							'type' => 'select',
 							'instructions' => '',
@@ -1637,7 +1637,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_parent_message',
-							'label' => 'Post parent',
+							'label' => __('Post parent', 'acfe'),
 							'name' => 'acfe_form_post_map_post_parent_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1659,7 +1659,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_post_terms',
-							'label' => 'Post terms',
+							'label' => __('Post terms', 'acfe'),
 							'name' => 'acfe_form_post_save_post_terms',
 							'type' => 'acfe_taxonomy_terms',
 							'instructions' => '',
@@ -1695,7 +1695,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_terms_message',
-							'label' => 'Post terms',
+							'label' => __('Post terms', 'acfe'),
 							'name' => 'acfe_form_post_map_post_terms_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -1717,10 +1717,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_meta',
-							'label' => 'Save Meta fields',
+							'label' => __('Save Meta fields', 'acfe'),
 							'name' => 'acfe_form_post_save_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should be saved to this post',
+							'instructions' => __('Choose which ACF fields should be saved to this post', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array(
@@ -1741,7 +1741,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'acfe_form_post_tab_load',
-							'label' => 'Load',
+							'label' => __('Load', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -1758,10 +1758,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_load_values',
-							'label' => 'Load Values',
+							'label' => __('Load Values', 'acfe'),
 							'name' => 'acfe_form_post_load_values',
 							'type' => 'true_false',
-							'instructions' => 'Fill inputs with values',
+							'instructions' => __('Fill inputs with values', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array(
@@ -1778,7 +1778,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_load_source',
-							'label' => 'Values Source',
+							'label' => __('Values Source', 'acfe'),
 							'name' => 'acfe_form_post_load_source',
 							'type' => 'select',
 							'instructions' => '',
@@ -1812,10 +1812,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_load_meta',
-							'label' => 'Fields Values',
+							'label' => __('Fields Values', 'acfe'),
 							'name' => 'acfe_form_post_load_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should have values filled',
+							'instructions' => __('Choose which ACF fields should have values filled', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => array(
 								array(
@@ -1844,7 +1844,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'acfe_form_post_tab_mapping',
-							'label' => 'Mapping',
+							'label' => __('Mapping', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -1861,7 +1861,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_type',
-							'label' => 'Post type',
+							'label' => __('Post type', 'acfe'),
 							'name' => 'acfe_form_post_map_post_type',
 							'type' => 'select',
 							'instructions' => '',
@@ -1886,7 +1886,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_status',
-							'label' => 'Post status',
+							'label' => __('Post status', 'acfe'),
 							'name' => 'acfe_form_post_map_post_status',
 							'type' => 'select',
 							'instructions' => '',
@@ -1911,7 +1911,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_title',
-							'label' => 'Post title',
+							'label' => __('Post title', 'acfe'),
 							'name' => 'acfe_form_post_map_post_title',
 							'type' => 'select',
 							'instructions' => '',
@@ -1936,7 +1936,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_name',
-							'label' => 'Post slug',
+							'label' => __('Post slug', 'acfe'),
 							'name' => 'acfe_form_post_map_post_name',
 							'type' => 'select',
 							'instructions' => '',
@@ -1961,7 +1961,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_content',
-							'label' => 'Post content',
+							'label' => __('Post content', 'acfe'),
 							'name' => 'acfe_form_post_map_post_content',
 							'type' => 'select',
 							'instructions' => '',
@@ -1986,7 +1986,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_author',
-							'label' => 'Post author',
+							'label' => __('Post author', 'acfe'),
 							'name' => 'acfe_form_post_map_post_author',
 							'type' => 'select',
 							'instructions' => '',
@@ -2011,7 +2011,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_parent',
-							'label' => 'Post parent',
+							'label' => __('Post parent', 'acfe'),
 							'name' => 'acfe_form_post_map_post_parent',
 							'type' => 'select',
 							'instructions' => '',
@@ -2036,7 +2036,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_map_post_terms',
-							'label' => 'Post terms',
+							'label' => __('Post terms', 'acfe'),
 							'name' => 'acfe_form_post_map_post_terms',
 							'type' => 'select',
 							'instructions' => '',
@@ -2061,7 +2061,7 @@ acf_add_local_field_group(array(
 						),
                         array(
 							'key' => 'field_acfe_form_post_tab_advanced',
-							'label' => 'Advanced',
+							'label' => __('Advanced', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -2078,11 +2078,11 @@ acf_add_local_field_group(array(
 						),
                         array(
                             'key' => 'field_acfe_form_post_advanced_load',
-                            'label' => 'Change values source',
+                            'label' => __('Change values source', 'acfe'),
                             'name' => 'acfe_form_post_advanced_load',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'Dynamically alter the post ID where meta values are loaded from',
+                            'instructions' => __('Dynamically alter the post ID where meta values are loaded from', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -2094,11 +2094,11 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_post_advanced_save_args',
-                            'label' => 'Change post arguments',
+                            'label' => __('Change post arguments', 'acfe'),
                             'name' => 'acfe_form_post_advanced_save_args',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'Dynamically alter the post arguments before database insert/update',
+                            'instructions' => __('Dynamically alter the post arguments before database insert/update', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -2110,11 +2110,11 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_post_advanced_save',
-                            'label' => 'Add custom action on post save',
+                            'label' => __('Add custom action on post save', 'acfe'),
                             'name' => 'acfe_form_post_advanced_save',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
+                            'instructions' => __('This action allows you to hook in before or after the meta data have been saved', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -2135,12 +2135,12 @@ acf_add_local_field_group(array(
 				'layout_term' => array(
 					'key' => 'layout_term',
 					'name' => 'term',
-					'label' => 'Term action',
+					'label' => __('Term action', 'acfe'),
 					'display' => 'row',
 					'sub_fields' => array(
 						array(
 							'key' => 'field_acfe_form_term_tab_save',
-							'label' => 'Save',
+							'label' => __('Save', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -2157,7 +2157,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'acfe_form_term_action',
-							'label' => 'Action',
+							'label' => __('Action', 'acfe'),
 							'name' => 'acfe_form_term_action',
 							'type' => 'radio',
 							'instructions' => '',
@@ -2170,8 +2170,8 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'choices' => array(
-								'insert_term' => 'Create term',
-								'update_term' => 'Update term',
+								'insert_term' => __('Create term', 'acfe'),
+								'update_term' => __('Update term', 'acfe'),
 							),
 							'allow_null' => 0,
 							'other_choice' => 0,
@@ -2182,7 +2182,7 @@ acf_add_local_field_group(array(
 						),
                         array(
                             'key' => 'field_acfe_form_term_custom_alias',
-                            'label' => 'Action alias',
+                            'label' => __('Action alias', 'acfe'),
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
                             'instructions' => '',
@@ -2202,7 +2202,7 @@ acf_add_local_field_group(array(
                         ),
 						array(
 							'key' => 'field_acfe_form_term_save_target',
-							'label' => 'Target',
+							'label' => __('Target', 'acfe'),
 							'name' => 'acfe_form_term_save_target',
 							'type' => 'select',
 							'instructions' => '',
@@ -2236,7 +2236,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_save_name_group',
-							'label' => 'Name',
+							'label' => __('Name', 'acfe'),
 							'name' => 'acfe_form_term_save_name_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -2317,7 +2317,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_name_message',
-							'label' => 'Name',
+							'label' => __('Name', 'acfe'),
 							'name' => 'acfe_form_term_map_name_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -2339,7 +2339,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_save_slug_group',
-							'label' => 'Slug',
+							'label' => __('Slug', 'acfe'),
 							'name' => 'acfe_form_term_save_slug_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -2411,7 +2411,7 @@ acf_add_local_field_group(array(
 									),
 									'acfe_permissions' => '',
 									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name} *',
+									'placeholder' => __('Available tag:', 'acfe') . ' {field:name} *',
 									'prepend' => '',
 									'append' => '',
 									'maxlength' => '',
@@ -2420,7 +2420,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_slug_message',
-							'label' => 'Slug',
+							'label' => __('Slug', 'acfe'),
 							'name' => 'acfe_form_term_map_slug_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -2442,7 +2442,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_save_taxonomy',
-							'label' => 'Taxonomy',
+							'label' => __('Taxonomy', 'acfe'),
 							'name' => 'acfe_form_term_save_taxonomy',
 							'type' => 'acfe_taxonomies',
 							'instructions' => '',
@@ -2478,7 +2478,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_taxonomy_message',
-							'label' => 'Taxonomy',
+							'label' => __('Taxonomy', 'acfe'),
 							'name' => 'acfe_form_term_map_taxonomy_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -2500,7 +2500,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_save_parent',
-							'label' => 'Parent',
+							'label' => __('Parent', 'acfe'),
 							'name' => 'acfe_form_term_save_parent',
 							'type' => 'select',
 							'instructions' => '',
@@ -2532,7 +2532,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_parent_message',
-							'label' => 'Parent',
+							'label' => __('Parent', 'acfe'),
 							'name' => 'acfe_form_term_map_parent_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -2554,7 +2554,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_save_description_group',
-							'label' => 'Description',
+							'label' => __('Description', 'acfe'),
 							'name' => 'acfe_form_term_save_description_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -2635,7 +2635,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_description_message',
-							'label' => 'Description',
+							'label' => __('Description', 'acfe'),
 							'name' => 'acfe_form_term_map_description_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -2657,10 +2657,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_save_meta',
-							'label' => 'Save Meta fields',
+							'label' => __('Save Meta fields', 'acfe'),
 							'name' => 'acfe_form_term_save_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should be saved to this term',
+							'instructions' => __('Choose which ACF fields should be saved to this term', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array(
@@ -2681,7 +2681,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_tab_load',
-							'label' => 'Load',
+							'label' => __('Load', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -2698,10 +2698,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_load_values',
-							'label' => 'Load Values',
+							'label' => __('Load Values', 'acfe'),
 							'name' => 'acfe_form_term_load_values',
 							'type' => 'true_false',
-							'instructions' => 'Fill inputs with values',
+							'instructions' => __('Fill inputs with values', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array(
@@ -2718,7 +2718,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_load_source',
-							'label' => 'Values Source',
+							'label' => __('Values Source', 'acfe'),
 							'name' => 'acfe_form_term_load_source',
 							'type' => 'select',
 							'instructions' => '',
@@ -2752,10 +2752,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_load_meta',
-							'label' => 'Fields Values',
+							'label' => __('Fields Values', 'acfe'),
 							'name' => 'acfe_form_term_load_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should have values filled',
+							'instructions' => __('Choose which ACF fields should have values filled', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => array(
 								array(
@@ -2784,7 +2784,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_tab_mapping',
-							'label' => 'Mapping',
+							'label' => __('Mapping', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -2801,7 +2801,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_name',
-							'label' => 'Name',
+							'label' => __('Name', 'acfe'),
 							'name' => 'acfe_form_term_map_name',
 							'type' => 'select',
 							'instructions' => '',
@@ -2826,7 +2826,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_slug',
-							'label' => 'Slug',
+							'label' => __('Slug', 'acfe'),
 							'name' => 'acfe_form_term_map_slug',
 							'type' => 'select',
 							'instructions' => '',
@@ -2851,7 +2851,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_taxonomy',
-							'label' => 'Taxonomy',
+							'label' => __('Taxonomy', 'acfe'),
 							'name' => 'acfe_form_term_map_taxonomy',
 							'type' => 'select',
 							'instructions' => '',
@@ -2876,7 +2876,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_parent',
-							'label' => 'Parent',
+							'label' => __('Parent', 'acfe'),
 							'name' => 'acfe_form_term_map_parent',
 							'type' => 'select',
 							'instructions' => '',
@@ -2901,7 +2901,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_map_description',
-							'label' => 'Description',
+							'label' => __('Description', 'acfe'),
 							'name' => 'acfe_form_term_map_description',
 							'type' => 'select',
 							'instructions' => '',
@@ -2926,7 +2926,7 @@ acf_add_local_field_group(array(
 						),
                         array(
 							'key' => 'field_acfe_form_term_tab_advanced',
-							'label' => 'Advanced',
+							'label' => __('Advanced', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -2943,11 +2943,11 @@ acf_add_local_field_group(array(
 						),
                         array(
                             'key' => 'field_acfe_form_term_advanced_load',
-                            'label' => 'Change values source',
+                            'label' => __('Change values source', 'acfe'),
                             'name' => 'acfe_form_term_advanced_load',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'Dynamically alter the term ID where meta values are loaded from',
+                            'instructions' => __('Dynamically alter the term ID where meta values are loaded from', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -2959,11 +2959,11 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_term_advanced_save_args',
-                            'label' => 'Change term arguments',
+                            'label' => __('Change term arguments', 'acfe'),
                             'name' => 'acfe_form_term_advanced_save_args',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'Dynamically alter the term arguments before database insert/update',
+                            'instructions' => __('Dynamically alter the term arguments before database insert/update', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -2975,11 +2975,11 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_term_advanced_save',
-                            'label' => 'Add custom action on term save',
+                            'label' => __('Add custom action on term save', 'acfe'),
                             'name' => 'acfe_form_term_advanced_save',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
+                            'instructions' => __('This action allows you to hook in before or after the meta data have been saved', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -3000,12 +3000,12 @@ acf_add_local_field_group(array(
 				'layout_user' => array(
 					'key' => 'layout_user',
 					'name' => 'user',
-					'label' => 'User action',
+					'label' => , __('User action', 'acfe'),
 					'display' => 'row',
 					'sub_fields' => array(
 						array(
 							'key' => 'field_acfe_form_user_tab_save',
-							'label' => 'Save',
+							'label' => __('Save', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -3022,7 +3022,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_action',
-							'label' => 'Action',
+							'label' => __('Action', 'acfe'),
 							'name' => 'acfe_form_user_action',
 							'type' => 'radio',
 							'instructions' => '',
@@ -3035,8 +3035,8 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'choices' => array(
-								'insert_user' => 'Create user',
-								'update_user' => 'Update user',
+								'insert_user' => __('Create user', 'acfe'),
+								'update_user' => __('Update user', 'acfe'),
 							),
 							'allow_null' => 0,
 							'other_choice' => 0,
@@ -3047,7 +3047,7 @@ acf_add_local_field_group(array(
 						),
                         array(
                             'key' => 'field_acfe_form_user_custom_alias',
-                            'label' => 'Action alias',
+                            'label' => __('Action alias', 'acfe'),
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
                             'instructions' => '',
@@ -3067,7 +3067,7 @@ acf_add_local_field_group(array(
                         ),
 						array(
 							'key' => 'field_acfe_form_user_save_target',
-							'label' => 'Target',
+							'label' => __('Target', 'acfe'),
 							'name' => 'acfe_form_user_save_target',
 							'type' => 'select',
 							'instructions' => '',
@@ -3101,7 +3101,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_email_group',
-							'label' => 'Email',
+							'label' => __('Email', 'acfe'),
 							'name' => 'acfe_form_user_save_email_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3173,7 +3173,7 @@ acf_add_local_field_group(array(
 									),
 									'acfe_permissions' => '',
 									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name} *',
+									'placeholder' => __('Available tag:', 'acfe') . ' {field:name} *',
 									'prepend' => '',
 									'append' => '',
 									'maxlength' => '',
@@ -3182,7 +3182,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_email_message',
-							'label' => 'Email',
+							'label' => __('Email', 'acfe'),
 							'name' => 'acfe_form_user_map_email_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3204,7 +3204,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_username_group',
-							'label' => 'Username',
+							'label' => __('Username', 'acfe'),
 							'name' => 'acfe_form_user_save_username_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3285,7 +3285,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_username_message',
-							'label' => 'Username',
+							'label' => __('Username', 'acfe'),
 							'name' => 'acfe_form_user_map_username_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3307,7 +3307,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_password_group',
-							'label' => 'Password',
+							'label' => __('Password', 'acfe'),
 							'name' => 'acfe_form_user_save_password_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3389,7 +3389,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_password_message',
-							'label' => 'Password',
+							'label' => __('Password', 'acfe'),
 							'name' => 'acfe_form_user_map_password_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3411,7 +3411,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_first_name_group',
-							'label' => 'First name',
+							'label' => __('First name', 'acfe'),
 							'name' => 'acfe_form_user_save_first_name_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3492,7 +3492,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_first_name_message',
-							'label' => 'First name',
+							'label' => __('First name', 'acfe'),
 							'name' => 'acfe_form_user_map_first_name_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3514,7 +3514,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_last_name_group',
-							'label' => 'Last name',
+							'label' => __('Last name', 'acfe'),
 							'name' => 'acfe_form_user_save_last_name_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3586,7 +3586,7 @@ acf_add_local_field_group(array(
 									),
 									'acfe_permissions' => '',
 									'default_value' => '',
-									'placeholder' => 'Available tag: {field:name} *',
+									'placeholder' => __('Available tag:', 'acfe') . ' {field:name} *',
 									'prepend' => '',
 									'append' => '',
 									'maxlength' => '',
@@ -3595,7 +3595,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_last_name_message',
-							'label' => 'Last name',
+							'label' => __('Last name', 'acfe'),
 							'name' => 'acfe_form_user_map_last_name_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3617,7 +3617,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_nickname_group',
-							'label' => 'Nickname',
+							'label' => __('Nickname', 'acfe'),
 							'name' => 'acfe_form_user_save_nickname_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3698,7 +3698,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_nickname_message',
-							'label' => 'Nickname',
+							'label' => __('Nickname', 'acfe'),
 							'name' => 'acfe_form_user_map_nickname_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3720,7 +3720,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_display_name_group',
-							'label' => 'Display name',
+							'label' => __('Display name', 'acfe'),
 							'name' => 'acfe_form_user_save_display_name_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3801,7 +3801,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_display_name_message',
-							'label' => 'Display name',
+							'label' => __('Display name', 'acfe'),
 							'name' => 'acfe_form_user_map_display_name_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3823,7 +3823,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_website_group',
-							'label' => 'Website',
+							'label' => __('Website', 'acfe'),
 							'name' => 'acfe_form_user_save_website_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -3904,7 +3904,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_website_message',
-							'label' => 'Website',
+							'label' => __('Website', 'acfe'),
 							'name' => 'acfe_form_user_map_website_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -3926,7 +3926,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_description_group',
-							'label' => 'Description',
+							'label' => __('Description', 'acfe'),
 							'name' => 'acfe_form_user_save_description_group',
 							'type' => 'group',
 							'instructions' => '',
@@ -4007,7 +4007,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_description_message',
-							'label' => 'Description',
+							'label' => __('Description', 'acfe'),
 							'name' => 'acfe_form_user_map_description_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -4029,7 +4029,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_role',
-							'label' => 'Role',
+							'label' => __('Role', 'acfe'),
 							'name' => 'acfe_form_user_save_role',
 							'type' => 'acfe_user_roles',
 							'instructions' => '',
@@ -4064,7 +4064,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_role_message',
-							'label' => 'Role',
+							'label' => __('Role', 'acfe'),
 							'name' => 'acfe_form_user_map_role_message',
 							'type' => 'acfe_dynamic_message',
 							'instructions' => '',
@@ -4086,10 +4086,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_meta',
-							'label' => 'Save Meta fields',
+							'label' => __('Save Meta fields', 'acfe'),
 							'name' => 'acfe_form_user_save_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should be saved to this user',
+							'instructions' => __('Choose which ACF fields should be saved to this user', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array(
@@ -4110,7 +4110,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'acfe_form_user_tab_load',
-							'label' => 'Load',
+							'label' => __('Load', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -4127,10 +4127,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_load_values',
-							'label' => 'Load Values',
+							'label' => __('Load Values', 'acfe'),
 							'name' => 'acfe_form_user_load_values',
 							'type' => 'true_false',
-							'instructions' => 'Fill inputs with values',
+							'instructions' => __('Fill inputs with values', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array(
@@ -4147,7 +4147,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_load_source',
-							'label' => 'Values Source',
+							'label' => __('Values Source', 'acfe'),
 							'name' => 'acfe_form_user_load_source',
 							'type' => 'select',
 							'instructions' => '',
@@ -4181,10 +4181,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_load_meta',
-							'label' => 'Fields Values',
+							'label' => __('Fields Values', 'acfe'),
 							'name' => 'acfe_form_user_load_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should have values filled',
+							'instructions' => __('Choose which ACF fields should have values filled', 'acfe'),
 							'required' => 0,
 							'conditional_logic' => array(
 								array(
@@ -4213,7 +4213,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'acfe_form_user_tab_mapping',
-							'label' => 'Mapping',
+							'label' => __('Mapping', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -4230,7 +4230,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_email',
-							'label' => 'Email',
+							'label' => __('Email', 'acfe'),
 							'name' => 'acfe_form_user_map_email',
 							'type' => 'select',
 							'instructions' => '',
@@ -4255,7 +4255,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_username',
-							'label' => 'Username',
+							'label' => __('Username', 'acfe'),
 							'name' => 'acfe_form_user_map_username',
 							'type' => 'select',
 							'instructions' => '',
@@ -4280,7 +4280,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_password',
-							'label' => 'Password',
+							'label' => __('Password', 'acfe'),
 							'name' => 'acfe_form_user_map_password',
 							'type' => 'select',
 							'instructions' => '',
@@ -4305,7 +4305,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_first_name',
-							'label' => 'First name',
+							'label' => __('First name', 'acfe'),
 							'name' => 'acfe_form_user_map_first_name',
 							'type' => 'select',
 							'instructions' => '',
@@ -4330,7 +4330,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_last_name',
-							'label' => 'Last name',
+							'label' => __('Last name', 'acfe'),
 							'name' => 'acfe_form_user_map_last_name',
 							'type' => 'select',
 							'instructions' => '',
@@ -4355,7 +4355,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_nickname',
-							'label' => 'Nickname',
+							'label' => __('Nickname', 'acfe'),
 							'name' => 'acfe_form_user_map_nickname',
 							'type' => 'select',
 							'instructions' => '',
@@ -4380,7 +4380,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_display_name',
-							'label' => 'Display name',
+							'label' => __('Display name', 'acfe'),
 							'name' => 'acfe_form_user_map_display_name',
 							'type' => 'select',
 							'instructions' => '',
@@ -4405,7 +4405,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_website',
-							'label' => 'Website',
+							'label' => __('Website', 'acfe'),
 							'name' => 'acfe_form_user_map_website',
 							'type' => 'select',
 							'instructions' => '',
@@ -4430,7 +4430,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_description',
-							'label' => 'Description',
+							'label' => __('Description', 'acfe'),
 							'name' => 'acfe_form_user_map_description',
 							'type' => 'select',
 							'instructions' => '',
@@ -4455,7 +4455,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_map_role',
-							'label' => 'Role',
+							'label' => __('Role', 'acfe'),
 							'name' => 'acfe_form_user_map_role',
 							'type' => 'select',
 							'instructions' => '',
@@ -4480,7 +4480,7 @@ acf_add_local_field_group(array(
 						),
                         array(
 							'key' => 'field_acfe_form_user_tab_advanced',
-							'label' => 'Advanced',
+							'label' => __('Advanced', 'acfe'),
 							'name' => '',
 							'type' => 'tab',
 							'instructions' => '',
@@ -4497,11 +4497,11 @@ acf_add_local_field_group(array(
 						),
                         array(
                             'key' => 'field_acfe_form_user_advanced_load',
-                            'label' => 'Change values source',
+                            'label' => __('Change values source', 'acfe'),
                             'name' => 'acfe_form_user_advanced_load',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'Dynamically alter the user ID where meta values are loaded from',
+                            'instructions' => __('Dynamically alter the user ID where meta values are loaded from', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -4513,11 +4513,11 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_user_advanced_save_args',
-                            'label' => 'Change user arguments',
+                            'label' => __('Change user arguments', 'acfe'),
                             'name' => 'acfe_form_user_advanced_save_args',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'Dynamically alter the user arguments before database insert/update',
+                            'instructions' => __('Dynamically alter the user arguments before database insert/update', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -4529,11 +4529,11 @@ acf_add_local_field_group(array(
                         ),
                         array(
                             'key' => 'field_acfe_form_user_advanced_save',
-                            'label' => 'Add custom action on user save',
+                            'label' => __('Add custom action on user save', 'acfe'),
                             'name' => 'acfe_form_user_advanced_save',
                             'type' => 'acfe_dynamic_message',
                             'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
-                            'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
+                            'instructions' => __('This action allows you to hook in before or after the meta data have been saved', 'acfe'),
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -4549,13 +4549,13 @@ acf_add_local_field_group(array(
 				),
                 
             ),
-            'button_label' => 'Add action',
+            'button_label' => __('Add action', 'acfe'),
             'min' => '',
             'max' => '',
         ),
         array(
             'key' => 'field_acfe_form_tab_advanced',
-            'label' => 'Advanced',
+            'label' => __('Advanced', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -4572,10 +4572,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_post_field_groups',
-            'label' => 'Post field groups',
+            'label' => __('Post field groups', 'acfe'),
             'name' => 'acfe_form_post_field_groups',
             'type' => 'post_object',
-            'instructions' => 'Override rendered field groups with a specific post field groups.<br /><br/>Note: Make sure to set the related field groups in the "General" tab in order to map fields in the actions tab',
+            'instructions' => __('Override rendered field groups with a specific post field groups.<br /><br/>Note: Make sure to set the related field groups in the "General" tab in order to map fields in the actions tab', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -4591,10 +4591,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_honeypot',
-            'label' => 'Honeypot',
+            'label' => __('Honeypot', 'acfe'),
             'name' => 'acfe_form_honeypot',
             'type' => 'true_false',
-            'instructions' => 'Whether to include a hidden input field to capture non human form submission. Defaults to true.',
+            'instructions' => __('Whether to include a hidden input field to capture non human form submission. Defaults to true.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -4614,7 +4614,7 @@ acf_add_local_field_group(array(
             'label' => 'Kses',
             'name' => 'acfe_form_kses',
             'type' => 'true_false',
-            'instructions' => 'Whether or not to sanitize all $_POST data with the wp_kses_post() function. Defaults to true.',
+            'instructions' => __('Whether or not to sanitize all $_POST data with the wp_kses_post() function. Defaults to true.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -4631,11 +4631,11 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_uploader',
-            'label' => 'Uploader',
+            'label' => __('Uploader', 'acfe'),
             'name' => 'acfe_form_uploader',
             'type' => 'radio',
-            'instructions' => 'Whether to use the WP uploader or a basic input for image and file fields. Defaults to \'wp\' 
-    Choices of \'wp\' or \'basic\'.',
+            'instructions' => __('Whether to use the WP uploader or a basic input for image and file fields. Defaults to \'wp\' 
+    Choices of \'wp\' or \'basic\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -4657,10 +4657,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_form_field_el',
-            'label' => 'Field element',
+            'label' => __('Field element', 'acfe'),
             'name' => 'acfe_form_form_field_el',
             'type' => 'radio',
-            'instructions' => 'Determines element used to wrap a field. Defaults to \'div\'',
+            'instructions' => __('Determines element used to wrap a field. Defaults to \'div\'', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -4686,7 +4686,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_label_placement',
-            'label' => 'Label placement',
+            'label' => __('Label placement', 'acfe'),
             'name' => 'acfe_form_label_placement',
             'type' => 'radio',
             'instructions' => 'Determines where field labels are places in relation to fields. Defaults to \'top\'. <br />
@@ -4712,11 +4712,11 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_form_instruction_placement',
-            'label' => 'Instruction placement',
+            'label' => __('Instruction placement', 'acfe'),
             'name' => 'acfe_form_instruction_placement',
             'type' => 'radio',
-            'instructions' => 'Determines where field instructions are places in relation to fields. Defaults to \'label\'. <br />
-    Choices of \'label\' (Below labels) or \'field\' (Below fields)',
+            'instructions' => __('Determines where field instructions are places in relation to fields. Defaults to \'label\'. <br />
+    Choices of \'label\' (Below labels) or \'field\' (Below fields)', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
