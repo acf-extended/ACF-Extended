@@ -526,17 +526,17 @@ class acfe_form_user{
                     
                     if(empty($user_login)){
                         
-                        $error = new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.'));
+                        $error = new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.', 'acfe'));
                         
                     }elseif(mb_strlen($user_login) > 60){
                         
-                        $error = new WP_Error('user_login_too_long', __('Username may not be longer than 60 characters.'));
+                        $error = new WP_Error('user_login_too_long', __('Username may not be longer than 60 characters.', 'acfe'));
                         
                     }
                     
                     if(username_exists($user_login)){
                         
-                        $error = new WP_Error('existing_user_login', __('Sorry, that username already exists!'));
+                        $error = new WP_Error('existing_user_login', __('Sorry, that username already exists!', 'acfe'));
                         
                     }
                     
@@ -544,7 +544,7 @@ class acfe_form_user{
                     
                     if(mb_strlen($user_nicename) > 50){
                         
-                        $error = new WP_Error('user_nicename_too_long', __('Nicename may not be longer than 50 characters.'));
+                        $error = new WP_Error('user_nicename_too_long', __('Nicename may not be longer than 50 characters.', 'acfe'));
                         
                     }
                     
@@ -622,7 +622,7 @@ class acfe_form_user{
         if(acf_maybe_get($field, 'value'))
             $form_name = get_field('acfe_form_name', $field['value']);
         
-        ?>You may use the following hooks:<br /><br />
+        echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_filter('acfe/form/load/user_id', 'my_form_user_values_source', 10, 3);
 add_filter('acfe/form/load/user_id/form=<?php echo $form_name; ?>', 'my_form_user_values_source', 10, 3);
@@ -663,7 +663,7 @@ function my_form_user_values_source($user_id, $form, $action){
         if(acf_maybe_get($field, 'value'))
             $form_name = get_field('acfe_form_name', $field['value']);
         
-        ?>You may use the following hooks:<br /><br />
+        echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_filter('acfe/form/submit/user_args', 'my_form_user_args', 10, 4);
 add_filter('acfe/form/submit/user_args/form=<?php echo $form_name; ?>', 'my_form_user_args', 10, 4);
@@ -723,7 +723,7 @@ function my_form_user_args($args, $type, $form, $action){
         if(acf_maybe_get($field, 'value'))
             $form_name = get_field('acfe_form_name', $field['value']);
         
-        ?>You may use the following hooks:<br /><br />
+        echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_action('acfe/form/submit/user', 'my_form_user_save', 10, 5);
 add_action('acfe/form/submit/user/form=<?php echo $form_name; ?>', 'my_form_user_save', 10, 5);
