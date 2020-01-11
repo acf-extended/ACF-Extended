@@ -235,9 +235,9 @@ class acfe_dev{
         
             <thead>
                 <tr>
-                    <th scope="col" style="width:30%;">Name</th>
-                    <th scope="col" style="width:auto;">Value</th>
-                    <th scope="col" style="width:120px;">Field group</a></th>
+                    <th scope="col" style="width:30%;"><?php echo __('Name', 'acfe') ?></th>
+                    <th scope="col" style="width:auto;"><?php echo __('Value', 'acfe') ?></th>
+                    <th scope="col" style="width:120px;"><?php echo __('Field group', 'acfe') ?></th>
                 </tr>
             </thead>
 
@@ -251,7 +251,7 @@ class acfe_dev{
                     
                     $field = $meta['field'];
                     $field_group = $meta['field_group'];
-                    $field_group_display = '<span style="color:#aaa;">' . __('Unknown', 'acf') . '</span>';
+                    $field_group_display = '<span style="color:#aaa;">' . __('Unknown', 'acfe') . '</span>';
                     
                     if($field_group){
                         
