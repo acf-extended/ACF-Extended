@@ -14,14 +14,14 @@ add_action('init', 'acfe_dt_register');
 function acfe_dt_register(){
     
     register_post_type('acfe-dt', array(
-        'label'                 => 'Taxonomies',
-        'description'           => 'Taxonomies',
+        'label'                 => __('Taxonomies', 'acfe'),
+        'description'           => __('Taxonomies', 'acfe'),
         'labels'                => array(
-            'name'          => 'Taxonomies',
-            'singular_name' => 'Taxonomy',
-            'menu_name'     => 'Taxonomies',
-            'edit_item'     => 'Edit Taxonomy',
-            'add_new_item'  => 'New Taxonomy',
+            'name'          => __('Taxonomies', 'acfe'),
+            'singular_name' => __('Taxonomy', 'acfe'),
+            'menu_name'     => __('Taxonomies', 'acfe'),
+            'edit_item'     => __('Edit Taxonomy', 'acfe'),
+            'add_new_item'  => __('New Taxonomy', 'acfe'),
         ),
         'supports'              => false,
         'hierarchical'          => false,
@@ -108,7 +108,7 @@ function acfe_dt_misc_actions($post){
     
     ?>
     <div class="misc-pub-section misc-pub-acfe-field-group-export" style="padding-top:2px;">
-        <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> Export: <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dt_export&action=php&keys=' . $name); ?>">PHP</a> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dt_export&action=json&keys=' . $name); ?>">Json</a>
+        <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> <?php echo __('Export:', 'acfe') ?> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dt_export&action=php&keys=' . $name); ?>">PHP</a> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dt_export&action=json&keys=' . $name); ?>">Json</a>
     </div>
     <?php
     
@@ -465,9 +465,9 @@ function acfe_dt_admin_columns($columns){
     if(isset($columns['date']))
         unset($columns['date']);
     
-    $columns['acfe-name'] = __('Name');
-    $columns['acfe-post-types'] = __('Post Types');
-    $columns['acfe-terms'] = __('Terms');
+    $columns['acfe-name'] = __('Name', 'acfe');
+    $columns['acfe-post-types'] = __('Post Types', 'acfe');
+    $columns['acfe-terms'] = __('Terms', 'acfe');
     
     return $columns;
     
@@ -671,7 +671,7 @@ function acfe_dt_admin_validate_name($valid, $value, $field, $input){
     );
     
     if(in_array($value, $excludes))
-        return __('This taxonomy name is reserved');
+        return __('This taxonomy name is reserved', 'acfe');
     
     // Editing Current Dynamic Taxonomy
     $current_post_id = $_POST['_acf_post_id'];
@@ -690,7 +690,7 @@ function acfe_dt_admin_validate_name($valid, $value, $field, $input){
             if($value != $taxonomy->name)
                 continue;
             
-            $valid = __('This taxonomy name already exists');
+            $valid = __('This taxonomy name already exists', 'acfe');
         }
     }
 	
@@ -772,7 +772,7 @@ acf_add_local_field_group(array(
     'fields' => array(
         array(
             'key' => 'field_acfe_dt_tab_general',
-            'label' => 'General',
+            'label' => __('General', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -789,10 +789,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_label',
-            'label' => 'Label',
+            'label' => __('Label', 'acfe'),
             'name' => 'label',
             'type' => 'text',
-            'instructions' => 'A plural descriptive name for the taxonomy marked for translation',
+            'instructions' => __('A plural descriptive name for the taxonomy marked for translation', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -811,10 +811,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_name',
-            'label' => 'Name',
+            'label' => __('Name', 'acfe'),
             'name' => 'acfe_dt_name',
             'type' => 'acfe_slug',
-            'instructions' => 'The name of the taxonomy. Name should only contain lowercase letters and the underscore character, and not be more than 32 characters long (database structure restriction)',
+            'instructions' => __('The name of the taxonomy. Name should only contain lowercase letters and the underscore character, and not be more than 32 characters long (database structure restriction)', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -833,10 +833,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_description',
-            'label' => 'Description',
+            'label' => __('Description', 'acfe'),
             'name' => 'description',
             'type' => 'text',
-            'instructions' => 'Include a description of the taxonomy',
+            'instructions' => __('Include a description of the taxonomy', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -855,10 +855,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_hierarchical',
-            'label' => 'Hierarchical',
+            'label' => __('Hierarchical', 'acfe'),
             'name' => 'hierarchical',
             'type' => 'true_false',
-            'instructions' => 'Is this taxonomy hierarchical (have descendants) like categories or not hierarchical like tags',
+            'instructions' => __('Is this taxonomy hierarchical (have descendants) like categories or not hierarchical like tags', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -877,7 +877,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_post_types',
-            'label' => 'Post types',
+            'label' => __('Post types', 'acfe'),
             'name' => 'post_types',
             'type' => 'acfe_post_types',
             'instructions' => '',
@@ -896,10 +896,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_public',
-            'label' => 'Public',
+            'label' => __('Public', 'acfe'),
             'name' => 'public',
             'type' => 'true_false',
-            'instructions' => 'Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users',
+            'instructions' => __('Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -918,10 +918,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_publicly_queryable',
-            'label' => 'Publicly queryable',
+            'label' => __('Publicly queryable', 'acfe'),
             'name' => 'publicly_queryable',
             'type' => 'true_false',
-            'instructions' => 'Whether the taxonomy is publicly queryable',
+            'instructions' => __('Whether the taxonomy is publicly queryable', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -940,10 +940,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_update_count_callback',
-            'label' => 'Update count callback',
+            'label' => __('Update count callback', 'acfe'),
             'name' => 'update_count_callback',
             'type' => 'text',
-            'instructions' => 'A function name that will be called when the count of an associated $object_type, such as post, is updated',
+            'instructions' => __('A function name that will be called when the count of an associated $object_type, such as post, is updated', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -962,10 +962,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_meta_box_cb',
-            'label' => 'Meta box callback',
+            'label' => __('Meta box callback', 'acfe'),
             'name' => 'meta_box_cb',
             'type' => 'select',
-            'instructions' => 'Provide a callback function name for the meta box display.<br /><br/>Defaults to the categories meta box for hierarchical taxonomies and the tags meta box for non-hierarchical taxonomies. No meta box is shown if set to false.',
+            'instructions' => __('Provide a callback function name for the meta box display.<br /><br/>Defaults to the categories meta box for hierarchical taxonomies and the tags meta box for non-hierarchical taxonomies. No meta box is shown if set to false.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -993,7 +993,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_meta_box_cb_custom',
-            'label' => 'Meta box callback',
+            'label' => __('Meta box callback', 'acfe'),
             'name' => 'meta_box_cb_custom',
             'type' => 'text',
             'instructions' => '',
@@ -1024,10 +1024,10 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_sort',
-            'label' => 'Sort',
+            'label' => __('Sort', 'acfe'),
             'name' => 'sort',
             'type' => 'true_false',
-            'instructions' => 'Whether this taxonomy should remember the order in which terms are added to objects',
+            'instructions' => __('Whether this taxonomy should remember the order in which terms are added to objects', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1046,7 +1046,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_tab_labels',
-            'label' => 'Labels',
+            'label' => __('Labels', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1063,11 +1063,11 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dt_labels',
-            'label' => 'Labels',
+            'label' => __('Labels', 'acfe'),
             'name' => 'labels',
             'type' => 'group',
-            'instructions' => 'An array of labels for this taxonomy. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones.<br /><br />
-Default: if empty, name is set to label value, and singular_name is set to name value.',
+            'instructions' => __('An array of labels for this taxonomy. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones.<br /><br />
+Default: if empty, name is set to label value, and singular_name is set to name value.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1080,7 +1080,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
             'sub_fields' => array(
                 array(
                     'key' => 'field_acfe_dt_singular_name',
-                    'label' => 'Singular name',
+                    'label' => __('Singular name', 'acfe'),
                     'name' => 'singular_name',
                     'type' => 'text',
                     'instructions' => '',
@@ -1102,7 +1102,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_menu_name',
-                    'label' => 'Menu name',
+                    'label' => __('Menu name', 'acfe'),
                     'name' => 'menu_name',
                     'type' => 'text',
                     'instructions' => '',
@@ -1124,7 +1124,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_all_items',
-                    'label' => 'All items',
+                    'label' => __('All items', 'acfe'),
                     'name' => 'all_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1146,7 +1146,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_edit_item',
-                    'label' => 'Edit item',
+                    'label' => __('Edit item', 'acfe'),
                     'name' => 'edit_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1168,7 +1168,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_view_item',
-                    'label' => 'View item',
+                    'label' => __('View item', 'acfe'),
                     'name' => 'view_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1190,7 +1190,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_update_item',
-                    'label' => 'Update item',
+                    'label' => __('Update item', 'acfe'),
                     'name' => 'update_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1212,7 +1212,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_add_new_item',
-                    'label' => 'Add new item',
+                    'label' => __('Add new item', 'acfe'),
                     'name' => 'add_new_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1234,7 +1234,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_new_item_name',
-                    'label' => 'New item name',
+                    'label' => __('New item name', 'acfe'),
                     'name' => 'new_item_name',
                     'type' => 'text',
                     'instructions' => '',
@@ -1256,7 +1256,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_parent_item',
-                    'label' => 'Parent item',
+                    'label' => __('Parent item', 'acfe'),
                     'name' => 'parent_item',
                     'type' => 'text',
                     'instructions' => '',
@@ -1278,7 +1278,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_parent_item_colon',
-                    'label' => 'Parent item colon',
+                    'label' => __('Parent item colon', 'acfe'),
                     'name' => 'parent_item_colon',
                     'type' => 'text',
                     'instructions' => '',
@@ -1300,7 +1300,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_search_items',
-                    'label' => 'Search items',
+                    'label' => __('Search items', 'acfe'),
                     'name' => 'search_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1322,7 +1322,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_popular_items',
-                    'label' => 'Popular items',
+                    'label' => __('Popular items', 'acfe'),
                     'name' => 'popular_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1344,7 +1344,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_separate_items_with_commas',
-                    'label' => 'Separate items with commas',
+                    'label' => __('Separate items with commas', 'acfe'),
                     'name' => 'separate_items_with_commas',
                     'type' => 'text',
                     'instructions' => '',
@@ -1366,7 +1366,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_add_or_remove_items',
-                    'label' => 'Add or remove items',
+                    'label' => __('Add or remove items', 'acfe'),
                     'name' => 'add_or_remove_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1388,7 +1388,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_choose_from_most_used',
-                    'label' => 'Choose from most used',
+                    'label' => __('Choose from most used', 'acfe'),
                     'name' => 'choose_from_most_used',
                     'type' => 'text',
                     'instructions' => '',
@@ -1410,7 +1410,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_not_found',
-                    'label' => 'Not found',
+                    'label' => __('Not found', 'acfe'),
                     'name' => 'not_found',
                     'type' => 'text',
                     'instructions' => '',
@@ -1432,7 +1432,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
                 ),
                 array(
                     'key' => 'field_acfe_dt_back_to_items',
-                    'label' => 'Back to items',
+                    'label' => __('Back to items', 'acfe'),
                     'name' => 'back_to_items',
                     'type' => 'text',
                     'instructions' => '',
@@ -1456,7 +1456,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_tab_menu',
-            'label' => 'Menu',
+            'label' => __('Menu', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1473,10 +1473,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_show_ui',
-            'label' => 'Show UI',
+            'label' => __('Show UI', 'acfe'),
             'name' => 'show_ui',
             'type' => 'true_false',
-            'instructions' => 'Whether to generate a default UI for managing this post type in the admin',
+            'instructions' => __('Whether to generate a default UI for managing this post type in the admin', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1495,10 +1495,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_show_in_menu',
-            'label' => 'Show in menu',
+            'label' => __('Show in menu', 'acfe'),
             'name' => 'show_in_menu',
             'type' => 'true_false',
-            'instructions' => 'Where to show the taxonomy in the admin menu. show_ui must be true',
+            'instructions' => __('Where to show the taxonomy in the admin menu. show_ui must be true', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1517,10 +1517,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_show_in_nav_menus',
-            'label' => 'Show in nav menus',
+            'label' => __('Show in nav menus', 'acfe'),
             'name' => 'show_in_nav_menus',
             'type' => 'true_false',
-            'instructions' => 'true makes this taxonomy available for selection in navigation menus',
+            'instructions' => __('true makes this taxonomy available for selection in navigation menus', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1539,10 +1539,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_show_tagcloud',
-            'label' => 'Show tagcloud',
+            'label' => __('Show tagcloud', 'acfe'),
             'name' => 'show_tagcloud',
             'type' => 'true_false',
-            'instructions' => 'Whether to allow the Tag Cloud widget to use this taxonomy',
+            'instructions' => __('Whether to allow the Tag Cloud widget to use this taxonomy', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1561,10 +1561,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_show_in_quick_edit',
-            'label' => 'Show in quick edit',
+            'label' => __('Show in quick edit', 'acfe'),
             'name' => 'show_in_quick_edit',
             'type' => 'true_false',
-            'instructions' => 'Whether to show the taxonomy in the quick/bulk edit panel',
+            'instructions' => __('Whether to show the taxonomy in the quick/bulk edit panel', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1583,10 +1583,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_show_admin_column',
-            'label' => 'Show admin column',
+            'label' => __('Show admin column', 'acfe'),
             'name' => 'show_admin_column',
             'type' => 'true_false',
-            'instructions' => 'Whether to allow automatic creation of taxonomy columns on associated post-types table',
+            'instructions' => __('Whether to allow automatic creation of taxonomy columns on associated post-types table', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1605,7 +1605,7 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_tab_capability',
-            'label' => 'Capability',
+            'label' => __('Capability', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1622,14 +1622,14 @@ Default: if empty, name is set to label value, and singular_name is set to name 
         ),
         array(
             'key' => 'field_acfe_dt_capabilities',
-            'label' => 'Capabilities',
+            'label' => __('Capabilities', 'acfe'),
             'name' => 'capabilities',
             'type' => 'textarea',
-            'instructions' => 'An array of the capabilities for this taxonomy:<br /><br />
+            'instructions' => __('An array of the capabilities for this taxonomy:<br /><br />
 manage_terms<br />
 edit_terms<br />
 delete_terms<br />
-assign_terms',
+assign_terms', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1648,7 +1648,7 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_tab_single',
-            'label' => 'Single',
+            'label' => __('Single', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1665,10 +1665,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_single_template',
-            'label' => 'Template',
+            'label' => __('Template', 'acfe'),
             'name' => 'acfe_dt_single_template',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Which template file to load for the term query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>',
+            'instructions' => __('ACF Extended: Which template file to load for the term query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1687,10 +1687,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_single_posts_per_page',
-            'label' => 'Posts per page',
+            'label' => __('Posts per page', 'acfe'),
             'name' => 'acfe_dt_single_posts_per_page',
             'type' => 'number',
-            'instructions' => 'ACF Extended: Number of posts to display on the admin list screen',
+            'instructions' => __('ACF Extended: Number of posts to display on the admin list screen', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1711,10 +1711,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_single_orderby',
-            'label' => 'Order by',
+            'label' => __('Order by', 'acfe'),
             'name' => 'acfe_dt_single_orderby',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Sort retrieved posts by parameter in the admin list screen. Defaults to \'date (post_date)\'.',
+            'instructions' => __('ACF Extended: Sort retrieved posts by parameter in the admin list screen. Defaults to \'date (post_date)\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1737,10 +1737,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_single_order',
-            'label' => 'Order',
+            'label' => __('Order', 'acfe'),
             'name' => 'acfe_dt_single_order',
             'type' => 'select',
-            'instructions' => 'ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the admin list screen. Defaults to \'DESC\'.',
+            'instructions' => __('ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the admin list screen. Defaults to \'DESC\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1767,10 +1767,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_rewrite',
-            'label' => 'Rewrite',
+            'label' => __('Rewrite', 'acfe'),
             'name' => 'rewrite',
             'type' => 'true_false',
-            'instructions' => 'Set to false to prevent automatic URL rewriting a.k.a. "pretty permalinks". Pass an argument array to override default URL settings for permalinks',
+            'instructions' => __('Set to false to prevent automatic URL rewriting a.k.a. "pretty permalinks". Pass an argument array to override default URL settings for permalinks', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1789,10 +1789,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_rewrite_args_select',
-            'label' => 'Rewrite Arguments',
+            'label' => __('Rewrite Arguments', 'acfe'),
             'name' => 'rewrite_args_select',
             'type' => 'true_false',
-            'instructions' => 'Use additional rewrite arguments',
+            'instructions' => __('Use additional rewrite arguments', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -1819,10 +1819,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_rewrite_args',
-            'label' => 'Rewrite Arguments',
+            'label' => __('Rewrite Arguments', 'acfe'),
             'name' => 'rewrite_args',
             'type' => 'group',
-            'instructions' => 'Additional arguments',
+            'instructions' => __('Additional arguments', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
@@ -1848,10 +1848,10 @@ assign_terms',
             'sub_fields' => array(
                 array(
                     'key' => 'field_acfe_dt_rewrite_slug',
-                    'label' => 'Slug',
+                    'label' => __('Slug', 'acfe'),
                     'name' => 'acfe_dt_rewrite_slug',
                     'type' => 'text',
-                    'instructions' => 'Used as pretty permalink text (i.e. /tag/) - defaults to $taxonomy (taxonomy\'s name slug)',
+                    'instructions' => __('Used as pretty permalink text (i.e. /tag/) - defaults to $taxonomy (taxonomy\'s name slug)', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
@@ -1878,10 +1878,10 @@ assign_terms',
                 ),
                 array(
                     'key' => 'field_acfe_dt_rewrite_with_front',
-                    'label' => 'With front',
+                    'label' => __('With front', 'acfe'),
                     'name' => 'acfe_dt_rewrite_with_front',
                     'type' => 'true_false',
-                    'instructions' => 'Allowing permalinks to be prepended with front base',
+                    'instructions' => __('Allowing permalinks to be prepended with front base', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
@@ -1908,10 +1908,10 @@ assign_terms',
                 ),
                 array(
                     'key' => 'field_acfe_dt_rewrite_hierarchical',
-                    'label' => 'Hierarchical',
+                    'label' => __('Hierarchical', 'acfe'),
                     'name' => 'hierarchical',
                     'type' => 'true_false',
-                    'instructions' => 'True or false allow hierarchical urls',
+                    'instructions' => __('True or false allow hierarchical urls', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
@@ -1940,7 +1940,7 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_tab_admin',
-            'label' => 'Admin',
+            'label' => __('Admin', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -1957,10 +1957,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_admin_terms_per_page',
-            'label' => 'Terms per page',
+            'label' => __('Terms per page', 'acfe'),
             'name' => 'acfe_dt_admin_terms_per_page',
             'type' => 'number',
-            'instructions' => 'ACF Extended: Number of terms to display on the admin list screen',
+            'instructions' => __('ACF Extended: Number of terms to display on the admin list screen', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1981,10 +1981,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_admin_orderby',
-            'label' => 'Order by',
+            'label' => __('Order by', 'acfe'),
             'name' => 'acfe_dt_admin_orderby',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Sort retrieved terms by parameter in the admin list screen. Accepts term fields \'name\', \'slug\', \'term_group\', \'term_id\', \'id\', \'description\', \'parent\', \'count\' (for term taxonomy count), or \'none\' to omit the ORDER BY clause',
+            'instructions' => __('ACF Extended: Sort retrieved terms by parameter in the admin list screen. Accepts term fields \'name\', \'slug\', \'term_group\', \'term_id\', \'id\', \'description\', \'parent\', \'count\' (for term taxonomy count), or \'none\' to omit the ORDER BY clause', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2007,10 +2007,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_admin_order',
-            'label' => 'Order',
+            'label' => __('Order', 'acfe'),
             'name' => 'acfe_dt_admin_order',
             'type' => 'select',
-            'instructions' => 'ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the admin list screen. Defaults to \'ASC\'.',
+            'instructions' => __('ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the admin list screen. Defaults to \'ASC\'.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2037,7 +2037,7 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_tab_rest',
-            'label' => 'REST',
+            'label' => __('REST', 'acfe'),
             'name' => '',
             'type' => 'tab',
             'instructions' => '',
@@ -2054,10 +2054,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_show_in_rest',
-            'label' => 'Show in rest',
+            'label' => __('Show in rest', 'acfe'),
             'name' => 'show_in_rest',
             'type' => 'true_false',
-            'instructions' => 'Whether to include the taxonomy in the REST API',
+            'instructions' => __('Whether to include the taxonomy in the REST API', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2076,10 +2076,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_rest_base',
-            'label' => 'Rest base',
+            'label' => __('Rest base', 'acfe'),
             'name' => 'rest_base',
             'type' => 'text',
-            'instructions' => 'To change the base url of REST API route',
+            'instructions' => __('To change the base url of REST API route', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -2098,10 +2098,10 @@ assign_terms',
         ),
         array(
             'key' => 'field_acfe_dt_rest_controller_class',
-            'label' => 'Rest controller class',
+            'label' => __('Rest controller class', 'acfe'),
             'name' => 'rest_controller_class',
             'type' => 'text',
-            'instructions' => 'REST API Controller class name',
+            'instructions' => __('REST API Controller class name', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
