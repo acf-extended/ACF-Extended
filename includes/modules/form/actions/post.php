@@ -314,7 +314,7 @@ class acfe_form_post{
             if(!empty($temp_title)){
                 
                 $_post_id = wp_insert_post(array(
-                    'post_title' => 'Post'
+                    'post_title' => __('Post', 'acfe')
                 ));
             
             }
@@ -587,7 +587,7 @@ function my_form_post_values_source($post_id, $form, $action){
             
         }
         
-        ?>You may use the following hooks:<br /><br />
+        echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_filter('acfe/form/submit/post_args', 'my_form_post_args', 10, 4);
 add_filter('acfe/form/submit/post_args/form=<?php echo $form_name; ?>', 'my_form_post_args', 10, 4);
@@ -652,7 +652,7 @@ function my_form_post_args($args, $type, $form, $action){
             
         }
         
-        ?>You may use the following hooks:<br /><br />
+         echo __('You may use the following hooks:', 'acfe') ?><br /><br />
 <pre>
 add_action('acfe/form/submit/post', 'my_form_post_save', 10, 5);
 add_action('acfe/form/submit/post/form=<?php echo $form_name; ?>', 'my_form_post_save', 10, 5);
