@@ -8,22 +8,22 @@ function acfe_field_post_object_settings($field){
     
     // other_choice
     acf_render_field_setting($field, array(
-        'label'         => __('Allow Custom','acf'),
+        'label'         => __('Allow Custom','acfe'),
         'instructions'  => '',
         'name'          => 'allow_custom',
         'type'          => 'true_false',
         'ui'            => 1,
-        'message'       => __("Allow 'custom' values to be added", 'acf'),
+        'message'       => __("Allow 'custom' values to be added", 'acfe'),
     ));
     
     // save other_choice
     acf_render_field_setting($field, array(
-        'label'			=> __('Save Custom','acf'),
+        'label'			=> __('Save Custom','acfe'),
         'instructions'	=> '',
         'name'			=> 'save_custom',
         'type'			=> 'true_false',
         'ui'			=> 1,
-        'message'		=> __("Save 'custom' values as new post", 'acf'),
+        'message'		=> __("Save 'custom' values as new post", 'acfe'),
         'conditions'	=> array(
             'field'		=> 'allow_custom',
             'operator'	=> '==',
@@ -33,7 +33,7 @@ function acfe_field_post_object_settings($field){
     
     // save post_type
     acf_render_field_setting($field, array(
-        'label'			=> __('New Post Arguments','acf'),
+        'label'			=> __('New Post Arguments','acfe'),
         'instructions'	=> '',
         'name'			=> 'save_post_type',
         'type'			=> 'acfe_post_types',
