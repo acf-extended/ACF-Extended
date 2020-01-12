@@ -24,8 +24,8 @@ class acfe_field_dynamic_message extends acf_field{
             $field_name = $field['name'];
         
         ob_start();
-        ?>
-        Write your own PHP/HTML content using the following hook:<br /><br />
+        
+        echo __('Write your own PHP/HTML content using the following hook:', 'acfe') ?><br /><br />
 <pre>
 add_action('acf/render_field/name=<?php echo $field_name; ?>', 'my_acf_dynamic_message');
 function my_acf_dynamic_message(){
@@ -40,7 +40,7 @@ function my_acf_dynamic_message(){
         
         // field_type
         acf_render_field_setting($field, array(
-            'label'			=> __('Instructions','acf'),
+            'label'			=> __('Instructions','acfe'),
             'instructions'	=> '',
             'type'			=> 'message',
             'name'			=> 'instructions',
