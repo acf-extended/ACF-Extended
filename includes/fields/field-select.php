@@ -8,11 +8,11 @@ function acfe_field_select_settings($field){
     
     // placeholder
     acf_render_field_setting($field, array(
-        'label'			=> __('Placeholder Text','acf'),
-        'instructions'	=> __('Appears within the input','acf'),
+        'label'			=> __('Placeholder Text','acfe'),
+        'instructions'	=> __('Appears within the input','acfe'),
         'type'			=> 'text',
         'name'			=> 'placeholder',
-        'placeholder'   => _x('Select', 'verb', 'acf'),
+        'placeholder'   => _x('Select', 'verb', 'acfe'),
         'conditional_logic' => array(
             array(
                 array(
