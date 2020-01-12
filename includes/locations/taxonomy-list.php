@@ -364,9 +364,9 @@ class acfe_location_taxonomy_list{
     
     function location_types($choices){
         
-        $name = __('Forms', 'acf');
+        $name = __('Forms', 'acfe');
         
-        $choices[$name] = acfe_array_insert_after('taxonomy', $choices[$name], 'taxonomy_list', __('Taxonomy List'));
+        $choices[$name] = acfe_array_insert_after('taxonomy', $choices[$name], 'taxonomy_list', __('Taxonomy List', 'acfe'));
 
         return $choices;
         
@@ -374,7 +374,7 @@ class acfe_location_taxonomy_list{
     
     function location_values($choices){
         
-		$choices = array('all' => __('All', 'acf'));
+		$choices = array('all' => __('All', 'acfe'));
 		$choices = array_merge($choices, acf_get_taxonomy_labels());
         
         return $choices;
