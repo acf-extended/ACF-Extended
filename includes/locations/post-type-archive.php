@@ -38,7 +38,7 @@ class acfe_location_post_type_archive{
             
             acf_add_options_page(array(
                 'page_title' 	            => $object->label . ' Archive',
-                'menu_title'	            => 'Archive',
+                'menu_title'	            => __('Archive', 'acfe'), 
                 'menu_slug' 	            => $name . '-archive',
                 'post_id'                   => $name . '_archive',
                 'capability'	            => acf_get_setting('capability'),
@@ -80,7 +80,7 @@ class acfe_location_post_type_archive{
     
     function location_types($choices){
         
-        $name = __('Post', 'acf');
+        $name = __('Post', 'acfe');
         
         $choices[$name] = acfe_array_insert_after('post_type', $choices[$name], 'post_type_archive', __('Post Type Archive'));
 
