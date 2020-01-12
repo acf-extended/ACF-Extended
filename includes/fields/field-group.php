@@ -7,10 +7,10 @@ add_action('acf/render_field_settings/type=group', 'acfe_field_group_settings');
 function acfe_field_group_settings($field){
     
     acf_render_field_setting($field, array(
-        'label'         => __('Seemless Style'),
+        'label'         => __('Seemless Style', 'acfe'),
         'name'          => 'acfe_seemless_style',
         'key'           => 'acfe_seemless_style',
-        'instructions'  => __('Enable better CSS integration: remove borders and padding'),
+        'instructions'  => __('Enable better CSS integration: remove borders and padding', 'acfe'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
@@ -27,10 +27,10 @@ function acfe_field_group_settings($field){
     ));
     
     acf_render_field_setting($field, array(
-        'label'         => __('Edition modal'),
+        'label'         => __('Edition modal', 'acfe'),
         'name'          => 'acfe_group_modal',
         'key'           => 'acfe_group_modal',
-        'instructions'  => __('Edit fields in a modal'),
+        'instructions'  => __('Edit fields in a modal', 'acfe'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
@@ -47,12 +47,12 @@ function acfe_field_group_settings($field){
     ));
     
     acf_render_field_setting($field, array(
-        'label'         => __('Edition modal button'),
+        'label'         => __('Edition modal button', 'acfe'),
         'name'          => 'acfe_group_modal_button',
         'key'           => 'acfe_group_modal_button',
-        'instructions'  => __('Text displayed in the edition modal button'),
+        'instructions'  => __('Text displayed in the edition modal button', 'acfe'),
         'type'          => 'text',
-        'placeholder'   => __('Edit', 'acf'),
+        'placeholder'   => __('Edit', 'acfe'),
         'conditional_logic' => array(
             array(
                 array(
@@ -77,7 +77,7 @@ function acfe_field_group_wrapper($wrapper, $field){
     if(isset($field['acfe_group_modal']) && !empty($field['acfe_group_modal'])){
         
         $wrapper['data-acfe-group-modal'] = 1;
-        $wrapper['data-acfe-group-modal-button'] = __('Edit', 'acf');
+        $wrapper['data-acfe-group-modal-button'] = __('Edit', 'acfe');
         
         if(isset($field['acfe_group_modal_button']) && !empty($field['acfe_group_modal_button'])){
             
