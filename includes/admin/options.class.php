@@ -176,8 +176,8 @@ class ACFE_Admin_Options_List extends WP_List_Table{
 		$title = '<strong>' . $item['option_name'] . '</strong>';
 
 		$actions = array(
-			'edit' => sprintf('<a href="?page=%s&action=edit&option=%s">' . __('Edit') . '</a>', esc_attr($_REQUEST['page']), absint($item['option_id'])),
-			'delete' => sprintf('<a href="?page=%s&action=delete&option=%s&_wpnonce=%s">' . __('Delete') . '</a>', esc_attr($_REQUEST['page']), absint($item['option_id']), $delete_nonce),
+			'edit' => sprintf('<a href="?page=%s&action=edit&option=%s">' . __('Edit', 'acfe') . '</a>', esc_attr($_REQUEST['page']), absint($item['option_id'])),
+			'delete' => sprintf('<a href="?page=%s&action=delete&option=%s&_wpnonce=%s">' . __('Delete', 'acfe') . '</a>', esc_attr($_REQUEST['page']), absint($item['option_id']), $delete_nonce),
 		);
 
 		return $title . $this->row_actions($actions);
