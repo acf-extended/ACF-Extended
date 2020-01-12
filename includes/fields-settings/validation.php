@@ -22,41 +22,41 @@ class acfe_field_validation{
         $this->functions = array(
         
             'General' => array(
-                'value'                 => 'If value',
-                'strlen'                => 'If value length - strlen(value)',
+                'value'                 => __('If value', 'acfe'),
+                'strlen'                => __('If value length - strlen(value)', 'acfe'),
             ),
             
             'Exists' => array(
-                'email_exists'          => 'If email exists - email_exists(value)',
-                'post_type_exists'      => 'If post type exists - post_type_exists(value)',
-                'taxonomy_exists'       => 'If taxonomy exists - taxonomy_exists(value)',
-                'term_exists'           => 'If term exists - term_exists(value)',
-                'username_exists'       => 'If username exists - username_exists(value)',
+                'email_exists'          => __('If email exists - email_exists(value)', 'acfe'),
+                'post_type_exists'      => __('If post type exists - post_type_exists(value)', 'acfe'),
+                'taxonomy_exists'       => __('If taxonomy exists - taxonomy_exists(value)', 'acfe'),
+                'term_exists'           => __('If term exists - term_exists(value)', 'acfe'),
+                'username_exists'       => __('If username exists - username_exists(value)', 'acfe'),
             ),
             
             'Is' => array(
-                'is_email'              => 'If is email - is_email(value))',
-                'is_user_logged_in'     => 'If is user logged in - is_user_logged_in()',
+                'is_email'              => __('If is email - is_email(value))', 'acfe'),
+                'is_user_logged_in'     => __('If is user logged in - is_user_logged_in()', 'acfe'),
             ),
             
             'Sanitize' => array(
-                'sanitize_email'        => 'If sanitize email - sanitize_email(value)',
-                'sanitize_file_name'    => 'If sanitize file name - sanitize_file_name(value)',
-                'sanitize_html_class'   => 'If sanitize html class - sanitize_html_class(value)',
-                'sanitize_key'          => 'If sanitize key - sanitize_key(value)',
-                'sanitize_meta'         => 'If sanitize meta - sanitize_meta(value)',
-                'sanitize_mime_type'    => 'If sanitize mime type - sanitize_mime_type(value)',
-                'sanitize_option'       => 'If sanitize option - sanitize_option(value)',
-                'sanitize_text_field'   => 'If sanitize text field - sanitize_text_field(value)',
-                'sanitize_title'        => 'If sanitize title - sanitize_title(value)',
-                'sanitize_user'         => 'If sanitize user - sanitize_user(value)',
+                'sanitize_email'        => __('If sanitize email - sanitize_email(value)', 'acfe'),
+                'sanitize_file_name'    => __('If sanitize file name - sanitize_file_name(value)', 'acfe'),
+                'sanitize_html_class'   => __('If sanitize html class - sanitize_html_class(value)', 'acfe'),
+                'sanitize_key'          => __('If sanitize key - sanitize_key(value)', 'acfe'),
+                'sanitize_meta'         => __('If sanitize meta - sanitize_meta(value)', 'acfe'),
+                'sanitize_mime_type'    => __('If sanitize mime type - sanitize_mime_type(value)', 'acfe'),
+                'sanitize_option'       => __('If sanitize option - sanitize_option(value)', 'acfe'),
+                'sanitize_text_field'   => __('If sanitize text field - sanitize_text_field(value)', 'acfe'),
+                'sanitize_title'        => __('If sanitize title - sanitize_title(value)', 'acfe'),
+                'sanitize_user'         => __('If sanitize user - sanitize_user(value)', 'acfe'),
             ),
             
             'User' => array(
-                'get_user_by_id'        => 'If get user by id - get_user_by(\'id\', value)',
-                'get_user_by_slug'      => 'If get user by slug - get_user_by(\'slug\', value)',
-                'get_user_by_email'     => 'If get user by email - get_user_by(\'email\', value)',
-                'get_user_by_login'     => 'If get user by login - get_user_by(\'login\', value)',
+                'get_user_by_id'        => __('If get user by id - get_user_by(\'id\', value)', 'acfe'),
+                'get_user_by_slug'      => __('If get user by slug - get_user_by(\'slug\', value)', 'acfe'),
+                'get_user_by_email'     => __('If get user by email - get_user_by(\'email\', value)', 'acfe'),
+                'get_user_by_login'     => __('If get user by login - get_user_by(\'login\', value)', 'acfe'),
             )
             
         );
@@ -158,17 +158,17 @@ class acfe_field_validation{
         
         // Settings
         acf_render_field_setting($field, array(
-            'label'         => __('Advanced validation'),
+            'label'         => __('Advanced validation', 'acfe'),
             'name'          => 'acfe_validate',
             'key'           => 'acfe_validate',
-            'instructions'  => __('Validate value against rules'),
+            'instructions'  => __('Validate value against rules', 'acfe'),
             'type'          => 'repeater',
-            'button_label'  => __('Add validation'),
+            'button_label'  => __('Add validation', 'acfe'),
             'required'      => false,
             'layout'        => 'row',
             'sub_fields'    => array(
                 array(
-                    'label'             => 'Location',
+                    'label'             => __('Location', 'acfe),
                     'name'              => 'acfe_validate_location',
                     'key'               => 'acfe_validate_location',
                     'type'              => 'select',
@@ -192,17 +192,17 @@ class acfe_field_validation{
                     'placeholder'       => 'Everywhere',
                 ),
                 array(
-                    'label'         => __('Rules'),
+                    'label'         => __('Rules', 'acfe'),
                     'name'          => 'acfe_validate_rules_and',
                     'key'           => 'acfe_validate_rules_and',
                     'instructions'  => '',
                     'type'          => 'repeater',
-                    'button_label'  => __('+ AND'),
+                    'button_label'  => __('+ AND', 'acfe'),
                     'required'      => false,
                     'layout'        => 'table',
                     'sub_fields'    => array(
                         array(
-                            'label'         => 'Function',
+                            'label'         => __('Function', 'acfe'),
                             'name'          => 'acfe_validate_function',
                             'key'           => 'acfe_validate_function',
                             'prefix'        => '',
@@ -234,12 +234,12 @@ class acfe_field_validation{
                                     '>='        => '>=',
                                     '<'         => '<',
                                     '<='        => '<=',
-                                    'contains'  => 'Contains',
-                                    '!contains'  => 'Doesn\'t contain',
-                                    'starts'    => 'Starts with',
-                                    '!starts'    => 'Doesn\'t start with',
-                                    'ends'      => 'Ends with',
-                                    '!ends'      => 'Doesn\'t end with',
+                                    'contains'  => __('Contains', 'acfe'),
+                                    '!contains'  => __('Doesn\'t contain', 'acfe'),
+                                    'starts'    => __('Starts with', 'acfe'),
+                                    '!starts'    => __('Doesn\'t start with', 'acfe'),
+                                    'ends'      => __('Ends with', 'acfe'),
+                                    '!ends'      => __('Doesn\'t end with', 'acfe'),
                                 ),
                                 'Values'     => array(
                                     'true'  => '== true',
@@ -363,7 +363,7 @@ class acfe_field_validation{
                     )
                 ),
                 array(
-                    'label'         => 'Error',
+                    'label'         => __('Error', 'acfe'),
                     'name'          => 'acfe_validate_error',
                     'key'           => 'acfe_validate_error',
                     'prefix'        => '',
