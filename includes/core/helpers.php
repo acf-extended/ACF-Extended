@@ -371,7 +371,7 @@ function acfe_get_roles($user_roles = array()){
         global $wp_roles;
         
         if(is_multisite())
-            $user_roles['super_admin'] = __('Super Admin');
+            $user_roles['super_admin'] = __('Super Admin', 'acfe');
         
         foreach($wp_roles->roles as $role => $settings){
             
