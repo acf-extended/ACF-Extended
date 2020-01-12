@@ -52,11 +52,11 @@ class acfe_field_button extends acf_field{
         
         // class
         acf_render_field_setting($field, array(
-            'label'			=> __('Button attributes','acf'),
+            'label'			=> __('Button attributes','acfe'),
             'instructions'	=> '',
             'type'			=> 'text',
             'name'			=> 'button_class',
-            'prepend'		=> __('class', 'acf'),
+            'prepend'		=> __('class', 'acfe'),
         ));
         
         // id
@@ -65,7 +65,7 @@ class acfe_field_button extends acf_field{
             'instructions'	=> '',
             'type'			=> 'text',
             'name'			=> 'button_id',
-            'prepend'		=> __('id', 'acf'),
+            'prepend'		=> __('id', 'acfe'),
             '_append'       => 'button_class'
         ));
         
@@ -133,7 +133,7 @@ acf.addAction('acfe/fields/button/ajax_success', function(response, $el){
         
         // ajax instructions
         acf_render_field_setting($field, array(
-            'label'			=> __('Ajax instructions','acf'),
+            'label'			=> __('Ajax instructions','acfe'),
             'instructions'	=> '',
             'type'			=> 'message',
             'name'			=> 'instructions',
