@@ -20,10 +20,10 @@ add_action('acf/render_field_settings/type=image', 'acfe_field_image_settings', 
 function acfe_field_image_settings($field){
     
     acf_render_field_setting($field, array(
-        'label'         => __('Uploader type'),
+        'label'         => __('Uploader type', 'acfe'),
         'name'          => 'acfe_uploader',
         'key'           => 'acfe_uploader',
-        'instructions'  => __('Choose the uploader type'),
+        'instructions'  => __('Choose the uploader type', 'acfe'),
         'type'          => 'radio',
         'choices'       => array(
             'wp'    => 'Media',
@@ -38,10 +38,10 @@ function acfe_field_image_settings($field){
     ));
     
     acf_render_field_setting($field, array(
-        'label'         => __('Featured thumbnail'),
+        'label'         => __('Featured thumbnail', 'acfe'),
         'name'          => 'acfe_thumbnail',
         'key'           => 'acfe_thumbnail',
-        'instructions'  => __('Make this image the featured thumbnail'),
+        'instructions'  => __('Make this image the featured thumbnail', 'acfe'),
         'type'          => 'true_false',
         'default_value'     => false,
         'ui'                => true,
