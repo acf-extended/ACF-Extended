@@ -111,37 +111,37 @@ function acfe_field_group_meta_fix_repeater($field){
 add_action('acf/field_group/admin_head', 'acfe_render_field_group_settings');
 function acfe_render_field_group_settings(){
     
-    add_meta_box('acf-field-group-acfe', __('Field group', 'acf'), function(){
+    add_meta_box('acf-field-group-acfe', __('Field group', 'acfe'), function(){
         
         global $field_group;
         
         // Form settings
         acf_render_field_wrap(array(
-            'label'         => __('Advanced settings'),
+            'label'         => __('Advanced settings', 'acfe'),
             'name'          => 'acfe_form',
             'prefix'        => 'acf_field_group',
             'type'			=> 'true_false',
 			'ui'			=> 1,
-            'instructions'	=> __('Enable advanced fields settings & validation'),
+            'instructions'	=> __('Enable advanced fields settings & validation', 'acfe'),
             'value'         => (isset($field_group['acfe_form'])) ? $field_group['acfe_form'] : '',
             'required'      => false,
         ));
         
         // Meta
         acf_render_field_wrap(array(
-            'label'         => __('Custom meta data'),
+            'label'         => __('Custom meta data', 'acfe'),
             'name'          => 'acfe_meta',
             'key'           => 'acfe_meta',
-            'instructions'  => __('Add custom meta data to the field group. Can be retrived using <code>acf_get_field_group()</code>'),
+            'instructions'  => __('Add custom meta data to the field group. Can be retrived using <code>acf_get_field_group()</code>', 'acfe'),
             'prefix'        => 'acf_field_group',
             'type'          => 'repeater',
-            'button_label'  => __('+ Meta'),
+            'button_label'  => __('+ Meta', 'acfe'),
             'required'      => false,
             'layout'        => 'table',
             'value'         => (isset($field_group['acfe_meta'])) ? $field_group['acfe_meta'] : array(),
             'sub_fields'    => array(
                 array(
-                    'label'         => __('Key'),
+                    'label'         => __('Key', 'acfe'),
                     'name'          => 'acfe_meta_key',
                     'key'           => 'acfe_meta_key',
                     'prefix'        => '',
@@ -157,7 +157,7 @@ function acfe_render_field_group_settings(){
                     ),
                 ),
                 array(
-                    'label'         => __('Value'),
+                    'label'         => __('Value', 'acfe'),
                     'name'          => 'acfe_meta_value',
                     'key'           => 'acfe_meta_value',
                     'prefix'        => '',
@@ -178,8 +178,8 @@ function acfe_render_field_group_settings(){
         // Data
         
         acf_render_field_wrap(array(
-            'label'         => __('Field group data'),
-            'instructions'  => __('View raw field group data, for development use'),
+            'label'         => __('Field group data', 'acfe'),
+            'instructions'  => __('View raw field group data, for development use', 'acfe'),
             'type'          => 'acfe_dynamic_message',
             'name'          => 'acfe_data',
             'prefix'        => 'acf_field_group',
@@ -192,7 +192,7 @@ function acfe_render_field_group_settings(){
             'name'          => 'acfe_note',
             'prefix'        => 'acf_field_group',
             'type'          => 'textarea',
-            'instructions'	=> __('Add personal note. Only visible to administrators'),
+            'instructions'	=> __('Add personal note. Only visible to administrators', 'acfe'),
             'value'         => (isset($field_group['acfe_note'])) ? $field_group['acfe_note'] : '',
             'required'      => false,
         ));
@@ -279,8 +279,8 @@ function acfe_render_field_group_settings_side(){
         
         if(acfe_is_field_group_json_desync($field_group)){
             acf_render_field_wrap(array(
-                'label'         => __('Json Desync'),
-                'instructions'  => __('Local json file is different from this version. If you manually synchronize it, you will lose your current field group settings'),
+                'label'         => __('Json Desync', 'acfe'),
+                'instructions'  => __('Local json file is different from this version. If you manually synchronize it, you will lose your current field group settings', 'acfe'),
                 'type'          => 'acfe_dynamic_message',
                 'name'          => 'acfe_sync_available',
                 'prefix'        => 'acf_field_group',
@@ -325,7 +325,7 @@ function acfe_render_field_group_settings_side(){
         }
         
         acf_render_field_wrap(array(
-            'label'         => __('Auto Sync'),
+            'label'         => __('Auto Sync', 'acfe'),
             'instructions'  => '',
             'type'          => 'checkbox',
             'name'          => 'acfe_autosync',
@@ -338,11 +338,11 @@ function acfe_render_field_group_settings_side(){
         ));
         
         acf_render_field_wrap(array(
-            'label'         => __('Permissions'),
+            'label'         => __('Permissions', 'acfe'),
             'name'          => 'acfe_permissions',
             'prefix'        => 'acf_field_group',
             'type'          => 'checkbox',
-            'instructions'	=> __('Select user roles that are allowed to view and edit this field group in post edition'),
+            'instructions'	=> __('Select user roles that are allowed to view and edit this field group in post edition', 'acfe'),
             'required'      => false,
             'default_value' => false,
             'choices'       => acfe_get_roles(),
@@ -484,11 +484,11 @@ function acfe_render_field_group_data($field){
     
     $field_group = acf_get_field_group($field['value']);
     if(!$field_group){
-        echo '<a href="#" class="button disabled" disabled>' . __('Data') . '</a>';
+        echo '<a href="#" class="button disabled" disabled>' . __('Data', 'acfe') . '</a>';
         return;
     }
     
-    echo '<a href="#" class="button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data') . '</a>';
+    echo '<a href="#" class="button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data', 'acfe') . '</a>';
     echo '<div class="acfe-modal" data-modal-key="' . $field_group['key'] . '"><div style="padding:15px;"><pre>' . print_r($field_group, true) . '</pre></div></div>';
     
 }
@@ -572,7 +572,7 @@ function acfe_permissions_field_groups($field_groups){
 add_filter('acf/prepare_field/name=instruction_placement', 'acfe_field_group_instruction_placement');
 function acfe_field_group_instruction_placement($field){
     
-    $field['choices'] = array_merge($field['choices'], array('acfe_instructions_tooltip' => 'Tooltip'));
+    $field['choices'] = array_merge($field['choices'], array('acfe_instructions_tooltip' => __('Tooltip', 'acfe')));
     
     return $field;
     
