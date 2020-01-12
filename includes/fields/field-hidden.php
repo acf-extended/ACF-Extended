@@ -39,8 +39,8 @@ class acfe_field_hidden extends acf_field{
         
         // default_value
 		acf_render_field_setting( $field, array(
-			'label'			=> __('Value','acf'),
-			'instructions'	=> __('Default value in the hidden input','acf'),
+			'label'			=> __('Value','acfe'),
+			'instructions'	=> __('Default value in the hidden input','acfe'),
 			'type'			=> 'text',
 			'name'			=> 'default_value',
 		));
