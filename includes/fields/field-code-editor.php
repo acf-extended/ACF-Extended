@@ -54,39 +54,39 @@ class acfe_field_code_editor extends acf_field{
         
         // default_value
         acf_render_field_setting($field, array(
-            'label'			=> __('Default Value','acf'),
-            'instructions'	=> __('Appears when creating a new post','acf'),
+            'label'			=> __('Default Value','acfe'),
+            'instructions'	=> __('Appears when creating a new post','acfe'),
             'type'			=> 'acfe_code_editor',
             'name'			=> 'default_value',
         ));
         
         // placeholder
         acf_render_field_setting($field, array(
-            'label'			=> __('Placeholder','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
+            'label'			=> __('Placeholder','acfe'),
+            'instructions'	=> __('Appears within the input','acfe'),
             'type'			=> 'acfe_code_editor',
             'name'			=> 'placeholder',
         ));
         
         // Mode
         acf_render_field_setting($field, array(
-            'label'			=> __('Editor mode','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
+            'label'			=> __('Editor mode','acfe'),
+            'instructions'	=> __('Appears within the input','acfe'),
             'type'          => 'select',
             'name'			=> 'mode',
             'choices'       => array(
-                'text/html'                 => __('Text/HTML', 'acf'),
-                'javascript'                => __('JavaScript', 'acf'),
-                'css'                       => __('CSS', 'acf'),
-                'application/x-httpd-php'   => __('PHP (mixed)', 'acf'),
-                'text/x-php'                => __('PHP (plain)', 'acf'),
+                'text/html'                 => __('Text/HTML', 'acfe'),
+                'javascript'                => __('JavaScript', 'acfe'),
+                'css'                       => __('CSS', 'acfe'),
+                'application/x-httpd-php'   => __('PHP (mixed)', 'acfe'),
+                'text/x-php'                => __('PHP (plain)', 'acfe'),
             )
         ));
         
         // Lines
         acf_render_field_setting($field, array(
-            'label'			=> __('Show Lines', 'acf'),
-            'instructions'	=> 'Whether to show line numbers to the left of the editor',
+            'label'			=> __('Show Lines', 'acfe'),
+            'instructions'	=> __('Whether to show line numbers to the left of the editor', 'acfe'),
             'type'			=> 'true_false',
             'name'			=> 'lines',
             'ui'            => true,
@@ -94,8 +94,8 @@ class acfe_field_code_editor extends acf_field{
         
         // Indent Unit
         acf_render_field_setting($field, array(
-            'label'			=> __('Indent Unit', 'acf'),
-            'instructions'	=> 'How many spaces a block (whatever that means in the edited language) should be indented',
+            'label'			=> __('Indent Unit', 'acfe'),
+            'instructions'	=> __('How many spaces a block (whatever that means in the edited language) should be indented', 'acfe'),
             'type'			=> 'number',
             'min'			=> 0,
             'name'			=> 'indent_unit',
@@ -103,16 +103,16 @@ class acfe_field_code_editor extends acf_field{
         
         // maxlength
         acf_render_field_setting($field, array(
-            'label'			=> __('Character Limit','acf'),
-            'instructions'	=> __('Leave blank for no limit','acf'),
+            'label'			=> __('Character Limit','acfe'),
+            'instructions'	=> __('Leave blank for no limit','acfe'),
             'type'			=> 'number',
             'name'			=> 'maxlength',
         ));
         
         // rows
         acf_render_field_setting($field, array(
-            'label'			=> __('Rows','acf'),
-            'instructions'	=> __('Sets the textarea height','acf'),
+            'label'			=> __('Rows','acfe'),
+            'instructions'	=> __('Sets the textarea height','acfe'),
             'type'			=> 'number',
             'name'			=> 'rows',
             'placeholder'	=> 8
