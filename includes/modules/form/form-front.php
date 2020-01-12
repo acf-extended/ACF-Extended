@@ -39,7 +39,7 @@ class acfe_form_front{
         // Honeypot
 		if(!empty($acf['_validate_email'])){
 			
-			acf_add_validation_error('', __('Spam Detected', 'acf'));
+			acf_add_validation_error('', __('Spam Detected', 'acfe'));
 			
 		}
         
@@ -206,7 +206,7 @@ class acfe_form_front{
             'hide_unload'           => '',
             'errors_position'       => 'above',
             'errors_class'          => '',
-            'updated_message'		=> __('Post updated', 'acf'),
+            'updated_message'		=> __('Post updated', 'acfe'),
             'html_updated_message'  => '<div id="message" class="updated">%s</div>',
             'updated_hide_form'	    => false,
             'return'				=> '',
