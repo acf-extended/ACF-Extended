@@ -14,10 +14,10 @@ function acfe_bidirectional_settings($field){
     
     // Settings
     acf_render_field_setting($field, array(
-        'label'             => __('Bidirectional'),
+        'label'             => __('Bidirectional', 'acfe'),
         'key'               => 'acfe_bidirectional',
         'name'              => 'acfe_bidirectional',
-        'instructions'      => __('Set the field as bidirectional'),
+        'instructions'      => __('Set the field as bidirectional', 'acfe'),
         'type'              => 'group',
         'required'          => false,
         'conditional_logic' => false,
