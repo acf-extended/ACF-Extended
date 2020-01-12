@@ -11,7 +11,7 @@ function acfe_permissions_settings($field){
         'label'         => __('Permissions'),
         'name'          => 'acfe_permissions',
         'key'           => 'acfe_permissions',
-        'instructions'  => __('Select user roles that are allowed to view and edit this field. If nothing is selected, then this field will be available to everyone.'),
+        'instructions'  => __('Select user roles that are allowed to view and edit this field. If nothing is selected, then this field will be available to everyone.', 'acfe'),
         'type'          => 'checkbox',
         'required'      => false,
         'default_value' => false,
