@@ -20,10 +20,10 @@ add_action('acf/render_field_settings/type=file', 'acfe_field_file_settings', 0)
 function acfe_field_file_settings($field){
     
     acf_render_field_setting($field, array(
-        'label'         => __('Uploader type'),
+        'label'         => __('Uploader type', 'acfe'),
         'name'          => 'acfe_uploader',
         'key'           => 'acfe_uploader',
-        'instructions'  => __('Choose the uploader type'),
+        'instructions'  => __('Choose the uploader type', 'acfe'),
         'type'          => 'radio',
         'choices'       => array(
             'wp'    => 'Media',
