@@ -11,10 +11,10 @@ function acfe_repeater_settings($field){
     
     // Stylised button
     acf_render_field_setting($field, array(
-        'label'         => __('Stylised Button'),
+        'label'         => __('Stylised Button', 'acfe') ,
         'name'          => 'acfe_repeater_stylised_button',
         'key'           => 'acfe_repeater_stylised_button',
-        'instructions'  => __('Better row button integration'),
+        'instructions'  => __('Better row button integration', 'acfe'),
         'type'          => 'true_false',
         'message'       => '',
         'default_value' => false,
