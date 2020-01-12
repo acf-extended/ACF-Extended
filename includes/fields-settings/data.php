@@ -40,18 +40,18 @@ function acfe_render_field_data($field){
     $get_field_debug = '<pre style="margin-bottom:15px;">' . print_r($get_field, true) . '</pre>';
 
     if(!$get_field)
-        $get_field_debug = '<pre>Field data unavailable</pre>';
+        $get_field_debug = '<pre>' . __('Field data unavailable', 'acfe') . '</pre>';
 
     $get_post = get_post($acfe_field_data_id);
     $get_post_debug = '<pre>' . print_r($get_post, true) . '</pre>';
     
     if(!$get_post || $get_post->post_type !== 'acf-field'){
-        $get_post_debug = '<pre>Post object unavailable</pre>';
+        $get_post_debug = '<pre>' . __('Post object unavailable', 'acfe') . '</pre>';
     }
     
     $button = '<a href="#" class="button acfe_modal_open" style="margin-left:5px;" data-modal-key="' . $acfe_field_data_id . '">' . __('Data') . '</a>';
     if(!$get_field && !$get_post)
-        $button = '<a href="#" class="button disabled" disabled>' . __('Data') . '</a>';
+        $button = '<a href="#" class="button disabled" disabled>' . __('Data', 'acfe') . '</a>';
     
     echo $button . '<div class="acfe-modal" data-modal-key="' . $acfe_field_data_id . '"><div style="padding:15px;">' . $get_field_debug . $get_post_debug . '</div></div>';
     
