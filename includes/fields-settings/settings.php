@@ -109,17 +109,17 @@ class acfe_field_settings{
         
         // Settings
         acf_render_field_setting($field, array(
-            'label'         => __('Advanced settings', 'acf'),
+            'label'         => __('Advanced settings', 'acfe'),
             'name'          => 'acfe_settings',
             'key'           => 'acfe_settings',
-            'instructions'  => __('Change field settings based on location'),
+            'instructions'  => __('Change field settings based on location', 'acfe'),
             'type'          => 'repeater',
-            'button_label'  => __('Add settings'),
+            'button_label'  => __('Add settings', 'acfe'),
             'required'      => false,
             'layout'        => 'row',
             'sub_fields'    => array(
                 array(
-                    'label'             => 'Location',
+                    'label'             => __('Location', 'acfe'),
                     'name'              => 'acfe_settings_location',
                     'key'               => 'acfe_settings_location',
                     'type'              => 'select',
@@ -132,28 +132,28 @@ class acfe_field_settings{
                         'id'    => '',
                     ),
                     'choices'           => array(
-                        'admin' => 'Administration',
-                        'front' => 'Front-end',
+                        'admin' => __('Administration', 'acfe'),
+                        'front' => __('Front-end', 'acfe'),
                     ),
                     'allow_null'        => true,
                     'multiple'          => 0,
                     'ui'                => 0,
                     'return_format'     => 'value',
                     'ajax'              => 0,
-                    'placeholder'       => 'Everywhere',
+                    'placeholder'       => __('Everywhere', 'acfe'),
                 ),
                 array(
-                    'label'         => __('Settings'),
+                    'label'         => __('Settings', 'acfe'),
                     'name'          => 'acfe_settings_settings',
                     'key'           => 'acfe_settings_settings',
                     'instructions'  => '',
                     'type'          => 'repeater',
-                    'button_label'  => __('+'),
+                    'button_label'  => __('+', 'acfe'),
                     'required'      => false,
                     'layout'        => 'table',
                     'sub_fields'    => array(
                         array(
-                            'label'         => 'Setting',
+                            'label'         => __('Setting', 'acfe'),
                             'name'          => 'acfe_settings_setting_type',
                             'key'           => 'acfe_settings_setting_type',
                             'prefix'        => '',
@@ -168,17 +168,17 @@ class acfe_field_settings{
                                 'id'    => '',
                             ),
                             'choices'       => array(
-                                'required'      => 'Required',
-                                'hide_field'    => 'Hide field',
-                                'hide_label'    => 'Hide label',
-                                'default_value' => 'Default value',
-                                'placeholder'   => 'Placeholder',
-                                'instructions'  => 'Instructions',
-                                'custom'        => 'Custom setting',
+                                'required'      => __('Required', 'acfe'),
+                                'hide_field'    => __('Hide field', 'acfe'),
+                                'hide_label'    => __('Hide label', 'acfe'),
+                                'default_value' => __('Default value', 'acfe'),
+                                'placeholder'   => __('Placeholder', 'acfe'),
+                                'instructions'  => __('Instructions', 'acfe'),
+                                'custom'        => __('Custom setting', 'acfe'),
                             )
                         ),
                         array(
-                            'label'         => 'Setting name',
+                            'label'         => __('Setting name', 'acfe'),
                             'name'          => 'acfe_settings_setting_name',
                             'key'           => 'acfe_settings_setting_name',
                             'prefix'        => '',
@@ -203,7 +203,7 @@ class acfe_field_settings{
                             )
                         ),
                         array(
-                            'label'         => 'Operator / Value',
+                            'label'         => __('Operator / Value', 'acfe'),
                             'name'          => 'acfe_settings_setting_operator',
                             'key'           => 'acfe_settings_setting_operator',
                             'prefix'        => '',
@@ -229,7 +229,7 @@ class acfe_field_settings{
                             ),
                         ),
                         array(
-                            'label'         => 'Value',
+                            'label'         => __('Value', 'acfe'),
                             'name'          => 'acfe_settings_setting_value',
                             'key'           => 'acfe_settings_setting_value',
                             'prefix'        => '',
