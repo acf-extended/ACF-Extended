@@ -8,7 +8,7 @@ class acfe_field_recaptcha extends acf_field{
     function __construct(){
         
         $this->name = 'acfe_recaptcha';
-        $this->label = __('reCAPTCHA', 'acf');
+        $this->label = __('reCAPTCHA', 'acfe');
         $this->category = 'jquery';
         $this->defaults = array(
             'required'      => 0,
@@ -30,25 +30,25 @@ class acfe_field_recaptcha extends acf_field{
         
         // Version
         acf_render_field_setting($field, array(
-            'label'			=> __('Version', 'acf'),
-            'instructions'	=> __('Select the reCaptcha version', 'acf'),
+            'label'			=> __('Version', 'acfe'),
+            'instructions'	=> __('Select the reCaptcha version', 'acfe'),
             'type'			=> 'select',
             'name'			=> 'version',
             'choices'		=> array(
-                'v2'    => __('reCaptcha V2', 'acf'),
-                'v3'    => __('reCaptcha V3', 'acf'),
+                'v2'    => __('reCaptcha V2', 'acfe'),
+                'v3'    => __('reCaptcha V3', 'acfe'),
             )
         ));
         
         // V2 Theme
         acf_render_field_setting($field, array(
-            'label'			=> __('Theme', 'acf'),
-            'instructions'	=> __('Select the reCaptcha theme', 'acf'),
+            'label'			=> __('Theme', 'acfe'),
+            'instructions'	=> __('Select the reCaptcha theme', 'acfe'),
             'type'			=> 'select',
             'name'			=> 'v2_theme',
             'choices'		=> array(
-                'light' => __('Light', 'acf'),
-                'dark'  => __('Dark', 'acf'),
+                'light' => __('Light', 'acfe'),
+                'dark'  => __('Dark', 'acfe'),
             ),
             'conditional_logic' => array(
                 array(
@@ -63,13 +63,13 @@ class acfe_field_recaptcha extends acf_field{
         
         // V2 Size
         acf_render_field_setting($field, array(
-            'label'			=> __('Size', 'acf'),
-            'instructions'	=> __('Select the reCaptcha size', 'acf'),
+            'label'			=> __('Size', 'acfe'),
+            'instructions'	=> __('Select the reCaptcha size', 'acfe'),
             'type'			=> 'select',
             'name'			=> 'v2_size',
             'choices'		=> array(
-                'normal'    => __('Normal', 'acf'),
-                'compact'   => __('Compact', 'acf'),
+                'normal'    => __('Normal', 'acfe'),
+                'compact'   => __('Compact', 'acfe'),
             ),
             'conditional_logic' => array(
                 array(
@@ -84,8 +84,8 @@ class acfe_field_recaptcha extends acf_field{
         
         // V3 Hide Logo
         acf_render_field_setting($field, array(
-            'label'			=> __('Hide logo', 'acf'),
-            'instructions'	=> __('Hide the reCaptcha logo', 'acf'),
+            'label'			=> __('Hide logo', 'acfe'),
+            'instructions'	=> __('Hide the reCaptcha logo', 'acfe'),
             'type'			=> 'true_false',
             'name'			=> 'v3_hide_logo',
             'ui'            => true,
@@ -102,16 +102,16 @@ class acfe_field_recaptcha extends acf_field{
         
         // Site Key
         acf_render_field_setting($field, array(
-            'label'			=> __('Site key', 'acf'),
-            'instructions'	=> __('Enter the site key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acf'),
+            'label'			=> __('Site key', 'acfe'),
+            'instructions'	=> __('Enter the site key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acfe'),
             'type'			=> 'text',
             'name'			=> 'site_key',
         ));
         
         // Site Secret
         acf_render_field_setting($field, array(
-            'label'			=> __('Secret key', 'acf'),
-            'instructions'	=> __('Enter the secret key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acf'),
+            'label'			=> __('Secret key', 'acfe'),
+            'instructions'	=> __('Enter the secret key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acfe'),
             'type'			=> 'text',
             'name'			=> 'secret_key',
         ));
@@ -222,14 +222,14 @@ class acfe_field_recaptcha extends acf_field{
         // Expired
         if($value === 'expired'){
             
-            return __('reCaptcha has expired.');
+            return __('reCaptcha has expired.', 'acfe');
 
         }
         
         // Error
         elseif($value === 'error'){
             
-            return __('An error has occured.');
+            return __('An error has occured.', 'acfe');
 
         }
         
