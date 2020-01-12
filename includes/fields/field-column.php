@@ -52,8 +52,8 @@ class acfe_field_column extends acf_field{
         
         // endpoint
 		acf_render_field_setting( $field, array(
-			'label'			=> __('Endpoint','acf'),
-			'instructions'	=> __('Define an endpoint for the previous tabs to stop. This will start a new group of columns.', 'acf'),
+			'label'			=> __('Endpoint','acfe'),
+			'instructions'	=> __('Define an endpoint for the previous tabs to stop. This will start a new group of columns.', 'acfe'),
 			'name'			=> 'endpoint',
 			'type'			=> 'true_false',
 			'ui'			=> 1,
