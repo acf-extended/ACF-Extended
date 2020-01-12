@@ -22,8 +22,8 @@ function acfe_options_menu(){
     
     $hook = add_submenu_page(
         'options-general.php', 
-        __('Options'), 
-        __('Options'), 
+        __('Options', 'acfe'), 
+        __('Options', 'acfe'), 
         acf_get_setting('capability'), 
         'acfe-options'
     );
@@ -158,7 +158,7 @@ function acfe_options_load_delete(){
 add_action('acfe/options/load/message=deleted', 'acfe_options_load_delete_message');
 function acfe_options_load_delete_message(){
     
-    acf_add_admin_notice(__('Option has been deleted'), 'success');
+    acf_add_admin_notice(__('Option has been deleted', 'acfe'), 'success');
     
 }
 
@@ -194,7 +194,7 @@ function acfe_options_load_bulk_delete(){
 add_action('acfe/options/load/message=bulk-deleted', 'acfe_options_load_bulk_delete_message');
 function acfe_options_load_bulk_delete_message(){
     
-    acf_add_admin_notice(__('Options have been deleted'), 'success');
+    acf_add_admin_notice(__('Options have been deleted', 'acfe'), 'success');
     
 }
 
@@ -305,7 +305,7 @@ function acfe_options_edit_metabox(){
     $fields = array();
     
     $fields[] = array(
-        'label'             => __('Name'),
+        'label'             => __('Name', 'acfe'),
         'key'               => 'field_acfe_options_edit_name',
         'name'              => 'field_acfe_options_edit_name',
         'type'              => 'text',
@@ -330,7 +330,7 @@ function acfe_options_edit_metabox(){
     if(is_serialized($option['option_value']) || $option['option_value'] != strip_tags($option['option_value'])){
         
         $type = 'serilized';
-        $instructions = 'Use this <a href="https://duzun.me/playground/serialize" target="_blank">online tool</a> to unserialize/seriliaze data.';
+        $instructions = __('Use this <a href="https://duzun.me/playground/serialize" target="_blank">online tool</a> to unserialize/seriliaze data.', 'acfe');
         
         if($option['option_value'] != strip_tags($option['option_value'])){
             
@@ -340,7 +340,7 @@ function acfe_options_edit_metabox(){
         }
         
         $fields[] = array(
-            'label'             => __('Value <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>'),
+            'label'             => __('Value <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>', 'acfe'),
             'key'               => 'field_acfe_options_edit_value',
             'name'              => 'field_acfe_options_edit_value',
             'type'              => 'textarea',
@@ -368,10 +368,10 @@ function acfe_options_edit_metabox(){
     elseif(acfe_is_json($option['option_value'])){
         
         $type = 'json';
-        $instructions = 'Use this <a href="http://solutions.weblite.ca/php2json/" target="_blank">online tool</a> to decode/encode json.';
+        $instructions = __('Use this <a href="http://solutions.weblite.ca/php2json/" target="_blank">online tool</a> to decode/encode json.', 'acfe');
         
         $fields[] = array(
-            'label'             => __('Value <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>'),
+            'label'             => __('Value', 'acfe') . ' <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>',
             'key'               => 'field_acfe_options_edit_value',
             'name'              => 'field_acfe_options_edit_value',
             'type'              => 'textarea',
@@ -400,10 +400,10 @@ function acfe_options_edit_metabox(){
         
         $type = '';
         if(!empty($option['option_value']))
-            $type = '<code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">string</code>';
+            $type = __('<code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">string</code>', 'acfe');
         
         $fields[] = array(
-            'label'             => __('Value ' . $type),
+            'label'             => __('Value ', 'acfe') . $type,
             'key'               => 'field_acfe_options_edit_value',
             'name'              => 'field_acfe_options_edit_value',
             'type'              => 'text',
@@ -427,7 +427,7 @@ function acfe_options_edit_metabox(){
     }
     
     $fields[] = array(
-        'label'             => __('Autoload'),
+        'label'             => __('Autoload', 'acfe'),
         'key'               => 'field_acfe_options_edit_autoload',
         'name'              => 'field_acfe_options_edit_autoload',
         'type'              => 'select',
@@ -442,8 +442,8 @@ function acfe_options_edit_metabox(){
         'maxlength'         => '',
         'value'             => $option['autoload'],
         'choices'           => array(
-            'no'    => __('No'),
-            'yes'   => __('Yes'),
+            'no'    => __('No', 'acfe'),
+            'yes'   => __('Yes', 'acfe'),
         ),
         'wrapper'           => array(
             'width' => '',
@@ -454,13 +454,13 @@ function acfe_options_edit_metabox(){
     
     $field_group['fields'] = $fields;
     
-    $metabox_submit_title = __('Submit','acf');
-    $metabox_main_title = __('Add Option');
+    $metabox_submit_title = __('Submit', 'acfe');
+    $metabox_main_title = __('Add Option', 'acfe');
     
     if(!empty($option['option_id'])){
         
-        $metabox_submit_title = __('Edit','acf');
-        $metabox_main_title = __('Edit Option');
+        $metabox_submit_title = __('Edit', 'acfe');
+        $metabox_main_title = __('Edit Option', 'acfe');
         
     }
     
@@ -475,7 +475,7 @@ function acfe_options_edit_metabox(){
             <?php if(!empty($option['option_id'])){ ?>
             
                 <div id="delete-action">
-                    <a class="submitdelete deletion" style="color:#a00;" href="<?php echo sprintf('?page=%s&action=%s&option=%s&_wpnonce=%s', esc_attr($_REQUEST['page']), 'delete', $option['option_id'], $delete_nonce); ?>"><?php _e('Delete'); ?></a>
+                    <a class="submitdelete deletion" style="color:#a00;" href="<?php echo sprintf('?page=%s&action=%s&option=%s&_wpnonce=%s', esc_attr($_REQUEST['page']), 'delete', $option['option_id'], $delete_nonce); ?>"><?php _e('Delete', 'acfe'); ?></a>
                 </div>
                 
             <?php } ?>
@@ -505,7 +505,7 @@ function acfe_options_edit_metabox(){
             'style'			=> $field_group['style'],
             'label'			=> $field_group['label_placement'],
             'editLink'		=> '',
-            'editTitle'		=> __('Edit field group', 'acf'),
+            'editTitle'		=> __('Edit field group', 'acfe'),
             'visibility'	=> true
         );
         
@@ -563,7 +563,7 @@ function acfe_options_edit_save_post($post_id){
 add_action('acfe/options/load/message=updated', 'acfe_options_load_edit_message');
 function acfe_options_load_edit_message(){
     
-    acf_add_admin_notice(__('Option has been updated'), 'success');
+    acf_add_admin_notice(__('Option has been updated', 'acfe'), 'success');
     
 }
 
@@ -574,6 +574,6 @@ function acfe_options_load_edit_message(){
 add_action('acfe/options/load/message=added', 'acfe_options_load_add_message');
 function acfe_options_load_add_message(){
     
-    acf_add_admin_notice(__('Option has been added'), 'success');
+    acf_add_admin_notice(__('Option has been added', 'acfe'), 'success');
     
 }
