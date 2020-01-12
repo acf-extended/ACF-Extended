@@ -33,18 +33,18 @@ add_filter('manage_edit-acf-field-group_columns', 'acfe_field_groups_column', 99
 function acfe_field_groups_column($columns){
     
     // Locations
-    $columns['acfe-locations'] = __('Locations');
+    $columns['acfe-locations'] = __('Locations', 'acfe');
     
     // Load
-    $columns['acfe-local'] = __('Load');
+    $columns['acfe-local'] = __('Load', 'acfe');
     
     // PHP sync
     if(acf_get_setting('acfe/php'))
-        $columns['acfe-autosync-php'] = __('PHP sync');
+        $columns['acfe-autosync-php'] = __('PHP sync', 'acfe');
     
     // Json sync
     if(acf_get_setting('json'))
-        $columns['acfe-autosync-json'] = __('Json sync');
+        $columns['acfe-autosync-json'] = __('Json sync', 'acfe');
     
     // Fix 'Sync' screen columns
     if(acf_maybe_get_GET('post_status') === 'sync'){
@@ -66,11 +66,11 @@ function acfe_field_groups_column($columns){
     elseif(acf_maybe_get_GET('post_status') === 'acfe-third-party'){
         
         $columns = array(
-            'title'             => __('Title', 'acf'),
-            'acfe-source'       => __('Source', 'acf'),
-            'acf-fg-count'      => __('Fields', 'acf'),
-            'acfe-locations'    => __('Locations', 'acf'),
-            'acfe-local'        => __('Load', 'acf'),
+            'title'             => __('Title', 'acfe'),
+            'acfe-source'       => __('Source', 'acfe'),
+            'acf-fg-count'      => __('Fields', 'acfe'),
+            'acfe-locations'    => __('Locations', 'acfe'),
+            'acfe-local'        => __('Load', 'acfe'),
         );
         
     }
@@ -129,7 +129,7 @@ function acfe_field_groups_column_html($column, $post_id){
         
         else{
             
-            $source = '<span style="color:#aaa;">' . __('Unknown', 'acf') . '</span>';
+            $source = '<span style="color:#aaa;">' . __('Unknown', 'acfe') . '</span>';
             
         }
         
@@ -292,7 +292,7 @@ function acfe_field_groups_column_html($column, $post_id){
         
         elseif($local_field_group_type === 'json'){
             
-            echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">json</span>';
+            echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . __(' is registered locally', 'acfe') . '">json</span>';
             
             return;
             
@@ -300,7 +300,7 @@ function acfe_field_groups_column_html($column, $post_id){
         
         else{
         
-            echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is not registered locally">DB</span>';
+            echo '<span class="acf-js-tooltip" title="' . $field_group['key'] . __(' is not registered locally', 'acfe') . '">DB</span>';
             
             return;
             
@@ -332,14 +332,14 @@ function acfe_field_groups_column_html($column, $post_id){
             
             echo '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
             
-            echo '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acfe-php\' was not found in your theme.<br />You must create it to activate this setting"></span>';
+            echo '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="' .  __('Folder \'/acfe-php\' was not found in your theme.<br />You must create it to activate this setting', 'acfe') . '"></span>';
             
         }
         
         elseif(!acfe_has_field_group_autosync_file($field_group, 'php')){
             
             echo '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
-            echo '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Local file ' . $field_group['key'] . '.php will be created upon update"></span>';
+            echo '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Local file ' . $field_group['key'] .  __('.php will be created upon update', 'acfe') . '"></span>';
             
         }
         
