@@ -8,10 +8,10 @@ add_action('acf/render_field_settings/type=textarea', 'acfe_field_textarea_setti
 function acfe_field_textarea_settings($field){
     
     acf_render_field_setting($field, array(
-        'label'         => __('Code mode'),
+        'label'         => __('Code mode', 'acfe'),
         'name'          => 'acfe_textarea_code',
         'key'           => 'acfe_textarea_code',
-        'instructions'  => __('Switch font family to monospace and allow tab indent. For a more advanced code editor, please use the <code>Code Editor</code> field type'),
+        'instructions'  => __('Switch font family to monospace and allow tab indent. For a more advanced code editor, please use the <code>Code Editor</code> field type', 'acfe'),
         'type'			=> 'true_false',
         'ui'			=> 1,
     ));
