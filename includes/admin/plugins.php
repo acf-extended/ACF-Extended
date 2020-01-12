@@ -9,7 +9,7 @@ if(!defined('ABSPATH'))
 add_filter('install_plugins_tabs', 'acfe_admin_plugins_tabs');
 function acfe_admin_plugins_tabs($tabs){
     
-    $tabs['acf'] = __('Advanced Custom Fields');
+    $tabs['acf'] = __('Advanced Custom Fields', 'acfe');
     
     return $tabs;
     
