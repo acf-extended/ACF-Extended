@@ -25,7 +25,7 @@ class acfe_field_advanced_link extends acf_field{
         
         // default_value
 		acf_render_field_setting($field, array(
-			'label'			=> __('Filter by Post Type','acf'),
+			'label'			=> __('Filter by Post Type','acfe'),
 			'instructions'	=> '',
 			'type'			=> 'select',
 			'name'			=> 'post_type',
@@ -33,12 +33,12 @@ class acfe_field_advanced_link extends acf_field{
 			'multiple'		=> 1,
 			'ui'			=> 1,
 			'allow_null'	=> 1,
-			'placeholder'	=> __("All post types",'acf'),
+			'placeholder'	=> __("All post types",'acfe'),
 		));
         
 		// default_value
 		acf_render_field_setting($field, array(
-			'label'			=> __('Filter by Taxonomy','acf'),
+			'label'			=> __('Filter by Taxonomy','acfe'),
 			'instructions'	=> '',
 			'type'			=> 'select',
 			'name'			=> 'taxonomy',
@@ -46,7 +46,7 @@ class acfe_field_advanced_link extends acf_field{
 			'multiple'		=> 1,
 			'ui'			=> 1,
 			'allow_null'	=> 1,
-			'placeholder'	=> __("All taxonomies",'acf'),
+			'placeholder'	=> __("All taxonomies",'acfe'),
 		));
         
         $field_name = 'field_name';
@@ -70,7 +70,7 @@ function my_acf_advanced_link_fields($fields, $field, $value){
         'prefix'    => $field['name'],
         'name'      => 'my_field',
         'key'       => 'acfe_advanced_link_my_field',
-        'label'     => 'My field',
+        'label'     => __('My field', 'acfe'), 
         'type'      => 'true_false',
         'ui'        => true,
         'value'     => isset($value['my_field']) ? $value['my_field'] : ''
@@ -86,7 +86,7 @@ function my_acf_advanced_link_fields($fields, $field, $value){
         
         // field_type
         acf_render_field_setting($field, array(
-            'label'			=> __('Instructions','acf'),
+            'label'			=> __('Instructions','acfe'),
             'instructions'	=> '',
             'type'			=> 'message',
             'name'			=> 'instructions',
@@ -186,14 +186,14 @@ function my_acf_advanced_link_fields($fields, $field, $value){
                 'prefix'	=> $field['name'],
                 'name'		=> 'type',
                 'key'		=> 'type',
-                'label'		=> __('Type', 'acf'),
+                'label'		=> __('Type', 'acfe'),
                 'type'		=> 'radio',
                 'value'		=> $link['type'],
                 'required'	=> false,
                 'class'     => 'input-type',
                 'choices'   => array(
-                    'url'   => __('URL', 'acf'),
-                    'post'  => __('Post', 'acf'),
+                    'url'   => __('URL', 'acfe'),
+                    'post'  => __('Post', 'acfe'),
                 ),
             ),
             
@@ -201,7 +201,7 @@ function my_acf_advanced_link_fields($fields, $field, $value){
                 'prefix'	=> $field['name'],
                 'name'		=> 'url',
                 'key'		=> 'url',
-                'label'		=> __('URL', 'acf'),
+                'label'		=> __('URL', 'acfe'),
                 'type'		=> 'text',
                 'value'		=> $link['url'],
                 'required'	=> false,
@@ -222,7 +222,7 @@ function my_acf_advanced_link_fields($fields, $field, $value){
                 'prefix'        => $field['name'],
                 'name'          => 'post',
                 'key'           => 'post',
-                'label'         => __('Post', 'acf'),
+                'label'         => __('Post', 'acfe'),
                 'type'          => 'post_object',
                 'value'         => $link['post'],
                 'required'      => false,
@@ -243,7 +243,7 @@ function my_acf_advanced_link_fields($fields, $field, $value){
                 'prefix'	=> $field['name'],
                 'name'		=> 'title',
                 'key'		=> 'title',
-                'label'		=> __('Link text', 'acf'),
+                'label'		=> __('Link text', 'acfe'),
                 'type'		=> 'text',
                 'value'		=> $link['title'],
                 'required'	=> false,
@@ -254,10 +254,10 @@ function my_acf_advanced_link_fields($fields, $field, $value){
                 'prefix'	=> $field['name'],
                 'name'		=> 'target',
                 'key'		=> 'target',
-                'label'		=> __('Target', 'acf'),
+                'label'		=> __('Target', 'acfe'),
                 'type'		=> 'true_false',
                 'value'		=> $link['target'],
-                'message'   => __('Open in an new window', 'acf'),
+                'message'   => __('Open in an new window', 'acfe'),
                 'required'	=> false,
                 'class'     => 'input-target',
             ),
@@ -292,8 +292,8 @@ function my_acf_advanced_link_fields($fields, $field, $value){
                 <span class="link-title"><?php echo esc_html($link['title']); ?></span>
                 <a class="link-url" href="<?php echo esc_url($link['url']); ?>" target="_blank"><?php echo esc_html($link['url_title']); ?></a>
                 <i class="acf-icon -link-ext acf-js-tooltip" title="<?php _e('Opens in a new window/tab', 'acf'); ?>"></i><?php
-                ?><a class="acf-icon -pencil -clear acf-js-tooltip" data-name="edit" href="#" title="<?php _e('Edit', 'acf'); ?>"></a><?php
-                ?><a class="acf-icon -cancel -clear acf-js-tooltip" data-name="remove" href="#" title="<?php _e('Remove', 'acf'); ?>"></a>
+                ?><a class="acf-icon -pencil -clear acf-js-tooltip" data-name="edit" href="#" title="<?php _e('Edit', 'acfe'); ?>"></a><?php
+                ?><a class="acf-icon -cancel -clear acf-js-tooltip" data-name="remove" href="#" title="<?php _e('Remove', 'acfe'); ?>"></a>
             </div>
             
         </div>
