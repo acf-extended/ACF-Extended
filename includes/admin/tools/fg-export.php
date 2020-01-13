@@ -33,7 +33,7 @@ class ACFE_Admin_Tool_Export_FG extends ACF_Admin_Tool{
             // add notice
             if( $selected ) {
                 $count = count($selected);
-                $text = sprintf( _n( 'Exported 1 field group.', 'Exported %s field groups.', $count, 'acf' ), $count );
+                $text = sprintf( _n( 'Exported 1 field group.', 'Exported %s field groups.', $count, 'acfe'), $count );
                 acf_add_admin_notice( $text, 'success' );
             }
         }
