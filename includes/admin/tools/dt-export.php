@@ -18,7 +18,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
         
         // vars
         $this->name = 'acfe_tool_dt_export';
-        $this->title = __('Export Taxonomies');
+        $this->title = __('Export Taxonomies', 'acfe');
         $this->icon = 'dashicons-upload';
         
     }
@@ -56,7 +56,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
 		}
         
         ?>
-        <p><?php _e('Export Taxonomies', 'acf'); ?></p>
+        <p><?php _e('Export Taxonomies', 'acfe'); ?></p>
         
         <div class="acf-fields">
             <?php 
@@ -65,7 +65,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
             
                 // render
                 acf_render_field_wrap(array(
-                    'label'		=> __('Select Taxonomies', 'acf'),
+                    'label'		=> __('Select Taxonomies', 'acfe'),
                     'type'		=> 'checkbox',
                     'name'		=> 'keys',
                     'prefix'	=> false,
@@ -79,7 +79,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
             else{
                 
                 echo '<div style="padding:15px 12px;">';
-                    _e('No dynamic taxonomy available.');
+                    _e('No dynamic taxonomy available.', 'acfe');
                 echo '</div>'; 
                 
             }
@@ -128,7 +128,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
 
 
                 ?>
-                <p><?php _e("The following code can be used to register a taxonomy. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
+                <p><?php _e("The following code can be used to register a taxonomy. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acfe'); ?></p>
                 
                 <div id="acf-admin-tool-export">
                 
@@ -173,7 +173,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
                 </div>
                 
                 <p class="acf-submit">
-                    <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acf' ); ?></a>
+                    <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acfe' ); ?></a>
                 </p>
                 <script type="text/javascript">
                 (function($){
@@ -210,7 +210,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
                             
                             // tooltip
                             acf.newTooltip({
-                                text: 		"<?php _e('Copied', 'acf' ); ?>",
+                                text: 		"<?php _e('Copied', 'acfe' ); ?>",
                                 timeout:	250,
                                 target: 	$(this),
                             });
@@ -246,7 +246,7 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
 	    	if(!empty($this->data)){
                 
 		    	$count = count($this->data);
-		    	$text = sprintf(_n( 'Exported 1 taxonomy.', 'Exported %s taxonomies.', $count, 'acf' ), $count);
+		    	$text = sprintf(_n( 'Exported 1 taxonomy.', 'Exported %s taxonomies.', $count, 'acfe' ), $count);
                 
 		    	acf_add_admin_notice($text, 'success');
                 
