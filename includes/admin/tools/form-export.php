@@ -18,7 +18,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
         
         // vars
         $this->name = 'acfe_tool_form_export';
-        $this->title = __('Export Forms');
+        $this->title = __('Export Forms', 'acfe');
         $this->icon = 'dashicons-upload';
         
     }
@@ -56,7 +56,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
         }
         
         ?>
-        <p><?php _e('Export Forms', 'acf'); ?></p>
+        <p><?php _e('Export Forms', 'acfe'); ?></p>
         
         <div class="acf-fields">
             <?php 
@@ -65,7 +65,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
             
                 // render
                 acf_render_field_wrap(array(
-                    'label'		=> __('Select Forms', 'acf'),
+                    'label'		=> __('Select Forms', 'acfe'),
                     'type'		=> 'checkbox',
                     'name'		=> 'keys',
                     'prefix'	=> false,
@@ -79,7 +79,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
             else{
                 
                 echo '<div style="padding:15px 12px;">';
-                    _e('No dynamic form available.');
+                    _e('No dynamic form available.', 'acfe');
                 echo '</div>'; 
                 
             }
@@ -96,7 +96,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
         ?>
         
         <p class="acf-submit">
-            <button type="submit" name="action" class="button button-primary" value="json" <?php echo $disabled; ?>><?php _e('Export File'); ?></button>
+            <button type="submit" name="action" class="button button-primary" value="json" <?php echo $disabled; ?>><?php _e('Export File', 'acfe')?>; ?></button>
         </p>
         <?php
         
@@ -117,7 +117,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
 	    	if(!empty($this->data)){
                 
 		    	$count = count($this->data);
-		    	$text = sprintf(_n( 'Exported 1 form.', 'Exported %s forms.', $count, 'acf' ), $count);
+		    	$text = sprintf(_n( 'Exported 1 form.', 'Exported %s forms.', $count, 'acfe' ), $count);
                 
 		    	acf_add_admin_notice($text, 'success');
                 
@@ -134,7 +134,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
         
         // validate
 		if($this->data === false)
-			return acf_add_admin_notice(__('No forms selected'), 'warning');
+			return acf_add_admin_notice(__('No forms selected', 'acfe'), 'warning');
         
         $keys = array();
         foreach($this->data as $key => $args){
