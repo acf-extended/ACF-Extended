@@ -18,7 +18,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
         
         // vars
         $this->name = 'acfe_tool_dop_export';
-        $this->title = __('Export Options Pages');
+        $this->title = __('Export Options Pages', 'acfe');
         $this->icon = 'dashicons-upload';
         
     }
@@ -56,7 +56,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
 		}
         
         ?>
-        <p><?php _e('Export Options Pages', 'acf'); ?></p>
+        <p><?php _e('Export Options Pages', 'acfe'); ?></p>
         
         <div class="acf-fields">
             <?php 
@@ -65,7 +65,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
             
                 // render
                 acf_render_field_wrap(array(
-                    'label'		=> __('Select Options Pages', 'acf'),
+                    'label'		=> __('Select Options Pages', 'acfe'),
                     'type'		=> 'checkbox',
                     'name'		=> 'keys',
                     'prefix'	=> false,
@@ -79,7 +79,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
             else{
                 
                 echo '<div style="padding:15px 12px;">';
-                    _e('No options page available.');
+                    _e('No options page available.', 'acfe');
                 echo '</div>'; 
                 
             }
@@ -96,8 +96,8 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
         ?>
         
         <p class="acf-submit">
-            <button type="submit" name="action" class="button button-primary" value="json" <?php echo $disabled; ?>><?php _e('Export File'); ?></button>
-            <button type="submit" name="action" class="button" value="php" <?php echo $disabled; ?>><?php _e('Generate PHP'); ?></button>
+            <button type="submit" name="action" class="button button-primary" value="json" <?php echo $disabled; ?>><?php _e('Export File', 'acfe'); ?></button>
+            <button type="submit" name="action" class="button" value="php" <?php echo $disabled; ?>><?php _e('Generate PHP', 'acfe'); ?></button>
         </p>
         <?php
         
@@ -128,7 +128,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
 
 
                 ?>
-                <p><?php _e("The following code can be used to register a option page. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
+                <p><?php _e("The following code can be used to register a option page. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acfe'); ?></p>
                 
                 <div id="acf-admin-tool-export">
                 
@@ -140,19 +140,15 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
                                 
                         // code
                         $code = var_export($args, true);
-                        
-                        
+                    
                         // change double spaces to tabs
                         $code = str_replace( array_keys($str_replace), array_values($str_replace), $code );
-                        
                         
                         // correctly formats "=> array("
                         $code = preg_replace( array_keys($preg_replace), array_values($preg_replace), $code );
                         
-                        
                         // esc_textarea
                         $code = esc_textarea( $code );
-                        
                         
                         // echo
                         echo "acf_add_options_page({$code});" . "\r\n" . "\r\n";
@@ -166,7 +162,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
                 </div>
                 
                 <p class="acf-submit">
-                    <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acf' ); ?></a>
+                    <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acfe' ); ?></a>
                 </p>
                 <script type="text/javascript">
                 (function($){
@@ -239,7 +235,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
 	    	if(!empty($this->data)){
                 
 		    	$count = count($this->data);
-		    	$text = sprintf(_n( 'Exported 1 option page.', 'Exported %s option pages.', $count, 'acf' ), $count);
+		    	$text = sprintf(_n( 'Exported 1 option page.', 'Exported %s option pages.', $count, 'acfe' ), $count);
                 
 		    	acf_add_admin_notice($text, 'success');
                 
@@ -256,7 +252,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
         
         // validate
 		if($this->data === false)
-			return acf_add_admin_notice(__('No options page selected'), 'warning');
+			return acf_add_admin_notice(__('No options page selected', 'acfe'), 'warning');
         
         $keys = array();
         foreach($this->data as $key => $args){
@@ -374,6 +370,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
         return $type;
 		
 	}
+
     
 }
 
