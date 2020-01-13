@@ -18,7 +18,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
         
         // vars
         $this->name = 'acfe_tool_dpt_export';
-        $this->title = __('Export Post Types');
+        $this->title = __('Export Post Types', 'acfe');
         $this->icon = 'dashicons-upload';
         
     }
@@ -56,7 +56,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
         }
         
         ?>
-        <p><?php _e('Export Post Types', 'acf'); ?></p>
+        <p><?php _e('Export Post Types', 'acfe'); ?></p>
         
         <div class="acf-fields">
             <?php 
@@ -65,7 +65,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
             
                 // render
                 acf_render_field_wrap(array(
-                    'label'		=> __('Select Post Types', 'acf'),
+                    'label'		=> __('Select Post Types', 'acfe'),
                     'type'		=> 'checkbox',
                     'name'		=> 'keys',
                     'prefix'	=> false,
@@ -79,7 +79,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
             else{
                 
                 echo '<div style="padding:15px 12px;">';
-                    _e('No dynamic post type available.');
+                    _e('No dynamic post type available.', 'acfe');
                 echo '</div>'; 
                 
             }
@@ -97,7 +97,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
         
         <p class="acf-submit">
             <button type="submit" name="action" class="button button-primary" value="json" <?php echo $disabled; ?>><?php _e('Export File'); ?></button>
-            <button type="submit" name="action" class="button" value="php" <?php echo $disabled; ?>><?php _e('Generate PHP'); ?></button>
+            <button type="submit" name="action" class="button" value="php" <?php echo $disabled; ?>><?php _e('Generate PHP', 'acfe'); ?></button>
         </p>
         <?php
         
@@ -128,7 +128,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
 
 
                 ?>
-                <p><?php _e("The following code can be used to register a post type. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
+                <p><?php _e("The following code can be used to register a post type. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acfe'); ?></p>
                 
                 <div id="acf-admin-tool-export">
                 
@@ -162,7 +162,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
                 </div>
                 
                 <p class="acf-submit">
-                    <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acf' ); ?></a>
+                    <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acfe' ); ?></a>
                 </p>
                 <script type="text/javascript">
                 (function($){
@@ -199,7 +199,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
                             
                             // tooltip
                             acf.newTooltip({
-                                text: 		"<?php _e('Copied', 'acf' ); ?>",
+                                text: 		"<?php _e('Copied', 'acfe' ); ?>",
                                 timeout:	250,
                                 target: 	$(this),
                             });
@@ -235,7 +235,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
 	    	if(!empty($this->data)){
                 
 		    	$count = count($this->data);
-		    	$text = sprintf(_n( 'Exported 1 post type.', 'Exported %s post types.', $count, 'acf' ), $count);
+		    	$text = sprintf(_n( 'Exported 1 post type.', 'Exported %s post types.', $count, 'acfe' ), $count);
                 
 		    	acf_add_admin_notice($text, 'success');
                 
@@ -252,7 +252,7 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
         
         // validate
 		if($this->data === false)
-			return acf_add_admin_notice(__('No post types selected'), 'warning');
+			return acf_add_admin_notice(__('No post types selected', 'acfe'), 'warning');
         
         $keys = array();
         foreach($this->data as $key => $args){
