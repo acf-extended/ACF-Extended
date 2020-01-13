@@ -15,7 +15,7 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
         
         // vars
         $this->name = 'acfe_tool_dpt_import';
-        $this->title = __('Import Post Types');
+        $this->title = __('Import Post Types', 'acfe');
         $this->icon = 'dashicons-upload';
         
     }
@@ -23,13 +23,13 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
     function html(){
         
         ?>
-        <p><?php _e('Import Post Types', 'acf'); ?></p>
+        <p><?php _e('Import Post Types', 'acfe'); ?></p>
         
         <div class="acf-fields">
             <?php 
 			
 			acf_render_field_wrap(array(
-				'label'		=> __('Select File', 'acf'),
+				'label'		=> __('Select File', 'acfe'),
 				'type'		=> 'file',
 				'name'		=> 'acf_import_file',
 				'value'		=> false,
@@ -40,7 +40,7 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
         </div>
         
         <p class="acf-submit">
-            <button type="submit" name="action" class="button button-primary"><?php _e('Import File'); ?></button>
+            <button type="submit" name="action" class="button button-primary"><?php _e('Import File', 'acfe'); ?></button>
         </p>
         <?php
         
@@ -50,18 +50,18 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
         
         // Check file size.
 		if(empty($_FILES['acf_import_file']['size']))
-			return acf_add_admin_notice(__("No file selected", 'acf'), 'warning');
+			return acf_add_admin_notice(__("No file selected", 'acfe'), 'warning');
 		
 		// Get file data.
 		$file = $_FILES['acf_import_file'];
 		
 		// Check errors.
 		if($file['error'])
-			return acf_add_admin_notice(__("Error uploading file. Please try again", 'acf'), 'warning');
+			return acf_add_admin_notice(__("Error uploading file. Please try again", 'acfe'), 'warning');
 		
 		// Check file type.
 		if(pathinfo($file['name'], PATHINFO_EXTENSION) !== 'json')
-			return acf_add_admin_notice(__("Incorrect file type", 'acf'), 'warning');
+			return acf_add_admin_notice(__("Incorrect file type", 'acfe'), 'warning');
 		
 		// Read JSON.
 		$json = file_get_contents($file['tmp_name']);
@@ -69,7 +69,7 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
 		
 		// Check if empty.
     	if(!$json || !is_array($json))
-    		return acf_add_admin_notice(__("Import file empty", 'acf'), 'warning');
+    		return acf_add_admin_notice(__("Import file empty", 'acfe'), 'warning');
     	
     	$ids = array();
         
@@ -81,7 +81,7 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
             // Check if already exists
             if(isset($dynamic_post_types[$post_type_name])){
                 
-                acf_add_admin_notice(__("Post type {$dynamic_post_types[$post_type_name]['label']} already exists. Import aborted."), 'warning');
+                acf_add_admin_notice(__("Post type {$dynamic_post_types[$post_type_name]['label']} already exists. Import aborted.", 'acfe'), 'warning');
                 continue;
                 
             }
@@ -101,7 +101,7 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
             // Insert error
             if(is_wp_error($post_id)){
                 
-                acf_add_admin_notice(__("Something went wrong with the post type {$title}. Import aborted."), 'warning');
+                acf_add_admin_notice(__("Something went wrong with the post type {$title}. Import aborted.", 'acfe'), 'warning');
                 continue;
                 
             }
@@ -216,7 +216,7 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
 		$total = count($ids);
 		
 		// Generate text
-		$text = sprintf(_n('1 post type imported', '%s post types imported', $total, 'acf'), $total);		
+		$text = sprintf(_n('1 post type imported', '%s post types imported', $total, 'acfe'), $total);		
 		
 		// Add links to text
 		$links = array();
