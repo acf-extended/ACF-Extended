@@ -1,9 +1,9 @@
 <div class="wrap acf-settings-wrap">
     
     <?php
-    $title = __('Edit Option');
+    $title = __('Edit Option', 'acfe');
     if($_REQUEST['action'] === 'add')
-        $title = __('Add Option');
+        $title = __('Add Option', 'acfe');
     ?>
     <h1 class="wp-heading-inline"><?php echo $title; ?></h1>
     
