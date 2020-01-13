@@ -10,7 +10,7 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
     function initialize(){
         
         // vars
-        $this->title = __('Export Local Field Groups');
+        $this->title = __('Export Local Field Groups', 'acfe');
         $this->name = 'acfe-fg-local';
         $this->icon = 'dashicons-upload';
         
@@ -26,7 +26,7 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
             $total = count($ids);
             
             // Generate text.
-            $text = sprintf( _n( 'Imported 1 field group', 'Imported %s field groups', $total, 'acf' ), $total );		
+            $text = sprintf( _n( 'Imported 1 field group', 'Imported %s field groups', $total, 'acfe' ), $total );		
             
             // Add links to text.
             $links = array();
@@ -48,7 +48,7 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
             
             // validate
             if($array === false)
-                return acf_add_admin_notice(__('No field group selected'), 'warning');
+                return acf_add_admin_notice(__('No field group selected', 'acfe'), 'warning');
             
             // Json
             if($action === 'json'){
@@ -145,7 +145,7 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
 
 
                     ?>
-                    <p><?php _e("The following code can be used to register a local version of the selected field group(s). A local field group can provide many benefits such as faster load times, version control & dynamic fields/settings. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
+                    <p><?php _e("The following code can be used to register a local version of the selected field group(s). A local field group can provide many benefits such as faster load times, version control & dynamic fields/settings. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acfe'); ?></p>
                     
                     <div id="acf-admin-tool-export">
                     
@@ -183,7 +183,7 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
                     </div>
                     
                     <p class="acf-submit">
-                        <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acf' ); ?></a>
+                        <a class="button" id="acf-export-copy"><?php _e( 'Copy to clipboard', 'acfe' ); ?></a>
                     </p>
                     <script type="text/javascript">
                     (function($){
@@ -220,7 +220,7 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
                                 
                                 // tooltip
                                 acf.newTooltip({
-                                    text: 		"<?php _e('Copied', 'acf' ); ?>",
+                                    text: 		"<?php _e('Copied', 'acfe' ); ?>",
                                     timeout:	250,
                                     target: 	$(this),
                                 });
