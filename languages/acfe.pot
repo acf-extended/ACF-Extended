@@ -1,0 +1,4272 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Custom Fields: Extended\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-14 18:35+0000\n"
+"PO-Revision-Date: 2020-01-14 19:50+0000\n"
+"Last-Translator: Henrik Våglin <henrik.vaglin@gmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.1; wp-5.3.2"
+
+#: includes/field-groups/field-groups.php:303
+msgid " is not registered locally"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:295
+msgid " is registered locally"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:826
+msgid ""
+"(Array) (Optional) An array of post types to restrict this block type to."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:804
+msgid ""
+"(Array) (Optional) An array of search terms to help user discover the block "
+"while searching.<br />One line for each keyword. ie:<br /><br />quote<br />"
+"mention<br />cite"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:759
+msgid ""
+"(boolean)    Whether to load the option (values saved from this options page)"
+" when WordPress starts up.\n"
+"Defaults to false."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:713
+msgid ""
+"(boolean) If set to true, this options page will redirect to the first child "
+"page (if a child page exists). \n"
+"If set to false, this parent page will appear alongside any child pages. "
+"Defaults to true"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1195
+msgid ""
+"(Callable) (Optional) A callback function that runs whenever your block is "
+"displayed (front-end and back-end) and enqueues scripts and/or styles."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1110
+msgid ""
+"(Callable) (Optional) Instead of providing a render_template, a callback "
+"function name may be specified to output the block’s HTML."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:736
+msgid ""
+"(int|string) The '$post_id' to save/load data to/from. Can be set to a "
+"numeric post ID (123), or a string ('user_2'). \n"
+"Defaults to 'options'."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:643
+msgid ""
+"(int|string) The position in the menu order this menu should appear. "
+"Defaults to bottom of utility menu items.<br /><br />\n"
+"\n"
+"WARNING: if two menu items use the same position attribute, one of the items "
+"may be overwritten so that only one item displays!<br />\n"
+"Risk of conflict can be reduced by using decimal instead of integer values, "
+"e.g. '63.3' instead of 63 (must use quotes)."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:957
+msgid ""
+"(String) (Optional) An icon property can be specified to make it easier to "
+"identify a block. These can be any of WordPress’ Dashicons, or a custom svg "
+"element."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:876
+msgid ""
+"(String) (Optional) The default block alignment. Available settings are "
+"“left”, “center”, “right”, “wide” and “full”. Defaults to an empty string."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:845
+msgid ""
+"(String) (Optional) The display mode for your block. Available settings are "
+"“auto”, “preview” and “edit”. Defaults to “auto”.<br /><br /> auto: Preview "
+"is shown by default but changes to edit form when block is selected.<br /> "
+"preview: Preview is always shown. Edit form appears in sidebar when block is "
+"selected.<br /> edit: Edit form is always shown.<br /><br /> Note. When in "
+"“preview” or “edit” modes, an icon will appear in the block toolbar to "
+"toggle between modes."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1151
+msgid ""
+"(String) (Optional) The url to a .css file to be enqueued whenever your "
+"block is displayed (front-end and back-end)."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1173
+msgid ""
+"(String) (Optional) The url to a .js file to be enqueued whenever your block "
+"is displayed (front-end and back-end)."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:760
+msgid "(String) (Optional) This is a short description for your block."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:734
+msgid ""
+"(String) A unique name that identifies the block (without namespace).<br />"
+"Note: A block name can only contain lowercase alphanumeric characters and "
+"dashes, and must begin with a letter."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:782
+msgid ""
+"(String) Blocks are grouped into categories to help users browse and "
+"discover them. The core provided categories are [ common | formatting | "
+"layout | widgets | embed ]. Plugins and Themes can also register custom "
+"block categories."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:549
+msgid "(string) Options page slug. Must be unique"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:619
+msgid ""
+"(string) The capability required for this menu to be displayed to the user. "
+"Defaults to edit_posts.<br /><br />\n"
+"\n"
+"Read more about capability here: <a href=\"https://codex.wordpress."
+"org/Roles_and_Capabilities\">https://codex.wordpress."
+"org/Roles_and_Capabilities</a>"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:712
+msgid "(String) The display title for your block."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:690
+msgid ""
+"(string) The icon class for this menu. Defaults to default WordPress gear."
+"<br /><br />\n"
+"Read more about dashicons here: <a href=\"https://developer.wordpress."
+"org/resource/dashicons/\">https://developer.wordpress."
+"org/resource/dashicons/</a>"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:804
+msgid "(string) The message shown above the form on submit."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1088
+msgid ""
+"(String) The path to a template file used to render the block HTML. This can "
+"either be a relative path to a file within the active theme or a full path "
+"to any file."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:668
+msgid ""
+"(string) The slug of another WP admin page. if set, this will become a child "
+"page."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:571
+msgid ""
+"(string) The title displayed in the wp-admin sidebar. Defaults to page_title"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:782
+msgid "(string) The update button text."
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:593
+msgid ""
+"(string) The URL slug used to uniquely identify this options page. Defaults "
+"to a url friendly version of menu_title"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:342
+msgid ".php will be created upon update"
+msgstr ""
+
+#: includes/admin/tools/dbt-import.php:198
+#, php-format
+msgid "1 block type imported"
+msgid_plural "%s block types imported"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/form-import.php:125
+#, php-format
+msgid "1 form imported"
+msgid_plural "%s forms imported"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/dop-import.php:185
+#, php-format
+msgid "1 options page imported"
+msgid_plural "%s options pages imported"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/dpt-import.php:219
+#, php-format
+msgid "1 post type imported"
+msgid_plural "%s post types imported"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/dt-import.php:217
+#, php-format
+msgid "1 taxonomy imported"
+msgid_plural "%s taxonomies imported"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/modules/dynamic-taxonomy.php:946
+msgid ""
+"A function name that will be called when the count of an associated "
+"$object_type, such as post, is updated"
+msgstr ""
+
+#: includes/modules/form/field-group.php:550
+msgid ""
+"A message displayed above the form after being redirected. Can also be empty "
+"for no message.<br /><br />You may use <code>{field:field_name}</code> or "
+"<code>{field:field_key}</code> template tags."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:795
+msgid "A plural descriptive name for the taxonomy marked for translation"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:835
+msgid "A short descriptive summary of the post type"
+msgstr ""
+
+#: includes/admin/settings.php:52
+msgid ""
+"Absolute path to ACF plugin folder including trailing slash.<br />Defaults "
+"to plugin_dir_path"
+msgstr ""
+
+#: includes/admin/settings.php:88
+msgid ""
+"Absolute path to folder where json files will be created when field groups "
+"are saved.<br />Defaults to ‘acf-json’ folder within current theme"
+msgstr ""
+
+#: init.php:54
+msgid "ACF Extended requires Advanced Custom Fields PRO (minimum: 5.7.10)."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2013
+msgid ""
+"ACF Extended: Designates the ascending or descending order of the 'orderby' "
+"parameter in the admin list screen. Defaults to 'ASC'."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1743 
+#: includes/modules/dynamic-post-type.php:2540
+msgid ""
+"ACF Extended: Designates the ascending or descending order of the 'orderby' "
+"parameter in the admin list screen. Defaults to 'DESC'."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2178
+msgid ""
+"ACF Extended: Designates the ascending or descending order of the 'orderby' "
+"parameter in the archive page. Defaults to 'DESC'."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2128
+msgid "ACF Extended: Number of posts to display in the archive page"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1693 
+#: includes/modules/dynamic-post-type.php:2490
+msgid "ACF Extended: Number of posts to display on the admin list screen"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1963
+msgid "ACF Extended: Number of terms to display on the admin list screen"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1717 
+#: includes/modules/dynamic-post-type.php:2514
+msgid ""
+"ACF Extended: Sort retrieved posts by parameter in the admin list screen. "
+"Defaults to 'date (post_date)'."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2152
+msgid ""
+"ACF Extended: Sort retrieved posts by parameter in the archive page. "
+"Defaults to 'date (post_date)'."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1987
+msgid ""
+"ACF Extended: Sort retrieved terms by parameter in the admin list screen. "
+"Accepts term fields 'name', 'slug', 'term_group', 'term_id', 'id', "
+"'description', 'parent', 'count' (for term taxonomy count), or 'none' to "
+"omit the ORDER BY clause"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2054 
+#: includes/modules/dynamic-post-type.php:2225
+msgid ""
+"ACF Extended: Which template file to load for the archive query. More "
+"informations on <a href=\"https://developer.wordpress."
+"org/themes/basics/template-hierarchy/\">Template hierarchy</a>"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1671
+msgid ""
+"ACF Extended: Which template file to load for the term query. More "
+"informations on <a href=\"https://developer.wordpress."
+"org/themes/basics/template-hierarchy/\">Template hierarchy</a>"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1048 
+#: includes/modules/form/field-group.php:2160 
+#: includes/modules/form/field-group.php:3025
+msgid "Action"
+msgstr ""
+
+#: includes/modules/form/field-group.php:737 
+#: includes/modules/form/field-group.php:1073 
+#: includes/modules/form/field-group.php:2185 
+#: includes/modules/form/field-group.php:3050
+msgid "Action alias"
+msgstr ""
+
+#: includes/modules/form/field-group.php:684
+msgid "Action name"
+msgstr ""
+
+#: includes/modules/form/admin.php:1322 
+#: includes/modules/form/field-group.php:629 
+#: includes/modules/form/field-group.php:646
+msgid "Actions"
+msgstr ""
+
+#: includes/modules/form/admin.php:159
+#, php-format
+msgid "Active <span class=\"count\">(%s)</span>"
+msgid_plural "Active <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/fields/field-taxonomies.php:228 
+#: includes/fields/field-post-statuses.php:228 
+#: includes/fields/field-post-types.php:228 
+#: includes/fields/field-user-roles.php:214 includes/fields/field-forms.php:228
+msgid "Add 'other' choice to allow for custom values"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4552
+msgid "Add action"
+msgstr ""
+
+#: includes/modules/form/admin.php:559
+msgid "Add actions on form submission"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2469
+msgid "Add archive page to the post type administration."
+msgstr ""
+
+#: includes/modules/form/field-group.php:210
+msgid "Add class to all fields"
+msgstr ""
+
+#: includes/modules/form/field-group.php:516
+msgid "Add class to error message"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2113
+msgid "Add custom action on post save"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2978
+msgid "Add custom action on term save"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4532
+msgid "Add custom action on user save"
+msgstr ""
+
+#: includes/field-groups/field-group.php:135
+msgid ""
+"Add custom meta data to the field group. Can be retrived using <code>"
+"acf_get_field_group()</code>"
+msgstr ""
+
+#: includes/modules/form/field-group.php:853
+msgid "Add file"
+msgstr ""
+
+#: includes/admin/views/html-options-list.php:4
+msgid "Add New"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1111
+msgid "Add new"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:27
+msgid "Add New category"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1215 
+#: includes/modules/dynamic-post-type.php:1133
+msgid "Add new item"
+msgstr ""
+
+#: includes/admin/options.php:458 includes/admin/views/html-options-edit.php:6
+msgid "Add Option"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1369
+msgid "Add or remove items"
+msgstr ""
+
+#: includes/field-groups/field-group.php:195
+msgid "Add personal note. Only visible to administrators"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:237
+msgid "Add Row"
+msgstr ""
+
+#: includes/fields-settings/settings.php:117
+msgid "Add settings"
+msgstr ""
+
+#: includes/fields-settings/validation.php:166
+msgid "Add validation"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1825 
+#: includes/modules/dynamic-post-type.php:2299
+msgid "Additional arguments"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1943 
+#: includes/modules/dynamic-post-type.php:2449
+msgid "Admin"
+msgstr ""
+
+#: includes/fields-settings/settings.php:135
+msgid "Administration"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2064 
+#: includes/modules/form/field-group.php:2929 
+#: includes/modules/form/field-group.php:4483 
+#: includes/modules/form/field-group.php:4558
+msgid "Advanced"
+msgstr ""
+
+#: includes/admin/plugins.php:12
+msgid "Advanced Custom Fields"
+msgstr ""
+
+#. Name of the plugin
+msgid "Advanced Custom Fields: Extended"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:13
+msgid "Advanced Link"
+msgstr ""
+
+#: includes/field-groups/field-group.php:260
+msgid "Advanced Settings"
+msgstr ""
+
+#: includes/fields-settings/settings.php:112 
+#: includes/field-groups/field-group.php:120
+msgid "Advanced settings"
+msgstr ""
+
+#: includes/fields-settings/validation.php:161
+msgid "Advanced validation"
+msgstr ""
+
+#: includes/fields/field-button.php:83
+msgid "After HTML"
+msgstr ""
+
+#: includes/fields/field-button.php:92
+msgid "Ajax call"
+msgstr ""
+
+#: includes/fields/field-button.php:136
+msgid "Ajax instructions"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:873 
+#: includes/modules/dynamic-block-type.php:1233
+msgid "Align"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1255
+msgid "Align arguments"
+msgstr ""
+
+#: includes/locations/taxonomy-list.php:377 
+#: includes/fields/field-taxonomy-terms.php:476
+msgid "All"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:150
+msgid "All "
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:22
+msgid "All categories"
+msgstr ""
+
+#: includes/fields/field-forms.php:61
+msgid "All forms"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1127 
+#: includes/modules/dynamic-post-type.php:1331
+msgid "All items"
+msgstr ""
+
+#: includes/fields/field-post-statuses.php:61
+msgid "All post statuses"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:36 
+#: includes/fields/field-post-types.php:61
+msgid "All post types"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:49 
+#: includes/fields/field-taxonomies.php:61 
+#: includes/fields/field-taxonomy-terms.php:384
+msgid "All taxonomies"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:464
+msgid "All terms"
+msgstr ""
+
+#: includes/fields/field-user-roles.php:60
+msgid "All user roles"
+msgstr ""
+
+#: includes/fields/field-post-object.php:16 
+#: includes/fields/field-taxonomies.php:319 
+#: includes/fields/field-post-statuses.php:319 
+#: includes/fields/field-post-types.php:319 
+#: includes/fields/field-user-roles.php:305 includes/fields/field-forms.php:319
+msgid "Allow 'custom' values to be added"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:180
+msgid "Allow copy/paste layouts functions"
+msgstr ""
+
+#: includes/fields/field-post-object.php:11 
+#: includes/fields/field-taxonomies.php:314 
+#: includes/fields/field-post-statuses.php:314 
+#: includes/fields/field-post-types.php:314 
+#: includes/fields/field-user-roles.php:300 includes/fields/field-forms.php:314
+msgid "Allow Custom"
+msgstr ""
+
+#: includes/fields/field-forms.php:53
+msgid "Allow Forms"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:166
+msgid "Allow layout title edition"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:101 
+#: includes/fields/field-taxonomy-terms.php:536 
+#: includes/fields/field-post-statuses.php:101 
+#: includes/fields/field-post-types.php:101 
+#: includes/fields/field-user-roles.php:87 includes/fields/field-forms.php:101
+msgid "Allow Null?"
+msgstr ""
+
+#: includes/admin/settings.php:342
+msgid "Allow PHP Sync"
+msgstr ""
+
+#: includes/fields/field-post-statuses.php:53
+msgid "Allow Post Status"
+msgstr ""
+
+#: includes/fields/field-post-types.php:53
+msgid "Allow Post Type"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:53 
+#: includes/fields/field-taxonomy-terms.php:376
+msgid "Allow Taxonomy"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:455
+msgid "Allow Terms"
+msgstr ""
+
+#: includes/fields/field-user-roles.php:52
+msgid "Allow User Role"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1884
+msgid "Allowing permalinks to be prepended with front base"
+msgstr ""
+
+#: includes/admin/settings.php:202
+msgid ""
+"Allows ACF to enqueue and load the datetimepicker JS/CSS library.<br />"
+"Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:178
+msgid ""
+"Allows ACF to enqueue and load the Google Maps API JS library.<br />Defaults "
+"to true"
+msgstr ""
+
+#: includes/admin/settings.php:184
+msgid ""
+"Allows ACF to enqueue and load the Select2 JS/CSS library.<br />Defaults to "
+"true"
+msgstr ""
+
+#: includes/admin/settings.php:196
+msgid ""
+"Allows ACF to enqueue and load the WP datepicker JS/CSS library.<br />"
+"Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:214
+msgid ""
+"Allows ACF to remove the default WP custom fields metabox. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:142
+msgid ""
+"Allows ACF to translate field and field group settings using the __() "
+"function.<br />Defaults to true. Useful to override translation without "
+"modifying the textdomain"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:879
+msgid ""
+"An alias for calling add_post_type_support() directly. As of 3.5, boolean "
+"false can be passed as value instead of an array to prevent default (title "
+"and editor) behavior."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1075
+msgid ""
+"An array of labels for this post type. By default, post labels are used for "
+"non-hierarchical post types and page labels for hierarchical ones.<br /><br "
+"/>\n"
+"Default: if empty, 'name' is set to value of 'label', and 'singular_name' is "
+"set to value of 'name'."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1069
+msgid ""
+"An array of labels for this taxonomy. By default tag labels are used for non-"
+"hierarchical types and category labels for hierarchical ones.<br /><br />\n"
+"Default: if empty, name is set to label value, and singular_name is set to "
+"name value."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:919
+msgid ""
+"An array of registered taxonomies like category or post_tag that will be "
+"used with this post type. This can be used in lieu of calling "
+"register_taxonomy_for_object_type() directly. Custom taxonomies still need "
+"to be registered with register_taxonomy()"
+msgstr ""
+
+#: includes/admin/settings.php:160
+msgid ""
+"An array of settings to translate when loading and exporting a field group."
+"<br />Defaults to array(’title’). Depreciated in v5.3.6 – please see "
+"acf/translate_field_group filter"
+msgstr ""
+
+#: includes/admin/settings.php:154
+msgid ""
+"An array of settings to translate when loading and exporting a field.<br />"
+"Defaults to array(’label’, ’instructions’). Depreciated in v5.3.6 – please "
+"see acf/translate_field filter"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1978
+msgid ""
+"An array of the capabilities for this post type. Specify capabilities like "
+"this:<br /><br />\n"
+"\n"
+"edit_post<br />\n"
+"read_post<br />\n"
+"delete_post<br />\n"
+"edit_posts<br />\n"
+"etc..."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1628
+msgid ""
+"An array of the capabilities for this taxonomy:<br /><br />\n"
+"manage_terms<br />\n"
+"edit_terms<br />\n"
+"delete_terms<br />\n"
+"assign_terms"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:232
+msgid "An error has occured."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2631
+msgid ""
+"An optional custom controller to use instead of WP_REST_Posts_Controller. "
+"Must be a subclass of WP_REST_Controller"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:66 
+#: includes/fields/field-taxonomy-terms.php:483 
+#: includes/fields/field-post-statuses.php:66 
+#: includes/fields/field-post-types.php:66 
+#: includes/fields/field-user-roles.php:65
+msgid "Appearance"
+msgstr ""
+
+#: includes/fields/field-slug.php:67
+msgid "Appears after the input"
+msgstr ""
+
+#: includes/fields/field-slug.php:58
+msgid "Appears before the input"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:58 includes/fields/field-slug.php:40
+msgid "Appears when creating a new post"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:127 
+#: includes/fields/field-taxonomy-terms.php:555 
+#: includes/fields/field-code-editor.php:66 
+#: includes/fields/field-code-editor.php:74 
+#: includes/fields/field-post-statuses.php:127 
+#: includes/fields/field-post-types.php:127 
+#: includes/fields/field-user-roles.php:113 
+#: includes/fields/field-forms.php:127 includes/fields/field-select.php:12 
+#: includes/fields/field-slug.php:49
+msgid "Appears within the input"
+msgstr ""
+
+#: includes/fields/field-slug.php:66
+msgid "Append"
+msgstr ""
+
+#: includes/locations/post-type-archive.php:41 
+#: includes/modules/dynamic-post-type.php:2034
+msgid "Archive"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2466
+msgid "Archive Page"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1353
+msgid "Archives"
+msgstr ""
+
+#: includes/admin/settings.php:94
+msgid ""
+"Array of absolutes paths to folders where field group json files can be read."
+"<br />Defaults to an array containing at index 0, the ‘acf-json’ folder "
+"within current theme"
+msgstr ""
+
+#: includes/admin/settings.php:124
+msgid ""
+"Array of keys used during the ‘Export to PHP’ feature to wrap strings within "
+"the __() function.<br />Defaults to array(’title’, ’label’, ’instructions’). "
+"Depreciated in v5.3.4 – please see l10n_field and l10n_field_group"
+msgstr ""
+
+#: includes/modules/form/field-group.php:836
+msgid "Attachments"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1375
+msgid "Attributes"
+msgstr ""
+
+#: includes/modules/author.php:85
+msgid "Author"
+msgstr ""
+
+#: includes/admin/settings.php:134
+msgid "Auto load"
+msgstr ""
+
+#: includes/field-groups/field-group.php:328
+msgid "Auto Sync"
+msgstr ""
+
+#: includes/admin/options.class.php:200 includes/admin/options.php:430 
+#: includes/modules/dynamic-options-page.php:756
+msgid "Autoload"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1316 
+#: includes/modules/form/field-group.php:2414 
+#: includes/modules/form/field-group.php:3176 
+#: includes/modules/form/field-group.php:3589
+msgid "Available tag:"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1435
+msgid "Back to items"
+msgstr ""
+
+#: includes/fields/field-button.php:74
+msgid "Before HTML"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:17
+msgid "Better layouts button integration"
+msgstr ""
+
+#: includes/fields/field-repeater.php:17
+msgid "Better row button integration"
+msgstr ""
+
+#: includes/fields-settings/bidirectional.php:17
+msgid "Bidirectional"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:23 
+#: includes/modules/dynamic-block-type.php:24 
+#: includes/modules/dynamic-block-type.php:27
+msgid "Block Type"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:26 
+#: includes/modules/dynamic-block-type.php:28 
+#: includes/modules/dynamic-block-type.php:69 
+#: includes/modules/dynamic-block-type.php:69
+msgid "Block Types"
+msgstr ""
+
+#: includes/fields/field-button.php:13 includes/fields/field-button.php:48
+msgid "Button"
+msgstr ""
+
+#: includes/fields/field-button.php:55
+msgid "Button attributes"
+msgstr ""
+
+#: includes/fields/field-button.php:32 includes/fields/field-button.php:41
+msgid "Button value"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1003
+msgid "Can export"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1006
+msgid "Can this post type be exported"
+msgstr ""
+
+#: includes/modules/form/actions/user.php:529
+msgid "Cannot create a user with an empty login name."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1625 
+#: includes/modules/dynamic-post-type.php:1975
+msgid "Capabilities"
+msgstr ""
+
+#: includes/admin/settings.php:110 includes/modules/dynamic-taxonomy.php:1608 
+#: includes/modules/dynamic-options-page.php:616 
+#: includes/modules/dynamic-post-type.php:1932
+msgid "Capability"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1949
+msgid "Capability type"
+msgstr ""
+
+#: includes/admin/settings.php:112
+msgid ""
+"Capability used for ACF post types and if the current user can see the ACF "
+"menu item.<br />Defaults to ‘manage_options’."
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:292 
+#: includes/field-groups/field-group-category.php:41 
+#: includes/field-groups/field-group-category.php:41 
+#: includes/field-groups/field-group-category.php:63
+msgid "Categories"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:412 
+#: includes/modules/dynamic-block-type.php:390 
+#: includes/modules/dynamic-block-type.php:779
+msgid "Category"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:29
+msgid "category"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:19 
+#: includes/field-groups/field-group-category.php:20
+msgctxt "Category"
+msgid "Categories"
+msgstr ""
+
+#: includes/fields-settings/settings.php:115
+msgid "Change field settings based on location"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2097
+msgid "Change post arguments"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2962
+msgid "Change term arguments"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4516
+msgid "Change user arguments"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2081 
+#: includes/modules/form/field-group.php:2946 
+#: includes/modules/form/field-group.php:4500
+msgid "Change values source"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:106 includes/fields/field-slug.php:75
+msgid "Character Limit"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:72 
+#: includes/fields/field-taxonomy-terms.php:489 
+#: includes/fields/field-post-statuses.php:72 
+#: includes/fields/field-post-types.php:72 includes/fields/field-forms.php:72
+msgid "Checkbox"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1391
+msgid "Choose from most used"
+msgstr ""
+
+#: includes/fields/field-button.php:42
+msgid "Choose the button type"
+msgstr ""
+
+#: includes/fields/field-image.php:26 includes/fields/field-file.php:26
+msgid "Choose the uploader type"
+msgstr ""
+
+#: includes/modules/form/field-group.php:489
+msgid "Choose where to display field errors"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1723
+msgid "Choose which ACF fields should be saved to this post"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2663
+msgid "Choose which ACF fields should be saved to this term"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4092
+msgid "Choose which ACF fields should be saved to this user"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1818 
+#: includes/modules/form/field-group.php:2758 
+#: includes/modules/form/field-group.php:4187
+msgid "Choose which ACF fields should have values filled"
+msgstr ""
+
+#: includes/fields/field-button.php:59
+msgid "class"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:56
+msgid "Click the \"Add Row\" button below to start creating your layout"
+msgstr ""
+
+#: includes/core/enqueue.php:94
+msgid "Close"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:16
+msgid "Code Editor"
+msgstr ""
+
+#: includes/fields/field-textarea.php:11
+msgid "Code mode"
+msgstr ""
+
+#: includes/fields/field-column.php:13
+msgid "Column"
+msgstr ""
+
+#: includes/fields/field-column.php:30
+msgid "Columns"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:72
+msgid "Compact"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:673
+msgid "Connect selected terms to the post"
+msgstr ""
+
+#: includes/fields-settings/validation.php:237
+msgid "Contains"
+msgstr ""
+
+#: includes/modules/form/field-group.php:816
+msgid "Content"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:940
+msgid ""
+"Controls how the type is visible to authors (show_in_nav_menus, show_ui) and "
+"readers (exclude_from_search, publicly_queryable)"
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:202 
+#: includes/admin/tools/fg-local.php:223 
+#: includes/admin/tools/dbt-export.php:208 
+#: includes/admin/tools/dt-export.php:213
+msgid "Copied"
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:165 
+#: includes/admin/tools/fg-local.php:186 
+#: includes/admin/tools/dop-export.php:165 
+#: includes/admin/tools/dbt-export.php:171 
+#: includes/admin/tools/dt-export.php:176
+msgid "Copy to clipboard"
+msgstr ""
+
+#: includes/modules/form/admin.php:1403 
+#: includes/modules/form/field-group.php:1061
+msgid "Create post"
+msgstr ""
+
+#: includes/modules/form/admin.php:1426 
+#: includes/modules/form/field-group.php:2173
+msgid "Create term"
+msgstr ""
+
+#: includes/modules/form/admin.php:1449 
+#: includes/modules/form/field-group.php:3038
+msgid "Create user"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:80
+msgid "CSS"
+msgstr ""
+
+#: includes/admin/settings.php:104
+msgid "Current language"
+msgstr ""
+
+#: includes/modules/form/admin.php:1573 includes/modules/form/admin.php:1645
+msgid "Current Post"
+msgstr ""
+
+#: includes/modules/form/admin.php:1768 includes/modules/form/admin.php:1842
+msgid "Current Post Author"
+msgstr ""
+
+#: includes/modules/form/admin.php:1945 includes/modules/form/admin.php:2004
+msgid "Current Term"
+msgstr ""
+
+#: includes/modules/form/admin.php:1764 includes/modules/form/admin.php:1841
+msgid "Current User"
+msgstr ""
+
+#: includes/modules/form/field-group.php:679
+msgid "Custom action"
+msgstr ""
+
+#: includes/modules/form/admin.php:1382
+msgid "Custom action: "
+msgstr ""
+
+#: includes/modules/form/field-group.php:1489
+msgid "Custom content"
+msgstr ""
+
+#: includes/fields/field-button.php:84
+msgid "Custom HTML after the button"
+msgstr ""
+
+#: includes/fields/field-button.php:75
+msgid "Custom HTML before the button"
+msgstr ""
+
+#: includes/field-groups/field-group.php:132
+msgid "Custom meta data"
+msgstr ""
+
+#: includes/fields-settings/settings.php:177
+msgid "Custom setting"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1282
+msgid "Custom title"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2330
+msgid ""
+"Customize the permalink structure slug. Defaults to the post type name value."
+" Should be translatable."
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:51
+msgid "Dark"
+msgstr ""
+
+#: includes/fields-settings/data.php:54 
+#: includes/field-groups/field-group.php:487 
+#: includes/field-groups/field-group.php:491
+msgid "Data"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:514
+msgid "default"
+msgstr ""
+
+#: includes/admin/settings.php:98
+msgid "Default language"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:80 
+#: includes/fields/field-taxonomy-terms.php:496 
+#: includes/fields/field-code-editor.php:57 
+#: includes/fields/field-post-statuses.php:80 
+#: includes/fields/field-post-types.php:80 
+#: includes/fields/field-user-roles.php:79 includes/fields/field-forms.php:80 
+#: includes/fields/field-slug.php:39
+msgid "Default Value"
+msgstr ""
+
+#: includes/fields-settings/settings.php:174
+msgid "Default value"
+msgstr ""
+
+#: includes/fields/field-hidden.php:43
+msgid "Default value in the hidden input"
+msgstr ""
+
+#: includes/fields/field-column.php:56
+msgid ""
+"Define an endpoint for the previous tabs to stop. This will start a new "
+"group of columns."
+msgstr ""
+
+#: includes/admin/settings.php:208
+msgid ""
+"Defines the starting index used in all ‘loop’ and ‘row’ functions.<br />"
+"Defaults to 1 (1 is the first row), can be changed to 0 (0 is the first row)"
+msgstr ""
+
+#: includes/admin/settings.php:190
+msgid ""
+"Defines which version of Select2 library to enqueue. Either 3 or 4.<br />"
+"Defaults to 4 since ACF 5.6.0"
+msgstr ""
+
+#: includes/admin/options.class.php:180 includes/admin/options.php:478
+msgid "Delete"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1025
+msgid "Delete with user"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:836 
+#: includes/modules/dynamic-post-type.php:832 
+#: includes/modules/dynamic-block-type.php:757 
+#: includes/modules/form/field-group.php:2557 
+#: includes/modules/form/field-group.php:2638 
+#: includes/modules/form/field-group.php:2904 
+#: includes/modules/form/field-group.php:3929 
+#: includes/modules/form/field-group.php:4010 
+#: includes/modules/form/field-group.php:4433
+msgid "Description"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4663
+msgid "Determines element used to wrap a field. Defaults to 'div'"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4718
+msgid ""
+"Determines where field instructions are places in relation to fields. "
+"Defaults to 'label'. <br />\n"
+"    Choices of 'label' (Below labels) or 'field' (Below fields)"
+msgstr ""
+
+#: includes/admin/settings.php:334
+msgid "Dev mode"
+msgstr ""
+
+#: includes/admin/settings.php:56
+msgid "Directory"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:152
+msgid "Display a close button to collapse the layout"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:129
+msgid "Display a placeholder with a pencil icon, making edition easier"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3723 
+#: includes/modules/form/field-group.php:3804 
+#: includes/modules/form/field-group.php:4383
+msgid "Display name"
+msgstr ""
+
+#: includes/field-groups/field-group.php:269
+msgid "Display title"
+msgstr ""
+
+#: includes/modules/form/field-group.php:469
+msgid "Do not prompt user on page refresh"
+msgstr ""
+
+#: includes/fields-settings/validation.php:238
+msgid "Doesn't contain"
+msgstr ""
+
+#: includes/fields-settings/validation.php:242
+msgid "Doesn't end with"
+msgstr ""
+
+#: includes/fields-settings/validation.php:240
+msgid "Doesn't start with"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:667
+msgid "Dynamic Block Type"
+msgstr ""
+
+#: includes/modules/form/field-group.php:8
+msgid "Dynamic Form"
+msgstr ""
+
+#: includes/fields/field-dynamic-message.php:13
+msgid "Dynamic Message"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:500
+msgid "Dynamic Options Page"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:744
+msgid "Dynamic Post Type"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:751
+msgid "Dynamic Taxonomy"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2101
+msgid "Dynamically alter the post arguments before database insert/update"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2085
+msgid "Dynamically alter the post ID where meta values are loaded from"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2966
+msgid "Dynamically alter the term arguments before database insert/update"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2950
+msgid "Dynamically alter the term ID where meta values are loaded from"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4520
+msgid "Dynamically alter the user arguments before database insert/update"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4504
+msgid "Dynamically alter the user ID where meta values are loaded from"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:295 
+#: includes/fields/field-group.php:55 includes/fields/field-group.php:80 
+#: includes/fields/field-clone.php:51 includes/fields/field-clone.php:71 
+#: includes/admin/options.class.php:179 includes/admin/options.php:462 
+#: includes/modules/taxonomy.php:126
+msgid "Edit"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:29
+msgid "Edit Block Type"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:25
+msgid "Edit category"
+msgstr ""
+
+#: includes/admin/options.php:508
+msgid "Edit field group"
+msgstr ""
+
+#: includes/fields/field-group.php:33 includes/fields/field-clone.php:38
+msgid "Edit fields in a modal"
+msgstr ""
+
+#: includes/modules/form/admin.php:108
+msgid "Edit Form"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1149 
+#: includes/modules/dynamic-post-type.php:1155
+msgid "Edit item"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:194
+msgid "Edit layout content in a modal"
+msgstr ""
+
+#: includes/admin/options.php:463 includes/admin/views/html-options-edit.php:4
+msgid "Edit Option"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:23
+msgid "Edit Post Type"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:23
+msgid "Edit Taxonomy"
+msgstr ""
+
+#: includes/fields/field-group.php:30 includes/fields/field-clone.php:35
+msgid "Edition modal"
+msgstr ""
+
+#: includes/fields/field-group.php:50 includes/fields/field-clone.php:46
+msgid "Edition modal button"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:73
+msgid "Editor mode"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3104 
+#: includes/modules/form/field-group.php:3185 
+#: includes/modules/form/field-group.php:4233
+msgid "Email"
+msgstr ""
+
+#: includes/modules/form/admin.php:1390
+msgid "Email "
+msgstr ""
+
+#: includes/modules/form/field-group.php:713
+msgid "Email action"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:51
+msgid "Empty Message"
+msgstr ""
+
+#: includes/field-groups/field-group.php:125
+msgid "Enable advanced fields settings & validation"
+msgstr ""
+
+#: includes/fields/field-group.php:13 includes/fields/field-clone.php:13
+msgid "Enable better CSS integration: remove borders and padding"
+msgstr ""
+
+#: includes/admin/settings.php:82
+msgid "Enable/Disable json fields. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:76
+msgid "Enable/Disable local (PHP/json) fields. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:118
+msgid ""
+"Enable/Disable updates to appear in plugin list and show/hide the ACF "
+"updates admin page.<br />Defaults to true."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2076
+msgid "Enables post type archives."
+msgstr ""
+
+#: includes/fields/field-column.php:55
+msgid "Endpoint"
+msgstr ""
+
+#: includes/fields-settings/validation.php:241
+msgid "Ends with"
+msgstr ""
+
+#. Description of the plugin
+msgid "Enhancement Suite which improves Advanced Custom Fields administration"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1129
+msgid "Enqueue"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1192
+msgid "Enqueue assets"
+msgstr ""
+
+#: includes/admin/settings.php:200
+msgid "Enqueue Date/timepicker"
+msgstr ""
+
+#: includes/admin/settings.php:194
+msgid "Enqueue Datepicker"
+msgstr ""
+
+#: includes/admin/settings.php:176
+msgid "Enqueue Google Maps"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1170
+msgid "Enqueue script"
+msgstr ""
+
+#: includes/admin/settings.php:182
+msgid "Enqueue Select2"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1148
+msgid "Enqueue style"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:81 
+#: includes/fields/field-taxonomy-terms.php:497 
+#: includes/fields/field-post-statuses.php:81 
+#: includes/fields/field-post-types.php:81 
+#: includes/fields/field-user-roles.php:80 includes/fields/field-forms.php:81
+msgid "Enter each default value on a new line"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:114
+msgid ""
+"Enter the secret key. <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">reCaptcha API Admin</a>"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:106
+msgid ""
+"Enter the site key. <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">reCaptcha API Admin</a>"
+msgstr ""
+
+#: includes/fields-settings/validation.php:366
+msgid "Error"
+msgstr ""
+
+#: includes/admin/tools/dt-import.php:60 
+#: includes/admin/tools/dpt-import.php:60 
+#: includes/admin/tools/dbt-import.php:60 
+#: includes/admin/tools/form-import.php:60
+msgid "Error uploading file. Please try again"
+msgstr ""
+
+#: includes/fields-settings/settings.php:143
+msgid "Everywhere"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:959
+msgid "Exclude from search"
+msgstr ""
+
+#: includes/admin/tools/dbt-export.php:21 
+#: includes/admin/tools/dbt-export.php:61
+msgid "Export Block Types"
+msgstr ""
+
+#: includes/admin/tools/dop-export.php:99 
+#: includes/admin/tools/form-export.php:99
+msgid "Export File"
+msgstr ""
+
+#: includes/admin/tools/form-export.php:21 
+#: includes/admin/tools/form-export.php:59
+msgid "Export Forms"
+msgstr ""
+
+#: includes/admin/tools/fg-local.php:13
+msgid "Export Local Field Groups"
+msgstr ""
+
+#: includes/admin/tools/dop-export.php:21 
+#: includes/admin/tools/dop-export.php:59
+msgid "Export Options Pages"
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:21 
+#: includes/admin/tools/dpt-export.php:59
+msgid "Export Post Types"
+msgstr ""
+
+#: includes/admin/tools/dt-export.php:21 includes/admin/tools/dt-export.php:59
+msgid "Export Taxonomies"
+msgstr ""
+
+#: includes/admin/settings.php:122
+msgid "Export textdomain"
+msgstr ""
+
+#: includes/admin/settings.php:128
+msgid "Export translate"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:111 
+#: includes/modules/form/admin.php:246
+msgid "Export:"
+msgstr ""
+
+#: includes/admin/tools/dbt-export.php:244
+#, php-format
+msgid "Exported 1 block type."
+msgid_plural "Exported %s block types."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/fg-export.php:36
+#, php-format
+msgid "Exported 1 field group."
+msgid_plural "Exported %s field groups."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/form-export.php:120
+#, php-format
+msgid "Exported 1 form."
+msgid_plural "Exported %s forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/dop-export.php:238
+#, php-format
+msgid "Exported 1 option page."
+msgid_plural "Exported %s option pages."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/dpt-export.php:238
+#, php-format
+msgid "Exported 1 post type."
+msgid_plural "Exported %s post types."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/dt-export.php:249
+#, php-format
+msgid "Exported 1 taxonomy."
+msgid_plural "Exported %s taxonomies."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/modules/form/field-group.php:311
+msgid "Extra HTML to add after the fields"
+msgstr ""
+
+#: includes/modules/form/field-group.php:271
+msgid "Extra HTML to add before the fields"
+msgstr ""
+
+#: includes/admin/settings.php:63 includes/admin/settings.php:69 
+#: includes/admin/settings.php:75 includes/admin/settings.php:81 
+#: includes/admin/settings.php:117 includes/admin/settings.php:123 
+#: includes/admin/settings.php:135 includes/admin/settings.php:141 
+#: includes/admin/settings.php:147 includes/admin/settings.php:177 
+#: includes/admin/settings.php:183 includes/admin/settings.php:195 
+#: includes/admin/settings.php:201 includes/admin/settings.php:213 
+#: includes/admin/settings.php:251 includes/admin/settings.php:257 
+#: includes/admin/settings.php:263 includes/admin/settings.php:269 
+#: includes/admin/settings.php:275 includes/admin/settings.php:281 
+#: includes/admin/settings.php:287 includes/admin/settings.php:335 
+#: includes/admin/settings.php:341 includes/admin/settings.php:347 
+#: includes/admin/settings.php:365 
+#: includes/modules/dynamic-options-page.php:729 
+#: includes/modules/dynamic-options-page.php:775
+msgid "False"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1441
+msgid "Featured image"
+msgstr ""
+
+#: includes/fields/field-image.php:41
+msgid "Featured thumbnail"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2387
+msgid "Feeds"
+msgstr ""
+
+#: includes/fields-settings/data.php:43
+msgid "Field data unavailable"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4660
+msgid "Field element"
+msgstr ""
+
+#: includes/field-groups/field-group.php:114 includes/modules/dev.php:240
+msgid "Field group"
+msgstr ""
+
+#: includes/field-groups/field-group.php:181
+msgid "Field group data"
+msgstr ""
+
+#. Title
+#: includes/modules/dynamic-block-type.php:537 
+#: includes/modules/form/admin.php:1321 
+#: includes/modules/form/field-group.php:49
+msgid "Field groups"
+msgstr ""
+
+#: includes/admin/settings.php:304
+msgid "Field: reCaptcha secret key"
+msgstr ""
+
+#: includes/admin/settings.php:298
+msgid "Field: reCaptcha site key"
+msgstr ""
+
+#: includes/admin/settings.php:322
+msgid "Field: reCaptcha v2 size"
+msgstr ""
+
+#: includes/admin/settings.php:316
+msgid "Field: reCaptcha v2 theme"
+msgstr ""
+
+#: includes/admin/settings.php:328
+msgid "Field: reCaptcha v3 hide logo"
+msgstr ""
+
+#: includes/admin/settings.php:310
+msgid "Field: reCaptcha version"
+msgstr ""
+
+#. Title
+#: includes/field-groups/field-groups.php:71 
+#: includes/modules/form/admin.php:386
+msgid "Fields"
+msgstr ""
+
+#: includes/modules/form/field-group.php:207
+msgid "Fields class"
+msgstr ""
+
+#: includes/modules/form/field-group.php:513
+msgid "Fields errors class"
+msgstr ""
+
+#: includes/modules/form/field-group.php:486
+msgid "Fields errors position"
+msgstr ""
+
+#: includes/modules/form/field-group.php:730
+msgid ""
+"Fields may be included using <code>{field:field_key}</code> or <code>{field:"
+"title}</code>.<br />\n"
+"    All fields may be included using <code>{fields}</code>."
+msgstr ""
+
+#: includes/modules/form/field-group.php:1815 
+#: includes/modules/form/field-group.php:2755 
+#: includes/modules/form/field-group.php:4184
+msgid "Fields Values"
+msgstr ""
+
+#: includes/modules/form/field-group.php:857
+msgid "File"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1764 
+#: includes/modules/form/field-group.php:2704 
+#: includes/modules/form/field-group.php:4133
+msgid "Fill inputs with values"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:28
+msgid "Filter by Post Type"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:41
+msgid "Filter by Taxonomy"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1551
+msgid "Filter items list"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3414 
+#: includes/modules/form/field-group.php:3495 
+#: includes/modules/form/field-group.php:4308
+msgid "First name"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:335
+msgid ""
+"Folder '/acfe-php' was not found in your theme.<br />You must create it to "
+"activate this setting"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:318
+msgid "Force layouts to be collapsed or opened"
+msgstr ""
+
+#: includes/modules/form/admin.php:106
+msgid "Form"
+msgstr ""
+
+#: includes/modules/form/field-group.php:94
+msgid "Form attributes"
+msgstr ""
+
+#: includes/modules/form/field-group.php:97
+msgid "Form class and id"
+msgstr ""
+
+#: includes/modules/form/field-group.php:74
+msgid "Form element"
+msgstr ""
+
+#: includes/fields/field-forms.php:93
+msgid "Form ID"
+msgstr ""
+
+#: includes/fields/field-forms.php:94 includes/modules/form/field-group.php:29
+msgid "Form name"
+msgstr ""
+
+#: includes/locations/taxonomy-list.php:367 includes/fields/field-forms.php:13 
+#: includes/modules/form/admin.php:102 includes/modules/form/admin.php:103 
+#: includes/modules/form/admin.php:105 includes/modules/form/admin.php:107 
+#: includes/modules/form/admin.php:144 includes/modules/form/admin.php:144
+msgid "Forms"
+msgstr ""
+
+#: includes/admin/settings.php:366
+msgid "Found Json Sync load folder"
+msgstr ""
+
+#: includes/admin/settings.php:348
+msgid "Found PHP Sync load folder"
+msgstr ""
+
+#: includes/admin/settings.php:354
+msgid "Found PHP Sync save folder"
+msgstr ""
+
+#: includes/modules/form/field-group.php:757
+msgid "From"
+msgstr ""
+
+#: includes/fields-settings/settings.php:136
+msgid "Front-end"
+msgstr ""
+
+#: includes/fields-settings/validation.php:205
+msgid "Function"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:775 
+#: includes/modules/dynamic-post-type.php:768 
+#: includes/modules/dynamic-block-type.php:690 
+#: includes/modules/form/field-group.php:12
+msgid "General"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:788
+msgid "General name for the post type, usually plural. Default is Posts/Pages"
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:100 
+#: includes/admin/tools/dop-export.php:100 
+#: includes/admin/tools/dbt-export.php:102
+msgid "Generate PHP"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1281
+msgid "Generated ID"
+msgstr ""
+
+#: includes/modules/form/admin.php:1569 includes/modules/form/admin.php:1760 
+#: includes/modules/form/admin.php:1941
+msgid "Generic"
+msgstr ""
+
+#: includes/admin/settings.php:164 includes/admin/settings.php:170
+msgid "Google API Key"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2073
+msgid "Has archive"
+msgstr ""
+
+#: includes/fields/field-hidden.php:13
+msgid "Hidden"
+msgstr ""
+
+#: includes/modules/form/field-group.php:466
+msgid "Hide confirmation on exit"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:28
+msgid "Hide Empty Message"
+msgstr ""
+
+#: includes/fields-settings/settings.php:172
+msgid "Hide field"
+msgstr ""
+
+#: includes/modules/form/field-group.php:587
+msgid "Hide form"
+msgstr ""
+
+#: includes/modules/form/field-group.php:590
+msgid "Hide form on successful submission"
+msgstr ""
+
+#: includes/modules/form/field-group.php:446
+msgid "Hide general error"
+msgstr ""
+
+#: includes/fields-settings/settings.php:173
+msgid "Hide label"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:87
+msgid "Hide logo"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:31
+msgid "Hide the empty message box"
+msgstr ""
+
+#: includes/modules/form/field-group.php:449
+msgid ""
+"Hide the general error message: \"Validation failed. 1 field requires "
+"attention\""
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:88
+msgid "Hide the reCaptcha logo"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:858 
+#: includes/modules/dynamic-taxonomy.php:1911 
+#: includes/modules/dynamic-post-type.php:854
+msgid "Hierarchical"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4594
+msgid "Honeypot"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:274 
+#: includes/fields/field-taxonomy-terms.php:639 
+#: includes/fields/field-post-statuses.php:274 
+#: includes/fields/field-post-types.php:274 
+#: includes/fields/field-user-roles.php:260 includes/fields/field-forms.php:274
+msgid "Horizontal"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:98
+msgid ""
+"How many spaces a block (whatever that means in the edited language) should "
+"be indented"
+msgstr ""
+
+#: includes/modules/form/field-group.php:308
+msgid "HTML After render"
+msgstr ""
+
+#: includes/modules/form/field-group.php:268
+msgid "HTML Before render"
+msgstr ""
+
+#: includes/modules/form/field-group.php:287
+msgid "HTML Form render"
+msgstr ""
+
+#: includes/modules/form/field-group.php:405
+msgid "HTML used to render the submit button loading spinner."
+msgstr ""
+
+#: includes/modules/form/field-group.php:378
+msgid "HTML used to render the submit button."
+msgstr ""
+
+#: includes/modules/form/field-group.php:570
+#, php-format
+msgid ""
+"HTML used to render the updated message.<br /><br />\n"
+"    If used, you have to include the following code <code>%s</code> to print "
+"the actual 'Success message' above."
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.acf-extended.com"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:906 
+#: includes/modules/dynamic-block-type.php:954
+msgid "Icon"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:984
+msgid "Icon background"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1010
+msgid "Icon foreground"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1036
+msgid "Icon src"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:925
+msgid "Icon Type"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:687
+msgid "Icon url"
+msgstr ""
+
+#: includes/admin/options.class.php:197
+msgid "ID"
+msgstr ""
+
+#: includes/fields/field-button.php:68
+msgid "id"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1861
+msgid ""
+"If an existing top level page such as 'tools.php' or 'edit.php?"
+"post_type=page', the post type will be placed as a sub menu of that"
+msgstr ""
+
+#: includes/fields-settings/validation.php:30
+msgid "If email exists - email_exists(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:58
+msgid "If get user by email - get_user_by('email', value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:56
+msgid "If get user by id - get_user_by('id', value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:59
+msgid "If get user by login - get_user_by('login', value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:57
+msgid "If get user by slug - get_user_by('slug', value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:38
+msgid "If is email - is_email(value))"
+msgstr ""
+
+#: includes/fields-settings/validation.php:39
+msgid "If is user logged in - is_user_logged_in()"
+msgstr ""
+
+#: includes/fields-settings/validation.php:31
+msgid "If post type exists - post_type_exists(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:43
+msgid "If sanitize email - sanitize_email(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:44
+msgid "If sanitize file name - sanitize_file_name(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:45
+msgid "If sanitize html class - sanitize_html_class(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:46
+msgid "If sanitize key - sanitize_key(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:47
+msgid "If sanitize meta - sanitize_meta(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:48
+msgid "If sanitize mime type - sanitize_mime_type(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:49
+msgid "If sanitize option - sanitize_option(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:50
+msgid "If sanitize text field - sanitize_text_field(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:51
+msgid "If sanitize title - sanitize_title(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:52
+msgid "If sanitize user - sanitize_user(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:32
+msgid "If taxonomy exists - taxonomy_exists(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:33
+msgid "If term exists - term_exists(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:34
+msgid "If username exists - username_exists(value)"
+msgstr ""
+
+#: includes/fields-settings/validation.php:25
+msgid "If value"
+msgstr ""
+
+#: includes/fields-settings/validation.php:26
+msgid "If value length - strlen(value)"
+msgstr ""
+
+#: includes/admin/tools/dbt-import.php:18 
+#: includes/admin/tools/dbt-import.php:26
+msgid "Import Block Types"
+msgstr ""
+
+#: includes/admin/tools/dt-import.php:43 
+#: includes/admin/tools/dpt-import.php:43 
+#: includes/admin/tools/dbt-import.php:43 
+#: includes/admin/tools/dop-import.php:43 
+#: includes/admin/tools/form-import.php:43
+msgid "Import File"
+msgstr ""
+
+#: includes/admin/tools/dt-import.php:72 
+#: includes/admin/tools/dpt-import.php:72 
+#: includes/admin/tools/dbt-import.php:72 
+#: includes/admin/tools/dop-import.php:72 
+#: includes/admin/tools/form-import.php:72
+msgid "Import file empty"
+msgstr ""
+
+#: includes/admin/tools/form-import.php:26
+msgid "Import Forms"
+msgstr ""
+
+#: includes/admin/tools/dop-import.php:18 
+#: includes/admin/tools/dop-import.php:26
+msgid "Import Options Pages"
+msgstr ""
+
+#: includes/admin/tools/dpt-import.php:18 
+#: includes/admin/tools/dpt-import.php:26
+msgid "Import Post Types"
+msgstr ""
+
+#: includes/admin/tools/dt-import.php:18 includes/admin/tools/dt-import.php:26
+msgid "Import Taxonomies"
+msgstr ""
+
+#: includes/admin/tools/fg-local.php:29
+#, php-format
+msgid "Imported 1 field group"
+msgid_plural "Imported %s field groups"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/modules/dynamic-taxonomy.php:839
+msgid "Include a description of the taxonomy"
+msgstr ""
+
+#: includes/admin/tools/dt-import.php:64 
+#: includes/admin/tools/dpt-import.php:64 
+#: includes/admin/tools/dbt-import.php:64 
+#: includes/admin/tools/form-import.php:64
+msgid "Incorrect file type"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:97
+msgid "Indent Unit"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1397
+msgid "Insert into item"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4715
+msgid "Instruction placement"
+msgstr ""
+
+#: includes/fields-settings/settings.php:176 
+#: includes/fields/field-advanced-link.php:89 
+#: includes/fields/field-dynamic-message.php:43 
+#: includes/modules/form/field-group.php:718
+msgid "Instructions"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:861
+msgid ""
+"Is this taxonomy hierarchical (have descendants) like categories or not "
+"hierarchical like tags"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1639
+msgid "Item published"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1661
+msgid "Item published privately"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1683
+msgid "Item reverted to draft"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1705
+msgid "Item scheduled"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1727
+msgid "Item updated"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1595
+msgid "Items list"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1573
+msgid "Items list navigation"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:79
+msgid "JavaScript"
+msgstr ""
+
+#: includes/admin/settings.php:80 includes/modules/dynamic-block-type.php:484
+msgid "Json"
+msgstr ""
+
+#: includes/field-groups/field-group.php:282
+msgid "Json Desync"
+msgstr ""
+
+#: includes/admin/settings.php:92
+msgid "Json folder (load)"
+msgstr ""
+
+#: includes/admin/settings.php:86
+msgid "Json folder (save)"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:47
+msgid "Json sync"
+msgstr ""
+
+#: includes/admin/settings.php:364
+msgid "Json: Found"
+msgstr ""
+
+#: includes/field-groups/field-group.php:144 
+#: includes/modules/form/admin.php:431
+msgid "Key"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:801
+msgid "Keywords"
+msgstr ""
+
+#: includes/admin/settings.php:140
+msgid "l10n"
+msgstr ""
+
+#: includes/admin/settings.php:152
+msgid "l10n Field"
+msgstr ""
+
+#: includes/admin/settings.php:158
+msgid "l10n Field group"
+msgstr ""
+
+#: includes/admin/settings.php:146
+msgid "l10n Textdomain"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:792 
+#: includes/modules/dynamic-post-type.php:785 
+#: includes/modules/form/admin.php:429
+msgid "Label"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:516
+msgid "label"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4689
+msgid "Label placement"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1049 
+#: includes/modules/dynamic-taxonomy.php:1066 
+#: includes/modules/dynamic-post-type.php:1055 
+#: includes/modules/dynamic-post-type.php:1072
+msgid "Labels"
+msgstr ""
+
+#: includes/admin/settings.php:106
+msgid ""
+"Language code of the current post’s language. Defaults to ”.<br />If WPML is "
+"active, ACF will default this to the WPML current language"
+msgstr ""
+
+#: includes/admin/settings.php:100
+msgid ""
+"Language code of the default language. Defaults to ”.<br />If WPML is active,"
+" ACF will default this to the WPML default language setting"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3517 
+#: includes/modules/form/field-group.php:3598 
+#: includes/modules/form/field-group.php:4333
+msgid "Last name"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:833 
+#: includes/fields/field-taxonomies.php:267 
+#: includes/fields/field-taxonomy-terms.php:632 
+#: includes/fields/field-post-statuses.php:267 
+#: includes/fields/field-post-types.php:267 
+#: includes/fields/field-user-roles.php:253 includes/fields/field-forms.php:267
+msgid "Layout"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:191
+msgid "Layouts Modal: Edition"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:205
+msgid "Layouts Modal: Selection"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:149
+msgid "Layouts: Close Button"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:177
+msgid "Layouts: Copy/Paste"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:103
+msgid "Layouts: Dynamic Preview"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:315
+msgid "Layouts: Force State"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:126
+msgid "Layouts: Placeholder"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:338
+msgid "Layouts: Remove Collapse"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:89
+msgid "Layouts: Render"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:75
+msgid "Layouts: Thumbnails"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:163
+msgid "Layouts: Title Edition"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:107 includes/fields/field-slug.php:76
+msgid "Leave blank for no limit"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:515
+msgid "left"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:50
+msgid "Light"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:246
+msgid "Link text"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:39 
+#: includes/field-groups/field-groups.php:73 
+#: includes/modules/form/field-group.php:1744 
+#: includes/modules/form/field-group.php:2684 
+#: includes/modules/form/field-group.php:4113
+msgid "Load"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:681
+msgid "Load Terms"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:682
+msgid "Load value from posts terms"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1761 
+#: includes/modules/form/field-group.php:2701 
+#: includes/modules/form/field-group.php:4130
+msgid "Load Values"
+msgstr ""
+
+#: includes/field-groups/field-group.php:283
+msgid ""
+"Local json file is different from this version. If you manually synchronize "
+"it, you will lose your current field group settings"
+msgstr ""
+
+#: includes/fields-settings/validation.php:171 
+#: includes/fields-settings/settings.php:122
+msgid "Location"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:36 
+#: includes/field-groups/field-groups.php:72
+msgid "Locations"
+msgstr ""
+
+#: includes/fields/field-image.php:44
+msgid "Make this image the featured thumbnail"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2003
+msgid "Map meta cap"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1847 
+#: includes/modules/form/field-group.php:2787 
+#: includes/modules/form/field-group.php:4216
+msgid "Mapping"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1459 
+#: includes/modules/dynamic-post-type.php:1751
+msgid "Menu"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1792
+msgid "Menu icon"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1105 
+#: includes/modules/dynamic-post-type.php:1529
+msgid "Menu name"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1768
+msgid "Menu position"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:568
+msgid "Menu title"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:965 
+#: includes/modules/dynamic-taxonomy.php:996
+msgid "Meta box callback"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:236
+msgid "Modal Title"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:842 
+#: includes/modules/dynamic-block-type.php:1285
+msgid "Mode"
+msgstr ""
+
+#: includes/admin/settings.php:250
+msgid "Module: Author"
+msgstr ""
+
+#: includes/admin/settings.php:256
+msgid "Module: Dynamic Block Types"
+msgstr ""
+
+#: includes/admin/settings.php:262
+msgid "Module: Dynamic Forms"
+msgstr ""
+
+#: includes/admin/settings.php:280
+msgid "Module: Dynamic Options Pages"
+msgstr ""
+
+#: includes/admin/settings.php:268
+msgid "Module: Dynamic Post Types"
+msgstr ""
+
+#: includes/admin/settings.php:274
+msgid "Module: Dynamic Taxonomies"
+msgstr ""
+
+#: includes/admin/settings.php:286
+msgid "Module: Options"
+msgstr ""
+
+#: includes/admin/settings.php:292
+msgid "Module: Taxonomies Enhancements"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1307
+msgid "Multiple"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:418
+msgid "Multiple categories can be set using \"|\""
+msgstr ""
+
+#: includes/admin/options.class.php:198 includes/admin/options.php:308 
+#: includes/modules/dev.php:238 includes/modules/dynamic-taxonomy.php:468 
+#: includes/modules/dynamic-taxonomy.php:814 
+#: includes/modules/dynamic-options-page.php:546 
+#: includes/modules/dynamic-post-type.php:513 
+#: includes/modules/dynamic-post-type.php:810 
+#: includes/modules/dynamic-block-type.php:389 
+#: includes/modules/dynamic-block-type.php:731 
+#: includes/modules/form/admin.php:430 includes/modules/form/admin.php:1320 
+#: includes/modules/form/field-group.php:770 
+#: includes/modules/form/field-group.php:2239 
+#: includes/modules/form/field-group.php:2320 
+#: includes/modules/form/field-group.php:2804
+msgid "Name"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1617
+msgid "Name admin bar"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:30
+msgid "New Block Type"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:28
+msgid "New category name"
+msgstr ""
+
+#: includes/modules/form/admin.php:109
+msgid "New Form"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1177
+msgid "New item"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1237
+msgid "New item name"
+msgstr ""
+
+#: includes/fields/field-post-object.php:36
+msgid "New Post Arguments"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:24
+msgid "New Post Type"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:24
+msgid "New Taxonomy"
+msgstr ""
+
+#: includes/modules/form/actions/user.php:547
+msgid "Nicename may not be longer than 50 characters."
+msgstr ""
+
+#: includes/modules/form/field-group.php:3620 
+#: includes/modules/form/field-group.php:3701 
+#: includes/modules/form/field-group.php:4358
+msgid "Nickname"
+msgstr ""
+
+#: includes/admin/options.php:445
+msgid "No"
+msgstr ""
+
+#: includes/admin/tools/dbt-export.php:261
+msgid "No block types selected"
+msgstr ""
+
+#: includes/admin/tools/dbt-export.php:84
+msgid "No dynamic block type available."
+msgstr ""
+
+#: includes/admin/tools/form-export.php:82
+msgid "No dynamic form available."
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:82
+msgid "No dynamic post type available."
+msgstr ""
+
+#: includes/admin/tools/dt-export.php:82
+msgid "No dynamic taxonomy available."
+msgstr ""
+
+#: includes/admin/tools/fg-local.php:51
+msgid "No field group selected"
+msgstr ""
+
+#: includes/modules/form/admin.php:565
+msgid "No field groups are currently mapped"
+msgstr ""
+
+#: includes/admin/tools/dt-import.php:53 
+#: includes/admin/tools/dpt-import.php:53 
+#: includes/admin/tools/dbt-import.php:53 
+#: includes/admin/tools/dop-import.php:53 
+#: includes/admin/tools/form-import.php:53
+msgid "No file selected"
+msgstr ""
+
+#: includes/admin/tools/form-export.php:137
+msgid "No forms selected"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:645 
+#: includes/modules/form/admin.php:496 includes/modules/form/admin.php:652 
+#: includes/modules/form/admin.php:681
+msgid "no label"
+msgstr ""
+
+#: includes/admin/options.class.php:99
+msgid "No options avaliable."
+msgstr ""
+
+#: includes/admin/tools/dop-export.php:82
+msgid "No options page available."
+msgstr ""
+
+#: includes/admin/tools/dop-export.php:255
+msgid "No options page selected"
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:255
+msgid "No post types selected"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:71
+msgid "Normal"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:513
+msgid "normal"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1413 
+#: includes/modules/dynamic-post-type.php:1265
+msgid "Not found"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1287
+msgid "Not found in trash"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:74 
+#: includes/fields/field-taxonomy-terms.php:490 
+#: includes/fields/field-post-statuses.php:74 
+#: includes/fields/field-post-types.php:74 
+#: includes/fields/field-user-roles.php:73 includes/fields/field-forms.php:74
+msgctxt "noun"
+msgid "Select"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:260
+msgid "Open in an new window"
+msgstr ""
+
+#: includes/fields-settings/settings.php:206
+msgid "Operator / Value"
+msgstr ""
+
+#: includes/admin/options.class.php:18
+msgid "Option"
+msgstr ""
+
+#: includes/admin/options.php:577
+msgid "Option has been added"
+msgstr ""
+
+#: includes/admin/options.php:161
+msgid "Option has been deleted"
+msgstr ""
+
+#: includes/admin/options.php:566
+msgid "Option has been updated"
+msgstr ""
+
+#: includes/admin/options.class.php:19 includes/admin/options.php:25 
+#: includes/admin/options.php:26
+msgid "Options"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:748
+msgid "options"
+msgstr ""
+
+#: includes/admin/options.php:197
+msgid "Options have been deleted"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1740 
+#: includes/modules/dynamic-taxonomy.php:2010 
+#: includes/modules/dynamic-post-type.php:2175 
+#: includes/modules/dynamic-post-type.php:2537
+msgid "Order"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1714 
+#: includes/modules/dynamic-taxonomy.php:1984 
+#: includes/modules/dynamic-post-type.php:2149 
+#: includes/modules/dynamic-post-type.php:2511
+msgid "Order by"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:223 
+#: includes/fields/field-post-statuses.php:223 
+#: includes/fields/field-post-types.php:223 
+#: includes/fields/field-user-roles.php:209 includes/fields/field-forms.php:223
+msgid "Other"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4578
+msgid ""
+"Override rendered field groups with a specific post field groups.<br /><br/>"
+"Note: Make sure to set the related field groups in the \"General\" tab in "
+"order to map fields in the actions tab"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:524
+msgid "Page title"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2417
+msgid "Pages"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2503 
+#: includes/modules/form/field-group.php:2535 
+#: includes/modules/form/field-group.php:2879
+msgid "Parent"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:23
+msgid "Parent category"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:24
+msgid "Parent category:"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1259
+msgid "Parent item"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1281 
+#: includes/modules/dynamic-post-type.php:1309
+msgid "Parent item colon"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:665
+msgid "Parent slug"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3310 
+#: includes/modules/form/field-group.php:3392 
+#: includes/modules/form/field-group.php:4283
+msgid "Password"
+msgstr ""
+
+#: includes/admin/settings.php:50
+msgid "Path"
+msgstr ""
+
+#: includes/field-groups/field-group.php:341
+msgid "Permissions"
+msgstr ""
+
+#: includes/admin/settings.php:340 includes/modules/dynamic-block-type.php:483
+msgid "PHP"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:81
+msgid "PHP (mixed)"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:82
+msgid "PHP (plain)"
+msgstr ""
+
+#: includes/modules/form/admin.php:1205
+msgid "PHP Field Validation"
+msgstr ""
+
+#: includes/modules/form/admin.php:1152
+msgid "PHP Form Integration"
+msgstr ""
+
+#: includes/modules/form/admin.php:1301
+msgid "PHP Form Submit: Custom Action"
+msgstr ""
+
+#: includes/modules/form/admin.php:1253
+msgid "PHP Form Validation"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:43
+msgid "PHP sync"
+msgstr ""
+
+#: includes/admin/settings.php:360
+msgid "PHP Sync Load path"
+msgstr ""
+
+#: includes/admin/settings.php:74
+msgid "PHP/Json"
+msgstr ""
+
+#: includes/admin/settings.php:346
+msgid "PHP: Found"
+msgstr ""
+
+#: includes/admin/settings.php:358
+msgid "PHP: Load"
+msgstr ""
+
+#: includes/admin/settings.php:352
+msgid "PHP: Save"
+msgstr ""
+
+#: includes/fields-settings/settings.php:175 
+#: includes/fields/field-code-editor.php:65
+msgid "Placeholder"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:126 
+#: includes/fields/field-taxonomy-terms.php:554 
+#: includes/fields/field-post-statuses.php:126 
+#: includes/fields/field-post-types.php:126 
+#: includes/fields/field-user-roles.php:112 
+#: includes/fields/field-forms.php:126 includes/fields/field-select.php:11 
+#: includes/fields/field-slug.php:48
+msgid "Placeholder Text"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1325
+msgid "Popular items"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:640
+msgid "Position"
+msgstr ""
+
+#: includes/locations/post-type-archive.php:83 
+#: includes/locations/post-type-list.php:376 
+#: includes/fields/field-advanced-link.php:196 
+#: includes/fields/field-advanced-link.php:225 
+#: includes/modules/form/actions/post.php:317
+msgid "Post"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1026
+msgid "Post action"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1554 
+#: includes/modules/form/field-group.php:1586 
+#: includes/modules/form/field-group.php:1989
+msgid "Post author"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1451 
+#: includes/modules/form/field-group.php:1532 
+#: includes/modules/form/field-group.php:1964
+msgid "Post content"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4575
+msgid "Post field groups"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:733
+msgid "Post ID"
+msgstr ""
+
+#: includes/fields-settings/data.php:49
+msgid "Post object unavailable"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1608 
+#: includes/modules/form/field-group.php:1640 
+#: includes/modules/form/field-group.php:2014
+msgid "Post parent"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1347 
+#: includes/modules/form/field-group.php:1429 
+#: includes/modules/form/field-group.php:1939
+msgid "Post slug"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1185 
+#: includes/modules/form/field-group.php:1221 
+#: includes/modules/form/field-group.php:1889
+msgid "Post status"
+msgstr ""
+
+#: includes/fields/field-post-statuses.php:94
+msgid "Post status name"
+msgstr ""
+
+#: includes/fields/field-post-statuses.php:93
+msgid "Post status object"
+msgstr ""
+
+#: includes/fields/field-post-statuses.php:13
+msgid "Post statuses"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1662 
+#: includes/modules/form/field-group.php:1698 
+#: includes/modules/form/field-group.php:2039
+msgid "Post terms"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1243 
+#: includes/modules/form/field-group.php:1325 
+#: includes/modules/form/field-group.php:1914
+msgid "Post title"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:21
+msgid "Post Type"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1127 
+#: includes/modules/form/field-group.php:1163 
+#: includes/modules/form/field-group.php:1864
+msgid "Post type"
+msgstr ""
+
+#: includes/locations/post-type-list.php:378
+msgid "Post Type List"
+msgstr ""
+
+#: includes/fields/field-post-types.php:94
+msgid "Post type name"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:813
+msgid ""
+"Post type name. Max. 20 characters, cannot contain capital letters or spaces"
+msgstr ""
+
+#: includes/fields/field-post-types.php:93
+msgid "Post type object"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:469 
+#: includes/modules/dynamic-post-type.php:17 
+#: includes/modules/dynamic-post-type.php:18 
+#: includes/modules/dynamic-post-type.php:20 
+#: includes/modules/dynamic-post-type.php:22 
+#: includes/modules/dynamic-block-type.php:391
+msgid "Post Types"
+msgstr ""
+
+#: includes/fields/field-post-types.php:13 
+#: includes/modules/dynamic-taxonomy.php:880 
+#: includes/modules/dynamic-block-type.php:823
+msgid "Post types"
+msgstr ""
+
+#: includes/modules/form/field-group.php:559 
+#: includes/modules/form/form-front.php:209
+msgid "Post updated"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:515
+msgid "Posts"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1690 
+#: includes/modules/dynamic-post-type.php:2125 
+#: includes/modules/dynamic-post-type.php:2487
+msgid "Posts per page"
+msgstr ""
+
+#: includes/fields/field-slug.php:57
+msgid "Prepend"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:297 
+#: includes/fields/field-taxonomy-terms.php:655 
+#: includes/fields/field-post-statuses.php:297 
+#: includes/fields/field-post-types.php:297 
+#: includes/fields/field-user-roles.php:283 includes/fields/field-forms.php:297
+msgid "Prepend an extra checkbox to toggle all choices"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:968
+msgid ""
+"Provide a callback function name for the meta box display.<br /><br/>"
+"Defaults to the categories meta box for hierarchical taxonomies and the tags "
+"meta box for non-hierarchical taxonomies. No meta box is shown if set to "
+"false."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:899 
+#: includes/modules/dynamic-post-type.php:937
+msgid "Public"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:921 
+#: includes/modules/dynamic-post-type.php:981
+msgid "Publicly queryable"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:73 
+#: includes/fields/field-post-statuses.php:73 
+#: includes/fields/field-post-types.php:73 
+#: includes/fields/field-user-roles.php:72 includes/fields/field-forms.php:73
+msgid "Radio Buttons"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:11
+msgid "reCAPTCHA"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:225
+msgid "reCaptcha has expired."
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:38
+msgid "reCaptcha V2"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:39
+msgid "reCaptcha V3"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:710
+msgid "Redirect"
+msgstr ""
+
+#: includes/modules/form/field-group.php:607
+msgid "Redirection"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:296
+msgid "Remove"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:341
+msgid "Remove collapse action"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1485
+msgid "Remove featured image"
+msgstr ""
+
+#: includes/admin/settings.php:212
+msgid "Remove WP meta box"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:447 
+#: includes/modules/dynamic-block-type.php:392 
+#: includes/modules/dynamic-block-type.php:1066
+msgid "Render"
+msgstr ""
+
+#: includes/modules/form/field-group.php:52
+msgid "Render & map fields of the following field groups"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1085
+msgid "Render template"
+msgstr ""
+
+#: includes/field-groups/field-group.php:270
+msgid "Render this title on edit post screen"
+msgstr ""
+
+#: includes/modules/form/field-group.php:290
+msgid ""
+"Render your own customized HTML. This will override the native field groups "
+"render.<br /><br />\n"
+"    Field groups may be included using <code>{field_group:group_key}</code>"
+"<br/><code>{field_group:Group title}</code><br/><br/>\n"
+"    Fields may be included using <code>{field:field_key}</code><br/><code>"
+"{field:field_name}</code>"
+msgstr ""
+
+#: includes/fields-settings/settings.php:171
+msgid "Required"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2040 
+#: includes/modules/dynamic-post-type.php:2567
+msgid "REST"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2104
+msgid "REST API Controller class name"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2079 
+#: includes/modules/dynamic-post-type.php:2606
+msgid "Rest base"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2101 
+#: includes/modules/dynamic-post-type.php:2628
+msgid "Rest controller class"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:88 
+#: includes/fields/field-taxonomy-terms.php:504 
+#: includes/fields/field-post-statuses.php:88 
+#: includes/fields/field-post-types.php:88 includes/fields/field-forms.php:88
+msgid "Return Value"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1770 
+#: includes/modules/dynamic-post-type.php:2244
+msgid "Rewrite"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1792 
+#: includes/modules/dynamic-taxonomy.php:1822 
+#: includes/modules/dynamic-post-type.php:2266 
+#: includes/modules/dynamic-post-type.php:2296
+msgid "Rewrite Arguments"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4032 
+#: includes/modules/form/field-group.php:4067 
+#: includes/modules/form/field-group.php:4458
+msgid "Role"
+msgstr ""
+
+#: includes/admin/settings.php:206
+msgid "Row index offset"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:114
+msgid "Rows"
+msgstr ""
+
+#: includes/fields-settings/validation.php:195
+msgid "Rules"
+msgstr ""
+
+#: includes/admin/settings.php:70
+msgid ""
+"Runs the function stripslashes on all $_POST data. Some servers / WP instals "
+"may require this extra functioanlity. Defaults to false"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1031 
+#: includes/modules/form/field-group.php:2143 
+#: includes/modules/form/field-group.php:3008
+msgid "Save"
+msgstr ""
+
+#: includes/fields/field-post-object.php:26
+msgid "Save 'custom' values as new post"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:339 
+#: includes/fields/field-post-statuses.php:339 
+#: includes/fields/field-post-types.php:339 
+#: includes/fields/field-user-roles.php:325 includes/fields/field-forms.php:339
+msgid "Save 'custom' values to the field's choices"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:248 
+#: includes/fields/field-post-statuses.php:248 
+#: includes/fields/field-post-types.php:248 
+#: includes/fields/field-user-roles.php:234 includes/fields/field-forms.php:248
+msgid "Save 'other' values to the field's choices"
+msgstr ""
+
+#: includes/fields/field-post-object.php:21 
+#: includes/fields/field-taxonomies.php:334 
+#: includes/fields/field-post-statuses.php:334 
+#: includes/fields/field-post-types.php:334 
+#: includes/fields/field-user-roles.php:320 includes/fields/field-forms.php:334
+msgid "Save Custom"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1720 
+#: includes/modules/form/field-group.php:2660 
+#: includes/modules/form/field-group.php:4089
+msgid "Save Meta fields"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:243 
+#: includes/fields/field-post-statuses.php:243 
+#: includes/fields/field-post-types.php:243 
+#: includes/fields/field-user-roles.php:229 includes/fields/field-forms.php:243
+msgid "Save Other"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:672
+msgid "Save Terms"
+msgstr ""
+
+#: includes/admin/views/html-options-list.php:23
+msgid "Search"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:21
+msgid "Search categories"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1303 
+#: includes/modules/dynamic-post-type.php:1243
+msgid "Search items"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:113
+msgid "Secret key"
+msgstr ""
+
+#: includes/fields/field-group.php:10 includes/fields/field-clone.php:10
+msgid "Seemless Style"
+msgstr ""
+
+#: includes/admin/tools/dbt-export.php:70
+msgid "Select Block Types"
+msgstr ""
+
+#: includes/admin/tools/dt-import.php:32 
+#: includes/admin/tools/dpt-import.php:32 
+#: includes/admin/tools/dbt-import.php:32 
+#: includes/admin/tools/dop-import.php:32 
+#: includes/admin/tools/form-import.php:32
+msgid "Select File"
+msgstr ""
+
+#: includes/admin/tools/form-export.php:68
+msgid "Select Forms"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:208
+msgid "Select layouts in a modal"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:163 
+#: includes/fields/field-taxonomy-terms.php:591 
+#: includes/fields/field-post-statuses.php:163 
+#: includes/fields/field-post-types.php:163 
+#: includes/fields/field-user-roles.php:149 includes/fields/field-forms.php:163
+msgid "Select multiple values?"
+msgstr ""
+
+#: includes/admin/tools/dop-export.php:68
+msgid "Select Options Pages"
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:68
+msgid "Select Post Types"
+msgstr ""
+
+#: includes/admin/tools/dt-export.php:68
+msgid "Select Taxonomies"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:67 
+#: includes/fields/field-taxonomy-terms.php:484 
+#: includes/fields/field-post-statuses.php:67 
+#: includes/fields/field-post-types.php:67 
+#: includes/fields/field-user-roles.php:66
+msgid "Select the appearance of this field"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:67
+msgid "Select the reCaptcha size"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:46
+msgid "Select the reCaptcha theme"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:34
+msgid "Select the reCaptcha version"
+msgstr ""
+
+#: includes/field-groups/field-group.php:345
+msgid ""
+"Select user roles that are allowed to view and edit this field group in post "
+"edition"
+msgstr ""
+
+#: includes/fields-settings/permissions.php:14
+msgid ""
+"Select user roles that are allowed to view and edit this field. If nothing "
+"is selected, then this field will be available to everyone."
+msgstr ""
+
+#: includes/admin/settings.php:188
+msgid "Select2 version"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1347
+msgid "Separate items with commas"
+msgstr ""
+
+#: includes/fields/field-button.php:33
+msgid "Set a default button value"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:78
+msgid ""
+"Set a thumbnail for each layouts. You must save the field group to apply "
+"this setting"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1463
+msgid "Set featured image"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:92
+msgid ""
+"Set template, style & javascript files for each layouts. This setting is "
+"mandatory in order to use <code style=\"font-size:11px;\">get_flexible()"
+"</code> function. You must save the field group to apply this setting"
+msgstr ""
+
+#: includes/fields-settings/bidirectional.php:20
+msgid "Set the field as bidirectional"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1258
+msgid ""
+"Set to an array of specific alignment names to customize the toolbar.<br />"
+"One line for each name. ie:<br /><br />left<br />right<br />full"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1773
+msgid ""
+"Set to false to prevent automatic URL rewriting a.k.a. \"pretty permalinks\"."
+" Pass an argument array to override default URL settings for permalinks"
+msgstr ""
+
+#: includes/admin/settings.php:136 includes/admin/settings.php:148
+msgid ""
+"Sets the text domain used when translating field and field group settings."
+"<br />Defaults to ”. Strings will not be translated if this setting is empty"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:115
+msgid "Sets the textarea height"
+msgstr ""
+
+#: includes/fields-settings/settings.php:156
+msgid "Setting"
+msgstr ""
+
+#: includes/fields-settings/settings.php:181
+msgid "Setting name"
+msgstr ""
+
+#: includes/fields-settings/settings.php:146 
+#: includes/fields/field-flexible-content.php:375 
+#: includes/admin/settings.php:12 includes/admin/settings.php:12 
+#: includes/admin/settings.php:24 includes/admin/settings.php:29
+msgid "Settings"
+msgstr ""
+
+#: includes/modules/form/admin.php:1133 includes/modules/form/admin.php:1323
+msgid "Shortcode"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2390
+msgid ""
+"Should a feed permalink structure be built for this post type. Defaults to "
+"has_archive value."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2360
+msgid ""
+"Should the permalink structure be prepended with the front base. (example: "
+"if your permalink structure is /blog/, then your links will be: false->"
+"/news/, true->/blog/news/). Defaults to true."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2420
+msgid ""
+"Should the permalink structure provide for pagination. Defaults to true."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1586
+msgid "Show admin column"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1910
+msgid "Show in admin bar"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1498 
+#: includes/modules/dynamic-post-type.php:1836
+msgid "Show in menu"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1858
+msgid "Show in menu (text)"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1520 
+#: includes/modules/dynamic-post-type.php:1888
+msgid "Show in nav menus"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1564
+msgid "Show in quick edit"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2057 
+#: includes/modules/dynamic-post-type.php:2584
+msgid "Show in rest"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:88
+msgid "Show Lines"
+msgstr ""
+
+#: includes/admin/settings.php:62
+msgid "Show menu"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1542
+msgid "Show tagcloud"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1476 
+#: includes/modules/dynamic-post-type.php:1814
+msgid "Show UI"
+msgstr ""
+
+#: includes/admin/settings.php:116
+msgid "Show updates"
+msgstr ""
+
+#: includes/admin/settings.php:64
+msgid "Show/hide ACF menu item. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:330
+msgid "Show/hide reCaptcha v3 logo"
+msgstr ""
+
+#: includes/admin/settings.php:336
+msgid "Show/hide the advanced WP post meta box. Defaults to false"
+msgstr ""
+
+#: includes/admin/settings.php:252
+msgid "Show/hide the Author module. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:258
+msgid "Show/hide the Block Types module. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:264
+msgid "Show/hide the Forms module. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:288
+msgid "Show/hide the Options module. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:282
+msgid "Show/hide the Options Pages module. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:270
+msgid "Show/hide the Post Types module. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:294
+msgid "Show/hide the Taxonomies enhancements module. Defaults to true"
+msgstr ""
+
+#: includes/admin/settings.php:276
+msgid "Show/hide the Taxonomies module. Defaults to true"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:928
+msgid ""
+"Simple: Specify a Dashicons class or SVG path<br /> Colors: Specify colors & "
+"Dashicons class"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1651 
+#: includes/modules/dynamic-post-type.php:2205
+msgid "Single"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1083 
+#: includes/modules/dynamic-post-type.php:1089
+msgid "Singular name"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:105
+msgid "Site key"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:66
+msgid "Size"
+msgstr ""
+
+#: includes/fields/field-slug.php:13 
+#: includes/modules/dynamic-taxonomy.php:1851 
+#: includes/modules/dynamic-post-type.php:2095 
+#: includes/modules/dynamic-post-type.php:2327 
+#: includes/modules/form/field-group.php:2342 
+#: includes/modules/form/field-group.php:2423 
+#: includes/modules/form/field-group.php:2829
+msgid "Slug"
+msgstr ""
+
+#: includes/modules/form/actions/user.php:539
+msgid "Sorry, that username already exists!"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1027
+msgid "Sort"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:70
+msgid "Source"
+msgstr ""
+
+#: includes/modules/form/form-front.php:42
+msgid "Spam Detected"
+msgstr ""
+
+#: includes/admin/settings.php:166
+msgid ""
+"Specify a Google Maps API authentication key to prevent usage limits.<br />"
+"Defaults to ”"
+msgstr ""
+
+#: includes/admin/settings.php:172
+msgid ""
+"Specify a Google Maps API Client ID to prevent usage limits.<br />Not needed "
+"if using google_api_key. Defaults to ”"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:987
+msgid ""
+"Specifying a background color to appear with the icon e.g.: in the inserter."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1013
+msgid ""
+"Specifying a color for the icon (optional: if not set, a readable color will "
+"be automatically defined)"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1039
+msgid "Specifying a dashicon for the block"
+msgstr ""
+
+#: includes/fields-settings/validation.php:239
+msgid "Starts with"
+msgstr ""
+
+#: includes/admin/settings.php:68
+msgid "Strip slashes"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:14 
+#: includes/fields/field-repeater.php:14
+msgid "Stylised Button"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:181 
+#: includes/fields/field-taxonomy-terms.php:518 
+#: includes/fields/field-post-statuses.php:181 
+#: includes/fields/field-post-types.php:181 
+#: includes/fields/field-user-roles.php:167 includes/fields/field-forms.php:181
+msgid "Stylised UI"
+msgstr ""
+
+#: includes/modules/form/field-group.php:796
+msgid "Subject"
+msgstr ""
+
+#: includes/modules/form/field-group.php:429
+msgid "Submission"
+msgstr ""
+
+#: includes/fields/field-button.php:16 includes/fields/field-button.php:36 
+#: includes/fields/field-button.php:49 includes/admin/options.php:457 
+#: includes/modules/form/field-group.php:367
+msgid "Submit"
+msgstr ""
+
+#: includes/modules/form/field-group.php:327 
+#: includes/modules/form/field-group.php:375
+msgid "Submit button"
+msgstr ""
+
+#: includes/modules/form/field-group.php:402
+msgid "Submit spinner"
+msgstr ""
+
+#: includes/modules/form/field-group.php:347
+msgid "Submit value"
+msgstr ""
+
+#: includes/modules/form/field-group.php:547
+msgid "Success message"
+msgstr ""
+
+#: includes/modules/form/field-group.php:567
+msgid "Success wrapper HTML"
+msgstr ""
+
+#: includes/core/helpers.php:374
+msgid "Super Admin"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:876 
+#: includes/modules/dynamic-block-type.php:1214
+msgid "Supports"
+msgstr ""
+
+#: includes/fields/field-textarea.php:14
+msgid ""
+"Switch font family to monospace and allow tab indent. For a more advanced "
+"code editor, please use the <code>Code Editor</code> field type"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:257 
+#: includes/modules/form/field-group.php:1093 
+#: includes/modules/form/field-group.php:2205 
+#: includes/modules/form/field-group.php:3070
+msgid "Target"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:13 
+#: includes/modules/dynamic-taxonomy.php:17 
+#: includes/modules/dynamic-taxonomy.php:18 
+#: includes/modules/dynamic-taxonomy.php:20 
+#: includes/modules/dynamic-taxonomy.php:22 
+#: includes/modules/dynamic-post-type.php:514 
+#: includes/modules/dynamic-post-type.php:916
+msgid "Taxonomies"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:21 
+#: includes/modules/form/field-group.php:2445 
+#: includes/modules/form/field-group.php:2481 
+#: includes/modules/form/field-group.php:2854
+msgid "Taxonomy"
+msgstr ""
+
+#: includes/locations/taxonomy-list.php:369
+msgid "Taxonomy List"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:94
+msgid "Taxonomy name"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:93
+msgid "Taxonomy object"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:16
+msgid "Taxonomy Terms"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1668 
+#: includes/modules/dynamic-post-type.php:2051 
+#: includes/modules/dynamic-post-type.php:2222
+msgid "Template"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2138
+msgid "Term action"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:511
+msgid "Term ID"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:510
+msgid "Term name"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:509
+msgid "Term object"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:470
+msgid "Terms"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1960
+msgid "Terms per page"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:470
+msgid "Terms_level"
+msgstr ""
+
+#: includes/fields/field-group.php:53 includes/fields/field-clone.php:49
+msgid "Text displayed in the edition modal button"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:54
+msgid "Text displayed when the flexible field is empty"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:78
+msgid "Text/HTML"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2609
+msgid ""
+"The base slug that this post type will use when accessed using the REST API"
+msgstr ""
+
+#: includes/admin/settings.php:306
+msgid "The default reCaptcha secret key"
+msgstr ""
+
+#: includes/admin/settings.php:300
+msgid "The default reCaptcha site key"
+msgstr ""
+
+#: includes/admin/settings.php:324
+msgid "The default reCaptcha v2 size"
+msgstr ""
+
+#: includes/admin/settings.php:318
+msgid "The default reCaptcha v2 theme"
+msgstr ""
+
+#: includes/admin/settings.php:312
+msgid "The default reCaptcha version"
+msgstr ""
+
+#: includes/admin/tools/dbt-export.php:133
+msgid ""
+"The following code can be used to register a block type. Simply copy and "
+"paste the following code to your theme's functions.php file or include it "
+"within an external file."
+msgstr ""
+
+#: includes/admin/tools/fg-local.php:148
+msgid ""
+"The following code can be used to register a local version of the selected "
+"field group(s). A local field group can provide many benefits such as faster "
+"load times, version control & dynamic fields/settings. Simply copy and paste "
+"the following code to your theme's functions.php file or include it within "
+"an external file."
+msgstr ""
+
+#: includes/admin/tools/dop-export.php:131
+msgid ""
+"The following code can be used to register a option page. Simply copy and "
+"paste the following code to your theme's functions.php file or include it "
+"within an external file."
+msgstr ""
+
+#: includes/admin/tools/dpt-export.php:131
+msgid ""
+"The following code can be used to register a post type. Simply copy and "
+"paste the following code to your theme's functions.php file or include it "
+"within an external file."
+msgstr ""
+
+#: includes/admin/tools/dt-export.php:131
+msgid ""
+"The following code can be used to register a taxonomy. Simply copy and paste "
+"the following code to your theme's functions.php file or include it within "
+"an external file."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:817
+msgid ""
+"The name of the taxonomy. Name should only contain lowercase letters and the "
+"underscore character, and not be more than 32 characters long (database "
+"structure restriction)"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1771
+msgid ""
+"The position in the menu order the post type should appear. show_in_menu "
+"must be true"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1952
+msgid ""
+"The string to use to build the read, edit, and delete capabilities.<br />\n"
+"May be passed as an array to allow for alternative plurals when using this "
+"argument as a base to construct the capabilities, like this:<br /><br />\n"
+"\n"
+"story<br />\n"
+"stories"
+msgstr ""
+
+#: includes/modules/form/field-group.php:350
+msgid "The text displayed on the submit button"
+msgstr ""
+
+#: includes/modules/form/field-group.php:32
+msgid "The unique form slug"
+msgstr ""
+
+#: includes/modules/form/field-group.php:610
+msgid ""
+"The URL to be redirected to after the form is submit. Defaults to the "
+"current URL.<br /><br />\n"
+"    A special placeholder <code>%post_url%</code> will be converted to "
+"post's permalink (handy if creating a new post)<br /><br />\n"
+"    A special placeholder <code>%post_id%</code> will be converted to post's "
+"ID (handy if creating a new post)<br />"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1795
+msgid ""
+"The url to the icon to be used for this menu or the name of the icon from "
+"the iconfont (<a href=\"https://developer.wordpress."
+"org/resource/dashicons/\" target=\"_blank\">Dashicons</a>)"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:45
+msgid "Theme"
+msgstr ""
+
+#: includes/field-groups/field-groups-third-party.php:41
+msgid "Third party"
+msgstr ""
+
+#: includes/modules/form/field-group.php:2117 
+#: includes/modules/form/field-group.php:2982 
+#: includes/modules/form/field-group.php:4536
+msgid ""
+"This action allows you to hook in before or after the meta data have been "
+"saved"
+msgstr ""
+
+#: includes/modules/form/actions/custom.php:29
+msgid "This action name is not authorized"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:731
+msgid "This post type name already exists"
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1236
+msgid ""
+"This property adds block controls which allow the user to change the block’s "
+"alignment. Defaults to true. Set to false to hide the alignment toolbar. Set "
+"to an array of specific alignment names to customize the toolbar."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1310
+msgid ""
+"This property allows the block to be added multiple times. Defaults to true."
+msgstr ""
+
+#: includes/modules/dynamic-block-type.php:1288
+msgid ""
+"This property allows the user to toggle between edit and preview modes via a "
+"button. Defaults to true."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:693
+msgid "This taxonomy name already exists"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:674
+msgid "This taxonomy name is reserved"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:528
+msgid "Thumbnail"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:69
+msgid "Title"
+msgstr ""
+
+#: includes/modules/form/field-group.php:777
+msgid "To"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2082
+msgid "To change the base url of REST API route"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:296 
+#: includes/fields/field-taxonomy-terms.php:654 
+#: includes/fields/field-post-statuses.php:296 
+#: includes/fields/field-post-types.php:296 includes/fields/field-forms.php:296
+msgid "Toggle"
+msgstr ""
+
+#: includes/field-groups/field-group.php:575
+msgid "Tooltip"
+msgstr ""
+
+#: includes/fields/field-button.php:93
+msgid "Trigger ajax event on click"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2247
+msgid ""
+"Triggers the handling of rewrites for this post type. To prevent rewrites, "
+"set to false."
+msgstr ""
+
+#: includes/admin/settings.php:63 includes/admin/settings.php:69 
+#: includes/admin/settings.php:75 includes/admin/settings.php:81 
+#: includes/admin/settings.php:117 includes/admin/settings.php:123 
+#: includes/admin/settings.php:135 includes/admin/settings.php:141 
+#: includes/admin/settings.php:147 includes/admin/settings.php:177 
+#: includes/admin/settings.php:183 includes/admin/settings.php:195 
+#: includes/admin/settings.php:201 includes/admin/settings.php:213 
+#: includes/admin/settings.php:251 includes/admin/settings.php:257 
+#: includes/admin/settings.php:263 includes/admin/settings.php:269 
+#: includes/admin/settings.php:275 includes/admin/settings.php:281 
+#: includes/admin/settings.php:287 includes/admin/settings.php:335 
+#: includes/admin/settings.php:341 includes/admin/settings.php:347 
+#: includes/admin/settings.php:365 
+#: includes/modules/dynamic-options-page.php:728 
+#: includes/modules/dynamic-options-page.php:774
+msgid "True"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1523
+msgid "true makes this taxonomy available for selection in navigation menus"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1914
+msgid "True or false allow hierarchical urls"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:189 
+#: includes/modules/form/admin.php:432
+msgid "Type"
+msgstr ""
+
+#: includes/field-groups/field-groups.php:132 includes/modules/dev.php:254
+msgid "Unknown"
+msgstr ""
+
+#: includes/locations/post-type-list.php:337 
+#: includes/locations/taxonomy-list.php:328 includes/modules/taxonomy.php:136 
+#: includes/modules/dynamic-options-page.php:793
+msgid "Update"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:779
+msgid "Update button"
+msgstr ""
+
+#: includes/field-groups/field-group-category.php:26
+msgid "Update category"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:943
+msgid "Update count callback"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1193
+msgid "Update item"
+msgstr ""
+
+#: includes/modules/form/admin.php:1411 
+#: includes/modules/form/field-group.php:1062
+msgid "Update post"
+msgstr ""
+
+#: includes/modules/form/admin.php:1434 
+#: includes/modules/form/field-group.php:2174
+msgid "Update term"
+msgstr ""
+
+#: includes/modules/form/admin.php:1457 
+#: includes/modules/form/field-group.php:3039
+msgid "Update user"
+msgstr ""
+
+#: includes/modules/dynamic-options-page.php:801
+msgid "Updated Message"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1419
+msgid "Uploaded to this item"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4634
+msgid "Uploader"
+msgstr ""
+
+#: includes/fields/field-image.php:23 includes/fields/field-file.php:23
+msgid "Uploader type"
+msgstr ""
+
+#: includes/fields/field-advanced-link.php:195 
+#: includes/fields/field-advanced-link.php:204
+msgid "URL"
+msgstr ""
+
+#: includes/admin/settings.php:58
+msgid ""
+"URL to ACF plugin folder including trailing slash. Defaults to plugin_dir_url"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1795 
+#: includes/modules/dynamic-post-type.php:2269
+msgid "Use additional rewrite arguments"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:200 
+#: includes/fields/field-taxonomy-terms.php:609 
+#: includes/fields/field-post-statuses.php:200 
+#: includes/fields/field-post-types.php:200 
+#: includes/fields/field-user-roles.php:186 includes/fields/field-forms.php:200
+msgid "Use AJAX to lazy load choices?"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1507
+msgid "Use featured image"
+msgstr ""
+
+#: includes/fields/field-flexible-content.php:106
+msgid ""
+"Use layouts render settings to display a dynamic preview in the post "
+"administration"
+msgstr ""
+
+#: includes/modules/form/field-group.php:687
+msgid ""
+"Use the following hook:<br /><code>action('acfe/form/submit/my-custom-"
+"action', $form, $current_post_id)</code>"
+msgstr ""
+
+#: includes/admin/options.php:371
+msgid ""
+"Use this <a href=\"http://solutions.weblite.ca/php2json/\" target=\"_blank\">"
+"online tool</a> to decode/encode json."
+msgstr ""
+
+#: includes/admin/options.php:333
+msgid ""
+"Use this <a href=\"https://duzun.me/playground/serialize\" target=\"_blank\">"
+"online tool</a> to unserialize/seriliaze data."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1854
+msgid ""
+"Used as pretty permalink text (i.e. /tag/) - defaults to $taxonomy "
+"(taxonomy's name slug)"
+msgstr ""
+
+#: includes/admin/settings.php:130
+msgid ""
+"Used during the ‘Export to PHP’ feature to wrap strings within the __() "
+"function.<br />Depreciated in v5.4.4 – please see l10n_textdomain"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3003
+msgid "User action"
+msgstr ""
+
+#: includes/fields/field-user-roles.php:13
+msgid "User Roles"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3207 
+#: includes/modules/form/field-group.php:3288 
+#: includes/modules/form/field-group.php:4258
+msgid "Username"
+msgstr ""
+
+#: includes/modules/form/actions/user.php:533
+msgid "Username may not be longer than 60 characters."
+msgstr ""
+
+#: includes/fields-settings/validation.php:164
+msgid "Validate value against rules"
+msgstr ""
+
+#: includes/fields-settings/settings.php:232 
+#: includes/fields/field-hidden.php:42 
+#: includes/field-groups/field-group.php:160 
+#: includes/admin/options.class.php:199 includes/admin/options.php:374 
+#: includes/modules/dev.php:239
+msgid "Value"
+msgstr ""
+
+#: includes/admin/options.php:406
+msgid "Value "
+msgstr ""
+
+#: includes/fields/field-slug.php:88
+#, php-format
+msgid "Value must not exceed %d characters"
+msgstr ""
+
+#: includes/modules/form/field-group.php:1781 
+#: includes/modules/form/field-group.php:2721 
+#: includes/modules/form/field-group.php:4150
+msgid "Values Source"
+msgstr ""
+
+#: includes/fields/field-taxonomy-terms.php:558 
+#: includes/fields/field-post-statuses.php:130 
+#: includes/fields/field-post-types.php:130 
+#: includes/fields/field-user-roles.php:116 
+#: includes/fields/field-forms.php:130 includes/fields/field-select.php:15
+msgctxt "verb"
+msgid "Select"
+msgstr ""
+
+#: includes/fields/field-recaptcha.php:33
+msgid "Version"
+msgstr ""
+
+#: includes/fields/field-taxonomies.php:273 
+#: includes/fields/field-taxonomy-terms.php:638 
+#: includes/fields/field-post-statuses.php:273 
+#: includes/fields/field-post-types.php:273 
+#: includes/fields/field-user-roles.php:259 includes/fields/field-forms.php:273
+msgid "Vertical"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1171 
+#: includes/modules/dynamic-post-type.php:1199
+msgid "View item"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1221
+msgid "View items"
+msgstr ""
+
+#: includes/field-groups/field-group.php:182
+msgid "View raw field group data, for development use"
+msgstr ""
+
+#: includes/modules/form/field-group.php:3826 
+#: includes/modules/form/field-group.php:3907 
+#: includes/modules/form/field-group.php:4408
+msgid "Website"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1839 
+#: includes/modules/dynamic-post-type.php:1913
+msgid "Where to show the post type in the admin menu. show_ui must be true"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1501
+msgid "Where to show the taxonomy in the admin menu. show_ui must be true"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:902
+msgid ""
+"Whether a taxonomy is intended for use publicly either via the admin "
+"interface or by front-end users"
+msgstr ""
+
+#: includes/modules/form/field-group.php:77
+msgid "Whether or not to create a <code>&lt;form&gt;</code> element"
+msgstr ""
+
+#: includes/modules/form/field-group.php:330
+msgid "Whether or not to create a form submit button. Defaults to true"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4617
+msgid ""
+"Whether or not to sanitize all $_POST data with the wp_kses_post() function. "
+"Defaults to true."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1891
+msgid "Whether post_type is available for selection in navigation menus"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:984
+msgid ""
+"Whether queries can be performed on the front end as part of parse_request()"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:857
+msgid ""
+"Whether the post type is hierarchical (e.g. page). Allows Parent to be "
+"specified. The 'supports' parameter should contain 'page-attributes' to show "
+"the parent select box on the editor page."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:924
+msgid "Whether the taxonomy is publicly queryable"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1030
+msgid ""
+"Whether this taxonomy should remember the order in which terms are added to "
+"objects"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1589
+msgid ""
+"Whether to allow automatic creation of taxonomy columns on associated post-"
+"types table"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1545
+msgid "Whether to allow the Tag Cloud widget to use this taxonomy"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:1028
+msgid ""
+"Whether to delete posts of this type when deleting a user. If true, posts of "
+"this type belonging to the user will be moved to trash when then user is "
+"deleted.<br /><br />If false, posts of this type belonging to the user will "
+"not be trashed or deleted. If not set (the default), posts are trashed if "
+"the post type supports author. Otherwise posts are not trashed or deleted"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:962
+msgid ""
+"Whether to exclude posts with this post type from front end search results"
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2587
+msgid "Whether to expose this post type in the REST API"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1479 
+#: includes/modules/dynamic-post-type.php:1817
+msgid ""
+"Whether to generate a default UI for managing this post type in the admin"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4597
+msgid ""
+"Whether to include a hidden input field to capture non human form submission."
+" Defaults to true."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:2060
+msgid "Whether to include the taxonomy in the REST API"
+msgstr ""
+
+#: includes/fields/field-code-editor.php:89
+msgid "Whether to show line numbers to the left of the editor"
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1567
+msgid "Whether to show the taxonomy in the quick/bulk edit panel"
+msgstr ""
+
+#: includes/modules/form/field-group.php:4637
+msgid ""
+"Whether to use the WP uploader or a basic input for image and file fields. "
+"Defaults to 'wp' \n"
+"    Choices of 'wp' or 'basic'."
+msgstr ""
+
+#: includes/modules/dynamic-post-type.php:2098
+msgid "Will use post type name as archive slug by default."
+msgstr ""
+
+#: includes/modules/dynamic-taxonomy.php:1881 
+#: includes/modules/dynamic-post-type.php:2357
+msgid "With front"
+msgstr ""
+
+#: includes/fields/field-dynamic-message.php:28
+msgid "Write your own PHP/HTML content using the following hook:"
+msgstr ""
+
+#: includes/admin/options.php:446
+msgid "Yes"
+msgstr ""
+
+#: includes/modules/form/actions/term.php:390 
+#: includes/modules/form/actions/term.php:431 
+#: includes/modules/form/actions/term.php:491 
+#: includes/modules/form/actions/post.php:590 
+#: includes/modules/form/actions/post.php:655 
+#: includes/modules/form/actions/user.php:625 
+#: includes/modules/form/actions/user.php:666 
+#: includes/modules/form/actions/user.php:726
+msgid "You may use the following hooks:"
+msgstr ""
