@@ -3000,7 +3000,7 @@ acf_add_local_field_group(array(
 				'layout_user' => array(
 					'key' => 'layout_user',
 					'name' => 'user',
-					'label' => , __('User action', 'acfe'),
+					'label' => __('User action', 'acfe'),
 					'display' => 'row',
 					'sub_fields' => array(
 						array(

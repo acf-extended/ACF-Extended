@@ -59,20 +59,20 @@ function acfe_admin_settings_html(){
                     ),
                     array(
                         'name'  => 'show_admin',
-                        'label' => __('Show menu',
-                        'value' => '<code>' . (acf_get_setting('show_admin') ? __('True'): __('False')) . '</code>',
-                        'description' => __('Show/hide ACF menu item. Defaults to true'
+                        'label' => __('Show menu', 'acfe'),
+                        'value' => '<code>' . (acf_get_setting('show_admin') ? __('True', 'acfe'): __('False', 'acfe')) . '</code>',
+                        'description' => __('Show/hide ACF menu item. Defaults to true', 'acfe')
                     ),
                     array(
                         'name'  => 'stripslashes',
-                        'label' => __('Strip slashes, 'acfe')',
-                        'value' => '<code>' . (acf_get_setting('stripslashes') ? __('True'): __('False')) . '</code>',
+                        'label' =>  __('Strip slashes', 'acfe'),
+                        'value' => '<code>' . (acf_get_setting('stripslashes') ? __('True', 'acfe'): __('False', 'acfe')) . '</code>',
                         'description' => __('Runs the function stripslashes on all $_POST data. Some servers / WP instals may require this extra functioanlity. Defaults to false', 'acfe')
                     ),
                     array(
                         'name'  => 'local',
                         'label' => __('PHP/Json', 'acfe'),
-                        'value' => '<code>' . (acf_get_setting('local') ? __('True'): __('False')) . '</code>',
+                        'value' => '<code>' . (acf_get_setting('local') ? __('True', 'acfe'): __('False', 'acfe')) . '</code>',
                         'description' => __('Enable/Disable local (PHP/json) fields. Defaults to true', 'acfe')
                     ),
                     array(
@@ -120,14 +120,14 @@ function acfe_admin_settings_html(){
                     array(
                         'name'  => 'export_textdomain',
                         'label' => __('Export textdomain', 'acfe'),
-                        'value' => '<code>' . (acf_get_setting('export_textdomain') ? __('True'): __('False')) . '</code>',
+                        'value' => '<code>' . (acf_get_setting('export_textdomain') ? __('True', 'acfe'): __('False', 'acfe')) . '</code>',
                         'description' => __('Array of keys used during the ‘Export to PHP’ feature to wrap strings within the __() function.<br />Defaults to array(’title’, ’label’, ’instructions’). Depreciated in v5.3.4 – please see l10n_field and l10n_field_group', 'acfe')
                     ),
                     array(
                         'name'  => 'export_translate',
                         'label' => __('Export translate', 'acfe'),
                         'value' => '<code>' . print_r(acf_get_setting('export_translate'), true) . '</code>',
-                        'description' => __('Used during the ‘Export to PHP’ feature to wrap strings within the __() function.<br />Depreciated in v5.4.4 – please see l10n_textdomain'
+                        'description' => __('Used during the ‘Export to PHP’ feature to wrap strings within the __() function.<br />Depreciated in v5.4.4 – please see l10n_textdomain', 'acfe')
                     ),
                     array(
                         'name'  => 'autoload',
@@ -187,7 +187,7 @@ function acfe_admin_settings_html(){
                         'name'  => 'select2_version',
                         'label' => __('Select2 version', 'acfe'),
                         'value' => '<code>' . acf_get_setting('select2_version') . '</code>',
-                        'description' => __('Defines which version of Select2 library to enqueue. Either 3 or 4.<br />Defaults to 4 since ACF 5.6.0'
+                        'description' => __('Defines which version of Select2 library to enqueue. Either 3 or 4.<br />Defaults to 4 since ACF 5.6.0', 'acfe')
                     ),
                     array(
                         'name'  => 'enqueue_datepicker',
@@ -232,7 +232,7 @@ function acfe_admin_settings_html(){
                 <?php 
                 acf_render_field_wrap(array(
                     'type'  => 'tab',
-                    'label' => __('ACF: Extended', 'acfe'),
+                    'label' => 'ACF: Extended',
                 ));
                 ?>
                 
@@ -254,7 +254,7 @@ function acfe_admin_settings_html(){
                     array(
                         'name'  => 'acfe/modules/dynamic_block_types',
                         'label' => __('Module: Dynamic Block Types', 'acfe'),
-                        'value' => '<code>' . (acf_get_setting('acfe/modules/dynamic_block_types', true) ? __('True'): __('False', 'acfe')) . '</code>',
+                        'value' => '<code>' . (acf_get_setting('acfe/modules/dynamic_block_types', true) ? __('True', 'acfe'): __('False', 'acfe')) . '</code>',
                         'description' => __('Show/hide the Block Types module. Defaults to true', 'acfe')
                     ),
                     array(
@@ -290,7 +290,7 @@ function acfe_admin_settings_html(){
                     array(
                         'name'  => 'acfe/modules/taxonomies',
                         'label' => __('Module: Taxonomies Enhancements', 'acfe'),
-                        'value' => '<code>' . (acf_get_setting('acfe/modules/taxonomies', true) ? __('True', 'acfe'): __('False', 'acfe')) . '</code>',
+                        'value' => '<code>' . (acf_get_setting('acfe/modules/taxonomies', true) ? __('True'): __('False')) . '</code>',
                         'description' => __('Show/hide the Taxonomies enhancements module. Defaults to true', 'acfe')
                     ),
                     array(
@@ -344,20 +344,20 @@ function acfe_admin_settings_html(){
                     array(
                         'name'  => 'acfe/php_found',
                         'label' => __('PHP: Found', 'acfe'),
-                        'value' => '<code>' . (acf_get_setting('acfe/php_found') ? __('True'): __('False')) . '</code>',
+                        'value' => '<code>' . (acf_get_setting('acfe/php_found') ? __('True', 'acfe'): __('False', 'acfe')) . '</code>',
                         'description' => __('Found PHP Sync load folder', 'acfe')
                     ),
                     array(
                         'name'  => 'acfe/php_save',
                         'label' => __('PHP: Save', 'acfe'),
                         'value' => '<code>' . acf_get_setting('acfe/php_save') . '</code>',
-                        'description' => 'Found PHP Sync save folder', 'acfe')
+                        'description' => __('Found PHP Sync save folder', 'acfe')
                     ),
                     array(
                         'name'  => 'acfe/php_load',
                         'label' => __('PHP: Load', 'acfe'),
                         'value' => '<code>' . $load_php_text . '</code>',
-                        'description' => 'PHP Sync Load path', 'acfe')
+                        'description' => __('PHP Sync Load path', 'acfe')
                     ),
                     array(
                         'name'  => 'acfe/json_found',

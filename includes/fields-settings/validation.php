@@ -168,7 +168,7 @@ class acfe_field_validation{
             'layout'        => 'row',
             'sub_fields'    => array(
                 array(
-                    'label'             => __('Location', 'acfe),
+                    'label'             => __('Location', 'acfe'),
                     'name'              => 'acfe_validate_location',
                     'key'               => 'acfe_validate_location',
                     'type'              => 'select',

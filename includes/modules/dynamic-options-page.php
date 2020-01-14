@@ -14,14 +14,14 @@ add_action('init', 'acfe_dop_register');
 function acfe_dop_register(){
     
     register_post_type('acfe-dop', array(
-        'label'                 => __('Options Page', 'acfe'),
-        'description'           => __('Options Page', 'acfe'),
+        'label'                 => 'Options Page',
+        'description'           => 'Options Page',
         'labels'                => array(
-            'name'          => __('Options Pages', 'acfe'),
-            'singular_name' => __('Options Page', 'acfe'),
-            'menu_name'     => __('Options Pages', 'acfe'),
-            'edit_item'     => __('Edit Options Page', 'acfe'),
-            'add_new_item'  => __('New Options Page', 'acfe'),
+            'name'          => 'Options Pages',
+            'singular_name' => 'Options Page',
+            'menu_name'     => 'Options Pages',
+            'edit_item'     => 'Edit Options Page',
+            'add_new_item'  => 'New Options Page',
         ),
         'supports'              => false,
         'hierarchical'          => true,
@@ -376,9 +376,9 @@ function acfe_dop_admin_columns($columns){
     if(isset($columns['date']))
         unset($columns['date']);
     
-    $columns['name'] = __('Name', 'acfe');
-    $columns['post_id'] = __('Post ID', 'acfe');
-    $columns['autoload'] = __('Autoload', 'acfe');
+    $columns['name'] = __('Name');
+    $columns['post_id'] = __('Post ID');
+    $columns['autoload'] = __('Autoload');
     
     return $columns;
     
@@ -510,10 +510,10 @@ acf_add_local_field_group(array(
     ),
     
     'menu_order' => 0,
-    'position' => 'normal',
-    'style' => 'default',
-    'label_placement' => 'left',
-    'instruction_placement' => 'label',
+    'position' => __('normal', 'acfe'),
+    'style' => __('default', 'acfe'),
+    'label_placement' => __('left', 'acfe'),
+    'instruction_placement' => __('label', 'acfe'),
     'hide_on_screen' => '',
     'active' => 1,
     'description' => '',
@@ -521,10 +521,10 @@ acf_add_local_field_group(array(
     'fields' => array(
         array(
             'key' => 'field_acfe_dop_page_title',
-            'label' => '__(Page title', 'acfe'),
+            'label' => __('Page title', 'acfe'),
             'name' => 'page_title',
             'type' => 'text',
-            'instructions' => __('(string) The title displayed on the options page. Required.', 'acfe'),
+            'instructions' => '(string) The title displayed on the options page. Required.',
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -587,7 +587,7 @@ acf_add_local_field_group(array(
         ),
         array(
             'key' => 'field_acfe_dop_menu_slug',
-            'label' => __('Menu slug', 'acfe'),
+            'label' => 'Menu slug',
             'name' => 'menu_slug',
             'type' => 'acfe_slug',
             'instructions' => __('(string) The URL slug used to uniquely identify this options page. Defaults to a url friendly version of menu_title', 'acfe'),
@@ -725,8 +725,8 @@ If set to false, this parent page will appear alongside any child pages. Default
             'message' => '',
             'default_value' => 1,
             'ui' => 1,
-            'ui_on_text' => 'True',
-            'ui_off_text' => 'False',
+            'ui_on_text' => __('True', 'acfe'),
+            'ui_off_text' => __('False', 'acfe'),
         ),
         array(
             'key' => 'field_acfe_dop_post_id',
@@ -745,7 +745,7 @@ Defaults to \'options\'.', 'acfe'),
             'acfe_validate' => '',
             'acfe_update' => '',
             'acfe_permissions' => '',
-            'default_value' => 'options',
+            'default_value' => __('options', 'acfe'),
             'placeholder' => '',
             'prepend' => '',
             'append' => '',
@@ -756,7 +756,7 @@ Defaults to \'options\'.', 'acfe'),
             'label' => __('Autoload', 'acfe'),
             'name' => 'autoload',
             'type' => 'true_false',
-            'instructions' => __('(boolean)	Whether to load the option (values saved from this options page) when WordPress starts up.
+            'instructions' => __('(boolean)    Whether to load the option (values saved from this options page) when WordPress starts up.
 Defaults to false.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
@@ -771,8 +771,8 @@ Defaults to false.', 'acfe'),
             'message' => '',
             'default_value' => 0,
             'ui' => 1,
-            'ui_on_text' => 'True',
-            'ui_off_text' => 'False',
+            'ui_on_text' => __('True', 'acfe'),
+            'ui_off_text' => __('False', 'acfe'),
         ),
         array(
             'key' => 'field_acfe_dop_update_button',
@@ -812,7 +812,7 @@ Defaults to false.', 'acfe'),
             'acfe_validate' => '',
             'acfe_update' => '',
             'acfe_permissions' => '',
-            'default_value' => __('Options Updated', 'acfe'),
+            'default_value' => 'Options Updated',
             'placeholder' => '',
             'prepend' => '',
             'append' => '',

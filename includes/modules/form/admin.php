@@ -243,7 +243,7 @@ class acfe_form{
         
         ?>
         <div class="misc-pub-section misc-pub-acfe-field-group-export" style="padding-top:2px;">
-            <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> <?php echo ('Export:', 'acfe') ?> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_form_export&action=json&keys=' . $name); ?>">Json</a>
+            <span style="font-size:17px;color: #82878c;line-height: 1.3;width: 20px;margin-right: 2px;" class="dashicons dashicons-editor-code"></span> <?php echo __('Export:', 'acfe') ?> <a href="<?php echo admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_form_export&action=json&keys=' . $name); ?>">Json</a>
         </div>
         <?php
         
@@ -426,10 +426,10 @@ class acfe_form{
                         
                         <table class="acf-table">
                             <thead>
-                                <th class="acf-th" width="25%"><strong><?php echo ('Label', 'acfe') ?></strong></th>
-                                <th class="acf-th" width="25%"><strong><?php echo ('Name', 'acfe') ?></strong></th>
-                                <th class="acf-th" width="25%"><strong><?php echo ('Key', 'acfe') ?></strong></th>
-                                <th class="acf-th" width="25%"><strong><?php echo ('Type', 'acfe') ?></strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo __('Label', 'acfe') ?></strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo __('Name', 'acfe') ?></strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo __('Key', 'acfe') ?></strong></th>
+                                <th class="acf-th" width="25%"><strong><?php echo __('Type', 'acfe') ?></strong></th>
                             </thead>
                             
                             <tbody>
@@ -1202,7 +1202,7 @@ function my_<?php echo $_field_name; ?>_validation($valid, $value, $field, $inpu
                 $fields[] = array(
                     'type'      => 'message',
                     'name'      => '',
-                    'label'     => __('PHP Field Validation', 'acfe')
+                    'label'     => __('PHP Field Validation', 'acfe'),
                     'value'     => '',
                     'message'   => $html,
                     'new_lines' => false,

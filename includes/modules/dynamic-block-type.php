@@ -480,8 +480,8 @@ function acfe_dbt_admin_row($actions, $post){
     $post_id = $post->ID;
     $name = get_field('name', $post_id);
     
-    $actions['acfe_dpt_export_php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=php&keys=' . $name) . '">' . __('PHP') . '</a>';
-    $actions['acfe_dpt_export_json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=json&keys=' . $name) . '">' . __('Json') . '</a>';
+    $actions['acfe_dpt_export_php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=php&keys=' . $name) . '">' . __('PHP','acfe') . '</a>';
+    $actions['acfe_dpt_export_json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=acfe_tool_dbt_export&action=json&keys=' . $name) . '">' . __('Json','acfe') . '</a>';
     
     return $actions;
     
@@ -662,10 +662,9 @@ function acfe_dbt_get_fields_labels_recursive(&$array, $field){
 /**
  * Add Local Field Group
  */
-acf_add_local_field_group(array(
+acf_add_local_field_group (array(
     'key' => 'group_acfe_dynamic_block_type',
     'title' => __('Dynamic Block Type', 'acfe'),
-    
     'location' => array(
         array(
             array(
@@ -732,8 +731,7 @@ acf_add_local_field_group(array(
             'label' => __('Name', 'acfe'),
             'name' => 'name',
             'type' => 'acfe_slug',
-            'instructions' => __('(String) A unique name that identifies the block (without namespace).<br />
-Note: A block name can only contain lowercase alphanumeric characters and dashes, and must begin with a letter.', 'acfe'),
+            'instructions' => __('(String) A unique name that identifies the block (without namespace).<br />Note: A block name can only contain lowercase alphanumeric characters and dashes, and must begin with a letter.', 'acfe'),
             'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -803,11 +801,7 @@ Note: A block name can only contain lowercase alphanumeric characters and dashes
             'label' => __('Keywords', 'acfe'),
             'name' => 'keywords',
             'type' => 'textarea',
-            'instructions' => __('(Array) (Optional) An array of search terms to help user discover the block while searching.<br />
-One line for each keyword. ie:<br /><br />
-quote<br />
-mention<br />
-cite', 'acfe'),
+            'instructions' => __('(Array) (Optional) An array of search terms to help user discover the block while searching.<br />One line for each keyword. ie:<br /><br />quote<br />mention<br />cite', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -848,12 +842,7 @@ cite', 'acfe'),
             'label' => __('Mode', 'acfe'),
             'name' => 'mode',
             'type' => 'select',
-            'instructions' => __('(String) (Optional) The display mode for your block. Available settings are “auto”, “preview” and “edit”. Defaults to “auto”.<br /><br />
-auto: Preview is shown by default but changes to edit form when block is selected.<br />
-preview: Preview is always shown. Edit form appears in sidebar when block is selected.<br />
-edit: Edit form is always shown.<br /><br />
-
-Note. When in “preview” or “edit” modes, an icon will appear in the block toolbar to toggle between modes.', 'acfe'),
+            'instructions' => __('(String) (Optional) The display mode for your block. Available settings are “auto”, “preview” and “edit”. Defaults to “auto”.<br /><br /> auto: Preview is shown by default but changes to edit form when block is selected.<br /> preview: Preview is always shown. Edit form appears in sidebar when block is selected.<br /> edit: Edit form is always shown.<br /><br /> Note. When in “preview” or “edit” modes, an icon will appear in the block toolbar to toggle between modes.', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -936,8 +925,7 @@ Note. When in “preview” or “edit” modes, an icon will appear in the bloc
             'label' => __('Icon Type', 'acfe'),
             'name' => 'icon_type',
             'type' => 'select',
-            'instructions' => __('Simple: Specify a Dashicons class or SVG path<br />
-Colors: Specify colors & Dashicons class', 'acfe'),
+            'instructions' => __('Simple: Specify a Dashicons class or SVG path<br /> Colors: Specify colors & Dashicons class', 'acfe'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -1116,7 +1104,7 @@ Colors: Specify colors & Dashicons class', 'acfe'),
         ),
         array(
             'key' => 'field_acfe_dbt_render_callback',
-            'label' => __('Render callback',
+            'label' => __('Render callback', 'afce'),
             'name' => 'render_callback',
             'type' => 'text',
             'instructions' => __('(Callable) (Optional) Instead of providing a render_template, a callback function name may be specified to output the block’s HTML.', 'acfe'),
@@ -1267,11 +1255,7 @@ Colors: Specify colors & Dashicons class', 'acfe'),
             'label' => __('Align arguments', 'acfe'),
             'name' => 'supports_align_args',
             'type' => 'textarea',
-            'instructions' => __('Set to an array of specific alignment names to customize the toolbar.<br />
-One line for each name. ie:<br /><br />
-left<br />
-right<br />
-full', 'acfe'),
+            'instructions' => __('Set to an array of specific alignment names to customize the toolbar.<br />One line for each name. ie:<br /><br />left<br />right<br />full', 'acfe'),
             'required' => 0,
             'conditional_logic' => array(
                 array(
