@@ -6,6 +6,7 @@
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
+ * Domain Path: /languages
  */
 
 if(!defined('ABSPATH'))
@@ -272,5 +273,11 @@ function acfe(){
 
 // Instantiate.
 acfe();
+
+function acfe_load_plugin_textdomain() {
+    load_plugin_textdomain( 'acfe', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'plugins_loaded', 'acfe_load_plugin_textdomain' );
+
 
 endif;
