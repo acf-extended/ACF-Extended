@@ -147,7 +147,7 @@ class acfe_field_taxonomy_terms extends acf_field{
                 if($i === 1){
                     
                     $id = 'all_' . $term->taxonomy;
-                    $text = __('All ', 'acfe');
+                    $text = __('All', 'acfe');
                     $taxonomy = get_taxonomy($term->taxonomy);
                     
                     if($options['level'] >= 1){

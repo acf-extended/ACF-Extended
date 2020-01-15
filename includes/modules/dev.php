@@ -201,7 +201,7 @@ class acfe_dev{
         
             <thead>
                 <tr>
-                    <th scope="col" style="width:30%;">Name</th>
+                    <th scope="col" style="width:30%;"><?php __('Name', 'acfe') ?></th>
                     <th scope="col" style="width:auto;">Value</th>
                 </tr>
             </thead>
@@ -322,7 +322,7 @@ class acfe_dev{
             if(empty($value)){
                 
                 $css = 'color:#aaa;';
-                $value = '(' . __('empty', 'acf') . ')';
+                $value = '(' . __('empty', 'acfe') . ')';
                 
             }
             
