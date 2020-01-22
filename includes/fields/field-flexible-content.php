@@ -846,6 +846,7 @@ function acfe_flexible_render_field($field){
         return;
     
     // Vars
+    global $is_preview;
     $is_preview = true;
     
     // Actions
