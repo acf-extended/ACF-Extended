@@ -16,6 +16,7 @@ function get_flexible($selector, $post_id = false){
     // Vars
     $field = acf_get_field($selector);
     $flexible = acf_get_field_type('flexible_content');
+
     global $is_preview;
     $is_preview = false;
     
@@ -73,6 +74,86 @@ function has_flexible($selector, $post_id = false){
     
 }
 
+}
+
+/**
+ * Flexible: have_settings()
+ */
+if(!function_exists('have_settings')){
+    
+function have_settings(){
+    
+    return have_rows('layout_settings');
+    
+}
+
+}
+
+/**
+ * Flexible: the_settings()
+ */
+if(!function_exists('the_setting')){
+    
+function the_setting(){
+    
+    return the_row();
+    
+}
+
+}
+
+/**
+ * have_archive()
+ */
+if(!function_exists('have_archive')){
+
+$acfe_archive_i = 0;
+function have_archive(){
+    
+    global $acfe_archive_i;
+    
+    if($acfe_archive_i == 0)
+        return true;
+    
+    remove_filter('acf/pre_load_post_id', 'acfe_the_archive_post_id');
+    
+    return false;
+    
+}
+
+}
+
+/**
+ * the_archive()
+ */
+if(!function_exists('the_archive')){
+    
+function the_archive(){
+    
+    global $acfe_archive_i;
+    
+    add_filter('acf/pre_load_post_id', 'acfe_the_archive_post_id', 10, 2);
+    
+    $acfe_archive_i++;
+    
+}
+
+}
+
+function acfe_the_archive_post_id($null, $post_id){
+    
+    if($post_id !== false)
+        return $null;
+    
+    $post_type = get_post_type();
+    
+    if(empty($post_type))
+        return $null;
+    
+    $null = $post_type . '_archive';
+    
+    return $null;
+    
 }
 
 /**

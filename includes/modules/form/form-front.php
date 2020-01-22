@@ -429,16 +429,19 @@ class acfe_form_front{
                 
                 ?>
                 <script>
-                jQuery(document).ready(function($){
-                    
-                    if(typeof acf !== 'undefined'){
-                    
+                (function($){
+
+                    if(typeof acf === 'undefined')
+                        return;
+
+                    acf.addAction('prepare', function(){
+
                         acf.doAction('acfe/form/submit/success');
                         acf.doAction('acfe/form/submit/success/name=<?php echo $args['form_name']; ?>');
-                        
-                    }
 
-                });
+                    });
+
+                })(jQuery);
                 </script>
                 <?php
             

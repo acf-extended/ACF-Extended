@@ -48,18 +48,16 @@ code, kbd, pre, samp{
 .wrap .acfe-dt-admin-config span{
     font-size: 16px;
     vertical-align: text-top;
-    color:#444;
-}
-
-.wrap .acfe-dpt-admin-config:hover span,
-.wrap .acfe-dt-admin-config:hover span{
-    color:#fff;
+    height: 15px;
+    width: 19px;
+    line-height: 19px;
 }
 
 /* 
  * ACFE: Dynamic Post Type
  */
 body.post-type-acfe-dpt.post-new-php #misc-publishing-actions,
+body.post-type-acfe-dpt.post-new-php #minor-publishing-actions,
 body.post-type-acfe-dpt .misc-pub-post-status,
 body.post-type-acfe-dpt .misc-pub-visibility{
     display:none;
@@ -73,6 +71,7 @@ body.post-type-acfe-dpt.post-new-php #major-publishing-actions{
  * ACFE: Dynamic Taxonomy
  */
 body.post-type-acfe-dt.post-new-php #misc-publishing-actions,
+body.post-type-acfe-dt.post-new-php #minor-publishing-actions,
 body.post-type-acfe-dt .misc-pub-post-status,
 body.post-type-acfe-dt .misc-pub-visibility{
     display:none;
@@ -86,6 +85,7 @@ body.post-type-acfe-dt.post-new-php #major-publishing-actions{
  * ACFE: Dynamic Options Page
  */
 body.post-type-acfe-dop.post-new-php #misc-publishing-actions,
+body.post-type-acfe-dop.post-new-php #minor-publishing-actions,
 body.post-type-acfe-dop .misc-pub-post-status,
 body.post-type-acfe-dop .misc-pub-visibility{
     display:none;
@@ -99,6 +99,7 @@ body.post-type-acfe-dop.post-new-php #major-publishing-actions{
  * ACFE: Dynamic Block Type
  */
 body.post-type-acfe-dbt.post-new-php #misc-publishing-actions,
+body.post-type-acfe-dbt.post-new-php #minor-publishing-actions,
 body.post-type-acfe-dbt .misc-pub-post-status,
 body.post-type-acfe-dbt .misc-pub-visibility{
     display:none;
@@ -112,6 +113,7 @@ body.post-type-acfe-dbt.post-new-php #major-publishing-actions{
  * ACFE: Dynamic Forms
  */
 body.post-type-acfe-form.post-new-php #misc-publishing-actions,
+body.post-type-acfe-form.post-new-php #minor-publishing-actions,
 body.post-type-acfe-form .misc-pub-post-status,
 body.post-type-acfe-form .misc-pub-visibility{
     display:none;
@@ -292,4 +294,11 @@ body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-sea
 
 .select2-container--default.select2-container--focus .select2-selection--multiple{
     border-color:#7e8993 !important;
+}
+
+/* 
+ * Menu Item: Fix Modal z-index
+ */
+.menu-item-settings{
+    position:initial;
 }

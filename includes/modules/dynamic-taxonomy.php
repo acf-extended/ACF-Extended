@@ -531,6 +531,13 @@ function acfe_dt_admin_columns_html($column, $post_id){
             'hide_empty' => false
         ));
         
+        if(is_wp_error($count)){
+            
+            echo '—';
+            return;
+            
+        }
+        
         echo '<a href="' . admin_url('edit-tags.php?taxonomy=' . $name) . '">' . $count . '</a>';
         
     }

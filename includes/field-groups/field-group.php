@@ -638,7 +638,7 @@ function acfc_field_group_import_categories($field_group){
             
             if(!is_wp_error($new_term)){
                 
-                $new_term_id = $new_term->term_id;
+                $new_term_id = $new_term['term_id'];
                 
             }
             

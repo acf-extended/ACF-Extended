@@ -7,9 +7,13 @@ if(!class_exists('acfe_location_post_type_archive')):
 
 class acfe_location_post_type_archive{
     
+    public $post_type = '';
+    public $post_types = array();
+    
 	function __construct(){
         
         add_action('init',                                          array($this, 'init'), 99);
+        add_action('current_screen',                                array($this, 'current_screen'));
         
         add_filter('acf/get_options_pages',                         array($this, 'get_options_pages'));
         
@@ -48,8 +52,50 @@ class acfe_location_post_type_archive{
                 'acfe_post_type_archive'    => true
             ));
             
+            $this->post_types[] = $name;
+            
         }
         
+    }
+    
+    function current_screen($screen){
+        
+        foreach($this->post_types as $post_type){
+            
+            if(!acf_is_screen("{$post_type}_page_{$post_type}-archive"))
+                continue;
+            
+            $post_type_obj = get_post_type_object($post_type);
+            
+            if(!isset($post_type_obj->has_archive) || empty($post_type_obj->has_archive))
+                break;
+            
+            $this->post_type = $post_type;
+            
+            add_action('admin_footer', array($this, 'admin_footer'));
+            
+            break;
+        
+        }
+        
+    }
+    
+    function admin_footer(){
+        ?>
+        <div id="tmpl-acf-after-title">
+            <div style="margin-top:7px;">
+                <strong><?php _e('Permalink:'); ?></strong> <span><a href="<?php echo get_post_type_archive_link($this->post_type); ?>" target="_blank"><?php echo get_post_type_archive_link($this->post_type); ?></a></span>
+            </div>
+        </div>
+        <script type="text/javascript">
+        (function($){
+            
+            // add after title
+            $('.acf-settings-wrap > h1').after($('#tmpl-acf-after-title'));
+            
+        })(jQuery);
+        </script>
+        <?php
     }
     
     function get_options_pages($pages){
