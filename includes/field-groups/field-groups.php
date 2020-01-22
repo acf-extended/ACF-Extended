@@ -427,6 +427,14 @@ add_action('current_screen', function(){
         return;
     
     add_action('admin_footer', function(){
+        
+        $categories = get_terms(array(
+            'taxonomy'      => 'acf-field-group-category',
+            'hide_empty'    => false,
+        ));
+        
+        $cols = !empty($categories) ? 9 : 8;
+        
         ?>
         
         <!-- ACFE: Label -->
@@ -450,7 +458,7 @@ add_action('current_screen', function(){
             //$('#posts-filter').append($('#tmpl-acfe-debug').html());
             
             // Fix no field groups found
-            $('#the-list tr.no-items td').attr('colspan', 9);
+            $('#the-list tr.no-items td').attr('colspan', $('.wp-list-table > thead > tr > td:not(.hidden), .wp-list-table > thead > tr > th:not(.hidden)').length -1);
             
         })(jQuery);
         </script>

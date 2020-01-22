@@ -573,7 +573,8 @@ function acfe_dpt_admin_columns_html($column, $post_id){
         
         // Count
         $count = wp_count_posts($name);
-        if(empty($count)){
+        
+        if(empty($count) || !isset($count->publish)){
             
             echo '—';
             return;

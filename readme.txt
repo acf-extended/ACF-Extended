@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 0.8.3.1
+Stable tag: 0.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,7 +34,7 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 == 🤟 Philosophy ==
 
 * 100% free
-* Seemless integration
+* Seamless integration
 * No extra menu, ads or notices
 * Built by developers, for developers
 
@@ -696,7 +696,7 @@ function my_acfe_modules(){
 * Dynamic Forms: Added action alias name setting for each action allowing better targeting when using hooks
 * Dynamic Forms: Reworked forms actions hooks and added 'Advanced' tab for each action with code examples
 * Field: Groups/Clones - CSS integration tweaks are now optional (Thanks @Brandon A.)
-* Field: Groups/Clones - Added "Seemless style" setting which enable better CSS integration (remove borders and padding)
+* Field: Groups/Clones - Added "Seamless style" setting which enable better CSS integration (remove borders and padding)
 * Field: Code Editor - Added Field (use the WP Core CodeMirror script)
 * Field: Taxonomy Terms - Added advanced settings allowing specific taxonomies or specific terms in the field (with level or parent/child dependencies)
 * Field: reCaptcha - Fixed a bug where reCaptcha would not work properly

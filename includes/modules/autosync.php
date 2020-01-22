@@ -91,6 +91,7 @@ function acfe_autosync_temp_disable_json(){
  * Auto Sync: PHP
  */
 add_action('acf/update_field_group', 'acfe_autosync_php_update_field_group');
+add_action('acf/untrash_field_group', 'acfe_autosync_php_update_field_group');
 function acfe_autosync_php_update_field_group($field_group){
     
     // Validate
@@ -102,6 +103,25 @@ function acfe_autosync_php_update_field_group($field_group){
     
     $field_group['fields'] = acf_get_fields($field_group);
     acfe_autosync_write_php($field_group);
+    
+}
+
+add_action('acf/trash_field_group',	 'acfe_autosync_php_delete_field_group');
+add_action('acf/delete_field_group', 'acfe_autosync_php_delete_field_group');
+function acfe_autosync_php_delete_field_group($field_group){
+    
+    // validate
+    if(!acf_get_setting('acfe/php'))
+        return;
+    
+    if(!acfe_has_field_group_autosync($field_group, 'php'))
+        return;
+    
+    // WP appends '__trashed' to end of 'key' (post_name) 
+    $field_group['key'] = str_replace('__trashed', '', $field_group['key']);
+    
+    // delete
+    acfe_autosync_delete_php($field_group['key']);
     
 }
 
@@ -175,6 +195,27 @@ function acfe_autosync_write_php($field_group){
 	$f = fopen("{$path}/{$file}", 'w');
 	fwrite($f, $output);
 	fclose($f);
+	
+	// return
+	return true;
+	
+}
+
+function acfe_autosync_delete_php($key){
+	
+	// vars
+	$path = acf_get_setting('acfe/php_save');
+	$file = $key . '.php';
+	
+	// remove trailing slash
+	$path = untrailingslashit($path);
+	
+	// bail early if file does not exist
+	if(!is_readable("{$path}/{$file}"))
+		return false;
+    
+	// remove file
+	unlink("{$path}/{$file}");
 	
 	// return
 	return true;

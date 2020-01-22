@@ -104,7 +104,7 @@ acf_add_local_field_group(array(
             ),
             'acfe_permissions' => '',
             'layout' => 'block',
-            'acfe_seemless_style' => true,
+            'acfe_seamless_style' => true,
             'acfe_group_modal' => 0,
             'conditional_logic' => array(
                 array(
@@ -217,7 +217,7 @@ acf_add_local_field_group(array(
             ),
             'acfe_permissions' => '',
             'layout' => 'block',
-            'acfe_seemless_style' => true,
+            'acfe_seamless_style' => true,
             'acfe_group_modal' => 0,
             'conditional_logic' => array(),
             'sub_fields' => array(
@@ -1260,7 +1260,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-							'acfe_seemless_style' => true,
+							'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -1364,7 +1364,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -1468,7 +1468,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -2256,7 +2256,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -2359,7 +2359,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -2574,7 +2574,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3121,7 +3121,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3224,7 +3224,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3327,7 +3327,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3431,7 +3431,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3534,7 +3534,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3637,7 +3637,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3740,7 +3740,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3843,7 +3843,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
@@ -3946,7 +3946,7 @@ acf_add_local_field_group(array(
 							),
 							'acfe_permissions' => '',
 							'layout' => 'block',
-                            'acfe_seemless_style' => true,
+                            'acfe_seamless_style' => true,
 							'acfe_group_modal' => 0,
 							'sub_fields' => array(
 								array(
