@@ -74,7 +74,7 @@ class acfe_single_meta{
     function load_value($value, $post_id, $field){
         
         // Value already exists
-        if(!empty($value) || is_numeric($value))
+        if((!empty($value) || is_numeric($value)) && acf_maybe_get($field, 'default_value') !== $value)
             return $value;
         
         // $type + $id
