@@ -61,6 +61,7 @@ class ACFE{
             'acfe/modules/dynamic_post_types'       => true,
             'acfe/modules/dynamic_taxonomies'       => true,
             'acfe/modules/options'                  => true,
+            'acfe/modules/single_meta'              => false,
             'acfe/modules/taxonomies'               => true,
         );
         
@@ -172,6 +173,7 @@ class ACFE{
         acfe_include('includes/modules/dynamic-options-page.php');
         acfe_include('includes/modules/dynamic-post-type.php');
         acfe_include('includes/modules/dynamic-taxonomy.php');
+        acfe_include('includes/modules/single-meta.php');
         acfe_include('includes/modules/taxonomy.php');
         
     }

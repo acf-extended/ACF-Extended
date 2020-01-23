@@ -25,10 +25,16 @@ class acfe_dev{
         if(acf_get_setting('acfe/super_dev', false) || (defined('ACFE_super_dev') && ACFE_super_dev))
             $this->is_super_dev = true;
         
+        // Post
         add_action('load-post.php',		array($this, 'load_post'));
 		add_action('load-post-new.php',	array($this, 'load_post'));
         
+        // Term
         add_action('load-term.php',     array($this, 'load_term'));
+        
+        // User
+        add_action('show_user_profile', array($this, 'load_user'));
+		add_action('edit_user_profile', array($this, 'load_user'));
         
 	}
 
@@ -91,6 +97,42 @@ class acfe_dev{
         
     }
     
+    function load_user(){
+        
+        global $user_id;
+        $user_id = (int) $user_id;
+        
+        if(empty($user_id))
+            return;
+        
+        $this->get_meta('user_' . $user_id);
+        
+        if(!empty($this->wp_meta)){
+            
+            add_meta_box('acfe-wp-custom-fields', 'WP Custom fields', array($this, 'wp_render_meta_box'), 'edit-user', 'normal', 'low');
+            
+        }
+        
+        if(!empty($this->acf_meta)){
+            
+            add_meta_box('acfe-acf-custom-fields', 'ACF Custom fields', array($this, 'acf_render_meta_box'), 'edit-user', 'normal', 'low');
+            
+        }
+        
+        echo '<div id="poststuff">';
+        
+            do_meta_boxes('edit-user', 'normal', array());
+            
+        echo '</div>';
+        
+    }
+    
+    function user_footer(){
+        
+        
+        
+    }
+    
     function get_meta($post_id = 0){
         
         if(!$post_id)
@@ -115,6 +157,13 @@ class acfe_dev{
         elseif($info['type'] === 'term'){
             
             $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->termmeta WHERE term_id = %d ", $info['id']));
+            
+        }
+        
+        // User
+        elseif($info['type'] === 'user'){
+            
+            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d ", $info['id']));
             
         }
         
