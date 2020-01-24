@@ -1190,20 +1190,14 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
     function render_field($field){
         
         // settings
-        $this->state = acf_maybe_get($field, 'acfe_flexible_layouts_state');
-        $this->placeholder = acf_maybe_get($field, 'acfe_flexible_layouts_placeholder');
-        $this->preview = acf_maybe_get($field, 'acfe_flexible_layouts_previews');
-        $this->modal_edition = acf_maybe_get($field, 'acfe_flexible_modal_edition');
-        $this->title_edition = acf_maybe_get($field, 'acfe_flexible_title_edition');
-        $this->copy_paste = acf_maybe_get($field, 'acfe_flexible_copy_paste');
-        $this->remove_collapse = acf_maybe_get($field, 'acfe_flexible_layouts_remove_collapse');
-        $this->close_button = acf_maybe_get($field, 'acfe_flexible_close_button');
-        $this->stylised_button = acf_maybe_get($field, 'acfe_flexible_stylised_button');
+        $stylised_button = acf_maybe_get($field, 'acfe_flexible_stylised_button');
+        $copy_paste = acf_maybe_get($field, 'acfe_flexible_copy_paste');
         
         // Remove actions
-        $this->remove_actions = apply_filters('acfe/flexible/remove_actions',                           $this->remove_actions, $field);
-        $this->remove_actions = apply_filters('acfe/flexible/remove_actions/name=' . $field['_name'],   $this->remove_actions, $field);
-        $this->remove_actions = apply_filters('acfe/flexible/remove_actions/key=' . $field['key'],      $this->remove_actions, $field);
+        $remove_actions = false;
+        $remove_actions = apply_filters('acfe/flexible/remove_actions',                           $remove_actions, $field);
+        $remove_actions = apply_filters('acfe/flexible/remove_actions/name=' . $field['_name'],   $remove_actions, $field);
+        $remove_actions = apply_filters('acfe/flexible/remove_actions/key=' . $field['key'],      $remove_actions, $field);
         
         // defaults
         if(empty($field['button_label'])){
@@ -1281,7 +1275,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             endif; ?>
         </div>
 
-        <?php if(!$this->remove_actions){
+        <?php if(!$remove_actions){
         
         $button = array(
             'class'     => 'acf-button button',
@@ -1289,20 +1283,20 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             'data-name' => 'add-layout',
         );
         
-        if(!$this->stylised_button){
+        if(!$stylised_button){
             
             $button['class'] .= ' button-primary';
             
         }
         
-        if($this->stylised_button){ ?>
+        if($stylised_button){ ?>
             <div class="acfe-flexible-stylised-button">
         <?php } ?>
         
         <div class="acf-actions">
             <a <?php echo acf_esc_attr($button); ?>><?php echo $field['button_label']; ?></a>
             
-            <?php if($this->copy_paste){ ?>
+            <?php if($copy_paste){ ?>
             
                 <?php
                 
@@ -1313,7 +1307,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                     'data-name' => 'acfe-flexible-control-button',
                 );
                 
-                if(!$this->stylised_button){
+                if(!$stylised_button){
                     
                     $button_secondary['class'] .= ' button-primary';
                     
@@ -1335,7 +1329,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
         </div>
         
-        <?php if($this->stylised_button){ ?>
+        <?php if($stylised_button){ ?>
             </div>
         <?php } ?>
 
