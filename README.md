@@ -362,7 +362,7 @@ This feature also enables a new setting available in every fields: "Save as indi
 
 Single Meta Save is disabled by default. To enable it, add the following code in your `functions.php` file:
 
-`
+```
 add_action('acf/init', 'my_acfe_modules');
 function my_acfe_modules(){
     
@@ -370,7 +370,7 @@ function my_acfe_modules(){
     acf_update_setting('acfe/modules/single_meta', true);
     
 }
-`
+```
 
 Note: It is possible to revert back to the native ACF save process. To do so, keep the feature enabled, get in the post administration you want to revert back. Disable the feature in your code, and save the post. All data will be saved back to individual meta datas.
 
