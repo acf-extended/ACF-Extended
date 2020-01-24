@@ -363,7 +363,7 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 
 = ACF: Single Meta Save (Beta) =
 
-Compress all fields values from the current post, term & user into one single meta data. This process lighten the database load as values are saved and read from one single row. Once activated and after saving a post/term/user from the administration, all old meta data will be removed and packed together in a meta called `acf`.
+Compress all fields values from the current post, term or user into one single meta data. This process lighten the database load as values are saved and read from one single row. Once activated and after saving a post/term/user in the administration, all old meta data will be removed and packed together in a meta called `acf`.
 
 To monitor the process, it is possible to enable the "ACF Extended: Dev Mode" which will display all WP & ACF meta data on every Posts, Terms & Users.
 
@@ -678,7 +678,7 @@ function my_acfe_modules(){
 == Changelog ==
 
 = 0.8.4 =
-* Module: Added Single Meta Save feature - Compress all fields values from the current post, term & user into one single meta data. This feature is disabled by default, to enable it, use `acf_update_setting('acfe/modules/single_meta', true);`. More informations available in the readme.
+* Module: Added Single Meta Save feature - Compress all fields values from the current post, term or user into one single meta data. This feature is disabled by default, to enable it, use `acf_update_setting('acfe/modules/single_meta', true);`. More informations available in the readme.
 * Module: Dynamic Post Types - Added `while(have_archive()): the_archive();` logic when the "Admin Archive Page" setting is turned on. This template tags can be used in the `archive-post-type.php` template which makes `get_field('my_field')` calls easier
 * Module: Dynamic Post Types/Taxonomies - Fixed Posts/Terms column data when object was trashed.
 * Module: PHP AutoSync - PHP sync files are now removed when the field group is disabled/trashed.
