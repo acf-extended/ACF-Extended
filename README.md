@@ -12,6 +12,7 @@
 * Bidirectional Fields
 * Advanced Fields Validation
 * Flexible Content as Page Builder
+* Compress ACF values into a single metadata
 * ACF Forms Manager
 * ACF Options Pages / Block Types Manager
 * ACF & WordPress Meta Overview
@@ -23,7 +24,7 @@
 ## 🤟 Philosophy
 
 * 100% free
-* Seemless integration
+* Seamless integration
 * No extra menu, ads or notices
 * Built by developers, for developers
 
@@ -148,6 +149,9 @@ A more sophisticated validation conditions (AND/OR) with custom error messages b
 * **Permissions**
 Add permission layer to fields. Choose which roles can view & edit fields in the post edition screen. (can be combinated with field groups permissions)
 
+* **Save as Meta**
+Exclude the field from the "Single Meta Save" compression feature. The global ACF setting "Single Meta Save" must be turned ON.
+
 * **View raw data**
 Display raw field data in a modal to check your configuration & settings
 
@@ -238,6 +242,7 @@ Create and manage post types from your WordPress administration (Tools > Post Ty
 * Manage Posts per page, order by and order for the post type administration screen
 * Set custom single template (ie: `my-single.php`) instead of the native `single-{post_type}.php`
 * Set custom archive template (ie: `my-archive.php`) instead of the native `archive-{post_type}.php`
+* Add an Archive Option Page under the post type menu and set your field groups
 * Manual PHP/Json Import & Export is available in the ACF > Tools page
 
 ### WordPress: Dynamic Taxonomies
@@ -274,9 +279,9 @@ Display all ACF Extended settings in one page.
 
 ### ACF: Dev Mode
 
-View all custom Post Meta & Terms Meta in a readable format
+View all custom Posts, Terms & Users meta in a readable format
 
-* Arrays & Json are converted to `print_r()`
+* Print Arrays & Json values
 * ACF fields meta are grouped together
 * ACF field groups related to fields are displayed when available
 * Dev mode also enable `SCRIPT_DEBUG`
@@ -309,6 +314,7 @@ Manage ACF Block Types from ACF > Block Types.
 * Hide Empty Message: Hide the native Flexible Content 'Empty' message
 * Empty Message: Change the native Flexible Content 'Click the Add Row button below...' message
 * Layouts Thumbnails: Add thumbnails for each layout in the layout selection
+* Layouts Settings: Choose a field group to clone and to be used as a layout configuration modal in the administration
 * Layouts Render: Add `template.php`, `style.css` & `script.js` files settings for each layout. Those settings can be then accessed in the front-end [More informations in the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
 * Layouts Dynamic Preview: Edit & Preview Layouts on-the-fly from your WordPress administration, just like in Gutenberg (Layouts Render must be turned ON)
 * Modal Edition: Edit layouts in a modal
@@ -322,6 +328,7 @@ Manage ACF Block Types from ACF > Block Types.
 * One Click: the 'Add row' button will add a layout without the selection modal if there is only one layout available in the flexible content
 * Lock Flexible Content: Disable sortable layouts using `filter('acfe/flexible/lock/name=my_flexible', true, $field)`
 * Remove Actions Buttons: Remove the action buttons using `filter('acfe/flexible/remove_actions/name=my_flexible', true, $field)`
+* Disable Legacy Layout Title Ajax: Disable the native ACF Layout Title Ajax call on `acf/fields/flexible_content/layout_title`.
 
 ### ACF: Dynamic Forms
 
@@ -345,7 +352,71 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * The function `acf_form_head()` is not needed anymore
 * Manual Import & Export is available in the ACF > Tools page
 
+### ACF: Single Meta Save (Beta)
+
+Compress all fields values from the current post, term & user into one single meta data. This process lighten the database load as values are saved and read from one single row. Once activated and after saving a post/term/user from the administration, all old meta data will be removed and packed together in a meta called `acf`.
+
+To monitor the process, it is possible to enable the "ACF Extended: Dev Mode" which will display all WP & ACF meta data on every Posts, Terms & Users.
+
+This feature also enables a new setting available in every fields: "Save as individual meta". If this setting is turned ON on a specific field, then the value will be saved individually. `WP Queries` and `Meta Queries` can be used just like before.
+
+Single Meta Save is disabled by default. To enable it, add the following code in your `functions.php` file:
+
+`
+add_action('acf/init', 'my_acfe_modules');
+function my_acfe_modules(){
+    
+    // Enable Single Meta Save
+    acf_update_setting('acfe/modules/single_meta', true);
+    
+}
+`
+
+Note: It is possible to revert back to the native ACF save process. To do so, keep the feature enabled, get in the post administration you want to revert back. Disable the feature in your code, and save the post. All data will be saved back to individual meta datas.
+
 ## 📋 Changelog
+
+### 0.8.4
+* Module: Added Single Meta Save feature - Compress all fields values from the current post, term & user into one single meta data. This feature is disabled by default, to enable it, use `acf_update_setting('acfe/modules/single_meta', true);`. More informations available in the readme.
+* Module: Dynamic Post Types - Added `while(have_archive()): the_archive();` logic when the "Admin Archive Page" setting is turned on. This template tags can be used in the `archive-post-type.php` template which makes `get_field('my_field')` calls easier
+* Module: Dynamic Post Types/Taxonomies - Fixed Posts/Terms column data when object was trashed.
+* Module: PHP AutoSync - PHP sync files are now removed when the field group is disabled/trashed.
+* Module: Dynamic Forms - In the "E-mail Action" the"From" field is now required.
+* Module: Dynamic Forms - The Javascript hook `acfe/form/submit/success` is now correctly fired on form submission
+* Module: Dev Mode - Added the WP & ACF Meta Overview on User pages
+* Module: Dynamic Post Types/Taxonomies/Options Pages/Block Types - Removed Draft button action
+* Field: Flexible Content - Significant Performance Boost (~50/60% faster during the loading). Many settings are now loaded in PHP. Layouts are now added with Ajax (instead of being hidden in the DOM). This massive rework brings some great performance on very complex flexible content fields.
+* Field: Flexible Content - Initial "Dynamic Preview" are now preocessed during page administration load, and not Ajax anymore. This also speed-up the administration load.
+* Field: Flexible Content - Added "Layouts Settings" setting. Which let you choose a field group to clone and to be used as a configuration modal for each layout. Settings can then be used using `while(have_settings()): the_setting(); get_sub_field('my_setting');` in the Layout Template.
+* Field: Flexible Content - Fixed a potential duplicated categories bug in the Selection Modal if the category name had spaces.
+* Field: Flexible Content - "Remove Actions" now correctly remove Clone & Copy/Paste buttons.
+* Field: Flexible Content - Added "Disable Legacy Layout Title Ajax" setting. It disables the native ACF Layout Title Ajax call on `acf/fields/flexible_content/layout_title`.
+* Field: Flexible Content - Fixed the `$is_preview` variable not being available in specific situations.
+* Field: Flexible Content - Fixed Dynamic Preview repeater fields inside a layout which could send an additional `acfcloneindex` during the preview mode
+* Field: Flexible Content - Fixed Dynamic Preview with WP Query in the layout, which could be duplicated due to how WP Admin manage custom queries
+* Field: Flexible Content - Fixed "Edit" icon vertical align with the latest WP 5.3 update
+* Field: Flexible Content - Added shorter CSS class for preview wrapper `-preview`
+* Field: Flexible Content - Fixed the native ACF setting "Select layout" with a wrong height on WP 5.3
+* Field: Flexible Content - Fixed Enter key opening duplicated modal with Modal Edition setting
+* Field: Advanced Link - Fixed required validation which could fail if a post object was selected.
+* Field: Advanced Link - Fixed a `z-index` problem in menu/items
+* Field: Code Editor - Added compatibility with WP Code Editor Settings (editor themes).
+* Field: Group/Clone - In Seamless Style mode instructions could be truncated in some specific cases
+* Field: Group/Clone - Seamless Style mode wasn't working correctly in the Term administration
+* Field: Group/Clone - Fixed "Seamless Style" typo
+* Field: Group/Clone - Fixed "Edit in modal" which wasn't correctly working in menus
+* Field Group: Fixed Category sync which failed to create & set new field group category if not already available in WP
+* Field Groups: Fixed empty field groups list colspan
+* Fields: Post Statuses/Post Types/Taxonomies/Taxonomies Terms/User Roles can now be used as conditional display field
+* General: ACF Extended now correctly detects ACF Pro when included in the WP Theme.
+* General: ACF Extended can now be included in WP Themes (following the same logic as ACF)
+
+### 0.8.3.1
+* Field: Flexible Content - Fixed PHP `Undefined index: acfe_flexible_modal` notice
+* Fields: Select2 CSS Enhanced - Fixed forced height when in multiple mode
+* Fields: Select2 CSS Enhanced - Global standardization of generic select input & select2 style
+* Module: Dynamic Forms - Added missing hook `filter('acfe/form/load/action=my-action-alias',  $args, $post_id);`
+* General: Fixed typo in Readme
 
 ### 0.8.3.1
 * Field: Flexible Content - Fixed PHP `Undefined index: acfe_flexible_modal` notice
