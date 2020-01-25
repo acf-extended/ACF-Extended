@@ -30,9 +30,11 @@
 /*
  * Flexible: Layout Collapsed
  */
-.acf-field-flexible-content[data-acfe-flexible-modal-edition="1"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
+
+ .acf-field-flexible-content[data-acfe-flexible-modal-edition="1"]:not([data-acfe-flexible-placeholder="1"]):not([data-acfe-flexible-preview="1"]) > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
     border-bottom-width:0;
 }
+
 
 .acf-field-flexible-content[data-acfe-flexible-placeholder="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle,
 .acf-field-flexible-content[data-acfe-flexible-preview="1"] > .acf-input > .acf-flexible-content > .values > .layout.-collapsed > .acf-fc-layout-handle{
@@ -81,7 +83,7 @@
 /*
  * Flexible Layout: Placeholder
  */
-.layout > .acfe-flexible-collapsed-placeholder{
+.layout > .acfe-fc-placeholder{
     text-align:center;
     background:#f9f9f9;
     display:block;
@@ -90,19 +92,19 @@
     cursor:pointer;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder:focus{
+.layout > .acfe-fc-placeholder:focus{
     border-color: #ccc;
     box-shadow: none;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder > .acfe-flexible-placeholder{
+.layout > .acfe-fc-placeholder > .acfe-flexible-placeholder{
     height:110px;
     overflow:hidden;
     text-align:initial;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder > button{
-    z-index:2;
+.layout > .acfe-fc-placeholder > a{
+    z-index:1;
     position:absolute;
     top:50%;
     left:50%;
@@ -118,55 +120,59 @@
     display:block;
 }
 
-body:not(.acf-admin-5-3) .layout > .acfe-flexible-collapsed-placeholder > button{
+body:not(.acf-admin-5-3) .layout > .acfe-fc-placeholder > a{
     border-color: #999;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder > button:active{
+.acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields > .acf-field-flexible-content > .acf-input > .acf-flexible-content > .values > .layout > .acfe-fc-placeholder > a{
+    z-index:0;
+}
+
+.layout > .acfe-fc-placeholder > a:active{
     transform:translate(-50%, -50%);
 }
 
-.layout > .acfe-flexible-collapsed-placeholder > button:focus{
+.layout > .acfe-fc-placeholder > a:focus{
     border-color: #cccccc;
     box-shadow: none;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder > button span{
-    width: 28px;
-    height: 28px;
-    vertical-align:middle;
+.layout > .acfe-fc-placeholder > a span{
+    width: 29px;
+    height: 30px;
+    vertical-align:top;
     line-height: 28px;
     font-size:18px;
 }
 
-body:not(.acf-admin-5-3) .layout > .acfe-flexible-collapsed-placeholder > button span{
+body:not(.acf-admin-5-3) .layout > .acfe-fc-placeholder > a span{
     width: 30px;
     height: 30px;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview{
+.layout > .acfe-fc-placeholder.acfe-fc-preview{
     background:none;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview > .acfe-flexible-placeholder{
+.layout > .acfe-fc-placeholder.acfe-fc-preview > .acfe-flexible-placeholder{
     min-height:55px;
     height:auto;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview > button{
+.layout > .acfe-fc-placeholder.acfe-fc-preview > a{
     display:none;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview:hover > button{
+.layout > .acfe-fc-placeholder.acfe-fc-preview:hover > a{
     display:block;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview.acfe-is-loading{
+.layout > .acfe-fc-placeholder.acfe-fc-preview.-loading{
     background:#f9f9f9;
     min-height:110px;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview.acfe-is-loading > .acfe-flexible-placeholder > .spinner{
+.layout > .acfe-fc-placeholder.acfe-fc-preview.-loading > .acfe-flexible-placeholder > .spinner{
     visibility:visible;
     float:none;
     position:absolute;
@@ -177,8 +183,7 @@ body:not(.acf-admin-5-3) .layout > .acfe-flexible-collapsed-placeholder > button
     z-index:10000;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder .acfe-flexible-collapsed-overlay{
-    z-index:1;
+.layout > .acfe-fc-placeholder .acfe-fc-overlay{
     position:absolute;
     width:100%;
     height:100%;
@@ -189,19 +194,20 @@ body:not(.acf-admin-5-3) .layout > .acfe-flexible-collapsed-placeholder > button
     transition: background-color 200ms linear;
 }
 
-.layout > .acfe-flexible-collapsed-placeholder:hover .acfe-flexible-collapsed-overlay,
-.layout > .acfe-flexible-collapsed-placeholder .acfe-flexible-collapsed-overlay.-hover{
+.layout > .acfe-fc-placeholder:hover .acfe-fc-overlay,
+.layout > .acfe-fc-placeholder .acfe-fc-overlay.-hover{
     background-color:rgba(255,255,255,0.7);
 }
 
-.layout > .acfe-flexible-collapsed-placeholder.acfe-flexible-collapsed-preview.acfe-is-loading > button span{
+.layout > .acfe-fc-placeholder.acfe-fc-preview.-loading > a span{
     visibility:hidden;
 }
 
 /*
  * Flexible Layout Collapsed
  */
-.layout > .acfe-flexible-opened-actions{
+.layout > .acf-fields > .acfe-flexible-opened-actions,
+.layout > .acf-table > .acfe-flexible-opened-actions{
     background:#f9f9f9;
     border-top:1px solid #e1e1e1;
     padding:12px;

@@ -160,8 +160,14 @@ function acfe_recaptcha(){
             this.mode = this.$control().data('mode');
             this.lines = this.$control().data('lines');
             this.indentUnit = this.$control().data('indent_unit');
-            
-            this.editor = wp.CodeMirror.fromTextArea(this.input(), {
+
+            var codeEditor = [];
+
+            // Default WP settings
+            var wpCodeMirror = wp.codeEditor.defaultSettings.codemirror;
+
+            // Field settings
+            var CodeMirror = {
                 lineNumbers: this.lines,
                 lineWrapping: true,
                 styleActiveLine: false,
@@ -170,7 +176,6 @@ function acfe_recaptcha(){
                 tabSize: 1,
                 indentWithTabs: true,
                 mode: this.mode,
-                //mode: 'htmlmixed',
                 extraKeys: {
                     Tab: function(cm){
                         cm.execCommand("indentMore")
@@ -179,21 +184,30 @@ function acfe_recaptcha(){
                         cm.execCommand("indentLess")
                     },
                 },
-            });
+            };
+
+            // Merge settings
+            var codeMirror = jQuery.extend(wpCodeMirror, CodeMirror);
+
+            // Push CodeMirror settings to codemirror property
+            codeEditor.codemirror = codeMirror;
+
+            // Init WP Code Editor
+            this.editor = wp.codeEditor.initialize(this.input(), codeEditor);
             
             if(this.rows){
                 
-                this.editor.getScrollerElement().style.minHeight = this.rows * 22 + 'px';
+                this.editor.codemirror.getScrollerElement().style.minHeight = this.rows * 22 + 'px';
                 
-                this.editor.refresh();
+                this.editor.codemirror.refresh();
                 
             }
             
             field = this;
             
-            this.editor.on('change', function(){
+            this.editor.codemirror.on('change', function(){
                 
-                field.editor.save();
+                field.editor.codemirror.save();
                 
             });
             
@@ -201,9 +215,9 @@ function acfe_recaptcha(){
         
         onShow: function(){
             
-            if(this.editor){
+            if(this.editor.codemirror){
                 
-                this.editor.refresh();
+                this.editor.codemirror.refresh();
                 
             }
             
@@ -212,6 +226,13 @@ function acfe_recaptcha(){
     });
 
     acf.registerFieldType(CodeEditor);
+    
+    acf.registerConditionForFieldType('equalTo',        'acfe_code_editor');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_code_editor');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_code_editor');
+    acf.registerConditionForFieldType('contains',       'acfe_code_editor');
+    acf.registerConditionForFieldType('hasValue',       'acfe_code_editor');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_code_editor');
     
     /**
      * Field: Textarea
@@ -286,6 +307,13 @@ function acfe_recaptcha(){
     });
 
     acf.registerFieldType(ACFE_Slug);
+    
+    acf.registerConditionForFieldType('equalTo',        'acfe_slug');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_slug');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_slug');
+    acf.registerConditionForFieldType('contains',       'acfe_slug');
+    acf.registerConditionForFieldType('hasValue',       'acfe_slug');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_slug');
     
     /**
      * Field: Button
@@ -720,6 +748,66 @@ function acfe_recaptcha(){
         return options;
         
     });
+    
+    /**
+     * Field: Forms
+     */
+    acf.registerConditionForFieldType('equalTo',        'acfe_forms');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_forms');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_forms');
+    acf.registerConditionForFieldType('contains',       'acfe_forms');
+    acf.registerConditionForFieldType('hasValue',       'acfe_forms');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_forms');
+    
+    /**
+     * Field: Post Status
+     */
+    acf.registerConditionForFieldType('equalTo',        'acfe_post_statuses');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_post_statuses');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_post_statuses');
+    acf.registerConditionForFieldType('contains',       'acfe_post_statuses');
+    acf.registerConditionForFieldType('hasValue',       'acfe_post_statuses');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_post_statuses');
+    
+    /**
+     * Field: Post Types
+     */
+    acf.registerConditionForFieldType('equalTo',        'acfe_post_types');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_post_types');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_post_types');
+    acf.registerConditionForFieldType('contains',       'acfe_post_types');
+    acf.registerConditionForFieldType('hasValue',       'acfe_post_types');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_post_types');
+    
+    /**
+     * Field: Taxonomies
+     */
+    acf.registerConditionForFieldType('equalTo',        'acfe_taxonomies');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_taxonomies');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_taxonomies');
+    acf.registerConditionForFieldType('contains',       'acfe_taxonomies');
+    acf.registerConditionForFieldType('hasValue',       'acfe_taxonomies');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_taxonomies');
+    
+    /**
+     * Field: Taxonomy Terms
+     */
+    acf.registerConditionForFieldType('equalTo',        'acfe_taxonomy_terms');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_taxonomy_terms');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_taxonomy_terms');
+    acf.registerConditionForFieldType('contains',       'acfe_taxonomy_terms');
+    acf.registerConditionForFieldType('hasValue',       'acfe_taxonomy_terms');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_taxonomy_terms');
+    
+    /**
+     * Field: User Roles
+     */
+    acf.registerConditionForFieldType('equalTo',        'acfe_user_roles');
+    acf.registerConditionForFieldType('notEqualTo',     'acfe_user_roles');
+    acf.registerConditionForFieldType('patternMatch',   'acfe_user_roles');
+    acf.registerConditionForFieldType('contains',       'acfe_user_roles');
+    acf.registerConditionForFieldType('hasValue',       'acfe_user_roles');
+	acf.registerConditionForFieldType('hasNoValue',     'acfe_user_roles');
     
     /**
      * Module: Author

@@ -39,6 +39,8 @@ class acfe_compatibility{
         
         add_filter('acf/validate_field_group',      array($this, 'field_group_location_list'), 20);
         add_filter('acf/validate_field',            array($this, 'field_acfe_update'), 20);
+        add_filter('acf/validate_field/type=group', array($this, 'field_acfe_seamless_style'), 20);
+        add_filter('acf/validate_field/type=clone', array($this, 'field_acfe_seamless_style'), 20);
         add_filter('pto/posts_orderby/ignore',      array($this, 'pto_acf_field_group'), 10, 3);
         add_action('admin_menu',                    array($this, 'cotto_submenu'), 999);
         add_filter('rank_math/metabox/priority',    array($this, 'rankmath_metaboxes_priority'));
@@ -96,6 +98,22 @@ class acfe_compatibility{
             return $field;
         
         unset($field['acfe_update']);
+        
+        return $field;
+        
+    }
+    
+    /**
+     * ACF Extended: 0.8.5
+     * Field Group/Clone: Fixed typo "Seamless"
+     */
+    function field_acfe_seamless_style($field){
+        
+        if($seamless = acf_maybe_get($field, 'acfe_seamless_style', false)){
+            
+            $field['acfe_seamless_style'] = $seamless;
+            
+        }
         
         return $field;
         
