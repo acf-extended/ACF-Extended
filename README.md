@@ -328,6 +328,7 @@ Manage ACF Block Types from ACF > Block Types.
 * One Click: the 'Add row' button will add a layout without the selection modal if there is only one layout available in the flexible content
 * Lock Flexible Content: Disable sortable layouts using `filter('acfe/flexible/lock/name=my_flexible', true, $field)`
 * Remove Actions Buttons: Remove the action buttons using `filter('acfe/flexible/remove_actions/name=my_flexible', true, $field)`
+* Asynchronous Layouts: Add layouts using Ajax method. This setting increase performance on complex Flexible Content
 * Disable Legacy Layout Title Ajax: Disable the native ACF Layout Title Ajax call on `acf/fields/flexible_content/layout_title`.
 
 ### ACF: Dynamic Forms
@@ -385,9 +386,10 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 * Module: Dynamic Forms - The Javascript hook `acfe/form/submit/success` is now correctly fired on form submission
 * Module: Dev Mode - Added the WP & ACF Meta Overview on User pages
 * Module: Dynamic Post Types/Taxonomies/Options Pages/Block Types - Removed Draft button action
-* Field: Flexible Content - Significant Performance Boost (~50/60% faster during the loading). Many settings are now loaded in PHP. Layouts are now added with Ajax (instead of being hidden in the DOM). This massive rework brings some great performance on very complex flexible content fields.
+* Field: Flexible Content - Significant Performance Boost (~50/60% faster during the loading). Many settings are now loaded in PHP. This massive rework brings some great performance on very complex Flexible Content fields.
+* Field: Flexible Content - Added "Layouts: Asynchronous" setting which add layouts using Ajax method (instead of having hidden layouts models in the DOM). This setting increase performance on complex Flexible Content fields.
+* Field: Flexible Content - Added "Layouts: Settings" setting which let you choose a field group to clone and to be used as a configuration modal for each layout. Settings can then be used using `while(have_settings()): the_setting(); get_sub_field('my_setting');` in the Layout Template.
 * Field: Flexible Content - Initial "Dynamic Preview" are now preocessed during page administration load, and not Ajax anymore. This also speed-up the administration load.
-* Field: Flexible Content - Added "Layouts Settings" setting. Which let you choose a field group to clone and to be used as a configuration modal for each layout. Settings can then be used using `while(have_settings()): the_setting(); get_sub_field('my_setting');` in the Layout Template.
 * Field: Flexible Content - Fixed a potential duplicated categories bug in the Selection Modal if the category name had spaces.
 * Field: Flexible Content - "Remove Actions" now correctly remove Clone & Copy/Paste buttons.
 * Field: Flexible Content - Added "Disable Legacy Layout Title Ajax" setting. It disables the native ACF Layout Title Ajax call on `acf/fields/flexible_content/layout_title`.

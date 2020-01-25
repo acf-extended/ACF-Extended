@@ -14,7 +14,7 @@ function acfe_flexible_settings($field){
         'label'         => __('Stylised Button'),
         'name'          => 'acfe_flexible_stylised_button',
         'key'           => 'acfe_flexible_stylised_button',
-        'instructions'  => __('Better layouts button integration'),
+        'instructions'  => __('Better actions buttons integration'),
         'type'              => 'true_false',
         'message'           => '',
         'default_value'     => false,
@@ -98,6 +98,20 @@ function acfe_flexible_settings($field){
         'ui_off_text'       => '',
     ));
     
+    // Layouts ajax
+    acf_render_field_setting($field, array(
+        'label'         => __('Layouts: Asynchronous'),
+        'name'          => 'acfe_flexible_layouts_ajax',
+        'key'           => 'acfe_flexible_layouts_ajax',
+        'instructions'  => __('Add layouts using Ajax method. This setting increase performance on complex Flexible Content'),
+        'type'              => 'true_false',
+        'message'           => '',
+        'default_value'     => false,
+        'ui'                => true,
+        'ui_on_text'        => '',
+        'ui_off_text'       => '',
+    ));
+    
     // Layouts: Render
     acf_render_field_setting($field, array(
         'label'         => __('Layouts: Render'),
@@ -156,6 +170,20 @@ function acfe_flexible_settings($field){
                 )
             )
         )
+    ));
+    
+    // Disable Legacy Title Ajax
+    acf_render_field_setting($field, array(
+        'label'         => __('Disable Legacy Layout Title Ajax'),
+        'name'          => 'acfe_flexible_disable_ajax_title',
+        'key'           => 'acfe_flexible_disable_ajax_title',
+        'instructions'  => __('Disable the additional ACF Layout Title Ajax call. If you don\'t perform operations using <code>acf/fields/flexible_content/layout_title</code> you can turn this setting on. <br /><br />More informations can be found on the <a href="https://www.advancedcustomfields.com/resources/acf-fields-flexible_content-layout_title/" target="_blank">ACF documentation</a>.'),
+        'type'              => 'true_false',
+        'message'           => '',
+        'default_value'     => false,
+        'ui'                => true,
+        'ui_on_text'        => '',
+        'ui_off_text'       => '',
     ));
     
     // Layouts: Close Button
@@ -374,20 +402,6 @@ function acfe_flexible_settings($field){
                 )
             )
         )
-    ));
-    
-    // Disable Legacy Title Ajax
-    acf_render_field_setting($field, array(
-        'label'         => __('Disable Legacy Layout Title Ajax'),
-        'name'          => 'acfe_flexible_disable_ajax_title',
-        'key'           => 'acfe_flexible_disable_ajax_title',
-        'instructions'  => __('Disable the additional ACF Layout Title Ajax call. If you don\'t perform operations using <code>acf/fields/flexible_content/layout_title</code> you can turn this setting on. <br /><br />More informations can be found on the <a href="https://www.advancedcustomfields.com/resources/acf-fields-flexible_content-layout_title/" target="_blank">ACF documentation</a>.'),
-        'type'              => 'true_false',
-        'message'           => '',
-        'default_value'     => false,
-        'ui'                => true,
-        'ui_on_text'        => '',
-        'ui_off_text'       => '',
     ));
     
 }
@@ -636,6 +650,13 @@ function acfe_flexible_wrapper($wrapper, $field){
     if(acf_maybe_get($field, 'acfe_flexible_hide_empty_message') || acf_maybe_get($field, 'acfe_flexible_stylised_button')){
         
         $wrapper['data-acfe-flexible-hide-empty-message'] = 1;
+        
+    }
+    
+    // Ajax
+    if(acf_maybe_get($field, 'acfe_flexible_layouts_ajax')){
+        
+        $wrapper['data-acfe-flexible-ajax'] = 1;
         
     }
     
@@ -1192,6 +1213,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         // settings
         $stylised_button = acf_maybe_get($field, 'acfe_flexible_stylised_button');
         $copy_paste = acf_maybe_get($field, 'acfe_flexible_copy_paste');
+        $ajax = acf_maybe_get($field, 'acfe_flexible_layouts_ajax');
         
         // Remove actions
         $remove_actions = false;
@@ -1241,20 +1263,28 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         </div>
 
         <div class="clones">
-            <?php foreach($layouts as $layout): ?>
+            <?php foreach($layouts as $layout):
             
-                <?php
+                // Ajax
+                if($ajax){
                 
-                $div = array(
-                    'class'			=> 'layout acf-clone',
-                    'data-id'		=> 'acfcloneindex',
-                    'data-layout'	=> $layout['name']
-                );
+                    $div = array(
+                        'class'			=> 'layout acf-clone',
+                        'data-id'		=> 'acfcloneindex',
+                        'data-layout'	=> $layout['name']
+                    );
+                    
+                    
+                    echo '<div ' . acf_esc_attr($div) . '></div>';
                 
-                ?>
-                <div <?php echo acf_esc_attr($div); ?>></div>
+                // No ajax
+                }else{
+                    
+                    $this->render_layout($field, $layout, 'acfcloneindex', array());
+                    
+                }
                 
-            <?php endforeach; ?>
+            endforeach; ?>
         </div>
 
         <div class="values">
@@ -1571,9 +1601,31 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
         }
         
+        $preview_html = false;
+        
         if($this->preview){
             
-            $placeholder['class'] .= ' acfe-fc-preview';
+            if(!empty($value)){
+                
+                ob_start();
+                
+                acfe_flexible_layout_preview(array(
+                    'post_id'   => acf_get_valid_post_id(),
+                    'i'         => $i,
+                    'field_key' => $field['key'],
+                    'layout'    => $layout['name'],
+                    'value'     => $value,
+                ));
+                
+                $preview_html = ob_get_clean();
+                
+                if(strlen($preview_html) > 0){
+                    
+                    $placeholder['class'] .= ' acfe-fc-preview';
+                    
+                }
+                
+            }
             
         }
         
@@ -1594,21 +1646,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             <div class="acfe-fc-overlay"></div>
             
             <div class="acfe-flexible-placeholder -preview">
-                <?php 
-                
-                if($this->preview && !empty($value)){
-                    
-                    acfe_flexible_layout_preview(array(
-                        'post_id'   => acf_get_valid_post_id(),
-                        'i'         => $i,
-                        'field_key' => $field['key'],
-                        'layout'    => $layout['name'],
-                        'value'     => $value,
-                    ));
-                    
-                }
-                
-                ?>
+                <?php echo $preview_html; ?>
             </div>
             
         </div>
@@ -1618,6 +1656,9 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
     }
     
     function render_layout_fields($layout, $sub_fields, $value, $prefix){
+        
+        $modal_edition = $this->modal_edition;
+        $close_button = $this->close_button;
         
         if(empty($sub_fields))
             return;
@@ -1631,34 +1672,34 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             <div class="acfe-modal-wrapper">
             <div class="acfe-modal-content">
             
-            <div class="acf-fields -top">
-            
-                <?php
-                    
-                // add value
-                if( isset($value[ $sub_field['key'] ]) ) {
-                    
-                    // this is a normal value
-                    $sub_field['value'] = $value[ $sub_field['key'] ];
-                    
-                } elseif( isset($sub_field['default_value']) ) {
-                    
-                    // no value, but this sub field has a default value
-                    $sub_field['value'] = $sub_field['default_value'];
-                    
-                }
+                <div class="acf-fields -top">
                 
+                    <?php
+                        
+                    // add value
+                    if( isset($value[ $sub_field['key'] ]) ) {
+                        
+                        // this is a normal value
+                        $sub_field['value'] = $value[ $sub_field['key'] ];
+                        
+                    } elseif( isset($sub_field['default_value']) ) {
+                        
+                        // no value, but this sub field has a default value
+                        $sub_field['value'] = $sub_field['default_value'];
+                        
+                    }
+                    
+                    
+                    // update prefix to allow for nested values
+                    $sub_field['prefix'] = $prefix;
+                    
+                    
+                    // render input
+                    acf_render_field_wrap($sub_field, 'div');
+                    
+                    ?>
                 
-                // update prefix to allow for nested values
-                $sub_field['prefix'] = $prefix;
-                
-                
-                // render input
-                acf_render_field_wrap($sub_field, 'div');
-                
-                ?>
-            
-            </div>
+                </div>
             
             </div>
             </div>
@@ -1677,7 +1718,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
 			
 		}
     
-        if($this->modal_edition){ ?>
+        if($modal_edition){ ?>
         
             <div class="acfe-modal -fields">
             <div class="acfe-modal-wrapper">
@@ -1764,7 +1805,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
             ?>
             
-            <?php if(!$this->modal_edition && $this->close_button){ ?>
+            <?php if(!$modal_edition && $close_button){ ?>
             
                 <div class="acfe-flexible-opened-actions"><a href="javascript:void(0);" class="button"><?php _e('Close', 'acf'); ?></button></a></div>
             
@@ -1778,7 +1819,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         </div>
         <?php endif; ?>
         
-        <?php if($this->modal_edition){ ?>
+        <?php if($modal_edition){ ?>
         
             </div>
             </div>
