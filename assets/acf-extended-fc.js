@@ -251,9 +251,6 @@
                                         flexible.$layoutsWrap().append( $el2 );
                                     }
                                     
-                                    // Open Layout
-                                    flexible.openLayout($el2);
-                                    
                                     // enable 
                                     acf.enable( $el2, flexible.cid );
                                     
@@ -341,12 +338,31 @@
     
     acf.addAction('append', function($el){
         
-        // Bail early if layout is not clone
+        // Bail early if layout is not layout
         if(!$el.is('.layout'))
             return;
         
         // Get Flexible
         var flexible = acf.getInstance($el.closest('.acf-field-flexible-content'));
+        
+        // Open Layout
+        if(!$el.is('.acfe-layout-duplicated')){
+            
+            // Modal Edition: Open
+            if(flexible.has('acfeFlexibleModalEdition')){
+                
+                $el.find('> [data-action="acfe-flexible-modal-edit"]:first').trigger('click');
+                
+            }
+            
+            // Normal Edition: Open
+            else{
+                
+                flexible.openLayout($el);
+                
+            }
+            
+        }
         
         flexible.acfeLayoutInit($el);
         
@@ -365,20 +381,6 @@
             $('html, body').animate({
                 scrollTop: parseInt($el.offset().top) - 200
             }, 200);
-            
-        }
-        
-        // Modal Edition: Open
-        if(flexible.has('acfeFlexibleModalEdition') && !$el.is('.acfe-layout-duplicated')){
-            
-            $el.find('> [data-action="acfe-flexible-modal-edit"]:first').trigger('click');
-            
-        }
-        
-        // Normal Edition: Open
-        else if(!flexible.isLayoutClosed($el)){
-            
-            flexible.openLayout($el);
             
         }
         
