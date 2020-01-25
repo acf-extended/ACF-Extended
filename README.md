@@ -382,14 +382,14 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 * Module: Dynamic Post Types - Added `while(have_archive()): the_archive();` logic when the "Admin Archive Page" setting is turned on. This template tags can be used in the `archive-post-type.php` template which makes `get_field('my_field')` calls easier
 * Module: Dynamic Post Types/Taxonomies - Fixed Posts/Terms column data when object was trashed.
 * Module: PHP AutoSync - PHP sync files are now removed when the field group is disabled/trashed.
-* Module: Dynamic Forms - In the "E-mail Action" the"From" field is now required.
+* Module: Dynamic Forms - In the "E-mail Action" the "From" field is now required.
 * Module: Dynamic Forms - The Javascript hook `acfe/form/submit/success` is now correctly fired on form submission
 * Module: Dev Mode - Added the WP & ACF Meta Overview on User pages
 * Module: Dynamic Post Types/Taxonomies/Options Pages/Block Types - Removed Draft button action
-* Field: Flexible Content - Significant Performance Boost (~50/60% faster during the loading). Many settings are now loaded in PHP. This massive rework brings some great performance on very complex Flexible Content fields.
+* Field: Flexible Content - Significant Performance Boost (~50/60% faster during the loading). Many settings are now loaded in PHP. This massive rework brings some great performance on complex Flexible Content fields.
 * Field: Flexible Content - Added "Layouts: Asynchronous" setting which add layouts using Ajax method (instead of having hidden layouts models in the DOM). This setting increase performance on complex Flexible Content fields.
 * Field: Flexible Content - Added "Layouts: Settings" setting which let you choose a field group to clone and to be used as a configuration modal for each layout. Settings can then be used using `while(have_settings()): the_setting(); get_sub_field('my_setting');` in the Layout Template.
-* Field: Flexible Content - Initial "Dynamic Preview" are now preocessed during page administration load, and not Ajax anymore. This also speed-up the administration load.
+* Field: Flexible Content - Initial "Dynamic Preview" are now processed during page administration load, and not Ajax anymore. This tweak also speed-up the loading speed.
 * Field: Flexible Content - Fixed a potential duplicated categories bug in the Selection Modal if the category name had spaces.
 * Field: Flexible Content - "Remove Actions" now correctly remove Clone & Copy/Paste buttons.
 * Field: Flexible Content - Added "Disable Legacy Layout Title Ajax" setting. It disables the native ACF Layout Title Ajax call on `acf/fields/flexible_content/layout_title`.
