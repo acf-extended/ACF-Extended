@@ -1087,9 +1087,9 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         $this->add_field_action('acf/render_field',                                 array($this, 'render_field'), 9);
         
         // General Filters
-        $this->add_filter('acfe/fields/flexible_content/layouts/icons',             array($this, 'add_layout_icons'), 10, 3);
-        $this->add_filter('acfe/fields/flexible_content/layouts/div',               array($this, 'add_layout_div'), 10, 3);
-        $this->add_filter('acfe/fields/flexible_content/layouts/handle',            array($this, 'add_layout_handle'), 10, 3);
+        $this->add_filter('acfe/flexible/layouts/icons',             array($this, 'add_layout_icons'), 10, 3);
+        $this->add_filter('acfe/flexible/layouts/div',               array($this, 'add_layout_div'), 10, 3);
+        $this->add_filter('acfe/flexible/layouts/handle',            array($this, 'add_layout_handle'), 10, 3);
         
         $this->add_filter('acf/load_fields',                                        array($this, 'load_fields'), 10, 2);
         
@@ -1326,7 +1326,24 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         <div class="acf-actions">
             <a <?php echo acf_esc_attr($button); ?>><?php echo $field['button_label']; ?></a>
             
-            <?php if($copy_paste){ ?>
+            <?php
+            
+            $secondary_actions = array();
+            
+            if($copy_paste){
+                
+                $secondary_actions['copy'] = '<a href="#" data-acfe-flexible-control-action="copy">' . __('Copy layouts', 'acfe') . '</a>';
+                $secondary_actions['paste'] = '<a href="#" data-acfe-flexible-control-action="paste">' . __('Paste layouts', 'acfe') . '</a>';
+                
+            }
+            
+            $secondary_actions = apply_filters('acfe/flexible/secondary_actions',                           $secondary_actions, $field);
+            $secondary_actions = apply_filters('acfe/flexible/secondary_actions/name=' . $field['_name'],   $secondary_actions, $field);
+            $secondary_actions = apply_filters('acfe/flexible/secondary_actions/key=' . $field['key'],      $secondary_actions, $field);
+            
+            ?>
+            
+            <?php if(!empty($secondary_actions)){ ?>
             
                 <?php
                 
@@ -1349,10 +1366,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                 </a>
                 
                 <script type="text-html" class="tmpl-acfe-flexible-control-popup">
-                   <ul>
-                       <li><a href="#" data-acfe-flexible-control-action="copy">Copy layouts</a></li>
-                       <li><a href="#" data-acfe-flexible-control-action="paste">Paste layouts</a></li>
-                   </ul>
+                    <ul>
+                        <?php foreach($secondary_actions as $secondary_action){ ?>
+                            <li><?php echo $secondary_action; ?></li>
+                        <?php } ?>
+                    </ul>
                 </script>
             
             <?php } ?>
@@ -1472,11 +1490,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
     
     function get_layout_div($div, $layout, $field){
         
-        $div = apply_filters('acfe/fields/flexible_content/layouts/div',                                                         $div, $layout, $field);
-        $div = apply_filters('acfe/fields/flexible_content/layouts/div/name=' . $field['_name'],                                 $div, $layout, $field);
-        $div = apply_filters('acfe/fields/flexible_content/layouts/div/key=' . $field['key'],                                    $div, $layout, $field);
-        $div = apply_filters('acfe/fields/flexible_content/layouts/div/name=' . $field['_name'] . '&layout=' . $layout['name'],  $div, $layout, $field);
-        $div = apply_filters('acfe/fields/flexible_content/layouts/div/key=' . $field['key'] . '&layout=' . $layout['name'],     $div, $layout, $field);
+        $div = apply_filters('acfe/flexible/layouts/div',                                                         $div, $layout, $field);
+        $div = apply_filters('acfe/flexible/layouts/div/name=' . $field['_name'],                                 $div, $layout, $field);
+        $div = apply_filters('acfe/flexible/layouts/div/key=' . $field['key'],                                    $div, $layout, $field);
+        $div = apply_filters('acfe/flexible/layouts/div/name=' . $field['_name'] . '&layout=' . $layout['name'],  $div, $layout, $field);
+        $div = apply_filters('acfe/flexible/layouts/div/key=' . $field['key'] . '&layout=' . $layout['name'],     $div, $layout, $field);
         
         return $div;
         
@@ -1496,11 +1514,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
         }
         
-        $handle = apply_filters('acfe/fields/flexible_content/layouts/handle',                                                         $handle, $layout, $field);
-        $handle = apply_filters('acfe/fields/flexible_content/layouts/handle/name=' . $field['_name'],                                 $handle, $layout, $field);
-        $handle = apply_filters('acfe/fields/flexible_content/layouts/handle/key=' . $field['key'],                                    $handle, $layout, $field);
-        $handle = apply_filters('acfe/fields/flexible_content/layouts/handle/name=' . $field['_name'] . '&layout=' . $layout['name'],  $handle, $layout, $field);
-        $handle = apply_filters('acfe/fields/flexible_content/layouts/handle/key=' . $field['key'] . '&layout=' . $layout['name'],     $handle, $layout, $field);
+        $handle = apply_filters('acfe/flexible/layouts/handle',                                                         $handle, $layout, $field);
+        $handle = apply_filters('acfe/flexible/layouts/handle/name=' . $field['_name'],                                 $handle, $layout, $field);
+        $handle = apply_filters('acfe/flexible/layouts/handle/key=' . $field['key'],                                    $handle, $layout, $field);
+        $handle = apply_filters('acfe/flexible/layouts/handle/name=' . $field['_name'] . '&layout=' . $layout['name'],  $handle, $layout, $field);
+        $handle = apply_filters('acfe/flexible/layouts/handle/key=' . $field['key'] . '&layout=' . $layout['name'],     $handle, $layout, $field);
         
         return $handle;
         
@@ -1515,11 +1533,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             'collapse'  => '<a class="acf-icon -collapse small acf-js-tooltip" href="#" data-name="collapse-layout" title="' . __('Click to toggle','acf') . '"></a>'
         );
         
-        $icons = apply_filters('acfe/fields/flexible_content/layouts/icons',                                                         $icons, $layout, $field);
-        $icons = apply_filters('acfe/fields/flexible_content/layouts/icons/name=' . $field['_name'],                                 $icons, $layout, $field);
-        $icons = apply_filters('acfe/fields/flexible_content/layouts/icons/key=' . $field['key'],                                    $icons, $layout, $field);
-        $icons = apply_filters('acfe/fields/flexible_content/layouts/icons/name=' . $field['_name'] . '&layout=' . $layout['name'],  $icons, $layout, $field);
-        $icons = apply_filters('acfe/fields/flexible_content/layouts/icons/key=' . $field['key'] . '&layout=' . $layout['name'],     $icons, $layout, $field);
+        $icons = apply_filters('acfe/flexible/layouts/icons',                                                         $icons, $layout, $field);
+        $icons = apply_filters('acfe/flexible/layouts/icons/name=' . $field['_name'],                                 $icons, $layout, $field);
+        $icons = apply_filters('acfe/flexible/layouts/icons/key=' . $field['key'],                                    $icons, $layout, $field);
+        $icons = apply_filters('acfe/flexible/layouts/icons/name=' . $field['_name'] . '&layout=' . $layout['name'],  $icons, $layout, $field);
+        $icons = apply_filters('acfe/flexible/layouts/icons/key=' . $field['key'] . '&layout=' . $layout['name'],     $icons, $layout, $field);
         
         if(!empty($icons)){ ?>
         
