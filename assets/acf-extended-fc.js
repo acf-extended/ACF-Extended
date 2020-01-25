@@ -9,84 +9,6 @@
     var flexible = acf.getFieldType('flexible_content');
     var model = flexible.prototype;
     
-    model.add = function(args){
-        
-        // Get Flexible
-        var flexible = this;
-        
-        // defaults
-        args = acf.parseArgs(args, {
-            layout: '',
-            before: false
-        });
-        
-        // validate
-        if( !this.allowAdd() ) {
-            return false;
-        }
-
-        // ajax
-        $.ajax({
-            url: acf.get('ajaxurl'),
-            data: acf.prepareForAjax({
-                action: 	'acfe/advanced_flexible_content/models',
-                field_key: 	this.get('key'),
-                layout:		args.layout,
-            }),
-            dataType: 'html',
-            type: 'post',
-            beforeSend: function(){
-                $('body').addClass('-loading');
-            },
-            success: function(html){
-                if(html){
-                    
-                    var $layout = $(html);
-                    var uniqid = acf.uniqid();
-                    
-                    var search = 'acf[' + flexible.get('key') + '][acfcloneindex]';
-                    var replace = flexible.$control().find('> input[type=hidden]').attr('name') + '[' + uniqid + ']';
-                    
-                    // add row
-                    var $el = acf.duplicate({
-                        target: $layout,
-                        search: search,
-                        replace: replace,
-                        append: flexible.proxy(function( $el, $el2 ){
-                            
-                            // append
-                            if( args.before ) {
-                                args.before.before( $el2 );
-                            } else {
-                                flexible.$layoutsWrap().append( $el2 );
-                            }
-                            
-                            // enable 
-                            acf.enable( $el2, flexible.cid );
-                            
-                            // render
-                            flexible.render();
-                        })
-                    });
-                    
-                    // Fix data-id
-                    $el.attr('data-id', uniqid);
-                    
-                    // trigger change for validation errors
-                    flexible.$input().trigger('change');
-                    
-                    // return
-                    return $el;
-                    
-                }
-            },
-            'complete': function(){
-                $('body').removeClass('-loading');
-            }
-        });
-        
-    };
-    
     /*
      * Actions
      */
@@ -139,7 +61,7 @@
         }
         
         // Flexible has Preview
-        if(flexible.has('acfeFlexiblePreview') && !$placeholder.hasClass('-loading')){
+        if(flexible.isLayoutClosed($layout) && flexible.has('acfeFlexiblePreview') && !$placeholder.hasClass('-loading')){
             
             $placeholder.addClass('acfe-fc-preview -loading').find('> .acfe-flexible-placeholder').prepend('<span class="spinner"></span>');
             $placeholder.find('> .acfe-fc-overlay').addClass('-hover');
@@ -273,6 +195,92 @@
         flexible.addEvents({'click .acfe-fc-placeholder': 'onClickCollapse'});
         
         flexible.addEvents({'click .acfe-flexible-opened-actions > a': 'onClickCollapse'});
+        
+        // Flexible: Ajax
+        if(flexible.has('acfeFlexibleAjax')){
+            
+            flexible.add = function(args){
+                
+                // Get Flexible
+                var flexible = this;
+                
+                // defaults
+                args = acf.parseArgs(args, {
+                    layout: '',
+                    before: false
+                });
+                
+                // validate
+                if( !this.allowAdd() ) {
+                    return false;
+                }
+
+                // ajax
+                $.ajax({
+                    url: acf.get('ajaxurl'),
+                    data: acf.prepareForAjax({
+                        action: 	'acfe/advanced_flexible_content/models',
+                        field_key: 	this.get('key'),
+                        layout:		args.layout,
+                    }),
+                    dataType: 'html',
+                    type: 'post',
+                    beforeSend: function(){
+                        $('body').addClass('-loading');
+                    },
+                    success: function(html){
+                        if(html){
+                            
+                            var $layout = $(html);
+                            var uniqid = acf.uniqid();
+                            
+                            var search = 'acf[' + flexible.get('key') + '][acfcloneindex]';
+                            var replace = flexible.$control().find('> input[type=hidden]').attr('name') + '[' + uniqid + ']';
+                            
+                            // add row
+                            var $el = acf.duplicate({
+                                target: $layout,
+                                search: search,
+                                replace: replace,
+                                append: flexible.proxy(function( $el, $el2 ){
+                                    
+                                    // append
+                                    if( args.before ) {
+                                        args.before.before( $el2 );
+                                    } else {
+                                        flexible.$layoutsWrap().append( $el2 );
+                                    }
+                                    
+                                    // Open Layout
+                                    flexible.openLayout($el2);
+                                    
+                                    // enable 
+                                    acf.enable( $el2, flexible.cid );
+                                    
+                                    // render
+                                    flexible.render();
+                                })
+                            });
+                            
+                            // Fix data-id
+                            $el.attr('data-id', uniqid);
+                            
+                            // trigger change for validation errors
+                            flexible.$input().trigger('change');
+                            
+                            // return
+                            return $el;
+                            
+                        }
+                    },
+                    'complete': function(){
+                        $('body').removeClass('-loading');
+                    }
+                });
+                
+            };
+            
+        }
 
     });
     
@@ -342,10 +350,23 @@
         
         flexible.acfeLayoutInit($el);
         
-        // Scroll to new layout
-        $('html, body').animate({
-            scrollTop: parseInt($el.offset().top) - 200
-        }, 200);
+        var $modal = flexible.$el.closest('.acfe-modal.-open');
+        
+        if($modal.length){
+        
+            // Scroll to new layout
+            $modal.find('> .acfe-modal-wrapper > .acfe-modal-content').animate({
+                scrollTop: parseInt($el.offset().top) - 200
+            }, 200);
+        
+        }else{
+            
+            // Scroll to new layout
+            $('html, body').animate({
+                scrollTop: parseInt($el.offset().top) - 200
+            }, 200);
+            
+        }
         
         // Modal Edition: Open
         if(flexible.has('acfeFlexibleModalEdition') && !$el.is('.acfe-layout-duplicated')){

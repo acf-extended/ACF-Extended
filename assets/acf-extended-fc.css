@@ -104,7 +104,7 @@
 }
 
 .layout > .acfe-fc-placeholder > a{
-    z-index:2;
+    z-index:1;
     position:absolute;
     top:50%;
     left:50%;
@@ -122,6 +122,10 @@
 
 body:not(.acf-admin-5-3) .layout > .acfe-fc-placeholder > a{
     border-color: #999;
+}
+
+.acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields > .acf-field-flexible-content > .acf-input > .acf-flexible-content > .values > .layout > .acfe-fc-placeholder > a{
+    z-index:0;
 }
 
 .layout > .acfe-fc-placeholder > a:active{
@@ -180,7 +184,6 @@ body:not(.acf-admin-5-3) .layout > .acfe-fc-placeholder > a span{
 }
 
 .layout > .acfe-fc-placeholder .acfe-fc-overlay{
-    z-index:1;
     position:absolute;
     width:100%;
     height:100%;
