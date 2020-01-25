@@ -400,6 +400,10 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 * Field: Flexible Content - Added shorter CSS class for preview wrapper `-preview`
 * Field: Flexible Content - Fixed the native ACF setting "Select layout" with a wrong height on WP 5.3
 * Field: Flexible Content - Fixed Enter key opening duplicated modal with Modal Edition setting
+* Field: Flexible Content - Added `filter('acfe/flexible/layouts/div/name=my_flexible', $div, $layout, $field)` to change layout div attributes (with 5 variations)
+* Field: Flexible Content - Added `filter('acfe/flexible/layouts/handle/name=my_flexible', $handle, $layout, $field)` to change layout handle attributes (with 5 variations)
+* Field: Flexible Content - Added `filter('acfe/flexible/layouts/icons/name=my_flexible', $icons, $layout, $field)` to change layout handle icons (with 5 variations)
+* Field: Flexible Content - Added `filter('acfe/flexible/secondary_actions/name=my_flexible', $secondary_actions, $field)` to change Flexible Content secondary actions (copy, paste...) (with 3 variations)
 * Field: Advanced Link - Fixed required validation which could fail if a post object was selected.
 * Field: Advanced Link - Fixed a `z-index` problem in menu/items
 * Field: Code Editor - Added compatibility with WP Code Editor Settings (editor themes).
