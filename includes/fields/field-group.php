@@ -7,9 +7,9 @@ add_action('acf/render_field_settings/type=group', 'acfe_field_group_settings');
 function acfe_field_group_settings($field){
     
     acf_render_field_setting($field, array(
-        'label'         => __('Seemless Style'),
-        'name'          => 'acfe_seemless_style',
-        'key'           => 'acfe_seemless_style',
+        'label'         => __('Seamless Style', 'acfe'),
+        'name'          => 'acfe_seamless_style',
+        'key'           => 'acfe_seamless_style',
         'instructions'  => __('Enable better CSS integration: remove borders and padding'),
         'type'              => 'true_false',
         'message'           => '',
@@ -94,9 +94,9 @@ function acfe_field_group_wrapper($wrapper, $field){
 add_filter('acf/prepare_field/type=group', 'acfe_field_group_type_class', 99);
 function acfe_field_group_type_class($field){
     
-    if(acf_maybe_get($field, 'acfe_seemless_style')){
+    if(acf_maybe_get($field, 'acfe_seamless_style')){
         
-        $field['wrapper']['class'] .= ' acfe-seemless-style';
+        $field['wrapper']['class'] .= ' acfe-seamless-style';
         
     }
     

@@ -43,7 +43,7 @@
 
             if(!$link.data('acfe-flexible-category'))
                 return true;
-            
+
             var category = $link.data('acfe-flexible-category');
             
             // With pipes

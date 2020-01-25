@@ -1,16 +1,23 @@
 /*
  * ACFE: Flexible Icons
  */
-.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons{
-    visibility: hidden;
-}
-
 .acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons:before{
     font-family: dashicons;
 }
 
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons{
+    visibility: hidden;
+}
+
 .acf-flexible-content .layout:hover > .acf-fc-layout-controls .acf-icon.acfe-flexible-icon.dashicons{
 	visibility: visible;
+}
+
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons.dashicons-admin-generic{
+    visibility: visible;
+}
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons.dashicons-admin-generic:before{
+    margin-left: 1px;
 }
 
 .acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-plus, 

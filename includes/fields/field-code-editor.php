@@ -58,6 +58,7 @@ class acfe_field_code_editor extends acf_field{
             'instructions'	=> __('Appears when creating a new post','acf'),
             'type'			=> 'acfe_code_editor',
             'name'			=> 'default_value',
+            'rows'          => 4
         ));
         
         // placeholder
@@ -66,6 +67,7 @@ class acfe_field_code_editor extends acf_field{
             'instructions'	=> __('Appears within the input','acf'),
             'type'			=> 'acfe_code_editor',
             'name'			=> 'placeholder',
+            'rows'          => 4
         ));
         
         // Mode

@@ -322,7 +322,7 @@ function my_acf_advanced_link_fields($fields, $field, $value){
             return $valid;
 		
 		// URL is required
-		if(empty($value) || (empty($value['url'] && empty($value['post']))))
+		if(empty($value) || (!acf_maybe_get($value, 'url') && !acf_maybe_get($value, 'post')))
 			return false;
         
 		// return

@@ -161,6 +161,10 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select{
     border-color: #7e8993;
 }
 
+body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select{
+    min-height: 28px;
+}
+
 .acf-field-acfe-flexible-modal > .acf-input > .acf-fields{
     border:0;
 }

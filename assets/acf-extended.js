@@ -19,6 +19,7 @@
                 footer: false,
                 size: false,
                 destroy: false,
+                onOpen: false,
                 onClose: false,
             });
             
@@ -97,6 +98,8 @@
             
             acfe.modal.multiple();
             
+            acfe.modal.onOpen($target, args);
+            
             return $target;
 			
 		},
@@ -156,6 +159,15 @@
             
         },
         
+        onOpen: function($target, args){
+            
+            if(!args.onOpen || !(args.onOpen instanceof Function))
+                return;
+            
+            args.onOpen($target);
+            
+        },
+        
         onClose: function($target, args){
             
             if(!args.onClose || !(args.onClose instanceof Function))
@@ -164,6 +176,8 @@
             args.onClose($target);
             
         }
+        
+        
         
     };
     
