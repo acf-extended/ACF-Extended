@@ -679,7 +679,7 @@ function my_acfe_modules(){
 == Changelog ==
 
 = 0.8.4.1 =
-* General: Fixed plugin's loading sequence doesn't working when `get_field()` was called directly in `functions.php`
+* General: Fixed loading sequence when `get_field()` was called directly in `functions.php`.
 * Flexible Content: Dynamic Preview - Fixed overlay z-index
 
 = 0.8.4 =
