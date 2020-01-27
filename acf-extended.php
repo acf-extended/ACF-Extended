@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.8.4
+ * Version:     0.8.4.1
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Version
-    var $version = '0.8.4';
+    var $version = '0.8.4.1';
     
     // Settings
     var $settings = array();
@@ -69,7 +69,7 @@ class ACFE{
         include_once(ACFE_PATH . 'init.php');
         
         // Load
-        add_action('after_setup_theme', array($this, 'load'));
+        add_action('acf/include_field_types', array($this, 'load'));
         
     }
     
@@ -95,7 +95,7 @@ class ACFE{
         add_action('acf/include_fields',        array($this, 'autosync'), 5);
         
         // Fields
-        add_action('acf/include_field_types',   array($this, 'fields'));
+        add_action('acf/include_field_types',   array($this, 'fields'), 99);
         
         // Tools
         add_action('acf/include_admin_tools',   array($this, 'tools'));
