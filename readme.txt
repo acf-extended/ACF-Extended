@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 0.8.4
+Stable tag: 0.8.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -677,6 +677,10 @@ function my_acfe_modules(){
 10. ACF Settings
 
 == Changelog ==
+
+= 0.8.4.1 =
+* General: Fixed plugin's loading sequence doesn't working when `get_field()` was called directly in `functions.php`
+* Flexible Content: Dynamic Preview - Fixed overlay z-index
 
 = 0.8.4 =
 * Module: Added Single Meta Save feature - Compress all fields values from the current post, term or user into one single meta data. This feature is disabled by default, to enable it, use `acf_update_setting('acfe/modules/single_meta', true);`. More informations available in the readme.

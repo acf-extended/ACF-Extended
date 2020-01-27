@@ -104,7 +104,7 @@
 }
 
 .layout > .acfe-fc-placeholder > a{
-    z-index:1;
+    z-index:2;
     position:absolute;
     top:50%;
     left:50%;
@@ -197,6 +197,7 @@ body:not(.acf-admin-5-3) .layout > .acfe-fc-placeholder > a span{
 .layout > .acfe-fc-placeholder:hover .acfe-fc-overlay,
 .layout > .acfe-fc-placeholder .acfe-fc-overlay.-hover{
     background-color:rgba(255,255,255,0.7);
+    z-index:1;
 }
 
 .layout > .acfe-fc-placeholder.acfe-fc-preview.-loading > a span{

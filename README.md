@@ -377,6 +377,10 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 
 ## 📋 Changelog
 
+### 0.8.4.1
+* General: Fixed plugin's loading sequence doesn't working when `get_field()` was called directly in `functions.php`
+* Flexible Content: Dynamic Preview - Fixed overlay z-index
+
 ### 0.8.4
 * Module: Added Single Meta Save feature - Compress all fields values from the current post, term or user into one single meta data. This feature is disabled by default, to enable it, use `acf_update_setting('acfe/modules/single_meta', true);`. More informations available in the readme.
 * Module: Dynamic Post Types - Added `while(have_archive()): the_archive();` logic when the "Admin Archive Page" setting is turned on. This template tags can be used in the `archive-post-type.php` template which makes `get_field('my_field')` calls easier
