@@ -679,8 +679,8 @@ function my_acfe_modules(){
 == Changelog ==
 
 = 0.8.4.1 =
-* General: Fixed loading sequence when `get_field()` was called directly in `functions.php`.
-* Flexible Content: Dynamic Preview - Fixed overlay z-index
+* General: Fixed loading sequence when `get_field` was called directly in the functions file
+* Field: Flexible Content - Fixed Dynamic Preview overlay z-index
 
 = 0.8.4 =
 * Module: Added Single Meta Save feature - Compress all fields values from the current post, term or user into one single meta data. This feature is disabled by default, to enable it, use `acf_update_setting('acfe/modules/single_meta', true);`. More informations available in the readme.
