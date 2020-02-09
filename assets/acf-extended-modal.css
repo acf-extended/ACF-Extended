@@ -17,7 +17,7 @@ body.acfe-modal-opened{
     bottom:0;
     height:100%;
     width:100%;
-    z-index:100000;
+    z-index:1000000;
 }
 
 /*
@@ -32,7 +32,7 @@ body.acfe-modal-opened{
 
 .acfe-modal.-open{
     position:fixed;
-    z-index:100001;
+    z-index:1000001;
     height:100%;
     width:100%;
     top:0;
