@@ -483,13 +483,14 @@ add_action('acf/render_field/name=acfe_data', 'acfe_render_field_group_data');
 function acfe_render_field_group_data($field){
     
     $field_group = acf_get_field_group($field['value']);
+    $field_group_raw = get_post($field_group['ID']);
     if(!$field_group){
         echo '<a href="#" class="button disabled" disabled>' . __('Data') . '</a>';
         return;
     }
     
     echo '<a href="#" class="button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data') . '</a>';
-    echo '<div class="acfe-modal" data-modal-key="' . $field_group['key'] . '"><div style="padding:15px;"><pre>' . print_r($field_group, true) . '</pre></div></div>';
+    echo '<div class="acfe-modal" data-modal-key="' . $field_group['key'] . '"><div style="padding:15px;"><pre style="margin-bottom:15px;">' . print_r($field_group, true) . '</pre><pre>' . print_r($field_group_raw, true) . '</pre></div></div>';
     
 }
 
@@ -505,7 +506,7 @@ function acfe_render_field_groups($field_groups){
     $check_current_screen = acf_is_screen(array(
         'edit-acf-field-group',
         'acf-field-group',
-        'acf_page_acf-tools'
+        acfe_get_acf_screen_id('acf-tools')
     ));
     
     if($check_current_screen)
@@ -534,7 +535,7 @@ function acfe_permissions_field_groups($field_groups){
     $check_current_screen = acf_is_screen(array(
         'edit-acf-field-group',
         'acf-field-group',
-        'acf_page_acf-tools'
+        acfe_get_acf_screen_id('acf-tools')
     ));
     
     if($check_current_screen)

@@ -483,7 +483,7 @@ function acfe_recaptcha(){
             
             acfe.modal.open($modal, {
                 title: title,
-                size: 'small',
+                size: 'medium',
                 onClose: function(){
                     model.onChange();
                 }

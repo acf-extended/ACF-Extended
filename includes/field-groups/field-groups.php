@@ -476,3 +476,24 @@ function acfe_field_groups_posts_per_page(){
     return 999;
     
 }
+
+add_action('acf/add_meta_boxes', 'acfe_field_groups_seamless', 10, 3);
+function acfe_field_groups_seamless($post_type, $post, $field_groups){
+    
+    foreach($field_groups as $field_group){
+        
+        if($field_group['style'] !== 'seamless')
+            continue;
+        
+        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
+            
+            $classes[] = 'seamless';
+            $classes[] = 'acf-postbox';
+            
+            return $classes;
+            
+        });
+        
+    }
+    
+}

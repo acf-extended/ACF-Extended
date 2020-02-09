@@ -17,7 +17,7 @@ jQuery(document).ready(function($){
         
         acfe.modal.open($modal, {
             title: 'Data',
-            size: 'small'
+            size: 'medium'
         });
         
     });
