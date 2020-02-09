@@ -444,24 +444,38 @@ function acfe_locate_file_url($filenames){
 /**
  * Get Roles
  */
-function acfe_get_roles($user_roles = array()){
+function acfe_get_roles($filtered_user_roles = array()){
     
-	if(empty($user_roles)){
+    
+    $list = array();
+    
+    global $wp_roles;
+    
+    if(is_multisite())
+        $list['super_admin'] = __('Super Admin');
+    
+    foreach($wp_roles->roles as $role => $settings){
         
+        $list[$role] = $settings['name'];
+        
+    }
+    
+    $user_roles = $list;
+    
+    if(!empty($filtered_user_roles)){
+    
         $user_roles = array();
         
-        global $wp_roles;
-        
-        if(is_multisite())
-            $user_roles['super_admin'] = __('Super Admin');
-        
-        foreach($wp_roles->roles as $role => $settings){
+        foreach($list as $role => $role_label){
             
-            $user_roles[$role] = $settings['name'];
+            if(!in_array($role, $filtered_user_roles))
+                continue;
+            
+            $user_roles[$role] = $role_label;
             
         }
-		
-	}
+    
+    }
     
     return $user_roles;
     
