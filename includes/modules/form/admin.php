@@ -44,7 +44,7 @@ class acfe_form{
         add_filter('acfe/form/format_value/type=checkbox',                          array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=radio',                             array($this, 'format_value_select'), 5, 4);
         
-        // Posts
+        // Posts Actions
         $this->posts = array(
             'acfe_form_post_save_target',
             'acfe_form_post_save_post_parent',
@@ -57,20 +57,7 @@ class acfe_form{
             
         }
         
-        // Users
-        $this->users = array(
-            'acfe_form_post_save_post_author',
-            'acfe_form_user_save_target',
-            'acfe_form_user_load_source',
-        );
-        
-        foreach($this->users as $tag){
-            
-            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_user'));
-            
-        }
-        
-        // Terms
+        // Terms Actions
         $this->terms = array(
             'acfe_form_term_save_target',
             'acfe_form_term_save_parent',
@@ -80,6 +67,19 @@ class acfe_form{
         foreach($this->terms as $tag){
             
             add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_term'));
+            
+        }
+        
+        // Users Actions
+        $this->users = array(
+            'acfe_form_post_save_post_author',
+            'acfe_form_user_save_target',
+            'acfe_form_user_load_source',
+        );
+        
+        foreach($this->users as $tag){
+            
+            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_user'));
             
         }
         
@@ -987,7 +987,7 @@ class acfe_form{
             $acf = $_POST['acf'];
 
         if(!$acf)
-            return false;
+            $acf = array();
         
         $data = $this->map_fields_values($acf);
         
@@ -1010,6 +1010,33 @@ class acfe_form{
         
         // Content
         else{
+            
+            // Match {query_var:name}
+            if(preg_match_all('/{query_var:(.*?)}/', $content, $matches)){
+                
+                foreach($matches[1] as $i => $name){
+                    
+                    $query_var = get_query_var($name);
+                    
+                    if(strpos($name, ':') !== false){
+                        
+                        $explode = explode(':', $name);
+                        
+                        $query_var = get_query_var($explode[0]);
+                        
+                        if(is_array($query_var) && isset($query_var[$explode[1]])){
+                            
+                            $query_var = $query_var[$explode[1]];
+                            
+                        }
+                        
+                    }
+                    
+                    $content = str_replace('{query_var:' . $name . '}', $query_var, $content);
+                    
+                }
+                
+            }
             
             // Match {field:key}
             if(preg_match_all('/{field:(.*?)}/', $content, $matches)){
@@ -1312,6 +1339,9 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         
     }
     
+    /**
+     *  List: Columns
+     */
     function admin_columns($columns){
         
         if(isset($columns['date']))
@@ -1326,6 +1356,9 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         
     }
     
+    /**
+     *  List: Columns HTML
+     */
     function admin_columns_html($column, $post_id){
         
         // Name
@@ -1493,6 +1526,9 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         
     }
     
+    /**
+     *  Post: Select2 Ajax
+     */
     function ajax_query_post(){
         
         if(!acf_verify_ajax())
@@ -1517,7 +1553,8 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
             'post_id'		=> 0,
             's'				=> '',
             'field_key'		=> '',
-            'paged'			=> 1
+            'paged'			=> 1,
+            'value'         => '',
         ));
         
         // load field
@@ -1565,14 +1602,25 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         
         if(!$is_search && $args['paged'] === 1){
             
+            $children = array();
+            
+            $children[] = array(
+                'id'    => 'current_post',
+                'text'  => 'Current Post',
+            );
+            
+            if(!empty($options['value']) && is_string($options['value']) && !is_numeric($options['value']) && $options['value'] !== 'current_post'){
+                
+                $children[] = array(
+                    'id'    => $options['value'],
+                    'text'  => $options['value'],
+                );
+                
+            }
+            
             $results[] = array(
                 'text'		=> 'Generic',
-                'children'	=> array(
-                    array(
-                        'id'    => 'current_post',
-                        'text'  => 'Current Post',
-                    )
-                )
+                'children'	=> $children
             );
         
         }
@@ -1636,12 +1684,22 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         
     }
     
+    /**
+     *  Post: Select2 Choices
+     */
     function prepare_value_post($field){
         
         if(!acf_maybe_get($field, 'value'))
             return $field;
         
         $field['choices'] = array();
+        
+        if(!empty($field['value']) && is_string($field['value']) && !is_numeric($field['value']) && $field['value'] !== 'current_post'){
+            
+            $field['choices'][$field['value']] = $field['value'];
+            
+        }
+        
         $field['choices']['current_post'] = 'Current Post';
         
         $field_type = acf_get_field_type('post_object');
@@ -1668,6 +1726,188 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         
     }
     
+    /**
+     *  Term: Select2 Ajax
+     */
+    function ajax_query_term(){
+        
+        if(!acf_verify_ajax())
+            die();
+        
+        // get choices
+        $response = $this->get_ajax_query_term($_POST);
+        
+        // return
+        if(!$response)
+            return;
+        
+        // return ajax
+        acf_send_ajax_results($response);
+        
+    }
+    
+    function get_ajax_query_term($options = array()){
+        
+        // defaults
+        $options = acf_parse_args($options, array(
+            'post_id'		=> 0,
+            's'				=> '',
+            'field_key'		=> '',
+            'paged'			=> 1,
+            'value'         => '',
+        ));
+        
+        // load field
+        $field = acf_get_field($options['field_key']);
+        if(!$field)
+            return false;
+        
+        // Target field name
+        if(!in_array($field['name'], $this->terms))
+            return false;
+        
+        // vars
+        $results = array();
+        $args = array();
+        $s = false;
+        $is_search = false;
+        
+        // paged
+        $args['posts_per_page'] = 20;
+        $args['paged'] = $options['paged'];
+        
+        // search
+        if($options['s'] !== ''){
+            
+            // strip slashes (search may be integer)
+            $s = wp_unslash( strval($options['s']) );
+            
+            // update vars
+            $args['s'] = $s;
+            $is_search = true;
+            
+        }
+        
+        $terms_args = array(
+            'number' => $args['posts_per_page'],
+            'offset' => ($args['paged'] - 1) * $args['posts_per_page'],
+        );
+        
+        // get grouped terms
+        $terms = acf_get_grouped_terms($terms_args);
+        $groups = acf_get_choices_from_grouped_terms($terms, 'name');
+        
+        // bail early if no posts
+        if(empty($groups))
+            return false;
+        
+        if(!$is_search && $args['paged'] === 1){
+            
+            $children = array();
+            
+            $children[] = array(
+                'id'    => 'current_term',
+                'text'  => 'Current Term',
+            );
+            
+            if(!empty($options['value']) && is_string($options['value']) && !is_numeric($options['value']) && $options['value'] !== 'current_term'){
+                
+                $children[] = array(
+                    'id'    => $options['value'],
+                    'text'  => $options['value'],
+                );
+                
+            }
+            
+            $results[] = array(
+                'text'		=> 'Generic',
+                'children'	=> $children
+            );
+        
+        }
+        
+        // loop
+        foreach(array_keys($groups) as $group_title){
+            
+            // vars
+            $terms = acf_extract_var($groups, $group_title);
+            
+            // data
+            $data = array(
+                'text'		=> $group_title,
+                'children'	=> array()
+            );
+            
+            if($is_search && empty($args['orderby'])){
+                
+                $terms = acf_order_by_search($terms, $args['s']);
+                
+            }
+            
+            // append to $data
+            foreach($terms as $term_id => $name){
+                
+                $data['children'][] = array(
+                    'id' => $term_id, 
+                    'text' => $name
+                );
+                
+            }
+            
+            // append to $results
+            $results[] = $data;
+            
+        }
+        
+        // vars
+        $response = array(
+            'results'	=> $results,
+            'limit'		=> $args['posts_per_page']
+        );
+        
+        // return
+        return $response;
+        
+    }
+    
+    /**
+     *  Term: Select2 Choices
+     */
+    function prepare_value_term($field){
+        
+        if(!acf_maybe_get($field, 'value'))
+            return $field;
+        
+        $value = $field['value'];
+        
+        $field['choices'] = array();
+        
+        if(!empty($field['value']) && is_string($field['value']) && !is_numeric($field['value']) && $field['value'] !== 'current_term'){
+            
+            $field['choices'][$field['value']] = $field['value'];
+            
+        }
+        
+        $field['choices']['current_term'] = 'Current Term';
+        
+        if(is_array($value))
+            $value = $value[0];
+        
+        $term = get_term($value);
+        
+        if($term){
+            
+            $field['choices'][$term->term_id] = $term->name;
+            
+        }
+        
+        return $field;
+        
+    }
+    
+    /**
+     *  User: Select2 Ajax
+     */
     function ajax_query_user(){
         
         if(!acf_verify_ajax())
@@ -1692,7 +1932,8 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
             'post_id'		=> 0,
             's'				=> '',
             'field_key'		=> '',
-            'paged'			=> 1
+            'paged'			=> 1,
+            'value'         => '',
         ));
         
         
@@ -1753,21 +1994,32 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         // get users
         $groups = acf_get_grouped_users($args);
         
-        // Current user
         if(!$is_search && $args['paged'] === 1){
+            
+            $children = array();
+            
+            $children[] = array(
+                'id'    => 'current_user',
+                'text'  => 'Current User',
+            );
+            
+            $children[] = array(
+                'id'    => 'current_post_author',
+                'text'  => 'Current Post Author',
+            );
+            
+            if(!empty($options['value']) && is_string($options['value']) && !is_numeric($options['value']) && $options['value'] !== 'current_user' && $options['value'] !== 'current_post_author'){
+                
+                $children[] = array(
+                    'id'    => $options['value'],
+                    'text'  => $options['value'],
+                );
+                
+            }
             
             $results[] = array(
                 'text'		=> 'Generic',
-                'children'	=> array(
-                    array(
-                        'id'    => 'current_user',
-                        'text'  => 'Current User',
-                    ),
-                    array(
-                        'id'    => 'current_post_author',
-                        'text'  => 'Current Post Author',
-                    ),
-                )
+                'children'	=> $children
             );
         
         }
@@ -1832,12 +2084,22 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         
     }
     
+    /**
+     *  User: Select2 Choices
+     */
     function prepare_value_user($field){
         
         if(!acf_maybe_get($field, 'value'))
             return $field;
         
         $field['choices'] = array();
+        
+        if(!empty($field['value']) && is_string($field['value']) && !is_numeric($field['value']) && $field['value'] !== 'current_term' && $field['value'] !== 'current_post_author'){
+            
+            $field['choices'][$field['value']] = $field['value'];
+            
+        }
+        
         $field['choices']['current_user'] = 'Current User';
         $field['choices']['current_post_author'] = 'Current Post Author';
         
@@ -1857,160 +2119,6 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
             foreach($users as $user){
                 $field['choices'][$user->ID] = $field_type->get_result($user, $field);
             }
-            
-        }
-        
-        return $field;
-        
-    }
-    
-    function ajax_query_term(){
-        
-        if(!acf_verify_ajax())
-            die();
-        
-        // get choices
-        $response = $this->get_ajax_query_term($_POST);
-        
-        // return
-        if(!$response)
-            return;
-        
-        // return ajax
-        acf_send_ajax_results($response);
-        
-    }
-    
-    function get_ajax_query_term($options = array()){
-        
-        // defaults
-        $options = acf_parse_args($options, array(
-            'post_id'		=> 0,
-            's'				=> '',
-            'field_key'		=> '',
-            'paged'			=> 1
-        ));
-        
-        // load field
-        $field = acf_get_field($options['field_key']);
-        if(!$field)
-            return false;
-        
-        // Target field name
-        if(!in_array($field['name'], $this->terms))
-            return false;
-        
-        // vars
-        $results = array();
-        $args = array();
-        $s = false;
-        $is_search = false;
-        
-        // paged
-        $args['posts_per_page'] = 20;
-        $args['paged'] = $options['paged'];
-        
-        // search
-        if($options['s'] !== ''){
-            
-            // strip slashes (search may be integer)
-            $s = wp_unslash( strval($options['s']) );
-            
-            // update vars
-            $args['s'] = $s;
-            $is_search = true;
-            
-        }
-        
-        $terms_args = array(
-            'number' => $args['posts_per_page'],
-            'offset' => ($args['paged'] - 1) * $args['posts_per_page'],
-        );
-        
-        // get grouped terms
-        $terms = acf_get_grouped_terms($terms_args);
-        $groups = acf_get_choices_from_grouped_terms($terms, 'name');
-        
-        // bail early if no posts
-        if(empty($groups))
-            return false;
-        
-        if(!$is_search && $args['paged'] === 1){
-            
-            $results[] = array(
-                'text'		=> 'Generic',
-                'children'	=> array(
-                    array(
-                        'id'    => 'current_term',
-                        'text'  => 'Current Term',
-                    )
-                )
-            );
-        
-        }
-        
-        // loop
-        foreach(array_keys($groups) as $group_title){
-            
-            // vars
-            $terms = acf_extract_var($groups, $group_title);
-            
-            // data
-            $data = array(
-                'text'		=> $group_title,
-                'children'	=> array()
-            );
-            
-            if($is_search && empty($args['orderby'])){
-                
-                $terms = acf_order_by_search($terms, $args['s']);
-                
-            }
-            
-            // append to $data
-            foreach($terms as $term_id => $name){
-                
-                $data['children'][] = array(
-                    'id' => $term_id, 
-                    'text' => $name
-                );
-                
-            }
-            
-            // append to $results
-            $results[] = $data;
-            
-        }
-        
-        // vars
-        $response = array(
-            'results'	=> $results,
-            'limit'		=> $args['posts_per_page']
-        );
-        
-        // return
-        return $response;
-        
-    }
-    
-    function prepare_value_term($field){
-        
-        if(!acf_maybe_get($field, 'value'))
-            return $field;
-        
-        $value = $field['value'];
-        
-        $field['choices'] = array();
-        $field['choices']['current_term'] = 'Current Term';
-        
-        if(is_array($value))
-            $value = $value[0];
-        
-        $term = get_term($value);
-        
-        if($term){
-            
-            $field['choices'][$term->term_id] = $term->name;
             
         }
         
@@ -2046,5 +2154,44 @@ function acfe_form_map_field_get_value($field){
 function acfe_form_filter_meta($meta, $acf){
     
     return acfe()->acfe_form->filter_meta($meta, $acf);
+    
+}
+
+function acfe_form_map_query_var($content){
+    
+    if(empty($content))
+        return $content;
+    
+    if(strpos($content, '{query_var:') === false)
+        return $content;
+    
+    // Match {query_var:name}
+    if(preg_match_all('/{query_var:(.*?)}/', $content, $matches)){
+        
+        foreach($matches[1] as $i => $name){
+            
+            $query_var = get_query_var($name);
+            
+            if(strpos($name, ':') !== false){
+                
+                $explode = explode(':', $name);
+                
+                $query_var = get_query_var($explode[0]);
+                
+                if(is_array($query_var) && isset($query_var[$explode[1]])){
+                    
+                    $query_var = $query_var[$explode[1]];
+                    
+                }
+                
+            }
+            
+            $content = str_replace('{query_var:' . $name . '}', $query_var, $content);
+            
+        }
+        
+    }
+    
+    return $content;
     
 }
