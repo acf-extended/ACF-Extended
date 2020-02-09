@@ -484,6 +484,7 @@ function acfe_recaptcha(){
             acfe.modal.open($modal, {
                 title: title,
                 size: 'medium',
+                footer: acf.__('Close'),
                 onClose: function(){
                     model.onChange();
                 }
@@ -554,7 +555,8 @@ function acfe_recaptcha(){
             
             // Open modal
             acfe.modal.open($modal, {
-                title: title
+                title: title,
+                footer: acf.__('Close')
             });
             
         },
@@ -597,7 +599,8 @@ function acfe_recaptcha(){
             
             // Open modal
             acfe.modal.open($modal, {
-                title: title
+                title: title,
+                footer: acf.__('Close')
             });
             
         },
