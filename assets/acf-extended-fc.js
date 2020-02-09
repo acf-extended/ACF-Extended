@@ -10,6 +10,34 @@
     var model = flexible.prototype;
     
     /*
+     * Drag & Drop
+     */
+    model.addSortable = function( self ){
+        
+        // bail early if max 1 row
+        if( this.get('max') == 1 ) {
+            return;
+        }
+        
+        // add sortable
+        this.$layoutsWrap().sortable({
+            items: ' > .layout',
+            handle: '> .acf-fc-layout-handle',
+            forceHelperSize: false,     // Changed to false
+            forcePlaceholderSize: true,
+            tolerance: "pointer",       // Changed to pointer
+            scroll: true,
+            stop: function(event, ui) {
+                self.render();
+            },
+            update: function(event, ui) {
+                self.$input().trigger('change');
+            }
+        });
+        
+    };
+    
+    /*
      * Actions
      */
     model.acfeOneClick = function(e, $el){
@@ -285,6 +313,10 @@
         
         // TinyMCE Init
         flexible.acfeEditorsInit($layout);
+        
+        // Force open
+        if(flexible.has('acfeFlexibleOpen'))
+            flexible.openLayout($layout);
         
         // Closed
         if(flexible.isLayoutClosed($layout)){

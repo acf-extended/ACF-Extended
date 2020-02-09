@@ -177,9 +177,14 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select{
     display:none;
 }
 
+.acf-field-acfe-flexible-modal > .acf-input > .acf-fields .acf-field-acfe-flexible-modal-enabled{
+    margin-right:10px;
+}
+
 .acf-field-acfe-flexible-modal > .acf-input > .acf-fields .acf-field-acfe-flexible-modal-title,
 .acf-field-acfe-flexible-modal > .acf-input > .acf-fields .acf-field-acfe-flexible-modal-col,
 .acf-field-acfe-flexible-modal > .acf-input > .acf-fields .acf-field-acfe-flexible-modal-categories{
+    padding-top:0;
     padding-bottom:0;
     padding-left:0;
     border-top:0;
