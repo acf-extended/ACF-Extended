@@ -690,7 +690,7 @@ class acfe_field_taxonomy_terms extends acf_field{
     function load_value($value, $post_id, $field){
 		
 		// get valid terms
-		//$value = acf_get_valid_terms($value, $field['taxonomy']);
+        $value = acf_get_array($value);
 		
 		// load_terms
 		if($field['load_terms']){
