@@ -213,6 +213,9 @@
             
     }
     
+    acf.addAction('new_field/name=acfe_form_updated_message',   acfe_form_move_instructions_below);
+    acf.addAction('new_field/name=acfe_form_return',            acfe_form_move_instructions_below);
+    
     acf.addAction('new_field/name=acfe_form_custom_alias',      acfe_form_move_instructions_below);
     
     acf.addAction('new_field/name=acfe_form_email_content',     acfe_form_move_instructions_below);
