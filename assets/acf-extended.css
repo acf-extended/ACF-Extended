@@ -5,6 +5,17 @@ body.-loading *{
     cursor:wait !important;
 }
 
+/*
+ * Postbox seamless
+ */
+.acf-postbox.seamless > .inside > .acf-field{
+    padding:15px 12px;
+}
+
+.acf-flexible-content .layout.ui-sortable-helper:first-child + .layout.ui-sortable-placeholder{
+    margin-top:0;
+}
+
 /* 
  * ACF: Field fix
  */
@@ -152,7 +163,7 @@ body:not(.acf-admin-5-3) .acf-field-acfe-code-editor > .acf-input > .acf-input-w
 /*
  * ACF Field: Group - Terms
  */
-tr.acf-field.acf-field-group.acfe-seemless-style > td.acf-input > .acf-fields{
+tr.acf-field.acf-field-group.acfe-seamless-style > td.acf-input > .acf-fields{
     border: 0;
     margin-left: -10px;
     margin-right: -10px;
@@ -160,7 +171,7 @@ tr.acf-field.acf-field-group.acfe-seemless-style > td.acf-input > .acf-fields{
     margin-bottom: -15px;
 }
 
-tr.acf-field.acf-field-group.acfe-seemless-style.acfe-field-group-layout-table > td.acf-input{
+tr.acf-field.acf-field-group.acfe-seamless-style.acfe-field-group-layout-table > td.acf-input{
     padding:0;
     margin-top: -15px;
     margin-bottom: -15px;
@@ -168,7 +179,7 @@ tr.acf-field.acf-field-group.acfe-seemless-style.acfe-field-group-layout-table >
     margin-right: 0;
 }
 
-tr.acf-field.acf-field-group.acfe-seemless-style.acfe-field-group-layout-table > td.acf-input > .acf-table{
+tr.acf-field.acf-field-group.acfe-seamless-style.acfe-field-group-layout-table > td.acf-input > .acf-table{
     border-width:0;
 }
 
@@ -252,7 +263,7 @@ tr.acf-field.acf-field-group[data-acfe-group-modal="1"] > .acf-input > .acfe-mod
 /*
  * ACF Field: Clone - Terms
  */
-tr.acf-field.acf-field-clone.acfe-seemless-style > td.acf-input > .acf-fields{
+tr.acf-field.acf-field-clone.acfe-seamless-style > td.acf-input > .acf-fields{
     border: 0;
     margin-left: -10px;
     margin-right: -10px;
@@ -260,7 +271,7 @@ tr.acf-field.acf-field-clone.acfe-seemless-style > td.acf-input > .acf-fields{
     margin-bottom: -15px;
 }
 
-tr.acf-field.acf-field-clone.acfe-seemless-style.acfe-field-clone-layout-table > td.acf-input{
+tr.acf-field.acf-field-clone.acfe-seamless-style.acfe-field-clone-layout-table > td.acf-input{
     padding:0;
     margin-top: -15px;
     margin-bottom: -15px;
@@ -268,7 +279,7 @@ tr.acf-field.acf-field-clone.acfe-seemless-style.acfe-field-clone-layout-table >
     margin-right: 0;
 }
 
-tr.acf-field.acf-field-clone.acfe-seemless-style.acfe-field-clone-layout-table > td.acf-input > .acf-table{
+tr.acf-field.acf-field-clone.acfe-seamless-style.acfe-field-clone-layout-table > td.acf-input > .acf-table{
     border-width:0;
 }
 

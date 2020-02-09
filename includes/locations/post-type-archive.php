@@ -103,7 +103,7 @@ class acfe_location_post_type_archive{
         $check_current_screen = acf_is_screen(array(
             'edit-acf-field-group',
             'acf-field-group',
-            'acf_page_acf-tools'
+            acfe_get_acf_screen_id('acf-tools')
         ));
         
         // Bail early if screen is Field Group configuration & Ajax Calls

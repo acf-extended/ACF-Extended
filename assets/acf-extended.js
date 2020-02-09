@@ -120,7 +120,8 @@
             
 			$target.removeAttr('style');
             
-			$target.removeClass('-open -small -full');
+			//$target.removeClass('-open -small -medium -full');
+			$target.removeClass('-open');
             
             if(args.destroy){
                 

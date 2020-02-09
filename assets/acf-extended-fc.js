@@ -219,7 +219,7 @@
                 $.ajax({
                     url: acf.get('ajaxurl'),
                     data: acf.prepareForAjax({
-                        action: 	'acfe/advanced_flexible_content/models',
+                        action: 	'acfe/flexible/models',
                         field_key: 	this.get('key'),
                         layout:		args.layout,
                     }),
