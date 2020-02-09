@@ -146,7 +146,7 @@
         // Open modal
         acfe.modal.open($modal, {
             title: $layout_order + ' ' + $layout_title,
-            footer: 'Close',
+            footer: acf.__('Close'),
             onOpen: function(){
                 
                 flexible.acfeEditorsInit($layout);
