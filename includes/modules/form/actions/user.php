@@ -92,6 +92,9 @@ class acfe_form_user{
         if(!empty($action))
             $_user_id = apply_filters('acfe/form/load/user_id/action=' . $action, $_user_id, $form, $action);
         
+        // Query Var
+        $_user_id = acfe_form_map_query_var($_user_id);
+        
         // Invalid User ID
         if(!$_user_id)
             return $form;
@@ -584,8 +587,20 @@ class acfe_form_user{
         do_action('acfe/form/submit/user',                     $_user_id, $user_action, $args, $form, $action);
         do_action('acfe/form/submit/user/form=' . $form_name,  $_user_id, $user_action, $args, $form, $action);
         
-        if(!empty($action))
+        if(!empty($action)){
+            
             do_action('acfe/form/submit/user/action=' . $action, $_user_id, $user_action, $args, $form, $action);
+            
+            // Get post array
+            $user_object = get_userdata($_user_id);
+            
+            $user_json = json_encode($user_object);
+            $user_array = json_decode($user_json, true);
+            
+            // Set Query Var
+            set_query_var($action, $user_array);
+            
+        }
         
     }
     

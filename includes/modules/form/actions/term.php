@@ -34,7 +34,7 @@ class acfe_form_term{
         
     }
     
-    function load($form, $post_id, $alias){
+    function load($form, $post_id, $action){
         
         // Form
         $form_name = acf_maybe_get($form, 'form_name');
@@ -76,11 +76,14 @@ class acfe_form_term{
             
         }
         
-        $_term_id = apply_filters('acfe/form/load/term_id',                      $_term_id, $form);
-        $_term_id = apply_filters('acfe/form/load/term_id/form=' . $form_name,   $_term_id, $form);
+        $_term_id = apply_filters('acfe/form/load/term_id',                      $_term_id, $form, $action);
+        $_term_id = apply_filters('acfe/form/load/term_id/form=' . $form_name,   $_term_id, $form, $action);
         
-        if(!empty($alias))
-            $_term_id = apply_filters('acfe/form/load/term_id/action=' . $alias, $_term_id, $form);
+        if(!empty($action))
+            $_term_id = apply_filters('acfe/form/load/term_id/action=' . $action, $_term_id, $form, $action);
+        
+        // Query Var
+        $_term_id = acfe_form_map_query_var($_term_id);
         
         // Invalid Term ID
         if(!$_term_id)
@@ -177,7 +180,7 @@ class acfe_form_term{
         
     }
     
-    function prepare($form, $post_id, $alias){
+    function prepare($form, $post_id, $action){
         
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
@@ -236,6 +239,9 @@ class acfe_form_term{
                     return;
             
             }
+            
+            // Query Var
+            $_term_id = acfe_form_map_query_var($_term_id);
             
             $args['ID'] = $_term_id;
             
@@ -305,11 +311,11 @@ class acfe_form_term{
             
         }
         
-        $args = apply_filters('acfe/form/submit/term_args',                     $args, $term_action, $form);
-        $args = apply_filters('acfe/form/submit/term_args/form=' . $form_name,  $args, $term_action, $form);
+        $args = apply_filters('acfe/form/submit/term_args',                     $args, $term_action, $form, $action);
+        $args = apply_filters('acfe/form/submit/term_args/form=' . $form_name,  $args, $term_action, $form, $action);
         
-        if(!empty($alias))
-            $args = apply_filters('acfe/form/submit/term_args/action=' . $alias, $args, $term_action, $form);
+        if(!empty($action))
+            $args = apply_filters('acfe/form/submit/term_args/action=' . $action, $args, $term_action, $form, $action);
         
         // Insert Term
         if($term_action === 'insert_term'){
@@ -345,12 +351,26 @@ class acfe_form_term{
         
         $_term_id = $_insert_term['term_id'];
         
-        // Save meta
-        do_action('acfe/form/submit/term',                     $_term_id, $term_action, $args, $form);
-        do_action('acfe/form/submit/term/name=' . $form_name,  $_term_id, $term_action, $args, $form);
+        $args['ID'] = $_term_id;
         
-        if(!empty($alias))
-            do_action('acfe/form/submit/term/action=' . $alias, $_term_id, $term_action, $args, $form);
+        // Save meta
+        do_action('acfe/form/submit/term',                     $_term_id, $term_action, $args, $form, $action);
+        do_action('acfe/form/submit/term/name=' . $form_name,  $_term_id, $term_action, $args, $form, $action);
+        
+        if(!empty($action)){
+            
+            do_action('acfe/form/submit/term/action=' . $action, $_term_id, $term_action, $args, $form, $action);
+            
+            // Get post array
+            $term_object = get_term($_term_id, $args['taxonomy'], 'ARRAY_A');
+            
+            $post_object['permalink'] = get_term_link($_term_id, $args['taxonomy']);
+            $post_object['admin_url'] = admin_url('post.php?post=' . $_term_id . '&action=edit');
+            
+            // Set Query Var
+            set_query_var($action, $term_object);
+            
+        }
         
     }
     

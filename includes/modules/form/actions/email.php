@@ -73,6 +73,24 @@ class acfe_form_email{
         if(!empty($action))
             $args = apply_filters('acfe/form/submit/email/args/action=' . $action, $args, $form, $action);
         
+        // Check if 'from' has changed
+        $new_from = acf_maybe_get($args, 'from');
+        
+        // Re-assign header
+        if(!empty($new_from) && $new_from !== $from){
+            
+            foreach($args['headers'] as &$header){
+                
+                if(stripos($header, 'from:') !== 0)
+                    continue;
+                
+                $header = 'From: ' . $args['from'];
+                break;
+                
+            }
+            
+        }
+        
         if(!$args)
             return;
          
@@ -82,8 +100,14 @@ class acfe_form_email{
         do_action('acfe/form/submit/email/name=' . $form_name,  $args, $form, $action);
         do_action('acfe/form/submit/email/id=' . $form_id,      $args, $form, $action);
         
-        if(!empty($action))
+        if(!empty($action)){
+            
             do_action('acfe/form/submit/email/action=' . $action, $args, $form, $action);
+            
+            // Set Query Var
+            set_query_var($action, $args);
+            
+        }
         
     }
     

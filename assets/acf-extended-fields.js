@@ -875,6 +875,138 @@ function acfe_recaptcha(){
     acf.addAction('new_field/name=acfe_form_term_map_parent', acfe_form_map_fields);
     acf.addAction('new_field/name=acfe_form_term_map_description', acfe_form_map_fields);
     
+    var parseString = function( val ){
+		return val ? '' + val : '';
+	};
+    
+    var inArray = function( v1, array ){
+		
+		// cast all values as string
+		array = array.map(function(v2){
+			return parseString(v2);
+		});
+		
+		return (array.indexOf( v1 ) > -1);
+	}
+    
+    /**
+     * Select2: Args Variations
+     */
+    acf.addFilter('select2_args', function(options, $select, data, field, instance){
+        
+        options = acf.applyFilters('select2_args/type=' +   field.get('type'),  options, $select, data, field, instance);
+        options = acf.applyFilters('select2_args/name=' +   field.get('name'),  options, $select, data, field, instance);
+        options = acf.applyFilters('select2_args/key=' +    field.get('key'),   options, $select, data, field, instance);
+        
+        return options;
+        
+    });
+    
+    /**
+     * Select2: Init Variations
+     */
+    acf.addAction('select2_init', function($select, options, data, field, instance){
+        
+        acf.doAction('select2_init/type=' +   field.get('type'),  $select, options, data, field, instance);
+        acf.doAction('select2_init/name=' +   field.get('name'),  $select, options, data, field, instance);
+        acf.doAction('select2_init/key=' +    field.get('key'),   $select, options, data, field, instance);
+        
+    });
+    
+    /**
+     * Select2: Ajax Data Variations
+     */
+    acf.addFilter('select2_ajax_data', function(ajaxData, data, $el, field, instance){
+        
+        ajaxData = acf.applyFilters('select2_ajax_data/type=' +   field.get('type'), ajaxData, data, $el, field, instance);
+        ajaxData = acf.applyFilters('select2_ajax_data/name=' +   field.get('name'), ajaxData, data, $el, field, instance);
+        ajaxData = acf.applyFilters('select2_ajax_data/key=' +    field.get('key'),  ajaxData, data, $el, field, instance);
+        
+        return ajaxData;
+        
+    });
+    
+    /**
+     * Module: Dynamic Forms - Select2 Allow tags
+     */
+    function acfe_form_select_allow_tags(options, $select, data, field, instance){
+        
+        options.tags = true;
+        
+        options.createTag = function (params){
+            
+            var term = $.trim(params.term);
+            
+            if(term === '')
+                return null;
+            
+            return {
+                id: term,
+                text: term,
+                newTag: true
+            }
+            
+        };
+        
+        options.insertTag = function(data, tag){
+            
+            var found = false;
+            
+            $.each(data, function(index, value){
+                
+                if($.trim(tag.text).toUpperCase() === $.trim(value.text).toUpperCase()){
+                    
+                    found = true;
+                    return false;
+                    
+                }
+                
+            });
+
+            if(!found)
+                data.unshift(tag);
+            
+        }
+        
+        return options;
+        
+    }
+    
+    // Post
+    acf.addFilter('select2_args/name=acfe_form_post_save_target', acfe_form_select_allow_tags);
+    acf.addFilter('select2_args/name=acfe_form_post_load_source', acfe_form_select_allow_tags);
+    
+    // Term
+    acf.addFilter('select2_args/name=acfe_form_term_save_target', acfe_form_select_allow_tags);
+    acf.addFilter('select2_args/name=acfe_form_term_load_source', acfe_form_select_allow_tags);
+    
+    // User
+    acf.addFilter('select2_args/name=acfe_form_user_save_target', acfe_form_select_allow_tags);
+    acf.addFilter('select2_args/name=acfe_form_user_load_source', acfe_form_select_allow_tags);
+    
+    /**
+     * Module: Dynamic Forms - Select2 Ajax Data
+     */
+    function acfe_form_select_add_value(ajaxData, data, $el, field, instance){
+        
+        ajaxData.value = field.val();
+        
+        return ajaxData;
+        
+    }
+    
+    // Post
+    acf.addFilter('select2_ajax_data/name=acfe_form_post_save_target', acfe_form_select_add_value);
+    acf.addFilter('select2_ajax_data/name=acfe_form_post_load_source', acfe_form_select_add_value);
+    
+    // Term
+    acf.addFilter('select2_ajax_data/name=acfe_form_term_save_target', acfe_form_select_add_value);
+    acf.addFilter('select2_ajax_data/name=acfe_form_term_load_source', acfe_form_select_add_value);
+    
+    // User
+    acf.addFilter('select2_ajax_data/name=acfe_form_user_save_target', acfe_form_select_add_value);
+    acf.addFilter('select2_ajax_data/name=acfe_form_user_load_source', acfe_form_select_add_value);
+    
     /**
      * Module: Dynamic Forms (actions)
      */
