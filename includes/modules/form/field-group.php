@@ -547,7 +547,7 @@ acf_add_local_field_group(array(
             'label' => 'Success message',
             'name' => 'acfe_form_updated_message',
             'type' => 'wysiwyg',
-            'instructions' => 'A message displayed above the form after being redirected. Can also be empty for no message.<br /><br />You may use <code>{field:field_name}</code> or <code>{field:field_key}</code> template tags.',
+            'instructions' => 'A message displayed above the form after being redirected. Can also be empty for no message.<br /><br />You may use <code>{field:field_name}</code> <code>{field:field_key}</code> <code>{query_var:name}</code> <code>{query_var:name:key}</code>.',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -607,9 +607,7 @@ acf_add_local_field_group(array(
             'label' => 'Redirection',
             'name' => 'acfe_form_return',
             'type' => 'text',
-            'instructions' => 'The URL to be redirected to after the form is submit. Defaults to the current URL.<br /><br />
-    A special placeholder <code>%post_url%</code> will be converted to post\'s permalink (handy if creating a new post)<br /><br />
-    A special placeholder <code>%post_id%</code> will be converted to post\'s ID (handy if creating a new post)<br />',
+            'instructions' => 'The URL to be redirected to after the form is submit. Defaults to the current URL.<br /><br />You may use <code>{field:field_name}</code> <code>{field:field_key}</code> <code>{query_var:name}</code> <code>{query_var:name:key}</code>.',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

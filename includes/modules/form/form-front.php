@@ -129,22 +129,20 @@ class acfe_form_front{
             do_action('acfe/form/submit/form=' . $form_name,    $form, $post_id);
         
         acf_reset_meta('acfe_form_submit');
-		
-		// vars
-		$return = acf_maybe_get($form, 'return', '');
-		
-		// redirect
-		if($return){
-			
-			// update %placeholders%
-			$return = str_replace('%post_id%', $post_id, $return);
-			$return = str_replace('%post_url%', get_permalink($post_id), $return);
-			
-			// redirect
-			wp_redirect($return);
-			exit;
-			
-		}
+        
+        // vars
+        $return = acf_maybe_get($form, 'return', '');
+        
+        // redirect
+        if($return){
+            
+            $return = acfe_form_map_field_value($return, $_POST['acf']);
+            
+            // redirect
+            wp_redirect($return);
+            exit;
+            
+        }
 		
 	}
     
@@ -153,8 +151,8 @@ class acfe_form_front{
         $form_name = false;
         $form_id = false;
         
-        // String
-        if(is_string($param)){
+        // Name
+        if(!is_numeric($param)){
             
             $form = get_page_by_path($param, OBJECT, 'acfe-form');
             if(!$form)
@@ -166,8 +164,8 @@ class acfe_form_front{
             
         }
         
-        // Int
-        elseif(is_int($param)){
+        // ID
+        else{
             
             if(get_post_type($param) !== 'acfe-form')
                 return false;
@@ -449,8 +447,11 @@ class acfe_form_front{
                     
                     $message = $args['updated_message'];
                     
-                    if(acf_maybe_get_POST('acf'))
+                    if(acf_maybe_get_POST('acf')){
+                        
                         $message = acfe_form_map_field_value($args['updated_message'], $_POST['acf']);
+                        
+                    }
                     
                     if(!empty($args['html_updated_message'])){
                         
@@ -594,7 +595,7 @@ class acfe_form_front{
 
         $atts = shortcode_atts(array(
             'name'  => false,
-            'ID'    => false
+            'id'    => false
         ), $atts, 'acfe_form');
         
         if(!empty($atts['name'])){
@@ -607,11 +608,11 @@ class acfe_form_front{
             
         }
         
-        if(!empty($atts['ID'])){
+        if(!empty($atts['id'])){
             
             ob_start();
             
-                acfe_form($atts['ID']);
+                acfe_form($atts['id']);
             
             return ob_get_clean();
             
