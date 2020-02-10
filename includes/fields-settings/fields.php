@@ -49,7 +49,7 @@ if(function_exists('acf_add_filter_variations')){
 add_filter('acf/load_field', 'acfe_load_field');
 function acfe_load_field($field){
     
-    if(acf_is_screen(array('edit-acf-field-group', 'acf-field-group', acfe_get_acf_screen_id('acf-tools'))))
+    if(acfe_is_admin_screen())
         return $field;
     
     // Everywhere
