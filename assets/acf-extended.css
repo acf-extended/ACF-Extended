@@ -289,6 +289,13 @@ tr.acf-field.acf-field-clone[data-acfe-clone-modal="1"] > .acf-input > .acfe-mod
 }
 
 /*
+ * ACF Field: Colorpicker
+ */
+.acfe-modal-content .acf-color-picker .wp-picker-holder{
+    position:relative;
+}
+
+/*
  * ACFE Form
  */
 form.acfe-form.is-invalid[data-hide-error="1"] > .acf-error-message.-dismiss{

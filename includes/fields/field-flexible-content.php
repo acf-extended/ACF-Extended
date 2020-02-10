@@ -991,10 +991,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                 'prefix'        => $prefix,
                 'value'         => $layout['acfe_flexible_settings_size'],
                 'choices'       => array(
-                    'small' => 'Small',
-                    'medium'=> 'Medium',
-                    'large' => 'Large',
-                    'full'  => 'Full',
+                    'small'     => 'Small',
+                    'medium'    => 'Medium',
+                    'large'     => 'Large',
+                    'xlarge'    => 'Extra Large',
+                    'full'      => 'Full',
                 ),
                 'wrapper'       => array(
                     'width' => '33'
@@ -1968,8 +1969,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         $sub_fields = array_values($sub_fields);
         
         $size = 'medium';
-        if($layout['acfe_flexible_settings_size'])
+        if($layout['acfe_flexible_settings_size']){
+            
             $size = $layout['acfe_flexible_settings_size'];
+            
+        }
         
         ?>
         
