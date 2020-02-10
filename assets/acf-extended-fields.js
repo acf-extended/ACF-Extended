@@ -550,13 +550,36 @@ function acfe_recaptcha(){
             var title = this.$el.find('> .acf-label').text().trim();
             var $modal = this.$el.find('> .acf-input > .acfe-modal');
             
-            if(!title.length)
+            // Title
+            if(!title.length){
+                
                 title = this.get('acfeGroupModalButton');
+                
+            }
+            
+            // Close
+            var close = false;
+            
+            if(this.has('acfeGroupModalClose')){
+                
+                close = acf.__('Close');
+                
+            }
+            
+            // Size
+            var size = 'large';
+            
+            if(this.has('acfeGroupModalSize')){
+                
+                size = this.get('acfeGroupModalSize');
+                
+            }
             
             // Open modal
             acfe.modal.open($modal, {
-                title: title,
-                footer: acf.__('Close')
+                title:  title,
+                size:   size,
+                footer: close
             });
             
         },
@@ -594,13 +617,37 @@ function acfe_recaptcha(){
             var title = this.$el.find('> .acf-label').text().trim();
             var $modal = this.$el.find('> .acf-input > .acfe-modal');
             
-            if(!title.length)
+            
+            // Title
+            if(!title.length){
+                
                 title = this.get('acfeCloneModalButton');
+                
+            }
+            
+            // Close
+            var close = false;
+            
+            if(this.has('acfeCloneModalClose')){
+                
+                close = acf.__('Close');
+                
+            }
+            
+            // Size
+            var size = 'large';
+            
+            if(this.has('acfeCloneModalSize')){
+                
+                size = this.get('acfeCloneModalSize');
+                
+            }
             
             // Open modal
             acfe.modal.open($modal, {
-                title: title,
-                footer: acf.__('Close')
+                title:  title,
+                size:   size,
+                footer: close
             });
             
         },

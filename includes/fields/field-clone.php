@@ -43,12 +43,57 @@ function acfe_field_clone_settings($field){
     ));
     
     acf_render_field_setting($field, array(
-        'label'         => __('Edition modal button'),
+        'label'         => __('Edition modal: Close button'),
+        'name'          => 'acfe_clone_modal_close',
+        'key'           => 'acfe_clone_modal_close',
+        'instructions'  => __('Display close button'),
+        'type'          => 'true_false',
+        'message'       => '',
+        'default_value' => false,
+        'ui'            => true,
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'acfe_clone_modal',
+                    'operator'  => '==',
+                    'value'     => '1',
+                ),
+            )
+        )
+    ));
+    
+    acf_render_field_setting($field, array(
+        'label'         => __('Edition modal: Text button'),
         'name'          => 'acfe_clone_modal_button',
         'key'           => 'acfe_clone_modal_button',
         'instructions'  => __('Text displayed in the edition modal button'),
         'type'          => 'text',
         'placeholder'   => __('Edit', 'acf'),
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'acfe_clone_modal',
+                    'operator'  => '==',
+                    'value'     => '1',
+                ),
+            )
+        )
+    ));
+    
+    acf_render_field_setting($field, array(
+        'label'         => __('Edition modal: Size'),
+        'name'          => 'acfe_clone_modal_size',
+        'key'           => 'acfe_clone_modal_size',
+        'instructions'  => __('Choose the modal size'),
+        'type'          => 'select',
+        'choices'       => array(
+            'small'     => 'Small',
+            'medium'    => 'Medium',
+            'large'     => 'Large',
+            'xlarge'    => 'Extra Large',
+            'full'      => 'Full',
+        ),
+        'default_value' => 'large',
         'conditional_logic' => array(
             array(
                 array(
@@ -73,6 +118,18 @@ function acfe_field_clone_wrapper($wrapper, $field){
         if(acf_maybe_get($field, 'acfe_clone_modal_button')){
             
             $wrapper['data-acfe-clone-modal-button'] = $field['acfe_clone_modal_button'];
+            
+        }
+        
+        if(acf_maybe_get($field, 'acfe_clone_modal_close')){
+            
+            $wrapper['data-acfe-clone-modal-close'] = $field['acfe_clone_modal_close'];
+            
+        }
+        
+        if(acf_maybe_get($field, 'acfe_clone_modal_size')){
+            
+            $wrapper['data-acfe-clone-modal-size'] = $field['acfe_clone_modal_size'];
             
         }
         
