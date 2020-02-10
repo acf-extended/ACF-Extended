@@ -1215,25 +1215,6 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
 	 */
     function load_fields($fields, $field){
         
-        /*
-        if(acf_is_screen(array('edit-acf-field-group', 'acf-field-group', 'acf_page_acf-tools')))
-            return $fields;
-        */
-        
-        // compatibility <= 0.8.4.1 duplicated 'layout_title' & 'layout_settings' input during export/import
-        foreach($fields as $_k => $_field){
-            
-            // field name
-            $_field_name = acf_maybe_get($_field, 'name');
-            
-            // check 'acfe_flexible_layout_title' & 'layout_settings'
-            if($_field_name !== 'acfe_flexible_layout_title' && $_field_name !== 'layout_settings')
-                continue;
-            
-            unset($fields[$_k]);
-            
-        }
-        
         if(acfe_is_admin_screen())
             return $fields;
         
@@ -1271,7 +1252,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                     
                     acf_add_local_field(array(
                         'label'                 => false,
-                        'key'                   => 'field_acfe_' . $layout['key'] . '_settings',
+                        'key'                   => 'field_' . $layout['key'] . '_settings',
                         'name'                  => 'layout_settings',
                         'type'                  => 'clone',
                         'clone'                 => $settings_keys,
@@ -1284,7 +1265,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                         'parent'                => $field['key']
                     ));
                     
-                    $clone = acf_get_field('field_acfe_' . $layout['key'] . '_settings');
+                    $clone = acf_get_field('field_' . $layout['key'] . '_settings');
                     
                     array_unshift($fields, $clone);
                 
@@ -1297,7 +1278,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                 
                 acf_add_local_field(array(
                     'label'                 => false,
-                    'key'                   => 'field_acfe_' . $layout['key'] . '_title',
+                    'key'                   => 'field_' . $layout['key'] . '_title',
                     'name'                  => 'acfe_flexible_layout_title',
                     'type'                  => 'text',
                     'required'              => false,
@@ -1308,7 +1289,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                     'parent'                => $field['key']
                 ));
                 
-                $title = acf_get_field('field_acfe_' . $layout['key'] . '_title');
+                $title = acf_get_field('field_' . $layout['key'] . '_title');
                 
                 array_unshift($fields, $title);
             
@@ -1784,6 +1765,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             if($sub_field['name'] !== 'acfe_flexible_layout_title')
                 continue;
             
+            // Remove other potential duplicate
             if($title_key !== false){
                 
                 unset($sub_fields[$sub_key]);
@@ -1962,6 +1944,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             if($sub_field['name'] !== 'layout_settings')
                 continue;
             
+            // Remove other potential duplicate
             if($setting_key !== false){
                 
                 unset($sub_fields[$sub_key]);

@@ -37,14 +37,17 @@ class acfe_compatibility{
             acf_update_setting('acfe/php_found', acf_get_setting('php_found'));
         }
         
-        add_filter('acf/validate_field_group',      array($this, 'field_group_location_list'), 20);
-        add_filter('acf/validate_field',            array($this, 'field_acfe_update'), 20);
-        add_filter('acf/validate_field/type=group', array($this, 'field_acfe_seamless_style'), 20);
-        add_filter('acf/validate_field/type=clone', array($this, 'field_acfe_seamless_style'), 20);
-        add_filter('pto/posts_orderby/ignore',      array($this, 'pto_acf_field_group'), 10, 3);
-        add_action('admin_menu',                    array($this, 'cotto_submenu'), 999);
-        add_filter('rank_math/metabox/priority',    array($this, 'rankmath_metaboxes_priority'));
-        add_filter('wpseo_metabox_prio',            array($this, 'yoast_metaboxes_priority'));
+        add_filter('acf/validate_field_group',                  array($this, 'field_group_location_list'), 20);
+        add_filter('acf/validate_field',                        array($this, 'field_acfe_update'), 20);
+        
+        add_filter('acf/validate_field/type=group',             array($this, 'field_seamless_style'), 20);
+        add_filter('acf/validate_field/type=clone',             array($this, 'field_seamless_style'), 20);
+        add_filter('acfe/load_fields/type=flexible_content',    array($this, 'field_flexible_settings_title'), 20, 2);
+        
+        add_filter('pto/posts_orderby/ignore',                  array($this, 'pto_acf_field_group'), 10, 3);
+        add_action('admin_menu',                                array($this, 'cotto_submenu'), 999);
+        add_filter('rank_math/metabox/priority',                array($this, 'rankmath_metaboxes_priority'));
+        add_filter('wpseo_metabox_prio',                        array($this, 'yoast_metaboxes_priority'));
         
     }
     
@@ -107,7 +110,7 @@ class acfe_compatibility{
      * ACF Extended: 0.8.5
      * Field Group/Clone: Fixed typo "Seamless"
      */
-    function field_acfe_seamless_style($field){
+    function field_seamless_style($field){
         
         if($seamless = acf_maybe_get($field, 'acfe_seamless_style', false)){
             
@@ -116,6 +119,34 @@ class acfe_compatibility{
         }
         
         return $field;
+        
+    }
+    
+    /**
+     * ACF Extended: 0.8.4.5
+     * Field Flexible Content: Fix duplicated "layout_settings" & "layout_title"
+     */
+    function field_flexible_settings_title($fields, $parent){
+        
+        // Check if is tool screen
+        if(!acf_is_screen(acfe_get_acf_screen_id('acf-tools')))
+            return $fields;
+        
+        foreach($fields as $_k => $_field){
+            
+            // field name
+            $_field_name = acf_maybe_get($_field, 'name');
+            
+            // check 'acfe_flexible_layout_title' & 'layout_settings'
+            if($_field_name !== 'acfe_flexible_layout_title' && $_field_name !== 'layout_settings')
+                continue;
+            
+            // unset
+            unset($fields[$_k]);
+            
+        }
+        
+        return $fields;
         
     }
     
