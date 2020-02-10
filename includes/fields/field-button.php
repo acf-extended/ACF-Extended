@@ -97,7 +97,7 @@ class acfe_field_button extends acf_field{
         acf_render_field_setting($field, array(
             'label'         => __('Before HTML', 'acfe'),
             'instructions'  => __('Custom HTML before the button', 'acfe'),
-            'type'          => 'textarea',
+            'type'          => 'acfe_code_editor',
             'name'          => 'button_before',
             'rows'          => 4,
         ));
@@ -106,7 +106,7 @@ class acfe_field_button extends acf_field{
         acf_render_field_setting($field, array(
             'label'         => __('After HTML', 'acfe'),
             'instructions'  => __('Custom HTML after the button', 'acfe'),
-            'type'          => 'textarea',
+            'type'          => 'acfe_code_editor',
             'name'          => 'button_after',
             'rows'          => 4,
         ));
