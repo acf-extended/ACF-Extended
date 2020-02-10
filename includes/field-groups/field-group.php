@@ -500,7 +500,7 @@ function acfe_render_field_group_data($field){
 /**
  * Hooks: Display title (post edit)
  */
-add_filter('acf/get_field_groups', 'acfe_render_field_groups', 999);
+add_filter('acf/load_field_groups', 'acfe_render_field_groups', 999);
 function acfe_render_field_groups($field_groups){
     
     if(!is_admin())
@@ -525,7 +525,7 @@ function acfe_render_field_groups($field_groups){
 /**
  * Hooks: Permissions (post edit)
  */
-add_filter('acf/get_field_groups', 'acfe_permissions_field_groups', 999);
+add_filter('acf/load_field_groups', 'acfe_permissions_field_groups', 999);
 function acfe_permissions_field_groups($field_groups){
     
     if(!is_admin())
@@ -579,15 +579,46 @@ function acfe_field_group_instruction_placement($field){
 }
 
 /**
- * Hooks: Default label placement - Left
+ * Validate field group
  */
 add_filter('acf/validate_field_group', 'acfc_field_group_default_options');
 function acfc_field_group_default_options($field_group){
     
-    if(!isset($field_group['location']) || empty($field_group['location']))
+    // Default label placement: Left
+    if(!acf_maybe_get($field_group, 'location')){
+        
         $field_group['label_placement'] = 'left';
+        
+    }
     
     return $field_group;
+    
+}
+
+/**
+ * Field Group: Hide on screen
+ */
+add_filter('acf/prepare_field/name=hide_on_screen', 'acfc_field_group_hide_on_screen');
+function acfc_field_group_hide_on_screen($field){
+    
+    $choices = array();
+    
+    foreach($field['choices'] as $key => $value){
+        
+        if($key == 'the_content'){
+            
+            $choices['block_editor'] = __('Block Editor');
+            
+        }
+        
+        
+        $choices[$key] = $value;
+        
+    }
+    
+    $field['choices'] = $choices;
+    
+    return $field;
     
 }
 
@@ -657,6 +688,55 @@ function acfc_field_group_import_categories($field_group){
             wp_set_post_terms($field_group['ID'], array($new_term_id), 'acf-field-group-category', true);
             
         }
+        
+    }
+    
+}
+
+add_action('load-post.php',		'acfe_field_group_disable_editor');
+add_action('load-post-new.php',	'acfe_field_group_disable_editor');
+function acfe_field_group_disable_editor(){
+    
+    // globals
+    global $typenow;
+    
+    // restrict specific post types
+    $restricted = array('acf-field-group', 'attachment');
+    if( in_array($typenow, $restricted) ) {
+        return;
+    }
+    
+    $post_type = $typenow;
+    $post_id = 0;
+    
+    if ( isset( $_GET['post'] ) ) {
+        $post_id = (int) $_GET['post'];
+    } elseif ( isset( $_POST['post_ID'] ) ) {
+        $post_id = (int) $_POST['post_ID'];
+    }
+    
+    $field_groups = acf_get_field_groups(array(
+        'post_id'	=> $post_id, 
+        'post_type'	=> $post_type
+    ));
+    
+    $hide_block_editor = false;
+    
+    foreach($field_groups as $field_group){
+        
+        $hide_on_screen = acf_get_array($field_group['hide_on_screen']);
+        
+        if(!in_array('block_editor', $hide_on_screen))
+            continue;
+        
+        $hide_block_editor = true;
+        break;
+        
+    }
+    
+    if($hide_block_editor){
+        
+        add_filter('use_block_editor_for_post_type', '__return_false');
         
     }
     
