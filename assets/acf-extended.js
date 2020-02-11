@@ -120,7 +120,8 @@
             
 			$target.removeAttr('style');
             
-			$target.removeClass('-open -small -full');
+			//$target.removeClass('-open -small -medium -full');
+			$target.removeClass('-open');
             
             if(args.destroy){
                 
@@ -196,13 +197,40 @@
             
     });
     
-    acf.addAction('new_field/name=acfe_form_custom_action', function(field){
+    acfe_form_move_instructions_above = function(field){
+        
+        var $instructions = field.$el.find('> .acf-label > .description');
+        
+        field.$el.find('> .acf-input').prepend($instructions);
+            
+    }
+    
+    acfe_form_move_instructions_below = function(field){
         
         var $instructions = field.$el.find('> .acf-label > .description');
         
         field.$el.find('> .acf-input').append($instructions);
             
-    });
+    }
+    
+    acf.addAction('new_field/name=acfe_form_updated_message',   acfe_form_move_instructions_below);
+    acf.addAction('new_field/name=acfe_form_return',            acfe_form_move_instructions_below);
+    
+    acf.addAction('new_field/name=acfe_form_custom_alias',      acfe_form_move_instructions_below);
+    acf.addAction('new_field/name=acfe_form_custom_query_var',  acfe_form_move_instructions_below);
+    
+    acf.addAction('new_field/name=acfe_form_email_content',     acfe_form_move_instructions_below);
+    
+    acf.addAction('new_field/name=acfe_form_custom_action',     acfe_form_move_instructions_below);
+    
+    acf.addAction('new_field/name=acfe_form_post_save_target',  acfe_form_move_instructions_below);
+    acf.addAction('new_field/name=acfe_form_post_load_source',  acfe_form_move_instructions_below);
+    
+    acf.addAction('new_field/name=acfe_form_term_save_target',  acfe_form_move_instructions_below);
+    acf.addAction('new_field/name=acfe_form_term_load_source',  acfe_form_move_instructions_below);
+    
+    acf.addAction('new_field/name=acfe_form_user_save_target',  acfe_form_move_instructions_below);
+    acf.addAction('new_field/name=acfe_form_user_load_source',  acfe_form_move_instructions_below);
     
     acf.addAction('new_field/name=acfe_form_email_files', function(field){
         

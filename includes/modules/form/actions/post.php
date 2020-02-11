@@ -14,7 +14,7 @@ class acfe_form_post{
          */
         add_filter('acfe/form/load/post',                                           array($this, 'load'), 1, 3);
         add_action('acfe/form/prepare/post',                                        array($this, 'prepare'), 1, 3);
-        add_action('acfe/form/submit/post',                                         array($this, 'submit'), 10, 5);
+        add_action('acfe/form/submit/post',                                         array($this, 'submit'), 1, 5);
         
         /*
          * Admin
@@ -87,6 +87,9 @@ class acfe_form_post{
         
         if(!empty($action))
             $_post_id = apply_filters('acfe/form/load/post_id/action=' . $action, $_post_id, $form, $action);
+        
+        // Query Var
+        $_post_id = acfe_form_map_query_var($_post_id);
         
         // Invalid Post ID
         if(!$_post_id)
@@ -325,19 +328,18 @@ class acfe_form_post{
         elseif($post_action === 'update_post'){
             
             // Custom Post ID
-            if($_target !== 'current_post'){
-                
-                $_post_id = $_target;
-            
-            }
+            $_post_id = $_target;
             
             // Current Post
-            elseif($_target === 'current_post'){
+            if($_target === 'current_post'){
                 
                 if($post_info['type'] === 'post')
                     $_post_id = $post_info['id'];
                 
             }
+            
+            // Query Var
+            $_post_id = acfe_form_map_query_var($_post_id);
             
         }
         
@@ -499,11 +501,37 @@ class acfe_form_post{
         do_action('acfe/form/submit/post/form=' . $form_name,  $_post_id, $post_action, $args, $form, $action);
         
         if(!empty($action))
-            $args = do_action('acfe/form/submit/post/action=' . $action, $_post_id, $post_action, $args, $form, $action);
+            do_action('acfe/form/submit/post/action=' . $action, $_post_id, $post_action, $args, $form, $action);
         
     }
     
     function submit($_post_id, $post_action, $args, $form, $action){
+        
+        if(!empty($action)){
+        
+            // Custom Query Var
+            $custom_query_var = get_sub_field('acfe_form_custom_query_var');
+            
+            if(!empty($custom_query_var)){
+                
+                // Form name
+                $form_name = acf_maybe_get($form, 'form_name');
+                
+                // Get post array
+                $post_object = get_post($_post_id, 'ARRAY_A');
+                
+                $post_object['permalink'] = get_permalink($_post_id);
+                $post_object['admin_url'] = admin_url('post.php?post=' . $_post_id . '&action=edit');
+                
+                $post_object = apply_filters('acfe/form/query_var/post',                    $post_object, $_post_id, $post_action, $args, $form, $action);
+                $post_object = apply_filters('acfe/form/query_var/post/form=' . $form_name, $post_object, $_post_id, $post_action, $args, $form, $action);
+                $post_object = apply_filters('acfe/form/query_var/post/action=' . $action,  $post_object, $_post_id, $post_action, $args, $form, $action);
+                
+                set_query_var($action, $post_object);
+            
+            }
+        
+        }
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_post_save_meta');

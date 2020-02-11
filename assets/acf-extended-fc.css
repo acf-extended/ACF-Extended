@@ -2,7 +2,7 @@
  * Flexible: Sortable
  */
 .acf-flexible-content > .values > .ui-sortable-placeholder{
-    height:147px;
+    /*height:147px;*/
     border-width:2px;
     border-color:#ccc;
 }

@@ -30,7 +30,7 @@
         var close = false;
         if(flexible.has('acfeFlexibleCloseButton')){
             
-            close = 'Close';
+            close = acf.__('Close');
         
         }
         

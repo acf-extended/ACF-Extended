@@ -483,39 +483,39 @@ add_action('acf/render_field/name=acfe_data', 'acfe_render_field_group_data');
 function acfe_render_field_group_data($field){
     
     $field_group = acf_get_field_group($field['value']);
+    $field_group_raw = get_post($field_group['ID']);
+    
     if(!$field_group){
+        
         echo '<a href="#" class="button disabled" disabled>' . __('Data') . '</a>';
         return;
+        
     }
     
     echo '<a href="#" class="button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data') . '</a>';
-    echo '<div class="acfe-modal" data-modal-key="' . $field_group['key'] . '"><div style="padding:15px;"><pre>' . print_r($field_group, true) . '</pre></div></div>';
+    echo '<div class="acfe-modal" data-modal-key="' . $field_group['key'] . '"><div style="padding:15px;"><pre style="margin-bottom:15px;">' . print_r($field_group, true) . '</pre><pre>' . print_r($field_group_raw, true) . '</pre></div></div>';
     
 }
 
 /**
  * Hooks: Display title (post edit)
  */
-add_filter('acf/get_field_groups', 'acfe_render_field_groups', 999);
+add_filter('acf/load_field_groups', 'acfe_render_field_groups', 999);
 function acfe_render_field_groups($field_groups){
     
     if(!is_admin())
         return $field_groups;
     
-    $check_current_screen = acf_is_screen(array(
-        'edit-acf-field-group',
-        'acf-field-group',
-        'acf_page_acf-tools'
-    ));
-    
-    if($check_current_screen)
+    if(acfe_is_admin_screen())
         return $field_groups;
     
     foreach($field_groups as &$field_group){
-        if(!isset($field_group['acfe_display_title']) || empty($field_group['acfe_display_title']))
+        
+        if(!acf_maybe_get($field_group, 'acfe_display_title'))
             continue;
         
         $field_group['title'] = $field_group['acfe_display_title'];
+        
     }
     
     return $field_groups;
@@ -525,44 +525,44 @@ function acfe_render_field_groups($field_groups){
 /**
  * Hooks: Permissions (post edit)
  */
-add_filter('acf/get_field_groups', 'acfe_permissions_field_groups', 999);
+add_filter('acf/load_field_groups', 'acfe_permissions_field_groups', 999);
 function acfe_permissions_field_groups($field_groups){
     
     if(!is_admin())
         return $field_groups;
     
-    $check_current_screen = acf_is_screen(array(
-        'edit-acf-field-group',
-        'acf-field-group',
-        'acf_page_acf-tools'
-    ));
-    
-    if($check_current_screen)
+    if(acfe_is_admin_screen())
         return $field_groups;
     
     $current_user_roles = acfe_get_current_user_roles();
     
     foreach($field_groups as $key => $field_group){
-        if(!isset($field_group['acfe_permissions']) || empty($field_group['acfe_permissions']))
+        
+        if(!acf_maybe_get($field_group, 'acfe_permissions'))
             continue;
         
         $render_field_group = false;
         
         foreach($current_user_roles as $current_user_role){
+            
             foreach($field_group['acfe_permissions'] as $field_group_role){
+                
                 if($current_user_role !== $field_group_role)
                     continue;
                 
                 $render_field_group = true;
                 break;
+                
             }
             
             if($render_field_group)
                 break;
+            
         }
         
         if(!$render_field_group)
             unset($field_groups[$key]);
+        
     }
     
     return $field_groups;
@@ -579,15 +579,46 @@ function acfe_field_group_instruction_placement($field){
 }
 
 /**
- * Hooks: Default label placement - Left
+ * Validate field group
  */
 add_filter('acf/validate_field_group', 'acfc_field_group_default_options');
 function acfc_field_group_default_options($field_group){
     
-    if(!isset($field_group['location']) || empty($field_group['location']))
+    // Default label placement: Left
+    if(!acf_maybe_get($field_group, 'location')){
+        
         $field_group['label_placement'] = 'left';
+        
+    }
     
     return $field_group;
+    
+}
+
+/**
+ * Field Group: Hide on screen
+ */
+add_filter('acf/prepare_field/name=hide_on_screen', 'acfc_field_group_hide_on_screen');
+function acfc_field_group_hide_on_screen($field){
+    
+    $choices = array();
+    
+    foreach($field['choices'] as $key => $value){
+        
+        if($key == 'the_content'){
+            
+            $choices['block_editor'] = __('Block Editor');
+            
+        }
+        
+        
+        $choices[$key] = $value;
+        
+    }
+    
+    $field['choices'] = $choices;
+    
+    return $field;
     
 }
 
@@ -595,6 +626,7 @@ add_filter('acf/prepare_field_group_for_export', 'acfc_field_group_export_catego
 function acfc_field_group_export_categories($field_group){
     
     $_field_group = acf_get_field_group($field_group['key']);
+    
     if(empty($_field_group))
         return $field_group;
     
@@ -656,6 +688,55 @@ function acfc_field_group_import_categories($field_group){
             wp_set_post_terms($field_group['ID'], array($new_term_id), 'acf-field-group-category', true);
             
         }
+        
+    }
+    
+}
+
+add_action('load-post.php',		'acfe_field_group_disable_editor');
+add_action('load-post-new.php',	'acfe_field_group_disable_editor');
+function acfe_field_group_disable_editor(){
+    
+    // globals
+    global $typenow;
+    
+    // restrict specific post types
+    $restricted = array('acf-field-group', 'attachment');
+    if( in_array($typenow, $restricted) ) {
+        return;
+    }
+    
+    $post_type = $typenow;
+    $post_id = 0;
+    
+    if ( isset( $_GET['post'] ) ) {
+        $post_id = (int) $_GET['post'];
+    } elseif ( isset( $_POST['post_ID'] ) ) {
+        $post_id = (int) $_POST['post_ID'];
+    }
+    
+    $field_groups = acf_get_field_groups(array(
+        'post_id'	=> $post_id, 
+        'post_type'	=> $post_type
+    ));
+    
+    $hide_block_editor = false;
+    
+    foreach($field_groups as $field_group){
+        
+        $hide_on_screen = acf_get_array($field_group['hide_on_screen']);
+        
+        if(!in_array('block_editor', $hide_on_screen))
+            continue;
+        
+        $hide_block_editor = true;
+        break;
+        
+    }
+    
+    if($hide_block_editor){
+        
+        add_filter('use_block_editor_for_post_type', '__return_false');
         
     }
     

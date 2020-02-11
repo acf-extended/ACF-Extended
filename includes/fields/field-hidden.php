@@ -23,14 +23,7 @@ class acfe_field_hidden extends acf_field{
     function render_field($field){
         
         ?>
-        <style type="text/css">
-        .field_key-<?php echo $field['key']; ?>, 
-        .acf-<?php echo str_replace('_', '-', $field['key']); ?>, 
-        .acf-field-<?php echo str_replace('_', '-', $field['key']); ?>{
-            display: none;
-        }
-        </style>
-        <input type="hidden" name="<?php echo esc_attr($field['name']) ?>" value="<?php echo esc_attr($field['value']) ?>" style="display:none;" />
+        <input type="hidden" name="<?php echo esc_attr($field['name']) ?>" value="<?php echo esc_attr($field['value']) ?>" />
         <?php
         
     }

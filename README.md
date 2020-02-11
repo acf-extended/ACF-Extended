@@ -84,6 +84,9 @@ Display raw field group data in a modal to check your configuration & settings
 * **Custom key**
 Set custom field group key. ie: `group_custom_name`
 
+* **Hide on Screen: Block Editor**
+Choose to disable Block Editor (Gutenberg) on the field group location
+
 * **Advanced settings**
 Enable advanced fields settings & validation based on screen (administration/front-end). See fields advanced settings/validation
 
@@ -158,13 +161,13 @@ Display raw field data in a modal to check your configuration & settings
 ### ACF: Fields
 
 * **Field Clone: Edit in modal**
-Allow users to edit clone fields in a modal
+Allow users to edit clone fields in a modal. Choose the edit button text, display close button and the modal size
 
 * **Field File: Uploader type**
 Choose the uploader type: Basic or native WP uploader
 
 * **Field Group: Edit in modal**
-Allow users to edit group fields in a modal
+Allow users to edit group fields in a modal. Choose the edit button text, display close button and the modal size
 
 * **Field Image: Use as Featured Thumbnail**
 Choose if an image field should be considered as post featured thumbnail
@@ -196,7 +199,7 @@ Switch font family to monospace and allow tab indent
 Display a modern Link Selection in a modal. Post selection can be filtered via post types & taxonomies terms. Add custom fields using `filter('acfe/fields/advanced_link/fields', $fields, $field, $link)`
 
 * **New Field: Button**
-Display a custom submit or button. Built-in ajax call on click. Example available in the field administration
+Display a custom submit or button. Built-in ajax call setting. Usage example available in the field administration
 
 * **New Field: Code Editor**
 Edit code using the native WP Core Codemirror library
@@ -279,7 +282,7 @@ Display all ACF Extended settings in one page.
 
 ### ACF: Dev Mode
 
-View all custom Posts, Terms & Users meta in a readable format
+View all custom Posts, Terms, Users & Options meta in a readable format
 
 * Print Arrays & Json values
 * ACF fields meta are grouped together
@@ -322,12 +325,14 @@ Manage ACF Block Types from ACF > Block Types.
 * Modal Selection Title: Change the layout modal title
 * Modal Selection Columns: Change the layout modal columns grid. 1, 2, 3, 4, 5 or 6 columns available
 * Modal Selection Categories: Add category for each layout in the layout modal
+* Modal Settings: Clone field groups and display them as a layout settings modal
 * Layouts State: Force layouts to be collapsed or opened by default
 * Layouts Collapse: Remove collapse action
+* Layouts: Hide "Add Layout" buttons
+* Layouts: Hide "Remove Layout" buttons. Can also be done using `filter('acfe/flexible/remove_actions/name=my_flexible', true, $field)`
+* Lock Layouts: Disable sortable Layouts. Can also be done using `filter('acfe/flexible/lock/name=my_flexible', true, $field)`
 * Button Label: Supports Dashicons icons elments `<span>`
 * One Click: the 'Add row' button will add a layout without the selection modal if there is only one layout available in the flexible content
-* Lock Flexible Content: Disable sortable layouts using `filter('acfe/flexible/lock/name=my_flexible', true, $field)`
-* Remove Actions Buttons: Remove the action buttons using `filter('acfe/flexible/remove_actions/name=my_flexible', true, $field)`
 * Asynchronous Layouts: Add layouts using Ajax method. This setting increase performance on complex Flexible Content
 * Disable Legacy Layout Title Ajax: Disable the native ACF Layout Title Ajax call on `acf/fields/flexible_content/layout_title`.
 
@@ -376,6 +381,40 @@ function my_acfe_modules(){
 Note: It is possible to revert back to the native ACF save process. To do so, keep the feature enabled, get in the post administration you want to revert back. Disable the feature in your code, and save the post. All data will be saved back to individual meta datas.
 
 ## 📋 Changelog
+
+### 0.8.4.5
+* Field Group: Hide on Screen - Added "Block Editor" (Gutenberg) setting, allowing administrator to disable the block editor on field group location
+* Field Group: Third Party - Fixed Export/Sync Clones fields being processed during the action
+* Field Group: Postbox Seamless CSS class are now added in PHP, which remove the blink during admin page load caused by the class being added in JS
+* Field Group: Raw Data button now also display the WP_Post object
+* Field: Button - Before/After HTML settings are now using code editor
+* Field: Button - Ajax call - Added nominative hooks allowing to target specific field. Hook is now easier. Instructions have been updated
+* Field: Flexible Content - Added "Advanced Flexible Content" setting (ON/OFF). All advanced settings are now hidden by default and depend on that setting to be shown. (Retro compatibility: if any advanced setting has been saved before, this setting will be set to ON)
+* Field: Flexible Content - Added "Clone" button as a setting (Not enabled by default in all flexible content anymore)
+* Field: Flexible Content - Added "Hide: Add Layout Button" setting
+* Field: Flexible Content - Added "Hide: Remove Layout Button" setting
+* Field: Flexible Content - Added "Lock Flexible Content" (sortable) setting
+* Field: Flexible Content - Flexible Content can now be completely locked and all actions removed from the field settings
+* Field: Flexible Content - Layout Settings modal now allow multiple clones
+* Field: Flexible Content - Layout Settings modal size can now be selected for each layout (small/medium/large/extra large/full)
+* Field: Flexible Content - Fixed "Force State: Open" not working correctly in some specific cases
+* Field: Flexible Content - Fixed Modal Selection z-index problem on attachment screen
+* Field: Flexible Content - Fixed Modal Edition z-index problem with button group (when already inside a modal)
+* Field: Flexible Content - Fixed a bug causing duplicated "Layout Setting" & "Layout Title Edition" fields when export/re-importing a field group with flexible content that had this settings
+* Field: Taxonomy Terms - Fixed a PHP notice when "Load Terms" was enabled with "select" as field type
+* Field: Group/Clone - Seamless style CSS fixed in term view
+* Field: Color Picker - Added position relative property when the field is used inside a modal
+* Field: Hidden - Added global CSS style
+* Module: Single Meta Save - Improved save process performance (it's now even faster!)
+* Module: Dynamic Forms - Added `{query_var:var}` template tag in E-mail action, Post Load source, Post Target, Term Load source, Term Target & User Load source, Redirection & Updated Message fields. This will allow user to retrieve a specific `query_var` and use it dynamically
+* Module: Dynamic Forms - `{query_var:var}` template tag also allow to specific key if the value is an array, using the following tag: `{query_var:var:key}`
+* Module: Dynamic Forms - New "Query var" settings on Post, Terms, Users & E-mail actions that generate a custom query var based on the "Action name" after completing the action. For example: Post Action with Action name "my-action" will generate a `query_var` named `my-action` and as value the post data (array) that has been created/updated. This `query_var` can be accessed using `get_query_var('my-action');` or the template tag `{query_var:my-action:ID}` (Post ID), `{query_var:my-action:post_title}` (Post Title), `{query_var:my-action:permalink}` (Post Permalink), `{query_var:my-action:admin_url}` (Post Admin URL)
+* Module: Dynamic Forms - Fixed shortcode not working correctly when using Form ID instead of Form name
+* Module: Dynamic Forms - Actions UI Layouts can now be collapsed
+* Module: Dev Mode - Added Meta Overview for Options Page
+* Module: Options Page - Child Options page are now correctly displayed as child in the Options Page UI
+* General: Modal - Added localization for the "Close" button
+* General: Modal - Added Small/Medium/Large/Extra Large/Full sizes
 
 ### 0.8.4.1
 * General: Fixed loading sequence when `get_field` was called directly in the functions file

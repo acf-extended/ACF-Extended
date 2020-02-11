@@ -100,14 +100,8 @@ class acfe_location_post_type_archive{
     
     function get_options_pages($pages){
         
-        $check_current_screen = acf_is_screen(array(
-            'edit-acf-field-group',
-            'acf-field-group',
-            'acf_page_acf-tools'
-        ));
-        
-        // Bail early if screen is Field Group configuration & Ajax Calls
-        if(!$check_current_screen && !wp_doing_ajax())
+        // Bail early if screen is not Field Group configuration & Ajax Calls
+        if(!acfe_is_admin_screen() && !wp_doing_ajax())
             return $pages;
         
         foreach($pages as $page => $args){

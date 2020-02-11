@@ -238,6 +238,20 @@ function acfe_dop_filter_save($post_id){
     $update_button = get_field('update_button', $post_id);
     $updated_message = get_field('updated_message', $post_id);
     
+    if(empty($menu_title)){
+        
+        $menu_title = $page_title;
+        update_field('menu_title', $menu_title, $post_id);
+        
+    }
+    
+    if(empty($menu_slug)){
+        
+        $menu_slug = sanitize_title($menu_title);
+        update_field('menu_slug', $menu_slug, $post_id);
+        
+    }
+    
     // Register: Args
     $register_args = array(
         'page_title'        => $page_title,
