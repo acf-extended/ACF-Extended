@@ -257,6 +257,9 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
         // Enable filters
         acf_enable_filters();
         
+        // Disable fitler: clone
+        acf_disable_filter('clone');
+        
         foreach($selected as $field_group_key){
             
             $field_group = acf_get_field_group($field_group_key);
