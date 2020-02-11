@@ -115,6 +115,7 @@
     box-shadow:none;
     background:#fff;
     width: 30px;
+    min-height: 30px;
     height: 30px;
     padding:0;
     display:block;
