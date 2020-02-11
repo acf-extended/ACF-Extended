@@ -5,17 +5,6 @@ body.-loading *{
     cursor:wait !important;
 }
 
-/*
- * Postbox seamless
- */
-.acf-postbox.seamless > .inside > .acf-field{
-    padding:15px 12px;
-}
-
-.acf-flexible-content .layout.ui-sortable-helper:first-child + .layout.ui-sortable-placeholder{
-    margin-top:0;
-}
-
 /* 
  * ACF: Field fix
  */
@@ -46,6 +35,13 @@ body.-loading *{
     margin-bottom:10px;
 }
  
+/*
+ * ACF Field: Hidden
+ */
+.acf-field-acfe-hidden{
+    display:none;
+} 
+
 /*
  * ACF Field: Textarea
  */

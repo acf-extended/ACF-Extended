@@ -404,6 +404,7 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 * Field: Taxonomy Terms - Fixed a PHP notice when "Load Terms" was enabled with "select" as field type
 * Field: Group/Clone - Seamless style CSS fixed in term view
 * Field: Color Picker - Added position relative property when the field is used inside a modal
+* Field: Hidden - Added global CSS style
 * Module: Single Meta Save - Improved save process performance (it's now even faster!)
 * Module: Dynamic Forms - Added `{query_var:var}` template tag in E-mail action, Post Load source, Post Target, Term Load source, Term Target & User Load source, Redirection & Updated Message fields. This will allow user to retrieve a specific `query_var` and use it dynamically
 * Module: Dynamic Forms - `{query_var:var}` template tag also allow to specific key if the value is an array, using the following tag: `{query_var:var:key}`
