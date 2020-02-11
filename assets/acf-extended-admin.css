@@ -22,6 +22,17 @@ code, kbd, pre, samp{
     font-size: 1em;
 }
 
+/*
+ * Postbox seamless
+ */
+.acf-postbox.seamless > .inside > .acf-field{
+    padding:15px 12px;
+}
+
+.acf-flexible-content .layout.ui-sortable-helper:first-child + .layout.ui-sortable-placeholder{
+    margin-top:0;
+}
+
 /* 
  * ACFE: Postbox
  */

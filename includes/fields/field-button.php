@@ -20,9 +20,33 @@ class acfe_field_button extends acf_field{
             'button_class' => '',
             'button_id' => '',
         );
+        
+        add_action('wp_ajax_acfe/fields/button',        array($this, 'ajax_request'), 99);
+        add_action('wp_ajax_nopriv_acfe/fields/button', array($this, 'ajax_request'), 99);
 
         parent::__construct();
 
+    }
+    
+    function ajax_request(){
+        
+        /**
+         * @bool/string $_POST['post_id'] Current post ID
+         * @string      $_POST['field_key'] Button's field key
+         * @string      $_POST['field_name'] Button's field name
+         */
+        
+        $field_name = acf_maybe_get_POST('field_name');
+        $field_key = acf_maybe_get_POST('field_key');
+        $post_id = acf_maybe_get_POST('post_id');
+        $field = acf_get_field($field_key);
+        
+        do_action('acfe/fields/button',                     $field, $post_id);
+        do_action('acfe/fields/button/name=' . $field_name, $field, $post_id);
+        do_action('acfe/fields/button/key=' . $field_key,   $field, $post_id);
+        
+        die;
+        
     }
       
     function render_field_settings($field){
@@ -73,7 +97,7 @@ class acfe_field_button extends acf_field{
         acf_render_field_setting($field, array(
             'label'         => __('Before HTML', 'acfe'),
             'instructions'  => __('Custom HTML before the button', 'acfe'),
-            'type'          => 'textarea',
+            'type'          => 'acfe_code_editor',
             'name'          => 'button_before',
             'rows'          => 4,
         ));
@@ -82,7 +106,7 @@ class acfe_field_button extends acf_field{
         acf_render_field_setting($field, array(
             'label'         => __('After HTML', 'acfe'),
             'instructions'  => __('Custom HTML after the button', 'acfe'),
-            'type'          => 'textarea',
+            'type'          => 'acfe_code_editor',
             'name'          => 'button_after',
             'rows'          => 4,
         ));
@@ -98,20 +122,17 @@ class acfe_field_button extends acf_field{
         
         ob_start();
         ?>
-        Write your own Ajax code using the following hook:<br /><br />
+        Write your own Ajax return data using the following hook:<br /><br />
 <pre>
-add_action('wp_ajax_acfe/fields/button', 'my_acf_button_ajax');
-add_action('wp_ajax_nopriv_acfe/fields/button', 'my_acf_button_ajax');
-function my_acf_button_ajax(){
+add_action('acfe/fields/button/name=my_button', 'my_acf_button_ajax', 10, 2);
+function my_acf_button_ajax($field, $post_id){
     
     /**
-     * @bool/string $_POST['post_id'] Current post ID
-     * @string      $_POST['field_key'] Button's field key
-     * @string      $_POST['field_name'] Button's field name
+     * @array       $field      Field array
+     * @bool/string $post_id    Current post ID
      */
     
     echo 'Hello World';
-    die;
     
 }
 </pre>

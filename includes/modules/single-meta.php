@@ -62,6 +62,12 @@ class acfe_single_meta{
         if(!$validate)
             return $value;
         
+        $is_save_post = false;
+        
+        // Submitting acf/save_post
+        if(acf_maybe_get_POST('acf'))
+            $is_save_post = true;
+        
         // Get store
         $store = acf_get_store('acfe/meta');
         
@@ -75,12 +81,12 @@ class acfe_single_meta{
         }else{
             
             // Submitting acf/save_post
-            // Resetting values to empty
-            if(acf_maybe_get_POST('acf')){
+            if($is_save_post){
                 
+                // Resetting values to empty
                 $acf = array();
             
-            // Single update
+            // Single field update
             }else{
             
                 // Get ACF meta
@@ -96,8 +102,12 @@ class acfe_single_meta{
         $acf['_' . $field['name']] = $field['key'];
         $acf[$field['name']] = $value;
         
-        // Save to ACF meta
-        acf_update_metadata($post_id, 'acf', $acf);
+        // Single field update: Save to ACF meta
+        if(!$is_save_post){
+            
+            acf_update_metadata($post_id, 'acf', $acf);
+        
+        }
         
         // Set Store: ACF meta
         $store->set("$post_id:acf", $acf);
@@ -265,36 +275,46 @@ class acfe_single_meta{
      */
     function save_post($post_id = 0){
         
-        if(!acf_maybe_get_POST('acfe_clean_meta'))
+        // Validate Post ID
+        $validate = $this->validate_post_id($post_id);
+        
+        if(!$validate)
             return;
         
-        // $type + $id
-        extract(acf_decode_post_id($post_id));
+        // Check store.
+        $store = acf_get_store('acfe/meta');
         
-        // Exclude option
-        if($type === 'option')
+        // Store found
+        if(!$store->has("$post_id:acf"))
             return;
         
-        $acf = acf_get_metadata($post_id, 'acf');
-        if(empty($acf))
-            return;
+        // Get Store: ACF meta
+        $acf = $store->get("$post_id:acf");
         
-        $meta = acf_get_meta($post_id);
-        if(empty($meta))
-            return;
+        // Save to ACF meta
+        acf_update_metadata($post_id, 'acf', $acf);
         
-        foreach($meta as $key => $value){
+        if(acf_maybe_get_POST('acfe_clean_meta')){
             
-            // bail if reference key does not exist
-            if(!isset($meta["_$key"]))
-                continue;
+            $meta = acf_get_meta($post_id);
             
-            if(isset($acf[$key]))
-                continue;
+            if(empty($meta))
+                return;
             
-            acf_delete_metadata($post_id, $key);
-            acf_delete_metadata($post_id, $key, true);
-            
+            foreach($meta as $key => $value){
+                
+                // bail if reference key does not exist
+                if(!isset($meta["_$key"]))
+                    continue;
+                
+                if(isset($acf[$key]))
+                    continue;
+                
+                acf_delete_metadata($post_id, $key);
+                acf_delete_metadata($post_id, $key, true);
+                
+            }
+        
         }
         
     }

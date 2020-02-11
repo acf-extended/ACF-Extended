@@ -36,8 +36,14 @@ class acfe_dev{
         add_action('show_user_profile', array($this, 'load_user'));
 		add_action('edit_user_profile', array($this, 'load_user'));
         
+        // Admin
+        add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_admin'));
+        
 	}
-
+    
+    /*
+     * Post
+     */
     function load_post(){
         
         global $typenow;
@@ -49,7 +55,7 @@ class acfe_dev{
         
         if(!$this->is_super_dev){
         
-            $restricted = array('acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form');
+            $restricted = array('acf-field-group', 'acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form', 'acfe-template');
             
             if(in_array($post_type, $restricted))
                 return;
@@ -57,10 +63,20 @@ class acfe_dev{
         }
         
         // actions
-        add_action('add_meta_boxes', array($this, 'add_meta_boxes'), 10, 2);
+        add_action('add_meta_boxes', array($this, 'add_post_meta_boxes'), 10, 2);
         
     }
     
+    function add_post_meta_boxes($post_type, $post){
+        
+        // Add Meta Boxes
+        $this->add_meta_boxes(0, $post_type);
+        
+    }
+    
+    /*
+     * Term
+     */
     function load_term(){
         
         $screen = get_current_screen();
@@ -73,22 +89,13 @@ class acfe_dev{
     
     function edit_term($term, $taxonomy){
         
+        // Get Term ID
         $post_id = acf_get_term_post_id($term->taxonomy, $term->term_id);
         
-        $this->get_meta($post_id);
+        // Add Meta Boxes
+        $this->add_meta_boxes($post_id, 'edit-term');
         
-        if(!empty($this->wp_meta)){
-            
-            add_meta_box('acfe-wp-custom-fields', 'WP Custom fields', array($this, 'wp_render_meta_box'), 'edit-term', 'normal', 'low');
-            
-        }
-        
-        if(!empty($this->acf_meta)){
-            
-            add_meta_box('acfe-acf-custom-fields', 'ACF Custom fields', array($this, 'acf_render_meta_box'), 'edit-term', 'normal', 'low');
-            
-        }
-        
+        // Poststuff
         echo '<div id="poststuff">';
         
             do_meta_boxes('edit-term', 'normal', array());
@@ -97,28 +104,22 @@ class acfe_dev{
         
     }
     
+    /*
+     * User
+     */
     function load_user(){
         
+        // Get User ID
         global $user_id;
         $user_id = (int) $user_id;
         
         if(empty($user_id))
             return;
         
-        $this->get_meta('user_' . $user_id);
+        // Add Meta Boxes
+        $this->add_meta_boxes('user_' . $user_id, 'edit-user');
         
-        if(!empty($this->wp_meta)){
-            
-            add_meta_box('acfe-wp-custom-fields', 'WP Custom fields', array($this, 'wp_render_meta_box'), 'edit-user', 'normal', 'low');
-            
-        }
-        
-        if(!empty($this->acf_meta)){
-            
-            add_meta_box('acfe-acf-custom-fields', 'ACF Custom fields', array($this, 'acf_render_meta_box'), 'edit-user', 'normal', 'low');
-            
-        }
-        
+        // Poststuff
         echo '<div id="poststuff">';
         
             do_meta_boxes('edit-user', 'normal', array());
@@ -127,117 +128,44 @@ class acfe_dev{
         
     }
     
-    function user_footer(){
+    /*
+     * Admin
+     */
+    function load_admin($page){
         
-        
+        $this->add_meta_boxes($page['post_id'], 'acf_options_page');
         
     }
     
-    function get_meta($post_id = 0){
+    /*
+     * Add Meta Boxes
+     */
+    function add_meta_boxes($post_id = 0, $object_type){
         
-        if(!$post_id)
-            $post_id = acf_get_valid_post_id();
+        // Get Meta
+        $this->get_meta($post_id);
         
-        if(empty($post_id))
-            return;
-        
-        $info = acf_get_post_id_info($post_id);
-        
-        
-        global $wpdb;
-        
-        // Post
-        if($info['type'] === 'post'){
-            
-            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE post_id = %d ", $info['id']));
-            
-        }
-        
-        // Term
-        elseif($info['type'] === 'term'){
-            
-            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->termmeta WHERE term_id = %d ", $info['id']));
-            
-        }
-        
-        // User
-        elseif($info['type'] === 'user'){
-            
-            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d ", $info['id']));
-            
-        }
-        
-        usort($get_meta, function($a, $b){
-            return strcmp($a->meta_key, $b->meta_key);
-        });
-        
-        if(empty($get_meta))
-            return;
-        
-        $wp_meta = array();
-        
-        foreach($get_meta as $meta){
-            
-            $wp_meta[$meta->meta_key] = $meta->meta_value;
-            
-        }
-        
-        $acf_meta = array();
-        
-        foreach($wp_meta as $key => $value){
-            
-            // ACF Meta
-            if(isset($wp_meta["_$key"])){
-                
-                $field = false;
-                $field_group = false;
-                
-                if(acf_is_field_key($wp_meta["_$key"])){
-                    
-                    $field = acf_get_field($wp_meta["_$key"]);
-                    $field_group = acfe_get_field_group_from_field($field);
-                    
-                }
-                
-                $acf_meta[] = array(
-                    'key'           => "_$key",
-                    'value'         => $wp_meta["_$key"],
-                    'field'         => $field,
-                    'field_group'   => $field_group,
-                );
-                
-                $acf_meta[] = array(
-                    'key'           => $key,
-                    'value'         => $wp_meta[$key],
-                    'field'         => $field,
-                    'field_group'   => $field_group,
-                );
-                
-                unset($wp_meta["_$key"]);
-                unset($wp_meta[$key]);
-                
-            }
-            
-        }
-        
-        $this->wp_meta = $wp_meta;
-        $this->acf_meta = $acf_meta;
-        
-    }
-
-    function add_meta_boxes($post_type, $post){
-        
-        $this->get_meta();
-        
+        // WP Metabox
         if(!empty($this->wp_meta)){
             
-            add_meta_box('acfe-wp-custom-fields', 'WP Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">'.count($this->wp_meta).'</span>', array($this, 'wp_render_meta_box'), $post_type, 'normal', 'low');
+            $id = 'acfe-wp-custom-fields';
+            $title = 'WP Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">' . count($this->wp_meta) . '</span>';
+            $context = 'normal';
+            $priority = 'low';
+            
+            add_meta_box($id, $title, array($this, 'wp_render_meta_box'), $object_type, $context, $priority);
             
         }
         
+        // ACF Metabox
         if(!empty($this->acf_meta)){
             
-            add_meta_box('acfe-acf-custom-fields', 'ACF Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">'.count($this->acf_meta).'</span>', array($this, 'acf_render_meta_box'), $post_type, 'normal', 'low');
+            $id = 'acfe-acf-custom-fields';
+            $title = 'ACF Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">' . count($this->acf_meta) . '</span>';
+            $context = 'normal';
+            $priority = 'low';
+            
+            add_meta_box($id, $title, array($this, 'acf_render_meta_box'), $object_type, $context, $priority);
             
         }
         
@@ -295,12 +223,15 @@ class acfe_dev{
                 <?php foreach($this->acf_meta as $meta){ ?>
                 
                     <?php
+                    
+                    // Field
+                    $field = $meta['field'];
                     $meta_key = $meta['key'];
                     $value = $meta['value'];
                     
-                    $field = $meta['field'];
-                    $field_group = $meta['field_group'];
+                    // Field Group
                     $field_group_display = '<span style="color:#aaa;">' . __('Unknown', 'acf') . '</span>';
+                    $field_group = $meta['field_group'];
                     
                     if($field_group){
                         
@@ -310,8 +241,11 @@ class acfe_dev{
                             
                             $post_status = get_post_status($field_group['ID']);
                             
-                            if($post_status === 'publish')
+                            if($post_status === 'publish' || $post_status === 'acf-disabled'){
+                                
                                 $field_group_display = '<a href="' . admin_url('post.php?post=' . $field_group['ID'] . '&action=edit') . '">' . $field_group['title'] . '</a>';
+                                
+                            }
                             
                         }
                         
@@ -380,6 +314,130 @@ class acfe_dev{
         }
         
         return $return;
+        
+    }
+    
+    function get_meta($post_id = 0){
+        
+        if(!$post_id)
+            $post_id = acf_get_valid_post_id();
+        
+        if(empty($post_id))
+            return;
+        
+        $info = acf_get_post_id_info($post_id);
+        
+        global $wpdb;
+        
+        // Post
+        if($info['type'] === 'post'){
+            
+            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE post_id = %d ", $info['id']));
+            
+        }
+        
+        // Term
+        elseif($info['type'] === 'term'){
+            
+            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->termmeta WHERE term_id = %d ", $info['id']));
+            
+        }
+        
+        // User
+        elseif($info['type'] === 'user'){
+            
+            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d ", $info['id']));
+            
+        }
+        
+        // Option
+        elseif($info['type'] === 'option'){
+            
+            $id = $info['id'];
+            
+            $search = "{$id}_%";
+            $_search = "_{$id}_%";
+            
+            $search = str_replace('_', '\_', $search);
+            $_search = str_replace('_', '\_', $_search);
+            
+            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->options WHERE option_name LIKE %s OR option_name LIKE %s", $search, $_search));
+            
+        }
+        
+        if(empty($get_meta))
+            return;
+        
+        $wp_meta = array();
+        
+        // Post / Term / User
+        if($info['type'] !== 'option'){
+            
+            usort($get_meta, function($a, $b){
+                return strcmp($a->meta_key, $b->meta_key);
+            });
+            
+            foreach($get_meta as $meta){
+                
+                $wp_meta[$meta->meta_key] = $meta->meta_value;
+                
+            }
+        
+        // Option
+        }else{
+            
+            usort($get_meta, function($a, $b){
+                return strcmp($a->option_name, $b->option_name);
+            });
+            
+            foreach($get_meta as $meta){
+                
+                $wp_meta[$meta->option_name] = $meta->option_value;
+                
+            }
+            
+        }
+        
+        $acf_meta = array();
+        
+        foreach($wp_meta as $key => $value){
+            
+            // ACF Meta
+            if(isset($wp_meta["_$key"])){
+                
+                $field = false;
+                $field_group = false;
+                
+                if(acf_is_field_key($wp_meta["_$key"])){
+                    
+                    $field = acf_get_field($wp_meta["_$key"]);
+                    $field_group = acfe_get_field_group_from_field($field);
+                    
+                }
+                
+                $acf_meta[] = array(
+                    'key'           => "_$key",
+                    'value'         => $wp_meta["_$key"],
+                    'field'         => $field,
+                    'field_group'   => $field_group,
+                );
+                
+                $acf_meta[] = array(
+                    'key'           => $key,
+                    'value'         => $wp_meta[$key],
+                    'field'         => $field,
+                    'field_group'   => $field_group,
+                );
+                
+                unset($wp_meta["_$key"]);
+                unset($wp_meta[$key]);
+                
+            }
+            
+        }
+        
+        $this->wp_meta = $wp_meta;
+        $this->acf_meta = $acf_meta;
         
     }
     
