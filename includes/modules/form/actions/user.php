@@ -14,7 +14,7 @@ class acfe_form_user{
          */
         add_filter('acfe/form/load/user',                                           array($this, 'load'), 1, 3);
         add_action('acfe/form/prepare/user',                                        array($this, 'prepare'), 1, 3);
-        add_action('acfe/form/submit/user',                                         array($this, 'submit'), 10, 5);
+        add_action('acfe/form/submit/user',                                         array($this, 'submit'), 1, 5);
         
         /*
          * Admin
@@ -587,24 +587,38 @@ class acfe_form_user{
         do_action('acfe/form/submit/user',                     $_user_id, $user_action, $args, $form, $action);
         do_action('acfe/form/submit/user/form=' . $form_name,  $_user_id, $user_action, $args, $form, $action);
         
-        if(!empty($action)){
-            
+        if(!empty($action))
             do_action('acfe/form/submit/user/action=' . $action, $_user_id, $user_action, $args, $form, $action);
-            
-            // Get post array
-            $user_object = get_userdata($_user_id);
-            
-            $user_json = json_encode($user_object);
-            $user_array = json_decode($user_json, true);
-            
-            // Set Query Var
-            set_query_var($action, $user_array);
-            
-        }
         
     }
     
     function submit($_user_id, $user_action, $args, $form, $action){
+        
+        if(!empty($action)){
+        
+            // Custom Query Var
+            $custom_query_var = get_sub_field('acfe_form_custom_query_var');
+            
+            if(!empty($custom_query_var)){
+                
+                // Form name
+                $form_name = acf_maybe_get($form, 'form_name');
+                
+                // Get user array
+                $user_object = get_userdata($_user_id);
+                
+                $user_json = json_encode($user_object);
+                $user_array = json_decode($user_json, true);
+                
+                $user_array = apply_filters('acfe/form/query_var/user',                    $user_array, $_user_id, $user_action, $args, $form, $action);
+                $user_array = apply_filters('acfe/form/query_var/user/form=' . $form_name, $user_array, $_user_id, $user_action, $args, $form, $action);
+                $user_array = apply_filters('acfe/form/query_var/user/action=' . $action,  $user_array, $_user_id, $user_action, $args, $form, $action);
+                
+                set_query_var($action, $user_array);
+            
+            }
+        
+        }
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_user_save_meta');

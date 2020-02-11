@@ -716,7 +716,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => 'Advanced use. This will allow to target this action specifically with PHP hooks. See "Advanced" tab. Must be unique.<br /><br />If set, it will automatically create a <code>query_var</code> with the name of the action and the result as value.<br />Data can be retrieved using <code>get_query_var(\'my-action\')</code> or <code>{query_var:my-action:key}</code> template tag.',
+                            'instructions' => '(Optional) Advanced usage. Allow the action to be targeted specifically with PHP hooks (must be unique). See "Advanced" tab.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -731,6 +731,34 @@ acf_add_local_field_group(array(
                             'append' => '',
                             'maxlength' => '',
                         ),
+                        array(
+							'key' => 'field_acfe_form_email_custom_query_var',
+							'label' => 'Query var',
+							'name' => 'acfe_form_custom_query_var',
+							'type' => 'true_false',
+							'instructions' => 'Automatically create a query var with the data of the email that has been sent.<br />Retrieve data using <code>{query_var:my-action:subject}</code> template tags.',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array(
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'acfe_permissions' => '',
+							'message' => '',
+							'default_value' => 0,
+							'ui' => 1,
+							'ui_on_text' => '',
+							'ui_off_text' => '',
+                            'conditional_logic' => array(
+								array(
+									array(
+										'field' => 'field_acfe_form_email_custom_alias',
+										'operator' => '!=empty',
+									),
+								),
+							),
+						),
                         array(
                             'key' => 'field_acfe_form_email_from',
                             'label' => 'From',
@@ -795,7 +823,7 @@ acf_add_local_field_group(array(
                             'label' => 'Content',
                             'name' => 'acfe_form_email_content',
                             'type' => 'wysiwyg',
-                            'instructions' => 'Fields values may be included using <code>{field:field_key}</code> <code>{field:title}</code>.<br />All fields may be included using <code>{fields}</code>.<br /><br />You can access posts/terms that were created or updated with actions using query_vars.<br />Available template tags: <code>{query_var:my-post-action:post_title}</code> <code>{query_var:my-post-action:permalink}</code>.',
+                            'instructions' => 'Fields values may be included using <code>{field:field_key}</code> <code>{field:title}</code>.<br />All fields may be included using <code>{fields}</code>.<br /><br />You can access Posts, Terms or Users that were created or updated with actions using query_vars.<br />Available template tags: <code>{query_var:my-post-action:post_title}</code> <code>{query_var:my-post-action:permalink}</code>.',
                             'required' => 1,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -1052,7 +1080,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => 'Advanced use. This will allow to target this action specifically with PHP hooks. See "Advanced" tab. Must be unique.<br /><br />If set, it will automatically create a <code>query_var</code> with the name of the action and the result as value.<br />Data can be retrieved using <code>get_query_var(\'my-action\')</code> or <code>{query_var:my-action:key}</code> template tag.',
+                            'instructions' => '(Optional) Advanced usage. Allow the action to be targeted specifically with PHP hooks (must be unique). See "Advanced" tab.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -1067,6 +1095,34 @@ acf_add_local_field_group(array(
                             'append' => '',
                             'maxlength' => '',
                         ),
+                        array(
+							'key' => 'field_acfe_form_post_custom_query_var',
+							'label' => 'Query var',
+							'name' => 'acfe_form_custom_query_var',
+							'type' => 'true_false',
+							'instructions' => 'Automatically create a query var with the data of the post that has been created/updated.<br />Retrieve data using <code>{query_var:my-action:post_title}</code> <code>{query_var:my-action:permalink}</code> template tags.',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array(
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'acfe_permissions' => '',
+							'message' => '',
+							'default_value' => 0,
+							'ui' => 1,
+							'ui_on_text' => '',
+							'ui_off_text' => '',
+                            'conditional_logic' => array(
+								array(
+									array(
+										'field' => 'field_acfe_form_post_custom_alias',
+										'operator' => '!=empty',
+									),
+								),
+							),
+						),
 						array(
 							'key' => 'field_acfe_form_post_save_target',
 							'label' => 'Target',
@@ -2164,7 +2220,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => 'Advanced use. This will allow to target this action specifically with PHP hooks. See "Advanced" tab. Must be unique.<br /><br />If set, it will automatically create a <code>query_var</code> with the name of the action and the result as value.<br />Data can be retrieved using <code>get_query_var(\'my-action\')</code> or <code>{query_var:my-action:key}</code> template tag.',
+                            'instructions' => '(Optional) Advanced usage. Allow the action to be targeted specifically with PHP hooks (must be unique). See "Advanced" tab.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -2179,6 +2235,34 @@ acf_add_local_field_group(array(
                             'append' => '',
                             'maxlength' => '',
                         ),
+                        array(
+							'key' => 'field_acfe_form_term_custom_query_var',
+							'label' => 'Query var',
+							'name' => 'acfe_form_custom_query_var',
+							'type' => 'true_false',
+							'instructions' => 'Automatically create a query var with the data of the term that has been created/updated.<br />Retrieve data using <code>{query_var:my-action:name}</code> <code>{query_var:my-action:permalink}</code> template tags.',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array(
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'acfe_permissions' => '',
+							'message' => '',
+							'default_value' => 0,
+							'ui' => 1,
+							'ui_on_text' => '',
+							'ui_off_text' => '',
+                            'conditional_logic' => array(
+								array(
+									array(
+										'field' => 'field_acfe_form_term_custom_alias',
+										'operator' => '!=empty',
+									),
+								),
+							),
+						),
 						array(
 							'key' => 'field_acfe_form_term_save_target',
 							'label' => 'Target',
@@ -3029,7 +3113,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => 'Advanced use. This will allow to target this action specifically with PHP hooks. See "Advanced" tab. Must be unique.<br /><br />If set, it will automatically create a <code>query_var</code> with the name of the action and the result as value.<br />Data can be retrieved using <code>get_query_var(\'my-action\')</code> or <code>{query_var:my-action:key}</code> template tag.',
+                            'instructions' => '(Optional) Advanced usage. Allow the action to be targeted specifically with PHP hooks (must be unique). See "Advanced" tab.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -3044,6 +3128,34 @@ acf_add_local_field_group(array(
                             'append' => '',
                             'maxlength' => '',
                         ),
+                        array(
+							'key' => 'field_acfe_form_user_custom_query_var',
+							'label' => 'Query var',
+							'name' => 'acfe_form_custom_query_var',
+							'type' => 'true_false',
+							'instructions' => 'Automatically create a query var with the data of the user that has been created/updated.<br />Retrieve data using <code>{query_var:my-action:display_name}</code> template tags.',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array(
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'acfe_permissions' => '',
+							'message' => '',
+							'default_value' => 0,
+							'ui' => 1,
+							'ui_on_text' => '',
+							'ui_off_text' => '',
+                            'conditional_logic' => array(
+								array(
+									array(
+										'field' => 'field_acfe_form_user_custom_alias',
+										'operator' => '!=empty',
+									),
+								),
+							),
+						),
 						array(
 							'key' => 'field_acfe_form_user_save_target',
 							'label' => 'Target',
