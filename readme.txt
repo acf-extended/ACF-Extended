@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 0.8.4.5
+Stable tag: 0.8.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -682,6 +682,10 @@ function my_acfe_modules(){
 10. ACF Settings
 
 == Changelog ==
+
+= 0.8.4.6 =
+* Field: Taxonomy Terms - Fixed a problem with value return when "Load Terms" was enabled
+* General: Modal - Fixed z-index problem with WP attachment modal
 
 = 0.8.4.5 =
 * Field Group: Hide on Screen - Added "Block Editor" (Gutenberg) setting, allowing administrator to disable the block editor on field group location
