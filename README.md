@@ -382,6 +382,10 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 
 ## 📋 Changelog
 
+### 0.8.4.6
+* Field: Taxonomy Terms - Fixed a problem with value return when "Load Terms" was enabled
+* General: Modal - Fixed z-index problem with WP attachment modal
+
 ### 0.8.4.5
 * Field Group: Hide on Screen - Added "Block Editor" (Gutenberg) setting, allowing administrator to disable the block editor on field group location
 * Field Group: Third Party - Fixed Export/Sync Clones fields being processed during the action
