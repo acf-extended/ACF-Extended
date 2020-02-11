@@ -17,7 +17,7 @@ body.acfe-modal-opened{
     bottom:0;
     height:100%;
     width:100%;
-    z-index:1000000;
+    z-index:100000;
 }
 
 /*
@@ -32,7 +32,7 @@ body.acfe-modal-opened{
 
 .acfe-modal.-open{
     position:fixed;
-    z-index:1000001;
+    z-index:100001;
     height:100%;
     width:100%;
     top:0;
@@ -500,7 +500,7 @@ body:not(.acf-admin-5-3) .acfe-modal.-open .acfe-modal-content .acfe-flex-contai
 }
 
 /*
- * ACFE Modal Gutenberg Fix
+ * ACFE Modal: Gutenberg Fix
  */
 body.block-editor-page .edit-post-layout .acfe-modal.-open{
     -webkit-box-pack: start;
@@ -560,4 +560,19 @@ body.block-editor-page.folded .edit-post-layout.is-sidebar-opened .acfe-modal.-o
 
 body.block-editor-page .acfe-modal-overlay{
     display:none;
+}
+
+/*
+ * ACFE Modal: Attachment Single Fix for Image Field
+ */
+body.wp-admin.upload-php.acfe-modal-opened > div:not([style*="display: none;"]) > .media-modal.wp-core-ui:not(.acf-media-modal):before{
+    content:"";
+    display:block;
+    position:absolute;
+    background:rgba(0,0,0,.7);
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:10000;
 }
