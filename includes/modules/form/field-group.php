@@ -5042,6 +5042,15 @@ acf_add_local_field_group(array(
 							'toggle' => 1,
 							'return_format' => 'value',
 							'save_custom' => 0,
+							'conditional_logic' => array(
+								array(
+									array(
+										'field' => 'field_acfe_form_user_action',
+										'operator' => '!=',
+										'value' => 'log_user',
+									),
+								),
+							),
 						),
 						array(
 							'key' => 'acfe_form_user_tab_load',
