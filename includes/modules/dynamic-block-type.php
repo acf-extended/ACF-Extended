@@ -111,8 +111,9 @@ function acfe_dbt_menu_sub_highlight($submenu_file){
  */
 add_action('init', 'acfe_dbt_registers');
 function acfe_dbt_registers(){
-    
-    $dynamic_block_types = get_option('acfe_dynamic_block_types', array());
+	
+	$dynamic_block_types = acfe_settings('modules.dynamic_block_type.data');
+	
     if(empty($dynamic_block_types))
         return;
     
@@ -288,7 +289,7 @@ function acfe_dbt_filter_save($post_id){
     
         
     // Get ACFE option
-    $option = get_option('acfe_dynamic_block_types', array());
+	$option = acfe_settings('modules.dynamic_block_type.data');
     
     // Create ACFE option
     $option[$name] = $register_args;
@@ -297,7 +298,7 @@ function acfe_dbt_filter_save($post_id){
     ksort($option);
     
     // Update ACFE option
-    update_option('acfe_dynamic_block_types', $option);
+	acfe_settings('modules.dynamic_block_type.data', $option, true);
     
 }
 
@@ -314,14 +315,14 @@ function acfe_dbt_filter_status_trash($post){
     $name = get_field('name', $post_id);
     
     // Get ACFE option
-    $option = get_option('acfe_dynamic_block_types', array());
+	$option = acfe_settings('modules.dynamic_block_type.data');
     
     // Check ACFE option
     if(isset($option[$name]))
         unset($option[$name]);
     
     // Update ACFE option
-    update_option('acfe_dynamic_block_types', $option);
+	acfe_settings('modules.dynamic_block_type.data', $option, true);
     
 }
 
@@ -404,7 +405,7 @@ function acfe_dbt_admin_columns_html($column, $post_id){
     // Name
     if($column == 'name'){
         
-        echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . get_field('name', $post_id) . '</code>';
+        echo '<code style="font-size: 12px;">' . get_field('name', $post_id) . '</code>';
         
     }
     
@@ -448,13 +449,13 @@ function acfe_dbt_admin_columns_html($column, $post_id){
         
         if(!empty($render_template)){
             
-            echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">/' . $render_template . '</code>';
+            echo '<code style="font-size: 12px;">/' . $render_template . '</code>';
             
         }
         
         elseif(!empty($render_callback)){
             
-            echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . $render_callback . '</code>';
+            echo '<code style="font-size: 12px;">' . $render_callback . '</code>';
             
         }
         
