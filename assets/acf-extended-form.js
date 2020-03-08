@@ -13,6 +13,52 @@
         
     });
     
+    // Allow conditions to work within wrapped div
+    acf.newCondition = function( rule, conditions ){
+        
+        // currently setting up conditions for fieldX, this field is the 'target'
+        var target = conditions.get('field');
+        
+        // use the 'target' to find the 'trigger' field. 
+        // - this field is used to setup the conditional logic events
+        
+        // before: var field = target.getField( rule.field );
+        var field = acf.getField( rule.field );
+        
+        // bail ealry if no target or no field (possible if field doesn't exist due to HTML error)
+        if( !target || !field ) {
+            return false;
+        }
+        
+        // vars
+        var args = {
+            rule: rule,
+            target: target,
+            conditions: conditions,
+            field: field
+        };
+        
+        // vars
+        var fieldType = field.get('type');
+        var operator = rule.operator;
+        
+        // get avaibale conditions
+        var conditionTypes = acf.getConditionTypes({
+            fieldType: fieldType,
+            operator: operator,
+        });
+        
+        // instantiate
+        var model = conditionTypes[0] || acf.Condition;
+        
+        // instantiate
+        var condition = new model( args );
+        
+        // return
+        return condition;
+        
+    };
+    
     // Datepicker: Add field class
     acf.addAction('new_field/type=date_picker', function(field){
         

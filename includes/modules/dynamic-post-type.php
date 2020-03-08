@@ -56,8 +56,9 @@ function acfe_dpt_register(){
  */
 add_action('init', 'acfe_dpt_registers');
 function acfe_dpt_registers(){
-    
-    $dynamic_post_types = get_option('acfe_dynamic_post_types', array());
+	
+	$dynamic_post_types = acfe_settings('modules.dynamic_post_type.data');
+
     if(empty($dynamic_post_types))
         return;
     
@@ -114,7 +115,7 @@ function acfe_dpt_misc_actions($post){
 add_action('acf/save_post', 'acfe_dpt_filter_save', 20);
 function acfe_dpt_filter_save($post_id){
     
-    if(get_post_type($post_id) != 'acfe-dpt')
+    if(get_post_type($post_id) !== 'acfe-dpt')
         return;
     
     $title = get_field('label', $post_id);
@@ -277,7 +278,7 @@ function acfe_dpt_filter_save($post_id){
         $register_args['map_meta_cap'] = true;
         
     // Get ACFE option
-    $option = get_option('acfe_dynamic_post_types', array());
+	$option = acfe_settings('modules.dynamic_post_type.data');
     
     // Create ACFE option
     $option[$name] = $register_args;
@@ -286,7 +287,7 @@ function acfe_dpt_filter_save($post_id){
     ksort($option);
     
     // Update ACFE option
-    update_option('acfe_dynamic_post_types', $option);
+	acfe_settings('modules.dynamic_post_type.data', $option, true);
     
     // Flush permalinks
     flush_rewrite_rules();
@@ -306,14 +307,14 @@ function acfe_dpt_filter_status_trash($post){
     $name = get_field('acfe_dpt_name', $post_id);
     
     // Get ACFE option
-    $option = get_option('acfe_dynamic_post_types', array());
+	$option = acfe_settings('modules.dynamic_post_type.data');
     
     // Check ACFE option
     if(isset($option[$name]))
         unset($option[$name]);
     
     // Update ACFE option
-    update_option('acfe_dynamic_post_types', $option);
+	acfe_settings('modules.dynamic_post_type.data', $option, true);
     
     // Flush permalinks
     flush_rewrite_rules();
@@ -527,7 +528,7 @@ function acfe_dpt_admin_columns_html($column, $post_id){
     // Name
     if($column === 'acfe-name'){
         
-        echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . get_field('acfe_dpt_name', $post_id) . '</code>';
+        echo '<code style="font-size: 12px;">' . get_field('acfe_dpt_name', $post_id) . '</code>';
         
     }
     

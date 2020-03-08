@@ -176,7 +176,6 @@ function acfe_render_field_group_settings(){
         ));
         
         // Data
-        
         acf_render_field_wrap(array(
             'label'         => __('Field group data'),
             'instructions'  => __('View raw field group data, for development use'),
@@ -492,7 +491,7 @@ function acfe_render_field_group_data($field){
         
     }
     
-    echo '<a href="#" class="button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data') . '</a>';
+    echo '<a href="#" class="acf-button button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data') . '</a>';
     echo '<div class="acfe-modal" data-modal-key="' . $field_group['key'] . '"><div style="padding:15px;"><pre style="margin-bottom:15px;">' . print_r($field_group, true) . '</pre><pre>' . print_r($field_group_raw, true) . '</pre></div></div>';
     
 }

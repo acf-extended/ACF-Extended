@@ -342,6 +342,37 @@ function acfe_get_field_group_from_field($field){
 }
 
 /**
+ * Add fields isntructions tooltip
+ */
+function acfe_add_fields_instructions_tooltip(&$field){
+	
+	$instructions = acf_esc_html($field['instructions']);
+    
+    if(isset($field['sub_fields'])){
+        
+        foreach($field['sub_fields'] as &$sub_field){
+	
+	        acfe_add_fields_instructions_tooltip($sub_field);
+            
+        }
+        
+    }
+    
+    elseif(isset($field['layouts'])){
+        
+        foreach($field['layouts'] as &$layout){
+	
+	        acfe_add_fields_instructions_tooltip($layout);
+            
+        }
+        
+    }
+    
+    $field['acfe_instructions_tooltip'] = $instructions;
+    
+}
+
+/**
  * Add custom key to fields and all sub fields
  */
 function acfe_field_add_key_recursive(&$field, $key, $value){

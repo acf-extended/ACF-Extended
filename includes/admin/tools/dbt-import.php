@@ -72,8 +72,8 @@ class ACFE_Admin_Tool_Import_DBT extends ACF_Admin_Tool{
     		return acf_add_admin_notice(__("Import file empty", 'acf'), 'warning');
     	
     	$ids = array();
-        
-        $dynamic_block_types = get_option('acfe_dynamic_block_types', array());
+	
+	    $dynamic_block_types = acfe_settings('modules.dynamic_block_type.data');
     	
     	// Loop over json
     	foreach($json as $block_type_name => $args){
@@ -181,7 +181,7 @@ class ACFE_Admin_Tool_Import_DBT extends ACF_Admin_Tool{
             ksort($dynamic_block_types);
             
             // Update ACFE option
-            update_option('acfe_dynamic_block_types', $dynamic_block_types);
+		    acfe_settings('modules.dynamic_block_type.data', $dynamic_block_types, true);
 	    	
 	    	// append message
 	    	$ids[] = $post_id;

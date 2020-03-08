@@ -1136,8 +1136,14 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
             // Category
             if($layout['acfe_flexible_category'] && $field['acfe_flexible_modal']['acfe_flexible_modal_categories']){
-                
-                $span['data-acfe-flexible-category'] = trim($layout['acfe_flexible_category']);
+
+                $categories = $layout['acfe_flexible_category'];
+
+                $categories = explode('|', $categories);
+                $categories = array_map('trim', $categories);
+                $categories = implode('|', $categories);
+
+                $span['data-acfe-flexible-category'] = $categories;
                 
             }
             

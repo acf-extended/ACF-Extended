@@ -90,7 +90,7 @@ function acfe_field_groups_third_party_footer(){
                     
                     <span class="acfe-key">
                         <span style="color:#555;">
-                            <code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;"><?php echo esc_html($key); ?></code>
+                            <code style="font-size: 12px;"><?php echo esc_html($key); ?></code>
                         </span>
                     </span>
                     

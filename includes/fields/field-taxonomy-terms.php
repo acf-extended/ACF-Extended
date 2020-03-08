@@ -42,7 +42,7 @@ class acfe_field_taxonomy_terms extends acf_field{
         add_action('wp_ajax_nopriv_acf/fields/acfe_taxonomy_terms/query',   array($this, 'ajax_query'));
         
         // actions
-        add_action('acf/save_post', array($this, 'save_post'), 15, 1);
+        add_action('acf/save_post',                                         array($this, 'save_post'), 15, 1);
         
         parent::__construct();
         

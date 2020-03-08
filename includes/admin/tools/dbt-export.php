@@ -44,8 +44,8 @@ class ACFE_Admin_Tool_Export_DBT extends ACF_Admin_Tool{
         
         // vars
 		$choices = array();
-        
-        $dynamic_block_types = get_option('acfe_dynamic_block_types', array());
+	
+	    $dynamic_block_types = acfe_settings('modules.dynamic_block_type.data');
         
 		if($dynamic_block_types){
             
@@ -315,8 +315,9 @@ class ACFE_Admin_Tool_Export_DBT extends ACF_Admin_Tool{
         
 		if(!$selected)
             return false;
-        
-        $dynamic_block_types = get_option('acfe_dynamic_block_types', array());
+		
+		$dynamic_block_types = acfe_settings('modules.dynamic_block_type.data');
+		
         if(empty($dynamic_block_types))
             return false;
 		

@@ -504,6 +504,27 @@
         
         // trigger change for validation errors
         this.$input().trigger('change');
+
+        // Fix tabs conditionally hidden
+        var tabs = acf.getFields({
+            type: 'tab',
+            parent: $el,
+        });
+
+        if(tabs.length){
+
+            $.each(tabs, function(){
+
+                if(this.$el.hasClass('acf-hidden')){
+
+                    this.tab.$el.addClass('acf-hidden');
+
+                }
+
+            });
+
+        }
+
         
         // return
         return $el;
@@ -644,7 +665,8 @@
             $input.find('> .acf-input select').removeAttr('tabindex aria-hidden');
             
         });
-        
+
+
         // Clean Tab
         $layout.find('.acf-tab-wrap').each(function(){
             
@@ -652,7 +674,7 @@
             
             var $content = $wrap.closest('.acf-fields');
             
-            var tabs = []
+            var tabs = [];
             $.each($wrap.find('li a'), function(){
                 
                 tabs.push($(this));
@@ -667,7 +689,7 @@
                     
                     var $this = $(this);
                     
-                    if($this.attr('data-key') != $current_tab.attr('data-key'))
+                    if($this.attr('data-key') !== $current_tab.attr('data-key'))
                         return;
                     
                     $current_tab.find('> .acf-input').append($this);

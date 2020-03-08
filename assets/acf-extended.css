@@ -34,6 +34,15 @@ body.-loading *{
 .acf-field.acfe-no-label > .acf-label > p.description{
     margin-bottom:10px;
 }
+
+/*
+ * ACF: Tooltip
+ */
+.acfe-field-tooltip{
+    float:right;
+    font-size:16px;
+    color:#999;
+}
  
 /*
  * ACF Field: Hidden
@@ -292,9 +301,53 @@ tr.acf-field.acf-field-clone[data-acfe-clone-modal="1"] > .acf-input > .acfe-mod
 }
 
 /*
+ * ACF Field: Google Map
+ */
+.acf-range-wrap input[type="number"]{
+    min-width: 3.5em;
+}
+
+/*
+ * ACF Field: Advanced Link
+ */
+.acf-link.-value .acfe-modal-footer .button{
+    display:unset;
+}
+
+/*
+ * ACF Field: Editor
+ */
+.acf-field-wysiwyg[data-acfe-wysiwyg-transparent="1"] .acf-editor-wrap .wp-editor-container,
+.acf-field-wysiwyg[data-acfe-wysiwyg-transparent="1"] .acf-editor-wrap .mce-tinymce,
+.acf-field-wysiwyg[data-acfe-wysiwyg-transparent="1"] .acf-editor-wrap .mce-edit-area{
+    background:transparent;
+}
+
+.acf-editor-wrap iframe{
+    min-height:60px;
+}
+
+.acf-editor-wrap .mce-top-part::before{
+    box-shadow:none;
+}
+
+.acf-editor-wrap div.mce-statusbar{
+    border:0;
+}
+
+.acf-editor-wrap .mce-path-item,
+.acf-editor-wrap .mce-divider{
+    color:#aaa;
+}
+
+/*
  * ACFE Form
  */
 form.acfe-form.is-invalid[data-hide-error="1"] > .acf-error-message.-dismiss{
+    display:none;
+}
+
+form.acfe-form.is-valid[data-hide-revalidation="1"] > .acf-notice.-success{
     display:none;
 }
 
@@ -368,4 +421,23 @@ form.acfe-form.is-invalid[data-errors-position="below"] .acf-field .acf-notice{
 .acf-fields > .acf-field.acf-field-acfe-column[data-columns="6/6"] {
 	width: 100%;
     border-right:0;
+}
+
+/*
+ * ACFE Form: WP Media Modal
+ */
+.acf-media-modal .screen-reader-text,
+.acf-media-modal .screen-reader-text span,
+.acf-media-modal .ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(1px,1px,1px,1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal!important;
 }

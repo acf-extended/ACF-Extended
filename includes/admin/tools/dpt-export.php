@@ -44,8 +44,8 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
         
         // vars
         $choices = array();
-        
-        $dynamic_post_types = get_option('acfe_dynamic_post_types', array());
+	
+	    $dynamic_post_types = acfe_settings('modules.dynamic_post_type.data');
         
         if($dynamic_post_types){
             foreach($dynamic_post_types as $post_type_name => $args){
@@ -309,8 +309,9 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
         
 		if(!$selected)
             return false;
-        
-        $dynamic_post_types = get_option('acfe_dynamic_post_types', array());
+		
+		$dynamic_post_types = acfe_settings('modules.dynamic_post_type.data');
+		
         if(empty($dynamic_post_types))
             return false;
 		

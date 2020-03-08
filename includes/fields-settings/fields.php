@@ -86,24 +86,22 @@ function acfe_fields_wrapper_instructions($fields, $post_id){
     
     $tooltip = false;
     
-    if(isset($fields[0])){
+    if(!isset($fields[0]))
+    	return $fields;
         
-        $field_group = acfe_get_field_group_from_field($fields[0]);
-        
-        if(!$field_group)
-            return $fields;
-        
-        if($field_group['instruction_placement'] === 'acfe_instructions_tooltip'){
-            
-            foreach($fields as &$field){
-                
-                acfe_field_add_key_recursive($field, 'acfe_instructions_tooltip', ($field['instructions'] ? acf_esc_html($field['instructions']) : ''));
-                
-            }
-            
-        }
-        
-    }
+    $field_group = acfe_get_field_group_from_field($fields[0]);
+    
+    if(!$field_group)
+        return $fields;
+    
+    if($field_group['instruction_placement'] !== 'acfe_instructions_tooltip')
+    	return $fields;
+	
+	foreach($fields as &$field){
+		
+		acfe_add_fields_instructions_tooltip($field);
+		
+	}
     
     return $fields;
     

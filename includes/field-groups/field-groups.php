@@ -410,7 +410,7 @@ function hwk_post_type_exemple_row_actions($actions, $post){
     $actions['acfe-export-php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=php&keys=' . $field_group['key']) . '">PHP</a>';
     $actions['acfe-export-json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=json&keys=' . $field_group['key']) . '">Json</a>';
     
-    $actions['acfe-key'] = '<span style="color:#555;"><code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . $field_group['key'] . '</code></span>';
+    $actions['acfe-key'] = '<span style="color:#555;"><code style="font-size: 12px;">' . $field_group['key'] . '</code></span>';
     
     //$actions['acfe-id'] = '<span style="color:#555;">ID: ' . $field_group['ID'] . '</span>';
     

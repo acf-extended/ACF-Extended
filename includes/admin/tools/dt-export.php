@@ -44,8 +44,8 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
         
         // vars
 		$choices = array();
-        
-        $dynamic_taxonomies = get_option('acfe_dynamic_taxonomies', array());
+	
+	    $dynamic_taxonomies = acfe_settings('modules.dynamic_taxonomy.data');
         
 		if($dynamic_taxonomies){
 			foreach($dynamic_taxonomies as $taxonomy_name => $args){
@@ -321,8 +321,9 @@ class ACFE_Admin_Tool_Export_DT extends ACF_Admin_Tool{
         
 		if(!$selected)
             return false;
+		
+		$dynamic_taxonomies = acfe_settings('modules.dynamic_taxonomy.data');
         
-        $dynamic_taxonomies = get_option('acfe_dynamic_taxonomies', array());
         if(empty($dynamic_taxonomies))
             return false;
 		
