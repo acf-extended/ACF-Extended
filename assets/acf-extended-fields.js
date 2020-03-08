@@ -985,17 +985,18 @@ function acfe_recaptcha(){
 
                 var text = state.text;
                 
-                var match_field = /{field:(.*?)}/g;
+                var match_field = /{field:(.*)}/g;
                 var match_fields = /{fields}/g;
-                var match_get_field = /{get_field:(.*?)}/g;
-                var match_query_var = /{query_var:(.*?)}/g;
-                var match_current = /{current:(.*?)}/g;
+                var match_get_field = /{get_field:(.*)}/g;
+                var match_query_var = /{query_var:(.*)}/g;
+                var match_current = /{current:(.*)}/g;
                 
-                text = text.replace(match_field, "<code style='font-size:12px;'>{field:$1}</code>");
-                text = text.replace(match_fields, "<code style='font-size:12px;'>{fields}</code>");
-                text = text.replace(match_get_field, "<code style='font-size:12px;'>{get_field:$1}</code>");
-                text = text.replace(match_query_var, "<code style='font-size:12px;'>{query_var:$1}</code>");
-                text = text.replace(match_current, "<code style='font-size:12px;'>{current:$1}</code>");
+                text = text.replace(match_field, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{field:$1}</code>");
+                text = text.replace(match_fields, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{fields}</code>");
+                text = text.replace(match_current, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{current:$1}</code>");
+                text = text.replace(match_get_field, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{get_field:$1}</code>");
+                text = text.replace(match_query_var, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{query_var:$1}</code>");
+
 
                 return text;
                 

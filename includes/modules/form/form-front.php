@@ -78,32 +78,24 @@ class acfe_form_front{
                 while(have_rows('acfe_form_actions', $form_id)): the_row();
                 
                     $action = get_row_layout();
-                    
-                    // Custom Action
-                    if($action === 'custom'){
-                        
-                        $custom_action = get_sub_field('acfe_form_custom_action');
-                        
-                        do_action('acfe/form/validation/' . $custom_action,                         $form, $post_id);
-                        do_action('acfe/form/validation/' . $custom_action . '/form=' . $form_name, $form, $post_id);
-                        
-                    }
-                    
-                    // ACFE Actions
-                    else{
-                    
-                        $alias = get_sub_field('acfe_form_custom_alias');
-                        
-                        do_action('acfe/form/validation/' . $action,                         $form, $post_id, $alias);
-                        do_action('acfe/form/validation/' . $action . '/form=' . $form_name, $form, $post_id, $alias);
-                        
-                        if(!empty($alias)){
-                            
-                            do_action('acfe/form/validation/' . $action . '/action=' . $alias, $form, $post_id, $alias);
-                            
-                        }
-                    
-                    }
+	                $alias = get_sub_field('acfe_form_custom_alias');
+	
+	                // Custom Action
+	                if($action === 'custom'){
+		
+		                $action = get_sub_field('acfe_form_custom_action');
+		                $alias = '';
+		
+	                }
+	
+	                do_action('acfe/form/validation/' . $action,                         $form, $post_id, $alias);
+	                do_action('acfe/form/validation/' . $action . '/form=' . $form_name, $form, $post_id, $alias);
+	
+	                if(!empty($alias)){
+		
+		                do_action('acfe/form/validation/' . $action . '/action=' . $alias, $form, $post_id, $alias);
+		
+	                }
                 
                 endwhile;
             endif;
@@ -389,23 +381,27 @@ class acfe_form_front{
         // Load
         if(have_rows('acfe_form_actions', $form_id)):
             while(have_rows('acfe_form_actions', $form_id)): the_row();
-            
-                $action = get_row_layout();
-                
-                // Custom Action
-                if($action === 'custom'){
-                    
-                    $action = get_sub_field('acfe_form_custom_action');
-                    
-                }
-                
-                $alias = get_sub_field('acfe_form_custom_alias');
-                
-                if(!empty($alias))
-                    $args = apply_filters('acfe/form/load/action=' . $alias,  $args, $args['post_id']);
-            
-                $args = apply_filters('acfe/form/load/' . $action,                          $args, $args['post_id'], $alias);
-                $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,  $args, $args['post_id'], $alias);
+	
+	            $action = get_row_layout();
+	            
+	            $alias = get_sub_field('acfe_form_custom_alias');
+	
+	            // Custom Action
+	            if($action === 'custom'){
+		
+		            $action = get_sub_field('acfe_form_custom_action');
+		            $alias = '';
+		
+	            }
+	
+	            $args = apply_filters('acfe/form/load/' . $action,                          $args, $args['post_id'], $alias);
+	            $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,  $args, $args['post_id'], $alias);
+	
+	            if(!empty($alias)){
+		
+		            $args = apply_filters('acfe/form/load/action=' . $alias,  $args, $args['post_id']);
+		
+	            }
                 
             endwhile;
         endif;
