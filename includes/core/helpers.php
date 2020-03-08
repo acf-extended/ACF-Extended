@@ -346,7 +346,10 @@ function acfe_get_field_group_from_field($field){
  */
 function acfe_add_fields_instructions_tooltip(&$field){
 	
-	$instructions = acf_esc_html($field['instructions']);
+	$instructions = '';
+	
+	if(acf_maybe_get($field, 'instructions'))
+		$instructions = acf_esc_html($field['instructions']);
     
     if(isset($field['sub_fields'])){
         
@@ -913,4 +916,16 @@ function acfe_is_admin_screen($modules = false){
     
     return false;
     
+}
+
+function acfe_is_dev(){
+	
+	return acf_get_setting('acfe/dev', false) || (defined('ACFE_dev') && ACFE_dev);
+	
+}
+
+function acfe_is_super_dev(){
+	
+	return acf_get_setting('acfe/super_dev', false) || (defined('ACFE_super_dev') && ACFE_super_dev);
+	
 }

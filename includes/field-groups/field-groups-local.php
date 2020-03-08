@@ -17,7 +17,7 @@ function acfe_field_groups_third_party_views($views){
     $class = '';
     
     // active
-    if(acf_maybe_get_GET('post_status') === 'acfe-third-party'){
+    if(acf_maybe_get_GET('post_status') === 'acfe-local'){
         
         // actions
         add_action('admin_footer', 'acfe_field_groups_third_party_footer', 5);
@@ -38,7 +38,7 @@ function acfe_field_groups_third_party_views($views){
     }
     
     // add view
-    $views['acfe-third-party'] = '<a' . $class . ' href="' . admin_url('edit.php?post_type=acf-field-group&post_status=acfe-third-party') . '">' . __('Third party', 'acfe') . ' <span class="count">(' . $total . ')</span></a>';
+    $views['acfe-local'] = '<a' . $class . ' href="' . admin_url('edit.php?post_type=acf-field-group&post_status=acfe-local') . '">' . __('Local', 'acfe') . ' <span class="count">(' . $total . ')</span></a>';
     
     // return
     return $views;
@@ -57,7 +57,7 @@ function acfe_field_groups_third_party_footer(){
     );
 		
     ?>
-    <script type="text/html" id="tmpl-acfe-third-party-tbody">
+    <script type="text/html" id="tmpl-acfe-local-tbody">
     <?php
     
     foreach(acfe_get_third_party_field_groups() as $field_group ): 
@@ -109,7 +109,7 @@ function acfe_field_groups_third_party_footer(){
     (function($){
         
         // update table HTML
-        $('#the-list').html($('#tmpl-acfe-third-party-tbody').html());
+        $('#the-list').html($('#tmpl-acfe-local-tbody').html());
             
     })(jQuery);
     </script>
@@ -128,8 +128,14 @@ function acfe_get_third_party_field_groups(){
     foreach($get_local_field_groups as $field_group){
         
         // Exclude ACFE Field Groups
-        //if(stripos($field_group['key'], 'group_acfe_') === 0)
-        //    continue;
+        
+        if(!acfe_is_super_dev()){
+         
+	        if(stripos($field_group['key'], 'group_acfe_') === 0)
+		        continue;
+          
+        }
+        
         
         $locals[] = $field_group;
         
@@ -175,7 +181,7 @@ function acfe_get_db_field_groups(){
 
 add_filter('bulk_actions-edit-acf-field-group', function($actions){
     
-    if(acf_maybe_get_GET('post_status') === 'acfe-third-party')
+    if(acf_maybe_get_GET('post_status') === 'acfe-local')
         return array();
     
     return $actions;
@@ -184,7 +190,7 @@ add_filter('bulk_actions-edit-acf-field-group', function($actions){
 
 add_filter('manage_edit-acf-field-group_sortable_columns', function($sortable_columns){
     
-    if(acf_maybe_get_GET('post_status') === 'acfe-third-party')
+    if(acf_maybe_get_GET('post_status') === 'acfe-local')
         return array();
     
     return $sortable_columns;

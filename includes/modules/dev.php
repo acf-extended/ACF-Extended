@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 // Check setting
-if((!acf_get_setting('acfe/dev') && (!defined('ACFE_dev') || !ACFE_dev)) && (!acf_get_setting('acfe/super_dev') && (!defined('ACFE_super_dev') || !ACFE_super_dev)))
+if(!acfe_is_dev() && !acfe_is_super_dev())
     return;
 
 if(!class_exists('acfe_dev')):
@@ -14,16 +14,11 @@ class acfe_dev{
     public $wp_meta = array();
     public $acf_meta = array();
     
-    public $is_super_dev = false;
-    
 	function __construct(){
         
         // Script debug
         if(!defined('SCRIPT_DEBUG'))
             define('SCRIPT_DEBUG', true);
-        
-        if(acf_get_setting('acfe/super_dev', false) || (defined('ACFE_super_dev') && ACFE_super_dev))
-            $this->is_super_dev = true;
         
         // Post
         add_action('load-post.php',		array($this, 'load_post'));
@@ -53,7 +48,7 @@ class acfe_dev{
         // Remove WP post meta box
         remove_meta_box('postcustom', false, 'normal');
         
-        if(!$this->is_super_dev){
+        if(!acfe_is_super_dev()){
         
             $restricted = array('acf-field-group', 'acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form', 'acfe-template');
             
@@ -230,7 +225,7 @@ class acfe_dev{
                     $value = $meta['value'];
                     
                     // Field Group
-                    $field_group_display = '<span style="color:#aaa;">' . __('Unknown', 'acf') . '</span>';
+                    $field_group_display = __('Local', 'acf');
                     $field_group = $meta['field_group'];
                     
                     if($field_group){
