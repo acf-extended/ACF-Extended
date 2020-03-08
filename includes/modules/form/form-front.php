@@ -638,6 +638,10 @@ class acfe_form_front{
 			                $filtered = array();
 			
 			                foreach($field_groups as $field_group){
+			                    
+			                    // Deleted field group
+			                    if(!isset($field_group['location']))
+			                        continue;
 				
 				                // Force active
 				                $field_group['active'] = true;

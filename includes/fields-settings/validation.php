@@ -35,7 +35,7 @@ class acfe_field_validation{
             ),
             
             'Is' => array(
-                'is_email'              => 'If is email - is_email(value))',
+                'is_email'              => 'If is email - is_email(value)',
                 'is_user_logged_in'     => 'If is user logged in - is_user_logged_in()',
             ),
             

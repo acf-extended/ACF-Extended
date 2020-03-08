@@ -999,6 +999,10 @@ class acfe_form{
 		
 		        foreach($mapped_field_groups as $field_group){
 			
+			        // Deleted field group
+			        if(!isset($field_group['location']))
+				        continue;
+			
 			        // Force active
 			        $field_group['active'] = true;
 			
