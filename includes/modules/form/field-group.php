@@ -982,6 +982,8 @@ acf_add_local_field_group(array(
                                     'return_format' => 'value',
                                     'ajax' => 0,
                                     'placeholder' => '',
+                                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                                    'allow_custom' => 1,
                                 ),
                             ),
                         ),
@@ -1136,7 +1138,6 @@ acf_add_local_field_group(array(
 							'type' => 'true_false',
 							'instructions' => 'Automatically create a query var with the data of the post that has been created/updated.<br />Retrieve data using <code>{query_var:my-action:post_title}</code> <code>{query_var:my-action:permalink}</code> template tags.',
 							'required' => 0,
-							'conditional_logic' => 0,
 							'wrapper' => array(
 								'width' => '',
 								'class' => '',
