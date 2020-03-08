@@ -1658,6 +1658,9 @@ function my_form_validation($form, $post_id){
         // Add validation error
         acfe_add_validation_error(&apos;my_field&apos;, &apos;Hello is not allowed&apos;);
         
+        // Add general validation error
+        acfe_add_validation_error(&apos;&apos;, &apos;There is an error&apos;);
+        
     }
     
     
