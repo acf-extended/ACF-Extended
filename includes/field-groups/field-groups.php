@@ -63,7 +63,7 @@ function acfe_field_groups_column($columns){
     }
     
     // Fix 'Third party' screen columns
-    elseif(acf_maybe_get_GET('post_status') === 'acfe-third-party'){
+    elseif(acf_maybe_get_GET('post_status') === 'acfe-local'){
         
         $columns = array(
             'title'             => __('Title', 'acf'),
@@ -129,7 +129,7 @@ function acfe_field_groups_column_html($column, $post_id){
         
         else{
             
-            $source = '<span style="color:#aaa;">' . __('Unknown', 'acf') . '</span>';
+            $source = __('Local', 'acf');
             
         }
         

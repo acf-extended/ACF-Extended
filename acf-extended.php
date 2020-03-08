@@ -155,7 +155,7 @@ class ACFE{
         acfe_include('includes/field-groups/field-group.php');
         acfe_include('includes/field-groups/field-group-category.php');
         acfe_include('includes/field-groups/field-groups.php');
-        acfe_include('includes/field-groups/field-groups-third-party.php');
+        acfe_include('includes/field-groups/field-groups-local.php');
         
         /**
          * Locations
