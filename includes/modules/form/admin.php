@@ -750,8 +750,24 @@ class acfe_form{
         
         $choices = array();
         
-        if(!empty($field['choices']))
-            $choices['Generic'] = $field['choices'];
+        if(!empty($field['choices'])){
+	
+	        $generic = true;
+            
+            if(is_array($field['choices']) && count($field['choices']) === 1){
+	
+	            reset($field['choices']);
+	            $key = key($field['choices']);
+	            
+	            if(acf_is_field_key($key))
+	                $generic = false;
+            
+            }
+	        
+            if($generic)
+	            $choices['Generic'] = $field['choices'];
+         
+        }
         
         $fields_choices = $this->get_fields_choices(true, $field);
         
