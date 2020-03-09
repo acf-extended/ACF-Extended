@@ -79,6 +79,128 @@ code{
     display:none;
 }
 
+/*
+ * ACFE: Postbox-left
+ */
+.acfe-postbox-left>.inside {
+    position: relative
+}
+
+.acfe-postbox-left>.inside:after {
+    display: block;
+    clear: both;
+    content: ""
+}
+
+.acfe-postbox-left>.inside.-border {
+    border: #ccd0d4 solid 1px;
+    background: #fff
+}
+
+.acfe-postbox-left>.inside>.acf-field {
+    position: relative;
+    margin: 0;
+    padding: 15px 12px;
+    border-top: #EEEEEE solid 1px
+}
+
+.acfe-postbox-left>.inside>.acf-field:first-child {
+    border-top: none;
+    margin-top: 0
+}
+
+.acfe-postbox-left>.inside.-clear>.acf-field {
+    border: none;
+    padding: 0;
+    margin: 15px 0
+}
+
+.acfe-postbox-left>.inside>.acf-field {
+    padding: 15px 0
+}
+
+.acfe-postbox-left>.inside>.acf-field:after {
+    display: block;
+    clear: both;
+    content: ""
+}
+
+.acfe-postbox-left>.inside>.acf-field:before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 0;
+    background: #F9F9F9;
+    border-color: #E1E1E1;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20%
+}
+
+.acfe-postbox-left>.inside>.acf-field[data-width] {
+    float: none;
+    width: auto !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important
+}
+
+.acfe-postbox-left>.inside>.acf-field>.acf-label {
+    float: left;
+    width: 20%;
+    margin: 0;
+    padding: 0 12px
+}
+
+.acfe-postbox-left>.inside>.acf-field>.acf-input {
+    float: left;
+    width: 80%;
+    margin: 0;
+    padding: 0 12px
+}
+
+html[dir="rtl"] .acfe-postbox-left>.inside>.acf-field:before {
+    border-width: 0 0 0 1px;
+    left: auto;
+    right: 0
+}
+
+html[dir="rtl"] .acfe-postbox-left>.inside>.acf-field>.acf-label {
+    float: right
+}
+
+html[dir="rtl"] .acfe-postbox-left>.inside>.acf-field>.acf-input {
+    float: right
+}
+
+#side-sortables .acfe-postbox-left>.inside>.acf-field:before {
+    display: none
+}
+
+#side-sortables .acfe-postbox-left>.inside>.acf-field>.acf-label {
+    width: 100%;
+    margin-bottom: 10px
+}
+
+#side-sortables .acfe-postbox-left>.inside>.acf-field>.acf-input {
+    width: 100%
+}
+
+@media screen and (max-width: 640px) {
+    .acfe-postbox-left>.inside>.acf-field:before {
+        display: none
+    }
+    .acfe-postbox-left>.inside>.acf-field>.acf-label {
+        width: 100%;
+        margin-bottom: 10px
+    }
+    .acfe-postbox-left>.inside>.acf-field>.acf-input {
+        width: 100%
+    }
+}
+
 /* 
  * ACFE: Dynamic Post Type 'Setting' Button
  */

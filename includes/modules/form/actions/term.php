@@ -20,7 +20,7 @@ class acfe_form_term{
          * Admin
          */
         add_filter('acf/prepare_field/name=acfe_form_term_save_meta',               array(acfe()->acfe_form, 'map_fields'));
-        add_filter('acf/prepare_field/name=acfe_form_term_load_meta',               array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_term_load_meta',               array(acfe()->acfe_form, 'map_fields'));
         
         add_filter('acf/prepare_field/name=acfe_form_term_save_target',             array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_term_load_source',             array(acfe()->acfe_form, 'map_fields_deep'));

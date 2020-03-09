@@ -21,7 +21,7 @@ class acfe_form_user{
          * Admin
          */
         add_filter('acf/prepare_field/name=acfe_form_user_save_meta',               array(acfe()->acfe_form, 'map_fields'));
-        add_filter('acf/prepare_field/name=acfe_form_user_load_meta',               array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_load_meta',               array(acfe()->acfe_form, 'map_fields'));
         
         add_filter('acf/prepare_field/name=acfe_form_user_save_login_user',         array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_save_login_pass',         array(acfe()->acfe_form, 'map_fields_deep'));
@@ -39,9 +39,6 @@ class acfe_form_user{
         add_filter('acf/prepare_field/name=acfe_form_user_save_website',            array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_save_description',        array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_save_role',               array(acfe()->acfe_form, 'map_fields_deep'));
-        
-        add_filter('acf/prepare_field/name=acfe_form_user_map_login_user',          array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_login_pass',          array(acfe()->acfe_form, 'map_fields_deep'));
         
         add_filter('acf/prepare_field/name=acfe_form_user_map_email',               array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_map_username',            array(acfe()->acfe_form, 'map_fields_deep'));
@@ -282,21 +279,16 @@ class acfe_form_user{
         // Form
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
-        
-        // Mapping
-        $map = array(
-            'login' => get_sub_field('acfe_form_user_map_login_user'),
-            'pass'  => get_sub_field('acfe_form_user_map_login_pass'),
-        );
-        
+
         // Fields
-        $fields = array(
+	    $data = array(
             'type'  => get_sub_field('acfe_form_user_log_type'),
             'login' => get_sub_field('acfe_form_user_save_login_user'),
             'pass'  => get_sub_field('acfe_form_user_save_login_pass'),
         );
-        
-        $data = acfe_form_map_vs_fields($map, $fields, $current_post_id, $form);
+	
+	    $data['login'] = acfe_form_map_field_value($data['login'], $current_post_id, $form);
+	    $data['pass'] = acfe_form_map_field_value($data['pass'], $current_post_id, $form);
         
         // Email
         if(!empty($data['login'])){
@@ -419,9 +411,6 @@ class acfe_form_user{
         
         // Mapping
         $map = array(
-            'login_user'    => get_sub_field('acfe_form_user_map_login_user'),
-            'login_pass'    => get_sub_field('acfe_form_user_map_login_pass'),
-            
             'user_email'    => get_sub_field('acfe_form_user_map_email'),
             'user_login'    => get_sub_field('acfe_form_user_map_username'),
             'user_pass'     => get_sub_field('acfe_form_user_map_password'),
@@ -754,7 +743,7 @@ class acfe_form_user{
                     // return array
                     $user = json_decode(json_encode($user_object->data), true);
                     
-                    $user_object_meta = get_user_meta($user_id);
+                    $user_object_meta = get_user_meta($user['ID']);
                     
                     $user_meta = array();
                     

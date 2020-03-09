@@ -482,17 +482,31 @@ function acfe_field_groups_seamless($post_type, $post, $field_groups){
     
     foreach($field_groups as $field_group){
         
-        if($field_group['style'] !== 'seamless')
-            continue;
+        if($field_group['style'] === 'seamless'){
+	
+	        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
+		
+		        $classes[] = 'acf-postbox';
+		        $classes[] = 'seamless';
+		
+		        return $classes;
+		
+	        });
+         
+        }
         
-        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
-            
-            $classes[] = 'seamless';
-            $classes[] = 'acf-postbox';
-            
-            return $classes;
-            
-        });
+        if($field_group['label_placement'] === 'left'){
+	
+	        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
+		
+		        $classes[] = 'acf-postbox';
+		        $classes[] = 'acfe-postbox-left';
+		
+		        return $classes;
+		
+	        });
+         
+        }
         
     }
     
