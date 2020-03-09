@@ -1155,17 +1155,67 @@ function acfe_recaptcha(){
         
         var name = field.get('name');
         var $layout = field.$el.closest('.layout');
-        var $message = $layout.find('.acf-field[data-name="' + name + '_message"] > .acf-input');
-        
+        var $message = $layout.find('> .acf-fields > .acf-field[data-name="' + name + '_message"] > .acf-input');
+
         var selected = field.$input().find('option:selected').text();
         
         if(selected.length){
             $message.html(selected);
         }
+
+        var load_meta = '';
+
+        if(name.indexOf('acfe_form_post_') === 0){
+
+            load_meta = 'acfe_form_post_load_meta';
+
+        }else if(name.indexOf('acfe_form_term_') === 0){
+
+            load_meta = 'acfe_form_term_load_meta';
+
+        }else if(name.indexOf('acfe_form_user_') === 0){
+
+            load_meta = 'acfe_form_user_load_meta';
+
+        }
+
+        if(load_meta.length){
+
+            var $meta_values = $layout.find('> .acf-fields > .acf-field[data-name="' + load_meta + '"]');
+
+        }
+
         
         field.$input().on('change', function(){
+
+            // Message
+            var text = $(this).find('option:selected').text();
             
-            $message.html($(this).find('option:selected').text());
+            $message.html(text);
+
+            // Checboxes
+            if(load_meta.length){
+
+                var val = $(this).find('option:selected').val();
+                var meta_values = acf.getInstance($meta_values);
+
+                if(meta_values){
+
+                    meta_values.$inputs().each(function(){
+
+                        var $this = $(this);
+                        var value = $this.val();
+
+                        if(value !== val)
+                            return;
+
+                        $this.prop("checked", true);
+
+                    });
+
+                }
+
+            }
             
         });
         
@@ -1180,9 +1230,6 @@ function acfe_recaptcha(){
     acf.addAction('new_field/name=acfe_form_post_map_post_author',  acfe_form_map_fields);
     acf.addAction('new_field/name=acfe_form_post_map_post_parent',  acfe_form_map_fields);
     acf.addAction('new_field/name=acfe_form_post_map_post_terms',   acfe_form_map_fields);
-    
-    acf.addAction('new_field/name=acfe_form_user_map_login_user',   acfe_form_map_fields);
-    acf.addAction('new_field/name=acfe_form_user_map_login_pass',   acfe_form_map_fields);
     
     acf.addAction('new_field/name=acfe_form_user_map_email',        acfe_form_map_fields);
     acf.addAction('new_field/name=acfe_form_user_map_username',     acfe_form_map_fields);
@@ -1251,5 +1298,43 @@ function acfe_recaptcha(){
         });
         
     });
-    
+
+    var acfe_tab_forget_tab_preference = function(field){
+
+        var $tabs = field.findTabs();
+        var tabs = acf.getInstances($tabs);
+        var key = field.get('key');
+
+        if(tabs.length){
+
+            var preference = acf.getPreference('this.tabs');;
+
+            $.each(tabs, function(){
+
+                var group = this;
+                var groupIndex = group.get('index');
+
+                if(group.data.key === key){
+                    preference[groupIndex] = 0;
+                }
+
+            });
+
+            // update
+            acf.setPreference('this.tabs', preference);
+
+        }
+
+    };
+
+    acf.addAction('prepare_field/key=field_acfe_form_custom_action_tab_action', acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_email_tab_action', acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_post_tab_action', acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_term_tab_action', acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_user_tab_action', acfe_tab_forget_tab_preference);
+
+    acf.addAction('show_postbox', function(postbox){
+        postbox.$el.removeClass('acfe-postbox-left');
+    });
+
 })(jQuery);

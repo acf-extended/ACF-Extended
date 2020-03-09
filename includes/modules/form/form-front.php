@@ -544,16 +544,14 @@ class acfe_form_front{
         }
         
         // uploader (always set incase of multiple forms on the page)
+	    acf_disable_filter('acfe/form/uploader');
+        
         if($args['uploader'] !== 'default'){
 	
 	        acf_enable_filter('acfe/form/uploader');
 	        
 	        acf_update_setting('uploader', $args['uploader']);
          
-        }else{
-	
-	        acf_disable_filter('acfe/form/uploader');
-        	
         }
         
         // display form

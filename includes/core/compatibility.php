@@ -124,7 +124,7 @@ class acfe_compatibility{
 	 */
     function field_seamless_style($field){
         
-        if($seamless = acf_maybe_get($field, 'acfe_seamless_style', false)){
+        if($seamless = acf_maybe_get($field, 'acfe_seemless_style', false)){
             
             $field['acfe_seamless_style'] = $seamless;
             
