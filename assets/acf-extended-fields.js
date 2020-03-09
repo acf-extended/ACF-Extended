@@ -1307,7 +1307,10 @@ function acfe_recaptcha(){
 
         if(tabs.length){
 
-            var preference = acf.getPreference('this.tabs');;
+            var preference = acf.getPreference('this.tabs');
+
+            if(!preference)
+                return;
 
             $.each(tabs, function(){
 
