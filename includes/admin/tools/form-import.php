@@ -74,41 +74,28 @@ class ACFE_Admin_Tool_Import_Form extends ACF_Admin_Tool{
     	$ids = array();
     	
     	// Loop over json
-    	foreach($json as $form_name => $args){
+    	foreach($json as $args){
             
             // Check if already exists
-            if(get_page_by_path($form_name, OBJECT, 'acfe-form')){
+            if(get_page_by_path($args['acfe_form_name'], OBJECT, 'acfe-form')){
                 
                 acf_add_admin_notice(__("Form {$args['title']} already exists. Import aborted."), 'warning');
+                
                 continue;
                 
             }
             
-            // Vars
-            $title = acf_extract_var($args, 'title');
-            $name = $form_name;
-            
-            // Insert post
-            $post_id = wp_insert_post(array(
-                'post_title'    => $title,
-                'post_name'     => $name,
-                'post_type'     => 'acfe-form',
-                'post_status'   => 'publish'
-            ));
-            
-            // Insert error
-            if(is_wp_error($post_id)){
-                
-                acf_add_admin_notice(__("Something went wrong with the form {$title}. Import aborted."), 'warning');
-                continue;
-                
-            }
-            
-            acf_enable_filter('local');
-            
-            acf_update_values($args, $post_id);
-            
-            acf_disable_filter('local');
+            // Import
+		    $post_id = $this->import($args);
+		
+		    // Insert error
+		    if(!$post_id){
+			
+			    acf_add_admin_notice(__("Something went wrong with the form {$args['title']}. Import aborted."), 'warning');
+			    
+			    continue;
+			
+		    }
             
 	    	// append message
 	    	$ids[] = $post_id;
@@ -137,13 +124,56 @@ class ACFE_Admin_Tool_Import_Form extends ACF_Admin_Tool{
 		// Add notice
 		acf_add_admin_notice($text, 'success');
         
-        // Flush permalinks
-        flush_rewrite_rules();
-        
     }
+    
+    function import($args){
+	
+	    // Vars
+	    $title = acf_extract_var($args, 'title');
+	    $name = $args['acfe_form_name'];
+	
+	    // Insert post
+	    $post_id = wp_insert_post(array(
+		    'post_title'    => $title,
+		    'post_name'     => $name,
+		    'post_type'     => 'acfe-form',
+		    'post_status'   => 'publish'
+	    ));
+	
+	    // Insert error
+	    if(is_wp_error($post_id))
+	    	return false;
+	
+	    acf_enable_filter('local');
+	    
+	    // Import Compatibility
+	    $args = $this->import_compatibility($args);
+	    
+	    // Update Values
+	    acf_update_values($args, $post_id);
+	
+	    acf_disable_filter('local');
+	    
+	    return $post_id;
+    	
+    }
+
+	function import_compatibility($args){
+    	
+    	// ACF Extended: 0.8.5 Compatibility
+		
+ 
+	}
     
 }
 
 acf_register_admin_tool('ACFE_Admin_Tool_Import_Form');
 
 endif;
+
+function acfe_import_dynamic_form(){
+	
+	// Instance
+	return acf()->admin_tools->get_tool('ACFE_Admin_Tool_Import_Form');
+ 
+}

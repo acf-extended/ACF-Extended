@@ -68,16 +68,20 @@ class acfe_form_user{
         
         // Action
         $user_action = get_sub_field('acfe_form_user_action');
+	
+	    // Bail early if Log user
+	    if($user_action === 'log_user')
+		    return $form;
         
         // Load values
         $load_values = get_sub_field('acfe_form_user_load_values');
-        $load_source = get_sub_field('acfe_form_user_load_source');
         $load_meta = get_sub_field('acfe_form_user_load_meta');
         
         // Load values
         if(!$load_values)
             return $form;
-        
+	
+	    $_user_id = get_sub_field('acfe_form_user_load_source');
         $_email = get_sub_field('acfe_form_user_map_email');
         $_username = get_sub_field('acfe_form_user_map_username');
         $_password = get_sub_field('acfe_form_user_map_password');
@@ -89,10 +93,18 @@ class acfe_form_user{
         $_description = get_sub_field('acfe_form_user_map_description');
         $_role = get_sub_field('acfe_form_user_map_role');
         
-        $_user_id = $load_source;
-        
         // Map {field:name} {get_field:name} {query_var:name}
         $_user_id = acfe_form_map_field_value($_user_id, $current_post_id, $form);
+	    $_email = acfe_form_map_field_value($_email, $current_post_id, $form);
+	    $_username = acfe_form_map_field_value($_username, $current_post_id, $form);
+	    $_password = acfe_form_map_field_value($_password, $current_post_id, $form);
+	    $_first_name = acfe_form_map_field_value($_first_name, $current_post_id, $form);
+	    $_last_name = acfe_form_map_field_value($_last_name, $current_post_id, $form);
+	    $_nickname = acfe_form_map_field_value($_nickname, $current_post_id, $form);
+	    $_display_name = acfe_form_map_field_value($_display_name, $current_post_id, $form);
+	    $_website = acfe_form_map_field_value($_website, $current_post_id, $form);
+	    $_description = acfe_form_map_field_value($_description, $current_post_id, $form);
+	    $_role = acfe_form_map_field_value($_role, $current_post_id, $form);
         
         $_user_id = apply_filters('acfe/form/load/user_id',                      $_user_id, $form, $action);
         $_user_id = apply_filters('acfe/form/load/user_id/form=' . $form_name,   $_user_id, $form, $action);
@@ -115,12 +127,10 @@ class acfe_form_user{
             
             $key = array_search($_email, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_email]['value'] = $user_data->user_email;
-                
-            }
+	
+	        $form['map'][$_email]['value'] = $user_data->user_email;
             
         }
         
@@ -129,13 +139,11 @@ class acfe_form_user{
             
             $key = array_search($_username, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_username]['value'] = $user_data->user_login;
-                $form['map'][$_username]['maxlength'] = 60;
-                
-            }
+	
+	        $form['map'][$_username]['value'] = $user_data->user_login;
+	        $form['map'][$_username]['maxlength'] = 60;
             
         }
         
@@ -144,12 +152,10 @@ class acfe_form_user{
             
             $key = array_search($_password, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                //$form['map'][$_password]['value'] = $user_data->user_pass;
-                
-            }
+	
+	        //$form['map'][$_password]['value'] = $user_data->user_pass;
             
         }
         
@@ -158,12 +164,10 @@ class acfe_form_user{
             
             $key = array_search($_first_name, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_first_name]['value'] = $user_data->first_name;
-                
-            }
+	
+	        $form['map'][$_first_name]['value'] = $user_data->first_name;
             
         }
         
@@ -172,12 +176,10 @@ class acfe_form_user{
             
             $key = array_search($_last_name, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_last_name]['value'] = $user_data->last_name;
-                
-            }
+	
+	        $form['map'][$_last_name]['value'] = $user_data->last_name;
             
         }
         
@@ -186,12 +188,10 @@ class acfe_form_user{
             
             $key = array_search($_nickname, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_nickname]['value'] = $user_data->nickname;
-                
-            }
+	
+	        $form['map'][$_nickname]['value'] = $user_data->nickname;
             
         }
         
@@ -200,12 +200,10 @@ class acfe_form_user{
             
             $key = array_search($_display_name, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_display_name]['value'] = $user_data->display_name;
-                
-            }
+	
+	        $form['map'][$_display_name]['value'] = $user_data->display_name;
             
         }
         
@@ -214,12 +212,10 @@ class acfe_form_user{
             
             $key = array_search($_website, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_website]['value'] = $user_data->website;
-                
-            }
+	
+	        $form['map'][$_website]['value'] = $user_data->website;
             
         }
         
@@ -228,12 +224,10 @@ class acfe_form_user{
             
             $key = array_search($_description, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_description]['value'] = $user_data->description;
-                
-            }
+	
+	        $form['map'][$_description]['value'] = $user_data->description;
             
         }
         
@@ -242,12 +236,10 @@ class acfe_form_user{
             
             $key = array_search($_role, $load_meta);
             
-            if($key !== false){
-                
+            if($key !== false)
                 unset($load_meta[$key]);
-                $form['map'][$_role]['value'] = implode(', ', $user_data->roles);
-                
-            }
+	
+	        $form['map'][$_role]['value'] = implode(', ', $user_data->roles);
             
         }
         
@@ -400,6 +392,9 @@ class acfe_form_user{
         
         // Action
         $user_action = get_sub_field('acfe_form_user_action');
+	
+	    // Load values
+	    $load_values = get_sub_field('acfe_form_user_load_values');
         
         // Pre-process
         $_description_group = get_sub_field('acfe_form_user_save_description_group');
@@ -408,20 +403,26 @@ class acfe_form_user{
         
         if($_description === 'custom')
             $_description = $_description_custom;
-        
-        // Mapping
-        $map = array(
-            'user_email'    => get_sub_field('acfe_form_user_map_email'),
-            'user_login'    => get_sub_field('acfe_form_user_map_username'),
-            'user_pass'     => get_sub_field('acfe_form_user_map_password'),
-            'first_name'    => get_sub_field('acfe_form_user_map_first_name'),
-            'last_name'     => get_sub_field('acfe_form_user_map_last_name'),
-            'nickname'      => get_sub_field('acfe_form_user_map_nickname'),
-            'display_name'  => get_sub_field('acfe_form_user_map_display_name'),
-            'user_url'      => get_sub_field('acfe_form_user_map_website'),
-            'description'   => get_sub_field('acfe_form_user_map_description'),
-            'role'          => get_sub_field('acfe_form_user_map_role'),
-        );
+	
+	    $map = array();
+	
+	    if($load_values){
+		
+		    // Mapping
+		    $map = array(
+			    'user_email'   => get_sub_field( 'acfe_form_user_map_email' ),
+			    'user_login'   => get_sub_field( 'acfe_form_user_map_username' ),
+			    'user_pass'    => get_sub_field( 'acfe_form_user_map_password' ),
+			    'first_name'   => get_sub_field( 'acfe_form_user_map_first_name' ),
+			    'last_name'    => get_sub_field( 'acfe_form_user_map_last_name' ),
+			    'nickname'     => get_sub_field( 'acfe_form_user_map_nickname' ),
+			    'display_name' => get_sub_field( 'acfe_form_user_map_display_name' ),
+			    'user_url'     => get_sub_field( 'acfe_form_user_map_website' ),
+			    'description'  => get_sub_field( 'acfe_form_user_map_description' ),
+			    'role'         => get_sub_field( 'acfe_form_user_map_role' ),
+		    );
+		
+	    }
         
         // Fields
         $fields = array(
