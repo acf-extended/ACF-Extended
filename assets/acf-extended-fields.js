@@ -1162,60 +1162,13 @@ function acfe_recaptcha(){
         if(selected.length){
             $message.html(selected);
         }
-
-        var load_meta = '';
-
-        if(name.indexOf('acfe_form_post_') === 0){
-
-            load_meta = 'acfe_form_post_load_meta';
-
-        }else if(name.indexOf('acfe_form_term_') === 0){
-
-            load_meta = 'acfe_form_term_load_meta';
-
-        }else if(name.indexOf('acfe_form_user_') === 0){
-
-            load_meta = 'acfe_form_user_load_meta';
-
-        }
-
-        if(load_meta.length){
-
-            var $meta_values = $layout.find('> .acf-fields > .acf-field[data-name="' + load_meta + '"]');
-
-        }
-
         
         field.$input().on('change', function(){
 
             // Message
             var text = $(this).find('option:selected').text();
-            
+
             $message.html(text);
-
-            // Checboxes
-            if(load_meta.length){
-
-                var val = $(this).find('option:selected').val();
-                var meta_values = acf.getInstance($meta_values);
-
-                if(meta_values){
-
-                    meta_values.$inputs().each(function(){
-
-                        var $this = $(this);
-                        var value = $this.val();
-
-                        if(value !== val)
-                            return;
-
-                        $this.prop("checked", true);
-
-                    });
-
-                }
-
-            }
             
         });
         

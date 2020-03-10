@@ -1794,7 +1794,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_save_meta',
-							'label' => 'Save Meta fields',
+							'label' => 'Save ACF fields',
 							'name' => 'acfe_form_post_save_meta',
 							'type' => 'checkbox',
 							'instructions' => 'Choose which ACF fields should be saved to this post',
@@ -2174,10 +2174,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_post_load_meta',
-							'label' => 'Fields Values',
+							'label' => 'Load ACF fields',
 							'name' => 'acfe_form_post_load_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should have values filled',
+							'instructions' => 'Choose which ACF fields should have their values loaded',
 							'required' => 0,
 							'conditional_logic' => array(
 								array(
@@ -2767,7 +2767,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_save_meta',
-							'label' => 'Save Meta fields',
+							'label' => 'Save ACF fields',
 							'name' => 'acfe_form_term_save_meta',
 							'type' => 'checkbox',
 							'instructions' => 'Choose which ACF fields should be saved to this term',
@@ -3041,10 +3041,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_term_load_meta',
-							'label' => 'Fields Values',
+							'label' => 'Load ACF fields',
 							'name' => 'acfe_form_term_load_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should have values filled',
+							'instructions' => 'Choose which ACF fields should have their values loaded',
 							'required' => 0,
 							'conditional_logic' => array(
 								array(
@@ -4209,7 +4209,7 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_save_meta',
-							'label' => 'Save Meta fields',
+							'label' => 'Save ACF fields',
 							'name' => 'acfe_form_user_save_meta',
 							'type' => 'checkbox',
 							'instructions' => 'Choose which ACF fields should be saved to this user',
@@ -4798,10 +4798,10 @@ acf_add_local_field_group(array(
 						),
 						array(
 							'key' => 'field_acfe_form_user_load_meta',
-							'label' => 'Fields Values',
+							'label' => 'Load ACF fields',
 							'name' => 'acfe_form_user_load_meta',
 							'type' => 'checkbox',
-							'instructions' => 'Choose which ACF fields should have values filled',
+							'instructions' => 'Choose which ACF fields should have their values loaded',
 							'required' => 0,
 							'conditional_logic' => array(
 								array(

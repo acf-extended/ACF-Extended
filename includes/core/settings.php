@@ -8,8 +8,6 @@ class acfe_settings{
 
 	public $settings = array();
 	
-	public $option = array();
-	
 	public $model = array(
 		
 		// Version
@@ -20,32 +18,22 @@ class acfe_settings{
 			
 			'author' => array(
 				'enabled' => true,
-				'settings' => array(),
-				'data' => array()
 			),
 			
 			'dev' => array(
 				'enabled' => false,
-				'settings' => array(),
-				'data' => array()
 			),
 			
 			'meta' => array(
 				'enabled' => false,
-				'settings' => array(),
-				'data' => array()
 			),
 			
 			'option' => array(
 				'enabled' => true,
-				'settings' => array(),
-				'data' => array()
 			),
 			
 			'taxonomy' => array(
 				'enabled' => true,
-				'settings' => array(),
-				'data' => array()
 			),
 			
 			'dynamic_block_type' => array(
@@ -100,13 +88,17 @@ class acfe_settings{
 
 	function __construct(){
 		
-		$this->option = get_option('acfe', array());
+		$option = get_option('acfe', array());
 
 		$this->settings = acf_get_store('acfe/settings');
 		
-		$this->settings->set($this->option);
-		
-		if(empty($this->option)){
+		if(!empty($option)){
+			
+			$this->settings->set($option);
+			
+			$this->version();
+			
+		}else{
 			
 			$this->reset();
 			
@@ -275,13 +267,23 @@ class acfe_settings{
 	
 	function reset(){
 		
-		$model = $this->model;
+		$this->set('', $this->model, true);
 		
-		update_option('acfe', $model, 'true');
+	}
+	
+	function version(){
 		
-		$this->option = $model;
+		$version = $this->get('version');
 		
-		$this->settings->set($model);
+		if(!$version || acf_version_compare($version, '<', ACFE_VERSION)){
+			
+			$new_model = $this->parse_args_r($this->get(), $this->model);
+			
+			$new_model['version'] = ACFE_VERSION;
+			
+			$this->set('', $new_model, true);
+			
+		}
 		
 	}
 	
@@ -290,6 +292,26 @@ class acfe_settings{
 		$settings = $this->settings->get();
 		
 		update_option('acfe', $settings, 'true');
+		
+	}
+	
+	function parse_args_r(&$a, $b){
+		
+		$a = (array) $a;
+		$b = (array) $b;
+		$r = $b;
+		
+		foreach($a as $k => &$v){
+			
+			if(is_array($v) && isset($r[ $k ])){
+				$r[$k] = $this->parse_args_r($v, $r[ $k ]);
+			}else{
+				$r[$k] = $v;
+			}
+			
+		}
+		
+		return $r;
 		
 	}
 
