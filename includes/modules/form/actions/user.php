@@ -40,16 +40,16 @@ class acfe_form_user{
         add_filter('acf/prepare_field/name=acfe_form_user_save_description',        array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_save_role',               array(acfe()->acfe_form, 'map_fields_deep'));
         
-        add_filter('acf/prepare_field/name=acfe_form_user_map_email',               array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_username',            array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_password',            array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_first_name',          array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_last_name',           array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_nickname',            array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_display_name',        array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_website',             array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_description',         array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_user_map_role',                array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_email',               array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_username',            array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_password',            array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_first_name',          array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_last_name',           array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_nickname',            array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_display_name',        array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_website',             array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_description',         array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_user_map_role',                array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
         
         add_filter('acf/prepare_field/name=acfe_form_user_save_target',             array($this, 'prepare_choices'), 5);
         add_filter('acf/prepare_field/name=acfe_form_user_load_source',             array($this, 'prepare_choices'), 5);

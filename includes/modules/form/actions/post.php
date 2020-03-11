@@ -34,14 +34,14 @@ class acfe_form_post{
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_parent',        array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_terms',         array(acfe()->acfe_form, 'map_fields_deep'));
         
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_type',           array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_status',         array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_title',          array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_name',           array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_content',        array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_author',         array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_parent',         array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_post_map_post_terms',          array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_type',           array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_status',         array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_title',          array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_name',           array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_content',        array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_author',         array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_parent',         array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_terms',          array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
         
         add_filter('acf/prepare_field/name=acfe_form_post_save_target',             array($this, 'prepare_choices'), 5);
         add_filter('acf/prepare_field/name=acfe_form_post_load_source',             array($this, 'prepare_choices'), 5);

@@ -37,7 +37,6 @@ class acfe_form{
         add_filter('acf/load_value/name=acfe_form_custom_html_enable',              array($this, 'prepare_custom_html'), 10, 3);
         add_filter('acf/prepare_field/name=acfe_form_actions',                      array($this, 'prepare_actions'));
         add_filter('acf/prepare_field/name=acfe_form_field_groups',                 array($this, 'field_groups_choices'));
-        add_filter('acf/prepare_field/name=acfe_form_email_files',                  array($this, 'prepare_email_files'));
         
         // Format values
         add_filter('acfe/form/format_value/type=post_object',                       array($this, 'format_value_post_object'), 5, 4);
@@ -733,18 +732,41 @@ class acfe_form{
         return $field;
         
     }
-    
-    function prepare_email_files($field){
-        
-        $data = $this->fields_groups;
-        
-        if(empty($data))
-            return false;
-        
-        return $field;
-        
-    }
-    
+	
+	function map_fields_deep_no_custom($field){
+		
+		$choices = array();
+		
+		if(!empty($field['choices'])){
+			
+			$generic = true;
+			
+			if(is_array($field['choices']) && count($field['choices']) === 1){
+				
+				reset($field['choices']);
+				$key = key($field['choices']);
+				
+				if(acf_is_field_key($key))
+					$generic = false;
+				
+			}
+			
+			if($generic)
+				$choices['Generic'] = $field['choices'];
+			
+		}
+		
+		$fields_choices = $this->get_fields_choices(true, $field);
+		
+		if(!empty($fields_choices)){
+			
+			$field['choices'] = array_merge($choices, $fields_choices);
+			
+		}
+		
+		return $field;
+		
+	}
     
     function map_fields_deep($field){
         

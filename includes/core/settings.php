@@ -17,51 +17,51 @@ class acfe_settings{
 		'modules' => array(
 			
 			'author' => array(
-				'enabled' => true,
+				'active' => true,
 			),
 			
 			'dev' => array(
-				'enabled' => false,
+				'active' => false,
 			),
 			
 			'meta' => array(
-				'enabled' => false,
+				'active' => false,
 			),
 			
 			'option' => array(
-				'enabled' => true,
+				'active' => true,
 			),
 			
 			'taxonomy' => array(
-				'enabled' => true,
+				'active' => true,
 			),
 			
 			'dynamic_block_type' => array(
-				'enabled' => true,
+				'active' => true,
 				'settings' => array(),
 				'data' => array()
 			),
 			
 			'dynamic_form' => array(
-				'enabled' => true,
+				'active' => true,
 				'settings' => array(),
 				'data' => array()
 			),
 			
 			'dynamic_option' => array(
-				'enabled' => true,
+				'active' => true,
 				'settings' => array(),
 				'data' => array()
 			),
 			
 			'dynamic_post_type' => array(
-				'enabled' => true,
+				'active' => true,
 				'settings' => array(),
 				'data' => array()
 			),
 			
 			'dynamic_taxonomy' => array(
-				'enabled' => true,
+				'active' => true,
 				'settings' => array(),
 				'data' => array()
 			),
@@ -70,19 +70,7 @@ class acfe_settings{
 		
 		// Upgrades
 		'upgrades' => array(
-			
-			// 0.8.5
-			'0_8_5' => array(
-				'todo' => true,
-				'tasks' => array(
-					'dynamic_block_type'    => true,
-					'dynamic_form'          => true,
-					'dynamic_option'        => true,
-					'dynamic_post_type'     => true,
-					'dynamic_taxonomy'      => true
-				)
-			),
-		
+			'0_8_5' => true,
 		),
 	);
 
@@ -145,6 +133,31 @@ class acfe_settings{
 		$this->array_clear($rows, $selector);
 		
 		$this->settings->set($rows);
+		
+		if($update)
+			$this->update();
+		
+		return $this;
+		
+	}
+	
+	function delete($selector = false, $update = true){
+		
+		// Single
+		if(strpos($selector, '.') === false){
+			
+			$this->settings->remove($selector);
+		
+		// Array
+		}else{
+			
+			$rows = $this->settings->get();
+			
+			$this->array_remove($rows, $selector);
+			
+			$this->settings->set($rows);
+			
+		}
 		
 		if($update)
 			$this->update();
@@ -265,6 +278,35 @@ class acfe_settings{
 		
 	}
 	
+	function array_remove(&$array, $keys){
+		
+		$original =& $array;
+		
+		foreach((array)$keys as $key){
+			
+			$parts = explode('.', $key);
+			
+			while(count($parts) > 1){
+				
+				$part = array_shift($parts);
+				
+				if(isset($array[$part]) && is_array($array[$part])){
+					
+					$array =& $array[$part];
+					
+				}
+				
+			}
+			
+			unset($array[array_shift($parts)]);
+			
+			// clean up after each pass
+			$array =& $original;
+			
+		}
+		
+	}
+	
 	function reset(){
 		
 		$this->set('', $this->model, true);
@@ -277,7 +319,10 @@ class acfe_settings{
 		
 		if(!$version || acf_version_compare($version, '<', ACFE_VERSION)){
 			
-			$new_model = $this->parse_args_r($this->get(), $this->model);
+			$data = $this->get();
+			$model = $this->model;
+			
+			$new_model = $this->parse_args_r($data, $model);
 			
 			$new_model['version'] = ACFE_VERSION;
 			
