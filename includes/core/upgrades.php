@@ -13,24 +13,27 @@ class acfe_upgrades{
 	
 	function upgrade_0_8_5(){
 		
-		$todo = acfe_settings('upgrades.0_8_5.todo');
+		$todo = acfe_settings('upgrades.0_8_5');
 		
 		if(!$todo)
 			return;
 		
-		$tasks = acfe_settings('upgrades.0_8_5.tasks');
+		$tasks = array(
+			'dynamic_form',
+			'dynamic_post_type',
+			'dynamic_taxonomy',
+			'dynamic_block_type',
+			'dynamic_option',
+		);
 		
-		foreach($tasks as $task => $todo){
-			
-			if(!$todo)
-				continue;
+		foreach($tasks as $task){
 			
 			/*
 			 * Forms
 			 */
 			if($task === 'dynamic_form'){
 				
-				acf_log('ACF Extended 0.8.5: Upgrading forms');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Forms');
 				
 				// Retrieve all forms posts
 				$get_forms = get_posts(array(
@@ -44,8 +47,6 @@ class acfe_upgrades{
 				if(empty($get_forms)){
 					
 					// Upgrade done
-					acfe_settings('upgrades.0_8_5.tasks.dynamic_form', false, true);
-					
 					continue;
 					
 				}
@@ -283,11 +284,12 @@ class acfe_upgrades{
 						
 					}
 					
-					$flexible = acf_get_field_type('flexible_content');
-					$field = acf_get_field('acfe_form_actions');
 					/*
 					 * Upgrade map fields which now require "Load values" to be enabled
 					 */
+					$flexible = acf_get_field_type('flexible_content');
+					$field = acf_get_field('acfe_form_actions');
+					
 					if(have_rows('acfe_form_actions', $post_id)):
 						while(have_rows('acfe_form_actions', $post_id)): the_row();
 							
@@ -449,9 +451,6 @@ class acfe_upgrades{
 					
 				}
 				
-				// Upgrade done
-				acfe_settings('upgrades.0_8_5.tasks.dynamic_form', false, true);
-				
 			}
 			
 			/*
@@ -459,7 +458,7 @@ class acfe_upgrades{
 			 */
 			elseif($task === 'dynamic_post_type'){
 				
-				acf_log('ACF Extended 0.8.5: Upgrading post types');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Post Types');
 				
 				// Old Post Types
 				$old_post_types = get_option('acfe_dynamic_post_types', array());
@@ -475,9 +474,6 @@ class acfe_upgrades{
 				// Delete Old Post Types
 				delete_option('acfe_dynamic_post_types');
 				
-				// Upgrade done
-				acfe_settings('upgrades.0_8_5.tasks.dynamic_post_type', false, true);
-				
 			}
 			
 			/*
@@ -485,7 +481,7 @@ class acfe_upgrades{
 			 */
 			elseif($task === 'dynamic_taxonomy'){
 				
-				acf_log('ACF Extended 0.8.5: Upgrading taxonomies');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Taxonomies');
 				
 				// Old Taxonomies
 				$old_taxonomies = get_option('acfe_dynamic_taxonomies', array());
@@ -501,9 +497,6 @@ class acfe_upgrades{
 				// Delete Old Taxonomies
 				delete_option('acfe_dynamic_taxonomies');
 				
-				// Upgrade done
-				acfe_settings('upgrades.0_8_5.tasks.dynamic_taxonomy', false, true);
-				
 			}
 			
 			/*
@@ -511,7 +504,7 @@ class acfe_upgrades{
 			 */
 			elseif($task === 'dynamic_block_type'){
 				
-				acf_log('ACF Extended 0.8.5: Upgrading block types');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Block Types');
 				
 				// Old Block Types
 				$old_block_types = get_option('acfe_dynamic_block_types', array());
@@ -527,9 +520,6 @@ class acfe_upgrades{
 				// Delete Old Block Types
 				delete_option('acfe_dynamic_block_types');
 				
-				// Upgrade done
-				acfe_settings('upgrades.0_8_5.tasks.dynamic_block_type', false, true);
-				
 			}
 			
 			/*
@@ -537,7 +527,7 @@ class acfe_upgrades{
 			 */
 			elseif($task === 'dynamic_option'){
 				
-				acf_log('ACF Extended 0.8.5: Upgrading option pages');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Options Pages');
 				
 				// Old Options
 				$old_options = get_option('acfe_dynamic_options_pages', array());
@@ -553,29 +543,29 @@ class acfe_upgrades{
 				// Delete Old Options
 				delete_option('acfe_dynamic_options_pages');
 				
-				// Upgrade done
-				acfe_settings('upgrades.0_8_5.tasks.dynamic_option', false, true);
-				
 			}
 			
 		}
 		
-		$tasks = acfe_settings('upgrades.0_8_5.tasks');
-		$finished = true;
+		// Done
+		acfe_settings()->delete('upgrades.0_8_5', true);
 		
-		foreach($tasks as $todo){
-			
-			if($todo)
-				$finished = false;
-			
-		}
+		// Cleanup
+		$this->cleanup();
 		
-		// Upgrade todo
-		if($finished){
-			
-			acfe_settings('upgrades.0_8_5.todo', false, true);
-			
-		}
+		acf_log('[ACF Extended] 0.8.5 Upgrade: Cleanup');
+		acf_log('[ACF Extended] 0.8.5 Upgrade: Done');
+		
+	}
+	
+	function cleanup(){
+		
+		$upgrades = acfe_settings('upgrades');
+		
+		if(!empty($upgrades))
+			return;
+		
+		acfe_settings()->delete('upgrades', true);
 		
 	}
 	

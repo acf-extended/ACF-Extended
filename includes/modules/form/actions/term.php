@@ -31,11 +31,11 @@ class acfe_form_term{
         add_filter('acf/prepare_field/name=acfe_form_term_save_parent',             array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_term_save_description',        array(acfe()->acfe_form, 'map_fields_deep'));
         
-        add_filter('acf/prepare_field/name=acfe_form_term_map_name',                array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_map_slug',                array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_map_taxonomy',            array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_map_parent',              array(acfe()->acfe_form, 'map_fields_deep'));
-        add_filter('acf/prepare_field/name=acfe_form_term_map_description',         array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_term_map_name',                array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_term_map_slug',                array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_term_map_taxonomy',            array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_term_map_parent',              array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_term_map_description',         array(acfe()->acfe_form, 'map_fields_deep_no_custom'));
         
         add_filter('acf/prepare_field/name=acfe_form_term_save_target',             array($this, 'prepare_choices'), 5);
         add_filter('acf/prepare_field/name=acfe_form_term_load_source',             array($this, 'prepare_choices'), 5);
