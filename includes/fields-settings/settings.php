@@ -29,7 +29,7 @@ class acfe_field_settings{
         
         $this->field_types_action();
 	
-	    add_action('acf/render_field_settings',                             array($this, 'quick_settings'), 998);
+	    //add_action('acf/render_field_settings',                             array($this, 'quick_settings'), 998);
         
         // Fix: Repeater
         add_filter('acf/prepare_field/name=acfe_settings',                  array($this, 'fix_repeater'));
