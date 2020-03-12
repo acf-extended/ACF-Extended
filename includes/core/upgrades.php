@@ -550,22 +550,7 @@ class acfe_upgrades{
 		// Done
 		acfe_settings()->delete('upgrades.0_8_5', true);
 		
-		// Cleanup
-		$this->cleanup();
-		
-		acf_log('[ACF Extended] 0.8.5 Upgrade: Cleanup');
 		acf_log('[ACF Extended] 0.8.5 Upgrade: Done');
-		
-	}
-	
-	function cleanup(){
-		
-		$upgrades = acfe_settings('upgrades');
-		
-		if(!empty($upgrades))
-			return;
-		
-		acfe_settings()->delete('upgrades', true);
 		
 	}
 	

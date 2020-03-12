@@ -518,9 +518,28 @@ body.block-editor-page .edit-post-layout .acfe-modal.-open > .acfe-modal-wrapper
     max-height: calc(100vh - 88px);
 }
 
+body.block-editor-page .edit-post-layout .acfe-modal.-open > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields.-left {
+    height:100%;
+}
+
+body.block-editor-page .edit-post-layout .acfe-modal.-open > .acfe-modal-wrapper > .acfe-modal-content > .acf-fields.-left:before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 0;
+    background: #F9F9F9;
+    border-color: #E1E1E1;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+}
+
 @media only screen and (max-width: 1080px) {
     body.block-editor-page .edit-post-layout .acfe-modal.-open > .acfe-modal-wrapper{
-        margin-top: 125px;
+        margin-top: 88px;
     }
 }
 
@@ -558,12 +577,18 @@ body.block-editor-page.folded .edit-post-layout.is-sidebar-opened .acfe-modal.-o
     max-width: calc(100vw - 316px);
 }
 
+@media (min-width: 600px){
+    body.block-editor-page.acfe-modal-opened .edit-post-layout__content {
+        overflow-y: hidden;
+    }
+}
+
 body.block-editor-page .acfe-modal-overlay{
     display:none;
 }
 
 /*
- * ACFE Modal: Attachment Single Fix for Image Field
+ * ACFE Modal: Attachment Single Fix
  */
 body.wp-admin.upload-php.acfe-modal-opened > div:not([style*="display: none;"]) > .media-modal.wp-core-ui:not(.acf-media-modal):before{
     content:"";

@@ -72,12 +72,12 @@ class acfe_form_term{
         $_description = get_sub_field('acfe_form_term_map_description');
         
         // Map {field:name} {get_field:name} {query_var:name}
-        $_term_id = acfe_form_map_field_value($_term_id, $current_post_id, $form);
-	    $_name = acfe_form_map_field_value($_name, $current_post_id, $form);
-	    $_slug = acfe_form_map_field_value($_slug, $current_post_id, $form);
-	    $_taxonomy = acfe_form_map_field_value($_taxonomy, $current_post_id, $form);
-	    $_parent = acfe_form_map_field_value($_parent, $current_post_id, $form);
-	    $_description = acfe_form_map_field_value($_description, $current_post_id, $form);
+        $_term_id = acfe_form_map_field_value_load($_term_id, $current_post_id, $form);
+	    $_name = acfe_form_map_field_value_load($_name, $current_post_id, $form);
+	    $_slug = acfe_form_map_field_value_load($_slug, $current_post_id, $form);
+	    $_taxonomy = acfe_form_map_field_value_load($_taxonomy, $current_post_id, $form);
+	    $_parent = acfe_form_map_field_value_load($_parent, $current_post_id, $form);
+	    $_description = acfe_form_map_field_value_load($_description, $current_post_id, $form);
         
         $_term_id = apply_filters('acfe/form/load/term_id',                      $_term_id, $form, $action);
         $_term_id = apply_filters('acfe/form/load/term_id/form=' . $form_name,   $_term_id, $form, $action);

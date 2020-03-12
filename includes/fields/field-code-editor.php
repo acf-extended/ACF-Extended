@@ -125,11 +125,11 @@ class acfe_field_code_editor extends acf_field{
         
         // max rows
         acf_render_field_setting($field, array(
-            'label'			=> __('Rows','acf'),
-            'instructions'	=> __('Sets the textarea height','acf'),
+            'label'			=> __('Max rows','acf'),
+            'instructions'	=> __('Sets the textarea max height','acf'),
             'type'			=> 'number',
             'name'			=> 'max_rows',
-            'placeholder'	=> 8
+            'placeholder'	=> ''
         ));
         
     }
