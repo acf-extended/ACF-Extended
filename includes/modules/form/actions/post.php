@@ -82,17 +82,16 @@ class acfe_form_post{
         $_post_parent = get_sub_field('acfe_form_post_map_post_parent');
         $_post_terms = get_sub_field('acfe_form_post_map_post_terms');
         
-        
         // Map {field:name} {get_field:name} {query_var:name}
-        $_post_id = acfe_form_map_field_value($_post_id, $current_post_id, $form);
-	    $_post_type = acfe_form_map_field_value($_post_type, $current_post_id, $form);
-	    $_post_status = acfe_form_map_field_value($_post_status, $current_post_id, $form);
-	    $_post_title = acfe_form_map_field_value($_post_title, $current_post_id, $form);
-	    $_post_name = acfe_form_map_field_value($_post_name, $current_post_id, $form);
-	    $_post_content = acfe_form_map_field_value($_post_content, $current_post_id, $form);
-	    $_post_author = acfe_form_map_field_value($_post_author, $current_post_id, $form);
-	    $_post_parent = acfe_form_map_field_value($_post_parent, $current_post_id, $form);
-	    $_post_terms = acfe_form_map_field_value($_post_terms, $current_post_id, $form);
+        $_post_id = acfe_form_map_field_value_load($_post_id, $current_post_id, $form);
+	    $_post_type = acfe_form_map_field_value_load($_post_type, $current_post_id, $form);
+	    $_post_status = acfe_form_map_field_value_load($_post_status, $current_post_id, $form);
+	    $_post_title = acfe_form_map_field_value_load($_post_title, $current_post_id, $form);
+	    $_post_name = acfe_form_map_field_value_load($_post_name, $current_post_id, $form);
+	    $_post_content = acfe_form_map_field_value_load($_post_content, $current_post_id, $form);
+	    $_post_author = acfe_form_map_field_value_load($_post_author, $current_post_id, $form);
+	    $_post_parent = acfe_form_map_field_value_load($_post_parent, $current_post_id, $form);
+	    $_post_terms = acfe_form_map_field_value_load($_post_terms, $current_post_id, $form);
         
         // Filters
         $_post_id = apply_filters('acfe/form/load/post_id',                      $_post_id, $form, $action);
@@ -384,8 +383,8 @@ class acfe_form_post{
             if(!empty($terms)){
                 
                 foreach($terms as $term){
-                    
-                    $args['tax_input'][$term->taxonomy][] = $term->term_id;
+	
+	                $args['acfe_form_terms'][] = $term;
                     
                 }
                 
@@ -404,8 +403,91 @@ class acfe_form_post{
         if($args === false)
             return;
         
+	    // Post terms pre-process (let post update first, for post type)
+	    $terms = array();
+	    
+	    if(acf_maybe_get($args, 'acfe_form_terms')){
+	        
+	        $terms = acf_extract_var($args, 'acfe_form_terms');
+		
+	    }
+        
         // Update Post
         $_post_id = wp_update_post($args);
+	
+	    // Post terms process
+	    if(!empty($terms)){
+		
+		    $term_objects = array();
+		    $term_create = array();
+		
+		    foreach($terms as $term){
+			
+			    if(is_numeric($term)){
+				
+				    $get_term = get_term($term);
+				
+				    if(empty($get_term) || is_wp_error($get_term))
+					    continue;
+				
+				    $term_objects[$get_term->taxonomy][] = $get_term->term_id;
+				
+			    }else{
+				
+				    $explode = explode('|', $term);
+				
+				    // No taxonomy found in input
+				    if(isset($explode[1])){
+					
+					    $term_create[$explode[1]][] = $explode[0];
+					
+				    }else{
+					
+					    // Get post type
+					    $post_type = 'post';
+					
+					    if(isset($args['post_type']))
+						    $post_type = $args['post_type'];
+					
+					    $taxonomies = get_object_taxonomies($post_type);
+					
+					    if(!empty($taxonomies)){
+						
+						    $taxonomy = $taxonomies[0];
+						
+						    $term_create[$taxonomy] = $explode[0];
+						
+					    }
+					
+				    }
+				
+			    }
+			
+		    }
+		
+		    // Term Objects
+		    if(!empty($term_objects)){
+			
+			    foreach($term_objects as $term_taxonomy => $term_ids){
+				
+				    wp_set_object_terms($args['ID'], $term_ids, $term_taxonomy, true);
+				
+			    }
+			
+		    }
+		
+		    // Create Terms (with slugs)
+		    if(!empty($term_create)){
+			
+			    foreach($term_create as $term_taxonomy => $term_slugs){
+				
+				    wp_set_object_terms($args['ID'], $term_slugs, $term_taxonomy, true);
+				
+			    }
+			
+		    }
+		
+	    }
         
         // Submit
         do_action('acfe/form/submit/post',                     $_post_id, $post_action, $args, $form, $action);

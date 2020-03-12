@@ -1371,42 +1371,91 @@ class acfe_form{
         $store = acf_get_store('acfe/form');
         
         // Store found
-        if($store->has('data')){
-            
-            // Get Store: ACF meta
-            $data = $store->get('data');
-        
-        // Store not found
-        }else{
-            
-            $data = $this->map_fields_values();
-            
-            // Set Store: ACF meta
-            $store->set('data', $data);
-            
+        if(!$store->has('data')){
+	
+	        $data = $this->map_fields_values();
+	
+	        // Set Store: ACF meta
+	        $store->set('data', $data);
+	        
         }
-        
-        // Match field_abcdef123456
-        $content = acfe_form_map_field_key($content);
-        
-        // Match {field:name} {field:key}
-        $content = acfe_form_map_field($content);
-        
-        // Match {fields}
-        $content = acfe_form_map_fields($content);
-        
-        // Match current_post {current:post:id}
-        $content = acfe_form_map_current($content, $post_id, $form);
-        
-        // Match {get_field:name} {get_field:name:123}
-        $content = acfe_form_map_get_field($content, $post_id);
-        
-        // Match {query_var:name} {query_var:name:key}
-        $content = acfe_form_map_query_var($content);
-        
-        return $content;
+	    
+	    $is_array = false;
+	    
+	    if(is_array($content)){
+	        
+	        $is_array = true;
+	        
+        }
+	    
+	    $content = acf_array($content);
+	    
+	    foreach($content as &$c){
+		
+		    // Match field_abcdef123456
+		    $c = acfe_form_map_field_key($c);
+		
+		    // Match {field:name} {field:key}
+		    $c = acfe_form_map_field($c);
+		
+		    // Match {fields}
+		    $c = acfe_form_map_fields($c);
+		
+		    // Match current_post {current:post:id}
+		    $c = acfe_form_map_current($c, $post_id, $form);
+		
+		    // Match {get_field:name} {get_field:name:123}
+		    $c = acfe_form_map_get_field($c, $post_id);
+		
+		    // Match {query_var:name} {query_var:name:key}
+		    $c = acfe_form_map_query_var($c);
+	       
+        }
+	    
+	    if($is_array)
+	        return $content;
+	    
+	    if(isset($content[0]))
+	        return $content[0];
+	    
+	    return false;
         
     }
+	
+	function map_field_value_load($content, $post_id = 0, $form = array()){
+		
+		$is_array = false;
+		
+		if(is_array($content)){
+			
+			$is_array = true;
+			
+		}
+		
+		$content = acf_array($content);
+		
+		foreach($content as &$c) {
+			
+			// Match current_post {current:post:id}
+			$c = acfe_form_map_current($c, $post_id, $form);
+			
+			// Match {get_field:name} {get_field:name:123}
+			$c = acfe_form_map_get_field($c, $post_id);
+			
+			// Match {query_var:name} {query_var:name:key}
+			$c = acfe_form_map_query_var($c);
+			
+		}
+		
+		if($is_array)
+			return $content;
+		
+		if(isset($content[0]))
+			return $content[0];
+		
+		return false;
+		
+	}
     
     function filter_meta($meta, $acf){
         
@@ -2386,6 +2435,12 @@ function acfe_form_render_fields($content, $post_id, $args){
 function acfe_form_map_field_value($field, $post_id = 0, $form = array()){
     
     return acfe()->acfe_form->map_field_value($field, $post_id, $form);
+    
+}
+
+function acfe_form_map_field_value_load($field, $post_id = 0, $form = array()){
+    
+    return acfe()->acfe_form->map_field_value_load($field, $post_id, $form);
     
 }
 

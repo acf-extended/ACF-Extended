@@ -716,6 +716,9 @@ class acfe_form_front{
             'id'    => false
         ), $atts, 'acfe_form');
         
+        if(is_admin())
+            return;
+        
         if(!empty($atts['name'])){
             
             ob_start();

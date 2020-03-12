@@ -1878,7 +1878,7 @@ acf_add_local_field_group(array(
 							'taxonomy' => '',
 							'field_type' => 'select',
 							'default_value' => '',
-							'return_format' => 'object',
+							'return_format' => 'id',
 							'allow_null' => 1,
 							'placeholder' => 'Default',
 							'multiple' => 1,

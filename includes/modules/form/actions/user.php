@@ -94,17 +94,17 @@ class acfe_form_user{
         $_role = get_sub_field('acfe_form_user_map_role');
         
         // Map {field:name} {get_field:name} {query_var:name}
-        $_user_id = acfe_form_map_field_value($_user_id, $current_post_id, $form);
-	    $_email = acfe_form_map_field_value($_email, $current_post_id, $form);
-	    $_username = acfe_form_map_field_value($_username, $current_post_id, $form);
-	    $_password = acfe_form_map_field_value($_password, $current_post_id, $form);
-	    $_first_name = acfe_form_map_field_value($_first_name, $current_post_id, $form);
-	    $_last_name = acfe_form_map_field_value($_last_name, $current_post_id, $form);
-	    $_nickname = acfe_form_map_field_value($_nickname, $current_post_id, $form);
-	    $_display_name = acfe_form_map_field_value($_display_name, $current_post_id, $form);
-	    $_website = acfe_form_map_field_value($_website, $current_post_id, $form);
-	    $_description = acfe_form_map_field_value($_description, $current_post_id, $form);
-	    $_role = acfe_form_map_field_value($_role, $current_post_id, $form);
+        $_user_id = acfe_form_map_field_value_load($_user_id, $current_post_id, $form);
+	    $_email = acfe_form_map_field_value_load($_email, $current_post_id, $form);
+	    $_username = acfe_form_map_field_value_load($_username, $current_post_id, $form);
+	    $_password = acfe_form_map_field_value_load($_password, $current_post_id, $form);
+	    $_first_name = acfe_form_map_field_value_load($_first_name, $current_post_id, $form);
+	    $_last_name = acfe_form_map_field_value_load($_last_name, $current_post_id, $form);
+	    $_nickname = acfe_form_map_field_value_load($_nickname, $current_post_id, $form);
+	    $_display_name = acfe_form_map_field_value_load($_display_name, $current_post_id, $form);
+	    $_website = acfe_form_map_field_value_load($_website, $current_post_id, $form);
+	    $_description = acfe_form_map_field_value_load($_description, $current_post_id, $form);
+	    $_role = acfe_form_map_field_value_load($_role, $current_post_id, $form);
         
         $_user_id = apply_filters('acfe/form/load/user_id',                      $_user_id, $form, $action);
         $_user_id = apply_filters('acfe/form/load/user_id/form=' . $form_name,   $_user_id, $form, $action);
