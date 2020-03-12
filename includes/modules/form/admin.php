@@ -2399,19 +2399,19 @@ function my_form_submit($form, $post_id){
         <table class="acf-table">
             <tbody>
                 <tr class="acf-row">
-                    <td width="35%"><code>{current_form}</code></td>
+                    <td width="35%"><code>{current:form}</code></td>
                     <td>11<br/></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{current_form:ID}</code></td>
+                    <td width="35%"><code>{current:form:ID}</code></td>
                     <td>11<br/></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{current_form:title}</code></td>
+                    <td width="35%"><code>{current:form:title}</code></td>
                     <td>Form<br/></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{current_form:name}</code></td>
+                    <td width="35%"><code>{current:form:name}</code></td>
                     <td>form<br/></td>
                 </tr>
             </tbody>
