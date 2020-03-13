@@ -165,7 +165,7 @@ function acfe_dt_filter_save($post_id){
     $show_admin_column = get_field('show_admin_column', $post_id);
     
     // Capability
-    $capabilities = acf_decode_choices(get_field('capabilities', $post_id), true);
+    $capabilities = acf_decode_choices(get_field('capabilities', $post_id));
     
     // Single
     $single_template = get_field('acfe_dt_single_template', $post_id);
@@ -1643,10 +1643,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
             'name' => 'capabilities',
             'type' => 'textarea',
             'instructions' => 'An array of the capabilities for this taxonomy:<br /><br />
-manage_terms<br />
-edit_terms<br />
-delete_terms<br />
-assign_terms',
+manage_terms : edit_posts<br />
+edit_terms : edit_posts<br />
+delete_terms : edit_posts<br />
+assign_terms : edit_posts',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

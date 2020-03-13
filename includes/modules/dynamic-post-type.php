@@ -161,7 +161,7 @@ function acfe_dpt_filter_save($post_id){
     
     // Capability
     $capability_type = acf_decode_choices(get_field('capability_type', $post_id), true);
-    $capabilities = acf_decode_choices(get_field('capabilities', $post_id), true);
+    $capabilities = acf_decode_choices(get_field('capabilities', $post_id));
     $map_meta_cap = get_field('map_meta_cap', $post_id);
     
     // Archive
@@ -1978,11 +1978,11 @@ stories',
             'name' => 'capabilities',
             'type' => 'textarea',
             'instructions' => 'An array of the capabilities for this post type. Specify capabilities like this:<br /><br />
-
-edit_post<br />
-read_post<br />
-delete_post<br />
-edit_posts<br />
+publish_posts : publish_posts<br />
+edit_post  : edit_post<br />
+edit_posts  : edit_posts<br />
+read_post : read_post<br />
+delete_post : delete_post<br />
 etc...',
             'required' => 0,
             'conditional_logic' => 0,
