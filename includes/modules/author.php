@@ -143,7 +143,7 @@ class acfe_author{
             return;
         
         $post_author = (int) $_POST['acf']['acfe_author'];
-        $_post_author = get_post_field('post_author', $post_id);
+        $_post_author = (int) get_post_field('post_author', $post_id);
         
         // Check if author has been changed
         if($_post_author === $post_author)

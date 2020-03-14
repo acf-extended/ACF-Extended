@@ -257,6 +257,8 @@ function acfe_field_groups_column_html($column, $post_id){
                     
                 }
                 
+                $final_name = esc_html($final_name);
+                
                 $name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[$and['param']]['icon'] . '" title="' . $final[$and['param']]['name'] . ' = ' . $final_name . '"></span>';
                 if($and['operator'] === '!=')
                     $name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[$and['param']]['icon'] . '" title="' . $final[$and['param']]['name'] . ' != ' . $final_name . '" style="color:#ccc;"></span>';
