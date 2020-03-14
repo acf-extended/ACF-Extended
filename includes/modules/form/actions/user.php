@@ -25,6 +25,7 @@ class acfe_form_user{
         
         add_filter('acf/prepare_field/name=acfe_form_user_save_login_user',         array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_save_login_pass',         array(acfe()->acfe_form, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_user_save_login_remember',     array(acfe()->acfe_form, 'map_fields_deep'));
         
         add_filter('acf/prepare_field/name=acfe_form_user_save_target',             array(acfe()->acfe_form, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_user_load_source',             array(acfe()->acfe_form, 'map_fields_deep'));
@@ -281,6 +282,9 @@ class acfe_form_user{
 	
 	    $data['login'] = acfe_form_map_field_value($data['login'], $current_post_id, $form);
 	    $data['pass'] = acfe_form_map_field_value($data['pass'], $current_post_id, $form);
+	
+	    $login = false;
+	    $pass = false;
         
         // Email
         if(!empty($data['login'])){
@@ -426,22 +430,23 @@ class acfe_form_user{
         
         // Fields
         $fields = array(
-            'target'        => get_sub_field('acfe_form_user_save_target'),
+            'target'            => get_sub_field('acfe_form_user_save_target'),
             
-            'login_type'    => get_sub_field('acfe_form_user_log_type'),
-            'login_user'    => get_sub_field('acfe_form_user_save_login_user'),
-            'login_pass'    => get_sub_field('acfe_form_user_save_login_pass'),
+            'login_type'        => get_sub_field('acfe_form_user_log_type'),
+            'login_user'        => get_sub_field('acfe_form_user_save_login_user'),
+            'login_pass'        => get_sub_field('acfe_form_user_save_login_pass'),
+            'login_remember'    => get_sub_field('acfe_form_user_save_login_remember'),
             
-            'user_email'    => get_sub_field('acfe_form_user_save_email'),
-            'user_login'    => get_sub_field('acfe_form_user_save_username'),
-            'user_pass'     => get_sub_field('acfe_form_user_save_password'),
-            'first_name'    => get_sub_field('acfe_form_user_save_first_name'),
-            'last_name'     => get_sub_field('acfe_form_user_save_last_name'),
-            'nickname'      => get_sub_field('acfe_form_user_save_nickname'),
-            'display_name'  => get_sub_field('acfe_form_user_save_display_name'),
-            'user_url'      => get_sub_field('acfe_form_user_save_website'),
-            'description'   => $_description,
-            'role'          => get_sub_field('acfe_form_user_save_role'),
+            'user_email'        => get_sub_field('acfe_form_user_save_email'),
+            'user_login'        => get_sub_field('acfe_form_user_save_username'),
+            'user_pass'         => get_sub_field('acfe_form_user_save_password'),
+            'first_name'        => get_sub_field('acfe_form_user_save_first_name'),
+            'last_name'         => get_sub_field('acfe_form_user_save_last_name'),
+            'nickname'          => get_sub_field('acfe_form_user_save_nickname'),
+            'display_name'      => get_sub_field('acfe_form_user_save_display_name'),
+            'user_url'          => get_sub_field('acfe_form_user_save_website'),
+            'description'       => $_description,
+            'role'              => get_sub_field('acfe_form_user_save_role'),
         );
         
         $data = acfe_form_map_vs_fields($map, $fields, $current_post_id, $form);
@@ -645,6 +650,10 @@ class acfe_form_user{
         elseif($user_action === 'log_user'){
             
             $_insert_user = false;
+	
+	        $_login_user = false;
+	        $_login_pass = false;
+            $_login_remember = false;
             
             // Email
             if(!empty($data['login_user'])){
@@ -658,6 +667,13 @@ class acfe_form_user{
                 
                 $_login_pass = $data['login_pass'];
                 
+            }
+            
+            // Remember me
+            if(!empty($data['login_remember'])){
+	
+	            $_login_remember = $data['login_remember'];
+             
             }
 
             $_login_pass = wp_specialchars_decode($_login_pass);
@@ -694,11 +710,14 @@ class acfe_form_user{
                 }
                 
             }
+	
+	        $_login_remember = boolval($_login_remember);
             
             // Login
             $_insert_user = wp_signon(array(
                 'user_login'    => $user->user_login,
-                'user_password' => $_login_pass
+                'user_password' => $_login_pass,
+                'remember'      => $_login_remember
             ), is_ssl());
             
             // User Error

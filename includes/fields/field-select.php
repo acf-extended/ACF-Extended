@@ -139,36 +139,25 @@ class acfe_field_select{
 
 		        foreach($field['choices'] as $k => $choice){
 
-			        if(is_string($choice)){
-
-				        $choice = trim($choice);
-
-				        if(strpos($choice, '##') === 0){
-
-					        $choice = substr($choice, 2);
-					        $choice = trim($choice);
-
-					        $found = $choice;
-					        $found_array[$choice] = array();
-
-				        }elseif(!empty($found)){
-
-					        if(acf_maybe_get($field, 'ajax')){
-
-						        $found_array[$found][] = array(
-							        'id'	=> $k,
-							        'text'	=> $choice
-						        );
-
-					        }else{
-
-						        $found_array[$found][$k] = $choice;
-
-					        }
-
-				        }
-
-			        }
+					if(is_string($choice)){
+					
+						$choice = trim($choice);
+						
+						if(strpos($choice, '##') === 0){
+						
+							$choice = substr($choice, 2);
+							$choice = trim($choice);
+							
+							$found = $choice;
+							$found_array[$choice] = array();
+						
+						}elseif(!empty($found)){
+						
+							$found_array[$found][$k] = $choice;
+						
+						}
+					
+					}
 
 		        }
 
