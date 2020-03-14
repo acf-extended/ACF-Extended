@@ -326,7 +326,7 @@ body.post-type-acfe-form.post-new-php #major-publishing-actions{
 #acf-admin-tool-acfe_tool_dbt_export ul,
 #acf-admin-tool-acfe_tool_dpt_export ul,
 #acf-admin-tool-acfe_tool_dt_export ul,
-#acf-admin-tool-acfe_tool_form_export ul, {
+#acf-admin-tool-acfe_tool_form_export ul{
     column-width: 200px;
 }
 
