@@ -378,8 +378,10 @@ function acfe_dpt_admin_ppp($ppp, $post_type){
  */
 add_action('pre_get_posts', 'acfe_dpt_filter_admin_list');
 function acfe_dpt_filter_admin_list($query){
+	
+	global $pagenow;
     
-    if(!is_admin() || !$query->is_main_query() || !is_post_type_archive())
+    if(!is_admin() || !$query->is_main_query() || $pagenow !== 'edit.php')
         return;
 
     $post_type = $query->get('post_type');
@@ -2129,7 +2131,6 @@ etc...',
             'type' => 'number',
             'instructions' => 'ACF Extended: Number of posts to display in the archive page',
             'required' => 0,
-            'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
@@ -2145,6 +2146,15 @@ etc...',
             'min' => -1,
             'max' => '',
             'step' => '',
+            'conditional_logic' => array(
+	            array(
+		            array(
+			            'field' => 'field_acfe_dpt_has_archive',
+			            'operator' => '==',
+			            'value' => '1',
+		            ),
+	            ),
+            ),
         ),
         array(
             'key' => 'field_acfe_dpt_archive_orderby',
@@ -2153,7 +2163,6 @@ etc...',
             'type' => 'text',
             'instructions' => 'ACF Extended: Sort retrieved posts by parameter in the archive page. Defaults to \'date (post_date)\'.',
             'required' => 0,
-            'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
@@ -2171,6 +2180,15 @@ etc...',
             'prepend' => '',
             'append' => '',
             'maxlength' => '',
+            'conditional_logic' => array(
+	            array(
+		            array(
+			            'field' => 'field_acfe_dpt_has_archive',
+			            'operator' => '==',
+			            'value' => '1',
+		            ),
+	            ),
+            ),
         ),
         array(
             'key' => 'field_acfe_dpt_archive_order',
@@ -2179,7 +2197,6 @@ etc...',
             'type' => 'select',
             'instructions' => 'ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the archive page. Defaults to \'DESC\'.',
             'required' => 0,
-            'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
@@ -2201,6 +2218,15 @@ etc...',
             'return_format' => 'value',
             'ajax' => 0,
             'placeholder' => '',
+            'conditional_logic' => array(
+	            array(
+		            array(
+			            'field' => 'field_acfe_dpt_has_archive',
+			            'operator' => '==',
+			            'value' => '1',
+		            ),
+	            ),
+            ),
         ),
         array(
             'key' => 'field_acfe_dpt_tab_single',

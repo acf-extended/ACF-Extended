@@ -113,7 +113,10 @@ class acfe_form{
                 'edit_post'             => acf_get_setting('capability'),
                 'delete_post'           => acf_get_setting('capability'),
                 'read_post'             => acf_get_setting('capability'),
-            )
+            ),
+            'acfe_admin_ppp'        => 999,
+            'acfe_admin_orderby'    => 'title',
+            'acfe_admin_order'      => 'ASC',
         ));
         
     }
@@ -150,25 +153,6 @@ class acfe_form{
     }
     
     function load_list(){
-        
-        // Posts per page
-        add_filter('edit_posts_per_page', function(){
-            return 999;
-        });
-        
-        // Order
-        add_action('pre_get_posts', function($query){
-            
-            if(!$query->is_main_query())
-                return;
-            
-            if(!acf_maybe_get($_REQUEST,'orderby'))
-                $query->set('orderby', 'name');
-            
-            if(!acf_maybe_get($_REQUEST,'order'))
-                $query->set('order', 'ASC');
-            
-        });
         
         // Columns
         add_filter('manage_edit-' . $this->post_type . '_columns',         array($this, 'admin_columns'));
@@ -3018,7 +3002,7 @@ function acfe_form_map_field($content){
             
             if(strpos($field_key, ':') !== false){
             
-                $explode = explode(':', $name);
+                $explode = explode(':', $field_key);
                 
                 $field_key = $explode[0]; // field_123abc
                 $format = $explode[1]; // true / false
