@@ -3466,37 +3466,6 @@ acf_add_local_field_group(array(
 								),
 							),
 						),
-						
-						/*
-						array(
-							'key' => 'field_acfe_form_user_save_login_user_message',
-							'label' => 'Login',
-							'name' => 'acfe_form_user_map_login_user_message',
-							'type' => 'acfe_dynamic_message',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => array(
-								array(
-									array(
-										'field' => 'field_acfe_form_user_map_login_user',
-										'operator' => '!=empty',
-									),
-									array(
-										'field' => 'field_acfe_form_user_action',
-										'operator' => '==',
-										'value' => 'log_user',
-									),
-								),
-							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-						),
-						*/
-						
 						array(
 							'key' => 'field_acfe_form_user_save_login_pass',
 							'label' => 'Password',
@@ -3531,21 +3500,32 @@ acf_add_local_field_group(array(
 								),
 							),
 						),
-						
-						/*
 						array(
-							'key' => 'field_acfe_form_user_save_login_pass_message',
-							'label' => 'Password',
-							'name' => 'acfe_form_user_map_login_pass_message',
-							'type' => 'acfe_dynamic_message',
+							'key' => 'field_acfe_form_user_save_login_remember',
+							'label' => 'Remember me',
+							'name' => 'acfe_form_user_save_login_remember',
+							'type' => 'select',
 							'instructions' => '',
 							'required' => 0,
+							'wrapper' => array(
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'acfe_permissions' => '',
+							'choices' => array(),
+							'default_value' => array(
+							),
+							'allow_null' => 1,
+							'multiple' => 0,
+							'ui' => 1,
+							'return_format' => 'value',
+							'placeholder' => 'Default',
+							'ajax' => 0,
+							'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+							'allow_custom' => 1,
 							'conditional_logic' => array(
 								array(
-									array(
-										'field' => 'field_acfe_form_user_map_login_pass',
-										'operator' => '!=empty',
-									),
 									array(
 										'field' => 'field_acfe_form_user_action',
 										'operator' => '==',
@@ -3553,14 +3533,7 @@ acf_add_local_field_group(array(
 									),
 								),
 							),
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
 						),
-						*/
 						
 						/*
 		                 * Layout: User Save
@@ -4443,79 +4416,6 @@ acf_add_local_field_group(array(
                             'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
 							'allow_custom' => 1,
 						),
-						
-						/*
-						array(
-							'key' => 'field_acfe_form_user_map_login_user',
-							'label' => 'Login',
-							'name' => 'acfe_form_user_map_login_user',
-							'type' => 'select',
-							'instructions' => '',
-							'required' => 0,
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'choices' => array(
-							),
-							'default_value' => array(
-							),
-							'allow_null' => 1,
-							'multiple' => 0,
-							'ui' => 1,
-							'return_format' => 'value',
-							'placeholder' => 'Default',
-							'ajax' => 0,
-							'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
-							'allow_custom' => 1,
-							'conditional_logic' => array(
-								array(
-									array(
-										'field' => 'field_acfe_form_user_action',
-										'operator' => '==',
-										'value' => 'log_user',
-									),
-								),
-							),
-						),
-						array(
-							'key' => 'field_acfe_form_user_map_login_pass',
-							'label' => 'Password',
-							'name' => 'acfe_form_user_map_login_pass',
-							'type' => 'select',
-							'instructions' => '',
-							'required' => 0,
-							'wrapper' => array(
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'acfe_permissions' => '',
-							'choices' => array(
-							),
-							'default_value' => array(
-							),
-							'allow_null' => 1,
-							'multiple' => 0,
-							'ui' => 1,
-							'return_format' => 'value',
-							'placeholder' => 'Default',
-							'ajax' => 0,
-							'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
-							'allow_custom' => 1,
-							'conditional_logic' => array(
-								array(
-									array(
-										'field' => 'field_acfe_form_user_action',
-										'operator' => '==',
-										'value' => 'log_user',
-									),
-								),
-							),
-						),
-						*/
 						
 						array(
 							'key' => 'field_acfe_form_user_map_email',

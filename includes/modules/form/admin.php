@@ -770,37 +770,18 @@ class acfe_form{
     
     function map_fields_deep($field){
         
-        $choices = array();
-        
-        if(!empty($field['choices'])){
+        // Map Fields
+	    $fields_choices = $this->get_fields_choices(true, $field);
 	
-	        $generic = true;
-            
-            if(is_array($field['choices']) && count($field['choices']) === 1){
-	
-	            reset($field['choices']);
-	            $key = key($field['choices']);
-	            
-	            if(acf_is_field_key($key))
-	                $generic = false;
-            
-            }
-	        
-            if($generic)
-	            $choices['Generic'] = $field['choices'];
-         
-        }
-        
-        $fields_choices = $this->get_fields_choices(true, $field);
-        
-        if(!empty($fields_choices)){
-            
-            $field['choices'] = array_merge($choices, $fields_choices);
-            
-        }
-        
+	    if(!empty($fields_choices)){
+		
+		    $field['choices'] = array_merge($field['choices'], $fields_choices);
+		
+	    }
+	    
         if($field['type'] === 'select'){
             
+            // Query Vars
             if(!empty($this->query_vars)){
                 
                 parse_str($field['prefix'], $output);
@@ -876,6 +857,7 @@ class acfe_form{
                 }
             }
             
+            // Templates Tags Examples
             $field['choices']["Current: Post"]['{current:post:id}'] = 'Post ID {current:post:id}';
             $field['choices']["Current: Post"]['{current:post:post_title}'] = 'Title {current:post:post_title}';
             $field['choices']["Current: Post"]['{current:post:permalink}'] = 'Permalink {current:post:permalink}';
@@ -898,6 +880,62 @@ class acfe_form{
             $field['choices']["Current: Form"]['{current:form:name}'] = 'Name {current:form:name}';
             
         }
+	    
+        // Clean Choices
+	    if(!empty($field['choices'])){
+		
+		    $sub_values = array();
+		
+		    foreach($field['choices'] as $category => $values){
+			
+		        // Generate available values
+			    if(is_array($values)){
+				
+				    $sub_values = array_merge($sub_values, $values);
+				
+				// Generate 'Generic'
+			    }else{
+				
+				    unset($field['choices'][$category]);
+				
+				    $field['choices']['Generic'][$category] = $values;
+				
+			    }
+			
+		    }
+		    
+		    // Compare available vs Generic
+		    if(isset($field['choices']['Generic'])){
+			
+			    foreach($field['choices']['Generic'] as $k => $generic){
+				
+				    if(!isset($sub_values[$k]))
+					    continue;
+				    
+				    // Cleanup
+				    unset($field['choices']['Generic'][$k]);
+				
+			    }
+			    
+			    if(empty($field['choices']['Generic']))
+			        unset($field['choices']['Generic']);
+			
+		    }
+		    
+		    // Move Generic to Top
+		    if(isset($field['choices']['Generic'])){
+		        
+		        $new_generic = array(
+		            'Generic' => $field['choices']['Generic']
+                );
+		        
+			    unset($field['choices']['Generic']);
+			
+			    $field['choices'] = array_merge($new_generic, $field['choices']);
+		    
+		    }
+		
+	    }
         
         return $field;
         

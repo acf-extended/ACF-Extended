@@ -934,29 +934,40 @@ function acfe_recaptcha(){
     /**
      * Field: Select - Allow Custom
      */
-    acf.addFilter('select2_args', function(options, $select, data, field, instance){
+    acf.addFilter('select2_args', function(options, $select, fieldData, field, instance){
         
         if(field.get('acfeAllowCustom')){
             
             options.tags = true;
-            
-            options.createTag = function (params){
-                
+
+            options.createTag = function(params){
+
                 var term = $.trim(params.term);
-                
+
                 if(term === '')
                     return null;
-                
-                var text = term;
-                
+
+                var optionsMatch = false;
+
+                this.$element.find('option').each(function(){
+
+                    if(this.value.toLowerCase() === term.toLowerCase()){
+                        optionsMatch = true;
+                    }
+
+                });
+
+                if(optionsMatch)
+                    return null;
+
                 return {
                     id: term,
-                    text: text,
-                    newTag: true
-                }
+                    text: term
+                };
                 
             };
-            
+
+
             options.insertTag = function(data, tag){
                 
                 var found = false;
@@ -991,11 +1002,11 @@ function acfe_recaptcha(){
                 var match_query_var = /{query_var:(.*)}/g;
                 var match_current = /{current:(.*)}/g;
                 
-                text = text.replace(match_field, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{field:$1}</code>");
-                text = text.replace(match_fields, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{fields}</code>");
-                text = text.replace(match_current, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{current:$1}</code>");
-                text = text.replace(match_get_field, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{get_field:$1}</code>");
-                text = text.replace(match_query_var, "<code style='font-size:12px;padding:3px 3px 2px 3px;vertical-align: bottom;line-height: 24px;'>{query_var:$1}</code>");
+                text = text.replace(match_field, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{field:$1}</code>");
+                text = text.replace(match_fields, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{fields}</code>");
+                text = text.replace(match_current, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{current:$1}</code>");
+                text = text.replace(match_get_field, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{get_field:$1}</code>");
+                text = text.replace(match_query_var, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{query_var:$1}</code>");
 
 
                 return text;
