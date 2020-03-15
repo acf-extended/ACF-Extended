@@ -125,9 +125,9 @@ One-click export for each field groups
 * **Row action: Field group key**
 Quick view of field groups keys
 
-### ACF: Field Groups - Third Party
+### ACF: Field Groups - Local
 
-* **Third Party**
+* **Local**
 Display local field groups that are loaded by ACF, but not available in the ACF field group administration. Example: a field group is registered locally in the `functions.php` file, but not in ACF
 
 * **Export**
@@ -163,6 +163,9 @@ Display raw field data in a modal to check your configuration & settings
 * **Field Clone: Edit in modal**
 Allow users to edit clone fields in a modal. Choose the edit button text, display close button and the modal size
 
+* **Field Datepicker/Datetime picker/Timepicker: Improved UI**
+Fields interfaces have been improved to display a more modern version
+
 * **Field File: Uploader type**
 Choose the uploader type: Basic or native WP uploader
 
@@ -188,7 +191,10 @@ Disable sortable rows using `filter('acfe/repeater/lock/name=my_repeater', true,
 Remove the actions buttons using `filter('acfe/repeater/remove_actions/name=my_repeater', true, $field)`
 
 * **Field Select: Placeholder**
-Change the default "Select" placeholder text
+Change the default "Select" placeholder text and Search Input placeholder
+
+* **Field Select: Allow custom values**
+Allow user to enter custom value which will be saved
 
 * **Field Textarea: Code mode**
 Switch font family to monospace and allow tab indent
@@ -196,13 +202,13 @@ Switch font family to monospace and allow tab indent
 ### ACF: New Fields
 
 * **New Field: Advanced Link**
-Display a modern Link Selection in a modal. Post selection can be filtered via post types & taxonomies terms. Add custom fields using `filter('acfe/fields/advanced_link/fields', $fields, $field, $link)`
+Display a modern Link Selection in a modal. Posts, Post Types Archives & terms selection can be filtered in the field administration. Add custom sub fields using `filter('acfe/fields/advanced_link/sub_fields', $sub_fields, $field, $value)`
 
 * **New Field: Button**
 Display a custom submit or button. Built-in ajax call setting. Usage example available in the field administration
 
 * **New Field: Code Editor**
-Edit code using the native WP Core Codemirror library
+Edit code using the native WP Core Codemirror library. Default languages: Text/HTML, Javascript, CSS, PHP mixed/plain.
 
 * **New Field: Columns**
 Re-arrange fields administration using columns
