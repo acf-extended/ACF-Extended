@@ -1,25 +1,60 @@
 /*
  * ACFE General
  */
+pre, code, kbd, samp{
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 1em;
+}
+
 pre{
     display: block;
     padding: 9.5px;
     margin: 0;
-    font-size: 13px;
     line-height: 1.42857143;
     color: #333;
     word-break: break-all;
     word-wrap: break-word;
-    background-color: #f5f5f5;
+    background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 1px;
     white-space: pre-wrap;
     overflow: auto;
 }
 
-code, kbd, pre, samp{
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    font-size: 1em;
+code{
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    -ms-user-select: all;
+    user-select: all;
+}
+
+.pre-codemirror > .CodeMirror,
+.code-codemirror > .CodeMirror{
+    border:1px solid #ccc;
+    height:auto;
+    width:auto;
+    background:#F9F9F9;
+    padding:9px 6px;
+}
+
+.code-codemirror{
+    display:inline;
+    vertical-align:middle;
+}
+
+.code-codemirror > .CodeMirror{
+    display:inline-block;
+    padding:0;
+}
+
+.pre-codemirror > .CodeMirror .CodeMirror-selected,
+.code-codemirror > .CodeMirror .CodeMirror-selected{
+    background:#ddd !important;
+}
+
+.pre-codemirror > .CodeMirror .CodeMirror-lines,
+.code-codemirror > .CodeMirror .CodeMirror-lines{
+    padding:0;
 }
 
 /*
@@ -42,6 +77,128 @@ code, kbd, pre, samp{
 
 .acfe-postbox.acfe-postbox-no-handle .handlediv{
     display:none;
+}
+
+/*
+ * ACFE: Postbox-left
+ */
+.acfe-postbox-left>.inside {
+    position: relative
+}
+
+.acfe-postbox-left>.inside:after {
+    display: block;
+    clear: both;
+    content: ""
+}
+
+.acfe-postbox-left>.inside.-border {
+    border: #ccd0d4 solid 1px;
+    background: #fff
+}
+
+.acfe-postbox-left>.inside>.acf-field {
+    position: relative;
+    margin: 0;
+    padding: 15px 12px;
+    border-top: #EEEEEE solid 1px
+}
+
+.acfe-postbox-left>.inside>.acf-field:first-child {
+    border-top: none;
+    margin-top: 0
+}
+
+.acfe-postbox-left>.inside.-clear>.acf-field {
+    border: none;
+    padding: 0;
+    margin: 15px 0
+}
+
+.acfe-postbox-left>.inside>.acf-field {
+    padding: 15px 0
+}
+
+.acfe-postbox-left>.inside>.acf-field:after {
+    display: block;
+    clear: both;
+    content: ""
+}
+
+.acfe-postbox-left>.inside>.acf-field:before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 0;
+    background: #F9F9F9;
+    border-color: #E1E1E1;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20%
+}
+
+.acfe-postbox-left>.inside>.acf-field[data-width] {
+    float: none;
+    width: auto !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important
+}
+
+.acfe-postbox-left>.inside>.acf-field>.acf-label {
+    float: left;
+    width: 20%;
+    margin: 0;
+    padding: 0 12px
+}
+
+.acfe-postbox-left>.inside>.acf-field>.acf-input {
+    float: left;
+    width: 80%;
+    margin: 0;
+    padding: 0 12px
+}
+
+html[dir="rtl"] .acfe-postbox-left>.inside>.acf-field:before {
+    border-width: 0 0 0 1px;
+    left: auto;
+    right: 0
+}
+
+html[dir="rtl"] .acfe-postbox-left>.inside>.acf-field>.acf-label {
+    float: right
+}
+
+html[dir="rtl"] .acfe-postbox-left>.inside>.acf-field>.acf-input {
+    float: right
+}
+
+#side-sortables .acfe-postbox-left>.inside>.acf-field:before {
+    display: none
+}
+
+#side-sortables .acfe-postbox-left>.inside>.acf-field>.acf-label {
+    width: 100%;
+    margin-bottom: 10px
+}
+
+#side-sortables .acfe-postbox-left>.inside>.acf-field>.acf-input {
+    width: 100%
+}
+
+@media screen and (max-width: 640px) {
+    .acfe-postbox-left>.inside>.acf-field:before {
+        display: none
+    }
+    .acfe-postbox-left>.inside>.acf-field>.acf-label {
+        width: 100%;
+        margin-bottom: 10px
+    }
+    .acfe-postbox-left>.inside>.acf-field>.acf-input {
+        width: 100%
+    }
 }
 
 /* 
@@ -169,7 +326,7 @@ body.post-type-acfe-form.post-new-php #major-publishing-actions{
 #acf-admin-tool-acfe_tool_dbt_export ul,
 #acf-admin-tool-acfe_tool_dpt_export ul,
 #acf-admin-tool-acfe_tool_dt_export ul,
-#acf-admin-tool-acfe_tool_dop_export ul{
+#acf-admin-tool-acfe_tool_form_export ul{
     column-width: 200px;
 }
 
@@ -225,9 +382,23 @@ body.post-type-acfe-form.post-new-php #major-publishing-actions{
     border-left-width:0;
 }
 
-.acf-field-repeater.acf-field-acfe-form-email-files > .acf-input > .acf-repeater > .acf-actions{
+.acf-field-repeater.acf-field-acfe-form-email-files > .acf-input > .acf-repeater > .acf-actions,
+.acf-field-repeater.acf-field-acfe-form-email-files-static > .acf-input > .acf-repeater > .acf-actions{
     text-align:left;
 }
+/*
+.acf-field[data-name="acfe_form_actions"] > .acf-label{
+    display:none;
+}
+
+.acf-field[data-name="acfe_form_actions"] > .acf-input{
+    width:100% !important;
+}
+
+.acf-field[data-name="acfe_form_actions"]:before{
+    background:none !important;
+    border:0 !important;
+}*/
 
 /*
  * ACFE Dev Mode
@@ -260,28 +431,56 @@ body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-sea
     margin-top:0px !important;
 }
 
+/* Select2: Single */
 .select2-container .select2-selection--single{
 	border-radius:3px !important;
+    height:30px !important;
+    outline:none;
+}
+
+.select2-container:focus .select2-selection--single,
+.select2-container.select2-container--open .select2-selection--single{
+    border-color: #007cba !important;
+    color: #016087 !important;
+    box-shadow: 0 0 0 1px #007cba !important;
 }
 
 .select2-container .select2-selection--single .select2-selection__rendered{
     font-size:14px;
-    height:26px;
-    line-height: 25px !important;
+    height:28px;
+    line-height: 27px !important;
+    padding-right:23px !important;
 }
 
 .select2-container .select2-selection--single .select2-selection__clear{
-	line-height:24px;
-    height:26px;
+	line-height:26px;
+    height:28px;
+    font-size:16px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    height: 28px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b{
+    background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat;
+	background-size: 16px 16px;
+    border:0 !important;
+    width:16px !important;
+    height:16px !important;
+    margin-left: -11px !important;
+    margin-top: -7px !important;
 }
 
 .select2-container .select2-search--inline .select2-search__field{
-    margin-top:3px !important;
+    margin-top:4px !important;
     font-size:14px !important;
+    padding-left: 2px !important;
 }
 
+/* Select2: Multiple */
 .select2-container .select2-selection--multiple{
-    min-height: 28px !important;
+    min-height: 30px !important;
     line-height:1;
     border-radius:3px !important;
 }
@@ -293,7 +492,7 @@ body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-sea
 .select2-container--default .select2-selection--multiple .select2-selection__choice{
     margin-right:2px !important;
     margin-top:2px !important;
-    line-height:1.4;
+    line-height:1.6;
     border-radius:3px !important;
     font-size:14px;
 }
@@ -305,6 +504,41 @@ body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-sea
 
 .select2-container--default.select2-container--focus .select2-selection--multiple{
     border-color:#7e8993 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__clear{
+    margin-top: 5px !important;
+    margin-right: 5px !important;
+    font-size: 16px;
+}
+
+/* 
+ * ACF Field: Tab Badge
+ */
+.acf-tab-group li a .acfe-tab-badge{
+    border-radius: 100px;
+    background: #ddd;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0;
+    text-align: center;
+    margin-left: 5px;
+    line-height: 18px;
+}
+
+.acf-tab-group li.active a .acfe-tab-badge,
+.acf-tab-group li a:hover .acfe-tab-badge{
+    background: #f1f1f1;
+}
+
+/* 
+ * ACF Field: Select2 WPML Fix
+ */
+.acf-field > .acf-input > .select2 .select2-search{
+    width:auto;
 }
 
 /* 

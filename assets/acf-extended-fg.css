@@ -2,6 +2,9 @@
 .acf-field-setting-acfe_settings > .acf-input > .acf-fields,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields,
 .acf-field-setting-acfe_update > .acf-input > .acf-fields,
+.acf-field-setting-acfe_google_map_zooms > .acf-input > .acf-fields,
+.acf-field-setting-acfe_hide > .acf-input > .acf-fields,
+.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields,
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields,
 .acf-field-setting-acfe_settings > .acf-input > .acf-fields > .acf-field.acf-field-acfe-settings-rules-or,
@@ -14,12 +17,38 @@
 .acf-field-setting-acfe_permissions > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_settings > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields > .acf-field,
-.acf-field-setting-acfe_update > .acf-input > .acf-fields > .acf-field{
+.acf-field-setting-acfe_update > .acf-input > .acf-fields > .acf-field,
+.acf-field-setting-acfe_google_map_zooms > .acf-input > .acf-fields > .acf-field,
+.acf-field-setting-acfe_hide > .acf-input > .acf-fields > .acf-field{
     padding:0;
+}
+
+
+.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields{
+    margin-left:-12px;
+    margin-right:-12px;
+}
+
+.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields .acf-actions{
+    text-align:left;
+}
+
+.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields > .acf-field{
+    padding-top:0;
+    padding-bottom:0;
+    border:0;
 }
 
 .acf-field-setting-acfe_field_data{
     display:none;
+}
+
+.acf-field-setting-acfe_google_map_zooms > .acf-input > .acf-fields > .acf-field{
+    border-left:0;
+}
+
+.acf-field-hide-front.acfe_width_auto{
+    margin-right:30px;
 }
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields > .acf-field.acf-field-acfe-bidirectional-enabled > .acf-label,

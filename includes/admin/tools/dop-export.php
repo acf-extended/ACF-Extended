@@ -44,8 +44,8 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
         
         // vars
 		$choices = array();
-        
-        $dynamic_options_pages = get_option('acfe_dynamic_options_pages', array());
+	
+	    $dynamic_options_pages = acfe_settings('modules.dynamic_option.data');
         
 		if($dynamic_options_pages){
 			foreach($dynamic_options_pages as $options_page_name => $args){
@@ -314,8 +314,8 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
         
 		if(!$selected)
             return false;
-        
-        $dynamic_options_pages = get_option('acfe_dynamic_options_pages', array());
+		$dynamic_options_pages = acfe_settings('modules.dynamic_option.data');
+		
         if(empty($dynamic_options_pages))
             return false;
 		

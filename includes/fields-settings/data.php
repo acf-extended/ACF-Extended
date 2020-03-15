@@ -35,17 +35,40 @@ add_filter('acf/render_field/name=acfe_field_data', 'acfe_render_field_data');
 function acfe_render_field_data($field){
     
     $acfe_field_data_id = $field['value'];
+
+    if(!$acfe_field_data_id)
+    	return;
     
     $get_field = acf_get_field($acfe_field_data_id);
+
+	$get_field = array_map(function($value){
+
+		if(is_array($value))
+			return $value;
+
+		return esc_html($value);
+
+	}, $get_field);
+
     $get_field_debug = '<pre style="margin-bottom:15px;">' . print_r($get_field, true) . '</pre>';
 
     if(!$get_field)
         $get_field_debug = '<pre>Field data unavailable</pre>';
 
-    $get_post = get_post($acfe_field_data_id);
+    $get_post = get_post($acfe_field_data_id, ARRAY_A);
+
+	$get_post = array_map(function($value){
+
+		if(is_array($value))
+			return $value;
+
+		return esc_html($value);
+
+	}, $get_post);
+
     $get_post_debug = '<pre>' . print_r($get_post, true) . '</pre>';
     
-    if(!$get_post || $get_post->post_type !== 'acf-field'){
+    if(!$get_post || $get_post['post_type'] !== 'acf-field'){
         $get_post_debug = '<pre>Post object unavailable</pre>';
     }
     

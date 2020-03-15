@@ -13,33 +13,23 @@ class acfe_field_post_types extends acf_field{
         $this->label = __('Post types', 'acfe');
         $this->category = 'relational';
         $this->defaults = array(
-            'post_type'     => array(),
-            'field_type'    => 'checkbox',
-            'multiple' 		=> 0,
-			'allow_null' 	=> 0,
-			'choices'		=> array(),
-			'default_value'	=> '',
-			'ui'			=> 0,
-			'ajax'			=> 0,
-			'placeholder'	=> '',
-            'layout'        => '',
-			'toggle'        => 0,
-			'allow_custom'  => 0,
-			'return_format' => 'name',
+            'post_type'             => array(),
+            'field_type'            => 'checkbox',
+            'multiple'              => 0,
+			'allow_null'            => 0,
+			'choices'               => array(),
+			'default_value'         => '',
+			'ui'                    => 0,
+			'ajax'                  => 0,
+			'placeholder'           => '',
+			'search_placeholder'	=> '',
+            'layout'                => '',
+			'toggle'                => 0,
+			'allow_custom'          => 0,
+			'return_format'         => 'name',
         );
         
         parent::__construct();
-        
-    }
-
-    function prepare_field($field){
-        
-        $field['choices'] = acf_get_pretty_post_types($field['post_type']);
-        
-        // Set Field Type
-        $field['type'] = $field['field_type'];
-        
-        return $field;
         
     }
     
@@ -121,43 +111,6 @@ class acfe_field_post_types extends acf_field{
             )
 		));
         
-        // placeholder
-        acf_render_field_setting($field, array(
-            'label'			=> __('Placeholder Text','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'placeholder',
-            'placeholder'   => _x('Select', 'verb', 'acf'),
-            'conditional_logic' => array(
-                array(
-                    array(
-                        'field'     => 'field_type',
-                        'operator'  => '==',
-                        'value'     => 'select',
-                    ),
-                    array(
-                        'field'     => 'allow_null',
-                        'operator'  => '==',
-                        'value'     => '1',
-                    ),
-                    
-                ),
-                array(
-                    array(
-                        'field'     => 'field_type',
-                        'operator'  => '==',
-                        'value'     => 'select',
-                    ),
-                    array(
-                        'field'     => 'ui',
-                        'operator'  => '==',
-                        'value'     => '1',
-                    ),
-                    
-                ),
-            )
-        ));
-        
         // Select: multiple
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Select multiple values?','acf'),
@@ -217,6 +170,69 @@ class acfe_field_post_types extends acf_field{
                 ),
             )
 		));
+        
+        // placeholder
+        acf_render_field_setting($field, array(
+            'label'			=> __('Placeholder','acf'),
+            'instructions'	=> __('Appears within the input','acf'),
+            'type'			=> 'text',
+            'name'			=> 'placeholder',
+            'placeholder'   => _x('Select', 'verb', 'acf'),
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'allow_null',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'allow_null',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                ),
+            )
+        ));
+        
+        // search placeholder
+        acf_render_field_setting($field, array(
+            'label'			=> __('Search Input Placeholder','acf'),
+            'instructions'	=> __('Appears within the search input','acf'),
+            'type'			=> 'text',
+            'name'			=> 'search_placeholder',
+            'placeholder'   => _x('Select', 'verb', 'acf'),
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                ),
+            )
+        ));
 		
 		// Radio: other_choice
 		acf_render_field_setting( $field, array(
@@ -232,31 +248,6 @@ class acfe_field_post_types extends acf_field{
                         'field'     => 'field_type',
                         'operator'  => '==',
                         'value'     => 'radio',
-                    ),
-                ),
-            )
-		));
-		
-		
-		// Radio: save_other_choice
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Save Other','acf'),
-			'instructions'	=> '',
-			'name'			=> 'save_other_choice',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
-			'message'		=> __("Save 'other' values to the field's choices", 'acf'),
-            'conditions' => array(
-                array(
-                    array(
-                        'field'     => 'field_type',
-                        'operator'  => '==',
-                        'value'     => 'radio',
-                    ),
-                    array(
-                        'field'     => 'other_choice',
-                        'operator'  => '==',
-                        'value'     => 1,
                     ),
                 ),
             )
@@ -325,36 +316,55 @@ class acfe_field_post_types extends acf_field{
                         'value'     => 'checkbox',
                     ),
                 ),
-            )
-		));
-		
-		
-		// Checkbox: save_other_choice
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Save Custom','acf'),
-			'instructions'	=> '',
-			'name'			=> 'save_custom',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
-			'message'		=> __("Save 'custom' values to the field's choices", 'acf'),
-            'conditions' => array(
                 array(
                     array(
                         'field'     => 'field_type',
                         'operator'  => '==',
-                        'value'     => 'checkbox',
+                        'value'     => 'select',
                     ),
                     array(
-                        'field'     => 'allow_custom',
+                        'field'     => 'ui',
                         'operator'  => '==',
-                        'value'     => 1,
+                        'value'     => '1',
                     ),
-                ),
+                )
             )
 		));
         
     }
     
+    function prepare_field($field){
+        
+        // Set Field Type
+        $field['type'] = $field['field_type'];
+        
+        // Choices
+        $field['choices'] = acf_get_pretty_post_types($field['post_type']);
+        
+        // Allow Custom
+        if(acf_maybe_get($field, 'allow_custom')){
+            
+            if($value = acf_maybe_get($field, 'value')){
+                
+                $value = acf_get_array($value);
+                
+                foreach($value as $v){
+                    
+                    if(isset($field['choices'][$v]))
+                        continue;
+                    
+                    $field['choices'][$v] = $v;
+                    
+                }
+                
+            }
+            
+        }
+        
+        // return
+        return $field;
+        
+    }
     
     function format_value($value, $post_id, $field){
         
@@ -366,14 +376,23 @@ class acfe_field_post_types extends acf_field{
                 
                 foreach($value as $i => $v){
                     
-                    $value[$i] = get_post_type_object($v);
+                    if($get_post_type_object = get_post_type_object($v)){
+                        
+                        $value[$i] = $get_post_type_object;
+                        
+                    }else{
+                        
+                        $value[$i] = $i;
+                        
+                    }
                     
                 }
             
             // string
             }else{
                 
-                $value = get_post_type_object($value);
+                if($get_post_type_object = get_post_type_object($value))
+                    $value = $get_post_type_object;
                 
             }
         

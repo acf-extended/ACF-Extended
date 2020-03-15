@@ -214,6 +214,7 @@ body:not(.acf-admin-5-3) .layout > .acfe-fc-placeholder > a span{
     border-top:1px solid #e1e1e1;
     padding:12px;
     text-align:right;
+    clear:both;
 }
 
 /*

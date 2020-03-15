@@ -63,7 +63,7 @@ function acfe_field_groups_column($columns){
     }
     
     // Fix 'Third party' screen columns
-    elseif(acf_maybe_get_GET('post_status') === 'acfe-third-party'){
+    elseif(acf_maybe_get_GET('post_status') === 'acfe-local'){
         
         $columns = array(
             'title'             => __('Title', 'acf'),
@@ -129,7 +129,7 @@ function acfe_field_groups_column_html($column, $post_id){
         
         else{
             
-            $source = '<span style="color:#aaa;">' . __('Unknown', 'acf') . '</span>';
+            $source = __('Local', 'acf');
             
         }
         
@@ -256,6 +256,8 @@ function acfe_field_groups_column_html($column, $post_id){
                     }
                     
                 }
+                
+                $final_name = esc_html($final_name);
                 
                 $name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[$and['param']]['icon'] . '" title="' . $final[$and['param']]['name'] . ' = ' . $final_name . '"></span>';
                 if($and['operator'] === '!=')
@@ -410,7 +412,7 @@ function hwk_post_type_exemple_row_actions($actions, $post){
     $actions['acfe-export-php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=php&keys=' . $field_group['key']) . '">PHP</a>';
     $actions['acfe-export-json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=json&keys=' . $field_group['key']) . '">Json</a>';
     
-    $actions['acfe-key'] = '<span style="color:#555;"><code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . $field_group['key'] . '</code></span>';
+    $actions['acfe-key'] = '<span style="color:#555;"><code style="font-size: 12px;">' . $field_group['key'] . '</code></span>';
     
     //$actions['acfe-id'] = '<span style="color:#555;">ID: ' . $field_group['ID'] . '</span>';
     
@@ -482,17 +484,31 @@ function acfe_field_groups_seamless($post_type, $post, $field_groups){
     
     foreach($field_groups as $field_group){
         
-        if($field_group['style'] !== 'seamless')
-            continue;
+        if($field_group['style'] === 'seamless'){
+	
+	        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
+		
+		        $classes[] = 'acf-postbox';
+		        $classes[] = 'seamless';
+		
+		        return $classes;
+		
+	        });
+         
+        }
         
-        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
-            
-            $classes[] = 'seamless';
-            $classes[] = 'acf-postbox';
-            
-            return $classes;
-            
-        });
+        if($field_group['label_placement'] === 'left'){
+	
+	        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
+		
+		        $classes[] = 'acf-postbox';
+		        $classes[] = 'acfe-postbox-left';
+		
+		        return $classes;
+		
+	        });
+         
+        }
         
     }
     

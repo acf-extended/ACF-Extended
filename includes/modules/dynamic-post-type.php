@@ -56,8 +56,9 @@ function acfe_dpt_register(){
  */
 add_action('init', 'acfe_dpt_registers');
 function acfe_dpt_registers(){
-    
-    $dynamic_post_types = get_option('acfe_dynamic_post_types', array());
+	
+	$dynamic_post_types = acfe_settings('modules.dynamic_post_type.data');
+
     if(empty($dynamic_post_types))
         return;
     
@@ -114,7 +115,7 @@ function acfe_dpt_misc_actions($post){
 add_action('acf/save_post', 'acfe_dpt_filter_save', 20);
 function acfe_dpt_filter_save($post_id){
     
-    if(get_post_type($post_id) != 'acfe-dpt')
+    if(get_post_type($post_id) !== 'acfe-dpt')
         return;
     
     $title = get_field('label', $post_id);
@@ -160,7 +161,7 @@ function acfe_dpt_filter_save($post_id){
     
     // Capability
     $capability_type = acf_decode_choices(get_field('capability_type', $post_id), true);
-    $capabilities = acf_decode_choices(get_field('capabilities', $post_id), true);
+    $capabilities = acf_decode_choices(get_field('capabilities', $post_id));
     $map_meta_cap = get_field('map_meta_cap', $post_id);
     
     // Archive
@@ -277,7 +278,7 @@ function acfe_dpt_filter_save($post_id){
         $register_args['map_meta_cap'] = true;
         
     // Get ACFE option
-    $option = get_option('acfe_dynamic_post_types', array());
+	$option = acfe_settings('modules.dynamic_post_type.data');
     
     // Create ACFE option
     $option[$name] = $register_args;
@@ -286,7 +287,7 @@ function acfe_dpt_filter_save($post_id){
     ksort($option);
     
     // Update ACFE option
-    update_option('acfe_dynamic_post_types', $option);
+	acfe_settings('modules.dynamic_post_type.data', $option, true);
     
     // Flush permalinks
     flush_rewrite_rules();
@@ -306,14 +307,14 @@ function acfe_dpt_filter_status_trash($post){
     $name = get_field('acfe_dpt_name', $post_id);
     
     // Get ACFE option
-    $option = get_option('acfe_dynamic_post_types', array());
+	$option = acfe_settings('modules.dynamic_post_type.data');
     
     // Check ACFE option
     if(isset($option[$name]))
         unset($option[$name]);
     
     // Update ACFE option
-    update_option('acfe_dynamic_post_types', $option);
+	acfe_settings('modules.dynamic_post_type.data', $option, true);
     
     // Flush permalinks
     flush_rewrite_rules();
@@ -377,8 +378,10 @@ function acfe_dpt_admin_ppp($ppp, $post_type){
  */
 add_action('pre_get_posts', 'acfe_dpt_filter_admin_list');
 function acfe_dpt_filter_admin_list($query){
+	
+	global $pagenow;
     
-    if(!is_admin() || !$query->is_main_query() || !is_post_type_archive())
+    if(!is_admin() || !$query->is_main_query() || $pagenow !== 'edit.php')
         return;
 
     $post_type = $query->get('post_type');
@@ -527,7 +530,7 @@ function acfe_dpt_admin_columns_html($column, $post_id){
     // Name
     if($column === 'acfe-name'){
         
-        echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . get_field('acfe_dpt_name', $post_id) . '</code>';
+        echo '<code style="font-size: 12px;">' . get_field('acfe_dpt_name', $post_id) . '</code>';
         
     }
     
@@ -1977,11 +1980,11 @@ stories',
             'name' => 'capabilities',
             'type' => 'textarea',
             'instructions' => 'An array of the capabilities for this post type. Specify capabilities like this:<br /><br />
-
-edit_post<br />
-read_post<br />
-delete_post<br />
-edit_posts<br />
+publish_posts : publish_posts<br />
+edit_post  : edit_post<br />
+edit_posts  : edit_posts<br />
+read_post : read_post<br />
+delete_post : delete_post<br />
 etc...',
             'required' => 0,
             'conditional_logic' => 0,
@@ -2128,7 +2131,6 @@ etc...',
             'type' => 'number',
             'instructions' => 'ACF Extended: Number of posts to display in the archive page',
             'required' => 0,
-            'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
@@ -2144,6 +2146,15 @@ etc...',
             'min' => -1,
             'max' => '',
             'step' => '',
+            'conditional_logic' => array(
+	            array(
+		            array(
+			            'field' => 'field_acfe_dpt_has_archive',
+			            'operator' => '==',
+			            'value' => '1',
+		            ),
+	            ),
+            ),
         ),
         array(
             'key' => 'field_acfe_dpt_archive_orderby',
@@ -2152,7 +2163,6 @@ etc...',
             'type' => 'text',
             'instructions' => 'ACF Extended: Sort retrieved posts by parameter in the archive page. Defaults to \'date (post_date)\'.',
             'required' => 0,
-            'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
@@ -2170,6 +2180,15 @@ etc...',
             'prepend' => '',
             'append' => '',
             'maxlength' => '',
+            'conditional_logic' => array(
+	            array(
+		            array(
+			            'field' => 'field_acfe_dpt_has_archive',
+			            'operator' => '==',
+			            'value' => '1',
+		            ),
+	            ),
+            ),
         ),
         array(
             'key' => 'field_acfe_dpt_archive_order',
@@ -2178,7 +2197,6 @@ etc...',
             'type' => 'select',
             'instructions' => 'ACF Extended: Designates the ascending or descending order of the \'orderby\' parameter in the archive page. Defaults to \'DESC\'.',
             'required' => 0,
-            'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
@@ -2200,6 +2218,15 @@ etc...',
             'return_format' => 'value',
             'ajax' => 0,
             'placeholder' => '',
+            'conditional_logic' => array(
+	            array(
+		            array(
+			            'field' => 'field_acfe_dpt_has_archive',
+			            'operator' => '==',
+			            'value' => '1',
+		            ),
+	            ),
+            ),
         ),
         array(
             'key' => 'field_acfe_dpt_tab_single',

@@ -2,8 +2,8 @@
     
     // init
     var acfe = {};
-	
-	window.acfe = acfe;
+
+    window.acfe = acfe;
     
     acfe.modal = {
         
@@ -187,13 +187,20 @@
         if(!field.has('acfeInstructionsTooltip'))
             return;
         
-        var $label = field.$el.find('> .acf-label > label');
-        
-        if($label.length){
-            
-            $label.before('<span class="acf-js-tooltip dashicons dashicons-info" style="float:right; font-size:16px; color:#ccc;" title="' + _.escape(field.get('acfeInstructionsTooltip')) + '"></span>');
-            
+        var $label = field.$labelWrap().find('> label');
+        var $instructions = field.$labelWrap().find('> .description');
+        var instructions_html = $instructions.html();
+        var instructions_html_2 = field.get('acfeInstructionsTooltip');
+
+        var instructions = instructions_html_2;
+
+        if($instructions.length){
+
+            $instructions.remove();
+            instructions = instructions_html;
+
         }
+        $label.before('<span class="acfe-field-tooltip acf-js-tooltip dashicons dashicons-info" title="' + _.escape(instructions) + '"></span>');
             
     });
     
@@ -221,8 +228,6 @@
     
     acf.addAction('new_field/name=acfe_form_email_content',     acfe_form_move_instructions_below);
     
-    acf.addAction('new_field/name=acfe_form_custom_action',     acfe_form_move_instructions_below);
-    
     acf.addAction('new_field/name=acfe_form_post_save_target',  acfe_form_move_instructions_below);
     acf.addAction('new_field/name=acfe_form_post_load_source',  acfe_form_move_instructions_below);
     
@@ -233,6 +238,12 @@
     acf.addAction('new_field/name=acfe_form_user_load_source',  acfe_form_move_instructions_below);
     
     acf.addAction('new_field/name=acfe_form_email_files', function(field){
+        
+        field.$el.find('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
+            
+    });
+    
+    acf.addAction('new_field/name=acfe_form_email_files_static', function(field){
         
         field.$el.find('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
             

@@ -72,8 +72,8 @@ class ACFE_Admin_Tool_Import_DT extends ACF_Admin_Tool{
     		return acf_add_admin_notice(__("Import file empty", 'acf'), 'warning');
     	
     	$ids = array();
-        
-        $dynamic_taxonomies = get_option('acfe_dynamic_taxonomies', array());
+	
+	    $dynamic_taxonomies = acfe_settings('modules.dynamic_taxonomy.data');
     	
     	// Loop over json
     	foreach($json as $taxonomy_name => $args){
@@ -200,7 +200,7 @@ class ACFE_Admin_Tool_Import_DT extends ACF_Admin_Tool{
             ksort($dynamic_taxonomies);
             
             // Update ACFE option
-            update_option('acfe_dynamic_taxonomies', $dynamic_taxonomies);
+		    acfe_settings('modules.dynamic_taxonomy.data', $dynamic_taxonomies, true);
 	    	
 	    	// append message
 	    	$ids[] = $post_id;
