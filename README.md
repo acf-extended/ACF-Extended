@@ -421,7 +421,7 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 * Module: Dynamic Taxonomy - Fixed Front posts per page, orderby & order settings
 * Module: Dynamic Author - Added better post author ID cast
 * Module: AutoSync - New fields groups now have Json/PHP AutoSync setting checked by default if the corresponding folder exists
-* Field: Flexible Content - Modal Categories Selection - Added `trim()` between pipes
+* Field: Flexible Content - Modal Categories Selection setting is now using Select2 with tags
 * Field: Flexible Content - The bottom bar in modal now clear potential floating elements
 * Field: Flexible Content - Fixed clone function not working correctly with tabs that have conditional logic
 * Field: Select - Added "## Title" markdown to add option group in field's choices
