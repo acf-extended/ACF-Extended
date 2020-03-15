@@ -35,6 +35,21 @@
             array: [],
             html: ''
         };
+
+        function SearchArray(element, array){
+
+            var len = array.length,
+                str = element.toString().toLowerCase();
+
+            for(var i = 0; i < len; i++){
+                if(array[i].toLowerCase() === str){
+                    return i;
+                }
+            }
+
+            return -1;
+
+        }
         
         // Get Categories
         $(layouts).find('li a span').each(function(){
@@ -45,32 +60,15 @@
                 return true;
 
             var category = $link.data('acfe-flexible-category');
-            
-            // With pipes
-            if(category.indexOf('|') != -1){
-                
-                var cats = category.split('|');
-                
-                $(cats).each(function(i, c){
-                    
-                    if(categories.array.indexOf(c) != -1)
-                        return true;
-                    
-                    categories.array.push(c);
-                    
-                });
-                
-            }
-            
-            // Without pipes
-            else{
-            
-                if(categories.array.indexOf(category) != -1)
+
+            $.each(category, function(i, c){
+
+                if(SearchArray(c, categories.array) !== -1)
                     return true;
-                
-                categories.array.push(category);
-            
-            }
+
+                categories.array.push(c);
+
+            });
             
         });
         
@@ -199,36 +197,18 @@
                     
                     // Hide All
                     $span.closest('li').hide();
-                    
-                    // With pipes
-                    if(category.indexOf('|') != -1){
-                        
-                        var cats = category.split('|');
-                        
-                        $(cats).each(function(i, c){
-                            
-                            if(selected_category === c){
-                                
-                                $span.closest('li').show();
-                                
-                                return false;
-                                
-                            }
-                            
-                        });
-                        
-                    }
-                    
-                    // Without pipes
-                    else{
-                        
-                        if(selected_category === category){
-                            
+
+                    $.each(category, function(i, c){
+
+                        if(selected_category.toLowerCase() === c.toLowerCase()){
+
                             $span.closest('li').show();
-                            
+
+                            return false;
+
                         }
-                        
-                    }
+
+                    });
                     
                 }
                 
