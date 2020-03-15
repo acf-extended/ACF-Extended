@@ -28,6 +28,8 @@ class acfe_field_settings{
             return;
         
         $this->field_types_action();
+	
+	    //add_action('acf/render_field_settings',                             array($this, 'quick_settings'), 998);
         
         // Fix: Repeater
         add_filter('acf/prepare_field/name=acfe_settings',                  array($this, 'fix_repeater'));
@@ -42,6 +44,77 @@ class acfe_field_settings{
         add_filter('acf/update_field',                                      array($this, 'fix_clone'));
         
     }
+    
+	function quick_settings($field){
+    	
+    	$valid = false;
+		
+		$field_group = acfe_get_field_group_from_field($field);
+		
+		if(acf_maybe_get($field_group, 'acfe_form'))
+			$valid = true;
+		
+		if(!$valid && acf_maybe_get($field, '_name') === 'new_field'){
+			
+			$field_group_id = get_the_ID();
+			
+			if($field_group_id){
+				
+				$field_group = acf_get_field_group($field_group_id);
+				
+				if(acf_maybe_get($field_group, 'acfe_form'))
+					$valid = true;
+				
+			}
+			
+		}
+		
+		if(!$valid)
+			return;
+			
+		// Hide Field
+		acf_render_field_setting($field, array(
+			'label'         => __('Hide Field', 'acfe'),
+			'instructions'  => __('Hide field on specific location'),
+			'prepend'       => '',
+			'append'        => '',
+			'type'          => 'group',
+			'name'          => 'acfe_hide',
+			'sub_fields'    => array(
+				array(
+					'label'         => '',
+					'name'          => 'hide_front',
+					'key'           => 'hide_front',
+					'type'          => 'true_false',
+					'ui'            => true,
+					'message'       => 'Hide on front',
+					'default_value' => false,
+					'required'      => false,
+					'wrapper'       => array(
+						'width' => 33,
+						'class' => 'acfe_width_auto',
+						'id'    => '',
+					),
+				),
+				array(
+					'label'         => '',
+					'name'          => 'hide_admin',
+					'key'           => 'hide_admin',
+					'type'          => 'true_false',
+					'ui'            => true,
+					'message'       => 'Hide on admin',
+					'default_value' => false,
+					'required'      => false,
+					'wrapper'       => array(
+						'width' => 33,
+						'class' => 'acfe_width_auto',
+						'id'    => '',
+					),
+				),
+			)
+		));
+		
+	}
     
     /**
      * Get field types

@@ -41,11 +41,15 @@ function acfe_field_file_settings($field){
 
 add_filter('acf/prepare_field/type=file', 'acfe_field_file_uploader_type');
 function acfe_field_file_uploader_type($field){
-
-    if(!isset($field['acfe_uploader']) || empty($field['acfe_uploader']))
+	
+	if(!acf_maybe_get($field, 'acfe_uploader'))
         return $field;
-
-    acf_update_setting('uploader', $field['acfe_uploader']);
+	
+	// ACFE Form force uploader type
+	if(acf_is_filter_enabled('acfe/form/uploader'))
+		return $field;
+	
+	acf_update_setting('uploader', $field['acfe_uploader']);
 
     return $field;
 

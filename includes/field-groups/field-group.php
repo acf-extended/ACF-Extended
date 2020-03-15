@@ -176,7 +176,6 @@ function acfe_render_field_group_settings(){
         ));
         
         // Data
-        
         acf_render_field_wrap(array(
             'label'         => __('Field group data'),
             'instructions'  => __('View raw field group data, for development use'),
@@ -278,6 +277,7 @@ function acfe_render_field_group_settings_side(){
         ));
         
         if(acfe_is_field_group_json_desync($field_group)){
+            
             acf_render_field_wrap(array(
                 'label'         => __('Json Desync'),
                 'instructions'  => __('Local json file is different from this version. If you manually synchronize it, you will lose your current field group settings'),
@@ -286,6 +286,7 @@ function acfe_render_field_group_settings_side(){
                 'prefix'        => 'acf_field_group',
                 'value'         => $field_group['key'],
             ));
+            
         }
         
         
@@ -440,7 +441,7 @@ function acfe_render_field_acfe_sync_warnings($field){
     
     // PHP
     
-    // Fix to load local fiel groups
+    // Fix to load local field groups
     acf_enable_filters();
     
         if(acfe_has_field_group_autosync($field_group, 'php') && !acf_get_setting('acfe/php_found')){
@@ -492,7 +493,7 @@ function acfe_render_field_group_data($field){
         
     }
     
-    echo '<a href="#" class="button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data') . '</a>';
+    echo '<a href="#" class="acf-button button acfe_modal_open" data-modal-key="' . $field_group['key'] . '">' . __('Data') . '</a>';
     echo '<div class="acfe-modal" data-modal-key="' . $field_group['key'] . '"><div style="padding:15px;"><pre style="margin-bottom:15px;">' . print_r($field_group, true) . '</pre><pre>' . print_r($field_group_raw, true) . '</pre></div></div>';
     
 }
@@ -584,12 +585,36 @@ function acfe_field_group_instruction_placement($field){
 add_filter('acf/validate_field_group', 'acfc_field_group_default_options');
 function acfc_field_group_default_options($field_group){
     
-    // Default label placement: Left
+    // Only new field groups
     if(!acf_maybe_get($field_group, 'location')){
-        
+	
+	    // Default label placement: Left
         $field_group['label_placement'] = 'left';
         
+        // AutoSync
+	    $acfe_autosync = array();
+	
+	    if(acf_get_setting('acfe/json_found', false)){
+		
+		    $acfe_autosync[] = 'json';
+		
+	    }
+	
+	    if(acf_get_setting('acfe/php_found', false)){
+		
+		    $acfe_autosync[] = 'php';
+		
+	    }
+	
+	    if(!empty($acfe_autosync)){
+		
+		    $field_group['acfe_autosync'] = $acfe_autosync;
+		
+	    }
+        
     }
+	
+    
     
     return $field_group;
     

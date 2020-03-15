@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.8.4.6
+ * Version:     0.8.5
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Version
-    var $version = '0.8.4.6';
+    var $version = '0.8.5';
     
     // Settings
     var $settings = array();
@@ -100,9 +100,11 @@ class ACFE{
         // Tools
         add_action('acf/include_admin_tools',   array($this, 'tools'));
         
-        // Compatibility
+        // Additional
+        acfe_include('includes/core/settings.php');
         acfe_include('includes/core/compatibility.php');
-        
+	    acfe_include('includes/core/upgrades.php');
+
     }
     
     /**
@@ -153,7 +155,7 @@ class ACFE{
         acfe_include('includes/field-groups/field-group.php');
         acfe_include('includes/field-groups/field-group-category.php');
         acfe_include('includes/field-groups/field-groups.php');
-        acfe_include('includes/field-groups/field-groups-third-party.php');
+        acfe_include('includes/field-groups/field-groups-local.php');
         
         /**
          * Locations
@@ -229,10 +231,13 @@ class ACFE{
         acfe_include('includes/admin/tools/fg-export.php');
         
     }
-    
-    /**
-     * ACFE: Define
-     */
+
+	/**
+	 * ACFE: Define
+	 *
+	 * @param $name
+	 * @param bool $value
+	 */
     function define($name, $value = true){
         
         if(!defined($name))

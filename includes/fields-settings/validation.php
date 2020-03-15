@@ -35,7 +35,7 @@ class acfe_field_validation{
             ),
             
             'Is' => array(
-                'is_email'              => 'If is email - is_email(value))',
+                'is_email'              => 'If is email - is_email(value)',
                 'is_user_logged_in'     => 'If is user logged in - is_user_logged_in()',
             ),
             
@@ -486,7 +486,7 @@ class acfe_field_validation{
                 
                 // Vars
                 $operator = $function['acfe_validate_operator'];
-                $match = $function['acfe_validate_match'];
+                $match = acf_maybe_get($function, 'acfe_validate_match');
                 
                 if($operator === '==' && $result == $match){
                     $rule_match = true;

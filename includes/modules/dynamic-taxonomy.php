@@ -56,8 +56,9 @@ function acfe_dt_register(){
  */
 add_action('init', 'acfe_dt_registers');
 function acfe_dt_registers(){
-    
-    $dynamic_taxonomies = get_option('acfe_dynamic_taxonomies', array());
+	
+	$dynamic_taxonomies = acfe_settings('modules.dynamic_taxonomy.data');
+
     if(empty($dynamic_taxonomies))
         return;
     
@@ -120,7 +121,7 @@ function acfe_dt_misc_actions($post){
 add_action('acf/save_post', 'acfe_dt_filter_save', 20);
 function acfe_dt_filter_save($post_id){
     
-    if(get_post_type($post_id) != 'acfe-dt')
+    if(get_post_type($post_id) !== 'acfe-dt')
         return;
     
     $title = get_field('label', $post_id);
@@ -164,7 +165,7 @@ function acfe_dt_filter_save($post_id){
     $show_admin_column = get_field('show_admin_column', $post_id);
     
     // Capability
-    $capabilities = acf_decode_choices(get_field('capabilities', $post_id), true);
+    $capabilities = acf_decode_choices(get_field('capabilities', $post_id));
     
     // Single
     $single_template = get_field('acfe_dt_single_template', $post_id);
@@ -251,7 +252,7 @@ function acfe_dt_filter_save($post_id){
         $register_args['meta_box_cb'] = $meta_box_cb_custom;
     
     // Get ACFE option
-    $option = get_option('acfe_dynamic_taxonomies', array());
+	$option = acfe_settings('modules.dynamic_taxonomy.data');
     
     // Create ACFE option
     $option[$name] = $register_args;
@@ -260,7 +261,7 @@ function acfe_dt_filter_save($post_id){
     ksort($option);
     
     // Update ACFE option
-    update_option('acfe_dynamic_taxonomies', $option);
+	acfe_settings('modules.dynamic_taxonomy.data', $option, true);
     
     // Flush permalinks
     flush_rewrite_rules();
@@ -280,14 +281,14 @@ function acfe_dt_filter_status_trash($post){
     $name = get_field('acfe_dt_name', $post_id);
     
     // Get ACFE option
-    $option = get_option('acfe_dynamic_taxonomies', array());
+	$option = acfe_settings('modules.dynamic_taxonomy.data');
     
     // Check ACFE option
     if(isset($option[$name]))
         unset($option[$name]);
     
     // Update ACFE option
-    update_option('acfe_dynamic_taxonomies', $option);
+	acfe_settings('modules.dynamic_taxonomy.data', $option, true);
     
     // Flush permalinks
     flush_rewrite_rules();
@@ -411,8 +412,13 @@ function acfe_dt_filter_front_list($query){
     
     if(is_admin() || !$query->is_main_query() || !is_tax())
         return;
+    
+    $term_obj = $query->get_queried_object();
+        
+    if(!is_a($term_obj, 'WP_Term'))
+        return;
 
-    $taxonomy = $query->get('taxonomy');
+    $taxonomy = $term_obj->taxonomy;
     $taxonomy_obj = get_taxonomy($taxonomy);
     
     $acfe_single_ppp = (isset($taxonomy_obj->acfe_single_ppp) && !empty($taxonomy_obj->acfe_single_ppp));
@@ -482,7 +488,7 @@ function acfe_dt_admin_columns_html($column, $post_id){
     // Name
     if($column === 'acfe-name'){
         
-        echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . get_field('acfe_dt_name', $post_id) . '</code>';
+        echo '<code style="font-size: 12px;">' . get_field('acfe_dt_name', $post_id) . '</code>';
         
     }
     
@@ -682,22 +688,26 @@ function acfe_dt_admin_validate_name($valid, $value, $field, $input){
     
     // Editing Current Dynamic Taxonomy
     $current_post_id = $_POST['_acf_post_id'];
-    $current_post_type = false;
+    $current_taxonomy = false;
     
     if(!empty($current_post_id))
-        $current_post_type = get_field('acfe_dt_name', $current_post_id);
+	    $current_taxonomy = get_field('acfe_dt_name', $current_post_id);
     
-    if($value === $current_post_type)
+    if($value === $current_taxonomy)
         return $valid;
     
     // Listing WP Taxonomies
     global $wp_taxonomies;
+
     if(!empty($wp_taxonomies)){
+
         foreach($wp_taxonomies as $taxonomy){
+
             if($value != $taxonomy->name)
                 continue;
             
             $valid = __('This taxonomy name already exists');
+
         }
     }
 	
@@ -1633,10 +1643,10 @@ Default: if empty, name is set to label value, and singular_name is set to name 
             'name' => 'capabilities',
             'type' => 'textarea',
             'instructions' => 'An array of the capabilities for this taxonomy:<br /><br />
-manage_terms<br />
-edit_terms<br />
-delete_terms<br />
-assign_terms',
+manage_terms : edit_posts<br />
+edit_terms : edit_posts<br />
+delete_terms : edit_posts<br />
+assign_terms : edit_posts',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

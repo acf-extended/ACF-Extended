@@ -2,8 +2,8 @@
     
     if(typeof acf === 'undefined')
         return;
-    
-    /**
+
+    /*
      * ACF Extended: 0.8.4.5
      * Field Flexible Content: Fix duplicated "layout_settings" & "layout_title"
      */
@@ -16,9 +16,25 @@
         field.delete();
         
     });
+
+    /*
+     * Field: WYSIWYG
+     */
+    var acfe_repeater_remove_primary_class = function(field){
+        
+        field.$('.acf-button').removeClass('button-primary');
+        
+    }
+    
+    acf.addAction('new_field/name=acfe_meta', acfe_repeater_remove_primary_class);
+    acf.addAction('new_field/name=acfe_settings', acfe_repeater_remove_primary_class);
+    acf.addAction('new_field/name=acfe_validate', acfe_repeater_remove_primary_class);
     
     $(function(){
-        
+
+        /*
+         * Field Setting: Data
+         */
         $('.button.edit-field').each(function(k, v){
             
             var tbody = $(this).closest('tbody');
@@ -42,12 +58,11 @@
             });
             
         });
-        
+
+        /*
+         * Field Group: Advanced Settings
+         */
         $('.acf-field[data-name="active"]').after($('.acf-field[data-name="acfe_form"]'));
-        
-        $('.acf-field-setting-acfe_settings > .acf-input > .acf-repeater .acf-actions .acf-button').removeClass('button-primary');
-        $('.acf-field-setting-acfe_validate > .acf-input > .acf-repeater .acf-actions .acf-button').removeClass('button-primary');
-        $('.acf-field-acfe-meta > .acf-input > .acf-repeater .acf-actions .acf-button').removeClass('button-primary');
     
     });
     

@@ -342,6 +342,40 @@ function acfe_get_field_group_from_field($field){
 }
 
 /**
+ * Add fields isntructions tooltip
+ */
+function acfe_add_fields_instructions_tooltip(&$field){
+	
+	$instructions = '';
+	
+	if(acf_maybe_get($field, 'instructions'))
+		$instructions = acf_esc_html($field['instructions']);
+    
+    if(isset($field['sub_fields'])){
+        
+        foreach($field['sub_fields'] as &$sub_field){
+	
+	        acfe_add_fields_instructions_tooltip($sub_field);
+            
+        }
+        
+    }
+    
+    elseif(isset($field['layouts'])){
+        
+        foreach($field['layouts'] as &$layout){
+	
+	        acfe_add_fields_instructions_tooltip($layout);
+            
+        }
+        
+    }
+    
+    $field['acfe_instructions_tooltip'] = $instructions;
+    
+}
+
+/**
  * Add custom key to fields and all sub fields
  */
 function acfe_field_add_key_recursive(&$field, $key, $value){
@@ -833,6 +867,42 @@ function acfe_number_suffix($num){
     
 }
 
+function acfe_array_to_string($array = array()){
+	
+	if(!is_array($array))
+		return $array;
+	
+	if(empty($array))
+		return false;
+	
+	if(acf_is_sequential_array($array)){
+		
+		foreach($array as $k => $v){
+			
+			if(!is_string($v))
+				continue;
+			
+			return $v;
+			
+		}
+		
+	}elseif(acf_is_associative_array($array)){
+		
+		foreach($array as $k => $v){
+			
+			if(!is_string($v))
+				continue;
+			
+			return $v;
+			
+		}
+		
+	}
+	
+	return false;
+	
+}
+
 function acfe_get_acf_screen_id($page = ''){
 
     $prefix = sanitize_title( __("Custom Fields", 'acf') );
@@ -882,4 +952,16 @@ function acfe_is_admin_screen($modules = false){
     
     return false;
     
+}
+
+function acfe_is_dev(){
+	
+	return acf_get_setting('acfe/dev', false) || (defined('ACFE_dev') && ACFE_dev);
+	
+}
+
+function acfe_is_super_dev(){
+	
+	return acf_get_setting('acfe/super_dev', false) || (defined('ACFE_super_dev') && ACFE_super_dev);
+	
 }

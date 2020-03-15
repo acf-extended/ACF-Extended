@@ -72,8 +72,8 @@ class ACFE_Admin_Tool_Import_DOP extends ACF_Admin_Tool{
     		return acf_add_admin_notice(__("Import file empty", 'acf'), 'warning');
     	
     	$ids = array();
-        
-        $dynamic_options_pages = get_option('acfe_dynamic_options_pages', array());
+	
+	    $dynamic_options_pages = acfe_settings('modules.dynamic_option.data');
         
         $dynamic_options_sub_pages = array();
     	
@@ -130,7 +130,7 @@ class ACFE_Admin_Tool_Import_DOP extends ACF_Admin_Tool{
             ksort($dynamic_options_pages);
             
             // Update ACFE option
-            update_option('acfe_dynamic_options_pages', $dynamic_options_pages);
+		    acfe_settings('modules.dynamic_option.data', $dynamic_options_pages, true);
 	    	
 	    	// Append message
 	    	$ids[] = $post_id;

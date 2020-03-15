@@ -3,6 +3,9 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Register notices store.
+acf_register_store('acfe/form')->prop('multisite', true);
+
 if(!class_exists('acfe_form')):
 
 class acfe_form{
@@ -12,6 +15,8 @@ class acfe_form{
     
     public $posts = array();
     public $users = array();
+    
+    public $query_vars = array();
     
     function __construct(){
         
@@ -29,9 +34,9 @@ class acfe_form{
         add_filter('acf/pre_load_post_id',                                          array($this, 'validate_post_id'), 10, 2);
         
         // Fields
+        add_filter('acf/load_value/name=acfe_form_custom_html_enable',              array($this, 'prepare_custom_html'), 10, 3);
         add_filter('acf/prepare_field/name=acfe_form_actions',                      array($this, 'prepare_actions'));
         add_filter('acf/prepare_field/name=acfe_form_field_groups',                 array($this, 'field_groups_choices'));
-        add_filter('acf/prepare_field/name=acfe_form_email_files',                  array($this, 'prepare_email_files'));
         
         // Format values
         add_filter('acfe/form/format_value/type=post_object',                       array($this, 'format_value_post_object'), 5, 4);
@@ -43,47 +48,24 @@ class acfe_form{
         add_filter('acfe/form/format_value/type=select',                            array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=checkbox',                          array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=radio',                             array($this, 'format_value_select'), 5, 4);
+        add_filter('acfe/form/format_value/type=google_map',                        array($this, 'format_value_google_map'), 5, 4);
         
-        // Posts Actions
-        $this->posts = array(
-            'acfe_form_post_save_target',
-            'acfe_form_post_save_post_parent',
-            'acfe_form_post_load_source',
-        );
+        add_action('acf/render_field/name=acfe_form_validation_advanced_field_validation',  array($this, 'doc_validation_field'));
+        add_action('acf/render_field/name=acfe_form_validation_advanced_form_validation',   array($this, 'doc_validation_form'));
+        add_action('acf/render_field/name=acfe_form_submission_advanced_submission',        array($this, 'doc_submission'));
         
-        foreach($this->posts as $tag){
-            
-            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_post'));
-            
-        }
-        
-        // Terms Actions
-        $this->terms = array(
-            'acfe_form_term_save_target',
-            'acfe_form_term_save_parent',
-            'acfe_form_term_load_source',
-        );
-        
-        foreach($this->terms as $tag){
-            
-            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_term'));
-            
-        }
-        
-        // Users Actions
-        $this->users = array(
-            'acfe_form_post_save_post_author',
-            'acfe_form_user_save_target',
-            'acfe_form_user_load_source',
-        );
-        
-        foreach($this->users as $tag){
-            
-            add_filter('acf/prepare_field/name=' . $tag,                            array($this, 'prepare_value_user'));
-            
-        }
+        add_action('acf/render_field/name=acfe_form_cheatsheet_field',              array($this, 'doc_field'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_fields',             array($this, 'doc_fields'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_get_field',          array($this, 'doc_get_field'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_query_var',          array($this, 'doc_query_var'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_current_post',       array($this, 'doc_current_post'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_current_term',       array($this, 'doc_current_term'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_current_user',       array($this, 'doc_current_user'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_current_author',     array($this, 'doc_current_author'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_current_form',       array($this, 'doc_current_form'));
         
         // Ajax
+        /*
         add_action('wp_ajax_acf/fields/select/query',                               array($this, 'ajax_query_post'), 5);
         add_action('wp_ajax_nopriv_acf/fields/select/query',                        array($this, 'ajax_query_post'), 5);
         
@@ -92,7 +74,7 @@ class acfe_form{
         
         add_action('wp_ajax_acf/fields/select/query',                               array($this, 'ajax_query_term'), 5);
         add_action('wp_ajax_nopriv_acf/fields/select/query',                        array($this, 'ajax_query_term'), 5);
-        
+        */
     }
     
     function init(){
@@ -131,7 +113,10 @@ class acfe_form{
                 'edit_post'             => acf_get_setting('capability'),
                 'delete_post'           => acf_get_setting('capability'),
                 'read_post'             => acf_get_setting('capability'),
-            )
+            ),
+            'acfe_admin_ppp'        => 999,
+            'acfe_admin_orderby'    => 'title',
+            'acfe_admin_order'      => 'ASC',
         ));
         
     }
@@ -169,25 +154,6 @@ class acfe_form{
     
     function load_list(){
         
-        // Posts per page
-        add_filter('edit_posts_per_page', function(){
-            return 999;
-        });
-        
-        // Order
-        add_action('pre_get_posts', function($query){
-            
-            if(!$query->is_main_query())
-                return;
-            
-            if(!acf_maybe_get($_REQUEST,'orderby'))
-                $query->set('orderby', 'name');
-            
-            if(!acf_maybe_get($_REQUEST,'order'))
-                $query->set('order', 'ASC');
-            
-        });
-        
         // Columns
         add_filter('manage_edit-' . $this->post_type . '_columns',         array($this, 'admin_columns'));
         add_action('manage_' . $this->post_type . '_posts_custom_column',  array($this, 'admin_columns_html'), 10, 2);
@@ -199,12 +165,102 @@ class acfe_form{
         // vars
         $this->fields_groups = $this->get_fields_groups();
         
-        add_action('add_meta_boxes',        array($this, 'add_meta_boxes'));
-        
-        add_filter('acf/pre_render_fields', array($this, 'render_integration'), 10, 2);
+        add_action('add_meta_boxes',                array($this, 'add_meta_boxes'));
         
         // Misc actions
-        add_action('post_submitbox_misc_actions', array($this, 'misc_actions'));
+        add_action('post_submitbox_misc_actions',   array($this, 'misc_actions'));
+        
+        // Actions
+        $form_id = $_REQUEST['post'];
+        
+        if(have_rows('acfe_form_actions', $form_id)):
+            
+            while(have_rows('acfe_form_actions', $form_id)): the_row();
+            
+                $action = get_row_layout();
+                
+                // Custom Action
+                if($action === 'custom')
+                    continue;
+            
+                $alias = get_sub_field('acfe_form_custom_alias');
+                $query_var = get_sub_field('acfe_form_custom_query_var');
+                
+                $action_label = '';
+                $action_type = '';
+                
+                if($action === 'post'){
+                    
+                    $action_label = 'Post';
+                    
+                    $post_action = get_sub_field('acfe_form_post_action');
+                    
+                    if($post_action === 'insert_post'){
+                        
+                        $action_type = 'Create Post';
+                        
+                    }elseif($post_action === 'update_post'){
+                        
+                        $action_type = 'Update Post';
+                        
+                    }
+                    
+                    
+                }elseif($action === 'term'){
+                    
+                    $action_label = 'Term';
+                    
+                    $term_action = get_sub_field('acfe_form_term_action');
+                    
+                    if($term_action === 'insert_term'){
+                        
+                        $action_type = 'Create Term';
+                        
+                    }elseif($term_action === 'update_term'){
+                        
+                        $action_type = 'Update Term';
+                        
+                    }
+                    
+                }elseif($action === 'user'){
+                    
+                    $action_label = 'User';
+                    
+                    $term_action = get_sub_field('acfe_form_user_action');
+                    
+                    if($term_action === 'insert_user'){
+                        
+                        $action_type = 'Create User';
+                        
+                    }elseif($term_action === 'update_user'){
+                        
+                        $action_type = 'Update User';
+                        
+                    }elseif($term_action === 'log_user'){
+                        
+                        $action_type = 'Log User';
+                        
+                    }
+                    
+                }elseif($action === 'email'){
+                    
+                    $action_label = 'E-mail';
+                    $action_type = 'Send';
+                    
+                }
+                
+                if(empty($alias) || empty($query_var))
+                    continue;
+                
+                $this->query_vars[] = array(
+                    'action'        => $action,
+                    'action_label'  => $action_label,
+                    'action_type'   => $action_type,
+                    'alias'         => $alias
+                );
+            
+            endwhile;
+        endif;
         
     }
     
@@ -372,36 +428,116 @@ class acfe_form{
     
     function add_meta_boxes(){
         
-        $data = $this->fields_groups;
-        
-        if(empty($data))
-            return;
-        
+        // Add Instructions
         add_meta_box(
-        
+            
             // ID
-            'acfe-form-details', 
+            'acfe-form-integration',
             
             // Title
-            __('Fields', 'acf'), 
+            'Integration', 
             
             // Render
-            array($this, 'render_meta_boxes'), 
+            array($this, 'render_form_integration_meta_box'), 
             
             // Screen
             $this->post_type, 
             
             // Position
-            'normal', 
+            'side', 
             
             // Priority
-            'default'
+            'core'
             
         );
         
+        $data = $this->fields_groups;
+        
+        if(!empty($data)){
+            
+            add_meta_box(
+            
+                // ID
+                'acfe-form-details', 
+                
+                // Title
+                __('Fields', 'acf'), 
+                
+                // Render
+                array($this, 'render_form_details_meta_box'), 
+                
+                // Screen
+                $this->post_type, 
+                
+                // Position
+                'normal', 
+                
+                // Priority
+                'default'
+                
+            );
+        
+        }
+        
+    }
+    
+    function render_form_integration_meta_box($post){
+        
+        $form_id = $post->ID;
+        $form_name = get_field('acfe_form_name', $form_id);
+        
+        ?>
+        <div class="acf-field">
+        
+            <div class="acf-label">
+                <label>Shortcodes:</label>
+            </div>
+            
+            <div class="acf-input">
+                
+                <code>[acfe_form ID="<?php echo $form_id; ?>"]</code><br /><br />
+                <code>[acfe_form name="<?php echo $form_name; ?>"]</code>
+                
+            </div>
+            
+        </div>
+        
+        <div class="acf-field">
+        
+            <div class="acf-label">
+                <label>PHP code:</label>
+            </div>
+            
+            <div class="acf-input">
+                
+                <pre>&lt;?php get_header(); ?&gt;
+
+&lt;!-- <?php echo get_the_title($form_id); ?> --&gt;
+&lt;?php acfe_form(&apos;<?php echo $form_name; ?>&apos;); ?&gt;
+    
+&lt;?php get_footer(); ?&gt;</pre>
+                
+            </div>
+            
+        </div>
+        
+        <script type="text/javascript">
+        if(typeof acf !== 'undefined'){
+            
+            acf.newPostbox(<?php echo wp_json_encode(array(
+                'id'		=> 'acfe-form-integration',
+                'key'		=> '',
+                'style'		=> 'default',
+                'label'		=> 'top',
+                'edit'		=> false
+            )); ?>);
+            
+        }	
+        </script>
+        <?php
     }
 
-    function render_meta_boxes($array, $data){
+    function render_form_details_meta_box($array, $data){
         
         foreach($this->fields_groups as $field_group){ ?>
         
@@ -453,8 +589,8 @@ class acfe_form{
                                 
                                     <tr class="acf-row">
                                         <td width="25%"><?php echo $field_label; ?></td>
-                                        <td width="25%"><?php echo $field['name']; ?></td>
-                                        <td width="25%"><code><?php echo $field_key; ?></code></td>
+                                        <td width="25%"><code style="font-size:12px;"><?php echo $field['name']; ?></code></td>
+                                        <td width="25%"><code style="font-size:12px;"><?php echo $field_key; ?></code></td>
                                         <td width="25%"><?php echo $type_label; ?></td>
                                     </tr>
                                     
@@ -554,6 +690,17 @@ class acfe_form{
         
     }
     
+    function prepare_custom_html($value, $post_id, $field){
+        
+        $custom_html = trim(get_field('acfe_form_custom_html', $post_id));
+        
+        if($value === false && !empty($custom_html))
+            $value = true;
+        
+        return $value;
+        
+    }
+    
     function prepare_actions($field){
         
         $field['instructions'] = 'Add actions on form submission';
@@ -569,33 +716,210 @@ class acfe_form{
         return $field;
         
     }
-    
-    function prepare_email_files($field){
-        
-        $data = $this->fields_groups;
-        
-        if(empty($data))
-            return false;
-        
-        return $field;
-        
-    }
-    
+	
+	function map_fields_deep_no_custom($field){
+		
+		$choices = array();
+		
+		if(!empty($field['choices'])){
+			
+			$generic = true;
+			
+			if(is_array($field['choices']) && count($field['choices']) === 1){
+				
+				reset($field['choices']);
+				$key = key($field['choices']);
+				
+				if(acf_is_field_key($key))
+					$generic = false;
+				
+			}
+			
+			if($generic)
+				$choices['Generic'] = $field['choices'];
+			
+		}
+		
+		$fields_choices = $this->get_fields_choices(true, $field);
+		
+		if(!empty($fields_choices)){
+			
+			$field['choices'] = array_merge($choices, $fields_choices);
+			
+		}
+		
+		return $field;
+		
+	}
     
     function map_fields_deep($field){
         
-        $choices = array();
-        
-        if(!empty($field['choices']))
-            $choices['Generic'] = $field['choices'];
-        
-        $fields_choices = $this->get_fields_choices(true);
-        
-        if(!empty($fields_choices)){
+        // Map Fields
+	    $fields_choices = $this->get_fields_choices(true, $field);
+	
+	    if(!empty($fields_choices)){
+		
+		    $field['choices'] = array_merge($field['choices'], $fields_choices);
+		
+	    }
+	    
+        if($field['type'] === 'select'){
             
-            $field['choices'] = array_merge($choices, $fields_choices);
+            // Query Vars
+            if(!empty($this->query_vars)){
+                
+                parse_str($field['prefix'], $output);
+                $keys = acfe_array_keys_r($output);
+                
+                if(acf_maybe_get($keys, 1) !== 'field_acfe_form_actions')
+                    return $field;
+                
+                foreach($this->query_vars as $row => $query_var){
+                    
+                    $field_row = acf_maybe_get($keys, 2);
+                    $field_row = str_replace('row-', '', $field_row);
+                    
+                    if((is_numeric($field_row) && $field_row > $row) || $field_row === 'acfcloneindex'){
+                    
+                        $action = $query_var['action'];
+                        $action_label = $query_var['action_label'];
+                        $action_type = $query_var['action_type'];
+                        $alias = $query_var['alias'];
+                        
+                        $tags = array();
+                        
+                        if($action === 'post'){
+                            
+                            $tags = array(
+                                "{query_var:$alias:id}" => 'Post ID',
+                                "{query_var:$alias:post_title}" => 'Title',
+                                "{query_var:$alias:permalink}" => 'Permalink',
+                                "{query_var:$alias:admin_url}" => 'Admin URL',
+                            );
+                            
+                        }
+                        
+                        elseif($action === 'term'){
+                            
+                            $tags = array(
+                                "{query_var:$alias:id}" => 'Term ID',
+                                "{query_var:$alias:name}" => 'Name',
+                                "{query_var:$alias:permalink}" => 'Permalink',
+                                "{query_var:$alias:admin_url}" => 'Admin URL',
+                            );
+                            
+                        }
+                        
+                        elseif($action === 'user'){
+                            
+                            $tags = array(
+                                "{query_var:$alias:id}" => 'User ID',
+                                "{query_var:$alias:user_email}" => 'E-mail',
+                                "{query_var:$alias:permalink}" => 'Permalink',
+                            );
+                            
+                        }
+                        
+                        elseif($action === 'email'){
+                            
+                            $tags = array(
+                                "{query_var:$alias:from}" => 'From',
+                                "{query_var:$alias:to}" => 'To',
+                                "{query_var:$alias:content}" => 'Content',
+                            );
+                            
+                        }
+                        
+                        foreach($tags as $tag_key => $tag_value){
+                            
+                            $field['choices']["Action: $action_type ($alias)"][$tag_key] = $tag_value . ' ' . $tag_key;
+                            
+                        }
+                    
+                    }
+                    
+                }
+            }
+            
+            // Templates Tags Examples
+            $field['choices']["Current: Post"]['{current:post:id}'] = 'Post ID {current:post:id}';
+            $field['choices']["Current: Post"]['{current:post:post_title}'] = 'Title {current:post:post_title}';
+            $field['choices']["Current: Post"]['{current:post:permalink}'] = 'Permalink {current:post:permalink}';
+            $field['choices']["Current: Post"]['{current:post:post_author}'] = 'Author {current:post:post_author}';
+            
+            $field['choices']["Current: Term"]['{current:term:id}'] = 'Term ID {current:term:id}';
+            $field['choices']["Current: Term"]['{current:term:name}'] = 'Name {current:term:name}';
+            $field['choices']["Current: Term"]['{current:term:permalink}'] = 'Permalink {current:term:permalink}';
+            
+            $field['choices']["Current: User"]['{current:user:id}'] = 'User ID {current:user:id}';
+            $field['choices']["Current: User"]['{current:user:user_email}'] = 'E-mail {current:user:user_email}';
+            $field['choices']["Current: User"]['{current:user:permalink}'] = 'Permalink {current:user:permalink}';
+            
+            $field['choices']["Current: Author"]['{current:author:id}'] = 'Author ID {current:author:id}';
+            $field['choices']["Current: Author"]['{current:author:user_email}'] = 'E-mail {current:author:user_email}';
+            $field['choices']["Current: Author"]['{current:author:permalink}'] = 'Permalink {current:author:permalink}';
+            
+            $field['choices']["Current: Form"]['{current:form:id}'] = 'Form ID {current:form:id}';
+            $field['choices']["Current: Form"]['{current:form:title}'] = 'Title {current:form:title}';
+            $field['choices']["Current: Form"]['{current:form:name}'] = 'Name {current:form:name}';
             
         }
+	    
+        // Clean Choices
+	    if(!empty($field['choices'])){
+		
+		    $sub_values = array();
+		
+		    foreach($field['choices'] as $category => $values){
+			
+		        // Generate available values
+			    if(is_array($values)){
+				
+				    $sub_values = array_merge($sub_values, $values);
+				
+				// Generate 'Generic'
+			    }else{
+				
+				    unset($field['choices'][$category]);
+				
+				    $field['choices']['Generic'][$category] = $values;
+				
+			    }
+			
+		    }
+		    
+		    // Compare available vs Generic
+		    if(isset($field['choices']['Generic'])){
+			
+			    foreach($field['choices']['Generic'] as $k => $generic){
+				
+				    if(!isset($sub_values[$k]))
+					    continue;
+				    
+				    // Cleanup
+				    unset($field['choices']['Generic'][$k]);
+				
+			    }
+			    
+			    if(empty($field['choices']['Generic']))
+			        unset($field['choices']['Generic']);
+			
+		    }
+		    
+		    // Move Generic to Top
+		    if(isset($field['choices']['Generic'])){
+		        
+		        $new_generic = array(
+		            'Generic' => $field['choices']['Generic']
+                );
+		        
+			    unset($field['choices']['Generic']);
+			
+			    $field['choices'] = array_merge($new_generic, $field['choices']);
+		    
+		    }
+		
+	    }
         
         return $field;
         
@@ -614,7 +938,7 @@ class acfe_form{
         
     }
 
-    function get_fields_choices($deep = false){
+    function get_fields_choices($deep = false, $original_field = array()){
         
         $data = $this->fields_groups;
         $choices = array();
@@ -657,7 +981,7 @@ class acfe_form{
                     // Deep
                     }else{
                         
-                        $this->get_fields_choices_recursive($choices[$field_group_title], $field);
+                        $this->get_fields_choices_recursive($choices[$field_group_title], $field, $original_field);
                         
                     }
                     
@@ -671,7 +995,7 @@ class acfe_form{
         
     }
 
-    function get_fields_choices_recursive(&$choices, $field){
+    function get_fields_choices_recursive(&$choices, $field, $original_field){
         
         $label = '';
         
@@ -681,13 +1005,27 @@ class acfe_form{
         $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acf') . ')';
         $label .= $field['required'] ? ' *' : '';
         
-        $choices[$field['key']] = $label. ' (' . $field['key'] . ')';
+        /*
+        if(acf_maybe_get($original_field, 'type') === 'select'){
+            
+            $label = $label . ' <code style="font-size:12px;">{field:' . $field['name'] . '}</code>';
+            
+        }else{
+            
+            $label = $label . ' (' . $field['key'] . ')';
+            
+        }
+        */
+        
+        $label = $label . ' (' . $field['key'] . ')';
+        
+        $choices[$field['key']] = $label;
         
         if(isset($field['sub_fields']) && !empty($field['sub_fields'])){
             
             foreach($field['sub_fields'] as $s_field){
                 
-                $this->get_fields_choices_recursive($choices, $s_field);
+                $this->get_fields_choices_recursive($choices, $s_field, $original_field);
                 
             }
             
@@ -702,21 +1040,61 @@ class acfe_form{
         $form_name = $args['form_name'];
         
         $mapped_field_groups = $this->get_fields_groups($form_id);
+	    $mapped_field_groups_keys = wp_list_pluck($mapped_field_groups, 'key');
         $mapped_fields = array();
         
         if(!empty($mapped_field_groups)){
             
-            foreach($mapped_field_groups as $field_group){
-                
-                if(empty($field_group['fields']))
-                    continue;
-                
-                foreach($field_group['fields'] as $field){
-                    
-                    $mapped_fields[] = $field;
-                    
-                }
-                
+            $post = acf_get_post_id_info($post_id);
+	
+	        // Apply Field Groups Rules
+	        if($post['type'] === 'post' && $args['field_groups_rules']){
+		
+		        $filter = array(
+			        'post_id'   => $post_id,
+			        'post_type' => get_post_type($post_id),
+		        );
+		
+		        $filtered = array();
+		
+		        foreach($mapped_field_groups as $field_group){
+			
+			        // Deleted field group
+			        if(!isset($field_group['location']))
+				        continue;
+			
+			        // Force active
+			        $field_group['active'] = true;
+			
+			        if(acf_get_field_group_visibility($field_group, $filter)){
+				
+				        $filtered[] = $field_group;
+				
+			        }
+			
+		        }
+		
+		        $mapped_field_groups = $filtered;
+		
+	        }
+	        
+	        if(!empty($mapped_field_groups)){
+		
+		        $mapped_field_groups_keys = wp_list_pluck($mapped_field_groups, 'key');
+		
+		        foreach($mapped_field_groups as $field_group){
+			
+			        if(empty($field_group['fields']))
+				        continue;
+			
+			        foreach($field_group['fields'] as $field){
+				
+				        $mapped_fields[] = $field;
+				
+			        }
+			
+		        }
+	           
             }
             
         }
@@ -764,7 +1142,7 @@ class acfe_form{
                 
                 ob_start();
                 
-                acf_render_fields($fields, $post_id, $args['field_el'], $args['instruction_placement']);
+                acf_render_fields($fields, false, $args['field_el'], $args['instruction_placement']);
                 
                 $render_field = ob_get_clean();
                 
@@ -777,23 +1155,24 @@ class acfe_form{
         // Match {field_group:key}
         if(preg_match_all('/{field_group:(.*?)}/', $content, $matches)){
             
-            $field_groups = acf_get_field_groups();
+            //$field_groups = acf_get_field_groups();
             
             foreach($matches[1] as $i => $field_group_key){
                 
                 $fields = false;
-                
-                // Field group key
-                if(strpos($field_group_key, 'group_') === 0){
+	
+	            if(!empty($mapped_field_groups)){
                     
-                    $fields = acf_get_fields($field_group_key);
-                
-                // Field group title
-                }else{
-                    
-                    if(!empty($field_groups)){
+                    // Field group key
+                    if(strpos($field_group_key, 'group_') === 0){
                         
-                        foreach($field_groups as $field_group){
+                        if(in_array($field_group_key, $mapped_field_groups_keys))
+                            $fields = acf_get_fields($field_group_key);
+                    
+                    // Field group title
+                    }else{
+                        
+                        foreach($mapped_field_groups as $field_group){
                             
                             if($field_group['title'] !== $field_group_key)
                                 continue;
@@ -804,8 +1183,8 @@ class acfe_form{
                         }
                         
                     }
-                    
-                }
+		
+	            }
                 
                 if(!$fields){
                     
@@ -816,7 +1195,7 @@ class acfe_form{
                 
                 ob_start();
                 
-                acf_render_fields($fields, $post_id, $args['field_el'], $args['instruction_placement']);
+                acf_render_fields($fields, false, $args['field_el'], $args['instruction_placement']);
                 
                 $render_fields = ob_get_clean();
                 
@@ -843,6 +1222,23 @@ class acfe_form{
         }
         
         return implode(', ', $array);
+        
+    }
+    
+    // Google Map
+    function format_value_google_map($value, $_value, $post_id, $field){
+        
+        if(is_string($value)){
+            
+            $value = json_decode(wp_unslash($value), true);
+            
+        }
+        
+        $value = acf_get_array($value);
+        
+        $address = acf_maybe_get($value, 'address');
+        
+        return $address;
         
     }
     
@@ -915,7 +1311,11 @@ class acfe_form{
         
         foreach($value as $i => $v){
             
-            $return[] = $this->format_value_array($v);
+            $key = '';
+            if(!is_numeric($i))
+                $key = $i . ': ';
+            
+            $return[] = $key . $this->format_value_array($v);
             
         }
         
@@ -945,10 +1345,16 @@ class acfe_form{
         
     }
     
-    function map_fields_values($array, &$data = array()){
+    function map_fields_values(&$data = array(), $array = array()){
         
-        if(empty($array))
-            return false;
+        if(empty($array)){
+            
+            if(!acf_maybe_get_POST('acf'))
+                return array();
+            
+            $array = $_POST['acf'];
+            
+        }
             
         foreach($array as $field_key => $value){
             
@@ -969,9 +1375,9 @@ class acfe_form{
                 'value' => $value,
             );
             
-            if(is_array($value)){
+            if(is_array($value) && !empty($value)){
                 
-                $this->map_fields_values($value, $data);
+                $this->map_fields_values($data, $value);
                 
             }
             
@@ -981,132 +1387,97 @@ class acfe_form{
         
     }
     
-    function map_field_value($content, $acf = false, $post_id = 0){
+    function map_field_value($content, $post_id = 0, $form = array()){
         
-        if(!$acf)
-            $acf = $_POST['acf'];
-
-        if(!$acf)
-            $acf = array();
+        // Get store
+        $store = acf_get_store('acfe/form');
         
-        $data = $this->map_fields_values($acf);
-        
-        // Field key
-        if(acf_is_field_key($content)){
-            
-            if(empty($data))
-                return false;
-            
-            foreach($data as $field){
-                
-                if($field['key'] !== $content)
-                    continue;
-                
-                return $field['value'];
-                
-            }
-            
+        // Store found
+        if(!$store->has('data')){
+	
+	        $data = $this->map_fields_values();
+	
+	        // Set Store: ACF meta
+	        $store->set('data', $data);
+	        
         }
-        
-        // Content
-        else{
-            
-            // Match {query_var:name}
-            if(preg_match_all('/{query_var:(.*?)}/', $content, $matches)){
-                
-                foreach($matches[1] as $i => $name){
-                    
-                    $query_var = get_query_var($name);
-                    
-                    if(strpos($name, ':') !== false){
-                        
-                        $explode = explode(':', $name);
-                        
-                        $query_var = get_query_var($explode[0]);
-                        
-                        if(is_array($query_var) && isset($query_var[$explode[1]])){
-                            
-                            $query_var = $query_var[$explode[1]];
-                            
-                        }
-                        
-                    }
-                    
-                    $content = str_replace('{query_var:' . $name . '}', $query_var, $content);
-                    
-                }
-                
-            }
-            
-            // Match {field:key}
-            if(preg_match_all('/{field:(.*?)}/', $content, $matches)){
-                
-                foreach($matches[1] as $i => $field_key){
-
-                    if(!empty($data)){
-                        
-                        foreach($data as $field){
-                            
-                            if($field['name'] !== $field_key && $field['key'] !== $field_key)
-                                continue;
-                                
-                            $content = str_replace('{field:' . $field_key . '}', $this->format_value($field['value'], $post_id, $field['field']), $content);
-                            break;
-                            
-                        }
-                        
-                    }
-                    
-                    $content = str_replace('{field:' . $field_key . '}', '', $content);
-                    
-                }
-                
-            }
-            
-            // Match {fields}
-            if(preg_match('/{fields}/', $content, $matches)){
-                
-                $content_html = '';
-                
-                if(!empty($data)){
-                    
-                    foreach($data as $field){
-                        
-                        $label = !empty($field['label']) ? $field['label'] : $field['name'];
-                        
-                        $content_html .= $label . ': ' . $this->format_value($field['value'], $post_id, $field['field']) . "<br/>\n";
-                        
-                    }
-                    
-                }
-                
-                $content = str_replace('{fields}', $content_html, $content);
-                
-            }
-            
-            return $content;
-            
+	    
+	    $is_array = false;
+	    
+	    if(is_array($content)){
+	        
+	        $is_array = true;
+	        
         }
+	    
+	    $content = acf_array($content);
+	    
+	    foreach($content as &$c){
+		
+		    // Match field_abcdef123456
+		    $c = acfe_form_map_field_key($c);
+		
+		    // Match {field:name} {field:key}
+		    $c = acfe_form_map_field($c);
+		
+		    // Match {fields}
+		    $c = acfe_form_map_fields($c);
+		
+		    // Match current_post {current:post:id}
+		    $c = acfe_form_map_current($c, $post_id, $form);
+		
+		    // Match {get_field:name} {get_field:name:123}
+		    $c = acfe_form_map_get_field($c, $post_id);
+		
+		    // Match {query_var:name} {query_var:name:key}
+		    $c = acfe_form_map_query_var($c);
+	       
+        }
+	    
+	    if($is_array)
+	        return $content;
+	    
+	    if(isset($content[0]))
+	        return $content[0];
+	    
+	    return false;
         
     }
-    
-    function map_field_get_value($content){
-        
-        // Match {field:key}
-        if(preg_match_all('/{field:(.*?)}/', $content, $matches)){
-            
-            foreach($matches[1] as $i => $field_key){
-                
-                $value = get_field($field_key);
-                $content = str_replace('{field:' . $field_key . '}', $value, $content);
-                
-            }
-            
-        }
-        
-        return $content;
-        
-    }
+	
+	function map_field_value_load($content, $post_id = 0, $form = array()){
+		
+		$is_array = false;
+		
+		if(is_array($content)){
+			
+			$is_array = true;
+			
+		}
+		
+		$content = acf_array($content);
+		
+		foreach($content as &$c) {
+			
+			// Match current_post {current:post:id}
+			$c = acfe_form_map_current($c, $post_id, $form);
+			
+			// Match {get_field:name} {get_field:name:123}
+			$c = acfe_form_map_get_field($c, $post_id);
+			
+			// Match {query_var:name} {query_var:name:key}
+			$c = acfe_form_map_query_var($c);
+			
+		}
+		
+		if($is_array)
+			return $content;
+		
+		if(isset($content[0]))
+			return $content[0];
+		
+		return false;
+		
+	}
     
     function filter_meta($meta, $acf){
         
@@ -1136,209 +1507,6 @@ class acfe_form{
         
     }
     
-    function render_integration($fields, $post_id){
-        
-        $_fields = $fields;
-        $last_field = end($_fields);
-        
-        if(!$last_field || $last_field['name'] !== 'acfe_form_instruction_placement')
-            return $fields;
-        
-        $form_id = $post_id;
-        $form_name = get_field('acfe_form_name', $form_id);
-        
-        $fields[] = array(
-            'type'  => 'tab',
-            'name'  => '',
-            'label' => 'Integration',
-            'value' => '',
-        );
-        
-        $fields[] = array(
-            'type'      => 'message',
-            'name'      => '',
-            'label'     => 'Shortcode',
-            'value'     => '',
-            'message'   => '<code>[acfe_form name="' . $form_name . '"]</code> or <code>[acfe_form ID="' . $form_id . '"]</code>',
-            'new_lines' => false,
-        );
-        
-        ob_start();
-        ?>
-        <pre>&lt;?php get_header(); ?&gt;
-    
-    &lt;!-- <?php echo get_the_title($form_id); ?> --&gt;
-    &lt;?php acfe_form(&apos;<?php echo $form_name; ?>&apos;); ?&gt;
-    
-&lt;?php get_footer(); ?&gt;</pre>
-        <?php $html = ob_get_clean();
-        
-        $fields[] = array(
-            'type'      => 'message',
-            'name'      => '',
-            'label'     => 'PHP Form Integration',
-            'value'     => '',
-            'message'   => $html,
-            'new_lines' => false,
-        );
-        
-        if(!empty($this->fields_groups)){
-            
-            foreach($this->fields_groups as $field_group){
-                
-                if(empty($field_group['fields']))
-                    continue;
-                
-                $_fields = $field_group['fields'];
-                break;
-                
-            }
-            
-            if(!empty($_fields)){
-                
-                $field = $_fields[0];
-                
-                $_form_name = str_replace('-', '_', $form_name);
-                $_field_name = str_replace('-', '_', sanitize_title($field['name']));
-                
-                // Field Validation
-                
-                ob_start();
-                ?>
-                <pre>&lt;?php
-
-add_filter(&apos;acf/validate_value/name=<?php echo $field['name']; ?>&apos;, &apos;my_<?php echo $_field_name; ?>_validation&apos;, 10, 4);
-function my_<?php echo $_field_name; ?>_validation($valid, $value, $field, $input){
-    
-    /**
-     * Perform custom validation on a field's value
-     * Reference: <a href="https://www.advancedcustomfields.com/resources/acf-validate_value/" target="_blank">https://www.advancedcustomfields.com/resources/acf-validate_value/</a>
-     */
-    
-    if(!$valid)
-        return $valid;
-    
-    if($value === &apos;Hello&apos;)
-        $valid = &apos;Hello is not allowed&apos;;
-    
-    return $valid;
-    
-}</pre>
-                <?php $html = ob_get_clean();
-                
-                $fields[] = array(
-                    'type'      => 'message',
-                    'name'      => '',
-                    'label'     => 'PHP Field Validation',
-                    'value'     => '',
-                    'message'   => $html,
-                    'new_lines' => false,
-                );
-                
-                
-                // Form Validation
-                
-                ob_start();
-                ?>
-                <pre>&lt;?php 
-
-add_action(&apos;acfe/form/validation/form=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_validation&apos;, 10, 2);
-function my_<?php echo $_form_name; ?>_validation($form, $post_id){
-    
-    /**
-     * @array       $form       Form arguments
-     * @int/string  $post_id    Current post id
-     */
-    
-    
-    /**
-     * Get the form input value named '<?php echo $field['name']; ?>'
-     * This is the value entered by the user during the form submission
-     */
-    $<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);
-    $<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, false, false);
-    
-    if($<?php echo $_field_name; ?> === &apos;Hello&apos;){
-        
-        acfe_add_validation_error(&apos;<?php echo $field['name']; ?>&apos;, &apos;Hello is not allowed&apos;);
-        
-    }
-    
-    
-    /**
-     * Get the field value '<?php echo $field['name']; ?>' from the post ID 145
-     */
-    $post_<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145);
-    $post_<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145, false);
-    
-}</pre>
-                <?php $html = ob_get_clean();
-                
-                $fields[] = array(
-                    'type'      => 'message',
-                    'name'      => '',
-                    'label'     => 'PHP Form Validation',
-                    'value'     => '',
-                    'message'   => $html,
-                    'new_lines' => false,
-                );
-                
-                
-                // Form Submission
-                
-                ob_start();
-                ?>
-                <pre>&lt;?php
-
-add_action(&apos;acfe/form/submit/form=<?php echo $form_name; ?>&apos;, &apos;my_<?php echo $_form_name; ?>_submit&apos;, 10, 2);
-function my_<?php echo $_form_name; ?>_submit($form, $post_id){
-    
-    /**
-     * @array       $form       Form arguments
-     * @int/string  $post_id    Current post id
-     */
-    
-    
-    /**
-     * Get the form input value named '<?php echo $field['name']; ?>'
-     * This is the value entered by the user during the form submission
-     */
-    $<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;);
-    $<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, false, false);
-    
-    if($<?php echo $_field_name; ?> === &apos;do_something&apos;){
-        
-        // Do something
-        
-    }
-    
-    
-    /**
-     * Get the field value '<?php echo $field['name']; ?>' from the post ID 145
-     */
-    $post_<?php echo $_field_name; ?> = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145);
-    $post_<?php echo $_field_name; ?>_unformatted = get_field(&apos;<?php echo $field['name']; ?>&apos;, 145, false);
-    
-}</pre>
-                <?php $html = ob_get_clean();
-                
-                $fields[] = array(
-                    'type'      => 'message',
-                    'name'      => '',
-                    'label'     => 'PHP Form Submit: Custom Action',
-                    'value'     => '',
-                    'message'   => $html,
-                    'new_lines' => false,
-                );
-                
-            }
-            
-        }
-        
-        return $fields;
-        
-    }
-    
     /**
      *  List: Columns
      */
@@ -1364,7 +1532,7 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         // Name
         if($column == 'name'){
             
-            echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">' . get_field('acfe_form_name', $post_id) . '</code>';
+            echo '<code style="font-size: 12px;">' . get_field('acfe_form_name', $post_id) . '</code>';
             
         }
         
@@ -1520,610 +1688,757 @@ function my_<?php echo $_form_name; ?>_submit($form, $post_id){
         // Field groups
         elseif($column == 'shortcode'){
             
-            echo '<code style="-webkit-user-select: all;-moz-user-select: all;-ms-user-select: all;user-select: all;font-size: 12px;">[acfe_form name="' . get_field('acfe_form_name', $post_id) . '"]</code>';
+            echo '<code style="font-size: 12px;">[acfe_form name="' . get_field('acfe_form_name', $post_id) . '"]</code>';
             
         }
         
     }
+    
+    function doc_validation_field($field){
+        
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value'))
+            $form_name = get_field('acfe_form_name', $field['value']);
+        
+        ?>You may use the following hooks:<br /><br />
+        
+        <pre>/**
+ * Perform custom validation on a field's value
+ * Reference: <a href="https://www.advancedcustomfields.com/resources/acf-validate_value/" target="_blank">https://www.advancedcustomfields.com/resources/acf-validate_value/</a>
+ */
+add_filter(&apos;acf/validate_value/name=my_field&apos;, &apos;my_field_validation&apos;, 10, 4);
+function my_field_validation($valid, $value, $field, $input){
+    
+    if(!$valid)
+        return $valid;
+    
+    if($value === &apos;Hello&apos;)
+        $valid = &apos;Hello is not allowed&apos;;
+    
+    return $valid;
+    
+}</pre>
+        <?php
+        
+    }
+    
+    function doc_validation_form($field){
+        
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value'))
+            $form_name = get_field('acfe_form_name', $field['value']);
+        
+        ?>You may use the following hooks:<br /><br />
+        
+        <pre>/**
+ * @array       $form       Form arguments
+ * @int/string  $post_id    Current post id
+ */
+add_action(&apos;acfe/form/validation/form=<?php echo $form_name; ?>&apos;, &apos;my_form_validation&apos;, 10, 2);
+function my_form_validation($form, $post_id){
     
     /**
-     *  Post: Select2 Ajax
+     * Get the form input value named 'my_field'
+     * This is the value entered by the user during the form submission
      */
-    function ajax_query_post(){
+    $my_field = get_field(&apos;my_field&apos;);
+    $my_field_unformatted = get_field(&apos;my_field&apos;, false, false);
+    
+    if($my_field === &apos;Hello&apos;){
         
-        if(!acf_verify_ajax())
-            die();
+        // Add validation error
+        acfe_add_validation_error(&apos;my_field&apos;, &apos;Hello is not allowed&apos;);
         
-        // get choices
-        $response = $this->get_ajax_query_post($_POST);
-        
-        // return
-        if(!$response)
-            return;
-        
-        // return ajax
-        acf_send_ajax_results($response);
+        // Add general validation error
+        acfe_add_validation_error(&apos;&apos;, &apos;There is an error&apos;);
         
     }
     
-    function get_ajax_query_post($options = array()){
-        
-        // defaults
-        $options = acf_parse_args($options, array(
-            'post_id'		=> 0,
-            's'				=> '',
-            'field_key'		=> '',
-            'paged'			=> 1,
-            'value'         => '',
-        ));
-        
-        // load field
-        $field = acf_get_field($options['field_key']);
-        if(!$field)
-            return false;
-        
-        // Target field name
-        if(!in_array($field['name'], $this->posts))
-            return false;
-        
-        $field_type = acf_get_field_type('post_object');
-        
-        // vars
-        $results = array();
-        $args = array();
-        $s = false;
-        $is_search = false;
-        
-        // paged
-        $args['posts_per_page'] = 20;
-        $args['paged'] = $options['paged'];
-        
-        // search
-        if($options['s'] !== ''){
-            
-            // strip slashes (search may be integer)
-            $s = wp_unslash( strval($options['s']) );
-            
-            // update vars
-            $args['s'] = $s;
-            $is_search = true;
-            
-        }
-        
-        // post_type
-        $args['post_type'] = acf_get_post_types();
-        
-        // get posts grouped by post type
-        $groups = acf_get_grouped_posts($args);
-        
-        // bail early if no posts
-        if(empty($groups))
-            return false;
-        
-        if(!$is_search && $args['paged'] === 1){
-            
-            $children = array();
-            
-            $children[] = array(
-                'id'    => 'current_post',
-                'text'  => 'Current Post',
-            );
-            
-            if(!empty($options['value']) && is_string($options['value']) && !is_numeric($options['value']) && $options['value'] !== 'current_post'){
-                
-                $children[] = array(
-                    'id'    => $options['value'],
-                    'text'  => $options['value'],
-                );
-                
-            }
-            
-            $results[] = array(
-                'text'		=> 'Generic',
-                'children'	=> $children
-            );
-        
-        }
-        
-        // loop
-        foreach(array_keys($groups) as $group_title){
-            
-            // vars
-            $posts = acf_extract_var($groups, $group_title);
-            
-            // data
-            $data = array(
-                'text'		=> $group_title,
-                'children'	=> array()
-            );
-            
-            // convert post objects to post titles
-            foreach(array_keys($posts) as $post_id){
-                
-                $posts[$post_id] = $field_type->get_post_title($posts[$post_id], $field, $options['post_id'], $is_search);
-                
-            }
-            
-            // order posts by search
-            if($is_search && empty($args['orderby'])){
-                
-                $posts = acf_order_by_search($posts, $args['s']);
-                
-            }
-            
-            // append to $data
-            foreach(array_keys($posts) as $post_id){
-                
-                $data['children'][] = $field_type->get_post_result($post_id, $posts[$post_id]);
-                
-            }
-            
-            // append to $results
-            $results[] = $data;
-            
-        }
-        
-        
-        // optgroup or single
-        $post_type = acf_get_array($args['post_type']);
-        
-        if(count($post_type) == 1){
-            
-            $results = $results[0]['children'];
-            
-        }
-        
-        // vars
-        $response = array(
-            'results'	=> $results,
-            'limit'		=> $args['posts_per_page']
-        );
-        
-        // return
-        return $response;
-        
-    }
     
     /**
-     *  Post: Select2 Choices
+     * Get the field value 'my_field' from the post ID 145
      */
-    function prepare_value_post($field){
-        
-        if(!acf_maybe_get($field, 'value'))
-            return $field;
-        
-        $field['choices'] = array();
-        
-        if(!empty($field['value']) && is_string($field['value']) && !is_numeric($field['value']) && $field['value'] !== 'current_post'){
-            
-            $field['choices'][$field['value']] = $field['value'];
-            
-        }
-        
-        $field['choices']['current_post'] = 'Current Post';
-        
-        $field_type = acf_get_field_type('post_object');
-        $field['post_type'] = acf_get_post_types();
-        
-        // load posts
-		$posts = $field_type->get_posts($field['value'], $field);
-		
-		if($posts){
-				
-			foreach(array_keys($posts) as $i){
-				
-				// vars
-				$post = acf_extract_var($posts, $i);
-				
-				// append to choices
-				$field['choices'][$post->ID] = $field_type->get_post_title( $post, $field );
-				
-			}
-			
-		}
-        
-        return $field;
+    $post_my_field = get_field(&apos;my_field&apos;, 145);
+    $post_my_field_unformatted = get_field(&apos;my_field&apos;, 145, false);
+    
+}</pre>
+        <?php
         
     }
+    
+    function doc_submission($field){
+        
+        $form_name = 'my_form';
+        
+        if(acf_maybe_get($field, 'value'))
+            $form_name = get_field('acfe_form_name', $field['value']);
+        
+        ?>You may use the following hooks:<br /><br />
+        
+        <pre>
+add_action(&apos;acfe/form/submit&apos;, &apos;my_form_submit&apos;, 10, 2);
+add_action(&apos;acfe/form/submit/form=<?php echo $form_name; ?>&apos;, &apos;my_form_submit&apos;, 10, 2);</pre>
+
+<br />
+        
+        <pre>/**
+ * @array       $form       Form arguments
+ * @int/string  $post_id    Current post id
+ */
+add_action(&apos;acfe/form/submit/form=<?php echo $form_name; ?>&apos;, &apos;my_form_submit&apos;, 10, 2);
+function my_form_submit($form, $post_id){
     
     /**
-     *  Term: Select2 Ajax
+     * Get the form input value named 'my_field'
+     * This is the value entered by the user during the form submission
      */
-    function ajax_query_term(){
+    $my_field = get_field(&apos;my_field&apos;);
+    $my_field_unformatted = get_field(&apos;my_field&apos;, false, false);
+    
+    if($my_field === &apos;Hello&apos;){
         
-        if(!acf_verify_ajax())
-            die();
-        
-        // get choices
-        $response = $this->get_ajax_query_term($_POST);
-        
-        // return
-        if(!$response)
-            return;
-        
-        // return ajax
-        acf_send_ajax_results($response);
+        // Do something
         
     }
     
-    function get_ajax_query_term($options = array()){
-        
-        // defaults
-        $options = acf_parse_args($options, array(
-            'post_id'		=> 0,
-            's'				=> '',
-            'field_key'		=> '',
-            'paged'			=> 1,
-            'value'         => '',
-        ));
-        
-        // load field
-        $field = acf_get_field($options['field_key']);
-        if(!$field)
-            return false;
-        
-        // Target field name
-        if(!in_array($field['name'], $this->terms))
-            return false;
-        
-        // vars
-        $results = array();
-        $args = array();
-        $s = false;
-        $is_search = false;
-        
-        // paged
-        $args['posts_per_page'] = 20;
-        $args['paged'] = $options['paged'];
-        
-        // search
-        if($options['s'] !== ''){
-            
-            // strip slashes (search may be integer)
-            $s = wp_unslash( strval($options['s']) );
-            
-            // update vars
-            $args['s'] = $s;
-            $is_search = true;
-            
-        }
-        
-        $terms_args = array(
-            'number' => $args['posts_per_page'],
-            'offset' => ($args['paged'] - 1) * $args['posts_per_page'],
-        );
-        
-        // get grouped terms
-        $terms = acf_get_grouped_terms($terms_args);
-        $groups = acf_get_choices_from_grouped_terms($terms, 'name');
-        
-        // bail early if no posts
-        if(empty($groups))
-            return false;
-        
-        if(!$is_search && $args['paged'] === 1){
-            
-            $children = array();
-            
-            $children[] = array(
-                'id'    => 'current_term',
-                'text'  => 'Current Term',
-            );
-            
-            if(!empty($options['value']) && is_string($options['value']) && !is_numeric($options['value']) && $options['value'] !== 'current_term'){
-                
-                $children[] = array(
-                    'id'    => $options['value'],
-                    'text'  => $options['value'],
-                );
-                
-            }
-            
-            $results[] = array(
-                'text'		=> 'Generic',
-                'children'	=> $children
-            );
-        
-        }
-        
-        // loop
-        foreach(array_keys($groups) as $group_title){
-            
-            // vars
-            $terms = acf_extract_var($groups, $group_title);
-            
-            // data
-            $data = array(
-                'text'		=> $group_title,
-                'children'	=> array()
-            );
-            
-            if($is_search && empty($args['orderby'])){
-                
-                $terms = acf_order_by_search($terms, $args['s']);
-                
-            }
-            
-            // append to $data
-            foreach($terms as $term_id => $name){
-                
-                $data['children'][] = array(
-                    'id' => $term_id, 
-                    'text' => $name
-                );
-                
-            }
-            
-            // append to $results
-            $results[] = $data;
-            
-        }
-        
-        // vars
-        $response = array(
-            'results'	=> $results,
-            'limit'		=> $args['posts_per_page']
-        );
-        
-        // return
-        return $response;
-        
-    }
     
     /**
-     *  Term: Select2 Choices
+     * Get the field value 'my_field' from the post ID 145
      */
-    function prepare_value_term($field){
-        
-        if(!acf_maybe_get($field, 'value'))
-            return $field;
-        
-        $value = $field['value'];
-        
-        $field['choices'] = array();
-        
-        if(!empty($field['value']) && is_string($field['value']) && !is_numeric($field['value']) && $field['value'] !== 'current_term'){
-            
-            $field['choices'][$field['value']] = $field['value'];
-            
-        }
-        
-        $field['choices']['current_term'] = 'Current Term';
-        
-        if(is_array($value))
-            $value = $value[0];
-        
-        $term = get_term($value);
-        
-        if($term){
-            
-            $field['choices'][$term->term_id] = $term->name;
-            
-        }
-        
-        return $field;
+    $post_my_field = get_field(&apos;my_field&apos;, 145);
+    $post_my_field_unformatted = get_field(&apos;my_field&apos;, 145, false);
+    
+}</pre>
+        <?php
         
     }
     
-    /**
-     *  User: Select2 Ajax
-     */
-    function ajax_query_user(){
-        
-        if(!acf_verify_ajax())
-            die();
-        
-        // get choices
-        $response = $this->get_ajax_query_user($_POST);
-        
-        // return
-        if(!$response)
-            return;
-        
-        // return ajax
-        acf_send_ajax_results($response);
-        
+    function doc_field($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{field:field_5e5c07b6dfae9}</code></td>
+                    <td>User input</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{field:my_field}</code></td>
+                    <td>User input</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{field:my_field:false}</code></td>
+                    <td>User input (unformatted)</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
     }
     
-    function get_ajax_query_user($options = array()){
-        
-        // defaults
-        $options = acf_parse_args($options, array(
-            'post_id'		=> 0,
-            's'				=> '',
-            'field_key'		=> '',
-            'paged'			=> 1,
-            'value'         => '',
-        ));
-        
-        
-        // load field
-        $field = acf_get_field($options['field_key']);
-        if(!$field)
-            return false;
-        
-        // Target field name
-        if(!in_array($field['name'], $this->users))
-            return false;
-        
-        $field_type = acf_get_field_type('user');
-        
-        // vars
-        $results = array();
-        $args = array();
-        $s = false;
-        $is_search = false;
-        
-        // paged
-        $args['users_per_page'] = 20;
-        $args['paged'] = $options['paged'];
-        
-        // search
-        if($options['s'] !== ''){
-            
-            // strip slashes (search may be integer)
-            $s = wp_unslash( strval($options['s']) );
-            
-            // update vars
-            $args['s'] = $s;
-            $is_search = true;
-            
-        }
-        
-        // role
-        if(!empty($field['role'])){
-        
-            $args['role'] = acf_get_array( $field['role'] );
-            
-        }
-        
-        // search
-        if($is_search){
-            
-            // append to $args
-            $args['search'] = '*' . $options['s'] . '*';
-            
-            // add reference
-            $field_type->field = $field;
-            
-            // add filter to modify search colums
-            add_filter('user_search_columns', array($field_type, 'user_search_columns'), 10, 3);
-            
-        }
-        
-        // get users
-        $groups = acf_get_grouped_users($args);
-        
-        if(!$is_search && $args['paged'] === 1){
-            
-            $children = array();
-            
-            $children[] = array(
-                'id'    => 'current_user',
-                'text'  => 'Current User',
-            );
-            
-            $children[] = array(
-                'id'    => 'current_post_author',
-                'text'  => 'Current Post Author',
-            );
-            
-            if(!empty($options['value']) && is_string($options['value']) && !is_numeric($options['value']) && $options['value'] !== 'current_user' && $options['value'] !== 'current_post_author'){
-                
-                $children[] = array(
-                    'id'    => $options['value'],
-                    'text'  => $options['value'],
-                );
-                
-            }
-            
-            $results[] = array(
-                'text'		=> 'Generic',
-                'children'	=> $children
-            );
-        
-        }
-        
-        // loop
-        if(!empty($groups)){
-            
-            foreach(array_keys($groups) as $group_title){
-                
-                // vars
-                $users = acf_extract_var( $groups, $group_title );
-                $data = array(
-                    'text'		=> $group_title,
-                    'children'	=> array()
-                );
-                
-                // append users
-                foreach( array_keys($users) as $user_id ) {
-                    
-                    $users[ $user_id ] = $field_type->get_result( $users[ $user_id ], $field, $options['post_id'] );
-                    
-                };
-                
-                // order by search
-                if( $is_search && empty($args['orderby']) ) {
-                    
-                    $users = acf_order_by_search( $users, $args['s'] );
-                    
-                }
-                
-                // append to $data
-                foreach( $users as $id => $title ) {
-                    
-                    $data['children'][] = array(
-                        'id'	=> $id,
-                        'text'	=> $title
-                    );
-                    
-                }
-                
-                // append to $r
-                $results[] = $data;
-                
-            }
-            
-            // optgroup or single
-            if(!empty($args['role']) && count($args['role']) == 1){
-                
-                $results = $results[0]['children'];
-                
-            }
-        }
-        
-        // vars
-        $response = array(
-            'results'	=> $results,
-            'limit'		=> $args['users_per_page']
-        );
-        
-        // return
-        return $response;
-        
+    function doc_fields($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{fields}</code></td>
+                    <td>My text: User input<br /><br />My textarea: User input<br /><br />My date: 2020-03-01</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
     }
     
-    /**
-     *  User: Select2 Choices
-     */
-    function prepare_value_user($field){
+    function doc_get_field($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{get_field:my_field}</code></td>
+                    <td>DB value (current post)</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{get_field:my_field:current}</code></td>
+                    <td>DB value (current post)</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{get_field:my_field:128}</code></td>
+                    <td>DB value (post:128)</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{get_field:my_field:128:false}</code></td>
+                    <td>DB value (post:128 - unformatted)</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+    }
+    
+    function doc_query_var($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:name}</code></td>
+                    <td>value</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:name:key}</code></td>
+                    <td>Array value</td>
+                </tr>
+            </tbody>
+        </table>
         
-        if(!acf_maybe_get($field, 'value'))
-            return $field;
+        <br />
         
-        $field['choices'] = array();
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-post-action:ID}</code></td>
+                    <td>128</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-post-action:post_title}</code></td>
+                    <td>Title</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-post-action:permalink}</code></td>
+                    <td><?php echo home_url('my-post'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-post-action:...}</code></td>
+                    <td>(See <code>{current:post}</code> tags)</td>
+                </tr>
+            </tbody>
+        </table>
         
-        if(!empty($field['value']) && is_string($field['value']) && !is_numeric($field['value']) && $field['value'] !== 'current_term' && $field['value'] !== 'current_post_author'){
-            
-            $field['choices'][$field['value']] = $field['value'];
-            
-        }
+        <br />
         
-        $field['choices']['current_user'] = 'Current User';
-        $field['choices']['current_post_author'] = 'Current Post Author';
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-term-action:ID}</code></td>
+                    <td>23</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-term-action:name}</code></td>
+                    <td>Term</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-term-action:permalink}</code></td>
+                    <td><?php echo home_url('taxonomy/term'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-term-action:...}</code></td>
+                    <td>(See <code>{current:term}</code> tags)</td>
+                </tr>
+            </tbody>
+        </table>
         
-        $field_type = acf_get_field_type('user');
+        <br />
         
-        // Clean value into an array of IDs.
-        $user_ids = array_map('intval', acf_array($field['value']));
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-user-action:ID}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-user-action:user_email}</code></td>
+                    <td>user@domain.com</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-user-action:display_name}</code></td>
+                    <td>John Doe</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-user-action:...}</code></td>
+                    <td>(See <code>{current:user}</code> tags)</td>
+                </tr>
+            </tbody>
+        </table>
         
-        // Find users in database (ensures all results are real).
-        $users = acf_get_users(array(
-            'include' => $user_ids
-        ));
+        <br />
         
-        // Append.
-        if($users){
-            
-            foreach($users as $user){
-                $field['choices'][$user->ID] = $field_type->get_result($user, $field);
-            }
-            
-        }
-        
-        return $field;
-        
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-email-action:from}</code></td>
+                    <td>Website <email@domain.com></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-email-action:to}</code></td>
+                    <td>email@domain.com</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-email-action:subject}</code></td>
+                    <td>Subject</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{query_var:my-user-action:content}</code></td>
+                    <td>Content</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+    }
+    
+    function doc_current_post($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post}</code></td>
+                    <td>128</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:ID}</code></td>
+                    <td>128</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_author}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_date}</code></td>
+                    <td>2020-03-01 20:07:48</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_date_gmt}</code></td>
+                    <td>2020-03-01 19:07:48</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_content}</code></td>
+                    <td>Content</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_title}</code></td>
+                    <td>Title</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_excerpt}</code></td>
+                    <td>Excerpt</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:permalink}</code></td>
+                    <td><?php echo home_url('my-post'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:admin_url}</code></td>
+                    <td><?php echo admin_url('post.php?post=128&action=edit'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_status}</code></td>
+                    <td>publish</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:comment_status}</code></td>
+                    <td>closed</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:ping_status}</code></td>
+                    <td>closed</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_password}</code></td>
+                    <td>password</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_name}</code></td>
+                    <td>name</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:to_ping}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:pinged}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_modified}</code></td>
+                    <td>2020-03-01 20:07:48</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_modified_gmt}</code></td>
+                    <td>2020-03-01 19:07:48</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_content_filtered}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_parent}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:guid}</code></td>
+                    <td><?php echo home_url('?page_id=128'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:menu_order}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_type}</code></td>
+                    <td>page</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:post_mime_type}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:comment_count}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:post:filter}</code></td>
+                    <td>raw</td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <?php
+    }
+    
+    function doc_current_term($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term}</code></td>
+                    <td>23</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:ID}</code></td>
+                    <td>23</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:term_id}</code></td>
+                    <td>23</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:name}</code></td>
+                    <td>Term</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:slug}</code></td>
+                    <td>term</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:permalink}</code></td>
+                    <td><?php echo home_url('taxonomy/term'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:admin_url}</code></td>
+                    <td><?php echo admin_url('term.php?tag_ID=23'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:term_group}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:term_taxonomy_id}</code></td>
+                    <td>23</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:taxonomy}</code></td>
+                    <td>taxonomy</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:description}</code></td>
+                    <td>Content</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:parent}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:count}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:term:filter}</code></td>
+                    <td>raw</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+    }
+    
+    function doc_current_user($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:ID}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_login}</code></td>
+                    <td>login</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_pass}</code></td>
+                    <td>password_hash</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_nicename}</code></td>
+                    <td>nicename</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_email}</code></td>
+                    <td>user@domain.com</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_url}</code></td>
+                    <td>https://www.website.com</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:permalink}</code></td>
+                    <td><?php echo home_url('author/johndoe'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:admin_url}</code></td>
+                    <td><?php echo admin_url('user-edit.php?user_id=1'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_registered}</code></td>
+                    <td>2020-02-22 22:10:02</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_activation_key}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:user_status}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:display_name}</code></td>
+                    <td>John Doe</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:nickname}</code></td>
+                    <td>JohnDoe</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:first_name}</code></td>
+                    <td>John</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:last_name}</code></td>
+                    <td>Doe</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:description}</code></td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:rich_editing}</code></td>
+                    <td>true</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:syntax_highlighting}</code></td>
+                    <td>true</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:comment_shortcuts}</code></td>
+                    <td>false</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:admin_color}</code></td>
+                    <td>fresh</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:use_ssl}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:show_admin_bar_front}</code></td>
+                    <td>true</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:locale}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:wp_capabilities}</code></td>
+                    <td>a:1:{s:13:"administrator";b:1;}</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:wp_user_level}</code></td>
+                    <td>10</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:dismissed_wp_pointers}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:show_welcome_panel}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:user:show_welcome_panel}</code></td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+    }
+    
+    function doc_current_author($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:ID}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_login}</code></td>
+                    <td>login</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_pass}</code></td>
+                    <td>password_hash</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_nicename}</code></td>
+                    <td>nicename</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_email}</code></td>
+                    <td>user@domain.com</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_url}</code></td>
+                    <td>https://www.website.com</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:permalink}</code></td>
+                    <td><?php echo home_url('author/johndoe'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:admin_url}</code></td>
+                    <td><?php echo admin_url('user-edit.php?user_id=1'); ?></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_registered}</code></td>
+                    <td>2020-02-22 22:10:02</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_activation_key}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:user_status}</code></td>
+                    <td>0</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:display_name}</code></td>
+                    <td>John Doe</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:nickname}</code></td>
+                    <td>JohnDoe</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:first_name}</code></td>
+                    <td>John</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:last_name}</code></td>
+                    <td>Doe</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:description}</code></td>
+                    <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:rich_editing}</code></td>
+                    <td>true</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:syntax_highlighting}</code></td>
+                    <td>true</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:comment_shortcuts}</code></td>
+                    <td>false</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:admin_color}</code></td>
+                    <td>fresh</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:use_ssl}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:show_admin_bar_front}</code></td>
+                    <td>true</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:locale}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:wp_capabilities}</code></td>
+                    <td>a:1:{s:13:"administrator";b:1;}</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:wp_user_level}</code></td>
+                    <td>10</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:dismissed_wp_pointers}</code></td>
+                    <td></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:show_welcome_panel}</code></td>
+                    <td>1</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:author:show_welcome_panel}</code></td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+    }
+    
+    function doc_current_form($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:form}</code></td>
+                    <td>11<br/></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:form:ID}</code></td>
+                    <td>11<br/></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:form:title}</code></td>
+                    <td>Form<br/></td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:form:name}</code></td>
+                    <td>form<br/></td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
     }
     
 }
@@ -2139,15 +2454,15 @@ function acfe_form_render_fields($content, $post_id, $args){
     
 }
 
-function acfe_form_map_field_value($field, $acf, $post_id = 0){
+function acfe_form_map_field_value($field, $post_id = 0, $form = array()){
     
-    return acfe()->acfe_form->map_field_value($field, $acf, $post_id);
+    return acfe()->acfe_form->map_field_value($field, $post_id, $form);
     
 }
 
-function acfe_form_map_field_get_value($field){
+function acfe_form_map_field_value_load($field, $post_id = 0, $form = array()){
     
-    return acfe()->acfe_form->map_field_get_value($field);
+    return acfe()->acfe_form->map_field_value_load($field, $post_id, $form);
     
 }
 
@@ -2157,9 +2472,421 @@ function acfe_form_filter_meta($meta, $acf){
     
 }
 
+function acfe_form_format_value($value, $post_id = 0, $field){
+    
+    return acfe()->acfe_form->format_value($value, $post_id, $field);
+    
+}
+
+// Match field_abcdef123456
+function acfe_form_map_field_key($content){
+    
+    if(empty($content) || !is_string($content))
+        return $content;
+    
+    if(!acf_is_field_key($content))
+        return $content;
+    
+    // Setup data
+    $data = array();
+    
+    $store = acf_get_store('acfe/form');
+    
+    if($store->has('data')){
+        
+        $data = $store->get('data');
+        
+    }
+    
+    if(!empty($data)){
+        
+        foreach($data as $field){
+            
+            if($field['key'] !== $content)
+                continue;
+            
+            return $field['value'];
+            
+        }
+        
+    }
+    
+    return false;
+    
+}
+
+function acfe_form_map_current($content, $post_id = 0, $form = array()){
+    
+    if(empty($content) || !is_string($content))
+        return $content;
+    
+    // init
+    $value = 0;
+    
+    // Post
+    $post = acf_get_post_id_info($post_id);
+    
+    // Match current_post
+    if($content === 'current_post'){
+        
+        if($post['type'] === 'post')
+            $value = $post['id'];
+        
+        return $value;
+        
+    }
+    
+    // Match current_post_parent
+    elseif($content === 'current_post_parent'){
+        
+        if($post['type'] === 'post')
+            $value = get_post_field('post_parent', $post['id']);
+        
+        return $value;
+        
+    }
+    
+    // Match current_post_author
+    elseif($content === 'current_post_author'){
+        
+        if($post['type'] === 'post')
+            $value = get_post_field('post_author', $post['id']);
+        
+        return $value;
+        
+    }
+    
+    // Match current_term
+    if($content === 'current_term'){
+        
+        if($post['type'] === 'term')
+            $value = $post['id'];
+        
+        return $value;
+        
+    }
+    
+    // Match current_term_parent
+    elseif($content === 'current_term_parent'){
+        
+        if($post['type'] === 'term')
+            $value = get_term_field('parent', $post['id']);
+        
+        return $value;
+        
+    }
+    
+    // Match current_user
+    elseif($content === 'current_user'){
+        
+        return get_current_user_id();
+        
+    }
+    
+    // Match generate_password
+    elseif($content === 'generate_password'){
+        
+        return wp_generate_password(8, false);
+        
+    }
+    
+    // Match {current:post:id}
+    elseif(strpos($content, '{current:') !== false){
+        
+        // Match {query_var:name}
+        if(preg_match_all('/{current:(.*?)}/', $content, $matches)){
+            
+            foreach($matches[1] as $i => $name){
+                
+                $value = false;
+                
+                if(strpos($name, ':') !== false){
+                
+                    $explode = explode(':', $name);
+                    
+                    $type = $explode[0]; // post, term, user
+                    $field = $explode[1]; // id, post_parent, post_title
+                    
+                    // {current:post:id}
+                    if($type === 'post' && $post['type'] === 'post'){
+                        
+                        // id
+                        if(strtolower($field) === 'id' || strtolower($field) === 'post_id'){
+                            
+                            $value = $post['id'];
+                            
+                        }
+                        
+                        // permalink
+                        elseif(strtolower($field) === 'permalink'){
+                            
+                            $value = get_permalink($post['id']);
+                            
+                        }
+                        
+                        // admin url
+                        elseif(strtolower($field) === 'admin_url'){
+                            
+                            $value = admin_url('post.php?post=' . $post['id'] . '&action=edit');
+                            
+                        }
+                        
+                        // other
+                        else{
+                            
+                            $value = get_post_field($field, $post['id']);
+                            
+                        }
+                        
+                    }
+                    
+                    // {current:term:id}
+                    elseif($type === 'term' && $post['type'] === 'term'){
+                        
+                        // id
+                        if(strtolower($field) === 'id' || strtolower($field) === 'term_id'){
+                            
+                            $value = $post['id'];
+                            
+                        }
+                        
+                        // permalink
+                        elseif(strtolower($field) === 'permalink'){
+                            
+                            $value = get_term_link($post['id']);
+                            
+                        }
+                        
+                        // admin url
+                        elseif(strtolower($field) === 'admin_url'){
+                            
+                            $value = admin_url('term.php?tag_ID=' . $post['id']);
+                            
+                        }
+                        
+                        // other
+                        else{
+                            
+                            $value = get_term_field($field, $post['id']);
+                            
+                        }
+                        
+                    }
+                    
+                    // {current:user:id}
+                    elseif($type === 'user'){
+                        
+                        if(is_user_logged_in()){
+                            
+                            $user_id = get_current_user_id();
+                            
+                            // id
+                            if(strtolower($field) === 'id' || strtolower($field) === 'user_id'){
+                                
+                                $value = $user_id;
+                                
+                            }
+                            
+                            // permalink
+                            elseif(strtolower($field) === 'permalink'){
+                                
+                                $value = get_author_posts_url($user_id);
+                                
+                            }
+                            
+                            // admin url
+                            elseif(strtolower($field) === 'admin_url'){
+                                
+                                $value = admin_url('user-edit.php?user_id=' . $user_id);
+                                
+                            }
+                            
+                            // other
+                            else{
+                            
+                                $value = false;
+                                
+                                $user_object = get_user_by('ID', $user_id);
+                                
+                                if(isset($user_object->data)){
+                                    
+                                    // return array
+                                    $user = json_decode(json_encode($user_object->data), true);
+                                    
+                                    $user_object_meta = get_user_meta($user_id);
+                                    
+                                    $user_meta = array();
+                                    
+                                    foreach($user_object_meta as $k => $v){
+                                        
+                                        if(!isset($v[0]))
+                                            continue;
+                                        
+                                        $user_meta[$k] = $v[0];
+                                        
+                                    }
+                                    
+                                    $user = array_merge($user, $user_meta);
+                                    
+                                    $value = acf_maybe_get($user, $field);
+                                
+                                }
+                            
+                            }
+                        
+                        }
+                        
+                    }
+                    
+                    // {current:author:id}
+                    elseif($type === 'author' && $post['type'] === 'post'){
+                        
+                        $user_id = get_post_field('post_author', $post['id']);
+                        
+                        if($user_id){
+                            
+                            // id
+                            if(strtolower($field) === 'id' || strtolower($field) === 'user_id'){
+                                
+                                $value = $user_id;
+                                
+                            }
+                            
+                            // permalink
+                            elseif(strtolower($field) === 'permalink'){
+                                
+                                $value = get_author_posts_url($user_id);
+                                
+                            }
+                            
+                            // admin url
+                            elseif(strtolower($field) === 'admin_url'){
+                                
+                                $value = admin_url('user-edit.php?user_id=' . $user_id);
+                                
+                            }
+                            
+                            // other
+                            else{
+                            
+                                $value = false;
+                                
+                                $user_object = get_user_by('ID', $user_id);
+                                
+                                if(isset($user_object->data)){
+                                    
+                                    // return array
+                                    $user = json_decode(json_encode($user_object->data), true);
+                                    
+                                    $user_object_meta = get_user_meta($user_id);
+                                    
+                                    $user_meta = array();
+                                    
+                                    foreach($user_object_meta as $k => $v){
+                                        
+                                        if(!isset($v[0]))
+                                            continue;
+                                        
+                                        $user_meta[$k] = $v[0];
+                                        
+                                    }
+                                    
+                                    $user = array_merge($user, $user_meta);
+                                    
+                                    $value = acf_maybe_get($user, $field);
+                                
+                                }
+                            
+                            }
+                        
+                        }
+                        
+                        
+                    }
+                    
+                    // {current:form:id}
+                    elseif($type === 'form'){
+                        
+                        if(strtolower($field) === 'id' || strtolower($field) === 'form_id'){
+                            
+                            $value = acf_maybe_get($form, 'form_id');
+                            
+                        }
+                        
+                        elseif(strtolower($field) === 'name' || strtolower($field) === 'form_name'){
+                            
+                            $value = acf_maybe_get($form, 'form_name');
+                            
+                        }
+                        
+                        elseif(strtolower($field) === 'title' || strtolower($field) === 'form_title'){
+                            
+                            $form_id = acf_maybe_get($form, 'form_id');
+                            
+                            if($form_id)
+                                $value = get_the_title($form_id);
+                            
+                        }else{
+                            
+                            $value = acf_maybe_get($form, $field);
+                            
+                        }
+                        
+                    }
+                
+                }
+                
+                // {current:post}
+                elseif($name === 'post' && $post['type'] === 'post'){
+                    
+                    $value = $post['id'];
+                    
+                }
+                
+                // {current:term}
+                elseif($name === 'term' && $post['type'] === 'term'){
+                    
+                    $value = $post['id'];
+                    
+                }
+                
+                // {current:user}
+                elseif($name === 'user'){
+                    
+                    $value = get_current_user_id();
+                    
+                }
+                
+                // {current:author}
+                elseif($name === 'author' && $post['type'] === 'post'){
+                    
+                    $value = get_post_field('post_author', $post['id']);
+                    
+                }
+                
+                // {current:form}
+                elseif($name === 'form'){
+                    
+                    $value = acf_maybe_get($form, 'form_id');
+                    
+                }
+                
+                $content = str_replace('{current:' . $name . '}', $value, $content);
+                
+            }
+            
+        }
+        
+    }
+    
+    return $content;
+    
+}
+
+// Match {query_var:name} {query_var:name:key}
 function acfe_form_map_query_var($content){
     
-    if(empty($content))
+    if(empty($content) || !is_string($content))
         return $content;
     
     if(strpos($content, '{query_var:') === false)
@@ -2193,5 +2920,206 @@ function acfe_form_map_query_var($content){
     }
     
     return $content;
+    
+}
+
+// Match {get_field:name} {get_field:name:123}
+function acfe_form_map_get_field($content, $post_id = 0){
+    
+    if(empty($content) || !is_string($content))
+        return $content;
+    
+    if(strpos($content, '{get_field:') === false)
+        return $content;
+    
+    // Match {get_field:name}
+    if(preg_match_all('/{get_field:(.*?)}/', $content, $matches)){
+        
+        foreach($matches[1] as $i => $name){
+            
+            if(strpos($name, ':') === false){
+                
+                $get_field = get_field($name, $post_id);
+                
+            }else{
+                
+                $explode = explode(':', $name);
+                
+                // Field
+                $field = $explode[0];
+                
+                // ID
+                $id = $explode[1];
+                
+                if($id === 'current')
+                    $id = $post_id;
+                
+                // Format
+                $format = true;
+                
+                if(acf_maybe_get($explode, 2) === 'false')
+                    $format = false;
+                
+                $get_field = get_field($field, $id, $format);
+                
+            }
+            
+            $content = str_replace('{get_field:' . $name . '}', $get_field, $content);
+            
+        }
+        
+    }
+    
+    return $content;
+    
+}
+
+// Match {field:name} {field:key}
+function acfe_form_map_field($content){
+    
+    if(empty($content) || !is_string($content))
+        return $content;
+    
+    if(strpos($content, '{field:') === false)
+        return $content;
+    
+    if(preg_match_all('/{field:(.*?)}/', $content, $matches)){
+        
+        // Setup data
+        $data = array();
+        
+        $store = acf_get_store('acfe/form');
+        
+        if($store->has('data')){
+            
+            $data = $store->get('data');
+            
+        }
+        
+        foreach($matches[1] as $i => $field_key){
+            
+            $format = true;
+            
+            if(strpos($field_key, ':') !== false){
+            
+                $explode = explode(':', $field_key);
+                
+                $field_key = $explode[0]; // field_123abc
+                $format = $explode[1]; // true / false
+                
+                if($format === 'false')
+                    $format = false;
+                
+            }
+
+            if(!empty($data)){
+                
+                foreach($data as $field){
+                    
+                    if($field['name'] !== $field_key && $field['key'] !== $field_key)
+                        continue;
+                    
+                    // Value
+                    $value = $field['value'];
+                    
+                    if($format)
+                        $value = acfe_form_format_value($field['value'], 0, $field['field']);
+                    
+                    // Replace
+                    $content = str_replace('{field:' . $field_key . '}', $value, $content);
+                    
+                    break;
+                    
+                }
+                
+            }
+            
+            // Fallback (clean)
+            $content = str_replace('{field:' . $field_key . '}', '', $content);
+            
+        }
+        
+    }
+    
+    // Return
+    return $content;
+    
+}
+
+// Match {fields}
+function acfe_form_map_fields($content){
+    
+    if(empty($content) || !is_string($content))
+        return $content;
+    
+    if(strpos($content, '{fields}') === false)
+        return $content;
+    
+    // Match {fields}
+    if(preg_match('/{fields}/', $content, $matches)){
+        
+        // Setup data
+        $data = array();
+        
+        $store = acf_get_store('acfe/form');
+        
+        if($store->has('data')){
+            
+            $data = $store->get('data');
+            
+        }
+        
+        $content_html = '';
+        
+        if(!empty($data)){
+            
+            foreach($data as $field){
+                
+                // Label
+                $label = !empty($field['label']) ? $field['label'] : $field['name'];
+                
+                // Value
+                $value = acfe_form_format_value($field['value'], 0, $field['field']);
+                
+                // Add
+                $content_html .= $label . ': ' . $value . "<br/>\n";
+                
+            }
+            
+        }
+        
+        // Replace
+        $content = str_replace('{fields}', $content_html, $content);
+        
+    }
+    
+    // Return
+    return $content;
+    
+}
+
+function acfe_form_map_vs_fields($map, $fields, $post_id = 0, $form = array()){
+    
+    $return = array();
+    
+    foreach($map as $mkey => $mval){
+        
+        if(empty($mval))
+            continue;
+        
+        $return[$mkey] = acfe_form_map_field_value($mval, $post_id, $form);
+        
+    }
+    
+    foreach($fields as $fkey => $fvalue){
+        
+        if(isset($return[$fkey]))
+            continue;
+        
+        $return[$fkey] = acfe_form_map_field_value($fvalue, $post_id, $form);
+        
+    }
+    
+    return $return;
     
 }

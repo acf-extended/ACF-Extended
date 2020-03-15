@@ -137,9 +137,9 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
 			return acf_add_admin_notice(__('No forms selected'), 'warning');
         
         $keys = array();
-        foreach($this->data as $key => $args){
+        foreach($this->data as $args){
             
-            $keys[] = $key;
+            $keys[] = $args['acfe_form_name'];
             
         }
         
@@ -189,7 +189,7 @@ class ACFE_Admin_Tool_Export_Form extends ACF_Admin_Tool{
                 continue;
             
 			// add to data array
-			$data[$key] = array_merge(array('title' => get_the_title($form->ID)), get_fields($form->ID, false));
+			$data[] = array_merge(array('title' => get_the_title($form->ID)), get_fields($form->ID, false));
             
 		}
         

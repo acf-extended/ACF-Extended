@@ -125,6 +125,36 @@ function acfe_flexible_layout_render_script_setting($return, $field, $layout, $i
     
 }
 
+add_filter('acf/prepare_field/name=acfe_flexible_category', 'acfe_prepare_flexible_layout_categories');
+function acfe_prepare_flexible_layout_categories($field){
+    
+    $value = acf_maybe_get($field, 'value');
+    
+    if(empty($value))
+        return $field;
+    
+    if(is_string($value)){
+        
+        $explode = explode('|', $value);
+        
+        $choices = array();
+        
+        foreach($explode as $v){
+            
+            $v = trim($v);
+            $choices[$v] = $v;
+            
+        }
+        
+        $field['choices'] = $choices;
+        $field['value'] = $choices;
+        
+    }
+    
+    return $field;
+    
+}
+
 if(!class_exists('acfe_field_flexible_content')):
 
 class acfe_field_flexible_content extends acf_field_flexible_content{
@@ -869,16 +899,19 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         
         // Category
         if($flexible['acfe_flexible_modal'] && acf_maybe_get($flexible['acfe_flexible_modal'], 'acfe_flexible_modal_categories')){
-
-            acf_render_field_wrap(array(
-                'prepend'       => __('Category'),
-                'name'          => 'acfe_flexible_category',
-                'type'          => 'text',
-                'class'         => 'acf-fc-meta-name',
-                'prefix'        => $prefix,
-                'value'         => $layout['acfe_flexible_category'],
-                'placeholder'   => __('Multiple categories can be set using "|"')
-            ), 'ul');
+         
+	        acf_render_field_wrap(array(
+		        'prepend'       => __('Category'),
+		        'name'          => 'acfe_flexible_category',
+		        'type'          => 'select',
+		        'ui'            => 1,
+		        'multiple'      => 1,
+		        'allow_custom'  => 1,
+		        'class'         => 'acf-fc-meta-name',
+		        'prefix'        => $prefix,
+		        'value'         => $layout['acfe_flexible_category'],
+		        'placeholder'   => __('Layouts categories')
+	        ), 'ul');
         
         }
         
@@ -1136,8 +1169,18 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
             // Category
             if($layout['acfe_flexible_category'] && $field['acfe_flexible_modal']['acfe_flexible_modal_categories']){
+
+                $categories = $layout['acfe_flexible_category'];
                 
-                $span['data-acfe-flexible-category'] = trim($layout['acfe_flexible_category']);
+                // Compatibility
+                if(is_string($categories)){
+                 
+	                $categories = explode('|', $categories);
+	                $categories = array_map('trim', $categories);
+	                
+                }
+
+                $span['data-acfe-flexible-category'] = $categories;
                 
             }
             

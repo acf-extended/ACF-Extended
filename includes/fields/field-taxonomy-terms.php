@@ -42,7 +42,7 @@ class acfe_field_taxonomy_terms extends acf_field{
         add_action('wp_ajax_nopriv_acf/fields/acfe_taxonomy_terms/query',   array($this, 'ajax_query'));
         
         // actions
-        add_action('acf/save_post', array($this, 'save_post'), 15, 1);
+        add_action('acf/save_post',                                         array($this, 'save_post'), 15, 1);
         
         parent::__construct();
         
@@ -352,6 +352,37 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // Available choices
         $field['choices'] = $this->get_available_terms($field);
+	
+	    // Allow Custom
+	    if(acf_maybe_get($field, 'allow_custom')){
+		
+		    if($value = acf_maybe_get($field, 'value')){
+			
+			    $value = acf_get_array($value);
+			
+			    foreach($value as $v){
+			    	
+			    	$found = false;
+			    	
+			    	foreach($field['choices'] as $taxonomy => $term){
+			    		
+			    		if(isset($term[$v])){
+			    			
+			    			$found = true;
+			    			break;
+			    			
+					    }
+			    		
+				    }
+			    	
+			    	if(!$found)
+			    		$field['choices'][$v] = $v;
+				
+			    }
+			
+		    }
+		
+	    }
         
         // Set Field Type
         $field['type'] = $field['field_type'];
