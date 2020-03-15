@@ -2481,7 +2481,7 @@ function acfe_form_format_value($value, $post_id = 0, $field){
 // Match field_abcdef123456
 function acfe_form_map_field_key($content){
     
-    if(empty($content))
+    if(empty($content) || !is_string($content))
         return $content;
     
     if(!acf_is_field_key($content))
@@ -2517,7 +2517,7 @@ function acfe_form_map_field_key($content){
 
 function acfe_form_map_current($content, $post_id = 0, $form = array()){
     
-    if(empty($content))
+    if(empty($content) || !is_string($content))
         return $content;
     
     // init
@@ -2886,7 +2886,7 @@ function acfe_form_map_current($content, $post_id = 0, $form = array()){
 // Match {query_var:name} {query_var:name:key}
 function acfe_form_map_query_var($content){
     
-    if(empty($content))
+    if(empty($content) || !is_string($content))
         return $content;
     
     if(strpos($content, '{query_var:') === false)
@@ -2926,7 +2926,7 @@ function acfe_form_map_query_var($content){
 // Match {get_field:name} {get_field:name:123}
 function acfe_form_map_get_field($content, $post_id = 0){
     
-    if(empty($content))
+    if(empty($content) || !is_string($content))
         return $content;
     
     if(strpos($content, '{get_field:') === false)
@@ -2977,7 +2977,7 @@ function acfe_form_map_get_field($content, $post_id = 0){
 // Match {field:name} {field:key}
 function acfe_form_map_field($content){
     
-    if(empty($content))
+    if(empty($content) || !is_string($content))
         return $content;
     
     if(strpos($content, '{field:') === false)
@@ -3049,7 +3049,7 @@ function acfe_form_map_field($content){
 // Match {fields}
 function acfe_form_map_fields($content){
     
-    if(empty($content))
+    if(empty($content) || !is_string($content))
         return $content;
     
     if(strpos($content, '{fields}') === false)

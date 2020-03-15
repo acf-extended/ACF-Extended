@@ -6,8 +6,13 @@ class acfe_upgrades{
 
 	function __construct(){
 		
+		$upgrades = acfe_settings('upgrades');
+		
+		if(empty($upgrades))
+			return;
+		
 		// ACF Extended: 0.8.5
-		$this->upgrade_0_8_5();
+		add_action('acf/init', array($this, 'upgrade_0_8_5'), 999);
 
 	}
 	
@@ -51,6 +56,9 @@ class acfe_upgrades{
 					
 				}
 				
+				$flexible = acf_get_field_type('flexible_content');
+				$field = acf_get_field('acfe_form_actions');
+				
 				global $wpdb;
 				
 				foreach($get_forms as $post_id){
@@ -90,10 +98,8 @@ class acfe_upgrades{
 					}
 					
 					/*
-					 * Upgrade old group fields
+					 * Step 1: Upgrade old group fields
 					 */
-					
-					// Prefix
 					$prefix = 'acfe_form_actions';
 					
 					// Define script rules
@@ -285,11 +291,8 @@ class acfe_upgrades{
 					}
 					
 					/*
-					 * Upgrade map fields which now require "Load values" to be enabled
+					 * Step 2: Upgrade map fields which now require "Load values" to be enabled
 					 */
-					$flexible = acf_get_field_type('flexible_content');
-					$field = acf_get_field('acfe_form_actions');
-					
 					if(have_rows('acfe_form_actions', $post_id)):
 						while(have_rows('acfe_form_actions', $post_id)): the_row();
 							

@@ -336,7 +336,7 @@ class ACFE_Admin_Tool_Import_Form extends ACF_Admin_Tool{
                 
                 foreach($rules as $rule){
                     
-                    $load_values = $rule['load_values'];
+                    $load_values = acf_maybe_get($row, $rule['load_values']);
                     $fields = $rule['fields'];
                     
                     if(!empty($load_values))
@@ -344,7 +344,7 @@ class ACFE_Admin_Tool_Import_Form extends ACF_Admin_Tool{
                     
                     foreach($fields as $map => $save){
                         
-                        $map_value = $row[$map];
+                        $map_value = acf_maybe_get($row, $map);
                         
                         if(empty($map_value))
                             continue;

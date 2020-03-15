@@ -100,7 +100,7 @@ class ACFE{
         // Tools
         add_action('acf/include_admin_tools',   array($this, 'tools'));
         
-        // Compatibility
+        // Additional
         acfe_include('includes/core/settings.php');
         acfe_include('includes/core/compatibility.php');
 	    acfe_include('includes/core/upgrades.php');
