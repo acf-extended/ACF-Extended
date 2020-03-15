@@ -867,6 +867,42 @@ function acfe_number_suffix($num){
     
 }
 
+function acfe_array_to_string($array = array()){
+	
+	if(!is_array($array))
+		return $array;
+	
+	if(empty($array))
+		return false;
+	
+	if(acf_is_sequential_array($array)){
+		
+		foreach($array as $k => $v){
+			
+			if(!is_string($v))
+				continue;
+			
+			return $v;
+			
+		}
+		
+	}elseif(acf_is_associative_array($array)){
+		
+		foreach($array as $k => $v){
+			
+			if(!is_string($v))
+				continue;
+			
+			return $v;
+			
+		}
+		
+	}
+	
+	return false;
+	
+}
+
 function acfe_get_acf_screen_id($page = ''){
 
     $prefix = sanitize_title( __("Custom Fields", 'acf') );

@@ -234,6 +234,9 @@ class acfe_form_term{
         
         // Name
         if(!empty($data['name'])){
+	
+	        if(is_array($data['name']))
+		        $data['name'] = acfe_array_to_string($data['name']);
             
             $args['name'] = $data['name'];
             
@@ -241,6 +244,9 @@ class acfe_form_term{
         
         // Slug
         if(!empty($data['slug'])){
+	
+	        if(is_array($data['name']))
+		        $data['name'] = acfe_array_to_string($data['name']);
             
             $args['slug'] = $data['slug'];
             
@@ -248,6 +254,9 @@ class acfe_form_term{
         
         // Taxonomy
         if(!empty($data['taxonomy'])){
+	
+	        if(is_array($data['name']))
+		        $data['name'] = acfe_array_to_string($data['name']);
             
             $args['taxonomy'] = $data['taxonomy'];
             
@@ -255,6 +264,9 @@ class acfe_form_term{
         
         // Parent
         if(!empty($data['parent'])){
+	
+	        if(is_array($data['name']))
+		        $data['name'] = acfe_array_to_string($data['name']);
             
             $args['parent'] = $data['parent'];
             
@@ -262,6 +274,9 @@ class acfe_form_term{
         
         // Description
         if(!empty($data['description'])){
+	
+	        if(is_array($data['name']))
+		        $data['name'] = acfe_array_to_string($data['name']);
             
             $args['description'] = $data['description'];
             

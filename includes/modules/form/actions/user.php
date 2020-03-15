@@ -304,7 +304,7 @@ class acfe_form_user{
         
         if(empty($login) || empty($pass)){
             
-            acfe_add_validation_error('', 'An error as occured');
+            acfe_add_validation_error('', 'An error has occured. Please try again');
             return;
             
         }
@@ -350,7 +350,7 @@ class acfe_form_user{
             
             if(empty($login) || !is_email($login)){
                 
-                acfe_add_validation_error('', 'Invalid login');
+                acfe_add_validation_error('', 'Invalid e-mail');
                 return;
                 
             }
@@ -359,7 +359,7 @@ class acfe_form_user{
             
             if(!$user || !wp_check_password($pass, $user->data->user_pass, $user->ID)){
                 
-                acfe_add_validation_error('', 'Invalid login or password');
+                acfe_add_validation_error('', 'Invalid e-mail or password');
                 return;
                 
             }
@@ -370,7 +370,7 @@ class acfe_form_user{
             
             if(empty($login)){
                 
-                acfe_add_validation_error('', 'Invalid login');
+                acfe_add_validation_error('', 'Invalid username');
                 return;
                 
             }
@@ -379,7 +379,7 @@ class acfe_form_user{
             
             if(!$user || !wp_check_password($pass, $user->data->user_pass, $user->ID)){
                 
-                acfe_add_validation_error('', 'Invalid login or password');
+                acfe_add_validation_error('', 'Invalid username or password');
                 return;
                 
             }
@@ -476,6 +476,9 @@ class acfe_form_user{
             
             // Email
             if(!empty($data['user_email'])){
+	
+	            if(is_array($data['user_email']))
+		            $data['user_email'] = acfe_array_to_string($data['user_email']);
                 
                 $args['user_email'] = $data['user_email'];
                 
@@ -483,6 +486,9 @@ class acfe_form_user{
             
             // Username
             if(!empty($data['user_login'])){
+	
+	            if(is_array($data['user_login']))
+		            $data['user_login'] = acfe_array_to_string($data['user_login']);
                 
                 $args['user_login'] = $data['user_login'];
                 
@@ -490,6 +496,9 @@ class acfe_form_user{
             
             // Password
             if(!empty($data['user_pass'])){
+	
+	            if(is_array($data['user_pass']))
+		            $data['user_pass'] = acfe_array_to_string($data['user_pass']);
                 
                 $args['user_pass'] = $data['user_pass'];
                 
@@ -497,6 +506,9 @@ class acfe_form_user{
             
             // First name
             if(!empty($data['first_name'])){
+	
+	            if(is_array($data['first_name']))
+		            $data['first_name'] = acfe_array_to_string($data['first_name']);
                 
                 $args['first_name'] = $data['first_name'];
                 
@@ -504,6 +516,9 @@ class acfe_form_user{
             
             // Last name
             if(!empty($data['last_name'])){
+	
+	            if(is_array($data['last_name']))
+		            $data['last_name'] = acfe_array_to_string($data['last_name']);
                 
                 $args['last_name'] = $data['last_name'];
                 
@@ -511,6 +526,9 @@ class acfe_form_user{
             
             // Nickname
             if(!empty($data['nickname'])){
+	
+	            if(is_array($data['nickname']))
+		            $data['nickname'] = acfe_array_to_string($data['nickname']);
                 
                 $args['nickname'] = $data['nickname'];
                 
@@ -518,6 +536,9 @@ class acfe_form_user{
             
             // Display name
             if(!empty($data['display_name'])){
+	
+	            if(is_array($data['display_name']))
+		            $data['display_name'] = acfe_array_to_string($data['display_name']);
                 
                 $args['display_name'] = $data['display_name'];
                 
@@ -525,6 +546,9 @@ class acfe_form_user{
             
             // Website
             if(!empty($data['user_url'])){
+	
+	            if(is_array($data['user_url']))
+		            $data['user_url'] = acfe_array_to_string($data['user_url']);
                 
                 $args['user_url'] = $data['user_url'];
                 
@@ -532,6 +556,9 @@ class acfe_form_user{
             
             // Description
             if(!empty($data['description'])){
+	
+	            if(is_array($data['description']))
+		            $data['description'] = acfe_array_to_string($data['description']);
                 
                 $args['description'] = $data['description'];
                 
@@ -539,6 +566,9 @@ class acfe_form_user{
             
             // Role
             if(!empty($data['role'])){
+	
+	            if(is_array($data['role']))
+		            $data['role'] = acfe_array_to_string($data['role']);
                 
                 $args['role'] = $data['role'];
                 
@@ -549,20 +579,26 @@ class acfe_form_user{
             
             if(!empty($action))
                 $args = apply_filters('acfe/form/submit/user_args/action=' . $action, $args, $user_action, $form, $action);
+	
+	        if($args === false)
+		        return false;
             
             // Insert User
             if($user_action === 'insert_user'){
                 
-                if(!isset($args['user_email']) || !isset($args['user_login']) || !isset($args['user_pass'])){
-                    
-                    $args = false;
-                    
-                }
+                // Bail early if no e-mail
+                if(!isset($args['user_email']))
+                    return false;
+                
+                // No login? Fallback to e-mail
+	            if(!isset($args['user_login']))
+	                $args['user_login'] = $args['user_email'];
+	            
+	            // No password? Fallback to generated password
+	            if(!isset($args['user_pass']))
+		            $args['user_pass'] = wp_generate_password(8, false);
                 
             }
-            
-            if($args === false)
-                return;
             
             // Insert User
             if($user_action === 'insert_user'){

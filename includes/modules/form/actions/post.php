@@ -265,14 +265,14 @@ class acfe_form_post{
 	
 	        // Mapping
 	        $map = array(
-		        'post_type'    => get_sub_field( 'acfe_form_post_map_post_type' ),
-		        'post_status'  => get_sub_field( 'acfe_form_post_map_post_status' ),
-		        'post_title'   => get_sub_field( 'acfe_form_post_map_post_title' ),
-		        'post_name'    => get_sub_field( 'acfe_form_post_map_post_name' ),
-		        'post_content' => get_sub_field( 'acfe_form_post_map_post_content' ),
-		        'post_author'  => get_sub_field( 'acfe_form_post_map_post_author' ),
-		        'post_parent'  => get_sub_field( 'acfe_form_post_map_post_parent' ),
-		        'post_terms'   => get_sub_field( 'acfe_form_post_map_post_terms' ),
+		        'post_type'    => get_sub_field('acfe_form_post_map_post_type'),
+		        'post_status'  => get_sub_field('acfe_form_post_map_post_status'),
+		        'post_title'   => get_sub_field('acfe_form_post_map_post_title'),
+		        'post_name'    => get_sub_field('acfe_form_post_map_post_name'),
+		        'post_content' => get_sub_field('acfe_form_post_map_post_content'),
+		        'post_author'  => get_sub_field('acfe_form_post_map_post_author'),
+		        'post_parent'  => get_sub_field('acfe_form_post_map_post_parent'),
+		        'post_terms'   => get_sub_field('acfe_form_post_map_post_terms'),
 	        );
 	
         }
@@ -322,12 +322,18 @@ class acfe_form_post{
         // Post type
         if(!empty($data['post_type'])){
             
+            if(is_array($data['post_type']))
+	            $data['post_type'] = acfe_array_to_string($data['post_type']);
+            
             $args['post_type'] = $data['post_type'];
             
         }
         
         // Post status
         if(!empty($data['post_status'])){
+	
+	        if(is_array($data['post_status']))
+		        $data['post_status'] = acfe_array_to_string($data['post_status']);
             
             $args['post_status'] = $data['post_status'];
         
@@ -335,6 +341,9 @@ class acfe_form_post{
         
         // Post title
         if(!empty($data['post_title'])){
+	
+	        if(is_array($data['post_title']))
+		        $data['post_title'] = acfe_array_to_string($data['post_title']);
             
             $args['post_title'] = $data['post_title'];
             
@@ -345,6 +354,9 @@ class acfe_form_post{
         
         // Post name
         if(!empty($data['post_name'])){
+	
+	        if(is_array($data['post_name']))
+		        $data['post_name'] = acfe_array_to_string($data['post_name']);
             
             $args['post_name'] = $data['post_name'];
             
@@ -355,6 +367,9 @@ class acfe_form_post{
         
         // Post content
         if(!empty($data['post_content'])){
+	
+	        if(is_array($data['post_content']))
+		        $data['post_content'] = acfe_array_to_string($data['post_content']);
             
             $args['post_content'] = $data['post_content'];
         
@@ -362,6 +377,9 @@ class acfe_form_post{
         
         // Post author
         if(!empty($data['post_author'])){
+	
+	        if(is_array($data['post_author']))
+		        $data['post_author'] = acfe_array_to_string($data['post_author']);
             
             $args['post_author'] = $data['post_author'];
         
@@ -369,6 +387,9 @@ class acfe_form_post{
         
         // Post parent
         if(!empty($data['post_parent'])){
+	
+	        if(is_array($data['post_author']))
+		        $data['post_author'] = acfe_array_to_string($data['post_author']);
             
             $args['post_parent'] = $data['post_parent'];
         
@@ -383,8 +404,51 @@ class acfe_form_post{
             if(!empty($terms)){
                 
                 foreach($terms as $term){
+                    
+                    if(is_string($term) || is_numeric($term)){
 	
-	                $args['acfe_form_terms'][] = $term;
+	                    $args['acfe_form_terms'][] = $term;
+	
+                    }elseif(is_array($term)){
+	
+	                    foreach($term as $sub_term){
+		
+		                    // String || Numeric
+		                    if(is_string($sub_term) || is_numeric($sub_term)){
+			
+			                    $args['acfe_form_terms'][] = $sub_term;
+			
+			                    // Array
+		                    }elseif(is_array($sub_term)){
+			
+			                    if(!acf_maybe_get($sub_term, 'term_id'))
+				                    continue;
+			
+			                    $args['acfe_form_terms'][] = $sub_term['term_id'];
+			
+			                    // Object
+		                    }elseif(is_object($sub_term) && is_a($sub_term, 'WP_Term')){
+			
+			                    if(!isset($sub_term->term_id) || empty($sub_term->term_id))
+				                    continue;
+			
+			                    $args['acfe_form_terms'][] = $sub_term->term_id;
+			
+		                    }
+		
+		
+	                    }
+	
+                    }elseif(is_object($term) && is_a($term, 'WP_Term')){
+	
+	                    if(!isset($term->term_id) || empty($term->term_id))
+		                    continue;
+	
+	                    $args['acfe_form_terms'][] = $term->term_id;
+                     
+                    }
+	
+	                
                     
                 }
                 
@@ -432,7 +496,7 @@ class acfe_form_post{
 				
 				    $term_objects[$get_term->taxonomy][] = $get_term->term_id;
 				
-			    }else{
+			    }elseif(is_string($term)){
 				
 				    $explode = explode('|', $term);
 				
