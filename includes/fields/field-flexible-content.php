@@ -44,7 +44,6 @@ function acfe_flexible_layout_preview($args = array()){
     $layout['acfe_flexible_thumbnail'] = apply_filters('acfe/flexible/thumbnail/key=' . $field['key'], $layout['acfe_flexible_thumbnail'], $field, $layout);
     
     // Layout Thumbnails
-    $layout['acfe_flexible_thumbnail'] = apply_filters('acfe/flexible/layout/thumbnail', $layout['acfe_flexible_thumbnail'], $field, $layout);
     $layout['acfe_flexible_thumbnail'] = apply_filters('acfe/flexible/layout/thumbnail/layout=' . $layout['name'], $layout['acfe_flexible_thumbnail'], $field, $layout);
     $layout['acfe_flexible_thumbnail'] = apply_filters('acfe/flexible/layout/thumbnail/name=' . $field['_name'] . '&layout=' . $layout['name'], $layout['acfe_flexible_thumbnail'], $field, $layout);
     $layout['acfe_flexible_thumbnail'] = apply_filters('acfe/flexible/layout/thumbnail/key=' . $field['key'] . '&layout=' . $layout['name'], $layout['acfe_flexible_thumbnail'], $field, $layout);
@@ -1211,7 +1210,6 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                 $thumbnail = apply_filters('acfe/flexible/thumbnail/name=' . $field['_name'],                                       $thumbnail, $field, $layout);
                 $thumbnail = apply_filters('acfe/flexible/thumbnail/key=' . $field['key'],                                          $thumbnail, $field, $layout);
         
-                $thumbnail = apply_filters('acfe/flexible/layout/thumbnail',                                                        $thumbnail, $field, $layout);
                 $thumbnail = apply_filters('acfe/flexible/layout/thumbnail/layout=' . $layout['name'],                              $thumbnail, $field, $layout);
                 $thumbnail = apply_filters('acfe/flexible/layout/thumbnail/name=' . $field['_name'] . '&layout=' . $layout['name'], $thumbnail, $field, $layout);
                 $thumbnail = apply_filters('acfe/flexible/layout/thumbnail/key=' . $field['key'] . '&layout=' . $layout['name'],    $thumbnail, $field, $layout);
