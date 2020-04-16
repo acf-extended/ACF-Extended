@@ -53,7 +53,7 @@ add_filter('acfe/form/load/my-custom-action/form=<?php echo $form_name; ?>', 'my
  * @int     $post_id    Current post ID
  * @string  $alias      Action alias (Empty for custom actions)
  */
-add_filter('acfe/form/submit/my-custom-action', 'my_form_custom_action_load', 10, 3);
+add_filter('acfe/form/load/my-custom-action', 'my_form_custom_action_load', 10, 3);
 function my_form_custom_action_load($form, $post_id, $alias){
     
     /**
@@ -82,7 +82,7 @@ function my_form_custom_action_load($form, $post_id, $alias){
     /**
      * Change form redirection URL
      */
-    $form['field_acfe_form_return'] = '/thank-you';
+    $form['return'] = '/thank-you';
     
     /**
      * Return arguments

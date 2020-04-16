@@ -323,7 +323,7 @@ Manage ACF Block Types from ACF > Block Types.
 * Hide Empty Message: Hide the native Flexible Content 'Empty' message
 * Empty Message: Change the native Flexible Content 'Click the Add Row button below...' message
 * Layouts Thumbnails: Add thumbnails for each layout in the layout selection
-* Layouts Settings: Choose a field group to clone and to be used as a layout configuration modal in the administration
+* Layouts Settings: Choose a field group to clone and to be used as a layout configuration modal in the administration. Data can be retrieved using `while(have_settings()): the_setting(); get_sub_field('my_setting');`
 * Layouts Render: Add `template.php`, `style.css` & `script.js` files settings for each layout. Those settings can be then accessed in the front-end [More information in the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
 * Layouts Dynamic Preview: Edit & Preview Layouts on-the-fly from your WordPress administration, just like in Gutenberg (Layouts Render must be turned ON)
 * Modal Edition: Edit layouts in a modal
@@ -387,6 +387,21 @@ function my_acfe_modules(){
 Note: It is possible to revert back to the native ACF save process. To do so, keep the feature enabled, get in the post administration you want to revert back. Disable the feature in your code, and save the post. All data will be saved back to individual meta data.
 
 ## 📋 Changelog
+
+### 0.8.5.5
+* Field: Button - Added nominative JS hooks `action('acfe/fields/button/before/name=my_field', response, $el, data);`
+* Field: Button - Added nominative JS hooks `action('acfe/fields/button/success/name=my_field', response, $el, data);`
+* Field: Button - Added nominative JS hooks `action('acfe/fields/button/complete/name=my_field', response, $el, data);`
+* Field: Button - Deprecated JS hooks `acfe/fields/button/before_ajax` & `acfe/fields/button/ajax_success`. Replaced by `acfe/fields/button/before` & `acfe/fields/button/success`
+* Field: Flexible Content - Added genereic `acfe/flexible/thumbnail` hook
+* Module: Dynamic Forms - Fixed a bug where 2 forms with 2 fields with the same name on the same page, will override `default_value` during render
+* Module: Dynamic Forms - Fixed a nasty bug with "Post Action" which could trigger an infinite loop when using Elementor & YOAST. See bug report: https://github.com/elementor/elementor/issues/10998
+* Module: Dynamic Forms - Fixed jQuery not recognized on form success in some specific case
+* Module: Dynamic Forms - Added "No form element" compatibility allowing validation settings to be applied when form tag isn't printed
+* Module: Dynamic Forms - Fixed typo in "Custom Action" code example
+* Module: Dynamic Forms - Added to the possibility to use `get_field('my_field')` to retrieve form input value inside `acfe/form/load` hooks
+* Module: Single Meta Save - Fixed hook arguments which could trigger a PHP error in some specific cases
+* General: Readme - Added Flexible Content Settings Modal example
 
 ### 0.8.5
 * General: Added Settings/Options API

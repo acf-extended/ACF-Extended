@@ -374,6 +374,12 @@ class acfe_form_front{
         if(!empty($args['errors_class']))
             $args['form_attributes']['data-errors-class'] = $args['errors_class'];
         
+        if(acf_maybe_get_POST('acf')){
+    
+            acf_setup_meta($_POST['acf'], 'acfe_form_load', true);
+            
+        }
+        
         // Args
         $args = apply_filters('acfe/form/load',                       $args, $args['post_id']);
         $args = apply_filters('acfe/form/load/form=' . $form_name,    $args, $args['post_id']);
@@ -405,6 +411,12 @@ class acfe_form_front{
                 
             endwhile;
         endif;
+        
+        if(acf_maybe_get_POST('acf')){
+    
+            acf_reset_meta('acfe_form_load');
+            
+        }
         
         return $args;
         
@@ -446,23 +458,7 @@ class acfe_form_front{
             
             if(acf_maybe_get($form, 'form_name') === $args['form_name']){
                 
-                ?>
-                <script>
-                (function($){
-
-                    if(typeof acf === 'undefined')
-                        return;
-
-                    acf.addAction('prepare', function(){
-
-                        acf.doAction('acfe/form/submit/success');
-                        acf.doAction('acfe/form/submit/success/name=<?php echo $args['form_name']; ?>');
-
-                    });
-
-                })(jQuery);
-                </script>
-                <?php
+                ?><div class="acfe-form-success" data-form-name="<?php echo $args['form_name']; ?>" data-form-id="<?php echo $args['form_id']; ?>"></div><?php
             
                 if(!empty($args['updated_message'])){
                     
@@ -487,14 +483,6 @@ class acfe_form_front{
                 }
                 
                 if($args['updated_hide_form']){
-                    
-                    ?>
-                    <script>
-                    if(window.history.replaceState){
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    </script>
-                    <?php
                     
                     return;
                     
@@ -554,12 +542,16 @@ class acfe_form_front{
          
         }
         
-        // display form
-        if($args['form']): ?>
+        $wrapper = 'div';
         
-        <form <?php acf_esc_attr_e($args['form_attributes']); ?>>
+        if($args['form'])
+            $wrapper = 'form';
+
+        ?>
+        
+        <<?php echo $wrapper; ?> <?php acf_esc_attr_e($args['form_attributes']); ?>>
             
-        <?php endif; 
+        <?php
                 
             // render post data
             acf_form_data(array( 
@@ -675,7 +667,7 @@ class acfe_form_front{
 		
 	                }
                     
-                    acf_render_fields($fields, false, $args['field_el'], $args['instruction_placement']);
+                    acf_render_fields($fields, acf_uniqid('acfe_form'), $args['field_el'], $args['instruction_placement']);
                     
                 }
                 
@@ -697,15 +689,9 @@ class acfe_form_front{
             
             <?php endif; ?>
         
-        <?php if($args['form']): ?>
-        </form>
-        <?php endif; ?>
-        <script>
-        if(window.history.replaceState){
-            window.history.replaceState(null, null, window.location.href);
-        }
-        </script>
-        <?php
+        </<?php echo $wrapper; ?>>
+        
+        <?php 
         
     }
     
