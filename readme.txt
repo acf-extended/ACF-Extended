@@ -694,7 +694,7 @@ function my_acfe_modules(){
 * Field: Button - Added nominative JS hooks `action('acfe/fields/button/success/name=my_field', response, $el, data);`
 * Field: Button - Added nominative JS hooks `action('acfe/fields/button/complete/name=my_field', response, $el, data);`
 * Field: Button - Deprecated JS hooks `acfe/fields/button/before_ajax` & `acfe/fields/button/ajax_success`. Replaced by `acfe/fields/button/before` & `acfe/fields/button/success`
-* Field: Flexible Content - Added genereic `acfe/flexible/thumbnail` hook
+* Field: Flexible Content - Added generic `acfe/flexible/thumbnail` hook
 * Module: Dynamic Forms - Fixed a bug where 2 forms with 2 fields with the same name on the same page, will override `default_value` during render
 * Module: Dynamic Forms - Fixed a nasty bug with "Post Action" which could trigger an infinite loop when using Elementor & YOAST. See bug report: https://github.com/elementor/elementor/issues/10998
 * Module: Dynamic Forms - Fixed jQuery not recognized on form success in some specific case
