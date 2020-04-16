@@ -132,20 +132,33 @@ function my_acf_button_ajax($field, $post_id){
      * @bool/string $post_id    Current post ID
      */
     
-    echo 'Hello World';
+    wp_send_json('Success!');
     
 }
 </pre>
 <br />
 You can get access to Javascript ajax call using the following JS hooks:<br /><br />
 <pre>
-acf.addAction('acfe/fields/button/before_ajax', function($el){
+acf.addAction('acfe/fields/button/before/name=my_button', function($el, data){
+    
     // $el
+    
 });
 
-acf.addAction('acfe/fields/button/ajax_success', function(response, $el){
+acf.addAction('acfe/fields/button/success/name=my_button', function(response, $el, data){
+    
     // response
     // $el
+    // data
+    
+});
+
+acf.addAction('acfe/fields/button/complete/name=my_button', function(response, $el, data){
+    
+    // response
+    // $el
+    // data
+    
 });
 </pre>
         <?php

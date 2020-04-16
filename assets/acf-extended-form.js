@@ -3,14 +3,33 @@
     if(typeof acf === 'undefined')
         return;
     
-    $(document).ready(function($){
-        
+    acf.addAction('prepare', function(){
+
         if($('.acfe-form[data-hide-unload="1"]').length){
-            
+
             acf.unload.disable();
-            
+
         }
-        
+
+        if($('.acfe-form-success').length){
+
+            if(window.history.replaceState){
+                window.history.replaceState(null, null, window.location.href);
+            }
+
+            $('.acfe-form-success').each(function(){
+
+                var form_name = $(this).data('form-name');
+                var form_id = $(this).data('form-id');
+
+                acf.doAction('acfe/form/submit/success');
+                acf.doAction('acfe/form/submit/success/id=' + form_id);
+                acf.doAction('acfe/form/submit/success/name=' + form_name);
+
+            });
+
+        }
+    
     });
     
     // Allow conditions to work within wrapped div
@@ -62,7 +81,7 @@
     // Datepicker: Add field class
     acf.addAction('new_field/type=date_picker', function(field){
         
-        var $form = field.$el.closest('form.acfe-form');
+        var $form = field.$el.closest('.acfe-form');
         
         if(!$form.length)
             return;
@@ -77,7 +96,7 @@
     // Google Maps: Add field class
     acf.addAction('new_field/type=google_map', function(field){
         
-        var $form = field.$el.closest('form.acfe-form');
+        var $form = field.$el.closest('.acfe-form');
         
         if(!$form.length)
             return;
@@ -92,7 +111,7 @@
     // Error: Move error
     acf.addAction('invalid_field', function(field){
         
-        var $form = field.$el.closest('form.acfe-form');
+        var $form = field.$el.closest('.acfe-form');
         
         if(!$form.length)
             return;

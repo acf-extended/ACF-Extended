@@ -26,7 +26,7 @@ class acfe_single_meta{
         add_filter('acf/pre_load_metadata',     array($this, 'load_reference'), 10, 4);
         
         // Save
-        add_filter('acf/update_value',          array($this, 'update_value'),   999, 4);
+        add_filter('acf/update_value',          array($this, 'update_value'),   999, 3);
         add_action('acf/save_post',             array($this, 'save_post'),      999);
         
         // Settings
@@ -50,7 +50,7 @@ class acfe_single_meta{
     /*
      * Update Value
      */
-    function update_value($value, $post_id, $field, $_value){
+    function update_value($value, $post_id, $field){
         
         // Do not save empty values
         //if(empty($value) && !is_numeric($value) && $field['type'] !== 'flexible_content' && $field['type'] !== 'clone' && $field['type'] !== 'group')

@@ -1142,7 +1142,7 @@ class acfe_form{
                 
                 ob_start();
                 
-                acf_render_fields($fields, false, $args['field_el'], $args['instruction_placement']);
+                acf_render_fields($fields, acf_uniqid('acfe_form'), $args['field_el'], $args['instruction_placement']);
                 
                 $render_field = ob_get_clean();
                 
@@ -1195,7 +1195,7 @@ class acfe_form{
                 
                 ob_start();
                 
-                acf_render_fields($fields, false, $args['field_el'], $args['instruction_placement']);
+                acf_render_fields($fields, acf_uniqid('acfe_form'), $args['field_el'], $args['instruction_placement']);
                 
                 $render_fields = ob_get_clean();
                 

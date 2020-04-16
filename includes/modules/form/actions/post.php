@@ -297,6 +297,12 @@ class acfe_form_post{
         // Insert Post
         if($post_action === 'insert_post'){
             
+            // Fix nasty Elementor + YOAST infinite loop
+            // Elementor bug report: https://github.com/elementor/elementor/issues/10998
+            // YOAST bug report: https://github.com/Yoast/wordpress-seo/issues/14643
+            
+            add_filter('wpseo_should_index_links', '__return_false');
+            
             $_post_id = wp_insert_post(array(
                 'post_title' => 'Post'
             ));
