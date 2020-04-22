@@ -128,7 +128,7 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
 
 
                 ?>
-                <p><?php _e("The following code can be used to register a option page. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
+                <p><?php _e("The following code can be used to register an options page. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
                 
                 <div id="acf-admin-tool-export">
                 
