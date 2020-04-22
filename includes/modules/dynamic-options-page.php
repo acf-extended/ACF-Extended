@@ -633,7 +633,7 @@ acf_add_local_field_group(array(
             'type' => 'text',
             'instructions' => '(string) The capability required for this menu to be displayed to the user. Defaults to edit_posts.<br /><br />
 
-Read more about capability here: <a href="https://codex.wordpress.org/Roles_and_Capabilities">https://codex.wordpress.org/Roles_and_Capabilities</a>',
+Read more about capability here: <a href="https://wordpress.org/support/article/roles-and-capabilities/">https://wordpress.org/support/article/roles-and-capabilities/</a>',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
