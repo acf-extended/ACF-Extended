@@ -235,6 +235,10 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select{
     margin-right: 10px;
 }
 
+.acf-field-setting-fc_layout > .acf-input > .acf-fc-meta .acf-field[data-name=acfe_flexible_settings_size]{
+    border-left:0;
+}
+
 .acf-field-setting-fc_layout > .acf-input > .acf-fc-meta .acf-field[data-name=acfe_flexible_settings_label] > .acf-input{
     margin:0;
 }

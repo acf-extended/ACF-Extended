@@ -71,6 +71,7 @@ class acfe_settings{
 		// Upgrades
 		'upgrades' => array(
 			'0_8_5' => true,
+			'0_8_6' => true,
 		),
 	);
 
@@ -310,6 +311,88 @@ class acfe_settings{
 	function reset(){
 		
 		$this->set('', $this->model, true);
+		
+		add_action('init', array($this, 'reset_modules'));
+		
+	}
+	
+	function reset_modules(){
+		
+		// Reset Post Types
+		$post_types = get_posts(array(
+			'post_type'         => 'acfe-dpt',
+			'posts_per_page'    => -1,
+			'fields'            => 'ids'
+		));
+		
+		if(!empty($post_types)){
+			
+			foreach($post_types as $post_id){
+				
+				acfe_dpt_filter_save($post_id);
+				
+				acf_log('[ACF Extended] Reset: Dynamic Post Type "' . get_post_field('post_title', $post_id) . '"');
+				
+			}
+			
+		}
+		
+		// Reset Taxonomies
+		$taxonomies = get_posts(array(
+			'post_type'         => 'acfe-dt',
+			'posts_per_page'    => -1,
+			'fields'            => 'ids'
+		));
+		
+		if(!empty($taxonomies)){
+			
+			foreach($taxonomies as $post_id){
+				
+				acfe_dt_filter_save($post_id);
+				
+				acf_log('[ACF Extended] Reset: Dynamic Taxonomy "' . get_post_field('post_title', $post_id) . '"');
+				
+			}
+			
+		}
+		
+		// Reset Block Types
+		$block_types = get_posts(array(
+			'post_type'         => 'acfe-dbt',
+			'posts_per_page'    => -1,
+			'fields'            => 'ids'
+		));
+		
+		if(!empty($block_types)){
+			
+			foreach($block_types as $post_id){
+				
+				acfe_dbt_filter_save($post_id);
+				
+				acf_log('[ACF Extended] Reset: Dynamic Block Type "' . get_post_field('post_title', $post_id) . '"');
+				
+			}
+			
+		}
+		
+		// Reset Options Pages
+		$options_pages = get_posts(array(
+			'post_type'         => 'acfe-dop',
+			'posts_per_page'    => -1,
+			'fields'            => 'ids'
+		));
+		
+		if(!empty($options_pages)){
+			
+			foreach($options_pages as $post_id){
+				
+				acfe_dop_filter_save($post_id);
+				
+				acf_log('[ACF Extended] Reset: Dynamic Options Page "' . get_post_field('post_title', $post_id) . '"');
+				
+			}
+			
+		}
 		
 	}
 	

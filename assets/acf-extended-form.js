@@ -37,12 +37,17 @@
         
         // currently setting up conditions for fieldX, this field is the 'target'
         var target = conditions.get('field');
-        
-        // use the 'target' to find the 'trigger' field. 
+
+        // use the 'target' to find the 'trigger' field.
         // - this field is used to setup the conditional logic events
-        
-        // before: var field = target.getField( rule.field );
-        var field = acf.getField( rule.field );
+        var field = target.getField( rule.field );
+
+        // ACF Extended: Check in all form if targeted field not found
+        if( target && !field ) {
+
+            field = acf.getField( rule.field );
+
+        }
         
         // bail ealry if no target or no field (possible if field doesn't exist due to HTML error)
         if( !target || !field ) {

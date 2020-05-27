@@ -18,7 +18,7 @@ if(!empty($acfe_php) && !empty($acfe_php_load)){
         
         acf_update_setting('acfe/php_found', true);
         
-        $files = glob($path . '/*.php');
+        $files = glob($path . '/group_*.php');
         if(empty($files))
             continue;
         

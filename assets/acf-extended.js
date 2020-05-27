@@ -1,4 +1,7 @@
 (function($){
+
+    if(typeof acf === 'undefined')
+        return;
     
     // init
     var acfe = {};

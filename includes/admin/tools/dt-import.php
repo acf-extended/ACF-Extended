@@ -109,7 +109,6 @@ class ACFE_Admin_Tool_Import_DT extends ACF_Admin_Tool{
             
             // Register Args
             update_field('acfe_dt_name', $taxonomy_name, $post_id);
-            update_field('label', $args['label'], $post_id);
             update_field('description', $args['description'], $post_id);
             update_field('hierarchical', $args['hierarchical'], $post_id);
             update_field('post_types', $args['post_types'], $post_id);
