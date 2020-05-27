@@ -128,7 +128,7 @@ class acfe_field_settings{
             $field_type = $field['name'];
             
             // Exclude
-            if(in_array($field_type, array('message', 'accordion', 'tab', 'acfe_button', 'acfe_column', 'acfe_dynamic_message')))
+            if(in_array($field_type, array('message', 'accordion', 'tab', 'acfe_column', 'acfe_dynamic_message')))
                 continue;
             
             add_action('acf/render_field_settings/type=' . $field_type, array($this, 'render_field_settings'), 990);

@@ -472,7 +472,7 @@ class acfe_form_front{
                     
                     if(!empty($args['html_updated_message'])){
                         
-                        printf($args['html_updated_message'], $message);
+                        printf($args['html_updated_message'], wp_unslash($message));
                         
                     }else{
                         

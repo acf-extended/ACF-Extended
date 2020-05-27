@@ -29,7 +29,7 @@ function acfe_dbt_register(){
             'edit_item'     => 'Edit Block Type',
             'add_new_item'  => 'New Block Type',
         ),
-        'supports'              => false,
+        'supports'              => array('title'),
         'hierarchical'          => false,
         'public'                => false,
         'show_ui'               => true,
@@ -52,7 +52,10 @@ function acfe_dbt_register(){
             'edit_post'             => acf_get_setting('capability'),
             'delete_post'           => acf_get_setting('capability'),
             'read_post'             => acf_get_setting('capability'),
-        )
+        ),
+        'acfe_admin_orderby'    => 'title',
+        'acfe_admin_order'      => 'ASC',
+        'acfe_admin_ppp'        => 999,
     ));
 
 }
@@ -81,7 +84,7 @@ function acfe_dbt_menu_parent_highlight($parent_file){
         return $parent_file;
     
     $post_type = get_post_type();
-    if($post_type != 'acfe-dbt')
+    if($post_type !== 'acfe-dbt')
         return $parent_file;
     
     return 'edit.php?post_type=acf-field-group';
@@ -95,11 +98,11 @@ add_filter('submenu_file', 'acfe_dbt_menu_sub_highlight');
 function acfe_dbt_menu_sub_highlight($submenu_file){
     
     global $pagenow;
-    if($pagenow != 'post-new.php')
+    if($pagenow !== 'post-new.php')
         return $submenu_file;
     
     $post_type = get_post_type();
-    if($post_type != 'acfe-dbt')
+    if($post_type !== 'acfe-dbt')
         return $submenu_file;
     
     return 'edit.php?post_type=acfe-dbt';
@@ -108,8 +111,10 @@ function acfe_dbt_menu_sub_highlight($submenu_file){
 
 /**
  * ACF Register Block Types
+ * Note: We're already in acf/init, 99. No need to re-hook
  */
-add_action('init', 'acfe_dbt_registers');
+acfe_dbt_registers();
+
 function acfe_dbt_registers(){
 	
 	$dynamic_block_types = acfe_settings('modules.dynamic_block_type.data');
@@ -170,22 +175,12 @@ function acfe_dbt_misc_actions($post){
 add_action('acf/save_post', 'acfe_dbt_filter_save', 20);
 function acfe_dbt_filter_save($post_id){
     
-    if(get_post_type($post_id) != 'acfe-dbt')
+    if(get_post_type($post_id) !== 'acfe-dbt')
         return;
     
-    $title = get_field('title', $post_id);
-    $name = get_field('name', $post_id);
-    
-    // Update post
-    wp_update_post(array(
-        'ID'            => $post_id,
-        'post_title'    => $title,
-        'post_name'     => $name,
-    ));
-    
     // Register Args
+	$label = get_post_field('post_title', $post_id);
     $name = get_field('name', $post_id);
-    $title = get_field('title', $post_id);
     $description = get_field('description', $post_id);
     $category = get_field('category', $post_id);
     $keywords = acf_decode_choices(get_field('keywords', $post_id), true);
@@ -213,7 +208,7 @@ function acfe_dbt_filter_save($post_id){
     // Register: Args
     $register_args = array(
         'name'              => $name,
-        'title'             => $title,
+        'title'             => $label,
         'description'       => $description,
         'category'          => $category,
         'keywords'          => $keywords,
@@ -299,6 +294,12 @@ function acfe_dbt_filter_save($post_id){
     
     // Update ACFE option
 	acfe_settings('modules.dynamic_block_type.data', $option, true);
+	
+	// Update post
+	wp_update_post(array(
+		'ID'            => $post_id,
+		'post_name'     => $name,
+	));
     
 }
 
@@ -308,7 +309,7 @@ function acfe_dbt_filter_save($post_id){
 add_action('publish_to_trash', 'acfe_dbt_filter_status_trash');
 function acfe_dbt_filter_status_trash($post){
     
-    if(get_post_type($post->ID) != 'acfe-dbt')
+    if(get_post_type($post->ID) !== 'acfe-dbt')
         return;
     
     $post_id = $post->ID;
@@ -332,49 +333,10 @@ function acfe_dbt_filter_status_trash($post){
 add_action('trash_to_publish', 'acfe_dbt_filter_status_publish');
 function acfe_dbt_filter_status_publish($post){
     
-    if(get_post_type($post->ID) != 'acfe-dbt')
+    if(get_post_type($post->ID) !== 'acfe-dbt')
         return;
     
     acfe_dop_filter_save($post->ID);
-    
-}
-
-/**
- * Dynamic Block Type Admin: List
- */
-add_action('pre_get_posts', 'acfe_dbt_admin_pre_get_posts');
-function acfe_dbt_admin_pre_get_posts($query){
-    
-    if(!is_admin() || !$query->is_main_query())
-        return;
-    
-    global $pagenow;
-    if($pagenow != 'edit.php')
-        return;
-    
-    $post_type = $query->get('post_type');
-    if($post_type != 'acfe-dbt')
-        return;
-    
-    $query->set('orderby', 'name');
-    $query->set('order', 'ASC');
-    
-}
-
-/**
- * Dynamic Block Type Admin: Posts Per Page
- */
-add_filter('edit_posts_per_page', 'acfe_dbt_admin_ppp', 10, 2);
-function acfe_dbt_admin_ppp($ppp, $post_type){
-    
-    if($post_type != 'acfe-dbt')
-        return $ppp;
-    
-    global $pagenow;
-    if($pagenow != 'edit.php')
-        return $ppp;
-    
-    return 999;
     
 }
 
@@ -488,20 +450,112 @@ function acfe_dbt_admin_row($actions, $post){
     
 }
 
+add_filter('enter_title_here', 'acfe_dbt_admin_placeholder_title', 10, 2);
+function acfe_dbt_admin_placeholder_title($placeholder, $post){
+	
+	// Get post type
+	global $typenow;
+	
+	// Check post type
+	$post_type = $typenow;
+	if($post_type !== 'acfe-dbt')
+		return $placeholder;
+	
+	return 'Block Type Title';
+	
+}
+
+add_action('admin_footer-post.php', 'acfe_dbt_admin_validate_title');
+function acfe_dbt_admin_validate_title(){
+	
+	// Get post type
+	global $typenow;
+	
+	// Check post type
+	$post_type = $typenow;
+	if($post_type !== 'acfe-dbt')
+		return;
+	
+	?>
+    <script type="text/javascript">
+        (function($){
+
+            if(typeof acf === 'undefined')
+                return;
+
+            $('#post').submit(function(e){
+
+                // vars
+                var $title = $('#titlewrap #title');
+
+                // empty
+                if(!$title.val()){
+
+                    // prevent default
+                    e.preventDefault();
+
+                    // alert
+                    alert('Block Type Title is required.');
+
+                    // focus
+                    $title.focus();
+
+                }
+
+            });
+
+        })(jQuery);
+    </script>
+	<?php
+}
+
 /**
- * Admin Disable Name
+ * Admin Validate Name
  */
-add_filter('acf/prepare_field/key=field_acfe_dbt_name', 'acfe_dbt_admin_disable_name');
-function acfe_dbt_admin_disable_name($field){
-    
-    global $pagenow;
-    if($pagenow !== 'post.php')
-        return $field;
-    
-    $field['disabled'] = true;
-    
-    return $field;
-    
+add_filter('acf/validate_value/key=field_acfe_dbt_name', 'acfe_dbt_admin_validate_name', 10, 4);
+function acfe_dbt_admin_validate_name($valid, $value, $field, $input){
+	
+	if(!$valid)
+		return $valid;
+	
+	// Editing Current Block Type
+	$current_post_id = acf_maybe_get_POST('post_ID');
+	
+	if(!empty($current_post_id)){
+		
+		$current_name = get_field($field['name'], $current_post_id);
+		
+		if($value === $current_name)
+			return $valid;
+		
+	}
+	
+	// Check existing ACF Block Types
+    if(acf_has_block_type('acf/' . $value)){
+	
+		$valid = 'This block type name already exists';
+        
+    }
+	
+	return $valid;
+	
+}
+
+add_filter('acf/update_value/key=field_acfe_dbt_name', 'acfe_dbt_admin_update_name', 10, 3);
+function acfe_dbt_admin_update_name($value, $post_id, $field){
+	
+	// Previous value
+	$_value = get_field($field['name'], $post_id);
+	
+	// Value Changed. Delete option
+	if($_value !== $value){
+		
+		acfe_settings()->delete('modules.dynamic_block_type.data.' . $_value);
+		
+	}
+	
+	return $value;
+	
 }
 
 add_action('load-post.php', 'acfe_dbt_load');
@@ -705,28 +759,6 @@ acf_add_local_field_group(array(
             'acfe_permissions' => '',
             'placement' => 'top',
             'endpoint' => 0,
-        ),
-        array(
-            'key' => 'field_acfe_dbt_title',
-            'label' => 'Title',
-            'name' => 'title',
-            'type' => 'text',
-            'instructions' => '(String) The display title for your block.',
-            'required' => 1,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'acfe_validate' => '',
-            'acfe_update' => '',
-            'acfe_permissions' => '',
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
         ),
         array(
             'key' => 'field_acfe_dbt_name',

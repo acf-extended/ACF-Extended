@@ -816,6 +816,13 @@ class acfe_form_user{
                     
                     $user_array['permalink'] = get_author_posts_url($_user_id);
                     $user_array['admin_url'] = admin_url('user-edit.php?user_id=' . $_user_id);
+	
+					// Replace the hash password with the real password
+					if(acf_maybe_get($args, 'user_pass')){
+						
+						$user_array['user_pass'] = $args['user_pass'];
+					    
+                    }
                     
                     $user_array = apply_filters('acfe/form/query_var/user',                    $user_array, $_user_id, $user_action, $args, $form, $action);
                     $user_array = apply_filters('acfe/form/query_var/user/form=' . $form_name, $user_array, $_user_id, $user_action, $args, $form, $action);

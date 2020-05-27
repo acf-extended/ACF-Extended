@@ -80,6 +80,7 @@ class acfe_single_meta{
         // Store not found
         }else{
             
+            /*
             // Submitting acf/save_post
             if($is_save_post){
                 
@@ -93,6 +94,10 @@ class acfe_single_meta{
                 $acf = acf_get_metadata($post_id, 'acf');
             
             }
+            */
+            
+			// Get ACF meta
+			$acf = acf_get_metadata($post_id, 'acf');
             
             // Set Store: ACF meta
             $store->set("$post_id:acf", $acf);

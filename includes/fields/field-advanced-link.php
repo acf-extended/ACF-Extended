@@ -56,8 +56,8 @@ class acfe_field_advanced_link extends acf_field{
 			}
 			
 		}
-        
-        if(!is_array($field['value']) && !is_numeric($field['value'])){
+		
+		if(acf_maybe_get($field, '_name') === 'post' && !empty($field['value']) && !is_array($field['value']) && !is_numeric($field['value'])){
             
             $post_type = $field['value'];
             $post_type_label = acf_get_post_type_label($post_type);
@@ -493,7 +493,7 @@ function my_acf_advanced_link_sub_fields($sub_fields, $field, $value){
         if(empty($value))
             return false;
         
-        if((acf_maybe_get($value, 'post') || acf_maybe_get($value, 'term')) && !acf_maybe_get($value, 'url'))
+        if((acf_maybe_get($value, 'type') === 'url' && !acf_maybe_get($value, 'url')) || (acf_maybe_get($value, 'type') === 'post' && !acf_maybe_get($value, 'post')) || (acf_maybe_get($value, 'type') === 'term' && !acf_maybe_get($value, 'term')))
             return false;
         
 		// return

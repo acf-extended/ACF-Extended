@@ -45,7 +45,7 @@
     cursor:initial;
 }
 
-.acf-field-flexible-content[data-acfe-flexible-remove-collapse="1"][data-acfe-flexible-lock!="1"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
+.acf-field-flexible-content[data-acfe-flexible-remove-collapse="1"]:not([data-acfe-flexible-lock="1"]) > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
     cursor:initial;
 }
 

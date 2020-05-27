@@ -171,96 +171,100 @@ class acfe_form{
         add_action('post_submitbox_misc_actions',   array($this, 'misc_actions'));
         
         // Actions
-        $form_id = $_REQUEST['post'];
+        if(isset($_REQUEST['post']) && !empty($_REQUEST['post'])){
+	
+			$form_id = $_REQUEST['post'];
+	
+			if(have_rows('acfe_form_actions', $form_id)):
+		
+				while(have_rows('acfe_form_actions', $form_id)): the_row();
+			
+					$action = get_row_layout();
+			
+					// Custom Action
+					if($action === 'custom')
+						continue;
+			
+					$alias = get_sub_field('acfe_form_custom_alias');
+					$query_var = get_sub_field('acfe_form_custom_query_var');
+			
+					$action_label = '';
+					$action_type = '';
+			
+					if($action === 'post'){
+				
+						$action_label = 'Post';
+				
+						$post_action = get_sub_field('acfe_form_post_action');
+				
+						if($post_action === 'insert_post'){
+					
+							$action_type = 'Create Post';
+					
+						}elseif($post_action === 'update_post'){
+					
+							$action_type = 'Update Post';
+					
+						}
+				
+				
+					}elseif($action === 'term'){
+				
+						$action_label = 'Term';
+				
+						$term_action = get_sub_field('acfe_form_term_action');
+				
+						if($term_action === 'insert_term'){
+					
+							$action_type = 'Create Term';
+					
+						}elseif($term_action === 'update_term'){
+					
+							$action_type = 'Update Term';
+					
+						}
+				
+					}elseif($action === 'user'){
+				
+						$action_label = 'User';
+				
+						$term_action = get_sub_field('acfe_form_user_action');
+				
+						if($term_action === 'insert_user'){
+					
+							$action_type = 'Create User';
+					
+						}elseif($term_action === 'update_user'){
+					
+							$action_type = 'Update User';
+					
+						}elseif($term_action === 'log_user'){
+					
+							$action_type = 'Log User';
+					
+						}
+				
+					}elseif($action === 'email'){
+				
+						$action_label = 'E-mail';
+						$action_type = 'Send';
+				
+					}
+			
+					if(empty($alias) || empty($query_var))
+						continue;
+			
+					$this->query_vars[] = array(
+						'action'        => $action,
+						'action_label'  => $action_label,
+						'action_type'   => $action_type,
+						'alias'         => $alias
+					);
+		
+				endwhile;
+			endif;
         
-        if(have_rows('acfe_form_actions', $form_id)):
-            
-            while(have_rows('acfe_form_actions', $form_id)): the_row();
-            
-                $action = get_row_layout();
-                
-                // Custom Action
-                if($action === 'custom')
-                    continue;
-            
-                $alias = get_sub_field('acfe_form_custom_alias');
-                $query_var = get_sub_field('acfe_form_custom_query_var');
-                
-                $action_label = '';
-                $action_type = '';
-                
-                if($action === 'post'){
-                    
-                    $action_label = 'Post';
-                    
-                    $post_action = get_sub_field('acfe_form_post_action');
-                    
-                    if($post_action === 'insert_post'){
-                        
-                        $action_type = 'Create Post';
-                        
-                    }elseif($post_action === 'update_post'){
-                        
-                        $action_type = 'Update Post';
-                        
-                    }
-                    
-                    
-                }elseif($action === 'term'){
-                    
-                    $action_label = 'Term';
-                    
-                    $term_action = get_sub_field('acfe_form_term_action');
-                    
-                    if($term_action === 'insert_term'){
-                        
-                        $action_type = 'Create Term';
-                        
-                    }elseif($term_action === 'update_term'){
-                        
-                        $action_type = 'Update Term';
-                        
-                    }
-                    
-                }elseif($action === 'user'){
-                    
-                    $action_label = 'User';
-                    
-                    $term_action = get_sub_field('acfe_form_user_action');
-                    
-                    if($term_action === 'insert_user'){
-                        
-                        $action_type = 'Create User';
-                        
-                    }elseif($term_action === 'update_user'){
-                        
-                        $action_type = 'Update User';
-                        
-                    }elseif($term_action === 'log_user'){
-                        
-                        $action_type = 'Log User';
-                        
-                    }
-                    
-                }elseif($action === 'email'){
-                    
-                    $action_label = 'E-mail';
-                    $action_type = 'Send';
-                    
-                }
-                
-                if(empty($alias) || empty($query_var))
-                    continue;
-                
-                $this->query_vars[] = array(
-                    'action'        => $action,
-                    'action_label'  => $action_label,
-                    'action_type'   => $action_type,
-                    'alias'         => $alias
-                );
-            
-            endwhile;
-        endif;
+        }
         
     }
     
@@ -791,7 +795,7 @@ class acfe_form{
                         if($action === 'post'){
                             
                             $tags = array(
-                                "{query_var:$alias:id}" => 'Post ID',
+                                "{query_var:$alias:ID}" => 'Post ID',
                                 "{query_var:$alias:post_title}" => 'Title',
                                 "{query_var:$alias:permalink}" => 'Permalink',
                                 "{query_var:$alias:admin_url}" => 'Admin URL',
@@ -802,7 +806,7 @@ class acfe_form{
                         elseif($action === 'term'){
                             
                             $tags = array(
-                                "{query_var:$alias:id}" => 'Term ID',
+                                "{query_var:$alias:ID}" => 'Term ID',
                                 "{query_var:$alias:name}" => 'Name',
                                 "{query_var:$alias:permalink}" => 'Permalink',
                                 "{query_var:$alias:admin_url}" => 'Admin URL',
@@ -813,7 +817,7 @@ class acfe_form{
                         elseif($action === 'user'){
                             
                             $tags = array(
-                                "{query_var:$alias:id}" => 'User ID',
+                                "{query_var:$alias:ID}" => 'User ID',
                                 "{query_var:$alias:user_email}" => 'E-mail',
                                 "{query_var:$alias:permalink}" => 'Permalink',
                             );
@@ -1416,21 +1420,27 @@ class acfe_form{
 		
 		    // Match field_abcdef123456
 		    $c = acfe_form_map_field_key($c);
-		
+		    
 		    // Match {field:name} {field:key}
 		    $c = acfe_form_map_field($c);
-		
+		    
 		    // Match {fields}
 		    $c = acfe_form_map_fields($c);
-		
+		    
 		    // Match current_post {current:post:id}
 		    $c = acfe_form_map_current($c, $post_id, $form);
-		
+		    
 		    // Match {get_field:name} {get_field:name:123}
 		    $c = acfe_form_map_get_field($c, $post_id);
 		
+			// Match {get_option:name}
+			$c = acfe_form_map_get_option($c);
+		    
 		    // Match {query_var:name} {query_var:name:key}
 		    $c = acfe_form_map_query_var($c);
+		
+			// Match {request:name}
+			$c = acfe_form_map_request($c);
 	       
         }
 	    
@@ -1464,8 +1474,14 @@ class acfe_form{
 			// Match {get_field:name} {get_field:name:123}
 			$c = acfe_form_map_get_field($c, $post_id);
 			
+			// Match {get_option:name}
+			$c = acfe_form_map_get_option($c);
+			
 			// Match {query_var:name} {query_var:name:key}
 			$c = acfe_form_map_query_var($c);
+			
+			// Match {request:name}
+			$c = acfe_form_map_request($c);
 			
 		}
 		
@@ -2282,10 +2298,6 @@ function my_form_submit($form, $post_id){
                     <td width="35%"><code>{current:user:show_welcome_panel}</code></td>
                     <td>1</td>
                 </tr>
-                <tr class="acf-row">
-                    <td width="35%"><code>{current:user:show_welcome_panel}</code></td>
-                    <td>1</td>
-                </tr>
             </tbody>
         </table>
         <?php
@@ -2923,6 +2935,50 @@ function acfe_form_map_query_var($content){
     
 }
 
+// Match {request:name} {request:name:key}
+function acfe_form_map_request($content){
+	
+	if(empty($content) || !is_string($content))
+		return $content;
+	
+	if(strpos($content, '{request:') === false)
+		return $content;
+	
+	// Match {request:name}
+	if(preg_match_all('/{request:(.*?)}/', $content, $matches)){
+		
+		foreach($matches[1] as $i => $name){
+		    
+		    $request = false;
+			
+		    if(isset($_REQUEST[$name]))
+			    $request = $_REQUEST[$name];
+			
+			if(strpos($name, ':') !== false){
+				
+				$explode = explode(':', $name);
+				
+				if(isset($_REQUEST[$explode[0]]))
+				    $request = $_REQUEST[$explode[0]];
+				
+				if(is_array($request) && isset($request[$explode[1]])){
+					
+					$request = $request[$explode[1]];
+					
+				}
+				
+			}
+			
+			$content = str_replace('{request:' . $name . '}', $request, $content);
+			
+		}
+		
+	}
+	
+	return $content;
+	
+}
+
 // Match {get_field:name} {get_field:name:123}
 function acfe_form_map_get_field($content, $post_id = 0){
     
@@ -2972,6 +3028,48 @@ function acfe_form_map_get_field($content, $post_id = 0){
     
     return $content;
     
+}
+
+// Match {get_option:name} {get_option:name:key}
+function acfe_form_map_get_option($content){
+	
+	if(empty($content) || !is_string($content))
+		return $content;
+	
+	if(strpos($content, '{get_option:') === false)
+		return $content;
+	
+	// Match {get_option:name}
+	if(preg_match_all('/{get_option:(.*?)}/', $content, $matches)){
+		
+		foreach($matches[1] as $i => $name){
+			
+			if(strpos($name, ':') === false){
+				
+				$get_option = get_option($name);
+				
+			}else{
+				
+				$explode = explode(':', $name);
+				
+				$get_option = get_option($explode[0]);
+				
+				if(is_array($get_option) && isset($get_option[$explode[1]])){
+					
+					$get_option = $get_option[$explode[1]];
+					
+				}
+				
+			}
+			
+			$content = str_replace('{get_option:' . $name . '}', $get_option, $content);
+			
+		}
+		
+	}
+	
+	return $content;
+	
 }
 
 // Match {field:name} {field:key}

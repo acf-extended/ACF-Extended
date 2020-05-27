@@ -89,13 +89,13 @@ class ACFE_Admin_Tool_Import_DOP extends ACF_Admin_Tool{
             }
             
             // Vars
-            $title = $args['page_title'];
-            $name = $options_page_name;
+            $page_title = $args['page_title'];
+            $menu_slug = $args['menu_slug'];
             
             // Insert post
             $post_id = wp_insert_post(array(
-                'post_title'    => $title,
-                'post_name'     => $name,
+                'post_title'    => $page_title,
+                'post_name'     => $menu_slug,
                 'post_type'     => 'acfe-dop',
                 'post_status'   => 'publish'
             ));
@@ -103,14 +103,12 @@ class ACFE_Admin_Tool_Import_DOP extends ACF_Admin_Tool{
             // Insert error
             if(is_wp_error($post_id)){
                 
-                acf_add_admin_notice(__("Something went wrong with the options page {$title}. Import aborted."), 'warning');
+                acf_add_admin_notice(__("Something went wrong with the options page {$page_title}. Import aborted."), 'warning');
                 continue;
                 
             }
             
             // Register Args
-            update_field('page_title', $args['page_title'], $post_id);
-            update_field('acfe_dop_name', $name, $post_id);
             update_field('menu_title', $args['menu_title'], $post_id);
             update_field('menu_slug', $args['menu_slug'], $post_id);
             update_field('capability', $args['capability'], $post_id);

@@ -13,7 +13,100 @@ class acfe_upgrades{
 		
 		// ACF Extended: 0.8.5
 		add_action('acf/init', array($this, 'upgrade_0_8_5'), 999);
+		
+		// ACF Extended: 0.8.6
+		add_action('acf/init', array($this, 'upgrade_0_8_6'), 999);
 
+	}
+	
+	function upgrade_0_8_6(){
+		
+		$todo = acfe_settings('upgrades.0_8_6');
+		
+		if(!$todo)
+			return;
+		
+		acf_log('[ACF Extended] 0.8.6 Upgrade: Dynamic Options Pages');
+		
+		$get_options = get_posts(array(
+			'post_type'         => 'acfe-dop',
+			'posts_per_page'    => -1,
+			'fields'            => 'ids'
+		));
+		
+		if(!empty($get_options)){
+			
+			foreach($get_options as $post_id){
+				
+				$menu_slug = get_field('menu_slug', $post_id);
+				$acfe_dop_name = get_field('acfe_dop_name', $post_id);
+				$post_name = get_post_field('post_name', $post_id);
+				
+				// Update empty 'menu_slug' fields in options pages
+				if(empty($menu_slug)){
+					
+					// Page Title
+					$page_title = get_post_field('post_title', $post_id);
+					
+					// Menu Title
+					$menu_title = get_field('menu_title', $post_id);
+					
+					if(empty($menu_title)){
+						
+						$menu_title = $page_title;
+						
+					}
+					
+					// Menu Slug
+					$menu_slug = sanitize_title($menu_title);
+					
+					// Update field
+					update_field('menu_slug', $menu_slug, $post_id);
+					
+				}
+				
+				// Upgrade old name to menu_slug
+				if($acfe_dop_name === $post_name){
+					
+					// Get ACFE option
+					$option = acfe_settings('modules.dynamic_option.data');
+					
+					// Check ACFE option
+					if(isset($option[$acfe_dop_name])){
+						
+						$register_args = $option[$acfe_dop_name];
+						
+						// Delete old option page slug
+						unset($option[$acfe_dop_name]);
+						
+						// Re-assign to menu_slug
+						$option[$menu_slug] = $register_args;
+						
+						// Sort keys ASC
+						ksort($option);
+						
+						// Update ACFE option
+						acfe_settings('modules.dynamic_option.data', $option, true);
+						
+						// Update post: force menu slug as name
+						wp_update_post(array(
+							'ID'            => $post_id,
+							'post_name'     => $menu_slug,
+						));
+						
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		// Done
+		acfe_settings()->delete('upgrades.0_8_6', true);
+		
+		acf_log('[ACF Extended] 0.8.6 Upgrade: Done');
+		
 	}
 	
 	function upgrade_0_8_5(){

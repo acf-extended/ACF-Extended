@@ -410,59 +410,59 @@ body.post-type-acfe-form.post-new-php #major-publishing-actions{
 }
 
 /* 
- * ACF Field: Select2 Fix
+ * Select2: WP 5.2 Fix
  */
-body:not(.acf-admin-5-3) .select2-container .select2-selection{
+body:not(.acf-admin-5-3) .acf-field .select2-container .select2-selection{
     border-color: #dfdfdf !important;
     border-radius:0 !important;
 }
 
-body:not(.acf-admin-5-3) .select2-container .select2-selection__choice{
+body:not(.acf-admin-5-3) .acf-field .select2-container .select2-selection__choice{
     border-color: #dfdfdf !important;
     border-radius:0 !important;
 }
 
-body:not(.acf-admin-5-3) .select2-dropdown{
+body:not(.acf-admin-5-3) .acf-field .select2-dropdown{
     border-color: #dfdfdf !important;
     border-radius:0 !important;
 }
 
-body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-search__field{
+body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .select2-search__field{
     margin-top:0px !important;
 }
 
 /* Select2: Single */
-.select2-container .select2-selection--single{
+.acf-field .select2-container .select2-selection--single{
 	border-radius:3px !important;
     height:30px !important;
     outline:none;
 }
 
-.select2-container:focus .select2-selection--single,
-.select2-container.select2-container--open .select2-selection--single{
+.acf-field .select2-container:focus .select2-selection--single,
+.acf-field .select2-container.select2-container--open .select2-selection--single{
     border-color: #007cba !important;
     color: #016087 !important;
     box-shadow: 0 0 0 1px #007cba !important;
 }
 
-.select2-container .select2-selection--single .select2-selection__rendered{
+.acf-field .select2-container .select2-selection--single .select2-selection__rendered{
     font-size:14px;
     height:28px;
     line-height: 27px !important;
     padding-right:23px !important;
 }
 
-.select2-container .select2-selection--single .select2-selection__clear{
+.acf-field .select2-container .select2-selection--single .select2-selection__clear{
 	line-height:26px;
     height:28px;
     font-size:16px;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow{
+.acf-field .select2-container--default .select2-selection--single .select2-selection__arrow{
     height: 28px !important;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow b{
+.acf-field .select2-container--default .select2-selection--single .select2-selection__arrow b{
     background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat;
 	background-size: 16px 16px;
     border:0 !important;
@@ -472,24 +472,24 @@ body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-sea
     margin-top: -7px !important;
 }
 
-.select2-container .select2-search--inline .select2-search__field{
+.acf-field .select2-container .select2-search--inline .select2-search__field{
     margin-top:4px !important;
     font-size:14px !important;
     padding-left: 2px !important;
 }
 
 /* Select2: Multiple */
-.select2-container .select2-selection--multiple{
+.acf-field .select2-container .select2-selection--multiple{
     min-height: 30px !important;
     line-height:1;
     border-radius:3px !important;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__rendered{
+.acf-field .select2-container--default .select2-selection--multiple .select2-selection__rendered{
     padding:0 2px !important;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice{
+.acf-field .select2-container--default .select2-selection--multiple .select2-selection__choice{
     margin-right:2px !important;
     margin-top:2px !important;
     line-height:1.6;
@@ -497,19 +497,26 @@ body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-sea
     font-size:14px;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+.acf-field .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
     line-height:15px;
     font-size:15px;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple{
+.acf-field .select2-container--default.select2-container--focus .select2-selection--multiple{
     border-color:#7e8993 !important;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__clear{
+.acf-field .select2-container--default .select2-selection--multiple .select2-selection__clear{
     margin-top: 5px !important;
     margin-right: 5px !important;
     font-size: 16px;
+}
+
+/*
+ * Select2: WPML Fix
+ */
+.acf-field > .acf-input > .select2 .select2-search{
+    width:auto;
 }
 
 /* 
@@ -532,13 +539,6 @@ body:not(.acf-admin-5-3) .select2-container .select2-search--inline .select2-sea
 .acf-tab-group li.active a .acfe-tab-badge,
 .acf-tab-group li a:hover .acfe-tab-badge{
     background: #f1f1f1;
-}
-
-/* 
- * ACF Field: Select2 WPML Fix
- */
-.acf-field > .acf-input > .select2 .select2-search{
-    width:auto;
 }
 
 /* 

@@ -108,7 +108,6 @@ class ACFE_Admin_Tool_Import_DBT extends ACF_Admin_Tool{
             
             // Register Args
             update_field('name', $name, $post_id);
-            update_field('title', $args['title'], $post_id);
             update_field('description', $args['description'], $post_id);
             update_field('category', $args['category'], $post_id);
             update_field('keywords', acf_encode_choices($args['keywords'], false), $post_id);

@@ -166,22 +166,40 @@
         
         if(!editors.length)
             return;
-        
+
         $.each(editors, function(){
-            
+
             var editor = this;
             var $wrap = editor.$control();
-            
-            if($wrap.hasClass('delay')){
-                
-                $wrap.removeClass('delay');
+
+            if(editor.has('acfeInitialized'))
+                return;
+
+            editor.set('acfeInitialized', 1);
+
+            editor.initializeEditor();
+
+            if(editor.has('acfeInitialized') || !$wrap.hasClass('delay'))
+                return;
+
+            acf.addAction('load_field/key=' + editor.get('key'), function(field){
+
+                //$wrap.removeClass('delay');
                 $wrap.find('.acf-editor-toolbar').remove();
-                
+
                 // initialize
                 editor.initializeEditor();
-                
-            }
-            
+
+            });
+/*
+            editor.set('acfeInitialized', 1);
+
+            $wrap.removeClass('delay');
+            $wrap.find('.acf-editor-toolbar').remove();
+
+            // initialize
+            editor.initializeEditor();*/
+
         });
         
     };
@@ -312,7 +330,7 @@
     acf.addAction('acfe/flexible/layouts', function($layout, flexible){
         
         // TinyMCE Init
-        flexible.acfeEditorsInit($layout);
+        //flexible.acfeEditorsInit($layout);
         
         // Force open
         if(flexible.has('acfeFlexibleOpen'))
@@ -327,25 +345,25 @@
         }
         
     });
-    
+
     acf.addAction('show', function($layout, type){
-        
+
         if(type !== 'collapse' || !$layout.is('.layout'))
             return;
-        
+
         var flexible = acf.getInstance($layout.closest('.acf-field-flexible-content'));
-        
+
         // TinyMCE Init
         flexible.acfeEditorsInit($layout);
-        
+
         // Hide Placeholder
         if(!flexible.has('acfeFlexibleModalEdition')){
-    
+
             // Placeholder
             $layout.find('> .acfe-fc-placeholder').addClass('acf-hidden');
-        
+
         }
-        
+
     });
     
     acf.addAction('hide', function($layout, type){
