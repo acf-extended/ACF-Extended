@@ -149,8 +149,6 @@
             footer: acf.__('Close'),
             onOpen: function(){
                 
-                flexible.acfeEditorsInit($layout);
-                
             },
             onClose: function(){
                 

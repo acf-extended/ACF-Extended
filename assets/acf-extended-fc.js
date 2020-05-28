@@ -149,43 +149,29 @@
         }
         
     };
-    
-    model.acfeEditorsInit = function($layout){
-        
-        var flexible = this;
-        
-        // Closed
-        if(flexible.isLayoutClosed($layout))
+
+    var acfeFlexibleDelayInit = function(editor){
+
+        if(editor.has('id') || !editor.$el.is(':visible'))
             return;
-        
-        // Try to find delayed WYSIWYG
-        var editors = acf.getFields({
-            'type': 'wysiwyg',
-            'parent': $layout
-        });
-        
-        if(!editors.length)
-            return;
-        
-        $.each(editors, function(){
-            
-            var editor = this;
-            var $wrap = editor.$control();
-            
-            if($wrap.hasClass('delay')){
-                
-                $wrap.removeClass('delay');
-                $wrap.find('.acf-editor-toolbar').remove();
-                
-                // initialize
-                editor.initializeEditor();
-                
-            }
-            
-        });
-        
+
+        var $wrap = editor.$control();
+
+        if($wrap.hasClass('delay')){
+
+            $wrap.find('.acf-editor-toolbar').remove();
+
+            // initialize
+            editor.initializeEditor();
+
+        }
+
     };
-    
+
+    acf.addAction('show_field/type=wysiwyg', acfeFlexibleDelayInit);
+    acf.addAction('ready_field/type=wysiwyg', acfeFlexibleDelayInit);
+
+
     /*
      * Spawn
      */
@@ -199,7 +185,7 @@
         var $all_layouts = $.merge($layouts, $clones);
         
         // Do Actions
-        $all_layouts.each(function(){
+        $layouts.each(function(){
             
             var $layout = $(this);
             var $name = $layout.data('layout');
@@ -311,18 +297,17 @@
     
     acf.addAction('acfe/flexible/layouts', function($layout, flexible){
         
-        // TinyMCE Init
-        flexible.acfeEditorsInit($layout);
-        
-        // Force open
-        if(flexible.has('acfeFlexibleOpen'))
-            flexible.openLayout($layout);
-        
-        // Closed
+        // Layout Closed
         if(flexible.isLayoutClosed($layout)){
         
             // Placeholder
             $layout.find('> .acfe-fc-placeholder').removeClass('acf-hidden');
+
+            if(flexible.has('acfeFlexibleOpen')){
+
+                flexible.openLayout($layout);
+
+            }
         
         }
         
@@ -334,9 +319,6 @@
             return;
         
         var flexible = acf.getInstance($layout.closest('.acf-field-flexible-content'));
-        
-        // TinyMCE Init
-        flexible.acfeEditorsInit($layout);
         
         // Hide Placeholder
         if(!flexible.has('acfeFlexibleModalEdition')){

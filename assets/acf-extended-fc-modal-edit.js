@@ -42,8 +42,6 @@
                 
                 flexible.openLayout($layout);
                 
-                flexible.acfeEditorsInit($layout);
-                
             },
             onClose: function(){
                 
