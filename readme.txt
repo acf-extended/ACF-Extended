@@ -689,6 +689,27 @@ function my_acfe_modules(){
 
 == Changelog ==
 
+= 0.8.6 =
+* Module: Dynamic Post Types/Taxonomies/Block Types/Options Pages - Slugs can now to edited from the UI
+* Module: Dynamic Forms - User Action query var now returns the password if it has been generated during the action. Allowing developers to send the password confirmation via an e-mail action
+* Module: Dynamic Forms - Added `{request:name}` & `{request:name:key}` template tags to parse `$_REQUEST` `$_GET` & `$_POST`
+* Module: Dynamic Forms - Added `{get_option:name}` & `{get_option:name:key}` template tags to retrieve an option from database
+* Module: Dynamic Forms - Enhanced JS detection of the `acf` object to avoid potential errors when using aggressive minification
+* Module: Dynamic Forms - Fixed `{current:user:show_welcome_panel}` which was printed twice in the "Cheatsheet" tab
+* Module: Dynamic Forms - Fixed `wp_unslash()` on the success message
+* Module: Dynamic Forms - Fixed undefined `post` key notice which could occurs in some cases
+* Module: Dynamic Forms - Fixed template tags which were using `id` instead of `ID`
+* Module: Dynamic Forms - Fixed the conditional logic on custom form render when using complex fields like repeaters or flexible content
+* Module: Single Meta Save - `acf` meta is now updated on submission instead of being reset each time it is saved. This fix a potential problem when fields wouldn't be displayed to specific user roles
+* Module: PHP AutoSync - PHP files are now included only if the filename starts with `group_*.php`
+* Field: Columns - Added responsive breakpoints
+* Field: Button - Added Advanced Settings compatibility
+* Field: Advanced Link - Fixed a problem which could render an empty "Archive" default value artifact in psot objects
+* Field: Advanced Link - Fixed required field validation
+* Field: Code Editor - Fixed line wrap in terms views
+* Field: WYSIWYG - Fixed the automatic smart delayed initialization in flexible content layouts which could break when trying to open a layout before the complete page load
+* General: Settings API - `acfe` option now regenerate Post Types/Taxonomies/Block Types/Options Pages on reset
+
 = 0.8.5.5 =
 * Field: Button - Added nominative JS hooks `action('acfe/fields/button/before/name=my_field', response, $el, data);`
 * Field: Button - Added nominative JS hooks `action('acfe/fields/button/success/name=my_field', response, $el, data);`

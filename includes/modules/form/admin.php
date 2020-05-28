@@ -57,7 +57,9 @@ class acfe_form{
         add_action('acf/render_field/name=acfe_form_cheatsheet_field',              array($this, 'doc_field'));
         add_action('acf/render_field/name=acfe_form_cheatsheet_fields',             array($this, 'doc_fields'));
         add_action('acf/render_field/name=acfe_form_cheatsheet_get_field',          array($this, 'doc_get_field'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_get_option',         array($this, 'doc_get_option'));
         add_action('acf/render_field/name=acfe_form_cheatsheet_query_var',          array($this, 'doc_query_var'));
+        add_action('acf/render_field/name=acfe_form_cheatsheet_request',            array($this, 'doc_request'));
         add_action('acf/render_field/name=acfe_form_cheatsheet_current_post',       array($this, 'doc_current_post'));
         add_action('acf/render_field/name=acfe_form_cheatsheet_current_term',       array($this, 'doc_current_term'));
         add_action('acf/render_field/name=acfe_form_cheatsheet_current_user',       array($this, 'doc_current_user'));
@@ -1890,6 +1892,23 @@ function my_form_submit($form, $post_id){
         <?php
     }
     
+    function doc_get_option($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+                <tr class="acf-row">
+                    <td width="35%"><code>{get_option:my_option}</code></td>
+                    <td>DB value</td>
+                </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{get_option:my_option_array:key}</code></td>
+                    <td>DB value</td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+    }
+    
     function doc_query_var($field){
         ?>
         <table class="acf-table">
@@ -1994,6 +2013,23 @@ function my_form_submit($form, $post_id){
                     <td width="35%"><code>{query_var:my-user-action:content}</code></td>
                     <td>Content</td>
                 </tr>
+            </tbody>
+        </table>
+        <?php
+    }
+    
+    function doc_request($field){
+        ?>
+        <table class="acf-table">
+            <tbody>
+            <tr class="acf-row">
+                <td width="35%"><code>{request:name}</code></td>
+                <td><code>$_REQUEST['name']</code> (including <code>$_GET</code> & <code>$_POST</code>)</td>
+            </tr>
+            <tr class="acf-row">
+                <td width="35%"><code>{request:name:key}</code></td>
+                <td><code>$_REQUEST['name']['key']</code> (including <code>$_GET</code> & <code>$_POST</code>)</td>
+            </tr>
             </tbody>
         </table>
         <?php
@@ -2414,10 +2450,6 @@ function my_form_submit($form, $post_id){
                 <tr class="acf-row">
                     <td width="35%"><code>{current:author:dismissed_wp_pointers}</code></td>
                     <td></td>
-                </tr>
-                <tr class="acf-row">
-                    <td width="35%"><code>{current:author:show_welcome_panel}</code></td>
-                    <td>1</td>
                 </tr>
                 <tr class="acf-row">
                     <td width="35%"><code>{current:author:show_welcome_panel}</code></td>
