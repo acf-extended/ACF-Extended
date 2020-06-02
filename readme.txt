@@ -691,8 +691,8 @@ function my_acfe_modules(){
 
 = 0.8.6 =
 * Module: Dynamic Post Types/Taxonomies/Block Types/Options Pages - Slugs can now to edited from the UI
-* Module: Dynamic Forms - User Action query var now returns the password if it has been generated during the action. Allowing developers to send the password confirmation via an e-mail action
-* Module: Dynamic Forms - Added `{request:name}` & `{request:name:key}` template tags to parse `$_REQUEST` `$_GET` & `$_POST`
+* Module: Dynamic Forms - User Action query var now returns the password if it has been created/generated during the action. This will allow developers to send the password confirmation via an e-mail action using query vars
+* Module: Dynamic Forms - Added `{request:name}` & `{request:name:key}` template tags to retrieve `$_REQUEST` `$_GET` & `$_POST` data
 * Module: Dynamic Forms - Added `{get_option:name}` & `{get_option:name:key}` template tags to retrieve an option from database
 * Module: Dynamic Forms - Enhanced JS detection of the `acf` object to avoid potential errors when using aggressive minification
 * Module: Dynamic Forms - Fixed `{current:user:show_welcome_panel}` which was printed twice in the "Cheatsheet" tab
