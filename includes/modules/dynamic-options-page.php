@@ -417,6 +417,54 @@ function acfe_dop_admin_row($actions, $post){
     
 }
 
+/**
+ * Admin Add Config Button
+ */
+add_action('admin_footer', 'acfe_dop_admin_footer');
+function acfe_dop_admin_footer(){
+	
+	if(!current_user_can(acf_get_setting('capability')))
+		return;
+	
+	global $plugin_page;
+	
+	if(!$plugin_page)
+	    return;
+	
+	$page = acf_get_options_page($plugin_page);
+	
+	if(!acf_maybe_get($page, 'menu_slug'))
+	    return;
+	
+	// Get Dynamic Options Page
+	$acfe_dop_options_page = get_posts(array(
+	    'post_type'         => 'acfe-dop',
+        'posts_per_page'    => 1,
+        'name'              => $page['menu_slug']
+    ));
+	
+	if(empty($acfe_dop_options_page))
+		return;
+	
+	$acfe_dop_options_page = $acfe_dop_options_page[0];
+	
+	?>
+    <script type="text/html" id="tmpl-acfe-dop-title-config">
+        <a href="<?php echo admin_url('post.php?post=' . $acfe_dop_options_page->ID . '&action=edit'); ?>" class="page-title-action acfe-dop-admin-config"><span class="dashicons dashicons-admin-generic"></span></a>
+    </script>
+
+    <script type="text/javascript">
+        (function($){
+
+            // Add button
+            $('.wrap h1').append($('#tmpl-acfe-dop-title-config').html());
+
+        })(jQuery);
+    </script>
+	<?php
+	
+}
+
 add_filter('enter_title_here', 'acfe_dop_admin_placeholder_title', 10, 2);
 function acfe_dop_admin_placeholder_title($placeholder, $post){
 	

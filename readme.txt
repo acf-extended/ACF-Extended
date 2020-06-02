@@ -690,7 +690,8 @@ function my_acfe_modules(){
 == Changelog ==
 
 = 0.8.6 =
-* Module: Dynamic Post Types/Taxonomies/Block Types/Options Pages - Slugs can now to edited from the UI
+* Module: Dynamic Post Types/Taxonomies/Block Types/Options Pages - Slugs can now to edited & updated from the UI
+* Module: Dynamic Options Pages - Added a configuration icon on top of options page to easily switch to options page settings
 * Module: Dynamic Forms - User Action query var now returns the password if it has been created/generated during the action. This will allow developers to send the password confirmation via an e-mail action using query vars
 * Module: Dynamic Forms - Added `{request:name}` & `{request:name:key}` template tags to retrieve `$_REQUEST` `$_GET` & `$_POST` data
 * Module: Dynamic Forms - Added `{get_option:name}` & `{get_option:name:key}` template tags to retrieve an option from database
@@ -704,7 +705,7 @@ function my_acfe_modules(){
 * Module: PHP AutoSync - PHP files are now included only if the filename starts with `group_*.php`
 * Field: Columns - Added responsive breakpoints
 * Field: Button - Added Advanced Settings compatibility
-* Field: Advanced Link - Fixed a problem which could render an empty "Archive" default value artifact in psot objects
+* Field: Advanced Link - Fixed a bug which could render an empty "Archive" default value artifact in post objects fields
 * Field: Advanced Link - Fixed required field validation
 * Field: Code Editor - Fixed line wrap in terms views
 * Field: WYSIWYG - Fixed the automatic smart delayed initialization in flexible content layouts which could break when trying to open a layout before the complete page load
