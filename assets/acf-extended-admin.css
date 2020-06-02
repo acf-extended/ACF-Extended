@@ -207,19 +207,27 @@ html[dir="rtl"] .acfe-postbox-left>.inside>.acf-field>.acf-input {
 .wrap .acfe-dpt-admin-config,
 .wrap .acfe-dpt-admin-config:active,
 .wrap .acfe-dt-admin-config,
-.wrap .acfe-dt-admin-config:active{
+.wrap .acfe-dt-admin-config:active,
+.wrap .acfe-dop-admin-config,
+.wrap .acfe-dop-admin-config:active{
     padding-left:4px;
     padding-right:4px;
 }
 
 .wrap .acfe-dpt-admin-config span,
-.wrap .acfe-dt-admin-config span{
+.wrap .acfe-dt-admin-config span,
+.wrap .acfe-dop-admin-config span{
     font-size: 16px;
     vertical-align: text-top;
     height: 15px;
     width: 19px;
     line-height: 19px;
 }
+
+.wrap .acfe-dop-admin-config{
+    display: inline-block;
+}
+
 
 /* 
  * ACFE: Dynamic Post Type
