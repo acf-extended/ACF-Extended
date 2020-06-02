@@ -103,7 +103,7 @@ class acfe_upgrades{
 		}
 		
 		// Done
-		acfe_settings()->delete('upgrades.0_8_6', true);
+		acfe_settings('upgrades.0_8_6', false, true);
 		
 		acf_log('[ACF Extended] 0.8.6 Upgrade: Done');
 		
@@ -644,7 +644,7 @@ class acfe_upgrades{
 		}
 		
 		// Done
-		acfe_settings()->delete('upgrades.0_8_5', true);
+		acfe_settings('upgrades.0_8_5', false, true);
 		
 		acf_log('[ACF Extended] 0.8.5 Upgrade: Done');
 		
