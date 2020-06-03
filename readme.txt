@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 0.8.6
+Stable tag: 0.8.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -689,7 +689,7 @@ function my_acfe_modules(){
 
 == Changelog ==
 
-= 0.8.6 =
+= 0.8.6.1 =
 * Module: Dynamic Post Types/Taxonomies/Block Types/Options Pages - Slugs can now to edited & updated from the UI
 * Module: Dynamic Options Pages - Added a configuration icon on top of options page to easily switch to options page settings
 * Module: Dynamic Forms - User Action query var now returns the password if it has been created/generated during the action. This will allow developers to send the password confirmation via an e-mail action using query vars
@@ -709,7 +709,8 @@ function my_acfe_modules(){
 * Field: Advanced Link - Fixed a bug which could render an empty "Archive" default value artifact in post objects fields
 * Field: Advanced Link - Fixed required field validation
 * Field: Code Editor - Fixed line wrap in terms views
-* Field: WYSIWYG - Fixed the automatic smart delayed initialization in flexible content layouts which could break when trying to open a layout before the complete page load
+* Field: WYSIWYG - Fixed the automatic smart delayed initialization in flexible content layouts
+* Field: WYSIWYG - Fixed init in Flexible Content layouts which could break when trying to open a layout before the complete page load
 * General: Settings API - Enhanced upgrade process
 * General: Settings API - `acfe` option now regenerate Post Types/Taxonomies/Block Types/Options Pages on reset
 

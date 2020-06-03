@@ -150,6 +150,19 @@
         
     };
 
+    /*
+     * WYSIWYG
+     */
+    var wysiwyg = acf.getFieldType('wysiwyg').prototype;
+    wysiwyg.initialize = function(){
+
+        // initializeEditor if no delay
+        if( !this.has('id') && !this.$control().hasClass('delay') ) {
+            this.initializeEditor();
+        }
+
+    };
+
     var acfeFlexibleDelayInit = function(editor){
 
         if(editor.has('id') || !editor.$el.is(':visible'))
@@ -159,6 +172,7 @@
 
         if($wrap.hasClass('delay')){
 
+            $wrap.removeClass('delay');
             $wrap.find('.acf-editor-toolbar').remove();
 
             // initialize
@@ -170,7 +184,6 @@
 
     acf.addAction('show_field/type=wysiwyg', acfeFlexibleDelayInit);
     acf.addAction('ready_field/type=wysiwyg', acfeFlexibleDelayInit);
-
 
     /*
      * Spawn
