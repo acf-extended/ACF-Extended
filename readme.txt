@@ -695,6 +695,7 @@ function my_acfe_modules(){
 * Module: Dynamic Forms - User Action query var now returns the password if it has been created/generated during the action. This will allow developers to send the password confirmation via an e-mail action using query vars
 * Module: Dynamic Forms - Added `{request:name}` & `{request:name:key}` template tags to retrieve `$_REQUEST` `$_GET` & `$_POST` data
 * Module: Dynamic Forms - Added `{get_option:name}` & `{get_option:name:key}` template tags to retrieve an option from database
+* Module: Dynamic Forms - Enhanced "Post Action" query var which now returns post author data in the `{query_var:my-action:post_author_data:field}` template tag
 * Module: Dynamic Forms - Enhanced JS detection of the `acf` object to avoid potential errors when using aggressive minification
 * Module: Dynamic Forms - Fixed `{current:user:show_welcome_panel}` which was printed twice in the "Cheatsheet" tab
 * Module: Dynamic Forms - Fixed `wp_unslash()` on the success message
@@ -709,6 +710,7 @@ function my_acfe_modules(){
 * Field: Advanced Link - Fixed required field validation
 * Field: Code Editor - Fixed line wrap in terms views
 * Field: WYSIWYG - Fixed the automatic smart delayed initialization in flexible content layouts which could break when trying to open a layout before the complete page load
+* General: Settings API - Enhanced upgrade process
 * General: Settings API - `acfe` option now regenerate Post Types/Taxonomies/Block Types/Options Pages on reset
 
 = 0.8.5.5 =

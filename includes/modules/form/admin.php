@@ -848,24 +848,24 @@ class acfe_form{
             }
             
             // Templates Tags Examples
-            $field['choices']["Current: Post"]['{current:post:id}'] = 'Post ID {current:post:id}';
+            $field['choices']["Current: Post"]['{current:post:ID}'] = 'Post ID {current:post:ID}';
             $field['choices']["Current: Post"]['{current:post:post_title}'] = 'Title {current:post:post_title}';
             $field['choices']["Current: Post"]['{current:post:permalink}'] = 'Permalink {current:post:permalink}';
             $field['choices']["Current: Post"]['{current:post:post_author}'] = 'Author {current:post:post_author}';
             
-            $field['choices']["Current: Term"]['{current:term:id}'] = 'Term ID {current:term:id}';
+            $field['choices']["Current: Term"]['{current:term:ID}'] = 'Term ID {current:term:ID}';
             $field['choices']["Current: Term"]['{current:term:name}'] = 'Name {current:term:name}';
             $field['choices']["Current: Term"]['{current:term:permalink}'] = 'Permalink {current:term:permalink}';
             
-            $field['choices']["Current: User"]['{current:user:id}'] = 'User ID {current:user:id}';
+            $field['choices']["Current: User"]['{current:user:ID}'] = 'User ID {current:user:ID}';
             $field['choices']["Current: User"]['{current:user:user_email}'] = 'E-mail {current:user:user_email}';
             $field['choices']["Current: User"]['{current:user:permalink}'] = 'Permalink {current:user:permalink}';
             
-            $field['choices']["Current: Author"]['{current:author:id}'] = 'Author ID {current:author:id}';
+            $field['choices']["Current: Author"]['{current:author:ID}'] = 'Author ID {current:author:ID}';
             $field['choices']["Current: Author"]['{current:author:user_email}'] = 'E-mail {current:author:user_email}';
             $field['choices']["Current: Author"]['{current:author:permalink}'] = 'Permalink {current:author:permalink}';
             
-            $field['choices']["Current: Form"]['{current:form:id}'] = 'Form ID {current:form:id}';
+            $field['choices']["Current: Form"]['{current:form:ID}'] = 'Form ID {current:form:ID}';
             $field['choices']["Current: Form"]['{current:form:title}'] = 'Title {current:form:title}';
             $field['choices']["Current: Form"]['{current:form:name}'] = 'Name {current:form:name}';
             
@@ -2637,7 +2637,7 @@ function acfe_form_map_current($content, $post_id = 0, $form = array()){
     // Match {current:post:id}
     elseif(strpos($content, '{current:') !== false){
         
-        // Match {query_var:name}
+        // Match {current:name}
         if(preg_match_all('/{current:(.*?)}/', $content, $matches)){
             
             foreach($matches[1] as $i => $name){
@@ -2952,6 +2952,12 @@ function acfe_form_map_query_var($content){
                 if(is_array($query_var) && isset($query_var[$explode[1]])){
                     
                     $query_var = $query_var[$explode[1]];
+    
+                    if(is_array($query_var) && isset($query_var[$explode[2]])){
+        
+                        $query_var = $query_var[$explode[2]];
+        
+                    }
                     
                 }
                 
