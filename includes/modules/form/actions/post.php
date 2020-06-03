@@ -586,6 +586,36 @@ class acfe_form_post{
                 $post_object['permalink'] = get_permalink($_post_id);
                 $post_object['admin_url'] = admin_url('post.php?post=' . $_post_id . '&action=edit');
                 
+                // Retrieve Post Author data
+                $post_author = $post_object['post_author'];
+                $user_object = get_user_by('ID', $post_author);
+    
+                if(isset($user_object->data)){
+                    
+                    $user = json_decode(json_encode($user_object->data), true);
+        
+                    $user_object_meta = get_user_meta($user['ID']);
+        
+                    $user_meta = array();
+        
+                    foreach($user_object_meta as $k => $v){
+            
+                        if(!isset($v[0]))
+                            continue;
+            
+                        $user_meta[$k] = $v[0];
+            
+                    }
+        
+                    $user_array = array_merge($user, $user_meta);
+        
+                    $user_array['permalink'] = get_author_posts_url($post_author);
+                    $user_array['admin_url'] = admin_url('user-edit.php?user_id=' . $post_author);
+                    
+                    $post_object['post_author_data'] = $user_array;
+                
+                }
+                
                 $post_object = apply_filters('acfe/form/query_var/post',                    $post_object, $_post_id, $post_action, $args, $form, $action);
                 $post_object = apply_filters('acfe/form/query_var/post/form=' . $form_name, $post_object, $_post_id, $post_action, $args, $form, $action);
                 $post_object = apply_filters('acfe/form/query_var/post/action=' . $action,  $post_object, $_post_id, $post_action, $args, $form, $action);
