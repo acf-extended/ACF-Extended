@@ -8,6 +8,11 @@ class acfe_settings{
 
 	public $settings = array();
 	
+	public $upgrades = array(
+        '0_8_5' => '0.8.5',
+        '0_8_6' => '0.8.6',
+    );
+	
 	public $model = array(
 		
 		// Version
@@ -69,29 +74,30 @@ class acfe_settings{
 		),
 		
 		// Upgrades
-		'upgrades' => array(
-			'0_8_5' => true,
-			'0_8_6' => true,
-		),
+		'upgrades' => array(),
 	);
 
 	function __construct(){
-		
-		$option = get_option('acfe', array());
-
+	 
 		$this->settings = acf_get_store('acfe/settings');
 		
-		if(!empty($option)){
-			
-			$this->settings->set($option);
-			
-			$this->version();
-			
-		}else{
-			
-			$this->reset();
-			
-		}
+		if(empty($this->settings->get_data())){
+            
+            $option = get_option('acfe', array());
+            
+            if(!empty($option)){
+                
+                $this->settings->set($option);
+                
+                $this->version();
+                
+            }else{
+                
+                $this->reset();
+                
+            }
+		    
+        }
 
 	}
 	
@@ -309,8 +315,12 @@ class acfe_settings{
 	}
 	
 	function reset(){
+        
+        $this->model['upgrades'] = $this->upgrades;
 		
 		$this->set('', $this->model, true);
+		
+        new acfe_upgrades();
 		
 		add_action('init', array($this, 'reset_modules'));
 		
@@ -400,7 +410,24 @@ class acfe_settings{
 		
 		$version = $this->get('version');
 		
-		if(!$version || acf_version_compare($version, '<', ACFE_VERSION)){
+		if(acf_version_compare($version, '<', ACFE_VERSION)){
+		    
+		    if(!empty($this->upgrades)){
+		        
+		        $do_upgrades = false;
+            
+                foreach($this->upgrades as $function => $v){
+                    
+                    if(acf_version_compare($v, '<=', $version))
+                        continue;
+    
+                    $do_upgrades = true;
+
+                    $this->model['upgrades'][$function] = true;
+                    
+                }
+		        
+            }
 			
 			$data = $this->get();
 			$model = $this->model;
@@ -410,6 +437,12 @@ class acfe_settings{
 			$new_model['version'] = ACFE_VERSION;
 			
 			$this->set('', $new_model, true);
+            
+            if($do_upgrades){
+                
+                new acfe_upgrades();
+                
+            }
 			
 		}
 		

@@ -101,8 +101,8 @@ class ACFE{
         add_action('acf/include_admin_tools',   array($this, 'tools'));
         
         // Additional
-        acfe_include('includes/core/settings.php');
         acfe_include('includes/core/compatibility.php');
+        acfe_include('includes/core/settings.php');
 	    acfe_include('includes/core/upgrades.php');
 
     }
@@ -168,7 +168,6 @@ class ACFE{
         /**
          * Modules
          */
-        //acfe_include('includes/modules/module.php');
         acfe_include('includes/modules/author.php');
         acfe_include('includes/modules/dev.php');
         acfe_include('includes/modules/dynamic-block-type.php');
