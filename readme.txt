@@ -60,7 +60,7 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 
 **This plugin requires at least ACF Pro 5.7.10**
 
-If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin, with a life-time licence for unlimited websites.
+If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin available.
 
 == 🏷️ Features ==
 
