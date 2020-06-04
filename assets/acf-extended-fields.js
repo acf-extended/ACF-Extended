@@ -125,6 +125,10 @@ function acfe_recaptcha(){
         wait: 'ready',
         
         type: 'acfe_code_editor',
+
+        actions: {
+            'open': 'onDuplicate'
+        },
         
         events: {
 			'showField': 'onShow',
@@ -234,7 +238,17 @@ function acfe_recaptcha(){
                 
             }
             
-        }
+        },
+
+        onDuplicate: function($el){
+
+            $el.css({"border-color": "#C1E0FF",
+                "border-width":"1px",
+                "border-style":"solid"});
+
+            console.log($el);
+
+        },
         
     });
 
@@ -246,6 +260,20 @@ function acfe_recaptcha(){
     acf.registerConditionForFieldType('contains',       'acfe_code_editor');
     acf.registerConditionForFieldType('hasValue',       'acfe_code_editor');
 	acf.registerConditionForFieldType('hasNoValue',     'acfe_code_editor');
+
+    /**
+     * Field Group Admin: Code Editor
+     * Fix duplicate action
+     */
+    acf.addAction('append_field_object', function(field){
+
+        if(field.get('type') !== 'acfe_code_editor')
+            return;
+
+        field.$setting('default_value').find('> .acf-input > .acf-input-wrap > .CodeMirror:last').remove();
+        field.$setting('placeholder').find('> .acf-input > .acf-input-wrap > .CodeMirror:last').remove();
+
+    });
     
     /*
     var preCodeMirror = new acf.Model({

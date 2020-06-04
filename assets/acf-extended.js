@@ -207,21 +207,21 @@
             
     });
     
-    acfe_form_move_instructions_above = function(field){
+    var acfe_form_move_instructions_above = function(field){
         
         var $instructions = field.$el.find('> .acf-label > .description');
         
         field.$el.find('> .acf-input').prepend($instructions);
             
-    }
+    };
     
-    acfe_form_move_instructions_below = function(field){
+    var acfe_form_move_instructions_below = function(field){
         
         var $instructions = field.$el.find('> .acf-label > .description');
         
         field.$el.find('> .acf-input').append($instructions);
             
-    }
+    };
     
     acf.addAction('new_field/name=acfe_form_updated_message',   acfe_form_move_instructions_below);
     acf.addAction('new_field/name=acfe_form_return',            acfe_form_move_instructions_below);

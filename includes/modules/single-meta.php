@@ -16,10 +16,15 @@ class acfe_single_meta{
     
     public $data = array();
     public $restricted = array();
+    public $post_types = array();
+    public $taxonomies = array();
     
 	function __construct(){
         
         $this->restricted = array('acf-field-group', 'acf-field', 'attachment', 'acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form');
+        
+        $this->post_types = apply_filters('acfe/single_meta/post_types', array());
+        $this->taxonomies = apply_filters('acfe/single_meta/taxonomies', array());
         
         // Load
         add_filter('acf/load_value',            array($this, 'load_value'),     0, 3);

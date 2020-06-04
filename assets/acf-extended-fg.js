@@ -24,7 +24,7 @@
         
         field.$('.acf-button').removeClass('button-primary');
         
-    }
+    };
     
     acf.addAction('new_field/name=acfe_meta', acfe_repeater_remove_primary_class);
     acf.addAction('new_field/name=acfe_settings', acfe_repeater_remove_primary_class);
