@@ -215,10 +215,10 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         if(!empty($all_terms)){
             
-            foreach($all_terms as $term_id => &$term){
+            foreach($all_terms as $term_id => &$_term){
                 
-                $level = acfe_get_term_level($term->term_id, $term->taxonomy);
-                $term->level = $level;
+                $level = acfe_get_term_level($_term->term_id, $_term->taxonomy);
+                $_term->level = $level;
                 
             }
             
@@ -298,8 +298,6 @@ class acfe_field_taxonomy_terms extends acf_field{
                         }
                         
                         $terms = array_merge($terms, acf_array($keep));
-                        
-                        
                         
                     }
                     

@@ -157,14 +157,16 @@ function acfe_better_taxonomy_edit_admin_footer(){
     (function($){
         
         // wrap form
-        $('#edittag').wrapInner('<div class="acf-columns-2"><div style="float:left; width:100%;"></div></div>');
+        $('#edittag').wrapInner('<div class="acf-columns-2"><div class="acf-column-1"></div></div>');
         
         // add column side
         $('#edittag .acf-columns-2').append($('#tmpl-acf-column-2').html());
         
-        // Add acf-input
-        //$('#edittag .form-table td:not(".acf-input")').wrapInner('<div class="acf-input"></div>');
+        // add title
+        var title = $('.wrap > h1').text();
+        $('#edittag > div > div > table:first').before('<h2>' + title + '</h2>');
         
+        // hide native button
         $('#edittag .edit-tag-actions').hide();
         
     })(jQuery);
