@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.8.6.1
+ * Version:     0.8.6.3
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Version
-    var $version = '0.8.6.1';
+    var $version = '0.8.6.3';
     
     // Settings
     var $settings = array();
@@ -61,7 +61,7 @@ class ACFE{
             'acfe/modules/dynamic_post_types'       => true,
             'acfe/modules/dynamic_taxonomies'       => true,
             'acfe/modules/options'                  => true,
-            'acfe/modules/settings'                 => false,
+            'acfe/modules/settings'                 => true,
             'acfe/modules/single_meta'              => false,
             'acfe/modules/taxonomies'               => true,
             'acfe/modules/users'                    => true,
