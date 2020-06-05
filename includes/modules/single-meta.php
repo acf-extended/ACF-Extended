@@ -26,46 +26,94 @@ class acfe_single_meta{
         $this->post_types = apply_filters('acfe/single_meta/post_types', array());
         $this->taxonomies = apply_filters('acfe/single_meta/taxonomies', array());
         
-        // Load
-        add_filter('acf/load_value',            array($this, 'load_value'),     0, 3);
-        add_filter('acf/pre_load_metadata',     array($this, 'load_reference'), 10, 4);
-        
-        // Save
-        add_filter('acf/update_value',          array($this, 'update_value'),   999, 3);
-        add_action('acf/save_post',             array($this, 'save_post'),      999);
+        // Values
+        add_filter('acf/pre_load_metadata',     array($this, 'load_metadata'), 		10, 4);
+        add_filter('acf/pre_update_metadata',   array($this, 'update_metadata'),   999, 5);
+		add_filter('acf/pre_delete_metadata',   array($this, 'delete_metadata'),   999, 4);
+		
+		// Save Post
+		add_action('acf/save_post',             array($this, 'save_post'),      999);
         
         // Settings
         add_action('acf/render_field_settings', array($this, 'field_setting'));
         
         // Post
-        add_action('load-post.php',         array($this, 'load_post'));
-		add_action('load-post-new.php',     array($this, 'load_post'));
+        add_action('load-post.php',         	array($this, 'load_post'));
+		add_action('load-post-new.php',     	array($this, 'load_post'));
         
         // Term
-        add_action('load-edit-tags.php',    array($this, 'load_term'));
-        add_action('load-term.php',         array($this, 'load_term'));
+        add_action('load-edit-tags.php',    	array($this, 'load_term'));
+        add_action('load-term.php',         	array($this, 'load_term'));
         
         // User
-        add_action('load-user-new.php',     array($this, 'load_user'));
-        add_action('load-user-edit.php',    array($this, 'load_user'));
-        add_action('load-profile.php',      array($this, 'load_user'));
+        add_action('load-user-new.php',     	array($this, 'load_user'));
+        add_action('load-user-edit.php',    	array($this, 'load_user'));
+        add_action('load-profile.php',      	array($this, 'load_user'));
         
+	}
+	
+	/*
+     * Pre Load Value
+     */
+	function load_metadata($return, $post_id, $name, $hidden){
+		
+		if($name === 'acf')
+			return $return;
+		
+		// Validate Post ID
+		$validate = $this->validate_post_id($post_id);
+		
+		if(!$validate)
+			return $return;
+		
+		// Check store.
+		$store = acf_get_store('acfe/meta');
+		
+		// Store found
+		if($store->has("$post_id:acf")){
+			
+			// Get Store: ACF meta
+			$acf = $store->get("$post_id:acf");
+			
+		// Store not found
+		}else{
+			
+			// Get ACF meta
+			$acf = acf_get_metadata($post_id, 'acf');
+			
+			// Set Store: ACF meta
+			$store->set("$post_id:acf", $acf);
+			
+		}
+		
+		if(empty($acf))
+			return $return;
+		
+		$prefix = $hidden ? '_' : '';
+		
+		if(isset($acf["{$prefix}{$name}"])){
+			
+			$return = $acf["{$prefix}{$name}"];
+			
+		}
+		
+		return $return;
+		
 	}
     
     /*
      * Update Value
      */
-    function update_value($value, $post_id, $field){
-        
-        // Do not save empty values
-        //if(empty($value) && !is_numeric($value) && $field['type'] !== 'flexible_content' && $field['type'] !== 'clone' && $field['type'] !== 'group')
-        //    return null;
+    function update_metadata($return, $post_id, $name, $value, $hidden){
+	
+		if($name === 'acf')
+			return $return;
         
         // Validate Post ID
         $validate = $this->validate_post_id($post_id);
         
         if(!$validate)
-            return $value;
+            return $return;
         
         $is_save_post = false;
         
@@ -85,22 +133,6 @@ class acfe_single_meta{
         // Store not found
         }else{
             
-            /*
-            // Submitting acf/save_post
-            if($is_save_post){
-                
-                // Resetting values to empty
-                $acf = array();
-            
-            // Single field update
-            }else{
-            
-                // Get ACF meta
-                $acf = acf_get_metadata($post_id, 'acf');
-            
-            }
-            */
-            
 			// Get ACF meta
 			$acf = acf_get_metadata($post_id, 'acf');
             
@@ -108,176 +140,83 @@ class acfe_single_meta{
             $store->set("$post_id:acf", $acf);
             
         }
-        
-        $acf['_' . $field['name']] = $field['key'];
-        $acf[$field['name']] = $value;
+	
+		$prefix = $hidden ? '_' : '';
+		
+        $acf["{$prefix}{$name}"] = $value;
+	
+		// Set Store: ACF meta
+		$store->set("$post_id:acf", $acf);
         
         // Single field update: Save to ACF meta
         if(!$is_save_post){
-            
-            acf_update_metadata($post_id, 'acf', $acf);
+	
+			acf_update_metadata($post_id, 'acf', $acf);
         
         }
-        
-        // Set Store: ACF meta
-        $store->set("$post_id:acf", $acf);
         
         // Field Setting: Save individually
-        if(acf_maybe_get($field, 'acfe_save_meta'))
-            return $value;
+        /*
+		if(acf_maybe_get($field, 'acfe_save_meta'))
+            return $return;
+        */
         
         // Do not save as individual meta
-        return null;
-        
-    }
-
-    /*
-     * Load Single Meta
-     */
-    function load_value($value, $post_id, $field){
-        
-        // Value already exists
-        if((!empty($value) || is_numeric($value)) && acf_maybe_get($field, 'default_value') !== $value)
-            return $value;
-        
-        // Validate Post ID
-        $validate = $this->validate_post_id($post_id);
-        
-        if(!$validate)
-            return $value;
-        
-        // Check store.
-        $store = acf_get_store('acfe/meta');
-        
-        // Store found
-        if($store->has("$post_id:acf")){
-            
-            // Get Store: ACF meta
-            $acf = $store->get("$post_id:acf");
-        
-        // Store not found
-        }else{
-            
-            // Get ACF meta
-            $acf = acf_get_metadata($post_id, 'acf');
-            
-            // Set Store: ACF meta
-            $store->set("$post_id:acf", $acf);
-            
-        }
-        
-        // ACF meta not found
-        if(empty($acf))
-            return $value;
-        
-        $field_name = $field['name'];
-        
-        if(isset($acf[$field_name])){
-            
-            $value = $acf[$field_name];
-            
-        }
-        
-        return $value;
-        
-    }
-
-    /*
-     * Pre Load Get Field
-     */
-    function load_reference($value, $post_id, $name, $hidden){
-        
-        if(!$hidden)
-            return $value;
-        
-        // Validate Post ID
-        $validate = $this->validate_post_id($post_id);
-        
-        if(!$validate)
-            return $value;
-        
-        // Check store.
-        $store = acf_get_store('acfe/meta');
-        
-        // Store found
-        if($store->has("$post_id:acf")){
-            
-            // Get Store: ACF meta
-            $acf = $store->get("$post_id:acf");
-        
-        // Store not found
-        }else{
-            
-            // Get ACF meta
-            $acf = acf_get_metadata($post_id, 'acf');
-            
-            // Set Store: ACF meta
-            $store->set("$post_id:acf", $acf);
-            
-        }
-        
-        if(empty($acf))
-            return $value;
-        
-        if(isset($acf["_{$name}"])){
-            
-            $value = $acf["_{$name}"];
-            
-        }
-        
         return $value;
         
     }
     
-    function validate_post_id($post_id){
-        
-        // Type + ID
-        extract(acf_decode_post_id($post_id));
-        
-        // Validate ID
-        if(!$id)
-            return false;
-        
-        // Exclude options
-        if($type === 'option')
-            return false;
-        
-        // Get store
-        $store = acf_get_store('acfe/meta');
-        
-        // Restrict post type
-        if($type === 'post'){
-            
-            $allowed = false;
-            
-            // Allowed found
-            if($store->has("$post_id:allowed")){
-                
-                // Get Store: Allowed
-                $allowed = $store->get("$post_id:allowed");
-            
-            // Allowed not found
-            }else{
-                
-                $post_type = get_post_type($id);
-
-                if(!in_array($post_type, $this->restricted)){
-                    
-                    $allowed = true;
-                    
-                }
-                
-                $store->set("$post_id:allowed", $allowed);
-                
-            }
-            
-            if(!$allowed)
-                return false;
-            
-        }
-        
-        return true;
-        
+    function delete_metadata($return, $post_id, $name, $hidden){
+	
+		if($name === 'acf')
+			return $return;
+	
+		// Validate Post ID
+		$validate = $this->validate_post_id($post_id);
+	
+		if(!$validate)
+			return $return;
+	
+		// Check store.
+		$store = acf_get_store('acfe/meta');
+	
+		// Store found
+		if($store->has("$post_id:acf")){
+		
+			// Get Store: ACF meta
+			$acf = $store->get("$post_id:acf");
+		
+			// Store not found
+		}else{
+		
+			// Get ACF meta
+			$acf = acf_get_metadata($post_id, 'acf');
+		
+			// Set Store: ACF meta
+			$store->set("$post_id:acf", $acf);
+		
+		}
+	
+		if(empty($acf))
+			return $return;
+	
+		$prefix = $hidden ? '_' : '';
+	
+		if(isset($acf["{$prefix}{$name}"])){
+		
+			unset($acf["{$prefix}{$name}"]);
+			
+			// Save to ACF meta
+			acf_update_metadata($post_id, 'acf', $acf);
+			
+			// Set Store: ACF meta
+			$store->set("$post_id:acf", $acf);
+			
+		
+		}
+	
+		return $return;
+    
     }
 
     /*
@@ -328,6 +267,57 @@ class acfe_single_meta{
         }
         
     }
+	
+	function validate_post_id($post_id){
+		
+		// Type + ID
+		extract(acf_decode_post_id($post_id));
+		
+		// Validate ID
+		if(!$id)
+			return false;
+		
+		// Exclude options
+		if($type === 'option')
+			return false;
+		
+		// Get store
+		$store = acf_get_store('acfe/meta');
+		
+		// Restrict post type
+		if($type === 'post'){
+			
+			$allowed = false;
+			
+			// Allowed found
+			if($store->has("$post_id:allowed")){
+				
+				// Get Store: Allowed
+				$allowed = $store->get("$post_id:allowed");
+				
+				// Allowed not found
+			}else{
+				
+				$post_type = get_post_type($id);
+				
+				if(!in_array($post_type, $this->restricted)){
+					
+					$allowed = true;
+					
+				}
+				
+				$store->set("$post_id:allowed", $allowed);
+				
+			}
+			
+			if(!$allowed)
+				return false;
+			
+		}
+		
+		return true;
+		
+	}
     
     /*
      * Field Setting
