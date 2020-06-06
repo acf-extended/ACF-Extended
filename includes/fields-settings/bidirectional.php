@@ -269,8 +269,8 @@ add_filter('acf/update_field/type=user', 'acfe_bidirectional_setting_update');
 add_filter('acf/update_field/type=taxonomy', 'acfe_bidirectional_setting_update');
 function acfe_bidirectional_setting_update($field){
     
-    $do_update = apply_filters('acfe/bidirectional/setting/update', true);
-    if(!$do_update)
+    $bypass = acf_is_filter_enabled('acfe/bidirectional_setting');
+    if($bypass)
         return $field;
     
     // Previous setting values
@@ -286,12 +286,12 @@ function acfe_bidirectional_setting_update($field){
         $r_field['acfe_bidirectional']['acfe_bidirectional_enabled'] = false;
         $r_field['acfe_bidirectional']['acfe_bidirectional_related'] = false;
         
-        add_filter('acfe/bidirectional/setting/update', '__return_false');
+        acf_enable_filter('acfe/bidirectional_setting');
         
             // Update related bidirectional
             acf_update_field($r_field);
-        
-        remove_filter('acfe/bidirectional/setting/update', '__return_false');
+            
+        acf_disable_filter('acfe/bidirectional_setting');
         
         return $field;
         
@@ -306,13 +306,13 @@ function acfe_bidirectional_setting_update($field){
         // Reset related bidirectional related
         $r_field['acfe_bidirectional']['acfe_bidirectional_enabled'] = true;
         $r_field['acfe_bidirectional']['acfe_bidirectional_related'] = $field['key'];
-        
-        add_filter('acfe/bidirectional/setting/update', '__return_false');
-        
+    
+        acf_enable_filter('acfe/bidirectional_setting');
+    
             // Update related bidirectional
             acf_update_field($r_field);
-        
-        remove_filter('acfe/bidirectional/setting/update', '__return_false');
+    
+        acf_disable_filter('acfe/bidirectional_setting');
         
         return $field;
         
@@ -355,8 +355,8 @@ add_filter('acf/update_value/type=user', 'acfe_bidirectional_update_value', 11, 
 add_filter('acf/update_value/type=taxonomy', 'acfe_bidirectional_update_value', 11, 3);
 function acfe_bidirectional_update_value($value, $post_id, $field){
     
-    $ignore = apply_filters('acfe/bidirectional/ignore', false, $value, $post_id, $field);
-    if($ignore)
+    $bypass = acf_is_filter_enabled('acfe/bidirectional');
+    if($bypass)
         return $value;
     
     // Check if bidirectional
@@ -557,13 +557,13 @@ function acfe_bidirectional_relationship($type = 'add', $r_id, $p_field, $p_valu
     }
         
     // Filter acf_update_value (to avoid infinite loop)
-    add_filter('acfe/bidirectional/ignore', '__return_true');
+    acf_enable_filter('acfe/bidirectional');
     
         // Update Related Field
         acf_update_value($r_values, $r_mtype.$r_id, $r_ref_field);
     
     // Remove acf_update_value filter
-    remove_filter('acfe/bidirectional/ignore', '__return_true');
+    acf_disable_filter('acfe/bidirectional');
     
 }
 
