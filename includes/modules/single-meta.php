@@ -18,6 +18,7 @@ class acfe_single_meta{
     public $restricted = array();
     public $post_types = array();
     public $taxonomies = array();
+    public $options = array();
     
     function __construct(){
         
@@ -25,6 +26,7 @@ class acfe_single_meta{
         
         $this->post_types = apply_filters('acfe/modules/single_meta/post_types', array());
         $this->taxonomies = apply_filters('acfe/modules/single_meta/taxonomies', array());
+        $this->options = apply_filters('acfe/modules/single_meta/options', array());
         
         // Values
         add_filter('acf/pre_load_metadata',     array($this, 'load_metadata'), 		999, 4);
@@ -289,13 +291,6 @@ class acfe_single_meta{
         if(!$id)
             return false;
         
-        // Exclude options
-        if($type === 'option')
-            return false;
-        
-        // Get store
-        $store = acf_get_store('acfe/meta');
-        
         // Post Type
         if($type === 'post'){
     
@@ -330,8 +325,21 @@ class acfe_single_meta{
                 return true;
                 
             }
-            
+    
+        // Option
+        }elseif($type === 'option'){
+    
+            if($this->options === false)
+                return false;
+    
+            if(!empty($this->options) && !in_array($id, $this->options))
+                return false;
+    
+            return true;
+    
         }
+        
+        
         
         return false;
         
