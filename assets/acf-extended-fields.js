@@ -125,10 +125,6 @@ function acfe_recaptcha(){
         wait: 'ready',
         
         type: 'acfe_code_editor',
-
-        actions: {
-            'open': 'onDuplicate'
-        },
         
         events: {
 			'showField': 'onShow',
@@ -238,16 +234,6 @@ function acfe_recaptcha(){
                 
             }
             
-        },
-
-        onDuplicate: function($el){
-
-            $el.css({"border-color": "#C1E0FF",
-                "border-width":"1px",
-                "border-style":"solid"});
-
-            console.log($el);
-
         },
         
     });
