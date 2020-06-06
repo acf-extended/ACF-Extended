@@ -167,7 +167,7 @@ class acfe_single_meta{
             
             acf_enable_filter('acfe/delete');
     
-                acf_delete_metadata($post_id, "{$prefix}{$name}");
+                acf_delete_metadata($post_id, "{$name}", $hidden);
     
             acf_disable_filter('acfe/delete');
     

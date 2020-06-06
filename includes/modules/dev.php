@@ -32,7 +32,9 @@ class acfe_dev{
 		add_action('edit_user_profile', array($this, 'load_user'));
         
         // Options
-        add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_admin'));
+        add_action('acf/options_page/submitbox_before_major_actions',   array($this, 'load_admin'));
+        
+        add_action('wp_ajax_acfe/delete_meta',                          array($this, 'ajax_delete_meta'));
         
 	}
     
@@ -144,11 +146,17 @@ class acfe_dev{
         if(!empty($this->wp_meta)){
             
             $id = 'acfe-wp-custom-fields';
-            $title = 'WP Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">' . count($this->wp_meta) . '</span>';
+            $title = 'WP Custom fields';
+            
+            if($object_type === 'acf_options_page'){
+                $title = 'WP Options';
+            }
+            
+            $title .= '<span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">' . count($this->wp_meta) . '</span>';
             $context = 'normal';
             $priority = 'low';
             
-            add_meta_box($id, $title, array($this, 'wp_render_meta_box'), $object_type, $context, $priority);
+            add_meta_box($id, $title, array($this, 'wp_render_meta_box'), $object_type, $context, $priority, $object_type);
             
         }
         
@@ -156,17 +164,26 @@ class acfe_dev{
         if(!empty($this->acf_meta)){
             
             $id = 'acfe-acf-custom-fields';
-            $title = 'ACF Custom fields <span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">' . count($this->acf_meta) . '</span>';
+            $title = 'ACF Custom fields';
+    
+            if($object_type === 'acf_options_page'){
+                $title = 'ACF Options';
+            }
+            
+            $title .= '<span style="background: #72777c;padding: 1px 5px;border-radius: 4px;color: #fff;margin-left: 3px;font-size: 12px;">' . count($this->acf_meta) . '</span>';
             $context = 'normal';
             $priority = 'low';
             
-            add_meta_box($id, $title, array($this, 'acf_render_meta_box'), $object_type, $context, $priority);
+            add_meta_box($id, $title, array($this, 'acf_render_meta_box'), $object_type, $context, $priority, $object_type);
             
         }
         
     }
 
     function wp_render_meta_box($post, $metabox){
+        
+        $object_type = acf_maybe_get($metabox, 'args');
+        $is_options = ($object_type === 'acf_options_page');
         
         ?>
         <table class="wp-list-table widefat fixed striped" style="border:0;">
@@ -180,15 +197,29 @@ class acfe_dev{
 
             <tbody>
                 
-                <?php foreach($this->wp_meta as $meta_key => $meta_value){ ?>
+                <?php foreach($this->wp_meta as $meta_key => $meta){ ?>
                 
                     <?php
-                    $value_display = $this->render_meta_value($meta_value);
+                    $meta_id = $meta['id'];
+                    $value = $this->render_meta_value($meta['value']);
+                    $nonce = wp_create_nonce('acfe_delete-meta_' . $meta_id);
                     ?>
                 
                     <tr>
-                        <td><strong><?php echo esc_attr($meta_key); ?></strong></td>
-                        <td><?php echo $value_display; ?></td>
+                        <td>
+                            <strong><?php echo esc_attr($meta_key); ?></strong>
+            
+                            <?php if(!$is_options && current_user_can(acf_get_setting('capability'))){ ?>
+                                <div class="row-actions">
+                                    <span class="delete">
+                                        <a href="#" class="acfe_delete_meta" data-meta-id="<?php echo $meta_id; ?>" data-nonce="<?php echo $nonce; ?>"><?php _e('Delete'); ?></a>
+                                    </span>
+                                </div>
+                            <?php } ?>
+                            
+                        </td>
+                        
+                        <td><?php echo $value; ?></td>
                     </tr>
                     
                 <?php } ?>
@@ -201,6 +232,9 @@ class acfe_dev{
     }
     
     function acf_render_meta_box($post, $metabox){
+    
+        $object_type = acf_maybe_get($metabox, 'args');
+        $is_options = ($object_type === 'acf_options_page');
         
         ?>
         <table class="wp-list-table widefat fixed striped" style="border:0;">
@@ -222,7 +256,9 @@ class acfe_dev{
                     // Field
                     $field = $meta['field'];
                     $meta_key = $meta['key'];
-                    $value = $meta['value'];
+                    $meta_id = $meta['id'];
+                    $value = $this->render_meta_value($meta['value']);
+                    $nonce = wp_create_nonce('acfe_delete-meta_' . $meta_id);
                     
                     // Field Group
                     $field_group_display = __('Local', 'acf');
@@ -245,14 +281,25 @@ class acfe_dev{
                         }
                         
                     }
+    
                     
-                    $value_display = $this->render_meta_value($meta['value']);
                     
                     ?>
                 
                     <tr>
-                        <td><strong><?php echo esc_attr($meta_key); ?></strong></td>
-                        <td><?php echo $value_display; ?></td>
+                        <td>
+                            <strong><?php echo esc_attr($meta_key); ?></strong>
+                            
+                            <?php if(!$is_options && current_user_can(acf_get_setting('capability'))){ ?>
+                                <div class="row-actions">
+                                    <span class="delete">
+                                        <a href="#" class="acfe_delete_meta" data-meta-id="<?php echo $meta_id; ?>" data-nonce="<?php echo $nonce; ?>"><?php _e('Delete'); ?></a>
+                                    </span>
+                                </div>
+                            <?php } ?>
+                            
+                        </td>
+                        <td><?php echo $value; ?></td>
                         <td><?php echo $field_group_display; ?></td>
                     </tr>
                     
@@ -375,7 +422,10 @@ class acfe_dev{
             
             foreach($get_meta as $meta){
                 
-                $wp_meta[$meta->meta_key] = $meta->meta_value;
+                $wp_meta[$meta->meta_key] = array(
+                    'id' => $meta->meta_id,
+                    'value' => $meta->meta_value,
+                );
                 
             }
         
@@ -387,8 +437,11 @@ class acfe_dev{
             });
             
             foreach($get_meta as $meta){
-                
-                $wp_meta[$meta->option_name] = $meta->option_value;
+    
+                $wp_meta[$meta->option_name] = array(
+                    'id' => $meta->option_id,
+                    'value' => $meta->option_value,
+                );
                 
             }
             
@@ -396,7 +449,7 @@ class acfe_dev{
         
         $acf_meta = array();
         
-        foreach($wp_meta as $key => $value){
+        foreach($wp_meta as $key => $meta){
             
             // ACF Meta
             if(isset($wp_meta["_$key"])){
@@ -404,27 +457,31 @@ class acfe_dev{
                 $field = false;
                 $field_group = false;
                 
-                if(acf_is_field_key($wp_meta["_$key"])){
+                // Value = field_abcde123456?
+                if(acf_is_field_key($wp_meta["_$key"]['value'])){
                     
-                    $field = acf_get_field($wp_meta["_$key"]);
+                    $field = acf_get_field($wp_meta["_$key"]['value']);
                     $field_group = acfe_get_field_group_from_field($field);
                     
                 }
                 
                 $acf_meta[] = array(
                     'key'           => "_$key",
-                    'value'         => $wp_meta["_$key"],
+                    'id'            => $wp_meta["_$key"]['id'],
+                    'value'         => $wp_meta["_$key"]['value'],
                     'field'         => $field,
                     'field_group'   => $field_group,
                 );
                 
                 $acf_meta[] = array(
                     'key'           => $key,
-                    'value'         => $wp_meta[$key],
+                    'id'            => $wp_meta[$key]['id'],
+                    'value'         => $wp_meta[$key]['value'],
                     'field'         => $field,
                     'field_group'   => $field_group,
                 );
                 
+                // Unset WP Meta
                 unset($wp_meta["_$key"]);
                 unset($wp_meta[$key]);
                 
@@ -434,6 +491,29 @@ class acfe_dev{
         
         $this->wp_meta = $wp_meta;
         $this->acf_meta = $acf_meta;
+        
+    }
+    
+    function ajax_delete_meta(){
+    
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+    
+        check_ajax_referer("acfe_delete-meta_$id");
+        $meta = get_metadata_by_mid( 'post', $id );
+    
+        if (!$meta){
+            wp_die(1);
+        }
+    
+        if (!current_user_can(acf_get_setting('capability'))){
+            wp_die(-1);
+        }
+    
+        if (delete_meta($meta->meta_id)){
+            wp_die(1);
+        }
+    
+        wp_die(0);
         
     }
     

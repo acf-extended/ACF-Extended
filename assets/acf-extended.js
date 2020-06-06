@@ -251,5 +251,49 @@
         field.$el.find('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
             
     });
+
+    acf.addAction('prepare', function(){
+
+        $('.acfe_delete_meta').click(function(e){
+
+            e.preventDefault();
+            var $this = $(this);
+
+            var ajaxData = {
+                action: 'acfe/delete_meta',
+                id: $this.attr('data-meta-id'),
+                _wpnonce: $this.attr('data-nonce'),
+            };
+
+            var $tr = $this.closest('tr');
+
+            $.ajax({
+                url: acf.get('ajaxurl'),
+                data: ajaxData,
+                type: 'post',
+                beforeSend: function(){
+
+                    var $tr = $this.closest('tr');
+
+                    $tr.css({backgroundColor:'#faafaa'}).fadeOut(350, function(){
+                        $(this).hide();
+                    });
+
+                },
+                success: function(response){
+
+                    if(response !== '1'){
+
+                        $tr.css({backgroundColor:''});
+                        $tr.show();
+
+                    }
+
+                }
+            });
+
+        });
+
+    });
     
 })(jQuery);
