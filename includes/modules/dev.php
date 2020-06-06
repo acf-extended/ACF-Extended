@@ -31,7 +31,7 @@ class acfe_dev{
         add_action('show_user_profile', array($this, 'load_user'));
 		add_action('edit_user_profile', array($this, 'load_user'));
         
-        // Admin
+        // Options
         add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_admin'));
         
 	}
@@ -352,11 +352,12 @@ class acfe_dev{
             
             $search = "{$id}_%";
             $_search = "_{$id}_%";
+            $search_single = "{$id}";
             
             $search = str_replace('_', '\_', $search);
             $_search = str_replace('_', '\_', $_search);
             
-            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->options WHERE option_name LIKE %s OR option_name LIKE %s", $search, $_search));
+            $get_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->options WHERE option_name LIKE %s OR option_name LIKE %s OR option_name = %s", $search, $_search, $search_single));
             
         }
         
