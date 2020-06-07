@@ -334,6 +334,12 @@
 
                                 }
 
+                                if(!$('#acfe-wp-custom-fields tbody tr').length && !$('#acfe-acf-custom-fields tbody tr').length){
+
+                                    $('.acfe_dev_bulk_actions').remove();
+
+                                }
+
                                 acfe_dev_meta_count();
 
                             }, 351);
@@ -388,6 +394,12 @@
                         if(!$tbody.find('tr').length){
 
                             $postbox.remove();
+
+                        }
+
+                        if(!$('#acfe-wp-custom-fields tbody tr').length && !$('#acfe-acf-custom-fields tbody tr').length){
+
+                            $('.acfe_dev_bulk_actions').remove();
 
                         }
 
