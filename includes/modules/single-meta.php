@@ -456,13 +456,18 @@ class acfe_single_meta{
 
     function load_post(){
         
+        if($this->post_types === false)
+            return;
+    
         // globals
         global $typenow;
-        
-        // restrict specific post types
-        $restricted = array('acf-field-group', 'attachment', 'acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form');
-        
-        if(in_array($typenow, $restricted))
+    
+        $post_type = $typenow;
+    
+        if(in_array($post_type, $this->restricted))
+            return;
+    
+        if(!empty($this->post_types) && !in_array($post_type, $this->post_types))
             return;
         
         // actions
@@ -477,9 +482,15 @@ class acfe_single_meta{
     }
     
     function load_term(){
+    
+        if($this->taxonomies === false)
+            return;
         
         $screen = get_current_screen();
         $taxonomy = $screen->taxonomy;
+    
+        if(!empty($this->taxonomies) && !in_array($taxonomy, $this->taxonomies))
+            return;
         
         // actions
         add_action("{$taxonomy}_edit_form", array($this, 'edit_term'), 20, 2);
@@ -499,6 +510,12 @@ class acfe_single_meta{
     }
     
     function load_options($page){
+    
+        if($this->options === false)
+            return;
+    
+        if(!empty($this->options) && !in_array($page['post_id'], $this->options))
+            return;
     
         add_meta_box('acfe-clean-meta', 'ACF Single Meta', array($this, 'render_metabox'), 'acf_options_page', 'side', 'default');
         

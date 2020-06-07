@@ -305,7 +305,7 @@ class acfe_dev{
         
         <?php if(current_user_can(acf_get_setting('capability')) && $render_bulk){ ?>
             
-            <div class="tablenav bottom">
+            <div class="acfe_dev_bulk_actions tablenav bottom">
     
                 <div class="alignleft actions bulkactions">
                     
