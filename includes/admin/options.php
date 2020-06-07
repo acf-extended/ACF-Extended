@@ -406,7 +406,7 @@ function acfe_options_edit_metabox(){
             'label'             => __('Value ' . $type),
             'key'               => 'field_acfe_options_edit_value',
             'name'              => 'field_acfe_options_edit_value',
-            'type'              => 'text',
+            'type'              => 'textarea',
             'prefix'            => 'acf',
             'instructions'      => '',
             'required'          => false,

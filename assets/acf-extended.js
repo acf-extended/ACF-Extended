@@ -252,20 +252,124 @@
             
     });
 
+    function acfe_dev_meta_count(){
+
+        var $wp_meta_count = $('#acfe-wp-custom-fields .acfe_dev_meta_count');
+        var $acf_meta_count = $('#acfe-acf-custom-fields .acfe_dev_meta_count');
+
+        $wp_meta_count.text($('#acfe-wp-custom-fields tbody tr').length);
+        $acf_meta_count.text($('#acfe-acf-custom-fields tbody tr').length);
+
+    }
+
     acf.addAction('prepare', function(){
 
-        $('.acfe_delete_meta').click(function(e){
+        // Move Bulk Button
+        $('#acfe-wp-custom-fields .tablenav.bottom').insertAfter($('#acfe-wp-custom-fields'));
+        $('#acfe-acf-custom-fields .tablenav.bottom').insertAfter($('#acfe-acf-custom-fields'));
+
+        // Bulk Delete
+        $('#acfe_bulk_deleta_meta_submit').click(function(e){
 
             e.preventDefault();
             var $this = $(this);
 
+            var action = $this.prevAll('.acfe_bulk_delete_meta_action').val();
+            var type = $this.prevAll('.acfe_bulk_delete_meta_type').val();
+            var nonce = $this.prevAll('.acfe_bulk_delete_meta_nonce').val();
+
+            if(action === 'delete'){
+
+                var ids = [];
+                var trs = [];
+
+                $('#acfe-wp-custom-fields input.acfe_bulk_delete_meta:checked').each(function(){
+
+                    ids.push($(this).val());
+                    trs.push($(this).closest('tr'));
+
+                });
+
+                $('#acfe-acf-custom-fields input.acfe_bulk_delete_meta:checked').each(function(){
+
+                    ids.push($(this).val());
+                    trs.push($(this).closest('tr'));
+
+                });
+
+                if(ids.length){
+
+                    var ajaxData = {
+                        action: 'acfe/bulk_delete_meta',
+                        ids: ids,
+                        type: type,
+                        _wpnonce: nonce,
+                    };
+
+                    $.ajax({
+                        url: acf.get('ajaxurl'),
+                        data: ajaxData,
+                        type: 'post',
+                        beforeSend: function(){
+
+                            $.each(trs, function(){
+
+                                $(this).css({backgroundColor:'#faafaa'}).fadeOut(350, function(){
+                                    $(this).remove();
+                                });
+
+                            });
+
+                            setTimeout(function(){
+
+                                if(!$('#acfe-wp-custom-fields tbody tr').length){
+
+                                    $('#acfe-wp-custom-fields').remove();
+
+                                }
+
+                                if(!$('#acfe-acf-custom-fields tbody tr').length){
+
+                                    $('#acfe-acf-custom-fields').remove();
+
+                                }
+
+                                acfe_dev_meta_count();
+
+                            }, 351);
+
+                        },
+                        success: function(response){
+
+                            if(response !== '1'){
+
+                            }
+
+                        }
+                    });
+
+                }
+
+            }
+
+        });
+
+        // Single Delete
+        $('.acfe_delete_meta').click(function(e){
+
+            e.preventDefault();
+            var $this = $(this);
+            var $tr = $this.closest('tr');
+            var $tbody = $this.closest('tbody');
+            var $postbox = $this.closest('.postbox');
+
             var ajaxData = {
                 action: 'acfe/delete_meta',
                 id: $this.attr('data-meta-id'),
+                key: $this.attr('data-meta-key'),
+                type: $this.attr('data-type'),
                 _wpnonce: $this.attr('data-nonce'),
             };
-
-            var $tr = $this.closest('tr');
 
             $.ajax({
                 url: acf.get('ajaxurl'),
@@ -276,8 +380,20 @@
                     var $tr = $this.closest('tr');
 
                     $tr.css({backgroundColor:'#faafaa'}).fadeOut(350, function(){
-                        $(this).hide();
+                        $(this).remove();
                     });
+
+                    setTimeout(function(){
+
+                        if(!$tbody.find('tr').length){
+
+                            $postbox.remove();
+
+                        }
+
+                        acfe_dev_meta_count();
+
+                    }, 351);
 
                 },
                 success: function(response){
