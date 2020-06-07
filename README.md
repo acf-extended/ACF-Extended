@@ -433,8 +433,8 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 ### 0.8.6.3
 * Module - Enhanced UI - Added WP User & WP Settings UI enhancements
 * Module - Enhanced UI - Taxonomies UI enhancements were moved in the to general Enhancement module. The setting `acf_update_setting('acfe/modules/taxonomies')` has been replaced by `acf_update_setting('acfe/modules/ui')`
-* Module: Dev Mode - Added Field Type column on ACF meta overview
-* Module: Dev Mode - Added Autoload column on Options meta overview
+* Module: Dev Mode - Added "Field Type" column on ACF meta overview
+* Module: Dev Mode - Added "Autoload" column on Options meta overview
 * Module: Dev Mode - Added "Delete" action for each meta & options fields
 * Module: Dev Mode - Added "Bulk Delete" action
 * Module: Single Meta Save - Reworked codebase
