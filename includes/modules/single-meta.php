@@ -26,7 +26,7 @@ class acfe_single_meta{
         
         $this->post_types = apply_filters('acfe/modules/single_meta/post_types', array());
         $this->taxonomies = apply_filters('acfe/modules/single_meta/taxonomies', array());
-        $this->options = apply_filters('acfe/modules/single_meta/options', array());
+        $this->options = apply_filters('acfe/modules/single_meta/options', false);
         
         // Values
         add_filter('acf/pre_load_metadata',     array($this, 'load_metadata'), 		999, 4);
@@ -364,7 +364,7 @@ class acfe_single_meta{
             
             $term = get_term($id);
             
-            if(is_a('WP_Term', $term)){
+            if(is_a($term, 'WP_Term')){
                 
                 $taxonomy = $term->taxonomy;
     

@@ -417,6 +417,26 @@ body.post-type-acfe-form.post-new-php #major-publishing-actions{
     margin:0;
 }
 
+.postbox#acfe-wp-custom-fields + .tablenav,
+.postbox#acfe-acf-custom-fields + .tablenav{
+    padding-top:0;
+    margin-top:-8px;
+}
+
+.postbox#acfe-wp-custom-fields em,
+.postbox#acfe-acf-custom-fields em{
+    color:#aaa;
+}
+
+.acfe_dev_meta_count{
+    background: #72777c;
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: #fff;
+    margin-left: 3px;
+    font-size: 12px;
+}
+
 /* 
  * Select2: WP 5.2 Fix
  */
