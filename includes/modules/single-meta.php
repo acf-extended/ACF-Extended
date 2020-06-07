@@ -494,7 +494,7 @@ class acfe_single_meta{
     
     function load_user(){
         
-        add_meta_box('acfe-clean-meta', 'ACF Single Meta', array($this, 'render_metabox'), 'edit-user', 'normal', 'default');
+        add_meta_box('acfe-clean-meta', 'ACF Single Meta', array($this, 'render_metabox'), 'user-edit', 'side', 'default');
         
     }
     

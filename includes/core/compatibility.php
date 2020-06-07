@@ -9,17 +9,25 @@ class acfe_compatibility{
     
 	function __construct(){
         
-        add_action('acf/init',              array($this, 'init'), 99);
+        add_action('acf/init',              array($this, 'init'), 98);
         
         add_filter('pll_get_post_types',    array($this, 'polylang'), 10, 2);
         
 	}
     
     function init(){
+    
+        /**
+         * ACF Extended: 0.8.6.3
+         * Settings: Renamed 'acfe/modules/taxonomies' to 'acfe/modules/ui'
+         */
+        if(acf_get_setting('acfe/modules/taxonomies') !== null){
+            acf_update_setting('acfe/modules/ui', acf_get_setting('acfe/modules/taxonomies'));
+        }
         
         /**
          * ACF Extended: 0.8
-         * Settings: Renamed acfe_php* to acfe/php*
+         * Settings: Renamed 'acfe_php*' to 'acfe/php*'
          */
         if(acf_get_setting('acfe_php') !== null){
             acf_update_setting('acfe/php', acf_get_setting('acfe_php'));

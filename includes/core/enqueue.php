@@ -19,9 +19,9 @@ function acfe_enqueue_admin_scripts(){
     wp_enqueue_style('acf-extended-admin', acfe_get_url('assets/acf-extended-admin.css'), false, ACFE_VERSION);
     
     // Better Taxonomies
-    if(acf_get_setting('acfe/modules/taxonomies')){
+    if(acf_get_setting('acfe/modules/ui')){
         
-        wp_enqueue_style('acf-extended-taxonomies', acfe_get_url('assets/acf-extended-taxonomies.css'), false, ACFE_VERSION);
+        wp_enqueue_style('acf-extended-ui', acfe_get_url('assets/acf-extended-ui.css'), false, ACFE_VERSION);
         
     }
 

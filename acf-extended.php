@@ -61,10 +61,8 @@ class ACFE{
             'acfe/modules/dynamic_post_types'       => true,
             'acfe/modules/dynamic_taxonomies'       => true,
             'acfe/modules/options'                  => true,
-            'acfe/modules/settings'                 => true,
             'acfe/modules/single_meta'              => false,
-            'acfe/modules/taxonomies'               => true,
-            'acfe/modules/users'                    => true,
+            'acfe/modules/ui'                       => true,
         );
         
         // Init
