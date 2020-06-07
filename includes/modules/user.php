@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 // Check setting
-if(!acf_get_setting('acfe/modules/users'))
+if(!acf_get_setting('acfe/modules/ui'))
     return;
 
 /**
@@ -47,22 +47,25 @@ function acfe_better_user_edit_admin_footer(){
 
                 </div>
                 
-                <?php do_meta_boxes(get_current_screen(), 'side', array()); ?>
+                <?php do_meta_boxes('user-edit', 'side', array()); ?>
 
             </div>
         </div>
     </script>
     <script type="text/javascript">
         (function($){
+            
+            // ACF Extended UI
+            $('.wrap').addClass('acfe-ui');
 
             // wrap form
-            $('#profile-page > form').wrapInner('<div class="acf-columns-2"><div class="acf-column-1"></div></div>');
+            $('.acfe-ui > form').wrapInner('<div class="acf-columns-2"><div class="acf-column-1"></div></div>');
 
             // add column side
-            $('#profile-page > form .acf-columns-2').append($('#tmpl-acf-column-2').html());
+            $('.acfe-ui > form .acf-columns-2').append($('#tmpl-acf-column-2').html());
             
             // hide native button
-            $('#profile-page > form p.submit').hide();
+            $('.acfe-ui > form p.submit').hide();
 
         })(jQuery);
     </script>
@@ -116,21 +119,22 @@ function acfe_better_user_new_admin_footer(){
     </script>
     <script type="text/javascript">
         (function($){
-            
-            $('.wrap').attr('id', 'profile-page');
+
+            // ACF Extended UI
+            $('.wrap').addClass('acfe-ui');
 
             // wrap form
-            $('#profile-page > form').wrapInner('<div class="acf-columns-2"><div class="acf-column-1"></div></div>');
+            $('.acfe-ui > form').wrapInner('<div class="acf-columns-2"><div class="acf-column-1"></div></div>');
 
             // add column side
-            $('#profile-page > form .acf-columns-2').append($('#tmpl-acf-column-2').html());
+            $('.acfe-ui > form .acf-columns-2').append($('#tmpl-acf-column-2').html());
 
             // add title
             var title = $('.wrap > h1').text();
-            $('#profile-page > form > div > div > table:first').before('<h2>' + title + '</h2>');
+            $('.acfe-ui > form > div > div > table:first').before('<h2>' + title + '</h2>');
             
             // Hide native button
-            $('#profile-page > form p.submit').hide();
+            $('.acfe-ui > form p.submit').hide();
 
         })(jQuery);
     </script>

@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 // Check setting
-if(!acf_get_setting('acfe/modules/taxonomies'))
+if(!acf_get_setting('acfe/modules/ui'))
     return;
 
 /**
@@ -155,19 +155,22 @@ function acfe_better_taxonomy_edit_admin_footer(){
     </script>
     <script type="text/javascript">
     (function($){
-        
+
+        // ACF Extended UI
+        $('.wrap').addClass('acfe-ui');
+
         // wrap form
-        $('#edittag').wrapInner('<div class="acf-columns-2"><div class="acf-column-1"></div></div>');
-        
+        $('.acfe-ui > form').wrapInner('<div class="acf-columns-2"><div class="acf-column-1"></div></div>');
+
         // add column side
-        $('#edittag .acf-columns-2').append($('#tmpl-acf-column-2').html());
-        
+        $('.acfe-ui > form .acf-columns-2').append($('#tmpl-acf-column-2').html());
+
         // add title
         var title = $('.wrap > h1').text();
-        $('#edittag > div > div > table:first').before('<h2>' + title + '</h2>');
-        
-        // hide native button
-        $('#edittag .edit-tag-actions').hide();
+        $('.acfe-ui > form > div > div > table:first').before('<h2>' + title + '</h2>');
+
+        // Hide native button
+        $('.acfe-ui > form .edit-tag-actions').hide();
         
     })(jQuery);
     </script>
