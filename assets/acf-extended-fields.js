@@ -158,10 +158,7 @@ function acfe_recaptcha(){
             
             this.rows = this.$control().data('rows');
             this.max_rows = this.$control().data('max-rows');
-            
-            this.mode = this.$control().data('mode');
-            this.lines = this.$control().data('lines');
-            this.indentUnit = this.$control().data('indent-unit');
+            this.settings = this.$control().data('settings');
 
             var codeEditor = [];
 
@@ -169,24 +166,19 @@ function acfe_recaptcha(){
             var wpCodeMirror = wp.codeEditor.defaultSettings.codemirror;
 
             // Field settings
-            var CodeMirror = {
-                lineNumbers: this.lines,
-                lineWrapping: true,
-                styleActiveLine: false,
-                continueComments: true,
-                indentUnit: this.indentUnit,
-                tabSize: 1,
-                indentWithTabs: true,
-                mode: this.mode,
-                extraKeys: {
-                    Tab: function(cm){
-                        cm.execCommand("indentMore")
-                    },
-                    "Shift-Tab": function(cm){
-                        cm.execCommand("indentLess")
+            var CodeMirror = jQuery.extend(
+                {
+                    extraKeys: {
+                        Tab: function(cm){
+                            cm.execCommand("indentMore")
+                        },
+                        "Shift-Tab": function(cm){
+                            cm.execCommand("indentLess")
+                        },
                     },
                 },
-            };
+                this.settings
+            );
 
             // Merge settings
             var codeMirror = jQuery.extend(wpCodeMirror, CodeMirror);

@@ -23,9 +23,16 @@ class acfe_field_code_editor extends acf_field{
 			'indent_unit'   => 4,
 			'maxlength'		=> '',
 			'rows'			=> '',
-			'max_rows'      => ''
+			'max_rows'      => '',
+            'settings'      => array(),
         );
-        
+        $this->default_codemirror_settings = array(
+            'lineWrapping'     => true,
+            'styleActiveLine'  => false,
+            'continueComments' => true,
+            'tabSize'          => 1,
+            'indentWithTabs'   => true,
+        );
         $this->textarea = acf_get_field_type('textarea');
         
         parent::__construct();
@@ -34,13 +41,19 @@ class acfe_field_code_editor extends acf_field{
 
     function render_field($field){
         
+        $settings = array(
+            'mode'        => $field['mode'],
+            'lineNumbers' => $field['lines'],
+            'indentUnit'  => $field['indent_unit'],
+            'placeholder' => $field['placeholder'],
+        );
+        $settings = wp_parse_args( $field['settings'], array_merge( $this->default_codemirror_settings, $settings ) );
+
         $wrapper = array(
             'class'             => 'acf-input-wrap acfe-field-code-editor',
-            'data-mode'         => $field['mode'],
-            'data-lines'        => $field['lines'],
-            'data-indent-unit'  => $field['indent_unit'],
             'data-rows'         => $field['rows'],
             'data-max-rows'     => $field['max_rows'],
+            'data-settings'     => json_encode( $settings ),
         );
         
         $field['type'] = 'textarea';
