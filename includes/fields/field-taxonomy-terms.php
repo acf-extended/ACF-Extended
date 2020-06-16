@@ -48,26 +48,6 @@ class acfe_field_taxonomy_terms extends acf_field{
         
     }
     
-    function ajax_query(){
-        
-        // validate
-        if(!acf_verify_ajax())
-            die();
-        
-        // get choices
-        $response = $this->get_ajax_query($_POST);
-        
-        // return
-        acf_send_ajax_results($response);
-        
-    }
-    
-    function get_ajax_query($options = array()){
-        
-        //acf_log($options);
-        
-    }
-    
     function ajax_query_allowed_terms(){
         
         // validate
@@ -94,10 +74,10 @@ class acfe_field_taxonomy_terms extends acf_field{
             'level'         => false,
         ));
         
-        // get grouped terms
-        $args = array('taxonomy' => $options['taxonomies']);
-        
-        $terms = acf_get_grouped_terms($args);
+        // Get grouped terms
+        $terms = acf_get_grouped_terms(array(
+            'taxonomy' => $options['taxonomies']
+        ));
         
         if($options['level'] >= 1){
             
@@ -201,195 +181,362 @@ class acfe_field_taxonomy_terms extends acf_field{
             
     }
     
-    function get_available_terms($field){
+    function get_terms($field, $args = array()){
         
         // Allow Terms
         $choices = array();
         
+        // Get allowed taxonomies
         $taxonomies = acf_get_taxonomy_labels(acf_get_array($field['taxonomy']));
         
-        $all_terms = get_terms(array(
-            'taxonomy'      => array_keys($taxonomies),
-            'hide_empty'    => false,
-        ));
+        $args['taxonomy'] = array_keys($taxonomies);
         
-        if(!empty($all_terms)){
+        // Get terms
+        $all_terms = acf_get_terms($args);
+        
+        if(empty($all_terms))
+            return $choices;
+        
+        $choices = $this->filter_terms($all_terms, $field);
+        
+        return $choices;
+        
+    }
+    
+    function filter_terms($all_terms, $field){
+        
+        if(empty($field['taxonomy']) && empty($field['allow_terms'])){
+    
+            $terms = wp_list_pluck($all_terms, 'term_id');
+    
+            $terms = array_unique($terms);
+    
+            $choices = $this->convert_terms_to_choices($terms);
+    
+            return $choices;
             
-            foreach($all_terms as $term_id => &$_term){
+        }
+    
+        $terms = array();
+        
+        // Filter taxonomy terms
+        if(!empty($field['taxonomy'])){
+    
+            $allowed_tax_terms = array();
+    
+            foreach($all_terms as $term){
                 
+                if(!in_array($term->taxonomy, $field['taxonomy']))
+                    continue;
+    
+                $allowed_tax_terms[] = $term;
+        
+            }
+            
+            $all_terms = $allowed_tax_terms;
+            
+        }
+        
+        if(empty($field['allow_terms'])){
+    
+            $terms = $all_terms;
+            
+        // Filter allowed terms
+        }else{
+    
+            // Add term level
+            foreach($all_terms as $term_id => &$_term){
+        
                 $level = acfe_get_term_level($_term->term_id, $_term->taxonomy);
                 $_term->level = $level;
-                
+        
             }
+    
+            foreach($field['allow_terms'] as $id){
+        
+                // All terms
+                if(acfe_starts_with($id, 'all_')){
             
-            if(!empty($field['allow_terms'])){
+                    $taxonomy = substr($id, 4);
+            
+                    $level = false;
+            
+                    if(stripos($taxonomy, '|') !== false){
                 
-                $terms = array();
+                        $level = explode('|', $taxonomy);
+                        $taxonomy = $level[0];
+                        $level = $level[1];
                 
-                foreach($field['allow_terms'] as $id){
-                    
-                    // All terms
-                    if(acfe_starts_with($id, 'all_')){
-                        
-                        $taxonomy = substr($id, 4);
-                        
-                        $level = false;
-                        
-                        if(stripos($taxonomy, '|') !== false){
-                            
-                            $level = explode('|', $taxonomy);
-                            $taxonomy = $level[0];
-                            $level = $level[1];
-                            
-                        }
-                        
-                        if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
-                            continue;
-                        
-                        $keep = array();
-                        
-                        if($level){
-                            
-                            foreach($all_terms as $all_term){
-                                
-                                if((int) $all_term->level !== (int) $level || $all_term->taxonomy !== $taxonomy)
-                                    continue;
-                                
-                                $keep[] = $all_term->term_id;
-                                
-                            }
-                            
-                        }else{
-                            
-                            foreach($all_terms as $all_term){
-                                
-                                if($all_term->taxonomy !== $taxonomy)
-                                    continue;
-                                
-                                $keep[] = $all_term->term_id;
-                                
-                            }
-                            
-                        }
-                        
-                        $terms = array_merge($terms, acf_array($keep));
-                        
                     }
-                    
-                    // Terms childs
-                    elseif(acfe_ends_with($id, '_childs')){
-                        
-                        $term_id = substr($id, 0, -7);
-                        $term = get_term($term_id);
-                        $taxonomy = $term->taxonomy;
-                        
-                        if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
-                            continue;
-                        
-                        $keep = array();
-                        
+            
+                    if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
+                        continue;
+            
+                    $keep = array();
+            
+                    if($level){
+                
                         foreach($all_terms as $all_term){
-                            
-                            if((int) $all_term->parent !== (int) $term_id || $all_term->taxonomy !== $taxonomy)
+                    
+                            if((int) $all_term->level !== (int) $level || $all_term->taxonomy !== $taxonomy)
                                 continue;
-                            
-                            $keep[] = $all_term->term_id;
-                            
+                    
+                            $keep[] = $all_term;
+                    
                         }
-                        
-                        $terms = array_merge($terms, acf_array($keep));
-                        
+                
+                    }else{
+                
+                        foreach($all_terms as $all_term){
+                    
+                            if($all_term->taxonomy !== $taxonomy)
+                                continue;
+                    
+                            $keep[] = $all_term;
+                    
+                        }
+                
                     }
-                    
-                    // Term
-                    else{
-                    
-                        $term = get_term($id);
-                        $taxonomy = $term->taxonomy;
-                        
-                        if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
-                            continue;
-                        
-                        $keep = array();
-                        $keep[] = $term->term_id;
-                        
-                        $terms = array_merge($terms, acf_array($keep));
-                    
-                    }
-                    
+            
+                    $terms = array_merge($terms, acf_array($keep));
+            
                 }
+        
+                // Terms childs
+                elseif(acfe_ends_with($id, '_childs')){
+            
+                    $term_id = substr($id, 0, -7);
+                    $term = get_term($term_id);
+                    $taxonomy = $term->taxonomy;
+            
+                    if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
+                        continue;
+            
+                    $keep = array();
+            
+                    foreach($all_terms as $all_term){
                 
+                        if((int) $all_term->parent !== (int) $term_id || $all_term->taxonomy !== $taxonomy)
+                            continue;
+                
+                        $keep[] = $all_term;
+                
+                    }
+            
+                    $terms = array_merge($terms, acf_array($keep));
+            
+                }
+        
+                // Term
+                else{
+            
+                    $term = get_term($id);
+                    $taxonomy = $term->taxonomy;
+            
+                    if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
+                        continue;
+            
+                    $keep = array();
+                    $keep[] = $term;
+            
+                    $terms = array_merge($terms, acf_array($keep));
+            
+                }
+        
             }
             
-            // All terms
-            else{
-                
-                $terms = wp_list_pluck($all_terms, 'term_id');
-                
-            }
+        }
+    
+        $terms = wp_list_pluck($terms, 'term_id');
+        
+        $terms = array_unique($terms);
+    
+        $choices = $this->convert_terms_to_choices($terms);
+        
+        return $choices;
+        
+    }
+    
+    function convert_terms_to_choices($terms = array()){
+        
+        $choices = array();
+        
+        if(!empty($terms)){
             
-            $terms = array_unique($terms);
+            $terms = acf_get_grouped_terms(array(
+                'include' => $terms
+            ));
             
-            if(!empty($terms)){
-                
-                $terms = acf_get_grouped_terms(array(
-                    'include' => $terms
-                ));
-                
-                $choices = acf_get_choices_from_grouped_terms($terms, 'name');
-                
-            }
+            $choices = acf_get_choices_from_grouped_terms($terms, 'name');
             
         }
         
         return $choices;
         
     }
+    
+    function ajax_query(){
+        
+        // validate
+        if(!acf_verify_ajax())
+            die();
+        
+        // get choices
+        $response = $this->get_ajax_query($_POST);
+        
+        // return
+        acf_send_ajax_results($response);
+        
+    }
+    
+    function get_ajax_query($options = array()){
+        
+        // defaults
+        $options = acf_parse_args($options, array(
+            'post_id'		=> 0,
+            's'				=> '',
+            'field_key'		=> '',
+            'paged'			=> 0
+        ));
+        
+        // load field
+        $field = acf_get_field($options['field_key']);
+        
+        if(!$field)
+            return false;
+        
+        // Args
+        $args = array();
+        
+        // vars
+        $results = array();
+    
+        // search
+        if($options['s'] !== '') {
+        
+            // strip slashes (search may be integer)
+            $s = wp_unslash(strval($options['s']));
+            
+            // update vars
+            $args['search'] = $s;
+        
+        }
+        
+        $terms = $this->get_terms($field, $args);
+        
+        if(!empty($terms)){
+            
+            foreach($terms as $taxonomy => $term){
+    
+                $data = array(
+                    'text'		=> $taxonomy,
+                    'children'	=> array()
+                );
+                
+                foreach($term as $term_id => $term_name){
+    
+                    $data['children'][] = array(
+                        'id' => $term_id,
+                        'text' => $term_name
+                    );
+                    
+                }
+    
+                $results[] = $data;
+                
+            }
+            
+        }
+        
+        // vars
+        $response = array(
+            'results'	=> $results
+        );
+        
+        // return
+        return $response;
+        
+    }
 
     function prepare_field($field){
         
-        // Available choices
-        $field['choices'] = $this->get_available_terms($field);
-	
-	    // Allow Custom
-	    if(acf_maybe_get($field, 'allow_custom')){
-		
-		    if($value = acf_maybe_get($field, 'value')){
-			
-			    $value = acf_get_array($value);
-			
-			    foreach($value as $v){
-			    	
-			    	$found = false;
-			    	
-			    	foreach($field['choices'] as $taxonomy => $term){
-			    		
-			    		if(isset($term[$v])){
-			    			
-			    			$found = true;
-			    			break;
-			    			
-					    }
-			    		
-				    }
-			    	
-			    	if(!$found)
-			    		$field['choices'][$v] = $v;
-				
-			    }
-			
-		    }
-		
-	    }
+        // Value
+        $value = acf_maybe_get($field, 'value');
+        $value = acf_get_array($value);
         
-        // Set Field Type
+        // Choices
+        $field['choices'] = array();
+        
+        // Allow custom
+        $allow_custom = acf_maybe_get($field, 'allow_custom');
+    
+        // Field Type
         $field['type'] = $field['field_type'];
-        
-        if($field['type'] === 'select' && $field['ui'] && $field['ajax']){
+    
+        // Normal choices
+        if($field['type'] !== 'select' || !$field['ui'] || !$field['ajax']){
+    
+            $field['choices'] = $this->get_terms($field);
+            
+        // Ajax choices
+        }else{
             
             $field['ajax_action'] = 'acf/fields/acfe_taxonomy_terms/query';
+    
+            $all_terms = array();
+            $terms = array_unique($value);
+    
+            foreach($terms as $term_id){
+        
+                $term = get_term($term_id);
+        
+                if(!is_a($term, 'WP_Term'))
+                    continue;
+        
+                $all_terms[] = $term;
+        
+            }
+    
+            if(!empty($all_terms)){
+        
+                $terms = $this->filter_terms($all_terms, $field);
+        
+                foreach($terms as $taxonomy => $term){
+                    foreach($term as $term_id => $term_name){
+                
+                        $field['choices'][$term_id] = $term_name;
+                
+                    }
+                }
+        
+            }
             
         }
+	
+	    // Allow Custom
+	    if($allow_custom){
+			
+            foreach($value as $v){
+                
+                $found = false;
+                
+                foreach($field['choices'] as $taxonomy => $term){
+                    
+                    if(isset($term[$v])){
+                        
+                        $found = true;
+                        break;
+                        
+                    }
+                    
+                }
+                
+                if(!$found)
+                    $field['choices'][$v] = $v;
+            
+            }
+		
+	    }
         
         return $field;
         
