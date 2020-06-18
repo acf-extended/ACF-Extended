@@ -145,7 +145,9 @@ class ACFE{
         acfe_include('includes/fields-settings/bidirectional.php');
         acfe_include('includes/fields-settings/data.php');
         acfe_include('includes/fields-settings/fields.php');
+        acfe_include('includes/fields-settings/min-max.php');
         acfe_include('includes/fields-settings/permissions.php');
+        acfe_include('includes/fields-settings/required.php');
         acfe_include('includes/fields-settings/settings.php');
         acfe_include('includes/fields-settings/validation.php');
         
