@@ -3,6 +3,33 @@
     if(typeof acf === 'undefined')
         return;
 
+    var fieldAfterManager = new acf.Model({
+
+        actions: {
+            'new_field' : 'onNewField'
+        },
+
+        onNewField: function(field){
+
+            // bail early if not after
+            if(!field.has('after'))
+                return;
+
+            console.log(field);
+
+            // vars
+            var after = field.get('after');
+            var $sibling = field.$el.siblings('[data-name="' + after + '"]').first();
+
+            // bail early if no sibling
+            if(!$sibling.length)
+                return;
+
+            $sibling.after(field.$el);
+
+        }
+    });
+
     /*
      * ACF Extended: 0.8.4.5
      * Field Flexible Content: Fix duplicated "layout_settings" & "layout_title"
