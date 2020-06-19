@@ -213,6 +213,23 @@ class ACFE{
         acfe_include('includes/fields/field-taxonomy-terms.php');
         acfe_include('includes/fields/field-user-roles.php');
         
+        acfe_include('includes/fields/field-post-attributes.php');
+        acfe_include('includes/fields/field-post-author.php');
+        acfe_include('includes/fields/field-post-comments.php');
+        acfe_include('includes/fields/field-post-content.php');
+        acfe_include('includes/fields/field-post-date.php');
+        acfe_include('includes/fields/field-post-discussion.php');
+        acfe_include('includes/fields/field-post-excerpt.php');
+        acfe_include('includes/fields/field-post-featured-image.php');
+        acfe_include('includes/fields/field-post-name.php');
+        acfe_include('includes/fields/field-post-permalink.php');
+        acfe_include('includes/fields/field-post-revisions.php');
+        acfe_include('includes/fields/field-post-revisions-list.php');
+        acfe_include('includes/fields/field-post-status.php');
+        acfe_include('includes/fields/field-post-title.php');
+        acfe_include('includes/fields/field-post-trackbacks.php');
+        acfe_include('includes/fields/field-post-visibility.php');
+        
     }
     
     /**
