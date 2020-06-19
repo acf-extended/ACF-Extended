@@ -860,7 +860,7 @@ function acfe_recaptcha(){
         wait: 'new_field',
         
         type: 'acfe_column',
-        
+
         $control: function(){
 			return this.$('.acf-fields:first');
 		},
@@ -901,6 +901,609 @@ function acfe_recaptcha(){
     });
 
     acf.registerFieldType(Column);
+
+    /**
+     * Field: Post Attributes
+     */
+    var Post_Attributes = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_attributes',
+
+        initialize: function(){
+
+            var $field = $('#pageparentdiv > .inside');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+            $('#pageparentdiv').remove();
+            $('.metabox-prefs > label[for="pageparentdiv-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Attributes);
+
+    /**
+     * Field: Post Author
+     */
+    var Post_Author = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_author',
+
+        initialize: function(){
+
+            var type = 'acfe';
+            var $field = $('#acf-group_acfe_author > .inside');
+
+            if(!$field.length){
+
+                type = 'wp';
+                $field = $('#authordiv > .inside');
+
+            }
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+            if(type === 'acfe'){
+
+                $('#acf-group_acfe_author').remove();
+                $('.metabox-prefs > label[for="acf-group_acfe_author-hide"]').remove();
+
+            }else{
+
+                $('#authordiv').remove();
+                $('.metabox-prefs > label[for="authordiv-hide"]').remove();
+
+            }
+
+
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Author);
+
+    /**
+     * Field: Post Comments
+     */
+    var Post_Comments = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_comments',
+
+        initialize: function(){
+
+            var $field = $('#commentsdiv > .inside');
+
+            if(!$field.length || $field.parent().parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap()).wrapAll('<div id="commentsdiv" />');
+
+            $('#normal-sortables > #commentsdiv').remove();
+            $('.metabox-prefs > label[for="commentsdiv-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Comments);
+
+    /**
+     * Field: Post Content
+     */
+    var Post_Content = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_content',
+
+        initialize: function(){
+
+            var $field = $('#postdivrich');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Content);
+
+    /**
+     * Field: Post Date
+     */
+    var Post_Date = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_date',
+
+        initialize: function(){
+
+            var $field = $('.misc-pub-curtime');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Date);
+
+    /**
+     * Field: Post Discussion
+     */
+    var Post_Discussion = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_discussion',
+
+        initialize: function(){
+
+            var $field = $('#commentstatusdiv > .inside');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+            $('#commentstatusdiv').remove();
+            $('.metabox-prefs > label[for="commentstatusdiv-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Discussion);
+
+    /**
+     * Field: Post Excerpt
+     */
+    var Post_Excerpt = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_excerpt',
+
+        initialize: function(){
+
+            var $field = $('#postexcerpt > .inside');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+            $('#postexcerpt').remove();
+            $('.metabox-prefs > label[for="postexcerpt-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Excerpt);
+
+    /**
+     * Field: Post Featured Image
+     */
+    var Post_Featured_Image = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_featured_image',
+
+        initialize: function(){
+
+            var $field = $('#postimagediv > .inside');
+
+            if(!$field.length || $field.parent().parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap()).wrapAll('<div id="postimagediv" />');
+
+            $('#side-sortables > #postimagediv').remove();
+            $('.metabox-prefs > label[for="postimagediv-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Featured_Image);
+
+    /**
+     * Field: Post Name
+     */
+    var Post_Name = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_name',
+
+        initialize: function(){
+
+            var $field = $('#slugdiv > .inside');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+            $('#slugdiv').remove();
+            $('.metabox-prefs > label[for="slugdiv-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Name);
+
+    /**
+     * Field: Post Permalink
+     */
+    var Post_Permalink = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_permalink',
+
+        events: {
+            'click .edit-slug': 'onClick',
+        },
+
+        initialize: function(){
+
+            var $field = $('#edit-slug-box');
+            var $nonce = $('#samplepermalinknonce');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap()).find('> strong').remove();
+            $nonce.appendTo(this.$inputWrap());
+
+        },
+
+        onClick: function(){
+
+            /*
+             * Source: /wp-admin/js/post.js:947
+             */
+            var i, slug_value,
+                $el, revert_e,
+                c = 0,
+                postId = $('#post_ID').val() || 0,
+                real_slug = $('#post_name'),
+                revert_slug = real_slug.val(),
+                permalink = $( '#sample-permalink' ),
+                permalinkOrig = permalink.html(),
+                permalinkInner = $( '#sample-permalink a' ).html(),
+                buttons = $('#edit-slug-buttons'),
+                buttonsOrig = buttons.html(),
+                full = $('#editable-post-name-full');
+
+            // Deal with Twemoji in the post-name.
+            full.find( 'img' ).replaceWith( function() { return this.alt; } );
+            full = full.html();
+
+            permalink.html( permalinkInner );
+
+            // Save current content to revert to when cancelling.
+            $el = $( '#editable-post-name' );
+            revert_e = $el.html();
+
+            buttons.html( '<button type="button" class="save button button-small">' + postL10n.ok + '</button> <button type="button" class="cancel button-link">' + postL10n.cancel + '</button>' );
+
+            // Save permalink changes.
+            buttons.children( '.save' ).click( function() {
+                var new_slug = $el.children( 'input' ).val();
+
+                if ( new_slug == $('#editable-post-name-full').text() ) {
+                    buttons.children('.cancel').click();
+                    return;
+                }
+
+                $.post(
+                    ajaxurl,
+                    {
+                        action: 'sample-permalink',
+                        post_id: postId,
+                        new_slug: new_slug,
+                        new_title: $('#title').val(),
+                        samplepermalinknonce: $('#samplepermalinknonce').val()
+                    },
+                    function(data) {
+                        var box = $('#edit-slug-box');
+                        box.html(data);
+
+                        box.find('> strong').remove();
+
+                        if (box.hasClass('hidden')) {
+                            box.fadeIn('fast', function () {
+                                box.removeClass('hidden');
+                            });
+                        }
+
+                        buttons.html(buttonsOrig);
+                        permalink.html(permalinkOrig);
+                        real_slug.val(new_slug);
+                        $( '.edit-slug' ).focus();
+                        wp.a11y.speak( postL10n.permalinkSaved );
+                    }
+                );
+            });
+
+            // Cancel editing of permalink.
+            buttons.children( '.cancel' ).click( function() {
+                $('#view-post-btn').show();
+                $el.html(revert_e);
+                buttons.html(buttonsOrig);
+                permalink.html(permalinkOrig);
+                real_slug.val(revert_slug);
+                $( '.edit-slug' ).focus();
+            });
+
+            // If more than 1/4th of 'full' is '%', make it empty.
+            for ( i = 0; i < full.length; ++i ) {
+                if ( '%' == full.charAt(i) )
+                    c++;
+            }
+            slug_value = ( c > full.length / 4 ) ? '' : full;
+
+            $el.html( '<input type="text" id="new-post-slug" value="' + slug_value + '" autocomplete="off" />' ).children( 'input' ).keydown( function( e ) {
+                var key = e.which;
+                // On [Enter], just save the new slug, don't save the post.
+                if ( 13 === key ) {
+                    e.preventDefault();
+                    buttons.children( '.save' ).click();
+                }
+                // On [Esc] cancel the editing.
+                if ( 27 === key ) {
+                    buttons.children( '.cancel' ).click();
+                }
+            } ).keyup( function() {
+                real_slug.val( this.value );
+            }).focus();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Permalink);
+
+    /**
+     * Field: Post Revisions
+     */
+    var Post_Revisions = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_revisions',
+
+        initialize: function(){
+
+            var $field = $('.misc-pub-revisions');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Revisions);
+
+    /**
+     * Field: Post Revisions List
+     */
+    var Post_Revisions_List = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_revisions_list',
+
+        initialize: function(){
+
+            var $field = $('#revisionsdiv > .inside');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+            $('#revisionsdiv').remove();
+            $('.metabox-prefs > label[for="revisionsdiv-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Revisions_List);
+
+    /**
+     * Field: Post Status
+     */
+    var Post_Status = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_status',
+
+        initialize: function(){
+
+            var $field = $('.misc-pub-post-status');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Status);
+
+    /**
+     * Field: Post Title
+     */
+    var Post_Title = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_title',
+
+        initialize: function(){
+
+            var $field = $('#titlediv > #titlewrap > #title');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Title);
+
+    /**
+     * Field: Post Trackbacks
+     */
+    var Post_Trackbacks = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_trackbacks',
+
+        initialize: function(){
+
+            var $field = $('#trackbacksdiv > .inside');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+            $('#trackbacksdiv').remove();
+            $('.metabox-prefs > label[for="trackbacksdiv-hide"]').remove();
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Trackbacks);
+
+    /**
+     * Field: Post Visibility
+     */
+    var Post_Visibility = acf.Field.extend({
+
+        wait: false,
+
+        type: 'acfe_post_visibility',
+
+        initialize: function(){
+
+            var $field = $('.misc-pub-visibility');
+
+            if(!$field.length || $field.parent().hasClass('acf-input')){
+
+                this.$el.remove();
+                return;
+
+            }
+
+            $field.appendTo(this.$inputWrap());
+
+        }
+
+    });
+
+    acf.registerFieldType(Post_Visibility);
     
     /**
      * Field: Taxonomy Terms - Ajax
