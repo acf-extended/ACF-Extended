@@ -15,6 +15,8 @@ class acfe_location_post_type_archive{
         add_action('init',                                          array($this, 'init'), 99);
         add_action('current_screen',                                array($this, 'current_screen'));
         
+        add_action('admin_bar_menu',                                array($this, 'admin_bar'), 90);
+        
         add_filter('acf/get_options_pages',                         array($this, 'get_options_pages'));
         
         add_filter('acf/location/rule_types',                       array($this, 'location_types'));
@@ -41,8 +43,8 @@ class acfe_location_post_type_archive{
                 $parent_slug = 'edit.php';
             
             acf_add_options_page(array(
-                'page_title' 	            => $object->label . ' Archive',
-                'menu_title'	            => 'Archive',
+                'page_title' 	            => $object->label . ' ' . __('Archive'),
+                'menu_title'	            => __('Archive'),
                 'menu_slug' 	            => $name . '-archive',
                 'post_id'                   => $name . '_archive',
                 'capability'	            => acf_get_setting('capability'),
@@ -81,6 +83,7 @@ class acfe_location_post_type_archive{
     }
     
     function admin_footer(){
+	    
         ?>
         <div id="tmpl-acf-after-title">
             <div style="margin-top:7px;">
@@ -96,6 +99,27 @@ class acfe_location_post_type_archive{
         })(jQuery);
         </script>
         <?php
+        
+    }
+    
+    function admin_bar($wp_admin_bar){
+	    
+	    if(is_admin() || !is_post_type_archive())
+	        return;
+    
+        $post_type_obj = get_post_type_object(get_post_type());
+    
+        if(!isset($post_type_obj->has_archive) || empty($post_type_obj->has_archive))
+            return;
+    
+        $wp_admin_bar->add_node(array(
+            'id'    	=> 'edit',
+            'title' 	=> 'Edit ' . $post_type_obj->label . ' ' . __('Archive'),
+            'parent' 	=> false,
+            'href' 		=> add_query_arg(array('post_type' => $post_type_obj->name, 'page' => $post_type_obj->name . '-archive'), admin_url('edit.php')),
+            'meta'		=> array('class' => 'ab-item')
+        ));
+        
     }
     
     function get_options_pages($pages){

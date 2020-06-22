@@ -24,6 +24,7 @@ class acfe_field_validation{
             'General' => array(
                 'value'                 => 'If value',
                 'strlen'                => 'If value length - strlen(value)',
+                'count'                 => 'If count value - count(value)',
             ),
             
             'Exists' => array(
@@ -37,6 +38,16 @@ class acfe_field_validation{
             'Is' => array(
                 'is_email'              => 'If is email - is_email(value)',
                 'is_user_logged_in'     => 'If is user logged in - is_user_logged_in()',
+                'is_array'              => 'If is array - is_array(value)',
+                'is_string'             => 'If is string - is_string(value)',
+                'is_numeric'            => 'If is numeric - is_numeric(value)',
+            ),
+
+            'Post' => array(
+                'get_post_type'         => 'If get post type - get_post_type(value)',
+                'get_post_by_id'        => 'If post id exists - get_post_by_id(value)',
+                'get_post_by_slug'      => 'If post slug exists - get_post_by_slug(value)',
+                'get_post_by_title'     => 'If post title exists - get_post_by_title(value)',
             ),
             
             'Sanitize' => array(
@@ -235,11 +246,13 @@ class acfe_field_validation{
                                     '<'         => '<',
                                     '<='        => '<=',
                                     'contains'  => 'Contains',
-                                    '!contains'  => 'Doesn\'t contain',
+                                    '!contains' => 'Doesn\'t contain',
                                     'starts'    => 'Starts with',
-                                    '!starts'    => 'Doesn\'t start with',
+                                    '!starts'   => 'Doesn\'t start with',
                                     'ends'      => 'Ends with',
-                                    '!ends'      => 'Doesn\'t end with',
+                                    '!ends'     => 'Doesn\'t end with',
+                                    'regex'     => 'Matches regex',
+                                    '!regex'    => 'Doesn\'t matches regex',
                                 ),
                                 'Values'     => array(
                                     'true'  => '== true',
@@ -356,6 +369,20 @@ class acfe_field_validation{
                                         'field'     => 'acfe_validate_operator',
                                         'operator'  => '==',
                                         'value'     => '!ends',
+                                    )
+                                ),
+                                array(
+                                    array(
+                                        'field'     => 'acfe_validate_operator',
+                                        'operator'  => '==',
+                                        'value'     => 'regex',
+                                    )
+                                ),
+                                array(
+                                    array(
+                                        'field'     => 'acfe_validate_operator',
+                                        'operator'  => '==',
+                                        'value'     => '!regex',
                                     )
                                 ),
                             )
@@ -536,6 +563,14 @@ class acfe_field_validation{
                     $rule_match = true;
                 }
                 
+                elseif($operator === 'regex' && preg_match($match, $result)){
+                    $rule_match = true;
+                }
+
+                elseif($operator === '!regex' && !preg_match($match, $result)){
+                    $rule_match = true;
+                }
+                
                 elseif($operator === 'true' && $result === true){
                     $rule_match = true;
                 }
@@ -600,6 +635,49 @@ class acfe_field_validation{
     function value($value){
         
         return $value;
+        
+    }
+    
+    function get_post_by_id($value){
+        
+        $get_post = get_post($value);
+        
+        if(!$get_post || is_wp_error($get_post))
+            return false;
+        
+        return true;
+        
+    }
+    
+    function get_post_by_slug($value){
+        
+        $get_posts = get_posts(array(
+            'name'              => $value,
+            'post_type'         => 'any',
+            'post_status'       => 'any',
+            'posts_per_page'    => 1
+        ));
+        
+        if(empty($get_posts))
+            return false;
+        
+        return true;
+        
+    }
+    
+    function get_post_by_title($value){
+        
+        $get_posts = get_posts(array(
+            's'                 => $value,
+            'post_type'         => 'any',
+            'post_status'       => 'any',
+            'posts_per_page'    => 1
+        ));
+        
+        if(empty($get_posts))
+            return false;
+        
+        return true;
         
     }
     
