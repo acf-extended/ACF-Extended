@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 /**
- * Admin: Enqueue everywhere + conditional
+ * Admin: Everywhere
  */
 add_action('admin_enqueue_scripts', 'acfe_enqueue_admin_scripts');
 function acfe_enqueue_admin_scripts(){
@@ -18,7 +18,7 @@ function acfe_enqueue_admin_scripts(){
     wp_enqueue_style('acf-extended', acfe_get_url('assets/acf-extended.css'), false, ACFE_VERSION);
     wp_enqueue_style('acf-extended-admin', acfe_get_url('assets/acf-extended-admin.css'), false, ACFE_VERSION);
     
-    // Better Taxonomies
+    // ACF Extended: UI Enhancements
     if(acf_get_setting('acfe/modules/ui')){
         
         wp_enqueue_style('acf-extended-ui', acfe_get_url('assets/acf-extended-ui.css'), false, ACFE_VERSION);
@@ -36,7 +36,7 @@ function acfe_enqueue_admin_scripts(){
 }
 
 /**
- * Admin + WP: Enqueue where ACF is loaded
+ * Admin + Front: ACF Loaded
  */
 add_action('acf/enqueue_scripts', 'acfe_enqueue_scripts');
 function acfe_enqueue_scripts(){
@@ -58,7 +58,7 @@ function acfe_enqueue_scripts(){
 }
 
 /**
- * Admin: Enqueue where ACF is loaded
+ * Admin: ACF is loaded
  */
 add_action('acf/input/admin_enqueue_scripts', 'acfe_enqueue_admin_input_scripts');
 function acfe_enqueue_admin_input_scripts(){

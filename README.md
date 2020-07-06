@@ -19,6 +19,7 @@
 * WordPress Post Types / Taxonomies Manager
 * WordPress Options Manager
 * WordPress Admin Enhancements
+* WPML & Polylang Multilingual support
 * ... And many more features
 
 ## 🤟 Philosophy
@@ -180,7 +181,7 @@ Choose if an image field should be considered as post featured thumbnail
 * **Field Image: Uploader type**
 Choose the uploader type: Basic or native WP uploader
 
-* **Field Post Object: Allow custom values**
+* **Field Post Object: Allow & save custom values**
 Allow user to enter custom value which will be saved as a new post
 
 * **Field Repeater: Stylised button**
@@ -256,7 +257,7 @@ Create and manage post types from your WordPress administration (Tools > Post Ty
 * Add an Archive Option Page under the post type menu and set your field groups
 * Manual PHP/Json Import & Export is available in the ACF > Tools page
 
-### WordPress: Dynamic Taxonomies
+### 🗄WordPress: Dynamic Taxonomies
 
 Create and manage taxonomies from your WordPress administration (Tools > Taxonomies). All WordPress taxonomies arguments can be set and managed. But also:
 
@@ -273,7 +274,7 @@ The native WP Author Metabox has been replaced with a dynamic version allowing t
 
 Taxonomies list/edit, User edit/add and General Settings views have been enhanced for a more consistent administration experience, using CSS/JS only.
 
-### WordPress: Options
+### 🛠WordPress: Options
 
 Manage WordPress options from Settings > Options.
 
@@ -335,6 +336,7 @@ Manage ACF Block Types from ACF > Block Types.
 * Modal Selection Columns: Change the layout modal columns grid. 1, 2, 3, 4, 5 or 6 columns available
 * Modal Selection Categories: Add category for each layout in the layout modal
 * Modal Settings: Clone field groups and display them as a layout settings modal
+* Layouts Toggle: Hide specific layouts from the front-end
 * Layouts State: Force layouts to be collapsed or opened by default
 * Layouts Collapse: Remove collapse action
 * Layouts: Hide "Add Layout" buttons
@@ -367,6 +369,22 @@ Manage ACF Forms from your WordPress administration. All ACF Form settings are a
 * The function `acf_form_head()` is not needed anymore
 * Manual Import & Export is available in the ACF > Tools page
 
+### WPML & Polylang Multilangual 
+
+Advanced Custom Fields comes with a WPML compatibility module for Fields, Field Groups & Options Page ID. However, it will only take care of Options Pages with the default `options` post id. When WPML is enabled, ACF will translate the post id to `options_{lang}`. ie: `options_en`.
+
+ACF Extended adds a new layer of compatibility for both WPML & Polylang. Options Pages post ids and all ACF Extended Modules (Dynamic Post Type, Taxonomy, Options Pages, Block Type) are now compatible.
+
+#### WPML
+Options Pages with custom post id are automatically translated. ie: `my-theme` will become `my-theme_en` when switching language. If an Options Page was manually registered with a custom post id including a language code at the end, then the post id won't be translated.
+
+Dynamic Post Type, Taxonomy, Options Pages & Block Type items are automatically registered as WPML string, and can be translated using the WPML String Translation module.
+
+#### Polylang
+Options Pages with custom post id are automatically translated. ie: `my-theme` will become `my-theme_en_US` when switching language. If an Options Page was manually registered with a custom post id including a language code at the end, then the post id won't be translated. The module is also compatible with the [ACF Options for Polylang](https://wordpress.org/plugins/acf-options-for-polylang/) plugin.
+
+Dynamic Post Type, Taxonomy, Options Pages & Block Type items are automatically registered as Polylang strings, and can be translated using the Polylang String Translation module.
+
 ### ACF: Single Meta Save (Beta)
 
 Compress all fields values from the current post, term, user or options into one single meta data. This process lighten the database load as values are saved and read from one single row. Once activated and after saving a post/term/user in the administration, all old meta data will be removed and packed together in a meta called `acf`.
@@ -391,6 +409,9 @@ add_filter('acfe/modules/single_meta/post_types', 'my_acfe_single_meta_post_type
 function my_acfe_single_meta_post_types($post_types){
 
     $post_types = array('page', 'my-post-type');
+    
+    // Allow all post types (default):
+    // return array();
 
     // Disable all post types:
     // return false;
@@ -405,6 +426,9 @@ function my_acfe_single_meta_taxonomies($taxonomies){
 
     $taxonomies = array('category', 'my-taxonomy');
 
+    // Allow all taxonomies (default):
+    // return array();
+
     // Disable all taxonomies:
     // return false;
 
@@ -418,6 +442,10 @@ function my_acfe_single_meta_options($options_ids){
 
     $options_ids = array('options', 'my-option-id');
 
+    // Allow all options id:
+    // return array();
+
+
     // Disable all options id (default):
     // return false;
 
@@ -428,7 +456,73 @@ function my_acfe_single_meta_options($options_ids){
 
 Note: It is possible to revert back to the native ACF save process. To do so, keep the feature enabled, get in the post administration you want to revert back. Disable the feature in your code, and save the post. All data will be saved back to individual meta data.
 
+## ❤️ Early Supporters
+
+* Thanks to [Brandon A.](https://twitter.com/AsmussenBrandon) for his support & tests
+* Thanks to [Damien C.](https://twitter.com/DamChtlv) for his support & tests
+* Thanks to [Valentin P.](https://twitter.com/Val_Pellegrin) for his support & tests
+* Thanks to Damian P. for his support & tests
+* Thanks to [Jaakko S.](https://twitter.com/jsaarenk) for his support & tests
+* Thanks to [Renan A.](https://twitter.com/altendorfme) for his support & tests
+
+## 🥰 Donators
+
+* Thanks to RavenSays
+* Thanks to Dave A.
+* Thanks to Rob H.
+* Thanks to Valentin P.
+* Thanks to Alan A.
+* Thanks to Damian P.
+* Thanks to Andrew
+* Thanks to Kimantis
+* Thanks to Anonymous
+* Thanks to Chris
+* Thanks to Dennis D.
+
 ## 📋 Changelog
+
+### 0.8.6.5
+* General: Added WPML & Polylang compatibility for Options Pages with custom post ids. ie: `my-theme` post id will be translated to `my-theme_en` with WPML & `my-theme_en_US` with Polylang
+* Modules: Dynamic Post Types, Taxonomies, Options Pages & Block Types - Added Multilingual compatibility for WPML & Polylang. Items are automatically registered as strings for both WPML & Polylang plugins
+* Modules: Dynamic Post Types, Taxonomies, Options Pages & Block Types - Added l10n support for the ACF Exporting Tools
+* Module: Dynamic Post Type Archive - Added "Edit Archive Page" in the Admin Bar in the front-end when visiting an Archive Page
+* Module: Dynamic Post Type Archive - Added l10n on the Label
+* Module: Dynamic Post Type - Fixed Typo in UI
+* Module: Single Meta Save - Enhanced code logic & compatibility
+* Module: Single Meta Save - Added `get_fields()` support
+* Module: Single Meta Save - Removed the "Delete Orphan Meta" feature from Options Pages
+* Module: Dev Mode - Fixed Bulk Actions being displayed when the Postboxes were hidden by user
+* Module: Dev Mode - Added Clone in Sub Fields support (previously displayed as `Undefined`)
+* Module: Dev Mode - Fixed PHP 7.4 notices
+* Module: Dynamic Forms - Query Var setting has been removed
+* Module: Dynamic Forms - Query vars are now always generated. If no action name has been set, the query var will be named `{form_name}-{action}`. ie: `my-form-post`. The next post action will be named `my-form-post-2`
+* Module: Dynamic Forms - Added "Label Placement: Hidden" setting
+* Module: Dynamic Forms - Added `{current:post:post_author_data}` template tags in the "Cheatsheet" tab
+* Module: Dynamic Forms - Added all available `{query_var}` template tags in the "Cheatsheet" tab
+* Module: Dynamic Forms - Form Fields Groups, E-mail Action From/To/Subject fields are not required anymore
+* Module: Dynamic Forms - Added JS Form Submit Action code example in the "Submission" tab
+* Module: Dynamic Forms - Tweaked UI
+* Field: Flexible Content - Added "Layout Toggle" setting allowing the user to hide specific layout from the front-end
+* Field: Flexible Content - Fixed "Layout State" setting which incorrectly forced it as "Closed" when using the "Dynamic Render" setting
+* Field: Flexible Content - Fixed "Layout Title" CSS
+* Field: WYSIWYG - Fixed the Smart Delayed Init in the Flexible Content when the layout had the "Layout State" on "Opened"
+* Fields: Advanced Validation - Added `count()`, `is_array()`, `is_string()`, `is_numeric()`, `get_post_type()`, `get_post_by_id()`, `get_post_by_title()` rules and `Matches regex`, `Doesn't matches regex`, `!= true`, `!= false`, `!= null` operators
+* Field: Date Picker - Added `==`, `!=`, `>`, `<`, `Pattern match` & `Contains` conditional logic
+* Field: Image - "Use as Featured Image" setting now loads the Featured Image if it was already set
+* Field: Taxonomy Terms - Added Async Load setting support
+* Field: Taxonomy Terms - Fixed "Level" filter input CSS width
+* Field: Post Object - Merged "Allow Custom" & "Save Custom Value as New Post" settings
+* Field: Post Object - Fixed the "Save as New Post" setting when allowing "Multiple Values"
+* Field: Post Object - Added instructions & code examples to alter the New Post arguments programmatically
+* Field: Code Editor - Added border radius to match WP admin input style
+* Field: Group - Fixed "Edit in Modal" settings which weren't displayed
+* Field Groups: Location Column - Fixed potential consuming query when using the `Post == ID` Conditional Rule
+* General: Introduced `acfe_update_setting()`, `acfe_get_setting()` functions and `acfe/settings/{name}` filter
+* General: Compatibility - Fixed WPML PHP notices in Field Groups
+* General: Compatibility - Fixed Advanced Forms PHP notice during ACF Extended: Forms submission
+* General: Readme - Added Field Bi-directional instructions to migrate already existing data
+* General: Readme - Added Multilangual section
+* General: Readme - Added Donators section
 
 ### 0.8.6.3
 * Module - Enhanced UI - Added WP User & WP Settings UI enhancements
@@ -665,7 +759,7 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 * Module: Dynamic Forms - Added "Post field groups" setting in the "Advanced" tab to override displayed field groups by a specific post field groups
 * Module: Dynamic Forms - Added fallback when rendering complex fields values (array)
 * Module: Dynamic Forms - Added `filter('acfe/form/format_value/name=my_field', $value, $unformatted_value, $post_id, $field)` to format field output used in email/post/term/user actions. (Also works with `/type` & `/key` selectors)
-* Module: Dynamic Forms - Added Javascript ACF Action on successful form submission: `acf.doAction('acfe/form/submit/success/name=my-form')`
+* Module: Dynamic Forms - Added Javascript ACF Action on successful form submission: `acf.doAction('acfe/form/submit/success/form=my-form')`
 * Module: Dynamic Forms - Added compatibility fix for the plugin "MC ACF Flexible Template" (Thanks @MarcinKilarski)
 * Module: Dynamic Forms - Added Manual Json Export & Import tools
 * Module: Dynamic Forms / Post Types / Taxonomies / Block Types / Options - Added Manual Export in the single view

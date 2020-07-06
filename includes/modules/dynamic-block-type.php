@@ -33,7 +33,7 @@ function acfe_dbt_register(){
         'hierarchical'          => false,
         'public'                => false,
         'show_ui'               => true,
-        'show_in_menu'          => false,
+        'show_in_menu'          => 'edit.php?post_type=acf-field-group',
         'menu_icon'             => 'dashicons-layout',
         'show_in_admin_bar'     => false,
         'show_in_nav_menus'     => false,
@@ -61,43 +61,13 @@ function acfe_dbt_register(){
 }
 
 /**
- * Dynamic Block Type Menu
- */
-add_action('admin_menu', 'acfe_dbt_menu');
-function acfe_dbt_menu(){
-    
-    if(!acf_get_setting('show_admin'))
-        return;
-    
-    add_submenu_page('edit.php?post_type=acf-field-group', __('Block Types'), __('Block Types'), acf_get_setting('capability'), 'edit.php?post_type=acfe-dbt');
-    
-}
-
-/**
- * Dynamic Block Type Menu: Parent Highlight
- */
-add_filter('parent_file', 'acfe_dbt_menu_parent_highlight');
-function acfe_dbt_menu_parent_highlight($parent_file){
-    
-    global $pagenow;
-    if($pagenow !== 'post.php' && $pagenow !== 'post-new.php')
-        return $parent_file;
-    
-    $post_type = get_post_type();
-    if($post_type !== 'acfe-dbt')
-        return $parent_file;
-    
-    return 'edit.php?post_type=acf-field-group';
-    
-}
-
-/**
  * Dynamic Block Type Menu: Submenu Highlight
  */
 add_filter('submenu_file', 'acfe_dbt_menu_sub_highlight');
 function acfe_dbt_menu_sub_highlight($submenu_file){
     
     global $pagenow;
+    
     if($pagenow !== 'post-new.php')
         return $submenu_file;
     
@@ -122,10 +92,30 @@ function acfe_dbt_registers(){
     if(empty($dynamic_block_types))
         return;
     
-    foreach($dynamic_block_types as $name => $register_args){
+    foreach($dynamic_block_types as $name => $args){
+    
+        if(acf_has_block_type('acf/' . $name))
+            continue;
+    
+        // Textdomain
+        $textdomain = 'ACF Extended: Block Types';
+    
+        // Title
+        if(isset($args['title'])){
+        
+            acfe__($args['title'], 'Title', $textdomain);
+        
+        }
+    
+        // Description
+        if(isset($args['description'])){
+        
+            acfe__($args['description'], 'Description', $textdomain);
+        
+        }
         
         // Register: Execute
-        acf_register_block_type($register_args);
+        acf_register_block_type($args);
         
     }
 

@@ -259,6 +259,10 @@ body.acfe-modal-opened{
     overflow:auto;
 }
 
+.acfe-modal.-open.-iframe .acfe-modal-content{
+    overflow:hidden;
+}
+
 .acfe-modal.-open.acfe-modal-sub > .acfe-modal-wrapper > .acfe-modal-content{
     pointer-events: none;
 }

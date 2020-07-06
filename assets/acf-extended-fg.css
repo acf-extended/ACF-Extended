@@ -2,9 +2,7 @@
 .acf-field-setting-acfe_settings > .acf-input > .acf-fields,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields,
 .acf-field-setting-acfe_update > .acf-input > .acf-fields,
-.acf-field-setting-acfe_google_map_zooms > .acf-input > .acf-fields,
 .acf-field-setting-acfe_hide > .acf-input > .acf-fields,
-.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields,
 
 .acf-field-setting-acfe_bidirectional > .acf-input > .acf-fields,
 .acf-field-setting-acfe_settings > .acf-input > .acf-fields > .acf-field.acf-field-acfe-settings-rules-or,
@@ -18,33 +16,12 @@
 .acf-field-setting-acfe_settings > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_validate > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_update > .acf-input > .acf-fields > .acf-field,
-.acf-field-setting-acfe_google_map_zooms > .acf-input > .acf-fields > .acf-field,
 .acf-field-setting-acfe_hide > .acf-input > .acf-fields > .acf-field{
     padding:0;
 }
 
-
-.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields{
-    margin-left:-12px;
-    margin-right:-12px;
-}
-
-.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields .acf-actions{
-    text-align:left;
-}
-
-.acf-field-setting-acfe_wysiwyg_toolbar_buttons > .acf-input > .acf-fields > .acf-field{
-    padding-top:0;
-    padding-bottom:0;
-    border:0;
-}
-
 .acf-field-setting-acfe_field_data{
     display:none;
-}
-
-.acf-field-setting-acfe_google_map_zooms > .acf-input > .acf-fields > .acf-field{
-    border-left:0;
 }
 
 .acf-field-hide-front.acfe_width_auto{
@@ -280,9 +257,16 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select{
  * ACFE Taxonomy Terms
  */
 .acf-field-setting-allow_terms > .acf-input > ul > li:first-of-type{
-    width: calc(100% - 110px);
+    width: calc(100% - 125px);
 }
 
 .acf-field-setting-allow_terms > .acf-input > ul > li:last-of-type{
-    width: 110px;
+    width: 125px;
+}
+
+/*
+ * ACFE: Field Group Conditional Logic
+ */
+#acf-field-group-locations .rule-groups > .rule-group > table > tbody > tr > td.value > .acf-field{
+    margin: 0;
 }

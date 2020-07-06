@@ -8,8 +8,9 @@ if(!class_exists('acfe_form_custom')):
 class acfe_form_custom{
     
     function __construct(){
-        
-        add_filter('acf/validate_value/name=acfe_form_custom_action',                   array($this, 'validate'), 10, 4);
+    
+        add_action('acfe/form/make/custom',                                             array($this, 'make'), 10, 3);
+        add_filter('acf/validate_value/name=acfe_form_custom_action',                   array($this, 'validate_action'), 10, 4);
         
         add_action('acf/render_field/name=acfe_form_custom_action_advanced_load',       array($this, 'advanced_load'));
         add_action('acf/render_field/name=acfe_form_custom_action_advanced_validation', array($this, 'advanced_validation'));
@@ -17,7 +18,30 @@ class acfe_form_custom{
         
     }
     
-    function validate($valid, $value, $field, $input){
+    function make($form, $current_post_id, $action){
+    
+        // Form
+        $form_name = acf_maybe_get($form, 'form_name');
+        $form_id = acf_maybe_get($form, 'form_id');
+        
+        // Custom Action Name
+        $action = get_sub_field('acfe_form_custom_action');
+    
+        // Prepare
+        $prepare = true;
+        $prepare = apply_filters('acfe/form/prepare/' . $action,                            $prepare, $form, $current_post_id, '');
+        $prepare = apply_filters('acfe/form/prepare/' . $action . '/form=' . $form_name,    $prepare, $form, $current_post_id, '');
+        
+        if($prepare === false)
+            return;
+        
+        // Submit
+        do_action('acfe/form/submit/' . $action,                            $form, $current_post_id, '');
+        do_action('acfe/form/submit/' . $action . '/form=' . $form_name,    $form, $current_post_id, '');
+        
+    }
+    
+    function validate_action($valid, $value, $field, $input){
         
         if(!$valid)
             return $valid;

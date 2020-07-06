@@ -162,6 +162,63 @@
         });
         
     }
+
+    /*
+     * Layout: Toggle Action
+     */
+    model.events['click [data-acfe-flexible-control-toggle]'] = 'acfeLayoutToggle';
+    model.acfeLayoutToggle = function(e, $el){
+
+        // Get Flexible
+        var flexible = this;
+
+        // Vars
+        var $layout = $el.closest('.layout');
+
+        var $field = $layout.find('> .acfe-flexible-layout-toggle');
+
+        if(!$field.length)
+            return;
+
+        if($field.val() === '1'){
+
+            $layout.removeClass('acfe-flexible-layout-hidden');
+            $field.val('');
+
+        }else{
+
+            $layout.addClass('acfe-flexible-layout-hidden');
+            $field.val('1');
+
+        }
+
+    }
+
+    /*
+     * Layout: Toggle Spawn
+     */
+    acf.addAction('acfe/flexible/layouts', function($layout, flexible){
+
+        if(!flexible.has('acfeFlexibleToggle'))
+            return;
+
+        // Layout Closed
+        var $field = $layout.find('> .acfe-flexible-layout-toggle');
+
+        if(!$field.length)
+            return;
+
+        if($field.val() === '1'){
+
+            $layout.addClass('acfe-flexible-layout-hidden');
+
+        }else{
+
+            $layout.removeClass('acfe-flexible-layout-hidden');
+
+        }
+
+    });
     
     // Layout: Clone
     model.events['click [data-acfe-flexible-control-clone]'] = 'acfeCloneLayout';

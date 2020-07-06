@@ -9,9 +9,7 @@ class acfe_compatibility{
     
 	function __construct(){
         
-        add_action('acf/init',              array($this, 'init'), 98);
-        
-        add_filter('pll_get_post_types',    array($this, 'polylang'), 10, 2);
+        add_action('acf/init', array($this, 'init'), 98);
         
 	}
     
@@ -225,40 +223,6 @@ class acfe_compatibility{
     function yoast_metaboxes_priority(){
         
         return 'default';
-        
-    }
-
-	/**
-	 * ACF Extended: 0.8.3
-	 * Modules: Enable PolyLang Translation for Modules Post Types
-	 * https://polylang.pro/doc/filter-reference/
-	 *
-	 * @param $post_types
-	 * @param $is_settings
-	 *
-	 * @return mixed
-	 */
-    function polylang($post_types, $is_settings){
-        
-        if($is_settings){
-            
-            unset($post_types['acfe-dbt']);
-            unset($post_types['acfe-dt']);
-            unset($post_types['acfe-dop']);
-            unset($post_types['acfe-dpt']);
-            unset($post_types['acfe-form']);
-            
-        }else{
-            
-            $post_types['acfe-dbt'] = 'acfe-dbt';
-            $post_types['acfe-dt'] = 'acfe-dt';
-            $post_types['acfe-dop'] = 'acfe-dop';
-            $post_types['acfe-dpt'] = 'acfe-dpt';
-            $post_types['acfe-form'] = 'acfe-form';
-            
-        }
-        
-        return $post_types;
         
     }
     

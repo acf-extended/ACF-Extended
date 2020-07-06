@@ -126,7 +126,10 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
                     '/[0-9]+ => array/'		=> 'array'
                 );
 
-
+                // Get settings.
+                $l10n = acf_get_setting('l10n');
+                $l10n_textdomain = acf_get_setting('l10n_textdomain');
+                
                 ?>
                 <p><?php _e("The following code can be used to register an options page. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
                 
@@ -137,6 +140,16 @@ class ACFE_Admin_Tool_Export_DOP extends ACF_Admin_Tool{
                     echo "if( function_exists('acf_add_options_page') ):" . "\r\n" . "\r\n";
                     
                     foreach($this->data as $args){
+    
+                        // Translate settings if textdomain is set.
+                        if($l10n && $l10n_textdomain){
+        
+                            $args['page_title'] = acf_translate($args['page_title']);
+                            $args['menu_title'] = acf_translate($args['menu_title']);
+                            $args['update_button'] = acf_translate($args['update_button']);
+                            $args['updated_message'] = acf_translate($args['updated_message']);
+        
+                        }
                                 
                         // code
                         $code = var_export($args, true);

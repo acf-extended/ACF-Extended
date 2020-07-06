@@ -3,6 +3,9 @@
     if(typeof acf === 'undefined')
         return;
 
+    /*
+     * Field Attribute: data-after="field_name"
+     */
     var fieldAfterManager = new acf.Model({
 
         actions: {
@@ -15,8 +18,6 @@
             if(!field.has('after'))
                 return;
 
-            console.log(field);
-
             // vars
             var after = field.get('after');
             var $sibling = field.$el.siblings('[data-name="' + after + '"]').first();
@@ -28,6 +29,55 @@
             $sibling.after(field.$el);
 
         }
+    });
+
+    /*
+     * Field Group Conditional Logic: Init fields
+     */
+    var conditionalLogicFields = new acf.Model({
+
+        wait: 'ready',
+
+        actions:{
+            'append':                           'onAppend',
+            'acfe/field_group/rule_refresh':    'refreshFields'
+        },
+
+        initialize: function(){
+            this.$el = $('#acf-field-group-locations');
+        },
+
+        onAppend: function($el){
+
+            if(!$el.is('.rule-group') && !$el.parent().parent().parent().is('.rule-group'))
+                return;
+
+            this.refreshFields();
+
+        },
+
+        refreshFields: function(){
+
+            var fields = acf.getFields({
+                parent: this.$('td.value')
+            });
+
+            $.each(fields, function(){
+
+                var field = this;
+
+                if(field.get('type') === 'date_picker' || field.get('type') === 'date_time_picker' || field.get('type') === 'time_picker'){
+
+                    field.$inputText().removeClass('hasDatepicker').removeAttr('id');
+
+                    field.initialize();
+
+                }
+
+            });
+
+        }
+
     });
 
     /*
@@ -85,11 +135,6 @@
             });
             
         });
-
-        /*
-         * Field Group: Advanced Settings
-         */
-        $('.acf-field[data-name="active"]').after($('.acf-field[data-name="acfe_form"]'));
     
     });
     

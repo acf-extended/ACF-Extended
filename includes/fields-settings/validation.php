@@ -213,6 +213,7 @@ class acfe_field_validation{
                     'layout'        => 'table',
                     'sub_fields'    => array(
                         array(
+                            'ID'            => false,
                             'label'         => 'Function',
                             'name'          => 'acfe_validate_function',
                             'key'           => 'acfe_validate_function',
@@ -230,6 +231,7 @@ class acfe_field_validation{
                             ),
                         ),
                         array(
+                            'ID'            => false,
                             'label'         => 'Operator / Value',
                             'name'          => 'acfe_validate_operator',
                             'key'           => 'acfe_validate_operator',
@@ -256,10 +258,13 @@ class acfe_field_validation{
                                 ),
                                 'Values'     => array(
                                     'true'  => '== true',
+                                    '!true' => '!= true',
                                     'false' => '== false',
+                                    '!false'=> '!= false',
                                     'null'  => '== null',
+                                    '!null' => '!= null',
                                     'empty' => '== (empty)',
-                                    '!empty' => '!= (empty)',
+                                    '!empty'=> '!= (empty)',
                                 )
                             ),
                             'instructions'  => false,
@@ -271,6 +276,7 @@ class acfe_field_validation{
                             ),
                         ),
                         array(
+                            'ID'            => false,
                             'label'         => 'Value',
                             'name'          => 'acfe_validate_match',
                             'key'           => 'acfe_validate_match',
@@ -563,11 +569,11 @@ class acfe_field_validation{
                     $rule_match = true;
                 }
                 
-                elseif($operator === 'regex' && preg_match($match, $result)){
+                elseif($operator === 'regex' && preg_match('/' . $match . '/', $result)){
                     $rule_match = true;
                 }
 
-                elseif($operator === '!regex' && !preg_match($match, $result)){
+                elseif($operator === '!regex' && !preg_match('/' . $match . '/', $result)){
                     $rule_match = true;
                 }
                 
@@ -575,11 +581,23 @@ class acfe_field_validation{
                     $rule_match = true;
                 }
                 
+                elseif($operator === '!true' && $result !== true){
+                    $rule_match = true;
+                }
+                
                 elseif($operator === 'false' && $result === false){
+                    $rule_match = true;
+                }
+
+                elseif($operator === '!false' && $result !== false){
                     $rule_match = true;
                 }
                 
                 elseif($operator === 'null' && $result === null){
+                    $rule_match = true;
+                }
+
+                elseif($operator === '!null' && $result !== null){
                     $rule_match = true;
                 }
                 

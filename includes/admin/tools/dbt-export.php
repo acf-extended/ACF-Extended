@@ -128,7 +128,10 @@ class ACFE_Admin_Tool_Export_DBT extends ACF_Admin_Tool{
                     '/[0-9]+ => array/'		=> 'array'
                 );
 
-
+                // Get settings.
+                $l10n = acf_get_setting('l10n');
+                $l10n_textdomain = acf_get_setting('l10n_textdomain');
+                
                 ?>
                 <p><?php _e("The following code can be used to register a block type. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
                 
@@ -139,6 +142,14 @@ class ACFE_Admin_Tool_Export_DBT extends ACF_Admin_Tool{
                     echo "if( function_exists('acf_register_block_type') ):" . "\r\n" . "\r\n";
                     
                     foreach($this->data as $args){
+    
+                        // Translate settings if textdomain is set.
+                        if($l10n && $l10n_textdomain){
+        
+                            $args['title'] = acf_translate($args['title']);
+                            $args['description'] = acf_translate($args['description']);
+        
+                        }
                                 
                         // code
                         $code = var_export($args, true);

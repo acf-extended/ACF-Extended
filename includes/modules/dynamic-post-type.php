@@ -65,10 +65,41 @@ function acfe_dpt_registers(){
     if(empty($dynamic_post_types))
         return;
     
-    foreach($dynamic_post_types as $name => $register_args){
+    foreach($dynamic_post_types as $name => $args){
+        
+        if(post_type_exists($name))
+            continue;
+    
+        // Textdomain
+        $textdomain = 'ACF Extended: Post Types';
+    
+        // Label
+        if(isset($args['label'])){
+        
+            acfe__($args['label'], 'Label', $textdomain);
+        
+        }
+    
+        // Description
+        if(isset($args['description'])){
+        
+            acfe__($args['description'], 'Description', $textdomain);
+        
+        }
+    
+        // Labels
+        if(isset($args['labels'])){
+        
+            foreach($args['labels'] as $label_name => &$label_text){
+            
+                acfe__($label_text, ucfirst($label_name), $textdomain);
+            
+            }
+        
+        }
         
         // Register: Execute
-        register_post_type($name, $register_args);
+        register_post_type($name, $args);
         
     }
 
@@ -2254,7 +2285,7 @@ etc...',
             'label' => 'Template',
             'name' => 'acfe_dpt_single_template',
             'type' => 'text',
-            'instructions' => 'ACF Extended: Which template file to load for the archive query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>',
+            'instructions' => 'ACF Extended: Which template file to load for the single query. More informations on <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/">Template hierarchy</a>',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

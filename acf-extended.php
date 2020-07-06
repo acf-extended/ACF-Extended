@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.8.6.3
+ * Version:     0.8.6.5
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Version
-    var $version = '0.8.6.3';
+    var $version = '0.8.6.5';
     
     // Settings
     var $settings = array();
@@ -60,6 +60,7 @@ class ACFE{
             'acfe/modules/dynamic_options_pages'    => true,
             'acfe/modules/dynamic_post_types'       => true,
             'acfe/modules/dynamic_taxonomies'       => true,
+            'acfe/modules/multilang'                => true,
             'acfe/modules/options'                  => true,
             'acfe/modules/single_meta'              => false,
             'acfe/modules/ui'                       => true,
@@ -102,6 +103,8 @@ class ACFE{
         
         // Additional
         acfe_include('includes/core/compatibility.php');
+        acfe_include('includes/core/helpers.php');
+        acfe_include('includes/core/multilang.php');
         acfe_include('includes/core/settings.php');
 	    acfe_include('includes/core/upgrades.php');
 
@@ -116,7 +119,6 @@ class ACFE{
          * Core
          */
         acfe_include('includes/core/enqueue.php');
-        acfe_include('includes/core/helpers.php');
         acfe_include('includes/core/menu.php');
         
         /**
@@ -145,9 +147,7 @@ class ACFE{
         acfe_include('includes/fields-settings/bidirectional.php');
         acfe_include('includes/fields-settings/data.php');
         acfe_include('includes/fields-settings/fields.php');
-        acfe_include('includes/fields-settings/min-max.php');
         acfe_include('includes/fields-settings/permissions.php');
-        acfe_include('includes/fields-settings/required.php');
         acfe_include('includes/fields-settings/settings.php');
         acfe_include('includes/fields-settings/validation.php');
         
@@ -212,23 +212,6 @@ class ACFE{
         acfe_include('includes/fields/field-taxonomies.php');
         acfe_include('includes/fields/field-taxonomy-terms.php');
         acfe_include('includes/fields/field-user-roles.php');
-        
-        acfe_include('includes/fields/field-post-attributes.php');
-        acfe_include('includes/fields/field-post-author.php');
-        acfe_include('includes/fields/field-post-comments.php');
-        acfe_include('includes/fields/field-post-content.php');
-        acfe_include('includes/fields/field-post-date.php');
-        acfe_include('includes/fields/field-post-discussion.php');
-        acfe_include('includes/fields/field-post-excerpt.php');
-        acfe_include('includes/fields/field-post-featured-image.php');
-        acfe_include('includes/fields/field-post-name.php');
-        acfe_include('includes/fields/field-post-permalink.php');
-        acfe_include('includes/fields/field-post-revisions.php');
-        acfe_include('includes/fields/field-post-revisions-list.php');
-        acfe_include('includes/fields/field-post-status.php');
-        acfe_include('includes/fields/field-post-title.php');
-        acfe_include('includes/fields/field-post-trackbacks.php');
-        acfe_include('includes/fields/field-post-visibility.php');
         
     }
     

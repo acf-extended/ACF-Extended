@@ -12,9 +12,9 @@ class acfe_form_post{
         /*
          * Form
          */
-        add_filter('acfe/form/load/post',                                           array($this, 'load'), 1, 3);
-        add_action('acfe/form/prepare/post',                                        array($this, 'prepare'), 1, 3);
-        add_action('acfe/form/submit/post',                                         array($this, 'submit'), 1, 5);
+        add_filter('acfe/form/load/post',                                           array($this, 'load'), 10, 3);
+        add_action('acfe/form/make/post',                                           array($this, 'make'), 10, 3);
+        add_action('acfe/form/submit/post',                                         array($this, 'submit'), 10, 5);
         
         /*
          * Admin
@@ -239,11 +239,22 @@ class acfe_form_post{
         
     }
     
-    function prepare($form, $current_post_id, $action){
+    function make($form, $current_post_id, $action){
         
         // Form
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
+        
+        // Prepare
+        $prepare = true;
+        $prepare = apply_filters('acfe/form/prepare/post',                          $prepare, $form, $current_post_id, $action);
+        $prepare = apply_filters('acfe/form/prepare/post/form=' . $form_name,       $prepare, $form, $current_post_id, $action);
+    
+        if(!empty($action))
+            $prepare = apply_filters('acfe/form/prepare/post/action=' . $action,    $prepare, $form, $current_post_id, $action);
+        
+        if($prepare === false)
+            return;
         
         // Action
         $post_action = get_sub_field('acfe_form_post_action');
@@ -569,62 +580,58 @@ class acfe_form_post{
     }
     
     function submit($_post_id, $post_action, $args, $form, $action){
-        
-        if(!empty($action)){
-        
-            // Custom Query Var
-            $custom_query_var = get_sub_field('acfe_form_custom_query_var');
-            
-            if(!empty($custom_query_var)){
-                
-                // Form name
-                $form_name = acf_maybe_get($form, 'form_name');
-                
-                // Get post array
-                $post_object = get_post($_post_id, 'ARRAY_A');
-                
-                $post_object['permalink'] = get_permalink($_post_id);
-                $post_object['admin_url'] = admin_url('post.php?post=' . $_post_id . '&action=edit');
-                
-                // Retrieve Post Author data
-                $post_author = $post_object['post_author'];
-                $user_object = get_user_by('ID', $post_author);
     
-                if(isset($user_object->data)){
-                    
-                    $user = json_decode(json_encode($user_object->data), true);
+        // Form name
+        $form_name = acf_maybe_get($form, 'form_name');
+    
+        // Get post array
+        $post_object = get_post($_post_id, 'ARRAY_A');
+    
+        $post_object['permalink'] = get_permalink($_post_id);
+        $post_object['admin_url'] = admin_url('post.php?post=' . $_post_id . '&action=edit');
+    
+        // Retrieve Post Author data
+        $post_author = $post_object['post_author'];
+        $user_object = get_user_by('ID', $post_author);
+    
+        if(isset($user_object->data)){
         
-                    $user_object_meta = get_user_meta($user['ID']);
+            $user = json_decode(json_encode($user_object->data), true);
         
-                    $user_meta = array();
+            $user_object_meta = get_user_meta($user['ID']);
         
-                    foreach($user_object_meta as $k => $v){
+            $user_meta = array();
+        
+            foreach($user_object_meta as $k => $v){
             
-                        if(!isset($v[0]))
-                            continue;
+                if(!isset($v[0]))
+                    continue;
             
-                        $user_meta[$k] = $v[0];
-            
-                    }
-        
-                    $user_array = array_merge($user, $user_meta);
-        
-                    $user_array['permalink'] = get_author_posts_url($post_author);
-                    $user_array['admin_url'] = admin_url('user-edit.php?user_id=' . $post_author);
-                    
-                    $post_object['post_author_data'] = $user_array;
-                
-                }
-                
-                $post_object = apply_filters('acfe/form/query_var/post',                    $post_object, $_post_id, $post_action, $args, $form, $action);
-                $post_object = apply_filters('acfe/form/query_var/post/form=' . $form_name, $post_object, $_post_id, $post_action, $args, $form, $action);
-                $post_object = apply_filters('acfe/form/query_var/post/action=' . $action,  $post_object, $_post_id, $post_action, $args, $form, $action);
-                
-                set_query_var($action, $post_object);
+                $user_meta[$k] = $v[0];
             
             }
         
+            $user_array = array_merge($user, $user_meta);
+        
+            $user_array['permalink'] = get_author_posts_url($post_author);
+            $user_array['admin_url'] = admin_url('user-edit.php?user_id=' . $post_author);
+        
+            $post_object['post_author_data'] = $user_array;
+        
         }
+    
+        $post_object = apply_filters('acfe/form/query_var/post',                    $post_object, $_post_id, $post_action, $args, $form, $action);
+        $post_object = apply_filters('acfe/form/query_var/post/form=' . $form_name, $post_object, $_post_id, $post_action, $args, $form, $action);
+        $post_object = apply_filters('acfe/form/query_var/post/action=' . $action,  $post_object, $_post_id, $post_action, $args, $form, $action);
+    
+        // Query var
+        $query_var = acfe_form_unique_action_id($form, 'post');
+    
+        if(!empty($action))
+            $query_var = $action;
+    
+        // Set Query Var
+        set_query_var($query_var, $post_object);
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_post_save_meta');

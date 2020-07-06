@@ -27,7 +27,7 @@ function acfe_dop_register(){
         'hierarchical'          => true,
         'public'                => false,
         'show_ui'               => true,
-        'show_in_menu'          => false,
+        'show_in_menu'          => 'edit.php?post_type=acf-field-group',
         'menu_icon'             => 'dashicons-layout',
         'show_in_admin_bar'     => false,
         'show_in_nav_menus'     => false,
@@ -55,43 +55,13 @@ function acfe_dop_register(){
 }
 
 /**
- * Dynamic Options Page Menu
- */
-add_action('admin_menu', 'acfe_dop_menu');
-function acfe_dop_menu(){
-    
-    if(!acf_get_setting('show_admin'))
-        return;
-    
-    add_submenu_page('edit.php?post_type=acf-field-group', __('Options'), __('Options'), acf_get_setting('capability'), 'edit.php?post_type=acfe-dop');
-    
-}
-
-/**
- * Dynamic Options Page Menu: Parent Highlight
- */
-add_filter('parent_file', 'acfe_dop_menu_parent_highlight');
-function acfe_dop_menu_parent_highlight($parent_file){
-    
-    global $pagenow;
-    if($pagenow !== 'post.php' && $pagenow !== 'post-new.php')
-        return $parent_file;
-    
-    $post_type = get_post_type();
-    if($post_type !== 'acfe-dop')
-        return $parent_file;
-    
-    return 'edit.php?post_type=acf-field-group';
-    
-}
-
-/**
  * Dynamic Options Page Menu: Submenu Highlight
  */
 add_filter('submenu_file', 'acfe_dop_menu_sub_highlight');
 function acfe_dop_menu_sub_highlight($submenu_file){
     
     global $pagenow;
+    
     if($pagenow !== 'post-new.php')
         return $submenu_file;
     
@@ -102,7 +72,6 @@ function acfe_dop_menu_sub_highlight($submenu_file){
     return 'edit.php?post_type=acfe-dop';
     
 }
-
 
 /**
  * ACF Register Options Pages
@@ -115,32 +84,66 @@ function acfe_dop_registers(){
     if(empty($dynamic_options_pages))
         return;
     
+    $options_top_pages = array();
     $options_sub_pages = array();
     
-    foreach($dynamic_options_pages as $name => $register_args){
+    foreach($dynamic_options_pages as $name => $args){
         
-        // Do not register sub pages
-        if(isset($register_args['parent_slug']) && !empty($register_args['parent_slug'])){
+        // Sub pages
+        if(acf_maybe_get($args, 'parent_slug')){
             
-            $options_sub_pages[$name] = $register_args;
+            $options_sub_pages[$name] = $args;
             continue;
             
         }
         
-        // Register: Execute
-        acf_add_options_page($register_args);
+        // Top pages
+        $options_top_pages[$name] = $args;
         
     }
     
-    // Register sub pages
-    if(!empty($options_sub_pages)){
+    // Merge
+    $options_pages = array_merge($options_top_pages, $options_sub_pages);
+    
+    // Bail early if empty
+    if(empty($options_pages))
+        return;
         
-        foreach($options_sub_pages as $name => $register_args){
-            
-            // Register: Execute
-            acf_add_options_page($register_args);
-            
-        } 
+    foreach($options_pages as $name => $args){
+    
+        // Textdomain
+        $textdomain = 'ACF Extended: Options Pages';
+    
+        // Page Title
+        if(isset($args['page_title'])){
+        
+            acfe__($args['page_title'], 'Menu_title', $textdomain);
+        
+        }
+    
+        // Menu Title
+        if(isset($args['menu_title'])){
+        
+            acfe__($args['menu_title'], 'Menu_title', $textdomain);
+        
+        }
+    
+        // Update button
+        if(isset($args['update_button'])){
+        
+            acfe__($args['update_button'], 'Update_button', $textdomain);
+        
+        }
+    
+        // Updated message
+        if(isset($args['updated_message'])){
+        
+            acfe__($args['updated_message'], 'Updated_message', $textdomain);
+        
+        }
+        
+        // Register: Execute
+        acf_add_options_page($args);
         
     }
 

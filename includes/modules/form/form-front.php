@@ -38,6 +38,9 @@ class acfe_form_front{
         
         if(!acfe_form_is_front())
             return;
+    
+        if(acf_maybe_get_POST('_acf_screen') !== 'acfe_form')
+            return;
         
         $form = acfe_form_decrypt_args();
         
@@ -76,26 +79,24 @@ class acfe_form_front{
             if(have_rows('acfe_form_actions', $form_id)):
                 
                 while(have_rows('acfe_form_actions', $form_id)): the_row();
-                
+                    
                     $action = get_row_layout();
+                    
 	                $alias = get_sub_field('acfe_form_custom_alias');
-	
+	                
 	                // Custom Action
 	                if($action === 'custom'){
-		
+	                 
 		                $action = get_sub_field('acfe_form_custom_action');
 		                $alias = '';
-		
+		                
 	                }
-	
+	                
 	                do_action('acfe/form/validation/' . $action,                         $form, $post_id, $alias);
 	                do_action('acfe/form/validation/' . $action . '/form=' . $form_name, $form, $post_id, $alias);
-	
-	                if(!empty($alias)){
-		
-		                do_action('acfe/form/validation/' . $action . '/action=' . $alias, $form, $post_id, $alias);
-		
-	                }
+	                
+	                if(!empty($alias))
+	                    do_action('acfe/form/validation/' . $action . '/action=' . $alias, $form, $post_id, $alias);
                 
                 endwhile;
             endif;
@@ -153,28 +154,12 @@ class acfe_form_front{
             if(have_rows('acfe_form_actions', $form_id)):
                 
                 while(have_rows('acfe_form_actions', $form_id)): the_row();
-                
+    
                     $action = get_row_layout();
-                    
-                    // Custom Action
-                    if($action === 'custom'){
-                        
-                        $custom_action = get_sub_field('acfe_form_custom_action');
-                        
-                        do_action('acfe/form/submit/' . $custom_action,                         $form, $post_id);
-                        do_action('acfe/form/submit/' . $custom_action . '/form=' . $form_name, $form, $post_id);
-                        
-                    }
-                    
-                    // ACFE Actions
-                    else{
-                    
-                        $alias = get_sub_field('acfe_form_custom_alias');
-                        
-                        do_action('acfe/form/prepare/' . $action,                         $form, $post_id, $alias);
-                        do_action('acfe/form/prepare/' . $action . '/form=' . $form_name, $form, $post_id, $alias);
-                    
-                    }
+    
+                    $alias = get_sub_field('acfe_form_custom_alias');
+    
+                    do_action('acfe/form/make/' . $action, $form, $post_id, $alias);
                 
                 endwhile;
             endif;
@@ -387,28 +372,25 @@ class acfe_form_front{
         // Load
         if(have_rows('acfe_form_actions', $form_id)):
             while(have_rows('acfe_form_actions', $form_id)): the_row();
-	
+             
 	            $action = get_row_layout();
 	            
 	            $alias = get_sub_field('acfe_form_custom_alias');
-	
+	            
 	            // Custom Action
 	            if($action === 'custom'){
-		
+	             
 		            $action = get_sub_field('acfe_form_custom_action');
 		            $alias = '';
-		
+		            
 	            }
-	
-	            $args = apply_filters('acfe/form/load/' . $action,                          $args, $args['post_id'], $alias);
-	            $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,  $args, $args['post_id'], $alias);
-	
-	            if(!empty($alias)){
-		
-		            $args = apply_filters('acfe/form/load/action=' . $alias,  $args, $args['post_id']);
-		
-	            }
-                
+	            
+	            $args = apply_filters('acfe/form/load/' . $action,                              $args, $args['post_id'], $alias);
+	            $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,      $args, $args['post_id'], $alias);
+	            
+	            if(!empty($alias))
+	                $args = apply_filters('acfe/form/load/' . $action . '/action=' . $alias,    $args, $args['post_id']);
+	            
             endwhile;
         endif;
         
@@ -451,48 +433,44 @@ class acfe_form_front{
             
         }
         
-        // updated message
-        if(acf_maybe_get_POST('_acf_form')){
+        // Updated message
+        if(acfe_form_is_submitted($args['form_name'])){
             
-            $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
+            // Trigger Success JS
+            echo '<div class="acfe-form-success" data-form-name="' . $args['form_name'] . '" data-form-id="' . $args['form_id'] . '"></div>';
+    
+            if(!empty($args['updated_message'])){
+        
+                $message = $args['updated_message'];
+        
+                if(acf_maybe_get_POST('acf')){
             
-            if(acf_maybe_get($form, 'form_name') === $args['form_name']){
-                
-                ?><div class="acfe-form-success" data-form-name="<?php echo $args['form_name']; ?>" data-form-id="<?php echo $args['form_id']; ?>"></div><?php
+                    $message = acfe_form_map_field_value($args['updated_message'], $args['post_id'], $args);
             
-                if(!empty($args['updated_message'])){
-                    
-                    $message = $args['updated_message'];
-                    
-                    if(acf_maybe_get_POST('acf')){
-                        
-                        $message = acfe_form_map_field_value($args['updated_message'], $args['post_id'], $args);
-                        
-                    }
-                    
-                    if(!empty($args['html_updated_message'])){
-                        
-                        printf($args['html_updated_message'], wp_unslash($message));
-                        
-                    }else{
-                        
-                        echo $message;
-                        
-                    }
-                    
                 }
-                
-                if($args['updated_hide_form']){
-                    
-                    return;
-                    
-                }
+        
+                if(!empty($args['html_updated_message'])){
             
+                    printf($args['html_updated_message'], wp_unslash($message));
+            
+                }else{
+            
+                    echo $message;
+            
+                }
+        
+            }
+            
+            // Hide form
+            if($args['updated_hide_form']){
+        
+                return false;
+        
             }
             
         }
         
-        if(!empty($args['fields_attributes']['wrapper_class']) || !empty($args['fields_attributes']['class'])){
+        if(!empty($args['fields_attributes']['wrapper_class']) || !empty($args['fields_attributes']['class']) || $args['label_placement'] === 'hidden'){
         
             add_filter('acf/prepare_field', function($field) use($args){
                 
@@ -504,6 +482,9 @@ class acfe_form_front{
                 
                 if(!empty($args['fields_attributes']['class']))
                     $field['class'] .= ' ' . $args['fields_attributes']['class'];
+    
+                if($args['label_placement'] === 'hidden')
+                    $field['label'] = false;
                 
                 return $field;
                 
@@ -560,8 +541,12 @@ class acfe_form_front{
                 'form'		=> acf_encrypt(json_encode($args))
             ));
             
+            $label_placement = false;
+            if($args['label_placement'] !== 'hidden')
+                $label_placement = '-' . $args['label_placement'];
+            
             ?>
-            <div class="acf-fields acf-form-fields -<?php echo $args['label_placement']; ?>">
+            <div class="acf-fields acf-form-fields <?php echo $label_placement; ?>">
             
                 <?php
                 
