@@ -257,7 +257,7 @@ Create and manage post types from your WordPress administration (Tools > Post Ty
 * Add an Archive Option Page under the post type menu and set your field groups
 * Manual PHP/Json Import & Export is available in the ACF > Tools page
 
-### 🗄WordPress: Dynamic Taxonomies
+### WordPress: Dynamic Taxonomies
 
 Create and manage taxonomies from your WordPress administration (Tools > Taxonomies). All WordPress taxonomies arguments can be set and managed. But also:
 
