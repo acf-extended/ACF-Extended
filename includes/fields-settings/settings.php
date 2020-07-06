@@ -226,6 +226,7 @@ class acfe_field_settings{
                     'layout'        => 'table',
                     'sub_fields'    => array(
                         array(
+                            'ID'            => false,
                             'label'         => 'Setting',
                             'name'          => 'acfe_settings_setting_type',
                             'key'           => 'acfe_settings_setting_type',
@@ -251,6 +252,7 @@ class acfe_field_settings{
                             )
                         ),
                         array(
+                            'ID'            => false,
                             'label'         => 'Setting name',
                             'name'          => 'acfe_settings_setting_name',
                             'key'           => 'acfe_settings_setting_name',
@@ -276,6 +278,7 @@ class acfe_field_settings{
                             )
                         ),
                         array(
+                            'ID'            => false,
                             'label'         => 'Operator / Value',
                             'name'          => 'acfe_settings_setting_operator',
                             'key'           => 'acfe_settings_setting_operator',
@@ -302,6 +305,7 @@ class acfe_field_settings{
                             ),
                         ),
                         array(
+                            'ID'            => false,
                             'label'         => 'Value',
                             'name'          => 'acfe_settings_setting_value',
                             'key'           => 'acfe_settings_setting_value',

@@ -56,7 +56,7 @@ function acfe_field_group_fields_add_fields_form($fields, $add = true){
                     
                     acfe_field_group_fields_add_fields_form($layout['sub_fields'], $add);
                     
-                } 
+                }
             }
             
         }
@@ -105,6 +105,26 @@ function acfe_field_group_meta_fix_repeater($field){
     
 }
 
+add_action('acf/render_field_group_settings', 'acfe_render_field_group_settings_acfe_form');
+function acfe_render_field_group_settings_acfe_form($field_group){
+    
+    // Form settings
+    acf_render_field_wrap(array(
+        'label'         => __('Advanced settings'),
+        'name'          => 'acfe_form',
+        'prefix'        => 'acf_field_group',
+        'type'			=> 'true_false',
+        'ui'			=> 1,
+        'instructions'	=> __('Enable advanced fields settings & validation'),
+        'value'         => (isset($field_group['acfe_form'])) ? $field_group['acfe_form'] : '',
+        'required'      => false,
+        'wrapper'       => array(
+            'data-after' => 'active'
+        )
+    ));
+    
+}
+
 /**
  * Field Group Options: Data
  */
@@ -114,18 +134,6 @@ function acfe_render_field_group_settings(){
     add_meta_box('acf-field-group-acfe', __('Field group', 'acf'), function(){
         
         global $field_group;
-        
-        // Form settings
-        acf_render_field_wrap(array(
-            'label'         => __('Advanced settings'),
-            'name'          => 'acfe_form',
-            'prefix'        => 'acf_field_group',
-            'type'			=> 'true_false',
-			'ui'			=> 1,
-            'instructions'	=> __('Enable advanced fields settings & validation'),
-            'value'         => (isset($field_group['acfe_form'])) ? $field_group['acfe_form'] : '',
-            'required'      => false,
-        ));
         
         // Meta
         acf_render_field_wrap(array(
@@ -141,6 +149,7 @@ function acfe_render_field_group_settings(){
             'value'         => (isset($field_group['acfe_meta'])) ? $field_group['acfe_meta'] : array(),
             'sub_fields'    => array(
                 array(
+                    'ID'            => false,
                     'label'         => __('Key'),
                     'name'          => 'acfe_meta_key',
                     'key'           => 'acfe_meta_key',
@@ -157,6 +166,7 @@ function acfe_render_field_group_settings(){
                     ),
                 ),
                 array(
+                    'ID'            => false,
                     'label'         => __('Value'),
                     'name'          => 'acfe_meta_value',
                     'key'           => 'acfe_meta_value',
@@ -202,7 +212,7 @@ function acfe_render_field_group_settings(){
             acf.postbox.render({
                 'id':       'acf-field-group-acfe',
                 'label':    'left'
-            });	
+            });
         }
         
         jQuery(document).ready(function($){
@@ -244,7 +254,7 @@ function acfe_render_field_group_submitbox($post){
     (function($) {
         $('.misc-pub-acfe-field-group-key').insertAfter('.misc-pub-post-status');
         $('.misc-pub-acfe-field-group-export').insertAfter('.misc-pub-post-status');
-    })(jQuery);	
+    })(jQuery);
     </script>
     <?php
     
@@ -333,9 +343,9 @@ function acfe_render_field_group_settings_side(){
             'prefix'        => 'acf_field_group',
             'value'         => (isset($_field_group['acfe_autosync']) && !empty($_field_group['acfe_autosync'])) ? $_field_group['acfe_autosync'] : array(),
             'choices'       => array(
-				'php'   => $php_text,
-				'json'  => $json_text,
-			)
+                'php'   => $php_text,
+                'json'  => $json_text,
+            )
         ));
         
         acf_render_field_wrap(array(
@@ -587,33 +597,33 @@ function acfc_field_group_default_options($field_group){
     
     // Only new field groups
     if(!acf_maybe_get($field_group, 'location')){
-	
-	    // Default label placement: Left
+    
+        // Default label placement: Left
         $field_group['label_placement'] = 'left';
         
         // AutoSync
-	    $acfe_autosync = array();
-	
-	    if(acf_get_setting('acfe/json_found', false)){
-		
-		    $acfe_autosync[] = 'json';
-		
-	    }
-	
-	    if(acf_get_setting('acfe/php_found', false)){
-		
-		    $acfe_autosync[] = 'php';
-		
-	    }
-	
-	    if(!empty($acfe_autosync)){
-		
-		    $field_group['acfe_autosync'] = $acfe_autosync;
-		
-	    }
+        $acfe_autosync = array();
+    
+        if(acf_get_setting('acfe/json_found', false)){
+        
+            $acfe_autosync[] = 'json';
+        
+        }
+    
+        if(acf_get_setting('acfe/php_found', false)){
+        
+            $acfe_autosync[] = 'php';
+        
+        }
+    
+        if(!empty($acfe_autosync)){
+        
+            $field_group['acfe_autosync'] = $acfe_autosync;
+        
+        }
         
     }
-	
+    
     
     
     return $field_group;
@@ -741,7 +751,7 @@ function acfe_field_group_disable_editor(){
     }
     
     $field_groups = acf_get_field_groups(array(
-        'post_id'	=> $post_id, 
+        'post_id'	=> $post_id,
         'post_type'	=> $post_type
     ));
     

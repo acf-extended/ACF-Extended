@@ -184,6 +184,46 @@
         
         
     };
+
+    acfe.filters = [];
+
+    acfe.disableFilters = function(){
+
+        acfe.filters = [];
+
+    };
+
+    acfe.enableFilter = function(name){
+
+        if(acfe.filters.indexOf(name) === -1)
+            acfe.filters.push(name);
+
+    };
+
+    acfe.disableFilter = function(name){
+
+        for(var i = acfe.filters.length; i--;){
+
+            if(acfe.filters[i] !== name)
+                continue;
+
+            acfe.filters.splice(i, 1);
+
+        }
+
+    };
+
+    acfe.isFilterEnabled = function(name){
+
+        return acfe.filters.indexOf(name) > -1;
+
+    };
+
+    acfe.getFilters = function(){
+
+        return acfe.filters;
+
+    };
     
     acf.addAction('ready_field', function(field){
         
@@ -264,9 +304,19 @@
 
     acf.addAction('prepare', function(){
 
+        var $acf_meta = $('#acfe-acf-custom-fields');
+        var $wp_meta = $('#acfe-wp-custom-fields');
+        var $bulk_actions = $('.acfe_dev_bulk_actions');
+
         // Move Bulk Button
-        $('#acfe-wp-custom-fields .tablenav.bottom').insertAfter($('#acfe-wp-custom-fields'));
-        $('#acfe-acf-custom-fields .tablenav.bottom').insertAfter($('#acfe-acf-custom-fields'));
+        $('#acfe-wp-custom-fields .tablenav.bottom').insertAfter($wp_meta);
+        $('#acfe-acf-custom-fields .tablenav.bottom').insertAfter($acf_meta);
+
+        if(!$acf_meta.is(':visible') && !$wp_meta.is(':visible')){
+
+            $bulk_actions.hide();
+
+        }
 
         // Bulk Delete
         $('#acfe_bulk_deleta_meta_submit').click(function(e){
@@ -324,19 +374,19 @@
 
                                 if(!$('#acfe-wp-custom-fields tbody tr').length){
 
-                                    $('#acfe-wp-custom-fields').remove();
+                                    $wp_meta.remove();
 
                                 }
 
                                 if(!$('#acfe-acf-custom-fields tbody tr').length){
 
-                                    $('#acfe-acf-custom-fields').remove();
+                                    $acf_meta.remove();
 
                                 }
 
                                 if(!$('#acfe-wp-custom-fields tbody tr').length && !$('#acfe-acf-custom-fields tbody tr').length){
 
-                                    $('.acfe_dev_bulk_actions').remove();
+                                    $bulk_actions.remove();
 
                                 }
 
@@ -399,7 +449,7 @@
 
                         if(!$('#acfe-wp-custom-fields tbody tr').length && !$('#acfe-acf-custom-fields tbody tr').length){
 
-                            $('.acfe_dev_bulk_actions').remove();
+                            $bulk_actions.remove();
 
                         }
 
@@ -419,6 +469,34 @@
 
                 }
             });
+
+        });
+
+        /*
+         * Screen preference for builk actions
+         */
+        $('.hide-postbox-tog').bind('click.postboxes', function(){
+
+            var $el = $(this),
+                boxId = $el.val();
+
+            if(boxId !== 'acfe-wp-custom-fields' && boxId !== 'acfe-acf-custom-fields')
+                return;
+
+            if($el.prop('checked')){
+
+                if(!$bulk_actions.is(':visible'))
+                    $bulk_actions.show();
+
+            }else{
+
+                if((boxId === 'acfe-wp-custom-fields' && !$acf_meta.is(':visible')) || (boxId === 'acfe-acf-custom-fields' && !$wp_meta.is(':visible'))){
+
+                    $bulk_actions.hide();
+
+                }
+
+            }
 
         });
 

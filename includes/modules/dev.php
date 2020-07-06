@@ -339,8 +339,18 @@ class acfe_dev{
         
         $return = '';
         
+        // Empty
+        if(empty($value) && !is_numeric($value)){
+    
+            $css = 'color:#aaa;';
+            $value = '(' . __('empty', 'acf') . ')';
+    
+            $return = '<pre style="max-height:200px; overflow:auto; white-space: pre; ' . $css . '">' . print_r($value, true) . '</pre>';
+            
+        }
+        
         // Serialized
-        if(is_serialized($value)){
+        elseif(is_serialized($value)){
             
             $return = '<pre style="max-height:200px; overflow:auto; white-space: pre;">' . print_r(maybe_unserialize($value), true) . '</pre>';
             $return .= '<pre style="max-height:200px; overflow:auto; white-space: pre; margin-top:10px;">' . print_r($value, true) . '</pre>';
@@ -365,16 +375,7 @@ class acfe_dev{
         // String
         else{
             
-            $css = '';
-            
-            if(empty($value)){
-                
-                $css = 'color:#aaa;';
-                $value = '(' . __('empty', 'acf') . ')';
-                
-            }
-            
-            $return = '<pre style="max-height:200px; overflow:auto; white-space: pre; ' . $css . '">' . print_r($value, true) . '</pre>';
+            $return = '<pre style="max-height:200px; overflow:auto; white-space: pre;">' . print_r($value, true) . '</pre>';
             
         }
         
@@ -504,36 +505,63 @@ class acfe_dev{
                 $field_type_display = false;
                 $field_group_display = false;
                 
+                $field_key = $wp_meta["_$key"]['value'];
+                
                 // Value = field_abcde123456?
-                if(acf_is_field_key($wp_meta["_$key"]['value'])){
+                if(acf_is_field_key($field_key)){
                     
-                    $field = acf_get_field($wp_meta["_$key"]['value']);
+                    $field = acf_get_field($field_key);
     
-                    $field_type = acf_get_field_type($field['type']);
-                    $field_type_display = '<em>Undefined</em>';
+                    if(!$field){
     
-                    if(isset($field_type->label))
-                        $field_type_display = $field_type->label;
-                    
-                    $field_group = acfe_get_field_group_from_field($field);
-                    $field_group_display = '<em>Undefined</em>';
+                        $field_type_display = '<em>Undefined</em>';
+                        $field_group_display = '<em>Undefined</em>';
+                        
+                        // Check clone: field_123456abcdef_field_123456abcfed
+                        $count = substr_count($field_key, 'field_');
     
-                    if($field_group){
-        
-                        $field_group_display = $field_group['title'];
-        
-                        if(!empty($field_group['ID'])){
-            
-                            $post_status = get_post_status($field_group['ID']);
-            
-                            if($post_status === 'publish' || $post_status === 'acf-disabled'){
-                
-                                $field_group_display = '<a href="' . admin_url('post.php?post=' . $field_group['ID'] . '&action=edit') . '">' . $field_group['title'] . '</a>';
-                
-                            }
-            
+                        if($count === 2){
+    
+                            $keys = explode('field_', $field_key);
+    
+                            $field_1 = 'field_' . substr($keys[1], 0, -1);
+                            $field_2 = 'field_' . $keys[2];
+    
+                            $field = acf_get_field($field_2);
+                            
                         }
+                        
+                    }
+                    
+                    if($field){
+    
+                        $field_type = acf_get_field_type($field['type']);
+                        $field_type_display = '<em>Undefined</em>';
+    
+                        if(isset($field_type->label))
+                            $field_type_display = $field_type->label;
+    
+                        $field_group = acfe_get_field_group_from_field($field);
+                        $field_group_display = '<em>Undefined</em>';
+    
+                        if($field_group){
         
+                            $field_group_display = $field_group['title'];
+        
+                            if(!empty($field_group['ID'])){
+            
+                                $post_status = get_post_status($field_group['ID']);
+            
+                                if($post_status === 'publish' || $post_status === 'acf-disabled'){
+                
+                                    $field_group_display = '<a href="' . admin_url('post.php?post=' . $field_group['ID'] . '&action=edit') . '">' . $field_group['title'] . '</a>';
+                
+                                }
+            
+                            }
+        
+                        }
+                        
                     }
                     
                 }

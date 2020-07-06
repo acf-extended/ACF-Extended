@@ -28,6 +28,9 @@ class acfe_single_meta{
         $this->taxonomies = apply_filters('acfe/modules/single_meta/taxonomies', array());
         $this->options = apply_filters('acfe/modules/single_meta/options', false);
         
+        // Field Objects
+        add_filter('acf/pre_load_meta',         array($this, 'load_meta'),          999, 2);
+        
         // Values
         add_filter('acf/pre_load_metadata',     array($this, 'load_metadata'), 		999, 4);
         add_filter('acf/update_value',          array($this, 'update_value'),       999, 3);
@@ -55,7 +58,26 @@ class acfe_single_meta{
         add_action('load-profile.php',      	array($this, 'load_user'));
     
         // Options
-        add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_options'));
+        //add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_options'));
+        
+    }
+    
+    function load_meta($return, $post_id){
+    
+        if(acf_is_filter_enabled('acfe/load_meta'))
+            return $return;
+    
+        // Validate Post ID
+        $validate = $this->validate_post_id($post_id);
+    
+        if(!$validate)
+            return $return;
+    
+        // Get store
+        $store = $this->get_store($post_id);
+        $acf = $store->get("$post_id:acf");
+        
+        return $acf;
         
     }
     
@@ -99,12 +121,12 @@ class acfe_single_meta{
      * Update Value
      */
     function update_value($value, $post_id, $field){
-
-        acf_enable_filter('acfe/save');
+    
+        acf_disable_filter('acfe/save');
         
         if(acf_maybe_get($field, 'acfe_save_meta')){
         
-            acf_disable_filter('acfe/save');
+            acf_enable_filter('acfe/save');
             
         }
         
@@ -141,43 +163,38 @@ class acfe_single_meta{
     
         // Update store
         $store->set("$post_id:acf", $acf);
-
-        // Single field update: Save to ACF meta
-        if(!acf_maybe_get_POST('acf') || acf_is_filter_enabled('acfe/bidirectional')){
     
-            // Update option
-            if($type === 'option'){
-    
-                $acf = wp_unslash($acf);
-                $autoload = (bool) acf_get_setting('autoload');
-                
-                update_option($id, $acf, $autoload);
+        // Update option
+        if($type === 'option'){
         
-            // Update meta
-            }else{
-                
-                acf_update_metadata($post_id, 'acf', $acf);
-                
-            }
+            $acf = wp_unslash($acf);
+            $autoload = (bool) acf_get_setting('autoload');
         
-        }
-    
-        // Delete Native ACF field
-        if(acf_is_filter_enabled('acfe/save')){
-            
-            acf_enable_filter('acfe/delete');
-    
-                acf_delete_metadata($post_id, "{$name}", $hidden);
-    
-            acf_disable_filter('acfe/delete');
-    
-            // Do not save as meta
-            return true;
-            
+            update_option($id, $acf, $autoload);
+        
+        // Update meta
+        }else{
+        
+            acf_update_metadata($post_id, 'acf', $acf);
+        
         }
         
         // Save normally
-        return null;
+        if(acf_is_filter_enabled('acfe/save')){
+            
+            return null;
+            
+        }
+    
+        // Delete Native ACF field
+        acf_enable_filter('acfe/delete');
+    
+            acf_delete_metadata($post_id, $name, $hidden);
+    
+        acf_disable_filter('acfe/delete');
+    
+        // Do not save as meta
+        return true;
         
     }
     
@@ -231,7 +248,6 @@ class acfe_single_meta{
                 acf_update_metadata($post_id, 'acf', $acf);
         
             }
-            
         
         }
     
@@ -240,9 +256,12 @@ class acfe_single_meta{
     }
     
     /*
-     * Pre acf/save_post
+     * acf/save_post:0
      */
     function pre_save_post($post_id = 0){
+        
+        if(!acf_maybe_get_POST('acfe_clean_meta'))
+            return;
         
         // Validate Post ID
         $validate = $this->validate_post_id($post_id);
@@ -250,84 +269,59 @@ class acfe_single_meta{
         if(!$validate)
             return;
         
-        if(acf_maybe_get_POST('acfe_clean_meta')){
+        // Reset ACF
+        $acf = array();
     
-            // Get store
-            $store = acf_get_store('acfe/meta');
-    
-            // Set store as empty
-            $store->set("$post_id:acf", array());
-            
-        }
+        // Check store.
+        $store = acf_get_store('acfe/meta');
+        $store->set("$post_id:acf", $acf);
         
     }
 
     /*
-     * acf/save_post
+     * acf/save_post:999
      */
     function save_post($post_id = 0){
         
+        if(!acf_maybe_get_POST('acfe_clean_meta'))
+            return;
+    
         // Validate Post ID
         $validate = $this->validate_post_id($post_id);
-        
+    
         if(!$validate)
             return;
-        
-        // Get store
-        $store = acf_get_store('acfe/meta');
-        
-        // Store found
-        if(!$store->has("$post_id:acf"))
-            return;
-        
-        // Get Store: ACF meta
+    
+        $store = $this->get_store($post_id);
         $acf = $store->get("$post_id:acf");
-    
-        // Type + ID
-        extract(acf_decode_post_id($post_id));
-    
-        // Update option
-        if($type === 'option'){
-            
-            $acf = wp_unslash($acf);
-            $autoload = (bool) acf_get_setting('autoload');
-            
-            update_option($id, $acf, $autoload);
         
-        // Update meta
-        }else{
+        acf_enable_filter('acfe/load_meta');
         
-            acf_update_metadata($post_id, 'acf', $acf);
-        
-        }
-        
-        if(acf_maybe_get_POST('acfe_clean_meta')){
-            
             $meta = acf_get_meta($post_id);
-            
-            if(empty($meta))
-                return;
-    
-            acf_enable_filter('acfe/delete');
-            
-            foreach($meta as $key => $value){
-                
-                // bail if not ACF field
-                if(!isset($meta["_$key"]))
-                    continue;
-                
-                // Bail early if exists in Single Value array
-                if(isset($acf[$key]))
-                    continue;
-                
-                acf_delete_metadata($post_id, $key);
-                acf_delete_metadata($post_id, $key, true);
-                
-            }
-    
-            acf_disable_filter('acfe/delete');
         
+        acf_disable_filter('acfe/load_meta');
+        
+        if(empty($meta))
+            return;
+
+        acf_enable_filter('acfe/delete');
+        
+        foreach($meta as $key => $value){
+            
+            // bail if not ACF field
+            if(!isset($meta["_$key"]))
+                continue;
+            
+            // Bail early if exists in Single Value array
+            if(isset($acf[$key]))
+                continue;
+            
+            acf_delete_metadata($post_id, $key);
+            acf_delete_metadata($post_id, $key, true);
+            
         }
+
+        acf_disable_filter('acfe/delete');
         
     }
     
@@ -509,6 +503,7 @@ class acfe_single_meta{
         
     }
     
+    /*
     function load_options($page){
     
         if($this->options === false)
@@ -520,7 +515,8 @@ class acfe_single_meta{
         add_meta_box('acfe-clean-meta', 'ACF Single Meta', array($this, 'render_metabox'), 'acf_options_page', 'side', 'default');
         
     }
-
+    */
+    
     function render_metabox($post, $metabox){
         
         $field = array(

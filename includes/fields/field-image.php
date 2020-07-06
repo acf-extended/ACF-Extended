@@ -74,10 +74,35 @@ function acfe_field_image_uploader_type($field){
 add_filter('acf/update_value/type=image', 'acfe_thumbnail_update', 10, 3);
 function acfe_thumbnail_update($value, $post_id, $field){
     
-    if(!isset($field['acfe_thumbnail']) || empty($field['acfe_thumbnail']) || empty($value) || empty(get_post_type($post_id)))
+    if(!acf_maybe_get($field, 'acfe_thumbnail'))
+        return $value;
+    
+    $data = acf_get_post_id_info($post_id);
+    
+    if($data['type'] !== 'post')
         return $value;
     
     update_post_meta($post_id, '_thumbnail_id', $value);
+    
+    return $value;
+    
+}
+
+/**
+ * Field Load Update
+ */
+add_filter('acf/load_value/type=image', 'acfe_thumbnail_load', 10, 3);
+function acfe_thumbnail_load($value, $post_id, $field){
+    
+    if(!acf_maybe_get($field, 'acfe_thumbnail'))
+        return $value;
+    
+    $data = acf_get_post_id_info($post_id);
+    
+    if($data['type'] !== 'post')
+        return $value;
+    
+    $value = get_post_meta($post_id, '_thumbnail_id', true);
     
     return $value;
     

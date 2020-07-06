@@ -35,15 +35,6 @@ function acfe_field_group_settings($field){
         'message'           => '',
         'default_value'     => false,
         'ui'                => true,
-        'conditional_logic' => array(
-            array(
-                array(
-                    'field'     => 'display',
-                    'operator'  => '==',
-                    'value'     => 'group',
-                ),
-            )
-        )
     ));
     
     acf_render_field_setting($field, array(
@@ -57,11 +48,6 @@ function acfe_field_group_settings($field){
         'ui'            => true,
         'conditional_logic' => array(
             array(
-                array(
-                    'field'     => 'display',
-                    'operator'  => '==',
-                    'value'     => 'group',
-                ),
                 array(
                     'field'     => 'acfe_group_modal',
                     'operator'  => '==',
@@ -80,11 +66,6 @@ function acfe_field_group_settings($field){
         'placeholder'   => __('Edit', 'acf'),
         'conditional_logic' => array(
             array(
-                array(
-                    'field'     => 'display',
-                    'operator'  => '==',
-                    'value'     => 'group',
-                ),
                 array(
                     'field'     => 'acfe_group_modal',
                     'operator'  => '==',
@@ -109,11 +90,6 @@ function acfe_field_group_settings($field){
         'default_value' => 'large',
         'conditional_logic' => array(
             array(
-                array(
-                    'field'     => 'display',
-                    'operator'  => '==',
-                    'value'     => 'group',
-                ),
                 array(
                     'field'     => 'acfe_group_modal',
                     'operator'  => '==',

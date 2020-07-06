@@ -65,13 +65,44 @@ function acfe_dt_registers(){
     if(empty($dynamic_taxonomies))
         return;
     
-    foreach($dynamic_taxonomies as $name => $register_args){
+    foreach($dynamic_taxonomies as $name => $args){
+        
+        if(taxonomy_exists($name))
+            continue;
         
         // Extract 'post_types' from 'register_args'
-        $post_types = acf_extract_var($register_args, 'post_types', array());
+        $post_types = acf_extract_var($args, 'post_types', array());
+    
+        // Textdomain
+        $textdomain = 'ACF Extended: Taxonomies';
+    
+        // Label
+        if(isset($args['label'])){
+        
+            acfe__($args['label'], 'Label', $textdomain);
+        
+        }
+    
+        // Description
+        if(isset($args['description'])){
+        
+            acfe__($args['description'], 'Description', $textdomain);
+        
+        }
+    
+        // Labels
+        if(isset($args['labels'])){
+        
+            foreach($args['labels'] as $label_name => &$label_text){
+            
+                acfe__($label_text, ucfirst($label_name), $textdomain);
+            
+            }
+        
+        }
         
         // Register: Execute
-        register_taxonomy($name, $post_types, $register_args);
+        register_taxonomy($name, $post_types, $args);
         
         // Filter Admin: Posts Per Page
         add_filter('edit_' . $name . '_per_page', 'acfe_dt_filter_admin_ppp');

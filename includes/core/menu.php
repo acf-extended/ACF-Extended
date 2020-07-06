@@ -97,7 +97,10 @@ function acfe_admin_settings_submenu_swap(){
     $submenu['edit.php?post_type=acf-field-group'] = $array;
     
     // Add items left
-    if(!empty($_submenu))
+    if(!empty($_submenu)){
+    
         $submenu['edit.php?post_type=acf-field-group'] = array_merge($array, $_submenu);
+        
+    }
     
 }

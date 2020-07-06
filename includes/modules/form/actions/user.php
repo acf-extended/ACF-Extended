@@ -12,10 +12,10 @@ class acfe_form_user{
         /*
          * Form
          */
-        add_filter('acfe/form/load/user',                                           array($this, 'load'),       1, 3);
-        add_action('acfe/form/validation/user',                                     array($this, 'validation'), 1, 3);
-        add_action('acfe/form/prepare/user',                                        array($this, 'prepare'),    1, 3);
-        add_action('acfe/form/submit/user',                                         array($this, 'submit'),     1, 5);
+        add_filter('acfe/form/load/user',                                           array($this, 'load'),       10, 3);
+        add_action('acfe/form/validation/user',                                     array($this, 'validation'), 10, 3);
+        add_action('acfe/form/make/user',                                           array($this, 'make'),       10, 3);
+        add_action('acfe/form/submit/user',                                         array($this, 'submit'),     10, 5);
         
         /*
          * Admin
@@ -388,11 +388,22 @@ class acfe_form_user{
         
     }
     
-    function prepare($form, $current_post_id, $action){
+    function make($form, $current_post_id, $action){
         
         // Form
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
+    
+        // Prepare
+        $prepare = true;
+        $prepare = apply_filters('acfe/form/prepare/user',                          $prepare, $form, $current_post_id, $action);
+        $prepare = apply_filters('acfe/form/prepare/user/form=' . $form_name,       $prepare, $form, $current_post_id, $action);
+    
+        if(!empty($action))
+            $prepare = apply_filters('acfe/form/prepare/user/action=' . $action,    $prepare, $form, $current_post_id, $action);
+    
+        if($prepare === false)
+            return;
         
         // Action
         $user_action = get_sub_field('acfe_form_user_action');
@@ -780,59 +791,55 @@ class acfe_form_user{
     }
     
     function submit($_user_id, $user_action, $args, $form, $action){
+    
+        // Form name
+        $form_name = acf_maybe_get($form, 'form_name');
+    
+        // Get user array
+        $user_object = get_user_by('ID', $_user_id);
+    
+        if(isset($user_object->data)){
         
-        if(!empty($action)){
+            // return array
+            $user = json_decode(json_encode($user_object->data), true);
         
-            // Custom Query Var
-            $custom_query_var = get_sub_field('acfe_form_custom_query_var');
+            $user_object_meta = get_user_meta($user['ID']);
+        
+            $user_meta = array();
+        
+            foreach($user_object_meta as $k => $v){
             
-            if(!empty($custom_query_var)){
-                
-                // Form name
-                $form_name = acf_maybe_get($form, 'form_name');
-                
-                // Get user array
-                $user_object = get_user_by('ID', $_user_id);
-                
-                if(isset($user_object->data)){
-                    
-                    // return array
-                    $user = json_decode(json_encode($user_object->data), true);
-                    
-                    $user_object_meta = get_user_meta($user['ID']);
-                    
-                    $user_meta = array();
-                    
-                    foreach($user_object_meta as $k => $v){
-                        
-                        if(!isset($v[0]))
-                            continue;
-                        
-                        $user_meta[$k] = $v[0];
-                        
-                    }
-                    
-                    $user_array = array_merge($user, $user_meta);
-                    
-                    $user_array['permalink'] = get_author_posts_url($_user_id);
-                    $user_array['admin_url'] = admin_url('user-edit.php?user_id=' . $_user_id);
-	
-					// Replace the hash password with the real password
-					if(acf_maybe_get($args, 'user_pass')){
-						
-						$user_array['user_pass'] = $args['user_pass'];
-					    
-                    }
-                    
-                    $user_array = apply_filters('acfe/form/query_var/user',                    $user_array, $_user_id, $user_action, $args, $form, $action);
-                    $user_array = apply_filters('acfe/form/query_var/user/form=' . $form_name, $user_array, $_user_id, $user_action, $args, $form, $action);
-                    $user_array = apply_filters('acfe/form/query_var/user/action=' . $action,  $user_array, $_user_id, $user_action, $args, $form, $action);
-                    
-                    set_query_var($action, $user_array);
-                
-                }
+                if(!isset($v[0]))
+                    continue;
+            
+                $user_meta[$k] = $v[0];
             
             }
+        
+            $user_array = array_merge($user, $user_meta);
+        
+            $user_array['permalink'] = get_author_posts_url($_user_id);
+            $user_array['admin_url'] = admin_url('user-edit.php?user_id=' . $_user_id);
+        
+            // Replace the hash password with the real password
+            if(acf_maybe_get($args, 'user_pass')){
+            
+                $user_array['user_pass'] = $args['user_pass'];
+            
+            }
+        
+            $user_array = apply_filters('acfe/form/query_var/user',                    $user_array, $_user_id, $user_action, $args, $form, $action);
+            $user_array = apply_filters('acfe/form/query_var/user/form=' . $form_name, $user_array, $_user_id, $user_action, $args, $form, $action);
+            $user_array = apply_filters('acfe/form/query_var/user/action=' . $action,  $user_array, $_user_id, $user_action, $args, $form, $action);
+            
+            // Query var
+            $query_var = acfe_form_unique_action_id($form, 'user');
+    
+            if(!empty($action))
+                $query_var = $action;
+            
+            // Set Query Var
+            set_query_var($query_var, $user_array);
         
         }
         

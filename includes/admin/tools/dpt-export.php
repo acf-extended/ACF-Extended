@@ -126,6 +126,9 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
                     '/[0-9]+ => array/'		=> 'array'
                 );
 
+                // Get settings.
+                $l10n = acf_get_setting('l10n');
+                $l10n_textdomain = acf_get_setting('l10n_textdomain');
 
                 ?>
                 <p><?php _e("The following code can be used to register a post type. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
@@ -135,7 +138,25 @@ class ACFE_Admin_Tool_Export_DPT extends ACF_Admin_Tool{
                     <textarea id="acf-export-textarea" readonly="true"><?php
                     
                     foreach($this->data as $post_type => $args){
+    
+                        // Translate settings if textdomain is set.
+                        if($l10n && $l10n_textdomain){
+        
+                            $args['label'] = acf_translate($args['label']);
+                            $args['description'] = acf_translate($args['description']);
+                            
+                            if(!empty($args['labels'])){
                                 
+                                foreach($args['labels'] as $key => &$label){
+    
+                                    $args['labels'][$key] = acf_translate($label);
+                                    
+                                }
+                                
+                            }
+        
+                        }
+                        
                         // code
                         $code = var_export($args, true);
                         

@@ -67,6 +67,8 @@ input.acfe-flexible-control-title{
     padding:0 !important;
     display:none;
     min-height:20px;
+    vertical-align: unset;
+    background:none;
 }
 
 .layout > .acf-fc-layout-handle .acfe-layout-title{
@@ -74,7 +76,7 @@ input.acfe-flexible-control-title{
     position:relative;
 }
 
-.layout > .acf-fc-layout-handle .acfe-layout-title:hover{
+.layout:not(.acfe-flexible-title-edition) > .acf-fc-layout-handle .acfe-layout-title:hover{
     background:#f4f4f4;
 }
 
@@ -85,4 +87,15 @@ input.acfe-flexible-control-title{
 
 .layout.acfe-flexible-title-edition > .acf-fc-layout-handle .acfe-layout-title .acfe-layout-title-text{
     display:none;
+}
+
+/*
+ * ACFE: Toggle
+ */
+.layout.acfe-flexible-layout-hidden > .acf-fc-layout-handle,
+.layout.acfe-flexible-layout-hidden > .acf-fc-layout-controls,
+.layout.acfe-flexible-layout-hidden > .acfe-fc-placeholder,
+.layout.acfe-flexible-layout-hidden > .acf-fields{
+    filter: alpha(opacity=50);
+    opacity: 0.5;
 }

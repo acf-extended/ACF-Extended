@@ -288,10 +288,10 @@ function acfe_admin_settings_html(){
                         'description' => 'Show/hide the Options module. Defaults to true'
                     ),
                     array(
-                        'name'  => 'acfe/modules/taxonomies',
-                        'label' => 'Module: Taxonomies Enhancements',
-                        'value' => '<code>' . (acf_get_setting('acfe/modules/taxonomies', true) ? __('True'): __('False')) . '</code>',
-                        'description' => 'Show/hide the Taxonomies enhancements module. Defaults to true'
+                        'name'  => 'acfe/modules/ui',
+                        'label' => 'Module: UI Enhancements',
+                        'value' => '<code>' . (acf_get_setting('acfe/modules/ui', true) ? __('True'): __('False')) . '</code>',
+                        'description' => 'Show/hide the UI enhancements module. Defaults to true'
                     ),
                     array(
                         'name'  => 'acfe/field/recaptcha/site_key',

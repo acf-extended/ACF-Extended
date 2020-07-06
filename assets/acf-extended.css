@@ -68,6 +68,11 @@ body.-loading *{
 
 .acf-field-acfe-code-editor > .acf-input > .acf-input-wrap > .CodeMirror-wrap.cm-s-default{
     border:1px solid #7e8993;
+    border-radius: 4px;
+}
+
+.acf-field-acfe-code-editor > .acf-input > .acf-input-wrap > .CodeMirror-wrap.cm-s-default .CodeMirror-gutters{
+    border-right: 1px solid #7e8993;
 }
 
 body:not(.acf-admin-5-3) .acf-field-acfe-code-editor > .acf-input > .acf-input-wrap > .CodeMirror-wrap.cm-s-default{
@@ -169,6 +174,11 @@ body:not(.acf-admin-5-3) .acf-field-acfe-code-editor > .acf-input > .acf-input-w
 .acf-postbox.seamless > .acf-fields.-left > .acf-field-group.acfe-field-group-layout-row.acfe-seamless-style > .acf-input,
 .acf-postbox.seamless > .acf-fields.-left > .acf-field-group.acfe-field-group-layout-table.acfe-seamless-style > .acf-input{
     padding:0 12px;
+}
+
+.acf-fields > .acf-field-group[data-acfe-group-modal="1"] > .acf-input > .acf-table,
+.acf-fields > .acf-field-group[data-acfe-group-modal="1"] > .acf-input > .acf-fields{
+    display:none;
 }
 
 /*
@@ -321,14 +331,8 @@ tr.acf-field.acf-field-clone[data-acfe-clone-modal="1"] > .acf-input > .acfe-mod
 }
 
 /*
- * ACF Field: Editor
+ * ACF Field: WYSIWYG
  */
-.acf-field-wysiwyg[data-acfe-wysiwyg-transparent="1"] .acf-editor-wrap .wp-editor-container,
-.acf-field-wysiwyg[data-acfe-wysiwyg-transparent="1"] .acf-editor-wrap .mce-tinymce,
-.acf-field-wysiwyg[data-acfe-wysiwyg-transparent="1"] .acf-editor-wrap .mce-edit-area{
-    background:transparent;
-}
-
 .acf-editor-wrap iframe{
     min-height:60px;
 }
@@ -717,4 +721,11 @@ form.acfe-form.is-invalid[data-errors-position="below"] .acf-field .acf-notice{
     background: #f1f1f1 !important;
     border-color: #016087 !important;
     color: #016087 !important;
+}
+
+/*
+ * ACF Medium Editor
+ */
+body .medium-editor-toolbar {
+    z-index: 999999 !important;
 }

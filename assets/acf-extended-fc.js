@@ -165,7 +165,7 @@
 
     var acfeFlexibleDelayInit = function(editor){
 
-        if(editor.has('id') || !editor.$el.is(':visible'))
+        if(editor.has('id') || !editor.$el.is(':visible') || acfe.isFilterEnabled('acfeForceOpen'))
             return;
 
         var $wrap = editor.$control();
@@ -318,7 +318,11 @@
 
             if(flexible.has('acfeFlexibleOpen')){
 
+                acfe.enableFilter('acfeForceOpen');
+
                 flexible.openLayout($layout);
+
+                acfe.disableFilter('acfeForceOpen');
 
             }
         

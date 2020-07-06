@@ -37,7 +37,7 @@ class acfe_settings{
 				'active' => true,
 			),
 			
-			'taxonomy' => array(
+			'ui' => array(
 				'active' => true,
 			),
 			

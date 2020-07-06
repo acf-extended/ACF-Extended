@@ -12,9 +12,9 @@ class acfe_form_term{
         /*
          * Form
          */
-        add_filter('acfe/form/load/term',                                           array($this, 'load'), 1, 3);
-        add_action('acfe/form/prepare/term',                                        array($this, 'prepare'), 1, 3);
-        add_action('acfe/form/submit/term',                                         array($this, 'submit'), 1, 5);
+        add_filter('acfe/form/load/term',                                           array($this, 'load'), 10, 3);
+        add_action('acfe/form/make/term',                                           array($this, 'make'), 10, 3);
+        add_action('acfe/form/submit/term',                                         array($this, 'submit'), 10, 5);
         
         /*
          * Admin
@@ -166,11 +166,22 @@ class acfe_form_term{
         
     }
     
-    function prepare($form, $current_post_id, $action){
+    function make($form, $current_post_id, $action){
         
         // Form
         $form_name = acf_maybe_get($form, 'form_name');
         $form_id = acf_maybe_get($form, 'form_id');
+    
+        // Prepare
+        $prepare = true;
+        $prepare = apply_filters('acfe/form/prepare/term',                          $prepare, $form, $current_post_id, $action);
+        $prepare = apply_filters('acfe/form/prepare/term/form=' . $form_name,       $prepare, $form, $current_post_id, $action);
+    
+        if(!empty($action))
+            $prepare = apply_filters('acfe/form/prepare/term/action=' . $action,    $prepare, $form, $current_post_id, $action);
+    
+        if($prepare === false)
+            return;
         
         // Action
         $term_action = get_sub_field('acfe_form_term_action');
@@ -334,32 +345,28 @@ class acfe_form_term{
     }
     
     function submit($_term_id, $term_action, $args, $form, $action){
-        
-        if(!empty($action)){
-        
-            // Custom Query Var
-            $custom_query_var = get_sub_field('acfe_form_custom_query_var');
-            
-            if(!empty($custom_query_var)){
-                
-                // Form name
-                $form_name = acf_maybe_get($form, 'form_name');
-                
-                // Get term array
-                $term_object = get_term($_term_id, $args['taxonomy'], 'ARRAY_A');
-                
-                $term_object['permalink'] = get_term_link($_term_id, $term_object['taxonomy']);
-                $term_object['admin_url'] = admin_url('term.php?tag_ID=' . $_term_id . '&taxonomy=' . $term_object['taxonomy']);
-                
-                $term_object = apply_filters('acfe/form/query_var/term',                    $term_object, $_term_id, $term_action, $args, $form, $action);
-                $term_object = apply_filters('acfe/form/query_var/term/form=' . $form_name, $term_object, $_term_id, $term_action, $args, $form, $action);
-                $term_object = apply_filters('acfe/form/query_var/term/action=' . $action,  $term_object, $_term_id, $term_action, $args, $form, $action);
-                
-                set_query_var($action, $term_object);
-            
-            }
-        
-        }
+    
+        // Form name
+        $form_name = acf_maybe_get($form, 'form_name');
+    
+        // Get term array
+        $term_object = get_term($_term_id, $args['taxonomy'], 'ARRAY_A');
+    
+        $term_object['permalink'] = get_term_link($_term_id, $term_object['taxonomy']);
+        $term_object['admin_url'] = admin_url('term.php?tag_ID=' . $_term_id . '&taxonomy=' . $term_object['taxonomy']);
+    
+        $term_object = apply_filters('acfe/form/query_var/term',                    $term_object, $_term_id, $term_action, $args, $form, $action);
+        $term_object = apply_filters('acfe/form/query_var/term/form=' . $form_name, $term_object, $_term_id, $term_action, $args, $form, $action);
+        $term_object = apply_filters('acfe/form/query_var/term/action=' . $action,  $term_object, $_term_id, $term_action, $args, $form, $action);
+    
+        // Query var
+        $query_var = acfe_form_unique_action_id($form, 'term');
+    
+        if(!empty($action))
+            $query_var = $action;
+    
+        // Set Query Var
+        set_query_var($query_var, $term_object);
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_term_save_meta');
