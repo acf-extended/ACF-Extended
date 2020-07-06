@@ -274,7 +274,7 @@ The native WP Author Metabox has been replaced with a dynamic version allowing t
 
 Taxonomies list/edit, User edit/add and General Settings views have been enhanced for a more consistent administration experience, using CSS/JS only.
 
-### 🛠WordPress: Options
+### WordPress: Options
 
 Manage WordPress options from Settings > Options.
 
