@@ -270,7 +270,7 @@ class acfe_dev{
                                     
                                     <?php if($is_options){ ?>
                                         <span class="edit">
-                                            <a href="<?php echo admin_url('options-general.php?page=acfe-options&action=edit&option=' . $meta_id); ?>>"><?php _e('Edit'); ?></a> |
+                                            <a href="<?php echo admin_url('options-general.php?page=acfe-options&action=edit&option=' . $meta_id); ?>"><?php _e('Edit'); ?></a> |
                                         </span>
                                     <?php } ?>
                                     

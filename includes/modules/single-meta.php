@@ -3,12 +3,12 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Register store
+acf_register_store('acfe/meta')->prop('multisite', true);
+
 // Check setting
 if(!acf_get_setting('acfe/modules/single_meta'))
     return;
-
-// Register notices store.
-acf_register_store('acfe/meta')->prop('multisite', true);
 
 if(!class_exists('acfe_single_meta')):
 
@@ -29,17 +29,17 @@ class acfe_single_meta{
         $this->options = apply_filters('acfe/modules/single_meta/options', false);
         
         // Field Objects
-        add_filter('acf/pre_load_meta',         array($this, 'load_meta'),          999, 2);
+        add_filter('acf/pre_load_meta',         array($this, 'pre_load_meta'),          999, 2);
         
         // Values
-        add_filter('acf/pre_load_metadata',     array($this, 'load_metadata'), 		999, 4);
-        add_filter('acf/update_value',          array($this, 'update_value'),       999, 3);
-        add_filter('acf/pre_update_metadata',   array($this, 'update_metadata'),    999, 5);
-        add_filter('acf/pre_delete_metadata',   array($this, 'delete_metadata'),    999, 4);
+        add_filter('acf/pre_load_metadata',     array($this, 'pre_load_metadata'), 		999, 4);
+        add_filter('acf/update_value',          array($this, 'update_value'),           999, 3);
+        add_filter('acf/pre_update_metadata',   array($this, 'pre_update_metadata'),    999, 5);
+        add_filter('acf/pre_delete_metadata',   array($this, 'pre_delete_metadata'),    999, 4);
         
         // Save Post
-        add_action('acf/save_post',             array($this, 'pre_save_post'),      0);
-        add_action('acf/save_post',             array($this, 'save_post'),          999);
+        add_action('acf/save_post',             array($this, 'pre_save_post'),          0);
+        add_action('acf/save_post',             array($this, 'save_post'),              999);
         
         // Settings
         add_action('acf/render_field_settings', array($this, 'field_setting'));
@@ -62,9 +62,9 @@ class acfe_single_meta{
         
     }
     
-    function load_meta($return, $post_id){
+    function pre_load_meta($return, $post_id){
     
-        if(acf_is_filter_enabled('acfe/load_meta'))
+        if(acf_is_filter_enabled('acfe/meta/native_load'))
             return $return;
     
         // Validate Post ID
@@ -84,7 +84,7 @@ class acfe_single_meta{
     /*
      * Load Metadata
      */
-    function load_metadata($return, $post_id, $name, $hidden){
+    function pre_load_metadata($return, $post_id, $name, $hidden){
         
         if($name === 'acf')
             return $return;
@@ -122,11 +122,11 @@ class acfe_single_meta{
      */
     function update_value($value, $post_id, $field){
     
-        acf_disable_filter('acfe/save');
+        acf_disable_filter('acfe/meta/native_save');
         
         if(acf_maybe_get($field, 'acfe_save_meta')){
         
-            acf_enable_filter('acfe/save');
+            acf_enable_filter('acfe/meta/native_save');
             
         }
         
@@ -137,7 +137,7 @@ class acfe_single_meta{
     /*
      * Update Metadata
      */
-    function update_metadata($return, $post_id, $name, $value, $hidden){
+    function pre_update_metadata($return, $post_id, $name, $value, $hidden){
     
         if($name === 'acf')
             return $return;
@@ -151,9 +151,6 @@ class acfe_single_meta{
         // Get store
         $store = $this->get_store($post_id);
         $acf = $store->get("$post_id:acf");
-    
-        // Decode $post_id for $type and $id.
-        extract(acf_decode_post_id($post_id));
         
         // Prefix
         $prefix = $hidden ? '_' : '';
@@ -163,35 +160,27 @@ class acfe_single_meta{
     
         // Update store
         $store->set("$post_id:acf", $acf);
+        
+        // Update if not compiling
+        if(!acf_is_filter_enabled("acfe/meta/compile/{$post_id}")){
     
-        // Update option
-        if($type === 'option'){
-        
-            $acf = wp_unslash($acf);
-            $autoload = (bool) acf_get_setting('autoload');
-        
-            update_option($id, $acf, $autoload);
-        
-        // Update meta
-        }else{
-        
-            acf_update_metadata($post_id, 'acf', $acf);
-        
+            $this->update_meta('acf', $acf, $post_id);
+            
         }
         
         // Save normally
-        if(acf_is_filter_enabled('acfe/save')){
+        if(acf_is_filter_enabled('acfe/meta/native_save')){
             
             return null;
             
         }
     
-        // Delete Native ACF field
-        acf_enable_filter('acfe/delete');
+        // Delete Native ACF field if it already exists
+        acf_enable_filter('acfe/meta/native_delete');
     
             acf_delete_metadata($post_id, $name, $hidden);
     
-        acf_disable_filter('acfe/delete');
+        acf_disable_filter('acfe/meta/native_delete');
     
         // Do not save as meta
         return true;
@@ -201,9 +190,9 @@ class acfe_single_meta{
     /*
      * Delete Metadata
      */
-    function delete_metadata($return, $post_id, $name, $hidden){
+    function pre_delete_metadata($return, $post_id, $name, $hidden){
         
-        if($name === 'acf' || acf_is_filter_enabled('acfe/delete'))
+        if($name === 'acf' || acf_is_filter_enabled('acfe/meta/native_delete'))
             return $return;
     
         // Validate Post ID
@@ -219,9 +208,6 @@ class acfe_single_meta{
         // Bail early if empty
         if(empty($acf))
             return $return;
-    
-        // Decode $post_id for $type and $id.
-        extract(acf_decode_post_id($post_id));
         
         // Prefix
         $prefix = $hidden ? '_' : '';
@@ -234,20 +220,7 @@ class acfe_single_meta{
             // Update store
             $store->set("$post_id:acf", $acf);
     
-            // Update option
-            if($type === 'option'){
-    
-                $acf = wp_unslash($acf);
-                $autoload = (bool) acf_get_setting('autoload');
-        
-                update_option($id, $acf, $autoload);
-        
-            // Update meta
-            }else{
-        
-                acf_update_metadata($post_id, 'acf', $acf);
-        
-            }
+            $this->update_meta('acf', $acf, $post_id);
         
         }
     
@@ -269,12 +242,13 @@ class acfe_single_meta{
         if(!$validate)
             return;
         
-        // Reset ACF
-        $acf = array();
+        // Enable filter
+        acf_enable_filter("acfe/meta/compile/{$post_id}");
+        acf_enable_filter("acfe/meta/clean/{$post_id}");
     
-        // Check store.
+        // Check store
         $store = acf_get_store('acfe/meta');
-        $store->set("$post_id:acf", $acf);
+        $store->set("$post_id:acf", array());
         
     }
 
@@ -283,45 +257,55 @@ class acfe_single_meta{
      */
     function save_post($post_id = 0){
         
-        if(!acf_maybe_get_POST('acfe_clean_meta'))
+        if(!acf_is_filter_enabled("acfe/meta/compile/{$post_id}"))
             return;
     
         // Validate Post ID
         $validate = $this->validate_post_id($post_id);
-    
+
         if(!$validate)
             return;
-    
+
         $store = $this->get_store($post_id);
         $acf = $store->get("$post_id:acf");
         
-        acf_enable_filter('acfe/load_meta');
+        $this->update_meta('acf', $acf, $post_id);
         
+        // Clean
+        if(acf_is_filter_enabled("acfe/meta/clean/{$post_id}")){
+    
+            acf_enable_filter('acfe/meta/native_load');
+    
             $meta = acf_get_meta($post_id);
+    
+            acf_disable_filter('acfe/meta/native_load');
+    
+            // Bail early if no meta to clean
+            if(empty($meta))
+                return;
+    
+            acf_enable_filter('acfe/meta/native_delete');
+    
+            foreach($meta as $key => $value){
         
-        acf_disable_filter('acfe/load_meta');
+                // bail if not ACF field
+                if(!isset($meta["_$key"]))
+                    continue;
         
-        if(empty($meta))
-            return;
-
-        acf_enable_filter('acfe/delete');
+                // Bail early if exists in Single Value array
+                if(isset($acf[$key]))
+                    continue;
         
-        foreach($meta as $key => $value){
-            
-            // bail if not ACF field
-            if(!isset($meta["_$key"]))
-                continue;
-            
-            // Bail early if exists in Single Value array
-            if(isset($acf[$key]))
-                continue;
-            
-            acf_delete_metadata($post_id, $key);
-            acf_delete_metadata($post_id, $key, true);
+                acf_delete_metadata($post_id, $key);
+                acf_delete_metadata($post_id, $key, true);
+        
+            }
+    
+            acf_disable_filter('acfe/meta/native_delete');
             
         }
 
-        acf_disable_filter('acfe/delete');
+        
         
     }
     
@@ -395,28 +379,59 @@ class acfe_single_meta{
         
         // Store found
         if(!$store->has("$post_id:acf")){
-    
-            // Decode $post_id for $type and $id.
-            extract(acf_decode_post_id($post_id));
-    
-            // Get option
-            if($type === 'option'){
-    
-                $acf = get_option($id, null);
-        
-            // Get meta
-            }else{
-                
-                $acf = acf_get_metadata($post_id, 'acf');
-                
-            }
             
+            // Get meta
+            $acf = $this->get_meta('acf', $post_id);
+    
             // Set Store: ACF meta
             $store->set("$post_id:acf", $acf);
             
         }
         
         return $store;
+        
+    }
+    
+    function get_meta($name, $post_id){
+    
+        // Decode $post_id for $type and $id.
+        extract(acf_decode_post_id($post_id));
+    
+        // Get option
+        if($type === 'option'){
+        
+            $value = get_option($id, null);
+        
+        // Get meta
+        }else{
+    
+            $value = acf_get_metadata($post_id, $name);
+        
+        }
+        
+        return $value;
+        
+    }
+    
+    function update_meta($name, $value, $post_id){
+    
+        // Decode $post_id for $type and $id.
+        extract(acf_decode_post_id($post_id));
+    
+        // Update option
+        if($type === 'option'){
+    
+            $value = wp_unslash($value);
+            $autoload = (bool) acf_get_setting('autoload');
+        
+            return update_option($id, $value, $autoload);
+        
+        // Update meta
+        }else{
+    
+            return acf_update_metadata($post_id, $name, $value);
+        
+        }
         
     }
     

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: Enhancement Suite which improves Advanced Custom Fields administration
- * Version:     0.8.6.5
+ * Version:     0.8.6.7
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Version
-    var $version = '0.8.6.5';
+    var $version = '0.8.6.7';
     
     // Settings
     var $settings = array();
@@ -42,28 +42,29 @@ class ACFE{
         $this->define('ACFE_PATH',          plugin_dir_path(__FILE__));
         $this->define('ACFE_VERSION',       $this->version);
         $this->define('ACFE_BASENAME',      plugin_basename(__FILE__));
-        $this->define('ACFE_THEME_PATH',    get_stylesheet_directory());
-        $this->define('ACFE_THEME_URL',     get_stylesheet_directory_uri());
         
-        // Define settings
+        // Settings
         $this->settings = array(
-            'acfe/url'                              => plugin_dir_url(__FILE__),
-            'acfe/php'                              => true,
-            'acfe/php_save'                         => ACFE_THEME_PATH . '/acfe-php',
-            'acfe/php_load'                         => array(ACFE_THEME_PATH . '/acfe-php'),
-            'acfe/php_found'                        => false,
-            'acfe/json_found'                       => false,
-            'acfe/dev'                              => false,
-            'acfe/modules/author'                   => true,
-            'acfe/modules/dynamic_block_types'      => true,
-            'acfe/modules/dynamic_forms'            => true,
-            'acfe/modules/dynamic_options_pages'    => true,
-            'acfe/modules/dynamic_post_types'       => true,
-            'acfe/modules/dynamic_taxonomies'       => true,
-            'acfe/modules/multilang'                => true,
-            'acfe/modules/options'                  => true,
-            'acfe/modules/single_meta'              => false,
-            'acfe/modules/ui'                       => true,
+            'url'                               => plugin_dir_url(__FILE__),
+            'theme_path'                        => get_stylesheet_directory(),
+            'theme_url'                         => get_stylesheet_directory_uri(),
+            'theme_folder'                      => false,
+            'php'                               => true,
+            'php_save'                          => false,
+            'php_load'                          => false,
+            'php_found'                         => false,
+            'json_found'                        => false,
+            'dev'                               => false,
+            'modules/author'                    => true,
+            'modules/dynamic_block_types'       => true,
+            'modules/dynamic_forms'             => true,
+            'modules/dynamic_options_pages'     => true,
+            'modules/dynamic_post_types'        => true,
+            'modules/dynamic_taxonomies'        => true,
+            'modules/multilang'                 => true,
+            'modules/options'                   => true,
+            'modules/single_meta'               => false,
+            'modules/ui'                        => true,
         );
         
         // Init
@@ -85,9 +86,29 @@ class ACFE{
         // Settings
         foreach($this->settings as $name => $value){
             
-            acf_update_setting($name, $value);
+            // update
+            acf_update_setting("acfe/{$name}", $value);
+    
+            // filter
+            if(!has_filter("acfe/settings/{$name}"))
+                continue;
+        
+            add_filter("acf/settings/acfe/{$name}", function($v) use($name){
+        
+                return apply_filters("acfe/settings/{$name}", $v);
+        
+            }, 5);
             
         }
+        
+        // Theme
+        $theme_path = acf_get_setting('acfe/theme_path');
+        $theme_url = acf_get_setting('acfe/theme_url');
+        
+        // Additional Settings
+        acf_update_setting('acfe/php_save', "{$theme_path}/acfe-php");
+        acf_update_setting('acfe/php_load', array("{$theme_path}/acfe-php"));
+        acf_update_setting('acfe/theme_folder', parse_url($theme_url, PHP_URL_PATH));
         
         // Load
         add_action('acf/init',                  array($this, 'includes'), 99);

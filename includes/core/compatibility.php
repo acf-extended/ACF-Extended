@@ -43,17 +43,19 @@ class acfe_compatibility{
             acf_update_setting('acfe/php_found', acf_get_setting('php_found'));
         }
         
-        add_filter('acf/validate_field_group',                  array($this, 'field_group_location_list'), 20);
-        add_filter('acf/validate_field',                        array($this, 'field_acfe_update'), 20);
+        add_filter('acf/validate_field_group',                      array($this, 'field_group_location_list'), 20);
+        add_filter('acf/validate_field',                            array($this, 'field_acfe_update'), 20);
         
-        add_filter('acf/validate_field/type=group',             array($this, 'field_seamless_style'), 20);
-        add_filter('acf/validate_field/type=clone',             array($this, 'field_seamless_style'), 20);
-        add_filter('acfe/load_fields/type=flexible_content',    array($this, 'field_flexible_settings_title'), 20, 2);
+        add_filter('acf/validate_field/type=group',                 array($this, 'field_seamless_style'), 20);
+        add_filter('acf/validate_field/type=clone',                 array($this, 'field_seamless_style'), 20);
+        add_filter('acfe/load_fields/type=flexible_content',        array($this, 'field_flexible_settings_title'), 20, 2);
         
-        add_filter('pto/posts_orderby/ignore',                  array($this, 'pto_acf_field_group'), 10, 3);
-        add_action('admin_menu',                                array($this, 'cotto_submenu'), 999);
-        add_filter('rank_math/metabox/priority',                array($this, 'rankmath_metaboxes_priority'));
-        add_filter('wpseo_metabox_prio',                        array($this, 'yoast_metaboxes_priority'));
+        add_filter('acf/prepare_field/name=acfe_flexible_category', array($this, 'field_flexible_layout_categories'), 10, 2);
+        
+        add_filter('pto/posts_orderby/ignore',                      array($this, 'pto_acf_field_group'), 10, 3);
+        add_action('admin_menu',                                    array($this, 'cotto_submenu'), 999);
+        add_filter('rank_math/metabox/priority',                    array($this, 'rankmath_metaboxes_priority'));
+        add_filter('wpseo_metabox_prio',                            array($this, 'yoast_metaboxes_priority'));
         
     }
 
@@ -171,6 +173,39 @@ class acfe_compatibility{
         
         return $fields;
         
+    }
+    
+    /**
+     * ACF Extended: 0.8.6.7
+     * Field Flexible Content: Compatibility for Layout Categories
+     */
+    function field_flexible_layout_categories($field){
+        
+        $value = acf_maybe_get($field, 'value');
+    
+        if(empty($value))
+            return $field;
+    
+        if(is_string($value)){
+        
+            $explode = explode('|', $value);
+        
+            $choices = array();
+        
+            foreach($explode as $v){
+            
+                $v = trim($v);
+                $choices[$v] = $v;
+            
+            }
+        
+            $field['choices'] = $choices;
+            $field['value'] = $choices;
+        
+        }
+    
+        return $field;
+    
     }
 
 	/**

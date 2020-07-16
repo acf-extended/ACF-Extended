@@ -119,6 +119,8 @@ class acfe_field_taxonomy_terms extends acf_field{
                 'children'	=> array()
             );
             
+            $done = array();
+            
             // append to $data
             $i=0; foreach($terms as $term_id => $name){ $i++;
             
@@ -141,7 +143,7 @@ class acfe_field_taxonomy_terms extends acf_field{
                     
                     $data['children'][] = array(
                         'id' => $id, 
-                        'text' => '<strong>' . $text . '</strong>'
+                        'text' => '(' . $text . ')'
                     );
                     
                 }
@@ -150,12 +152,31 @@ class acfe_field_taxonomy_terms extends acf_field{
                     
                     $_term = get_term($term->parent);
                     
-                    $_term_choice = acf_get_choice_from_term($_term, 'name');
-                    
-                    $data['children'][] = array(
-                        'id' => $_term->term_id . '_childs', 
-                        'text' => '<strong>' . $_term_choice['text'] . ': Childs</strong>'
-                    );
+                    if(!in_array($_term->term_id . '_childs', $done)){
+    
+                        $_term_choice = acf_get_choice_from_term($_term, 'name');
+    
+                        $data['children'][] = array(
+                            'id' => $_term->term_id . '_childs',
+                            'text' => $_term_choice['text'] . ' (Direct childs)'
+                        );
+    
+                        $done[] = $_term->term_id . '_childs';
+                        
+                    }
+    
+                    if(!in_array($_term->term_id . '_all_childs', $done)){
+        
+                        $_term_choice = acf_get_choice_from_term($_term, 'name');
+        
+                        $data['children'][] = array(
+                            'id' => $_term->term_id . '_all_childs',
+                            'text' => $_term_choice['text'] . ' (All childs)'
+                        );
+        
+                        $done[] = $_term->term_id . '_all_childs';
+        
+                    }
                     
                 }
                 
@@ -301,8 +322,47 @@ class acfe_field_taxonomy_terms extends acf_field{
                     $terms = array_merge($terms, acf_array($keep));
             
                 }
+
+                // Terms all childs
+                elseif(acfe_ends_with($id, '_all_childs')){
+    
+                    $term_id = substr($id, 0, -11);
+                    $term = get_term($term_id);
+                    $taxonomy = $term->taxonomy;
+    
+                    if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
+                        continue;
+    
+                    $keep = array();
+    
+                    foreach($all_terms as $all_term){
+                        
+                        if($all_term->taxonomy !== $taxonomy)
+                            continue;
+    
+                        $term_childs = get_term_children($term_id, $taxonomy);
+                        
+                        if(!in_array($all_term->term_id, $term_childs))
+                            continue;
         
-                // Terms childs
+                        $keep[] = $all_term;
+        
+                    }
+                    
+                    $is_hierarchical = is_taxonomy_hierarchical($taxonomy);
+                    
+                    // sort into hierachial order
+                    if($is_hierarchical){
+        
+                        $keep = _get_term_children($id, $keep, $taxonomy);
+        
+                    }
+    
+                    $terms = array_merge($terms, acf_array($keep));
+    
+                }
+        
+                // Terms direct childs
                 elseif(acfe_ends_with($id, '_childs')){
             
                     $term_id = substr($id, 0, -7);
@@ -364,7 +424,8 @@ class acfe_field_taxonomy_terms extends acf_field{
         if(!empty($terms)){
             
             $terms = acf_get_grouped_terms(array(
-                'include' => $terms
+                'include' => $terms,
+                'orderby' => 'include'
             ));
             
             $choices = acf_get_choices_from_grouped_terms($terms, 'name');
@@ -426,24 +487,36 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         if(!empty($terms)){
             
+            $keys = array_keys($terms);
+            $single_taxonomy = false;
+            
+            if(count($keys) === 1)
+                $single_taxonomy = true;
+            
             foreach($terms as $taxonomy => $term){
     
                 $data = array(
                     'text'		=> $taxonomy,
                     'children'	=> array()
                 );
-                
-                foreach($term as $term_id => $term_name){
     
+                foreach($term as $term_id => $term_name){
+        
                     $data['children'][] = array(
                         'id' => $term_id,
                         'text' => $term_name
                     );
-                    
+        
                 }
-    
+                
                 $results[] = $data;
                 
+            }
+    
+            if($single_taxonomy){
+    
+                $results = $results[0]['children'];
+        
             }
             
         }
@@ -476,7 +549,18 @@ class acfe_field_taxonomy_terms extends acf_field{
         // Normal choices
         if($field['type'] !== 'select' || !$field['ui'] || !$field['ajax']){
     
-            $field['choices'] = $this->get_terms($field);
+            $choices = $this->get_terms($field);
+    
+            $keys = array_keys($choices);
+            
+            // Single Term
+            if(count($keys) === 1){
+    
+                $choices = $choices[$keys[0]];
+                
+            }
+            
+            $field['choices'] = $choices;
             
         // Ajax choices
         }else{
@@ -588,8 +672,22 @@ class acfe_field_taxonomy_terms extends acf_field{
                         continue;
                     
                     $taxonomy = get_taxonomy($taxonomy);
-                    $value = '<strong>All ' . $level . $taxonomy->label . '</strong>';
+                    $value = '(All ' . $level . $taxonomy->label . ')';
                     
+                }
+
+                // Terms all childs
+                elseif(acfe_ends_with($id, '_all_childs')){
+    
+                    $term_id = substr($id, 0, -11);
+                    $term = get_term($term_id);
+                    $taxonomy = $term->taxonomy;
+    
+                    if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
+                        continue;
+    
+                    $value = $term->name . ' (All childs)';
+    
                 }
                 
                 // Terms childs
@@ -602,7 +700,7 @@ class acfe_field_taxonomy_terms extends acf_field{
                     if(!empty($field['taxonomy']) && !in_array($taxonomy, acf_array($field['taxonomy'])))
                         continue;
                     
-                    $value = '<strong>' . $term->name . ': childs</strong>';
+                    $value = $term->name . ' (Direct childs)';
                     
                 }
                 
