@@ -183,18 +183,6 @@ function acfe_dbt_filter_save($post_id){
     $enqueue_script = get_field('enqueue_script', $post_id);
     $enqueue_assets = get_field('enqueue_assets', $post_id);
     
-    // Render Template
-    if(!empty($render_template))
-        $render_template = ACFE_THEME_PATH . '/' . $render_template;
-    
-    // Enqueue Style
-    if(!empty($enqueue_style))
-        $enqueue_style = ACFE_THEME_URL . '/' . $enqueue_style;
-    
-    // Enqueue Script
-    if(!empty($enqueue_script))
-        $enqueue_script = ACFE_THEME_URL . '/' . $enqueue_script;
-    
     // Register: Args
     $register_args = array(
         'name'              => $name,
@@ -401,7 +389,7 @@ function acfe_dbt_admin_columns_html($column, $post_id){
         
         if(!empty($render_template)){
             
-            echo '<code style="font-size: 12px;">/' . $render_template . '</code>';
+            echo '<code style="font-size: 12px;">' . $render_template . '</code>';
             
         }
         
@@ -559,6 +547,91 @@ function acfe_dbt_load(){
         return;
     
     add_action('add_meta_boxes', 'acfe_dbt_load_meta_boxes');
+    
+    if(!isset($_REQUEST['post']))
+        return;
+    
+    $post_id = $_REQUEST['post'];
+    $name = get_field('name', $post_id);
+    
+    $prepend = acfe_get_setting('theme_folder') ? trailingslashit(acfe_get_setting('theme_folder')) : '';
+    
+    add_filter('acf/prepare_field/name=render_template', function($field) use($name, $prepend){
+        
+        $prepend = apply_filters("acfe/block_type/prepend/template",                $prepend, $name);
+        $prepend = apply_filters("acfe/block_type/prepend/template/name={$name}",   $prepend, $name);
+        
+        $field['prepend'] = $prepend;
+        
+        return $field;
+        
+    });
+    
+    add_filter('acf/prepare_field/name=enqueue_style', function($field) use($name, $prepend){
+        
+        $prepend = apply_filters("acfe/block_type/prepend/style",               $prepend, $name);
+        $prepend = apply_filters("acfe/block_type/prepend/style/name={$name}",  $prepend, $name);
+        
+        $field['prepend'] = $prepend;
+        
+        return $field;
+        
+    });
+    
+    add_filter('acf/prepare_field/name=enqueue_script', function($field) use($name, $prepend){
+        
+        $prepend = apply_filters("acfe/block_type/prepend/script",              $prepend, $name);
+        $prepend = apply_filters("acfe/block_type/prepend/script/name={$name}", $prepend, $name);
+        
+        $field['prepend'] = $prepend;
+        
+        return $field;
+        
+    });
+    
+}
+
+add_action('load-post-new.php', 'acfe_dbt_load_new');
+function acfe_dbt_load_new(){
+    
+    // globals
+    global $typenow;
+    
+    // Restrict
+    if($typenow !== 'acfe-dbt')
+        return;
+    
+    $prepend = acfe_get_setting('theme_folder') ? trailingslashit(acfe_get_setting('theme_folder')) : '';
+    
+    add_filter('acf/prepare_field/name=render_template', function($field) use($prepend){
+        
+        $prepend = apply_filters('acfe/block_type/prepend/template', $prepend, '');
+        
+        $field['prepend'] = $prepend;
+        
+        return $field;
+        
+    });
+    
+    add_filter('acf/prepare_field/name=enqueue_style', function($field) use($prepend){
+        
+        $prepend = apply_filters('acfe/block_type/prepend/style', $prepend, '');
+        
+        $field['prepend'] = $prepend;
+        
+        return $field;
+        
+    });
+    
+    add_filter('acf/prepare_field/name=enqueue_script', function($field) use($prepend){
+        
+        $prepend = apply_filters('acfe/block_type/prepend/script', $prepend, '');
+        
+        $field['prepend'] = $prepend;
+        
+        return $field;
+        
+    });
     
 }
 
@@ -1133,7 +1206,7 @@ Colors: Specify colors & Dashicons class',
             'acfe_permissions' => '',
             'default_value' => '',
             'placeholder' => '',
-            'prepend' => str_replace(home_url(), '', ACFE_THEME_URL) . '/',
+            'prepend' => '',
             'append' => '',
             'maxlength' => '',
         ),
@@ -1196,7 +1269,7 @@ Colors: Specify colors & Dashicons class',
             'acfe_permissions' => '',
             'default_value' => '',
             'placeholder' => '',
-            'prepend' => str_replace(home_url(), '', ACFE_THEME_URL) . '/',
+            'prepend' => '',
             'append' => '',
             'maxlength' => '',
         ),
@@ -1218,7 +1291,7 @@ Colors: Specify colors & Dashicons class',
             'acfe_permissions' => '',
             'default_value' => '',
             'placeholder' => '',
-            'prepend' => str_replace(home_url(), '', ACFE_THEME_URL) . '/',
+            'prepend' => '',
             'append' => '',
             'maxlength' => '',
         ),

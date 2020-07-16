@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 0.8.6.5
+Stable tag: 0.8.6.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -409,7 +409,7 @@ add_action('acf/init', 'my_acfe_modules');
 function my_acfe_modules(){
     
     // Enable Single Meta Save
-    acf_update_setting('acfe/modules/single_meta', true);
+    acfe_update_setting('modules/single_meta', true);
     
 }
 
@@ -513,7 +513,33 @@ Note: This feature is available in the Dynamic Post Type UI in the Administratio
 
 = How to get fields set in the Post Type Archive location? =
 
-Fields are saved in the option: `{post_type}_archive`. Frontend usage example: `get_field('my_field', 'post_archive')`
+Fields are saved in the option: `{post_type}_archive`. Frontend usage example: `get_field('my_field', 'post_archive')`.
+
+You can also using the following code in any Post Type Archive/Single Template:
+
+`
+if(have_archive()):
+    while(have_archive()): the_archive();
+
+        // Retrieve 'my_field' from the current Post Type Archive Page
+        echo get_field('my_field');
+
+    endwhile;
+endif;
+`
+
+Or you can also pass a post type, in order to retrieve fields from specific Post Type Archive Page:
+
+`
+if(have_archive('my-post-type')):
+    while(have_archive('my-post-type')): the_archive();
+
+        // Retrieve 'my_field' from "My Post Type" - Archive Page
+        echo get_field('my_field');
+
+    endwhile;
+endif;
+`
 
 = How the bidirectional field setting works? =
 
@@ -603,15 +629,13 @@ When using this function, you have access to the following global variables: `$l
 You can use the following filters:
 
 `
-// add_filter('acfe/flexible/thumbnail/name=my_flexible', 'acf_flexible_layout_thumbnail', 10, 3);
-// add_filter('acfe/flexible/thumbnail/key=field_xxxxxx', 'acf_flexible_layout_thumbnail', 10, 3);
+// add_filter('acfe/flexible/thumbnail/name=my_flexible',                   'acf_flexible_layout_thumbnail', 10, 3);
+// add_filter('acfe/flexible/thumbnail/key=field_xxxxxx',                   'acf_flexible_layout_thumbnail', 10, 3);
+// add_filter('acfe/flexible/thumbnail/name=my_flexible&layout=my_layout',  'acf_flexible_layout_thumbnail', 10, 3);
+// add_filter('acfe/flexible/thumbnail/key=field_xxxxxx&layout=my_layout',  'acf_flexible_layout_thumbnail', 10, 3);
 
-// add_filter('acfe/flexible/layout/thumbnail/name=my_flexible&layout=my_layout', 'acf_flexible_layout_thumbnail', 10, 3);
-// add_filter('acfe/flexible/layout/thumbnail/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_thumbnail', 10, 3);
-
-add_filter('acfe/flexible/layout/thumbnail/layout=my_layout', 'acf_flexible_layout_thumbnail', 10, 3);
+add_filter('acfe/flexible/thumbnail/layout=my_layout', 'acf_flexible_layout_thumbnail', 10, 3);
 function acf_flexible_layout_thumbnail($thumbnail, $field, $layout){
-    
     
     // Must return an URL or Attachment ID
     return 'https://www.example.com/my-image.jpg';
@@ -619,35 +643,34 @@ function acf_flexible_layout_thumbnail($thumbnail, $field, $layout){
 }
 `
 
-= How to change the Flexible Content: Dynamic Preview content in PHP? =
+= How to change the Flexible Content: Dynamic Render/Preview content in PHP? =
 
 You can use the following actions:
 
 `
-// add_action('acfe/flexible/preview/name=my_flexible', 'acf_flexible_preview', 10, 2);
-// add_action('acfe/flexible/preview/key=field_xxxxxx', 'acf_flexible_preview', 10, 2);
+// add_filter('acfe/flexible/render/template/name=my_flexible',                     'acf_disable_file_render', 10, 4);
+// add_filter('acfe/flexible/render/template/key=field_xxxxxx',                     'acf_disable_file_render', 10, 4);
+// add_filter('acfe/flexible/render/template/name=my_flexible&layout=my_layout',    'acf_disable_file_render', 10, 4);
+// add_filter('acfe/flexible/render/template/key=field_xxxxxx&layout=my_layout',    'acf_disable_file_render', 10, 4);
 
-add_action('acfe/flexible/preview', 'acf_flexible_preview', 10, 2);
-function acf_flexible_preview($field, $layout){
-    
-    echo 'My Preview';
-    
-    // It is important to use 'die', as we are in an Ajax request
-    die;
-    
+add_filter('acfe/flexible/render/template/layout=my_layout', 'acf_disable_file_render', 10, 4);
+function acf_disable_file_render($file, $field, $layout, $is_preview){
+
+    // Do not include the template file
+    return false;
+
 }
 
-// add_action('acfe/flexible/layout/preview/name=my_flexible&layout=my_layout', 'acf_flexible_layout_preview', 10, 2);
-// add_action('acfe/flexible/layout/preview/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_preview', 10, 2);
+// add_action('acfe/flexible/render/before_template/name=my_flexible',                  'acf_custom_layout_render', 10, 3);
+// add_action('acfe/flexible/render/before_template/key=field_xxxxxx',                  'acf_custom_layout_render', 10, 3);
+// add_action('acfe/flexible/render/before_template/name=my_flexible&layout=my_layout', 'acf_custom_layout_render', 10, 3);
+// add_action('acfe/flexible/render/before_template/key=field_xxxxxx&layout=my_layout', 'acf_custom_layout_render', 10, 3);
 
-add_action('acfe/flexible/layout/preview/layout=my_layout', 'acf_flexible_layout_preview', 10, 2);
-function acf_flexible_layout_preview($field, $layout){
-    
-    echo 'My Preview';
-    
-    // It is important to use 'die', as we are in an Ajax request
-    die;
-    
+add_action('acfe/flexible/render/before_template/layout=my_layout', 'acf_custom_layout_render', 10, 3);
+function acf_custom_layout_render($field, $layout, $is_preview){
+
+    echo get_sub_field('my_field');
+
 }
 `
 
@@ -673,11 +696,11 @@ function acf_flexible_enqueue($field, $is_preview){
     
 }
 
-// add_action('acfe/flexible/layout/enqueue/name=my_flexible&layout=my_layout', 'acf_flexible_layout_enqueue', 10, 3);
-// add_action('acfe/flexible/layout/enqueue/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_enqueue', 10, 3);
+// add_action('acfe/flexible/enqueue/name=my_flexible&layout=my_layout', 'acf_flexible_enqueue', 10, 3);
+// add_action('acfe/flexible/enqueue/key=field_xxxxxx&layout=my_layout', 'acf_flexible_enqueue', 10, 3);
 
-add_action('acfe/flexible/layout/enqueue/layout=my_layout', 'acf_flexible_layout_enqueue', 10, 3);
-function acf_flexible_layout_enqueue($field, $layout, $is_preview){
+add_action('acfe/flexible/enqueue/layout=my_layout', 'acf_flexible_enqueue', 10, 3);
+function acf_flexible_enqueue($field, $layout, $is_preview){
     
     // Only in Ajax preview
     if($is_preview){
@@ -696,14 +719,13 @@ function acf_flexible_layout_enqueue($field, $layout, $is_preview){
 You can use the following actions:
 
 `
-// add_filter('acfe/flexible/render/template', 'acf_flexible_layout_render_template', 10, 4);
-// add_filter('acfe/flexible/render/template/name=my_flexible', 'acf_flexible_layout_render_template', 10, 4);
-// add_filter('acfe/flexible/render/template/key=field_xxxxxx', 'acf_flexible_layout_render_template', 10, 4);
+// add_filter('acfe/flexible/render/template',                                      'acf_flexible_layout_render_template', 10, 4);
+// add_filter('acfe/flexible/render/template/name=my_flexible',                     'acf_flexible_layout_render_template', 10, 4);
+// add_filter('acfe/flexible/render/template/key=field_xxxxxx',                     'acf_flexible_layout_render_template', 10, 4);
+// add_filter('acfe/flexible/render/template/name=my_flexible&layout=my_layout',    'acf_flexible_layout_render_template', 10, 4);
+// add_filter('acfe/flexible/render/template/key=field_xxxxxx&layout=my_layout',    'acf_flexible_layout_render_template', 10, 4);
 
-// add_filter('acfe/flexible/layout/render/template/name=my_flexible&layout=my_layout', 'acf_flexible_layout_render_template', 10, 4);
-// add_filter('acfe/flexible/layout/render/template/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_render_template', 10, 4);
-
-add_filter('acfe/flexible/layout/render/template/layout=my_layout', 'acf_flexible_layout_render_template', 10, 4);
+add_filter('acfe/flexible/render/template/layout=my_layout', 'acf_flexible_layout_render_template', 10, 4);
 function acf_flexible_layout_render_template($template, $field, $layout, $is_preview){
     
     // Only in Ajax preview
@@ -720,11 +742,10 @@ function acf_flexible_layout_render_template($template, $field, $layout, $is_pre
 // add_filter('acfe/flexible/render/style', 'acf_flexible_layout_render_style', 10, 4);
 // add_filter('acfe/flexible/render/style/name=my_flexible', 'acf_flexible_layout_render_style', 10, 4);
 // add_filter('acfe/flexible/render/style/key=field_xxxxxx', 'acf_flexible_layout_render_style', 10, 4);
+// add_filter('acfe/flexible/render/style/name=my_flexible&layout=my_layout', 'acf_flexible_layout_render_style', 10, 4);
+// add_filter('acfe/flexible/render/style/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_render_style', 10, 4);
 
-// add_filter('acfe/flexible/layout/render/style/name=my_flexible&layout=my_layout', 'acf_flexible_layout_render_style', 10, 4);
-// add_filter('acfe/flexible/layout/render/style/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_render_style', 10, 4);
-
-add_filter('acfe/flexible/layout/render/style/layout=my_layout', 'acf_flexible_layout_render_style', 10, 4);
+add_filter('acfe/flexible/render/style/layout=my_layout', 'acf_flexible_layout_render_style', 10, 4);
 function acf_flexible_layout_render_style($style, $field, $layout, $is_preview){
     
     // Only in Ajax preview
@@ -741,11 +762,10 @@ function acf_flexible_layout_render_style($style, $field, $layout, $is_preview){
 // add_filter('acfe/flexible/render/script', 'acf_flexible_layout_render_script', 10, 4);
 // add_filter('acfe/flexible/render/script/name=my_flexible', 'acf_flexible_layout_render_script', 10, 4);
 // add_filter('acfe/flexible/render/script/key=field_xxxxxx', 'acf_flexible_layout_render_script', 10, 4);
+// add_filter('acfe/flexible/render/script/name=my_flexible&layout=my_layout', 'acf_flexible_layout_render_script', 10, 4);
+// add_filter('acfe/flexible/render/script/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_render_script', 10, 4);
 
-// add_filter('acfe/flexible/layout/render/script/name=my_flexible&layout=my_layout', 'acf_flexible_layout_render_script', 10, 4);
-// add_filter('acfe/flexible/layout/render/script/key=field_xxxxxx&layout=my_layout', 'acf_flexible_layout_render_script', 10, 4);
-
-add_filter('acfe/flexible/layout/render/script/layout=my_layout', 'acf_flexible_layout_render_script', 10, 4);
+add_filter('acfe/flexible/render/script/layout=my_layout', 'acf_flexible_layout_render_script', 10, 4);
 function acf_flexible_layout_render_script($script, $field, $layout, $is_preview){
     
     // Only in Ajax preview
@@ -802,31 +822,31 @@ add_action('acf/init', 'my_acfe_modules');
 function my_acfe_modules(){
     
     // Disable Ajax Author box
-    acf_update_setting('acfe/modules/author', false);
+    acfe_update_setting('modules/author', false);
     
     // Disable ACF > Block Types
-    acf_update_setting('acfe/modules/dynamic_block_types', false);
+    acfe_update_setting('modules/dynamic_block_types', false);
     
     // Disable Forms
-    acf_update_setting('acfe/modules/dynamic_forms', false);
+    acfe_update_setting('modules/dynamic_forms', false);
     
     // Disable Tools > Post Types
-    acf_update_setting('acfe/modules/dynamic_post_types', false);
+    acfe_update_setting('modules/dynamic_post_types', false);
     
     // Disable Tools > Taxonomies
-    acf_update_setting('acfe/modules/dynamic_taxonomies', false);
+    acfe_update_setting('modules/dynamic_taxonomies', false);
     
     // Disable ACF > Options Pages
-    acf_update_setting('acfe/modules/dynamic_options_pages', false);
+    acfe_update_setting('modules/dynamic_options_pages', false);
     
     // Disable Settings > Options
-    acf_update_setting('acfe/modules/options', false);
+    acfe_update_setting('modules/options', false);
     
     // Disable Enhanced UI (Taxonomies, Users, Settings)
-    acf_update_setting('acfe/modules/ui', false);
+    acfe_update_setting('modules/ui', false);
 
     // Disable Multilangual Compatibility
-    acf_update_setting('acfe/modules/multilang', false);
+    acfe_update_setting('modules/multilang', false);
     
 }
 `
@@ -845,6 +865,50 @@ function my_acfe_modules(){
 10. ACF Settings
 
 == Changelog ==
+
+= 0.8.6.7 =
+* Field: Flexible Content - Enhanced Code Base
+* Field: Flexible Content - Dynamic Render - Enhanced `get_flexible()` & `the_flexible()` functions logic
+* Field: Flexible Content - Dynamic Render - Enhanced Template, Style & Script files detection. Now detects paths from WP root directory, and from `/wp-content/` directory
+* Field: Flexible Content - Dynamic Preview - Automatically include the layout `{template}-preview.php` file instead of `template.php`, if it is found within the same path
+* Field: Flexible Content - Dynamic Preview - Automatically enqueue the layout `{style}-preview.css` file in addition of `style.css`, if it is found within the same path
+* Field: Flexible Content - Dynamic Preview - Automatically enqueue the layout `{script}-preview.js` file instead of `script.js`, if it is found within the same path
+* Field: Flexible Content - Added `filter('acfe/flexible/prepend/template/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
+* Field: Flexible Content - Added `filter('acfe/flexible/prepend/style/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
+* Field: Flexible Content - Added `filter('acfe/flexible/prepend/script/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/thumbnail/layout=my_layout` hooks and its variations. Use `acfe/flexible/thumbnail/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/template/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/template/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/before_template/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/before_template/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/after_template/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/after_template/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/style/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/style/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/script/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/script/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/enqueue/layout=my_layout` hooks and its variations. Use `acfe/flexible/enqueue/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/preview` hooks and its variations
+* Module: Dynamic Block Types - The "Template Render" setting is now independant from the theme
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/template/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/style/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/script/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
+* Module: Post Type Archive Page - `have_archive()` now allows to pass the post type name. Usage example: `while(have_archive('my-post-type')): the_archive()`
+* Module: Multilang - Enhanced Options Pages Post ID detection
+* Module: Multilang - Added "Post Type List" & "Taxonomy List" Locations compatibility
+* Module: Multilang - Fixed the "Disable module" setting which wasn't working correctly
+* Module: Multilang - Fixed Polylang Ajax language detection
+* General: Enhanced `acfe_update_setting()`, `acfe_get_setting()` functions and `filer('acfe/settings/{name}')` hook
+* General: Removed `ACFE_THEME_PATH` & `ACFE_THEME_URL` constants
+* General: Added `acfe/theme_path`, `acfe/theme_url` & `acfe/theme_folder` settings
+* General: The default `acfe/php_save`, `acfe/php_load` & `acfe/theme_folder` settings are now generated based on the new `acfe/theme_path` & `acfe/theme_url` settings
+* General: The `acfe/theme_folder` setting is now used to preprend Flexible Content & Block Types render fields settings (Display only)
+
+= 0.8.6.6 =
+* Module: Multilang - Fixed WPML front-end language detection for custom languages
+* Module: Settings - Added "Multilang" & "Single Meta" settings in the UI
+* Module: Settings - Fixed `l10n_textdomain` which wasn't correctly displayed
+* Module: Dev Mode - Fixed option "Edit" action link
+* Module: PHP AutoSync - Added l10n support
+* Module: Single Meta - Enhanced "Delete Orphan Meta" setting logic & performance
+* Field: Taxonomy Terms - Added "Term (All childs)" to display any childs level terms
+* Field: Taxonomy Terms - Renamed "Term (Childs)" to "Term (Direct childs)" to avoid confusion with the new filter
+* Field: Taxonomy Terms - Fixed "Term (Direct childs)" which could be duplicated in some cases
 
 = 0.8.6.5 =
 * General: Added WPML & Polylang compatibility for Options Pages with custom post ids. ie: `my-theme` post id will be translated to `my-theme_en` with WPML & `my-theme_en_US` with Polylang

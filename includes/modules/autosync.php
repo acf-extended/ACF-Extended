@@ -101,7 +101,6 @@ function acfe_autosync_php_update_field_group($field_group){
     if(!acfe_has_field_group_autosync($field_group, 'php'))
         return;
     
-    $field_group['fields'] = acf_get_fields($field_group);
     acfe_autosync_write_php($field_group);
     
 }
@@ -141,6 +140,30 @@ function acfe_autosync_write_php($field_group){
 	// bail early if dir does not exist
 	if(!is_writable($path)) 
         return false;
+    
+    // Translation
+    $l10n = acf_get_setting('l10n');
+    $l10n_textdomain = acf_get_setting('l10n_textdomain');
+    
+    if(!$l10n || !$l10n_textdomain){
+    
+        $field_group['fields'] = acf_get_fields($field_group);
+        
+    }else{
+    
+        acf_update_setting('l10n_var_export', true);
+    
+        $field_group = acf_translate_field_group($field_group);
+    
+        // Reset store to allow fields translation
+        $store = acf_get_store('fields');
+        $store->reset();
+    
+        $field_group['fields'] = acf_get_fields($field_group);
+    
+        acf_update_setting('l10n_var_export', false);
+        
+    }
 	
 	// prepare for export
 	$id = acf_extract_var($field_group, 'ID');
@@ -148,8 +171,7 @@ function acfe_autosync_write_php($field_group){
 	
 	// add modified time
 	$field_group['modified'] = get_post_modified_time('U', true, $id, true);
-    
-    
+	
     // Prepare
     $str_replace = array(
         "  "			=> "\t",
@@ -172,17 +194,11 @@ function acfe_autosync_write_php($field_group){
         // code
         $code = var_export($field_group, true);
         
-        
         // change double spaces to tabs
         $code = str_replace( array_keys($str_replace), array_values($str_replace), $code );
         
-        
         // correctly formats "=> array("
         $code = preg_replace( array_keys($preg_replace), array_values($preg_replace), $code );
-        
-        
-        // esc_textarea
-        $code = $code;
         
         // echo
         echo "acf_add_local_field_group({$code});" . "\r\n" . "\r\n";
@@ -255,6 +271,7 @@ function acfe_is_field_group_json_desync($field_group){
  * Auto Sync: Helper - Has field group autosync
  */
 function acfe_has_field_group_autosync($field_group, $type = false){
+    
     $acfe_autosync = acf_maybe_get($field_group, 'acfe_autosync', array());
     
     if(!$type)
@@ -267,6 +284,7 @@ function acfe_has_field_group_autosync($field_group, $type = false){
         return is_array($acfe_autosync) && in_array('php', $acfe_autosync);
         
     return false;
+    
 }
 
 /**

@@ -144,7 +144,7 @@ function acfe_admin_settings_html(){
                     array(
                         'name'  => 'l10n_textdomain',
                         'label' => 'l10n Textdomain',
-                        'value' => '<code>' . (acf_get_setting('l10n') ? __('True'): __('False')) . '</code>',
+                        'value' => '<code>' . print_r(acf_get_setting('l10n_textdomain'), true) . '</code>',
                         'description' => 'Sets the text domain used when translating field and field group settings.<br />Defaults to ”. Strings will not be translated if this setting is empty'
                     ),
                     array(
@@ -169,7 +169,7 @@ function acfe_admin_settings_html(){
                         'name'  => 'google_api_client',
                         'label' => 'Google API Key',
                         'value' => '<code>' . acf_get_setting('google_api_client') . '</code>',
-                        'description' => 'Specify a Google Maps API Client ID to prevent usage limits.<br />Not needed if using google_api_key. Defaults to ”'
+                        'description' => 'Specify a Google Maps API Client ID to prevent usage limits.<br />Not needed if using <code>google_api_key</code>. Defaults to ”'
                     ),
                     array(
                         'name'  => 'enqueue_google_maps',
@@ -282,10 +282,22 @@ function acfe_admin_settings_html(){
                         'description' => 'Show/hide the Options Pages module. Defaults to true'
                     ),
                     array(
+                        'name'  => 'acfe/modules/multilang',
+                        'label' => 'Module: Multilang',
+                        'value' => '<code>' . (acf_get_setting('acfe/modules/multilang', true) ? __('True'): __('False')) . '</code>',
+                        'description' => 'Enable/disable Multilang compatibility module for WPML & Polylang. Defaults to true'
+                    ),
+                    array(
                         'name'  => 'acfe/modules/options',
                         'label' => 'Module: Options',
                         'value' => '<code>' . (acf_get_setting('acfe/modules/options', true) ? __('True'): __('False')) . '</code>',
                         'description' => 'Show/hide the Options module. Defaults to true'
+                    ),
+                    array(
+                        'name'  => 'acfe/modules/single_meta',
+                        'label' => 'Module: Single Meta',
+                        'value' => '<code>' . (acf_get_setting('acfe/modules/single_meta', true) ? __('True'): __('False')) . '</code>',
+                        'description' => 'Enable/disable Single Meta Save module. Defaults to false'
                     ),
                     array(
                         'name'  => 'acfe/modules/ui',
@@ -339,31 +351,49 @@ function acfe_admin_settings_html(){
                         'name'  => 'acfe/php',
                         'label' => 'PHP',
                         'value' => '<code>' . (acf_get_setting('acfe/php') ? __('True'): __('False')) . '</code>',
-                        'description' => 'Allow PHP Sync'
+                        'description' => 'Whenever PHP AutoSync is enabled'
                     ),
                     array(
                         'name'  => 'acfe/php_found',
                         'label' => 'PHP: Found',
                         'value' => '<code>' . (acf_get_setting('acfe/php_found') ? __('True'): __('False')) . '</code>',
-                        'description' => 'Found PHP Sync load folder'
+                        'description' => 'Whenever PHP AutoSync folder has been found, based on acfe/php_load setting'
                     ),
                     array(
                         'name'  => 'acfe/php_save',
                         'label' => 'PHP: Save',
                         'value' => '<code>' . acf_get_setting('acfe/php_save') . '</code>',
-                        'description' => 'Found PHP Sync save folder'
+                        'description' => 'PHP AutoSync saving path'
                     ),
                     array(
                         'name'  => 'acfe/php_load',
                         'label' => 'PHP: Load',
                         'value' => '<code>' . $load_php_text . '</code>',
-                        'description' => 'PHP Sync Load path'
+                        'description' => 'PHP AutoSync loading path'
                     ),
                     array(
                         'name'  => 'acfe/json_found',
                         'label' => 'Json: Found',
                         'value' => '<code>' . (acf_get_setting('acfe/json_found') ? __('True'): __('False')) . '</code>',
-                        'description' => 'Found Json Sync load folder'
+                        'description' => 'Whenever Json Sync folder has been found, based on load_json setting'
+                    ),
+                    array(
+                        'name'  => 'acfe/theme_path',
+                        'label' => 'Theme: Path',
+                        'value' => '<code>' . acf_get_setting('acfe/theme_path') . '</code>',
+                        'description' => 'Detected Theme Path'
+                    ),
+                    array(
+                        'name'  => 'acfe/theme_url',
+                        'label' => 'Theme: URL',
+                        'value' => '<code>' . acf_get_setting('acfe/theme_url') . '</code>',
+                        'description' => 'Detected Theme URL'
+                    ),
+                    array(
+                        'name'  => 'acfe/theme_folder',
+                        'label' => 'Theme: Folder',
+                        'value' => '<code>' . acf_get_setting('acfe/theme_folder') . '</code>',
+                        'description' => 'Detected Theme Folder'
                     ),
                 );
                 ?>

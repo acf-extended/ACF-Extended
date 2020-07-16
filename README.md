@@ -481,6 +481,50 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 
 ## 📋 Changelog
 
+### 0.8.6.7
+* Field: Flexible Content - Enhanced Code Base
+* Field: Flexible Content - Dynamic Render - Enhanced `get_flexible()` & `the_flexible()` functions logic
+* Field: Flexible Content - Dynamic Render - Enhanced Template, Style & Script files detection. Now detects paths from WP root directory, and from `/wp-content/` directory
+* Field: Flexible Content - Dynamic Preview - Automatically include the layout `{template}-preview.php` file instead of `template.php`, if it is found within the same path
+* Field: Flexible Content - Dynamic Preview - Automatically enqueue the layout `{style}-preview.css` file in addition of `style.css`, if it is found within the same path
+* Field: Flexible Content - Dynamic Preview - Automatically enqueue the layout `{script}-preview.js` file instead of `script.js`, if it is found within the same path
+* Field: Flexible Content - Added `filter('acfe/flexible/prepend/template/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
+* Field: Flexible Content - Added `filter('acfe/flexible/prepend/style/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
+* Field: Flexible Content - Added `filter('acfe/flexible/prepend/script/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/thumbnail/layout=my_layout` hooks and its variations. Use `acfe/flexible/thumbnail/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/template/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/template/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/before_template/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/before_template/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/after_template/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/after_template/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/style/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/style/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/render/script/layout=my_layout` hooks and its variations. Use `acfe/flexible/render/script/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/layout/enqueue/layout=my_layout` hooks and its variations. Use `acfe/flexible/enqueue/layout=my_layout` instead
+* Field: Flexible Content - Deprecated `acfe/flexible/preview` hooks and its variations
+* Module: Dynamic Block Types - The "Template Render" setting is now independant from the theme
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/template/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/style/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/script/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
+* Module: Post Type Archive Page - `have_archive()` now allows to pass the post type name. Usage example: `while(have_archive('my-post-type')): the_archive()`
+* Module: Multilang - Enhanced Options Pages Post ID detection
+* Module: Multilang - Added "Post Type List" & "Taxonomy List" Locations compatibility
+* Module: Multilang - Fixed the "Disable module" setting which wasn't working correctly
+* Module: Multilang - Fixed Polylang Ajax language detection
+* General: Enhanced `acfe_update_setting()`, `acfe_get_setting()` functions and `filer('acfe/settings/{name}')` hook
+* General: Removed `ACFE_THEME_PATH` & `ACFE_THEME_URL` constants
+* General: Added `acfe/theme_path`, `acfe/theme_url` & `acfe/theme_folder` settings
+* General: The default `acfe/php_save`, `acfe/php_load` & `acfe/theme_folder` settings are now generated based on the new `acfe/theme_path` & `acfe/theme_url` settings
+* General: The `acfe/theme_folder` setting is now used to preprend Flexible Content & Block Types render fields settings (Display only)
+
+### 0.8.6.6
+* Module: Multilang - Fixed WPML front-end language detection for custom languages
+* Module: Settings - Added "Multilang" & "Single Meta" settings in the UI
+* Module: Settings - Fixed `l10n_textdomain` setting which wasn't correctly displayed
+* Module: Dev Mode - Fixed Option "Edit" action link
+* Module: PHP AutoSync - Added l10n support
+* Module: Single Meta - Enhanced "Delete Orphan Meta" setting logic & performance
+* Field: Taxonomy Terms - Added "Term (All childs)" to display any childs level terms
+* Field: Taxonomy Terms - Renamed "Term (Childs)" to "Term (Direct childs)" to avoid confusion with the new filter
+* Field: Taxonomy Terms - Fixed "Term (Direct childs)" which could be duplicated in some cases
+
 ### 0.8.6.5
 * General: Added WPML & Polylang compatibility for Options Pages with custom post ids. ie: `my-theme` post id will be translated to `my-theme_en` with WPML & `my-theme_en_US` with Polylang
 * Modules: Dynamic Post Types, Taxonomies, Options Pages & Block Types - Added Multilingual compatibility for WPML & Polylang. Items are automatically registered as strings for both WPML & Polylang plugins

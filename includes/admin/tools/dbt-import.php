@@ -107,27 +107,18 @@ class ACFE_Admin_Tool_Import_DBT extends ACF_Admin_Tool{
             }
             
             // Register Args
-            update_field('name', $name, $post_id);
-            update_field('description', $args['description'], $post_id);
-            update_field('category', $args['category'], $post_id);
-            update_field('keywords', acf_encode_choices($args['keywords'], false), $post_id);
-            update_field('post_types', $args['post_types'], $post_id);
-            update_field('mode', $args['mode'], $post_id);
-            update_field('align', $args['align'], $post_id);
+            update_field('name',            $name, $post_id);
+            update_field('description',     $args['description'], $post_id);
+            update_field('category',        $args['category'], $post_id);
+            update_field('keywords',        acf_encode_choices($args['keywords'], false), $post_id);
+            update_field('post_types',      $args['post_types'], $post_id);
+            update_field('mode',            $args['mode'], $post_id);
+            update_field('align',           $args['align'], $post_id);
             update_field('render_callback', $args['render_callback'], $post_id);
-            update_field('enqueue_assets', $args['enqueue_assets'], $post_id);
-            
-            // Render Template
-            if(!empty($args['render_template']))
-                update_field('render_template', str_replace(ACFE_THEME_PATH . '/', '', $args['render_template']), $post_id);
-            
-            // Enqueue Style
-            if(!empty($args['enqueue_style']))
-                update_field('enqueue_style', str_replace(ACFE_THEME_URL . '/', '', $args['enqueue_style']), $post_id);
-            
-            // Enqueue Script
-            if(!empty($args['enqueue_script']))
-                update_field('enqueue_script', str_replace(ACFE_THEME_URL . '/', '', $args['enqueue_script']), $post_id);
+            update_field('enqueue_assets',  $args['enqueue_assets'], $post_id);
+            update_field('render_template', $args['render_template'], $post_id);
+            update_field('enqueue_style',   $args['enqueue_style'], $post_id);
+            update_field('enqueue_script',  $args['enqueue_script'], $post_id);
             
             // Align
             if(empty($args['align']))
