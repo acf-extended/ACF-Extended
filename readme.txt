@@ -886,9 +886,9 @@ function my_acfe_modules(){
 * Field: Flexible Content - Deprecated `acfe/flexible/layout/enqueue/layout=my_layout` hooks and its variations. Use `acfe/flexible/enqueue/layout=my_layout` instead
 * Field: Flexible Content - Deprecated `acfe/flexible/preview` hooks and its variations
 * Module: Dynamic Block Types - The "Template Render" setting is now independant from the theme
-* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/template/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
-* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/style/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
-* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/script/name=my-block-type', $path, name)` and its variations to alter the field's setting prepend (display only)
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/template/name=my-block-type', $path, $name)` and its variations to alter the field's setting prepend (display only)
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/style/name=my-block-type', $path, $name)` and its variations to alter the field's setting prepend (display only)
+* Module: Dynamic Block Types - Added `filter('acfe/block_type/prepend/script/name=my-block-type', $path, $name)` and its variations to alter the field's setting prepend (display only)
 * Module: Post Type Archive Page - `have_archive()` now allows to pass the post type name. Usage example: `while(have_archive('my-post-type')): the_archive()`
 * Module: Multilang - Enhanced Options Pages Post ID detection
 * Module: Multilang - Added "Post Type List" & "Taxonomy List" Locations compatibility
