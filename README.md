@@ -400,7 +400,7 @@ add_action('acf/init', 'my_acfe_modules');
 function my_acfe_modules(){
     
     // Enable Single Meta Save
-    acf_update_setting('acfe/modules/single_meta', true);
+    acfe_update_setting('modules/single_meta', true);
     
 }
 
