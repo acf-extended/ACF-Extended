@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 0.8.6.7
+Stable tag: 0.8.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -866,13 +866,14 @@ function my_acfe_modules(){
 
 == Changelog ==
 
-= 0.8.6.7 =
+= 0.8.6.8 =
 * Field: Flexible Content - Enhanced Code Base
 * Field: Flexible Content - Dynamic Render - Enhanced `get_flexible()` & `the_flexible()` functions logic
 * Field: Flexible Content - Dynamic Render - Enhanced Template, Style & Script files detection. Now detects paths from WP root directory, and from `/wp-content/` directory
 * Field: Flexible Content - Dynamic Preview - Automatically include the layout `{template}-preview.php` file instead of `template.php`, if it is found within the same path
 * Field: Flexible Content - Dynamic Preview - Automatically enqueue the layout `{style}-preview.css` file in addition of `style.css`, if it is found within the same path
 * Field: Flexible Content - Dynamic Preview - Automatically enqueue the layout `{script}-preview.js` file instead of `script.js`, if it is found within the same path
+* Field: Flexible Content - Dynamic Preview - Fixed full path match for Layouts Templates files
 * Field: Flexible Content - Added `filter('acfe/flexible/prepend/template/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
 * Field: Flexible Content - Added `filter('acfe/flexible/prepend/style/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)
 * Field: Flexible Content - Added `filter('acfe/flexible/prepend/script/name=my_flexible', $path, $flexible, $layout)` and its variations to alter the field's setting prepend (display only)

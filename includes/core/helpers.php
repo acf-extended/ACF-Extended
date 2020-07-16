@@ -573,37 +573,45 @@ function acfe_locate_file_url($filenames){
         
         }else{
     
-            $filename = ltrim($filename, '/\\');
-            $abspath = wp_normalize_path(untrailingslashit(ABSPATH));
+            $_filename = ltrim($filename, '/\\');
+            $abspath = untrailingslashit(ABSPATH);
     
             // Child Theme
-            if(file_exists(STYLESHEETPATH . '/' . $filename)){
+            if(file_exists(STYLESHEETPATH . '/' . $_filename)){
         
-                $located = get_stylesheet_directory_uri() . '/' . $filename;
+                $located = get_stylesheet_directory_uri() . '/' . $_filename;
                 break;
         
             }
         
             // Parent Theme
-            elseif(file_exists(TEMPLATEPATH . '/' . $filename)){
+            elseif(file_exists(TEMPLATEPATH . '/' . $_filename)){
         
-                $located = get_template_directory_uri() . '/' . $filename;
+                $located = get_template_directory_uri() . '/' . $_filename;
                 break;
         
             }
 
-            // ABSPATH file path
-            elseif(file_exists($abspath . '/' . $filename)){
+            // Direct file path
+            elseif(file_exists($filename)){
     
-                $located = acfe_get_abs_path_to_url($abspath . '/' . $filename);
+                $located = acfe_get_abs_path_to_url($filename);
+                break;
+    
+            }
+
+            // ABSPATH file path
+            elseif(file_exists($abspath . '/' . $_filename)){
+    
+                $located = acfe_get_abs_path_to_url($abspath . '/' . $_filename);
                 break;
     
             }
         
             // WP Content Dir
-            elseif(file_exists(WP_CONTENT_DIR . '/' . $filename)){
+            elseif(file_exists(WP_CONTENT_DIR . '/' . $_filename)){
         
-                $located = WP_CONTENT_URL . '/' . $filename;
+                $located = WP_CONTENT_URL . '/' . $_filename;
                 break;
         
             }
@@ -629,37 +637,45 @@ function acfe_locate_file_path($filenames, $load = false, $require_once = true){
         if(!$filename)
             continue;
         
-        $filename = ltrim($filename, '/\\');
+        $_filename = ltrim($filename, '/\\');
         $abspath = untrailingslashit(ABSPATH);
         
         // Stylesheet file path
-        if(file_exists(STYLESHEETPATH . '/' . $filename)){
+        if(file_exists(STYLESHEETPATH . '/' . $_filename)){
             
-            $located = STYLESHEETPATH . '/' . $filename;
+            $located = STYLESHEETPATH . '/' . $_filename;
             break;
             
         }
 
         // Template file path
-        elseif(file_exists(TEMPLATEPATH . '/' . $filename)){
+        elseif(file_exists(TEMPLATEPATH . '/' . $_filename)){
             
-            $located = TEMPLATEPATH . '/' . $filename;
+            $located = TEMPLATEPATH . '/' . $_filename;
             break;
             
         }
 
-        // ABSPATH file path
-        elseif(file_exists($abspath . '/' . $filename)){
+        // Direct file path
+        elseif(file_exists($filename)){
     
-            $located = $abspath . '/' . $filename;
+            $located = $filename;
+            break;
+    
+        }
+
+        // ABSPATH file path
+        elseif(file_exists($abspath . '/' . $_filename)){
+    
+            $located = $abspath . '/' . $_filename;
             break;
     
         }
 
         // WP Content Dir
-        elseif(file_exists(WP_CONTENT_DIR . '/' . $filename)){
+        elseif(file_exists(WP_CONTENT_DIR . '/' . $_filename)){
     
-            $located = WP_CONTENT_DIR . '/' . $filename;
+            $located = WP_CONTENT_DIR . '/' . $_filename;
             break;
     
         }
@@ -681,11 +697,10 @@ function acfe_locate_file_path($filenames, $load = false, $require_once = true){
  */
 function acfe_get_abs_path_to_url($path = ''){
     
-    $url = str_replace(
-        wp_normalize_path(untrailingslashit(ABSPATH)),
-        site_url(),
-        wp_normalize_path($path)
-    );
+    $abspath = untrailingslashit(ABSPATH);
+    
+    $url = str_replace($abspath, site_url(), $path);
+    $url = wp_normalize_path($url);
     
     return esc_url_raw($url);
     
