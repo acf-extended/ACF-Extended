@@ -481,6 +481,13 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 
 ## 📋 Changelog
 
+### 0.8.6.9
+* Field: Flexible Content - Dynamic Render - External Layout Style & Script files now check for current domain before trying to automatically enqueue `{file}-preview.css` in Preview Mode
+* Field: Flexible Content - Dynamic Render - Fixed `$field`, `$layout` & `$is_preview` variables which weren't correctly passed to the Layout Template file
+* Field: Flexible Content - Dynamic Render - Fixed Layout Style & Script enqueue handles which weren't using the real Flexible Content field's name
+* Field: Radio / Checkbox - Added Group display settings. `## Group` markup can be used in choices settings to create a new group
+* Field: Taxonomy Terms - Added "Radio Button" display type
+
 ### 0.8.6.8
 * Field: Flexible Content - Enhanced Code Base
 * Field: Flexible Content - Dynamic Render - Enhanced `get_flexible()` & `the_flexible()` functions logic

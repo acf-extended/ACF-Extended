@@ -317,6 +317,30 @@ tr.acf-field.acf-field-clone[data-acfe-clone-modal="1"] > .acf-input > .acfe-mod
 }
 
 /*
+ * ACF Field: Checkbox
+ */
+.acf-field-checkbox .acf-input .acf-checkbox-list.acf-bl li + li > strong{
+    margin-top:15px;
+    display:inline-block;
+}
+
+/*
+ * ACF Field: Radio
+ */
+.acf-field-radio .acf-input .acf-radio-list.acf-hl li > strong{
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.acf-field-radio .acf-input .acf-radio-list.acf-bl li > strong{
+    display:block;
+}
+
+.acf-field-radio .acf-input .acf-radio-list.acf-bl li + li > strong{
+    margin-top:15px;
+}
+
+/*
  * ACF Field: Google Map
  */
 .acf-range-wrap input[type="number"]{

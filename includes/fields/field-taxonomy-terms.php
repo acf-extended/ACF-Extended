@@ -32,6 +32,7 @@ class acfe_field_taxonomy_terms extends acf_field{
             'load_terms'    => 0,
             'save_terms'    => 0,
             'allow_custom'  => 0,
+            'other_choice'  => 0,
         );
         
         // ajax
@@ -761,6 +762,7 @@ class acfe_field_taxonomy_terms extends acf_field{
             'optgroup'		=> true,
             'choices'		=> array(
                 'checkbox'  => __('Checkbox', 'acf'),
+                'radio'     => __('Radio Buttons', 'acf'),
                 'select'    => _x('Select', 'noun', 'acf')
             )
         ));
@@ -818,6 +820,13 @@ class acfe_field_taxonomy_terms extends acf_field{
                         'field'     => 'field_type',
                         'operator'  => '==',
                         'value'     => 'select',
+                    ),
+                ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'radio',
                     ),
                 ),
             )
@@ -918,6 +927,13 @@ class acfe_field_taxonomy_terms extends acf_field{
                         'field'     => 'field_type',
                         'operator'  => '==',
                         'value'     => 'checkbox',
+                    ),
+                ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'radio',
                     ),
                 ),
             )
