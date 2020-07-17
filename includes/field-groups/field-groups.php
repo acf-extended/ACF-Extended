@@ -33,18 +33,39 @@ add_filter('manage_edit-acf-field-group_columns', 'acfe_field_groups_column', 99
 function acfe_field_groups_column($columns){
     
     // Locations
-    $columns['acfe-locations'] = __('Locations');
+    if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
     
-    // Load
-    $columns['acfe-local'] = __('Load');
+        $columns['acfe-locations'] = __('Locations');
+        
+    }
+    
+    if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
+    
+        // Load
+        $columns['acfe-local'] = __('Load');
+        
+    }
     
     // PHP sync
-    if(acf_get_setting('acfe/php'))
-        $columns['acfe-autosync-php'] = __('PHP sync');
+    if(acf_get_setting('acfe/php')){
+    
+        $columns['acfe-autosync-php'] = __('PHP Sync');
+        
+    }
+    
+    if(acf_version_compare(acf_get_setting('version'),  '>=', '5.9')){
+        
+        // Load
+        $columns['acfe-local'] = __('Load');
+        
+    }
     
     // Json sync
-    if(acf_get_setting('json'))
-        $columns['acfe-autosync-json'] = __('Json sync');
+    if(acf_get_setting('json') && acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
+    
+        $columns['acfe-autosync-json'] = __('Json Sync');
+        
+    }
     
     // Fix 'Sync' screen columns
     if(acf_maybe_get_GET('post_status') === 'sync'){
@@ -289,7 +310,11 @@ function hwk_post_type_exemple_row_actions($actions, $post){
     $actions['acfe-export-php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=php&keys=' . $field_group['key']) . '">PHP</a>';
     $actions['acfe-export-json'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=json&keys=' . $field_group['key']) . '">Json</a>';
     
-    $actions['acfe-key'] = '<span style="color:#555;"><code style="font-size: 12px;">' . $field_group['key'] . '</code></span>';
+    if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
+    
+        $actions['acfe-key'] = '<span style="color:#555;"><code style="font-size: 12px;">' . $field_group['key'] . '</code></span>';
+        
+    }
     
     //$actions['acfe-id'] = '<span style="color:#555;">ID: ' . $field_group['ID'] . '</span>';
     

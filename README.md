@@ -481,6 +481,22 @@ Note: It is possible to revert back to the native ACF save process. To do so, ke
 
 ## 📋 Changelog
 
+### 0.8.7
+* General: ACF 5.9 Compatibility - Modules - Added the ACF 5.9 Header menu
+* General: ACF 5.9 Compatibility - Field Groups - Removed ACFE "Locations" column
+* General: ACF 5.9 Compatibility - Field Groups - Removed ACFE "Json Sync" column
+* General: ACF 5.9 Compatibility - Field Groups - Enlarged "PHP Sync" & "Load" columns
+* General: ACF 5.9 Compatibility - Field Groups - Removed the "Field Group Key" value from row actions
+* General: ACF 5.9 Compatibility - Field Groups - Changed the text color of "Disabled" state
+* General: ACF 5.9 Compatibility - Field Groups - "Description" column is hidden by default
+* General: ACF 5.9 Compatibility - Flexible Content - Removed "Clone" field setting
+* General: ACF 5.9 Compatibility - Flexible Content - Added "Hide: Duplicate Button" setting
+* General: ACF 5.9 Compatibility - Block Type - Added "Inner Block" setting
+* General: ACF 5.9 Compatibility - Block Type - Added "Supports: Align Content" setting
+* General: ACF 5.9 Compatibility - Block Type - Added "Align Content" setting
+* Module: Dynamic Block Type - Fixed Template, Style & Script Render paths during Block Type registration
+* Field: Radio - Enhanced Group display for horizontal layout
+
 ### 0.8.6.9
 * Field: Flexible Content - Dynamic Render - External Layout Style & Script files now check for current domain before trying to automatically enqueue `{file}-preview.css` in Preview Mode
 * Field: Flexible Content - Dynamic Render - Fixed `$field`, `$layout` & `$is_preview` variables which weren't correctly passed to the Layout Template file

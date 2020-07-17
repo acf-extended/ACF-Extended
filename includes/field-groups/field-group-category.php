@@ -44,14 +44,14 @@ function acfe_field_group_category_submenu(){
 
 add_filter('parent_file', 'acfe_field_group_category_submenu_highlight');
 function acfe_field_group_category_submenu_highlight($parent_file){
-    
+ 
 	global $submenu_file, $current_screen, $pagenow;
-    
+ 
 	if($current_screen->taxonomy === 'acf-field-group-category' && ($pagenow === 'edit-tags.php' || $pagenow === 'term.php'))
         $parent_file = 'edit.php?post_type=acf-field-group';
     
 	return $parent_file;
-    
+ 
 }
 
 add_filter('manage_edit-acf-field-group_columns', 'acfe_field_group_category_column', 11);

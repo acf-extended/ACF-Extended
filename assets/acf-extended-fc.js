@@ -407,12 +407,18 @@
             }, 200);
         
         }else{
-            
-            // Scroll to new layout
-            $('html, body').animate({
-                scrollTop: parseInt($el.offset().top) - 200
-            }, 200);
-            
+
+            var acfVersion = parseFloat(acf.get('acf_version'));
+
+            if(acfVersion < 5.9){
+
+                // Scroll to new layout
+                $('html, body').animate({
+                    scrollTop: parseInt($el.offset().top) - 200
+                }, 200);
+
+            }
+
         }
         
     });

@@ -113,8 +113,55 @@ function acfe_dbt_registers(){
             acfe__($args['description'], 'Description', $textdomain);
         
         }
+    
+        // Template
+        $render_template = $args['render_template'];
         
-        // Register: Execute
+        if(!empty($render_template)){
+    
+            $template = acfe_locate_file_path($render_template);
+    
+            if(!empty($template)){
+        
+                $args['render_template'] = $template;
+        
+            }
+            
+        }
+        
+    
+        // Style
+        $enqueue_style = $args['enqueue_style'];
+        
+        if(!empty($enqueue_style)){
+    
+            $style = acfe_locate_file_url($enqueue_style);
+    
+            if(!empty($style)){
+        
+                $args['enqueue_style'] = $style;
+        
+            }
+            
+        }
+        
+    
+        // Script
+        $enqueue_script = $args['enqueue_script'];
+        
+        if(!empty($enqueue_script)){
+    
+            $script = acfe_locate_file_url($enqueue_script);
+    
+            if(!empty($script)){
+        
+                $args['enqueue_script'] = $script;
+        
+            }
+            
+        }
+    
+        // Register Block Type
         acf_register_block_type($args);
         
     }
@@ -177,6 +224,7 @@ function acfe_dbt_filter_save($post_id){
     $post_types = acf_get_array(get_field('post_types', $post_id));
     $mode = get_field('mode', $post_id);
     $align = get_field('align', $post_id);
+    $align_content = get_field('align_content', $post_id);
     $render_template = get_field('render_template', $post_id);
     $render_callback = get_field('render_callback', $post_id);
     $enqueue_style = get_field('enqueue_style', $post_id);
@@ -193,6 +241,7 @@ function acfe_dbt_filter_save($post_id){
         'post_types'        => $post_types,
         'mode'              => $mode,
         'align'             => $align,
+        'align_content'     => $align_content,
         'render_template'   => $render_template,
         'render_callback'   => $render_callback,
         'enqueue_style'     => $enqueue_style,
@@ -201,14 +250,14 @@ function acfe_dbt_filter_save($post_id){
     );
     
     // Align
-    if($align == 'none')
+    if($align === 'none')
         $register_args['align'] = '';
     
     // Icon
     $icon_type = get_field('icon_type', $post_id);
     
     // Icon: Simple
-    if($icon_type == 'simple'){
+    if($icon_type === 'simple'){
         
         $icon_text = get_field('icon_text', $post_id);
         
@@ -259,6 +308,20 @@ function acfe_dbt_filter_save($post_id){
     $register_args['supports']['multiple'] = false;
     if(!empty($supports_multiple))
         $register_args['supports']['multiple'] = true;
+    
+    // Supports: Experimental JSX
+    $experimental_jsx = get_field('supports_experimental_jsx', $post_id);
+    
+    $register_args['supports']['__experimental_jsx'] = false;
+    if(!empty($experimental_jsx))
+        $register_args['supports']['__experimental_jsx'] = true;
+    
+    // Supports: Align Content
+    $supports_align_content = get_field('supports_align_content', $post_id);
+    
+    $register_args['supports']['align_content'] = false;
+    if(!empty($supports_align_content))
+        $register_args['supports']['align_content'] = true;
     
         
     // Get ACFE option
@@ -314,7 +377,7 @@ function acfe_dbt_filter_status_publish($post){
     if(get_post_type($post->ID) !== 'acfe-dbt')
         return;
     
-    acfe_dop_filter_save($post->ID);
+    acfe_dbt_filter_save($post->ID);
     
 }
 
@@ -774,6 +837,92 @@ function acfe_dbt_get_fields_labels_recursive(&$array, $field){
         }
         
     }
+    
+}
+
+//$__experimental_jsx = array();
+$experimental_jsx = array();
+$align_content = array();
+$supports_align_content = array();
+
+if(acf_version_compare(acf_get_setting('version'),  '>=', '5.9')){
+    
+    $experimental_jsx = array(
+        'key' => 'field_acfe_dbt_supports_experimental_jsx',
+        'label' => 'Inner Block',
+        'name' => 'supports_experimental_jsx',
+        'type' => 'true_false',
+        'instructions' => 'Enable inner block feature. Defaults to false.',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array(
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'acfe_validate' => '',
+        'acfe_update' => '',
+        'acfe_permissions' => '',
+        'message' => '',
+        'default_value' => 0,
+        'ui' => 1,
+        'ui_on_text' => 'True',
+        'ui_off_text' => 'False',
+    );
+    
+    $supports_align_content = array(
+        'key' => 'field_acfe_dbt_supports_align_content',
+        'label' => 'Align Content',
+        'name' => 'supports_align_content',
+        'type' => 'true_false',
+        'instructions' => 'Set the "xy" position of content using a 3×3 matrix grid. Defaults to false.',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array(
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'acfe_validate' => '',
+        'acfe_update' => '',
+        'acfe_permissions' => '',
+        'message' => '',
+        'default_value' => 0,
+        'ui' => 1,
+        'ui_on_text' => 'True',
+        'ui_off_text' => 'False',
+    );
+    
+    $align_content = array(
+        'key' => 'field_acfe_dbt_align_content',
+        'label' => 'Align content',
+        'name' => 'align_content',
+        'type' => 'text',
+        'instructions' => 'Specifies the default attribute value.',
+        'required' => 0,
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field' => 'field_acfe_dbt_supports_align_content',
+                    'operator' => '==',
+                    'value' => '1',
+                ),
+            ),
+        ),
+        'wrapper' => array(
+            'width' => '',
+            'class' => '',
+            'id' => '',
+        ),
+        'acfe_validate' => '',
+        'acfe_update' => '',
+        'acfe_permissions' => '',
+        'default_value' => '',
+        'placeholder' => '',
+        'prepend' => '',
+        'append' => '',
+        'maxlength' => '',
+    );
     
 }
 
@@ -1392,6 +1541,13 @@ full',
             'rows' => '',
             'new_lines' => '',
         ),
+        
+        $experimental_jsx,
+    
+        $supports_align_content,
+    
+        $align_content,
+        
         array(
             'key' => 'field_acfe_dbt_supports_mode',
             'label' => 'Mode',
