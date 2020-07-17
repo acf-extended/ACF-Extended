@@ -432,29 +432,33 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                 )
             )
         ));
-        
-        // Layouts: Clone
-        acf_render_field_setting($field, array(
-            'label'         => __('Layouts: Clone'),
-            'name'          => 'acfe_flexible_clone',
-            'key'           => 'acfe_flexible_clone',
-            'instructions'  => __('Allow clone layouts function'),
-            'type'              => 'true_false',
-            'message'           => '',
-            'default_value'     => false,
-            'ui'                => true,
-            'ui_on_text'        => '',
-            'ui_off_text'       => '',
-            'conditional_logic' => array(
-                array(
+    
+        if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
+    
+            // Layouts: Clone
+            acf_render_field_setting($field, array(
+                'label'         => __('Layouts: Clone'),
+                'name'          => 'acfe_flexible_clone',
+                'key'           => 'acfe_flexible_clone',
+                'instructions'  => __('Allow clone layouts function'),
+                'type'              => 'true_false',
+                'message'           => '',
+                'default_value'     => false,
+                'ui'                => true,
+                'ui_on_text'        => '',
+                'ui_off_text'       => '',
+                'conditional_logic' => array(
                     array(
-                        'field'     => 'acfe_flexible_advanced',
-                        'operator'  => '==',
-                        'value'     => '1',
-                    ),
+                        array(
+                            'field'     => 'acfe_flexible_advanced',
+                            'operator'  => '==',
+                            'value'     => '1',
+                        ),
+                    )
                 )
-            )
-        ));
+            ));
+        
+        }
         
         // Layouts: Copy/Paste
         acf_render_field_setting($field, array(
@@ -530,7 +534,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             )
         ));
         
-        // Remove: Add Button
+        // Hide: Add Button
         acf_render_field_setting($field, array(
             'label'         => __('Hide: Add layout button'),
             'name'          => 'acfe_flexible_remove_add_button',
@@ -552,8 +556,35 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                 )
             )
         ));
+    
+        if(acf_version_compare(acf_get_setting('version'),  '>=', '5.9')){
+    
+            // Hide: Duplicate Button
+            acf_render_field_setting($field, array(
+                'label'         => __('Hide: Duplicate layout button'),
+                'name'          => 'acfe_flexible_remove_duplicate_button',
+                'key'           => 'acfe_flexible_remove_duplicate_button',
+                'instructions'  => __('Hide the "Duplicate layout" button'),
+                'type'              => 'true_false',
+                'message'           => '',
+                'default_value'     => false,
+                'ui'                => true,
+                'ui_on_text'        => '',
+                'ui_off_text'       => '',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field'     => 'acfe_flexible_advanced',
+                            'operator'  => '==',
+                            'value'     => '1',
+                        ),
+                    )
+                )
+            ));
         
-        // Remove: Delete Button
+        }
+        
+        // Hide: Delete Button
         acf_render_field_setting($field, array(
             'label'         => __('Hide: Delete layout button'),
             'name'          => 'acfe_flexible_remove_delete_button',
@@ -770,7 +801,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             )
         ));
         
-        // Layouts: Remove Collapse
+        // Hide: Collapse Button
         acf_render_field_setting($field, array(
             'label'         => __('Layouts: Remove Collapse'),
             'name'          => 'acfe_flexible_layouts_remove_collapse',
@@ -1088,6 +1119,7 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             'acfe_flexible_toggle'                  => 0,
             'acfe_flexible_close_button'            => 0,
             'acfe_flexible_remove_add_button'       => 0,
+            'acfe_flexible_remove_duplicate_button' => 0,
             'acfe_flexible_remove_delete_button'    => 0,
             'acfe_flexible_lock'                    => 0,
             
@@ -1975,13 +2007,27 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
 	 *  Render Layout Icons
 	 */
     function render_layout_icons($layout, $field){
+    
+        if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
+    
+            // icons
+            $icons = array(
+                'add'       => '<a class="acf-icon -plus small light acf-js-tooltip" href="#" data-name="add-layout" title="' . __('Add layout','acf') . '"></a>',
+                'delete'    => '<a class="acf-icon -minus small light acf-js-tooltip" href="#" data-name="remove-layout" title="' . __('Remove layout','acf') . '"></a>',
+                'collapse'  => '<a class="acf-icon -collapse small acf-js-tooltip" href="#" data-name="collapse-layout" title="' . __('Click to toggle','acf') . '"></a>'
+            );
         
-        // icons
-        $icons = array(
-            'add'       => '<a class="acf-icon -plus small light acf-js-tooltip" href="#" data-name="add-layout" title="' . __('Add layout','acf') . '"></a>',
-            'delete'    => '<a class="acf-icon -minus small light acf-js-tooltip" href="#" data-name="remove-layout" title="' . __('Remove layout','acf') . '"></a>',
-            'collapse'  => '<a class="acf-icon -collapse small acf-js-tooltip" href="#" data-name="collapse-layout" title="' . __('Click to toggle','acf') . '"></a>'
-        );
+        }else{
+    
+            // icons
+            $icons = array(
+                'add'       => '<a class="acf-icon -plus small light acf-js-tooltip" href="#" data-name="add-layout" title="' . __('Add layout','acf') . '"></a>',
+                'duplicate' => '<a class="acf-icon -duplicate small light acf-js-tooltip" href="#" data-name="duplicate-layout" title="' . __('Duplicate layout','acf') . '"></a>',
+                'delete'    => '<a class="acf-icon -minus small light acf-js-tooltip" href="#" data-name="remove-layout" title="' . __('Remove layout','acf') . '"></a>',
+                'collapse'  => '<a class="acf-icon -collapse small acf-js-tooltip" href="#" data-name="collapse-layout" title="' . __('Click to toggle','acf') . '"></a>'
+            );
+            
+        }
         
         $icons = apply_filters('acfe/flexible/layouts/icons',                                                         $icons, $layout, $field);
         $icons = apply_filters('acfe/flexible/layouts/icons/name=' . $field['_name'],                                 $icons, $layout, $field);
@@ -2349,17 +2395,21 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             $icons = array_merge($new_icons, $icons);
             
         }
-        
-        // Clone
-        if($field['acfe_flexible_clone']){
-            
+    
+        if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
+    
             // Clone
-            $new_icons = array(
-                'clone' => '<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-page" href="#" title="Clone layout" data-acfe-flexible-control-clone="' . $layout['name'] . '"></a>'
-            );
-            
-            $icons = array_merge($new_icons, $icons);
-            
+            if($field['acfe_flexible_clone']){
+        
+                // Clone
+                $new_icons = array(
+                    'clone' => '<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-page" href="#" title="Clone layout" data-acfe-flexible-control-clone="' . $layout['name'] . '"></a>'
+                );
+        
+                $icons = array_merge($new_icons, $icons);
+        
+            }
+        
         }
     
         // Toggle
@@ -2384,6 +2434,9 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
             // Add
             if(isset($icons['add']))    unset($icons['add']);
+    
+            // Duplicate
+            if(isset($icons['duplicate'])) unset($icons['duplicate']);
             
             // Delete
             if(isset($icons['delete'])) unset($icons['delete']);
@@ -2396,21 +2449,28 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
             
         }
         
-        // Remove: Add button
+        // Hide: Add button
         if($field['acfe_flexible_remove_add_button'] && isset($icons['add'])){
             
             unset($icons['add']);
             
         }
+    
+        // Hide: Duplicate button
+        if($field['acfe_flexible_remove_duplicate_button'] && isset($icons['duplicate'])){
         
-        // Remove: Delete button
+            unset($icons['duplicate']);
+        
+        }
+        
+        // Hide: Delete button
         if($field['acfe_flexible_remove_delete_button'] && isset($icons['delete'])){
             
             unset($icons['delete']);
             
         }
         
-        // Remove: Toggle
+        // Hide: Collapse
         if(($field['acfe_flexible_modal_edition'] || $field['acfe_flexible_layouts_remove_collapse']) && isset($icons['collapse'])){
             
             unset($icons['collapse']);

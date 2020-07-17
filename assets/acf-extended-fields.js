@@ -1397,7 +1397,7 @@ function acfe_recaptcha(){
 
         $.each(field.get('acfeLabels'), function(group, key){
 
-            field.$control().find('input[type=checkbox][value=' + key + ']').closest('ul').before('<strong>' + group + '</strong>');
+            field.$control().find('input[type=checkbox][value="' + key + '"]').closest('ul').before('<strong>' + group + '</strong>');
 
         });
 
@@ -1413,9 +1413,19 @@ function acfe_recaptcha(){
 
         $.each(field.get('acfeLabels'), function(group, key){
 
-            field.$control().find('input[type=radio][value=' + key + ']').closest('li').prepend('<strong>' + group + '</strong>');
+            field.$control().find('input[type=radio][value="' + key + '"]').closest('li').addClass('parent').prepend('<strong>' + group + '</strong>');
 
         });
+
+        if(field.$control().hasClass('acf-hl')){
+
+            field.$control().find('li.parent').each(function(){
+
+                $(this).nextUntil('li.parent').addBack().wrapAll('<li><ul></ul></li>');
+
+            });
+
+        }
 
     });
 

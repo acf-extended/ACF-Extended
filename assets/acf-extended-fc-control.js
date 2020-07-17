@@ -302,9 +302,9 @@
         });
         
         // Append Temp Input
-        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo($el);
+        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo($('body'));
         $input.attr('value', data).select();
-        
+
         // Command: Copy
         if(document.execCommand('copy'))
             alert('Layout has been transferred to your clipboard');

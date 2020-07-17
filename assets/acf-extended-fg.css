@@ -135,12 +135,17 @@ td.acf-field-group-category a{
     width:70px;
 }
 
-#acf-field-group-wrap .wp-list-table .column-acf-fg-count{
+#acf-field-group-wrap .wp-list-table .column-acf-fg-count,
+.post-type-acf-field-group .wp-list-table .column-acf-count{
     width:70px;
 }
 
+.post-type-acf-field-group .wp-list-table .column-title .post-state{
+    color:#a0a5aa;
+}
+
 .column-acfe-local{
-    width:50px;
+    width:70px;
 }
 
 .column-acfe-source{
@@ -149,7 +154,7 @@ td.acf-field-group-category a{
 
 .column-acfe-autosync-php,
 .column-acfe-autosync-json{
-    width:65px;
+    width:90px;
     text-align:center;
 }
 
