@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 0.8.6.8
+Stable tag: 0.8.6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -865,6 +865,13 @@ function my_acfe_modules(){
 10. ACF Settings
 
 == Changelog ==
+
+= 0.8.6.9 =
+* Field: Flexible Content - Dynamic Render - External Layout Style & Script files now check for current domain before trying to automatically enqueue `{file}-preview.css` in Preview Mode
+* Field: Flexible Content - Dynamic Render - Fixed `$field`, `$layout` & `$is_preview` variables which weren't correctly passed to the Layout Template file
+* Field: Flexible Content - Dynamic Render - Fixed Layout Style & Script enqueue handles which weren't using the real Flexible Content field's name
+* Field: Radio / Checkbox - Added Group display settings. `## Group` markup can be used in choices settings to create a new group
+* Field: Taxonomy Terms - Added "Radio Button" display type
 
 = 0.8.6.8 =
 * Field: Flexible Content - Enhanced Code Base

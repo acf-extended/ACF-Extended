@@ -1387,4 +1387,36 @@ function acfe_recaptcha(){
 
     };
 
+    /**
+     * Field: Checkbox
+     */
+    acf.addAction('new_field/type=checkbox', function(field){
+
+        if(!field.has('acfeLabels'))
+            return;
+
+        $.each(field.get('acfeLabels'), function(group, key){
+
+            field.$control().find('input[type=checkbox][value=' + key + ']').closest('ul').before('<strong>' + group + '</strong>');
+
+        });
+
+    });
+
+    /**
+     * Field: Radio
+     */
+    acf.addAction('new_field/type=radio', function(field){
+
+        if(!field.has('acfeLabels'))
+            return;
+
+        $.each(field.get('acfeLabels'), function(group, key){
+
+            field.$control().find('input[type=radio][value=' + key + ']').closest('li').prepend('<strong>' + group + '</strong>');
+
+        });
+
+    });
+
 })(jQuery);

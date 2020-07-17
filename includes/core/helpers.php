@@ -249,7 +249,7 @@ function acfe_flexible_render_layout_template($layout, $field){
             if(!$is_preview){
                 
                 // Include
-                load_template($file_found, false);
+                include($file_found);
                 
             // Preview
             }else{
@@ -265,11 +265,11 @@ function acfe_flexible_render_layout_template($layout, $field){
                 // Include
                 if(!empty($file_preview)){
     
-                    load_template($file_preview, false);
+                    include($file_preview);
                     
                 }else{
     
-                    load_template($file_found, false);
+                    include($file_found);
                     
                 }
                 
@@ -296,6 +296,9 @@ function acfe_flexible_render_layout_template($layout, $field){
 
 /**
  * ACFE Flexible: Render Enqueue
+ *
+ * @param $layout
+ * @param $field
  */
 function acfe_flexible_render_layout_enqueue($layout, $field){
     
@@ -306,7 +309,7 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     $name = $field['_name'];
     $key = $field['key'];
     $l_name = $layout['name'];
-    $handle = acf_slugify($field['name']) . '-layout-' . acf_slugify($l_name);
+    $handle = acf_slugify($name) . '-layout-' . acf_slugify($l_name);
     
     // Files
     $style = acf_maybe_get($layout, 'acfe_flexible_render_style');
@@ -342,37 +345,43 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     // Check
     if(!empty($style)){
         
+        // URL starting with current domain
+        if(stripos($style, home_url()) === 0){
+            
+            $style = str_replace(home_url(), '', $style);
+            
+        }
+        
         // Locate
         $style_file = acfe_locate_file_url($style);
         
-        // Enqueue
+        // Front-end
         if(!empty($style_file)){
             
-            // Front-end
             wp_enqueue_style($handle, $style_file, array(), false, 'all');
             
         }
-    
-        // Preview
-        if($is_preview){
         
+        // Preview
+        if($is_preview && stripos($style, 'http://') !== 0 && stripos($style, 'https://') !== 0 && stripos($style, '//') !== 0){
+            
             $path = pathinfo($style);
             $extension = $path['extension'];
-        
+            
             $style_preview = substr($style,0, -strlen($extension)-1);
             $style_preview .= '-preview.' . $extension;
-        
+            
             $style_preview = acfe_locate_file_url($style_preview);
-        
+            
             // Enqueue
             if(!empty($style_preview)){
-            
+                
                 wp_enqueue_style($handle . '-preview', $style_preview, array(), false, 'all');
-            
+                
             }
-        
+            
         }
-    
+        
     }
     
     /**
@@ -393,12 +402,24 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     // Check
     if(!empty($script)){
     
-        if(!$is_preview){
-            
-            $script_file = acfe_locate_file_url($script);
+        // URL starting with current domain
+        if(stripos($script, home_url()) === 0){
     
-            if(!empty($script_file))
+            $script = str_replace(home_url(), '', $script);
+        
+        }
+        
+        // Locate
+        $script_file = acfe_locate_file_url($script);
+        
+        // Front-end
+        if(!$is_preview || (stripos($script, 'http://') === 0 || stripos($script, 'https://') === 0 || stripos($script, '//') === 0)){
+    
+            if(!empty($script_file)){
+    
                 wp_enqueue_script($handle, $script_file, array(), false, true);
+                
+            }
             
         }else{
     
@@ -415,13 +436,10 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
         
                 wp_enqueue_script($handle . '-preview', $script_preview, array(), false, true);
         
-            }else{
-    
-                $script_file = acfe_locate_file_url($script);
-    
-                if(!empty($script_file))
-                    wp_enqueue_script($handle, $script_file, array(), false, true);
-                
+            }elseif(!empty($script_file)){
+        
+                wp_enqueue_script($handle, $script_file, array(), false, true);
+        
             }
             
         }
@@ -628,7 +646,7 @@ function acfe_locate_file_url($filenames){
  * Locate File Path
  * Based on wp-includes\template.php:653
  */
-function acfe_locate_file_path($filenames, $load = false, $require_once = true){
+function acfe_locate_file_path($filenames){
     
     $located = '';
     
@@ -679,12 +697,6 @@ function acfe_locate_file_path($filenames, $load = false, $require_once = true){
             break;
     
         }
-        
-    }
-    
-    if($load && $located != ''){
-        
-        load_template($located, $require_once);
         
     }
     
