@@ -115,55 +115,60 @@ function acfe_dbt_registers(){
         }
     
         // Template
-        $render_template = $args['render_template'];
+        if(isset($args['render_template'])) {
+            $render_template = $args['render_template'];
         
-        if(!empty($render_template)){
-    
-            $template = acfe_locate_file_path($render_template);
-    
-            if(!empty($template)){
+            if(!empty($render_template)){
         
-                $args['render_template'] = $template;
+                $template = acfe_locate_file_path($render_template);
         
-            }
+                if(!empty($template)){
             
+                    $args['render_template'] = $template;
+            
+                }
+                
+            }
         }
-        
     
         // Style
-        $enqueue_style = $args['enqueue_style'];
-        
-        if(!empty($enqueue_style)){
-    
-            $style = acfe_locate_file_url($enqueue_style);
-    
-            if(!empty($style)){
-        
-                $args['enqueue_style'] = $style;
-        
-            }
+        if(isset($args['enqueue_style'])) {
+            $enqueue_style = $args['enqueue_style'];
             
-        }
+            if(!empty($enqueue_style)){
         
+                $style = acfe_locate_file_url($enqueue_style);
+        
+                if(!empty($style)){
+            
+                    $args['enqueue_style'] = $style;
+            
+                }
+                
+            }
+        }
     
         // Script
-        $enqueue_script = $args['enqueue_script'];
-        
-        if(!empty($enqueue_script)){
-    
-            $script = acfe_locate_file_url($enqueue_script);
-    
-            if(!empty($script)){
-        
-                $args['enqueue_script'] = $script;
-        
-            }
+        if(isset($args['enqueue_script'])) {
+            $enqueue_script = $args['enqueue_script'];
             
+            if(!empty($enqueue_script)){
+        
+                $script = acfe_locate_file_url($enqueue_script);
+        
+                if(!empty($script)){
+            
+                    $args['enqueue_script'] = $script;
+            
+                }
+                
+            }
         }
     
         // Register Block Type
-        acf_register_block_type($args);
-        
+        if(!empty($args)) {
+            acf_register_block_type($args);
+        }
     }
 
 }
