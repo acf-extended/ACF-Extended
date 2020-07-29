@@ -99,8 +99,9 @@ function acfe_dpt_registers(){
         }
         
         // Register: Execute
-        register_post_type($name, $args);
-        
+	if ( ! empty ( $name ) ) {
+            register_post_type($name, $args);
+        }
     }
 
 }
