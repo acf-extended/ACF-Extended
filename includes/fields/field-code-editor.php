@@ -76,7 +76,7 @@ class acfe_field_code_editor extends acf_field{
         // Mode
         acf_render_field_setting($field, array(
             'label'			=> __('Editor mode','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
+            'instructions'	=> __('Choose the syntax highlight','acf'),
             'type'          => 'select',
             'name'			=> 'mode',
             'choices'       => array(

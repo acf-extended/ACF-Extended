@@ -28,6 +28,18 @@ code{
     user-select: all;
 }
 
+pre > code{
+    -webkit-user-select: inherit;
+    -moz-user-select: inherit;
+    -ms-user-select: inherit;
+    user-select: inherit;
+    padding:0;
+    margin:0;
+    background:none;
+    font-size: 1em;
+    display:block;
+}
+
 .pre-codemirror > .CodeMirror,
 .code-codemirror > .CodeMirror{
     border:1px solid #ccc;
@@ -77,6 +89,30 @@ code{
 
 .acfe-postbox.acfe-postbox-no-handle .handlediv{
     display:none;
+}
+
+/*
+ * ACFE: Postbox-top
+ */
+.acfe-postbox-top>.inside {
+    position: relative
+}
+
+.acfe-postbox-top>.inside.-border {
+    border: #ccd0d4 solid 1px;
+    background: #fff
+}
+
+.acfe-postbox-top>.inside>.acf-field {
+    position: relative;
+    margin: 0;
+    padding: 15px 12px;
+    border-top: #EEEEEE solid 1px
+}
+
+.acfe-postbox-top>.inside>.acf-field:first-child {
+    border-top: none;
+    margin-top: 0
 }
 
 /*
@@ -574,4 +610,80 @@ body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .
  */
 .menu-item-settings{
     position:initial;
+}
+
+/*
+ * WP 5.5: Fix postbox order icons size
+ */
+@media screen and (min-width: 783px){
+
+    .postbox .handle-order-higher,
+    .postbox .handle-order-lower{
+        visibility: hidden;
+    }
+
+    .postbox:hover .handle-order-higher,
+    .postbox:hover .handle-order-lower{
+        visibility: visible;
+    }
+
+}
+
+.postbox .handle-order-higher,
+.postbox .handle-order-lower{
+    vertical-align: bottom;
+}
+
+.postbox .handle-order-higher .order-higher-indicator::before,
+.postbox .handle-order-lower .order-lower-indicator::before{
+    font-size:15px;
+    top:.18rem;
+}
+
+.postbox .handlediv{
+    width: 1.62rem;
+}
+
+.postbox .handlediv .toggle-indicator::before{
+    text-indent: -7px;
+}
+
+/*
+ * ACF 5.9: Fix missing columns
+ */
+.acf-columns-2 {
+    margin-right: 300px;
+    clear: both
+}
+
+.acf-columns-2:after {
+    display: block;
+    clear: both;
+    content: ""
+}
+
+html[dir="rtl"] .acf-columns-2 {
+    margin-right: 0;
+    margin-left: 300px
+}
+
+.acf-columns-2 .acf-column-1 {
+    float: left;
+    width: 100%
+}
+
+html[dir="rtl"] .acf-columns-2 .acf-column-1 {
+    float: right
+}
+
+.acf-columns-2 .acf-column-2 {
+    float: right;
+    margin-right: -300px;
+    width: 280px
+}
+
+html[dir="rtl"] .acf-columns-2 .acf-column-2 {
+    float: left;
+    margin-right: 0;
+    margin-left: -300px
 }

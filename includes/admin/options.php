@@ -329,7 +329,7 @@ function acfe_options_edit_metabox(){
     // Serialized || HTML
     if(is_serialized($option['option_value']) || $option['option_value'] != strip_tags($option['option_value'])){
         
-        $type = 'serilized';
+        $type = 'serialized';
         $instructions = 'Use this <a href="https://duzun.me/playground/serialize" target="_blank">online tool</a> to unserialize/seriliaze data.';
         
         if($option['option_value'] != strip_tags($option['option_value'])){

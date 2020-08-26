@@ -3,7 +3,7 @@
 if(!defined('ABSPATH'))
     exit;
 
-add_action('init', 'acfe_field_group_category_register');
+add_action('init', 'acfe_field_group_category_register', 9);
 function acfe_field_group_category_register(){
     
     register_taxonomy('acf-field-group-category', array('acf-field-group'), array(

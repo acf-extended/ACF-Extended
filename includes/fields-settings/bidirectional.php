@@ -364,8 +364,11 @@ class acfe_bidirectional{
                 
                 // Reset related bidirectional related
                 $r_field['acfe_bidirectional']['acfe_bidirectional_enabled'] = true;
-                
-                $r_field_related = acf_get_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
+    
+                $r_field_related = array();
+    
+                if(isset($r_field['acfe_bidirectional']['acfe_bidirectional_related']))
+                    $r_field_related = acf_get_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
                 
                 if(!in_array($field['key'], $r_field_related)){
                     

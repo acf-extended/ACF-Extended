@@ -3,9 +3,9 @@ Contributors: hwk-fr
 Donate link: https://ko-fi.com/acfextended
 Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 0.8.7
+Stable tag: 0.8.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -865,6 +865,32 @@ function my_acfe_modules(){
 10. ACF Settings
 
 == Changelog ==
+
+= 0.8.7.1 =
+* General: WordPress 5.5 Compatibility - Fixed the new "Postbox Order Icons" size & only display them on postbox hover
+* General: ACF 5.9 Compatibility - Added missing legacy ACF 2 columns CSS
+* General: ACF 5.9 Compatibility - Fixed Fields Groups UI `colspan` when empty
+* General: Added `pre > code` CSS compatibility
+* General: Added JS hooks for ACFE Modal: `acf.doAction('acfe/modal/open', $modal, args)` & `acf.doAction('acfe/modal/close', $modal, args)`
+* Field Groups: Fixed "All Images Formats" location which triggered a PHP warning
+* Field Groups: Added `acfe-postbox-top` CSS preload to avoid UI blink during admin page load
+* Field Groups: Categories - Changed the `register_taxonomy()` to priority `9`
+* Module: Multilang - Added `filter('acfe/modules/multilang/options', $options_pages_id)` allowing to allow/exclude specific Options Pages Post ID
+* Module: Dynamic Forms - Email Action - Fixed 'Reply-to' headers which weren't correctly set
+* Module: Dynamic Forms - Fixed `{field:my_field:false}` Template Tag to disable value format
+* Module: Options - Fixed "Serialized" typo on edit screen
+* Module: Dynamic Post Types - Added additional check before `register_post_type()`
+* Module: Dynamic Post Types - Added "Show in menu (text)" to allow string value
+* Module: Dynamic Post Types - Fixed "Archive Slug" incorrectly set when empty while using the Import Tool
+* Module: Dynamic Block Types - Added additional check for Template, Script & Styles arguments before `register_block_type()`
+* Module: Dynamic Taxonomies - Added additional check before `register_taxonomy()`
+* Field: Button - Fixed typo in "Button Type" setting instructions
+* Field: Button - Added default class value `button button-secondary`
+* Field: Clone - Fixed "Edit in modal" setting to be available only when the "Display" setting is set to "Group"
+* Field: Code Editor - Fixed "Editor Mode" setting instructions
+* Field: Forms - Changed default order to Title ASC
+* Field: reCaptcha - Fixed form submission when the field isn't required
+* Field Settings: Bidirectional - Fixed potential PHP notice `Undefined index`
 
 = 0.8.7 =
 * General: ACF 5.9 Compatibility - Modules - Added the ACF 5.9 Header menu

@@ -104,7 +104,7 @@ class acfe_form_email{
 	
 	    if(!empty($reply_to)){
 		
-		    $headers[] = 'Reply-To: ' . $cc;
+		    $headers[] = 'Reply-To: ' . $reply_to;
 		
 	    }
         

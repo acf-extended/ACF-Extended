@@ -1327,13 +1327,16 @@ function acfe_recaptcha(){
     };
 
     acf.addAction('prepare_field/key=field_acfe_form_custom_action_tab_action', acfe_tab_forget_tab_preference);
-    acf.addAction('prepare_field/key=field_acfe_form_email_tab_action', acfe_tab_forget_tab_preference);
-    acf.addAction('prepare_field/key=field_acfe_form_post_tab_action', acfe_tab_forget_tab_preference);
-    acf.addAction('prepare_field/key=field_acfe_form_term_tab_action', acfe_tab_forget_tab_preference);
-    acf.addAction('prepare_field/key=field_acfe_form_user_tab_action', acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_email_tab_action',         acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_post_tab_action',          acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_term_tab_action',          acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_form_user_tab_action',          acfe_tab_forget_tab_preference);
+
+    acf.addAction('prepare_field/key=field_acfe_dpt_tab_general',               acfe_tab_forget_tab_preference);
+    acf.addAction('prepare_field/key=field_acfe_dt_tab_general',                acfe_tab_forget_tab_preference);
 
     acf.addAction('show_postbox', function(postbox){
-        postbox.$el.removeClass('acfe-postbox-left');
+        postbox.$el.removeClass('acfe-postbox-left acfe-postbox-top');
     });
     
     // Allow conditions to work within wrapped div

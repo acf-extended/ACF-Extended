@@ -306,6 +306,8 @@ class acfe_multilang{
         
             }
             
+            $list = apply_filters('acfe/modules/multilang/options', $list);
+            
             $this->options_pages = $list;
             
         }

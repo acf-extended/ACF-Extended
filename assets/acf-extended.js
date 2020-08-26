@@ -102,6 +102,8 @@
             acfe.modal.multiple();
             
             acfe.modal.onOpen($target, args);
+
+            acf.doAction('acfe/modal/open', $target, args);
             
             return $target;
 			
@@ -140,6 +142,8 @@
 			}
             
             acfe.modal.multiple();
+
+            acf.doAction('acfe/modal/close', $target, args);
             
             acfe.modal.onClose($target, args);
 

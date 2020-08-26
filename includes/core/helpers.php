@@ -874,6 +874,8 @@ function acfe_get_pretty_forms($forms = array()){
             'post_type'         => 'acfe-form',
             'posts_per_page'    => -1,
             'fields'            => 'ids',
+            'orderby'           => 'title',
+            'order'             => 'ASC',
         ));
 		
 	}
@@ -1406,11 +1408,11 @@ function acfe_get_locations_array($locations){
                         continue;
             
                     $value = $value_name;
-            
-                    if(is_array($value_name) && isset($value_name[$value])){
-                
-                        $value = $value_name[$value];
-                
+    
+                    if(is_array($value_name) && isset($value_name[$value_slug])){
+        
+                        $value = $value_name[$value_slug];
+        
                     }
             
                     break;

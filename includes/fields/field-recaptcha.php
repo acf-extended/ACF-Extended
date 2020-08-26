@@ -218,69 +218,64 @@ class acfe_field_recaptcha extends acf_field{
     }
     
     function validate_value($valid, $value, $field, $input){
-        
+    
+        if(!$field['required'])
+            return $valid;
+    
         // Expired
         if($value === 'expired'){
-            
-            return __('reCaptcha has expired.');
-
-        }
         
+            return __('reCaptcha has expired.');
+        
+        }
+    
         // Error
         elseif($value === 'error'){
-            
+        
             return __('An error has occured.');
-
-        }
         
-        // Only true submission
-        elseif(!wp_doing_ajax()){
-            
-            // Empty & Required
-            if(empty($value) && $field['required']){
-                
-                return $valid;
-                
-            }
-            
-            // Success
-            else{
-                
-                // Secret key
-                $secret_key = acf_get_setting('acfe/field/recaptcha/secret_key', $field['secret_key']);
-
-                // API Call
-                $curl = curl_init();
-
-                curl_setopt($curl, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$value}");
-                curl_setopt($curl, CURLOPT_HEADER, 0);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                $api = curl_exec($curl);
-
-                curl_close($curl);
-                
-                // No response
-                if(empty($api))
-                    return false;
-                
-                $response = json_decode($api);
-                
-                if($response->success === false){
-                    
-                    $valid = false;
-                    
-                }
-                
-                elseif($response->success === true){
-                    
-                    $valid = true;
-                    
-                }
-                
-            }
-            
         }
+    
+        // Avoid duplicate token: Do not process during Ajax validation
+        if(wp_doing_ajax())
+            return $valid;
+    
+        // Secret key
+        $secret_key = acf_get_setting('acfe/field/recaptcha/secret_key', $field['secret_key']);
+    
+        // API Call
+        $curl = curl_init();
+    
+        curl_setopt($curl, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$value}");
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $api = curl_exec($curl);
+    
+        curl_close($curl);
+    
+        // No API response
+        if(empty($api))
+            return __('An error has occured.');
+    
+        // Decode
+        $response = json_decode($api);
+    
+        // No success
+        if(!isset($response->success))
+            return __('An error has occured.');
+    
+        if($response->success === false){
         
+            $valid = false;
+        
+        }
+
+        elseif($response->success === true){
+        
+            $valid = true;
+        
+        }
+    
         return $valid;
         
     }

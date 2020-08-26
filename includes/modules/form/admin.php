@@ -3644,17 +3644,17 @@ function acfe_form_map_field($content){
         }
         
         foreach($matches[1] as $i => $field_key){
-            
+    
+            $key = $field_key;
             $format = true;
             
-            if(strpos($field_key, ':') !== false){
+            if(strpos($key, ':') !== false){
             
-                $explode = explode(':', $field_key);
+                $explode = explode(':', $key);
+    
+                $key = $explode[0]; // field_123abc
                 
-                $field_key = $explode[0]; // field_123abc
-                $format = $explode[1]; // true / false
-                
-                if($format === 'false')
+                if($explode[1] === 'false')
                     $format = false;
                 
             }
@@ -3663,7 +3663,7 @@ function acfe_form_map_field($content){
                 
                 foreach($data as $field){
                     
-                    if($field['name'] !== $field_key && $field['key'] !== $field_key)
+                    if($field['name'] !== $key && $field['key'] !== $key)
                         continue;
                     
                     // Value

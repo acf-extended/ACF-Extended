@@ -17,7 +17,7 @@ class acfe_field_button extends acf_field{
             'button_type' => 'button',
             'button_before' => '',
             'button_after' => '',
-            'button_class' => '',
+            'button_class' => 'button button-secondary',
             'button_id' => '',
         );
         
@@ -62,7 +62,7 @@ class acfe_field_button extends acf_field{
         
         // Type
         acf_render_field_setting($field, array(
-            'label'         => __('Button value', 'acfe'),
+            'label'         => __('Button type', 'acfe'),
             'instructions'  => __('Choose the button type', 'acfe'),
             'type'          => 'radio',
             'name'          => 'button_type',

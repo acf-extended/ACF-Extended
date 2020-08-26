@@ -166,7 +166,7 @@ class ACFE_Admin_Tool_Import_DPT extends ACF_Admin_Tool{
             update_field('rest_controller_class', $args['rest_controller_class'], $post_id);
             
             // Has archive: override
-            if($args['has_archive'])
+            if($args['has_archive'] && is_string($args['has_archive']))
                 update_field('has_archive_slug', $args['has_archive'], $post_id);
             
             // Rewrite: override

@@ -362,7 +362,7 @@ add_action('current_screen', function(){
             //$('#posts-filter').append($('#tmpl-acfe-debug').html());
             
             // Fix no field groups found
-            $('#the-list tr.no-items td').attr('colspan', $('.wp-list-table > thead > tr > td:not(.hidden), .wp-list-table > thead > tr > th:not(.hidden)').length -1);
+            $('#the-list tr.no-items td').attr('colspan', $('.wp-list-table > thead > tr > .manage-column:visible').length);
             
         })(jQuery);
         </script>
@@ -385,32 +385,26 @@ add_action('acf/add_meta_boxes', 'acfe_field_groups_seamless', 10, 3);
 function acfe_field_groups_seamless($post_type, $post, $field_groups){
     
     foreach($field_groups as $field_group){
+    
+        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes) use($field_group){
         
-        if($field_group['style'] === 'seamless'){
-	
-	        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
-		
-		        $classes[] = 'acf-postbox';
-		        $classes[] = 'seamless';
-		
-		        return $classes;
-		
-	        });
-         
-        }
+            $classes[] = 'acf-postbox';
+            
+            // Seamless
+            if($field_group['style'] === 'seamless')
+                $classes[] = 'seamless';
+            
+            // Left
+            if($field_group['label_placement'] === 'left')
+                $classes[] = 'acfe-postbox-left';
+            
+            // Top
+            if($field_group['label_placement'] === 'top')
+                $classes[] = 'acfe-postbox-top';
+            
+            return $classes;
         
-        if($field_group['label_placement'] === 'left'){
-	
-	        add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes){
-		
-		        $classes[] = 'acf-postbox';
-		        $classes[] = 'acfe-postbox-left';
-		
-		        return $classes;
-		
-	        });
-         
-        }
+        });
         
     }
     

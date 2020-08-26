@@ -40,6 +40,15 @@ function acfe_field_clone_settings($field){
         'message'           => '',
         'default_value'     => false,
         'ui'                => true,
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'display',
+                    'operator'  => '==',
+                    'value'     => 'group',
+                )
+            )
+        )
     ));
     
     acf_render_field_setting($field, array(

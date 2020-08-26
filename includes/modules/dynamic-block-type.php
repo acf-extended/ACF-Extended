@@ -115,11 +115,9 @@ function acfe_dbt_registers(){
         }
     
         // Template
-        $render_template = $args['render_template'];
+        if(acf_maybe_get($args, 'render_template')){
         
-        if(!empty($render_template)){
-    
-            $template = acfe_locate_file_path($render_template);
+            $template = acfe_locate_file_path($args['render_template']);
     
             if(!empty($template)){
         
@@ -131,11 +129,9 @@ function acfe_dbt_registers(){
         
     
         // Style
-        $enqueue_style = $args['enqueue_style'];
+        if(acf_maybe_get($args, 'enqueue_style')){
         
-        if(!empty($enqueue_style)){
-    
-            $style = acfe_locate_file_url($enqueue_style);
+            $style = acfe_locate_file_url($args['enqueue_style']);
     
             if(!empty($style)){
         
@@ -147,11 +143,9 @@ function acfe_dbt_registers(){
         
     
         // Script
-        $enqueue_script = $args['enqueue_script'];
+        if(acf_maybe_get($args, 'enqueue_script')){
         
-        if(!empty($enqueue_script)){
-    
-            $script = acfe_locate_file_url($enqueue_script);
+            $script = acfe_locate_file_url($args['enqueue_script']);
     
             if(!empty($script)){
         
@@ -163,7 +157,7 @@ function acfe_dbt_registers(){
     
         // Register Block Type
         acf_register_block_type($args);
-        
+    
     }
 
 }
