@@ -31,430 +31,280 @@
 
 ## 🛠️ Links
 
-* Join the [ACF Slack community](https://join.slack.com/t/wpacf/shared_invite/enQtODc2MjczMzM3NzQ1LTQxNmY2ZGY3OTU2NDkxNTliYmNhMmY1NDMwZGM4NmYxNzgwZTI5MDUzMDFlMGQ5YzcwNDc0ZWM0MDVmODI4NmI)
-* Check the [ACF Extended Trello board](https://trello.com/b/QEgpU7CL/acf-extended)
-* Visit our website [ACF-Extended.com](https://www.acf-extended.com) (WIP)
-* Visit the official [ACF Extended WP Repo](https://wordpress.org/plugins/acf-extended/)
-* Have a question? [Check the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
-* Found a bug? [Submit an issue](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=&template=bug_report.md&title=)
-* A feature request? [Submit an idea](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=feature+request&template=feature_request.md&title=)
-* Want to fork me? [GitHub repository](https://github.com/acf-extended/ACF-Extended)
-* Enjoying this plugin? [Submit a review](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
-* Want to keep me awake? [Buy me a coffee](https://ko-fi.com/acfextended)
-* Want to follow me? [Here is my Twitter](https://twitter.com/hwkfr)
+* [Plugin](https://wordpress.org/plugins/acf-extended/)
+* [Website](https://www.acf-extended.com)
+* [Documentation](https://www.acf-extended.com/features)
+* [Roadmap](https://www.acf-extended.com/roadmap)
+* [GitHub](https://github.com/acf-extended/ACF-Extended)
+* [Twitter](https://twitter.com/ACFExtended)
+* [Twitter](https://twitter.com/hwkfr) (Personal)
+* [Slack](https://join.slack.com/t/wpacf/shared_invite/enQtODc2MjczMzM3NzQ1LTQxNmY2ZGY3OTU2NDkxNTliYmNhMmY1NDMwZGM4NmYxNzgwZTI5MDUzMDFlMGQ5YzcwNDc0ZWM0MDVmODI4NmI)
+
+## 🧰 Tools
+
+* [FAQ](https://wordpress.org/plugins/acf-extended/#faq)
+* [Support](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=&template=bug_report.md&title=)
+* [Feature Request](https://github.com/acf-extended/ACF-Extended/issues/new?assignees=&labels=feature+request&template=feature_request.md&title=)
+* [Reviews](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
+* [Donation](https://ko-fi.com/acfextended)
 
 ## 📺 Flexible Content Showcase
 
-[![ACF Extended: Flexible Content Dynamic Preview](https://www.acf-extended.com/acf-extended-flexible-content-video.jpg)](https://www.youtube.com/watch?v=hzkNL0BA3Dk)
+[![ACF Extended: Flexible Content Dynamic Preview](https://www.acf-extended.com/wp-content/themes/acf-extended/assets/img/acf-extended-flexible-content-dynamic-render.jpg)](https://www.youtube.com/watch?v=hzkNL0BA3Dk)
 
 ## 📝 Requirements
 
-**This plugin requires at least ACF Pro 5.7.10**
+**This plugin requires at least ACF Pro 5.7.10.** If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin available.
 
-If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin available.
+## 📁 Field Groups
 
-## 🏷️ Features
+**[Alternative Title](https://www.acf-extended.com/features/field-groups/alternative-title)**
 
-### ACF: Field Groups Settings
-
-* **Auto Sync PHP**
-Automatically synchronize field groups with local PHP files upon field group updates. This feature will create, include and update a local PHP file for each field group (just like the native Json sync feature).
-Default folder: `/wp-content/themes/my-theme/acfe-php/`
-
-* **Auto Sync Json**
-Control which field groups you want to synchronize with local Json files. Display warnings if the Json file has been manually deleted. Manually synchronize Json from field group screen.
-
-* **Categories**
-Spice up your field groups with a custom taxonomy and filter field groups by terms.
-
-* **Permissions**
-Add permission layer to field groups. Choose which roles can view & edit field groups in the post edition screen.
-
-* **Alternative Title**
 Display an alternative field group title in post edition screen.
 
-* **Note**
-Add a personal note in the field group administration. Only visible to administrators
+**[Auto Sync PHP](https://www.acf-extended.com/features/field-groups/autosync)**
 
-* **Custom meta data**
-Add custom metas (key/value) in the field group administration. Data can be retrieved using `acf_get_field_group()`
+Automatically synchronize field groups with local PHP files upon field group updates. This feature will create, include and update a local PHP file for each field group (just like the native Json sync feature).
 
-* **View raw data**
-Display raw field group data in a modal to check your configuration & settings
+**[Auto Sync Json](https://www.acf-extended.com/features/field-groups/autosync)**
 
-* **Custom key**
-Set custom field group key. ie: `group_custom_name`
+Control which field groups you want to synchronize with local Json files. Display warnings if the Json file has been manually deleted.
 
-* **Hide on Screen: Block Editor**
-Choose to disable Block Editor (Gutenberg) on the field group location
+**[Categories](https://www.acf-extended.com/features/field-groups/categories)**
 
-* **Advanced settings**
-Enable advanced fields settings & validation based on screen (administration/front-end). See fields advanced settings/validation
+Spice up your field groups with a custom taxonomy and filter field groups by terms.
 
-* **New field group instructions placement: Tooltip**
-Display instructions in a tooltip which is displayed when hovering an information icon
+**[Custom Key](https://www.acf-extended.com/features/field-groups/custom-key)**
 
-* **New field group location: All post types**
-Display field group on all post types edition screen
+Set custom field group key. Example: group_custom_name.
 
-* **New field group location: Post type List**
-Display field group on post types admin list screen. Fields are saved in the option: `{post_type}_options`
+**[Custom Meta](https://www.acf-extended.com/features/field-groups/custom-meta)**
 
-* **New field group location: Taxonomy List**
-Display field group on taxonomies admin list screen. Fields are saved in the option: `tax_{taxonomy}_options`
+Add custom metas (key/value) in the field group administration.
 
-* **New field group location: Post type Archive**
-Display field group on the post type archive (option page). The post type argument `acfe_admin_archive` must be set to `true`. This feature is also available in the Dynamic Post Type UI. Fields are saved in the option: `{post_type}_archive`
+**[Hide on Screen](https://www.acf-extended.com/features/field-groups/hide-on-screen)**
 
-### ACF: Field Groups List
+Choose to disable Block Editor (Gutenberg) on the field group location.
 
-* **Column: Category**
-Display and filter field groups categories
+**[Instructions Tooltip](https://www.acf-extended.com/features/field-groups/instructions-tooltip)**
 
-* **Column: Locations**
-Quick view of field groups locations information using icons & popover
+Display instructions in a tooltip which is displayed when hovering an information icon.
 
-* **Column: Load**
-Quick view of field groups data load source (DB, PHP or Json)
+**[Location: All post types](https://www.acf-extended.com/features/field-groups/locations/post-type)**
 
-* **Column: Sync PHP / Json**
-Quick view of field groups synchronization status with warnings
+Display field group on all post types edition screen.
 
-* **Row action: Export PHP / Json**
-One-click export for each field groups
+**[Location: Post type Archive](https://www.acf-extended.com/features/field-groups/locations/post-type-archive)**
 
-* **Row action: Field group key**
-Quick view of field groups keys
+Add an Archive Option Page under the Post Type admin menu. Display and save any field groups within it.
 
-### ACF: Field Groups - Local
+**[Location: Post type List](https://www.acf-extended.com/features/field-groups/locations/post-type-list)**
 
-* **Local**
-Display local field groups that are loaded by ACF, but not available in the ACF field group administration. Example: a field group is registered locally in the `functions.php` file, but not in ACF
+Display field group on post types admin list screen.
 
-* **Export**
-Export local field groups into PHP or Json
+**[Location: Taxonomy List](https://www.acf-extended.com/features/field-groups/locations/taxonomy-list)**
 
-* **Sync**
-Sync local field groups back to the database and edit their fields just like any other field group
+Display field group on taxonomies admin list screen.
 
-### ACF: Fields Settings 
+**[Local Field Groups](https://www.acf-extended.com/features/)**
 
-* **Bidirectional fields**
-An advanced bidirectional setting (also called post-to-post) is available for the following fields: Relationship, Post object, User & Taxonomy terms.
-Fields will work bidirectionally and automatically update each others. Works in groups & clones (prefixed field names must be turned off).
+Display local field groups that are loaded by ACF, but not available in the ACF field group administration. Example: Field groups that are registered in the `functions.php` file, but not in the ACF UI.
 
-It is possible to link a field on itself, allowing self-bidirectional save.
-[Usage example is available in the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
+**[Note](https://www.acf-extended.com/features/field-groups/note)**
 
-* **Advanced settings**
-A more sophisticated field settings based on specified location (administration/front-end). Example: Field is required only in front-end. The field group "Advanced settings" must be turned ON.
+Add a personal note in the field group administration. Only visible to administrators.
 
-* **Advanced validation**
-A more sophisticated validation conditions (AND/OR) with custom error messages based on specified location (administration/front-end). The field group "Advanced settings" must be turned ON.
+**[Permissions](https://www.acf-extended.com/features/field-groups/permissions)**
 
-* **Permissions**
-Add permission layer to fields. Choose which roles can view & edit fields in the post edition screen. (can be combined with field groups permissions)
+Add permission layer to field groups. Choose which roles can view & edit field groups in the post edition screen.
 
-* **Save as Meta**
+**[Raw Data](https://www.acf-extended.com/features/field-groups/raw-data)**
+
+Display raw field group data in a modal to check your configuration & settings.
+
+## ⚙️ Fields Settings
+
+**[Advanced Settings](https://www.acf-extended.com/features/field-settings/advanced-settings)**
+
+A more sophisticated field settings based on specified location (administration/front-end). Example: Field is required only in front-end.
+
+**[Advanced Validation](https://www.acf-extended.com/features/field-settings/advanced-validation)**
+
+A more sophisticated validation conditions (AND/OR) with custom error messages based on specified location (administration/front-end).
+
+**[Self/Multi/Bidirectional fields](https://www.acf-extended.com/features/field-settings/bidirectional-fields)**
+
+An advanced bidirectional setting (also called post-to-post) is available for the following fields: Relationship, Post object, User & Taxonomy terms. Fields will work bidirectionally and automatically update each others. Works in groups & clones.
+
+**[Permissions](https://www.acf-extended.com/features/field-settings/field-permissions)**
+
+Add permission layer to fields. Choose which roles can view & edit fields in the post edition screen. (can be combined with field groups permissions).
+
+**[Save as Meta](https://www.acf-extended.com/features/field-settings/save-as-meta)**
+
 Exclude the field from the "Single Meta Save" compression feature. The global ACF setting "Single Meta Save" must be turned ON.
 
-* **View raw data**
-Display raw field data in a modal to check your configuration & settings
+**[Raw data](https://www.acf-extended.com/features/field-settings/field-raw-data)**
 
-### ACF: Fields
+Display raw field data in a modal to check your configuration & settings.
 
-* **Field Clone: Edit in modal**
-Allow users to edit clone fields in a modal. Choose the edit button text, display close button and the modal size
+## 🏷️ Fields
 
-* **Field Datepicker/Datetime picker/Timepicker: Improved UI**
-Fields interfaces have been improved to display a more modern version
+**[Advanced Link](https://www.acf-extended.com/features/fields/advanced-link)**
 
-* **Field File: Uploader type**
-Choose the uploader type: Basic or native WP uploader
+Display a modern Link Selection in a modal. Posts, Post Types Archives & terms selection can be filtered in the field administration.
 
-* **Field Group: Edit in modal**
-Allow users to edit group fields in a modal. Choose the edit button text, display close button and the modal size
+**[Button](https://www.acf-extended.com/features/fields/button)**
 
-* **Field Image: Use as Featured Thumbnail**
-Choose if an image field should be considered as post featured thumbnail
+Display a custom submit or button. Built-in ajax call setting. Usage example available in the field administration.
 
-* **Field Image: Uploader type**
-Choose the uploader type: Basic or native WP uploader
+**[Clone](https://www.acf-extended.com/features/fields/clone)**
 
-* **Field Post Object: Allow & save custom values**
-Allow user to enter custom value which will be saved as a new post
+Allow users to edit clone fields in a modal. Choose the edit button text, display close button and the modal size.
 
-* **Field Repeater: Stylised button**
-Add style to 'Add Row' button
+**[Code Editor](https://www.acf-extended.com/features/fields/code-editor)**
 
-* **Field Repeater: Disable Sortable**
-Disable sortable rows using `filter('acfe/repeater/lock/name=my_repeater', true, $field)`
-
-* **Field Repeater: Remove Actions**
-Remove the actions buttons using `filter('acfe/repeater/remove_actions/name=my_repeater', true, $field)`
-
-* **Field Select: Placeholder**
-Change the default "Select" placeholder text and Search Input placeholder
-
-* **Field Select: Allow custom values**
-Allow user to enter custom value which will be saved
-
-* **Field Textarea: Code mode**
-Switch font family to monospace and allow tab indent
-
-### ACF: New Fields
-
-* **New Field: Advanced Link**
-Display a modern Link Selection in a modal. Posts, Post Types Archives & terms selection can be filtered in the field administration. Add custom sub fields using `filter('acfe/fields/advanced_link/sub_fields', $sub_fields, $field, $value)`
-
-* **New Field: Button**
-Display a custom submit or button. Built-in ajax call setting. Usage example available in the field administration
-
-* **New Field: Code Editor**
 Edit code using the native WP Core Codemirror library. Default languages: Text/HTML, Javascript, CSS, PHP mixed/plain.
 
-* **New Field: Columns**
-Re-arrange fields administration using columns
+**[Columns](https://www.acf-extended.com/features/fields/columns)**
 
-* **New Field: Dynamic form**
-Select any dynamic form (format: checkbox, radio or select). See ACF: Dynamic Forms section
+Organize and re-arrange your fields using columns and line-breaks. The field acts like the ACF Accordion/Tab field and allow you to create virtually grouped fields which will be display inside columns.
 
-* **New Field: Dynamic message**
-Display custom HTML/PHP content using `acf/render_field/name=my_field`. Example is available in the field administration
+**[Date/Timepicker](https://www.acf-extended.com/features/fields/datepicker)**
 
-* **New Field: Google reCaptcha**
-Display a reCaptcha field (compatible v2 & v3)
+Display a modern UI of the ACF Datepicker field. CSS and icons have been enhanced to fit WordPress admin UI and colors.
 
-* **New Field: Hidden input**
+**[Dynamic Message](https://www.acf-extended.com/features/fields/dynamic-message)**
+
+Display custom HTML/PHP content using a simple named hook.
+
+**[File](https://www.acf-extended.com/features/fields/file)**
+
+Choose the uploader type: Basic or native WP uploader.
+
+**[Flexible Content](https://www.acf-extended.com/features/fields/flexible-content)**
+
+Displayed an enhanced version of the native Flexible Content field. Dozens of new settings and settings were added, allowing developers to create the most advanced page builder and fully control the field’s behavior.
+
+**[Forms Selection](https://www.acf-extended.com/features/fields/forms)**
+
+Select any dynamic form (format: checkbox, radio or select). See ACF: Dynamic Forms section.
+
+**[Group](https://www.acf-extended.com/features/fields/group)**
+
+Allow users to edit group fields in a modal Choose the edit button text, display close button and the modal size
+
+**[Hidden Input](https://www.acf-extended.com/features/fields/hidden-input)**
+
 Display a hidden input with custom name/value
 
-* **New Field: Post status selection**
+**[Image](https://www.acf-extended.com/features/fields/image)**
+
+Choose the uploader type and set the image as post featured thumbnail
+
+**[Post Object](https://www.acf-extended.com/features)**
+
+Allow user to enter custom value which will be saved as a new post
+
+**[Post Status Selection](https://www.acf-extended.com/features/fields/post-statuses)**
+
 Select any post status (format: checkbox, radio or select)
 
-* **New Field: Post type selection**
+**[Post Type Selection](https://www.acf-extended.com/features/fields/post-types)**
+
 Select any post type (format: checkbox, radio or select)
 
-* **New Field: Slug**
-A slug text input (ie: `my-text-input`)
+**[reCaptcha](https://www.acf-extended.com/features/fields/recaptcha)**
 
-* **New Field: Taxonomy selection**
+Display a reCaptcha field (compatible v2 & v3).
+
+**[Repeater](https://www.acf-extended.com/features)**
+
+Add stylised to 'Add Row' button, disable sortable rows and remove repeater's actions.
+
+**[Select](https://www.acf-extended.com/features/fields/select)**
+
+Change the default "Select" placeholder text and Search Input placeholder and allow user to enter custom values.
+
+**[Slug](https://www.acf-extended.com/features/fields/slug)**
+
+A slug text input (ie: `my-text-input`).
+
+**[Taxonomies Selection](https://www.acf-extended.com/features/fields/taxonomies)**
+
 Select any taxonomy (format: checkbox, radio or select)
 
-* **New Field: Taxonomy Terms selection**
-Select any terms of any taxonomies, allow specific terms, level or childrens (format: checkbox or select)
+**[Taxonomy Terms Selection](https://www.acf-extended.com/features/fields/taxonomy-terms)**
 
-* **New Field: User roles selection**
+Select any terms of any taxonomies, allow specific terms, level or childrens (format: checkbox or select). Terms can be loaded & saved for the current post (just like the native ACF Taxonomy field)
+
+**[Textarea](https://www.acf-extended.com/features/fields/textarea)**
+
+Switch font family to monospace and allow tab indent.
+
+**[User roles Selection](https://www.acf-extended.com/features/fields/user-roles)**
+
 Select any user role (format: checkbox, radio or select)
 
-### WordPress: Dynamic Post Types
+## 🛠️ Modules
 
-Create and manage post types from your WordPress administration (Tools > Post Types). All WordPress post types arguments can be set and managed. But also:
+**[Forms](https://www.acf-extended.com/features/modules/dynamic-forms)**
 
-* Manage Posts per page, order by and order for the post type archive
-* Manage Posts per page, order by and order for the post type administration screen
-* Set custom single template (ie: `my-single.php`) instead of the native `single-{post_type}.php`
-* Set custom archive template (ie: `my-archive.php`) instead of the native `archive-{post_type}.php`
-* Add an Archive Option Page under the post type menu and set your field groups
-* Manual PHP/Json Import & Export is available in the ACF > Tools page
+Manage Advanced ACF Forms from the WordPress administration. This module is an enhanced version of the native ACF Form feature. While all native settings can used, Dynamic Forms adds many new settings and introduce “Actions” for a complete control over the form behavior.
 
-### WordPress: Dynamic Taxonomies
+**[Post Types](https://www.acf-extended.com/features/modules/dynamic-post-types)**
 
-Create and manage taxonomies from your WordPress administration (Tools > Taxonomies). All WordPress taxonomies arguments can be set and managed. But also:
+The Dynamic Post Types module allows you to register and manage custom post types from your WordPress admin, in Tools > Post Types menu.
 
-* Manage Posts per page, order by and order for the taxonomy term archive
-* Manage Posts per page, order by and order for the taxonomy administration screen
-* Set custom taxonomy template (ie: `my-taxonomy.php`) instead of the native `taxonomy-{taxonomy}.php`
-* Manual PHP/Json Import & Export is available in the ACF > Tools page
+All native post types settings can be set within the UI. ACF Extended also adds more advanced settings allowing to manage posts per page, order etc…
 
-### WordPress: Ajax Author Box
+**[Taxonomies](https://www.acf-extended.com/features/modules/dynamic-taxonomies)**
 
-The native WP Author Metabox has been replaced with a dynamic version allowing to manage thousands of users without slowing down the post administration.
+The Dynamic Taxonomies module allows you to register and manage custom taxonomies from your WordPress admin, in Tools > Taxonomies menu.
 
-### WordPress: Enhanced UI
+All native taxonomies settings can be set within the UI. ACF Extended also adds more advanced settings allowing to manage posts per page, order etc…
 
-Taxonomies list/edit, User edit/add and General Settings views have been enhanced for a more consistent administration experience, using CSS/JS only.
+**[Block Types](https://www.acf-extended.com/features/modules/dynamic-block-types)**
 
-### WordPress: Options
+The Dynamic Block Types module allows you to register and manage ACF Block Types from your WordPress admin, in ACF > Block Types menu. All ACF settings can be set within the UI.
 
-Manage WordPress options from Settings > Options.
+**[Options Pages](https://www.acf-extended.com/features/modules/dynamic-options-pages)**
 
-* View, add, edit and delete options
-* Working with strings, serialized & Json values
+The Dynamic Options Pages module allows you to register and manage ACF Options Pages from your WordPress admin, in ACF > Options Pages menu. All ACF settings can be set within the UI.
 
-### ACF: Settings
+**[Single Meta Save](https://www.acf-extended.com/features/modules/single-meta-save)**
 
-* **ACF: Settings page**
-Display all ACF settings in one page.
+Compress all fields values from the current post, term, user or options into one single meta data. This process lighten the database load as values are saved and read from one single row.
 
-* **ACF Extended: Settings page**
-Display all ACF Extended settings in one page.
+Once activated and after saving a post/term/user in the administration, all old meta data will be removed and packed together in a meta called `acf`.
 
-### ACF: Dev Mode
+**[Developer Mode](https://www.acf-extended.com/features/modules/developer-mode)**
 
-View all custom Posts, Terms, Users & Options meta in a readable format
+The Developer Mode allow you to view all Posts, Terms, Users & Options custom meta data in a readable format. This feature is very useful to check what is actually saved in any WordPress Object.
 
-* Print Arrays & Json values
-* Delete/Bulk delete any meta
-* ACF fields meta are grouped together
-* ACF field groups related to fields are displayed when available
-* Dev mode also enable `SCRIPT_DEBUG`
-* Activate using `acf_update_setting('acfe/dev', true)` or `define('ACFE_dev', true)`
+## 🖥️ WordPress
 
-### ACF: Options Pages
+**[Ajax Author Box](https://www.acf-extended.com/features/wordpress/ajax-author-box)**
 
-Manage ACF Options Pages from ACF > Options.
+The native WP Author Metabox has been replaced with an Ajax version allowing to manage thousands of users without slowing down the post administration. The new Author box also include an inline search input.
 
-* View, add, edit and delete options pages
-* All arguments are available
-* Manual PHP/Json Import & Export is available in the ACF > Tools page
+**[Enhanced UI](https://www.acf-extended.com/features/wordpress/enhanced-ui)**
 
+The Taxonomy, User profile & Settings views have been enhanced for a more consistent administration experience, using CSS/JS only.
 
-### ACF: Block Types (Gutenberg)
+**[WordPress Options](https://www.acf-extended.com/features/wordpress/options)**
 
-Manage ACF Block Types from ACF > Block Types.
+Manage WordPress Options from the Settings > Options page. Options values (strings, serialized & Json) will be displayed in a readable form. Values can be edited or deleted.
 
-* View, add, edit and delete Block Types
-* All arguments are available
-* Manual PHP/Json Import & Export is available in the ACF > Tools page
-* Requires ACF Pro 5.8
+## 🗺️ Multilangual
 
-### ACF: Flexible Content Enhancement
+**[Polylang](https://www.acf-extended.com/features/multilangual/polylang)**
 
-* Controls: Inline Layout Title Edition
-* Controls: Copy, Paste & Duplicate Layouts on the fly
-* Controls: Copy & Paste all layouts on the fly
-* Stylised Button: Add style to 'Add Row'
-* Hide Empty Message: Hide the native Flexible Content 'Empty' message
-* Empty Message: Change the native Flexible Content 'Click the Add Row button below...' message
-* Layouts Thumbnails: Add thumbnails for each layout in the layout selection
-* Layouts Settings: Choose a field group to clone and to be used as a layout configuration modal in the administration. Data can be retrieved using `while(have_settings()): the_setting(); get_sub_field('my_setting');`
-* Layouts Render: Add `template.php`, `style.css` & `script.js` files settings for each layout. Those settings can be then accessed in the front-end [More information in the FAQ](https://wordpress.org/plugins/acf-extended/#faq)
-* Layouts Dynamic Preview: Edit & Preview Layouts on-the-fly from your WordPress administration, just like in Gutenberg (Layouts Render must be turned ON)
-* Modal Edition: Edit layouts in a modal
-* Modal Selection: Change the layout selection into a modal
-* Modal Selection Title: Change the layout modal title
-* Modal Selection Columns: Change the layout modal columns grid. 1, 2, 3, 4, 5 or 6 columns available
-* Modal Selection Categories: Add category for each layout in the layout modal
-* Modal Settings: Clone field groups and display them as a layout settings modal
-* Layouts Toggle: Hide specific layouts from the front-end
-* Layouts State: Force layouts to be collapsed or opened by default
-* Layouts Collapse: Remove collapse action
-* Layouts: Hide "Add Layout" buttons
-* Layouts: Hide "Remove Layout" buttons. Can also be done using `filter('acfe/flexible/remove_actions/name=my_flexible', true, $field)`
-* Lock Layouts: Disable sortable Layouts. Can also be done using `filter('acfe/flexible/lock/name=my_flexible', true, $field)`
-* Button Label: Supports Dashicons icons elements `<span>`
-* One Click: the 'Add row' button will add a layout without the selection modal if there is only one layout available in the flexible content
-* Asynchronous Layouts: Add layouts using Ajax method. This setting increase performance on complex Flexible Content
-* Disable Legacy Layout Title Ajax: Disable the native ACF Layout Title Ajax call on `acf/fields/flexible_content/layout_title`.
+ACF Extended adds a new layer of compatibility for Polylang. ACF Options Pages and all ACF Extended Modules (Dynamic Post Type, Taxonomy, Options Pages, Block Type) are compatible.
 
-### ACF: Dynamic Forms
+**[WPML](https://www.acf-extended.com/features/multilangual/wpml)**
 
-Manage ACF Forms from your WordPress administration. All ACF Form settings are available. But also:
-
-* Render multiple field groups in one single form with custom HTML between them
-* Apply custom CSS class to all fields & wrappers
-* Apply custom CSS class to fields errors
-* Group errors above the form, display them above fields, below fields or hide them
-* Hide form on successful submission
-* Map fields and change their settings based on the location (front-end/back-end)
-* Add multiple actions on form submission:
-  * Create or Update Posts
-  * Create or Update Terms
-  * Create Update, or Log Users
-  * Send multiple e-mails
-  * Trigger custom PHP actions
-* Integration, validation & custom submission examples in the administration
-* Display forms using `acfe_form('my_form_name')` or `acfe_form(188)` helpers
-* Display forms using shortcodes `[acfe_form name="my_form_name"]` or `[acfe_form ID="188"]`
-* The function `acf_form_head()` is not needed anymore
-* Manual Import & Export is available in the ACF > Tools page
-
-### WPML & Polylang Multilangual 
-
-Advanced Custom Fields comes with a WPML compatibility module for Fields, Field Groups & Options Page ID. However, it will only take care of Options Pages with the default `options` post id. When WPML is enabled, ACF will translate the post id to `options_{lang}`. ie: `options_en`.
-
-ACF Extended adds a new layer of compatibility for both WPML & Polylang. Options Pages post ids and all ACF Extended Modules (Dynamic Post Type, Taxonomy, Options Pages, Block Type) are now compatible.
-
-#### WPML
-Options Pages with custom post id are automatically translated. ie: `my-theme` will become `my-theme_en` when switching language. If an Options Page was manually registered with a custom post id including a language code at the end, then the post id won't be translated.
-
-Dynamic Post Type, Taxonomy, Options Pages & Block Type items are automatically registered as WPML string, and can be translated using the WPML String Translation module.
-
-#### Polylang
-Options Pages with custom post id are automatically translated. ie: `my-theme` will become `my-theme_en_US` when switching language. If an Options Page was manually registered with a custom post id including a language code at the end, then the post id won't be translated. The module is also compatible with the [ACF Options for Polylang](https://wordpress.org/plugins/acf-options-for-polylang/) plugin.
-
-Dynamic Post Type, Taxonomy, Options Pages & Block Type items are automatically registered as Polylang strings, and can be translated using the Polylang String Translation module.
-
-### ACF: Single Meta Save (Beta)
-
-Compress all fields values from the current post, term, user or options into one single meta data. This process lighten the database load as values are saved and read from one single row. Once activated and after saving a post/term/user in the administration, all old meta data will be removed and packed together in a meta called `acf`.
-
-To monitor the process, it is possible to enable the "ACF Extended: Dev Mode" which will display all WP & ACF meta data on every Posts, Terms, Users & Options.
-
-This feature also enables a new setting available in every fields: "Save as individual meta". If this setting is turned ON on a specific field, then the value will be saved individually. `WP Queries` and `Meta Queries` can be used just like before.
-
-Single Meta Save is disabled by default. To enable it, add the following code in your `functions.php` file:
-
-```php
-add_action('acf/init', 'my_acfe_modules');
-function my_acfe_modules(){
-    
-    // Enable Single Meta Save
-    acfe_update_setting('modules/single_meta', true);
-    
-}
-
-// Enable Single Meta Save on specific Post Types only (default: all)
-add_filter('acfe/modules/single_meta/post_types', 'my_acfe_single_meta_post_types');
-function my_acfe_single_meta_post_types($post_types){
-
-    $post_types = array('page', 'my-post-type');
-    
-    // Allow all post types (default):
-    // return array();
-
-    // Disable all post types:
-    // return false;
-
-    return $post_types;
-
-}
-
-// Enable Single Meta Save on specific Taxonomies only (default: all)
-add_filter('acfe/modules/single_meta/taxonomies', 'my_acfe_single_meta_taxonomies');
-function my_acfe_single_meta_taxonomies($taxonomies){
-
-    $taxonomies = array('category', 'my-taxonomy');
-
-    // Allow all taxonomies (default):
-    // return array();
-
-    // Disable all taxonomies:
-    // return false;
-
-    return $taxonomies;
-
-}
-
-// Enable Single Meta Save on specific Options ID (default: disabled)
-add_filter('acfe/modules/single_meta/options', 'my_acfe_single_meta_options');
-function my_acfe_single_meta_options($options_ids){
-
-    $options_ids = array('options', 'my-option-id');
-
-    // Allow all options id:
-    // return array();
-
-
-    // Disable all options id (default):
-    // return false;
-
-    return $options_ids;
-
-}
-```
-
-Note: It is possible to revert back to the native ACF save process. To do so, keep the feature enabled, get in the post administration you want to revert back. Disable the feature in your code, and save the post. All data will be saved back to individual meta data.
+ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and all ACF Extended Modules (Dynamic Post Type, Taxonomy, Options Pages, Block Type) are compatible.
 
 ## ❤️ Early Supporters
 
