@@ -539,11 +539,11 @@ class acfe_form{
         foreach($this->fields_groups as $field_group){ ?>
         
             <?php 
-            acf_disable_filters();
+            //acf_disable_filters();
             
                 $field_group_db = acf_get_field_group($field_group['key']);
             
-            acf_enable_filters();
+            //acf_enable_filters();
             ?>
             
             <div class="acf-field">
@@ -646,7 +646,7 @@ class acfe_form{
     // Field groups choices
     function field_groups_choices($field){
         
-        acf_disable_filters();
+        //acf_disable_filters();
         
         $field_groups = acf_get_field_groups();
         if(empty($field_groups))
@@ -654,11 +654,14 @@ class acfe_form{
         
         foreach($field_groups as $field_group){
             
+            if(strpos($field_group['key'], 'group_acfe_') === 0)
+                continue;
+            
             $field['choices'][$field_group['key']] = $field_group['title'];
             
         }
         
-        acf_enable_filters();
+        //acf_enable_filters();
         
         return $field;
         
@@ -1201,6 +1204,21 @@ class acfe_form{
             }
             
         }
+    
+        // Match current_post {current:post:id}
+        $content = acfe_form_map_current($content, $post_id, $args);
+    
+        // Match {get_field:name} {get_field:name:123}
+        $content = acfe_form_map_get_field($content, $post_id);
+    
+        // Match {get_option:name}
+        $content = acfe_form_map_get_option($content);
+    
+        // Match {query_var:name} {query_var:name:key}
+        $content = acfe_form_map_query_var($content);
+    
+        // Match {request:name}
+        $content = acfe_form_map_request($content);
         
         return $content;
         
@@ -1520,9 +1538,8 @@ class acfe_form{
      *  List: Columns
      */
     function admin_columns($columns){
-        
-        if(isset($columns['date']))
-            unset($columns['date']);
+    
+        acfe_unset($columns, 'date');
         
         $columns['name'] = __('Name');
         $columns['field_groups'] = __('Field groups', 'acf');
@@ -1561,13 +1578,24 @@ class acfe_form{
             
             foreach($field_groups as $field_group_key){
                 
-                acf_disable_filters();
+                //acf_disable_filters();
                 
-                    $field_group = acf_get_field_group($field_group_key);
+                $field_group = acf_get_field_group($field_group_key);
                 
-                acf_enable_filters();
+                //acf_enable_filters();
                 
-                $fg[] = '<a href="' . admin_url('post.php?post=' . $field_group['ID'] . '&action=edit') . '">' . $field_group['title'] . '</a>';
+                if(!$field_group)
+                    continue;
+                
+                if($field_group['ID']){
+    
+                    $fg[] = '<a href="' . admin_url('post.php?post=' . $field_group['ID'] . '&action=edit') . '">' . $field_group['title'] . '</a>';
+                    
+                }else{
+    
+                    $fg[] = $field_group['title'];
+                    
+                }
                 
             }
             
@@ -1665,6 +1693,14 @@ class acfe_form{
                         elseif($action === 'update_user'){
                             
                             $users[] = '<span class="acf-js-tooltip dashicons dashicons-admin-users" title="Update user"></span>';
+                            $found = true;
+                            
+                        }
+                        
+                        // Update
+                        elseif($action === 'log_user'){
+                            
+                            $users[] = '<span class="acf-js-tooltip dashicons dashicons-migrate" title="Log user"></span>';
                             $found = true;
                             
                         }

@@ -8,12 +8,6 @@ if(!acf_get_setting('acfe/modules/dynamic_block_types'))
     return;
 
 /**
- * Require ACF Pro 5.8
- */
-if(version_compare(ACF_VERSION, '5.8', '<'))
-    return;
-
-/**
  * Register Dynamic Block Type
  */
 add_action('init', 'acfe_dbt_register');
@@ -354,8 +348,7 @@ function acfe_dbt_filter_status_trash($post){
 	$option = acfe_settings('modules.dynamic_block_type.data');
     
     // Check ACFE option
-    if(isset($option[$name]))
-        unset($option[$name]);
+    acfe_unset($option, $name);
     
     // Update ACFE option
 	acfe_settings('modules.dynamic_block_type.data', $option, true);
@@ -381,8 +374,7 @@ function acfe_dbt_filter_status_publish($post){
 add_filter('manage_edit-acfe-dbt_columns', 'acfe_dbt_admin_columns');
 function acfe_dbt_admin_columns($columns){
     
-    if(isset($columns['date']))
-        unset($columns['date']);
+    acfe_unset($columns, 'date');
     
     $columns['name'] = __('Name');
     $columns['category'] = __('Category');

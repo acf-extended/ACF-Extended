@@ -51,6 +51,10 @@ function acfe_plugin_row($plugin_file, $plugin_data, $status){
     if(acfe()->has_acf())
         return;
     
+    $colspan = 4;
+    if(acf_version_compare($GLOBALS['wp_version'],  '<', '5.5'))
+        $colspan = 3;
+    
     ?>
     
     <style>
@@ -73,9 +77,9 @@ function acfe_plugin_row($plugin_file, $plugin_data, $status){
     </style>
     
     <tr class="plugin-update-tr active acfe-plugin-tr">
-        <td colspan="3" class="plugin-update colspanchange">
+        <td colspan="<?php echo $colspan; ?>" class="plugin-update colspanchange">
             <div class="update-message notice inline notice-error notice-alt">
-                <p><?php _e('ACF Extended requires Advanced Custom Fields PRO (minimum: 5.7.10).', 'acfe'); ?></p>
+                <p><?php _e('ACF Extended requires <a href="https://www.advancedcustomfields.com/pro/" target="_blank">Advanced Custom Fields PRO</a> (minimum: 5.8).', 'acfe'); ?></p>
             </div>
         </td>
     </tr>

@@ -38,7 +38,7 @@
 * [GitHub](https://github.com/acf-extended/ACF-Extended)
 * [Twitter](https://twitter.com/ACFExtended)
 * [Twitter](https://twitter.com/hwkfr) (Personal)
-* [Slack](https://join.slack.com/t/wpacf/shared_invite/enQtODc2MjczMzM3NzQ1LTQxNmY2ZGY3OTU2NDkxNTliYmNhMmY1NDMwZGM4NmYxNzgwZTI5MDUzMDFlMGQ5YzcwNDc0ZWM0MDVmODI4NmI)
+* [Slack Community](https://join.slack.com/t/wpacf/shared_invite/enQtODc2MjczMzM3NzQ1LTQxNmY2ZGY3OTU2NDkxNTliYmNhMmY1NDMwZGM4NmYxNzgwZTI5MDUzMDFlMGQ5YzcwNDc0ZWM0MDVmODI4NmI)
 
 ## 🧰 Tools
 
@@ -54,7 +54,7 @@
 
 ## 📝 Requirements
 
-**This plugin requires at least ACF Pro 5.7.10.** If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin available.
+**This plugin requires at least ACF Pro 5.8.** If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), you should consider it. It's one of the most powerful WordPress plugin available.
 
 ## 📁 Field Groups
 
@@ -296,13 +296,13 @@ The Taxonomy, User profile & Settings views have been enhanced for a more consis
 
 Manage WordPress Options from the Settings > Options page. Options values (strings, serialized & Json) will be displayed in a readable form. Values can be edited or deleted.
 
-## 🗺️ Multilangual
+## 🗺️ Multilingual
 
-**[Polylang](https://www.acf-extended.com/features/multilangual/polylang)**
+**[Polylang](https://www.acf-extended.com/features/multilingual/polylang)**
 
 ACF Extended adds a new layer of compatibility for Polylang. ACF Options Pages and all ACF Extended Modules (Dynamic Post Type, Taxonomy, Options Pages, Block Type) are compatible.
 
-**[WPML](https://www.acf-extended.com/features/multilangual/wpml)**
+**[WPML](https://www.acf-extended.com/features/multilingual/wpml)**
 
 ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and all ACF Extended Modules (Dynamic Post Type, Taxonomy, Options Pages, Block Type) are compatible.
 
@@ -331,6 +331,25 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 
 ## 📋 Changelog
 
+### 0.8.7.2
+* Module: AutoSync - Reworked codebase, enhanced Field Groups Columns and added more information about files/folders detection
+* Module: AutoSync - Added filters to target a specific field group for the PHP & Json save
+* Module: AutoSync - Fixed an issue where "Available Json Sync" wouldn't be visible if the field group was using PHP Sync
+* Module: Dynamic Forms - Fixed missing "Log User" icon in the Forms List screen
+* Module: Dynamic Forms - Added `{current}`, `{get_field}`, `{get_option}`, `{query_var}`, `{request}` mapping in the "Custom Form Render" setting
+* Module: Dynamic Forms - Added `acfe-form` to available post types in Polylang
+* Module: Dynamic Forms - Local Field Groups can now be mapped
+* Field Groups: Added Export PHP & Export Json to bulk actions
+* Field Groups: Description column is now hidden by default
+* Field Groups: Local - Added Export PHP, Export Json & Sync to database to bulk actions
+* Field Groups: Categories - Added `acfe/module/categories` setting to disable the custom taxonomy
+* Field: Taxonomy - Added "Value equal", "Value not equal", "Pattern match" & "Contains" to the native ACF field conditional rules
+* Field: Post Object - Fixed undefined PHP function when using the "Allow custom value" setting with ACF version below 5.8.10
+* Field: Columns - Fixed "Endpoint" description typo
+* General: Settings - Fixed postbox header CSS
+* General: Compatibility - Fixed Post Type Order plugin which automatically drag&drop on ACF Field Groups UI
+* General: Bumped minimum ACF Pro version to 5.8
+
 ### 0.8.7.1
 * General: WordPress 5.5 Compatibility - Fixed the new "Postbox Order Icons" size & only display them on postbox hover
 * General: ACF 5.9 Compatibility - Added missing legacy ACF 2 columns CSS
@@ -343,12 +362,12 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 * Module: Multilang - Added `filter('acfe/modules/multilang/options', $options_pages_id)` allowing to allow/exclude specific Options Pages Post ID
 * Module: Dynamic Forms - Email Action - Fixed 'Reply-to' headers which weren't correctly set
 * Module: Dynamic Forms - Fixed `{field:my_field:false}` Template Tag to disable value format
-* Module: Options - Fixed "Serialized" typo on edit screen
 * Module: Dynamic Post Types - Added additional check before `register_post_type()`
 * Module: Dynamic Post Types - Added "Show in menu (text)" to allow string value
 * Module: Dynamic Post Types - Fixed "Archive Slug" incorrectly set when empty while using the Import Tool
 * Module: Dynamic Block Types - Added additional check for Template, Script & Styles arguments before `register_block_type()`
 * Module: Dynamic Taxonomies - Added additional check before `register_taxonomy()`
+* Module: Options - Fixed "Serialized" typo on edit screen
 * Field: Button - Fixed typo in "Button Type" setting instructions
 * Field: Button - Added default class value `button button-secondary`
 * Field: Clone - Fixed "Edit in modal" setting to be available only when the "Display" setting is set to "Group"
@@ -465,7 +484,7 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 * General: Compatibility - Fixed WPML PHP notices in Field Groups
 * General: Compatibility - Fixed Advanced Forms PHP notice during ACF Extended: Forms submission
 * General: Readme - Added Field Bi-directional instructions to migrate already existing data
-* General: Readme - Added Multilangual section
+* General: Readme - Added Multilingual section
 * General: Readme - Added Donators section
 
 ### 0.8.6.3

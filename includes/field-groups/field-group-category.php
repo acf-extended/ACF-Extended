@@ -3,6 +3,10 @@
 if(!defined('ABSPATH'))
     exit;
 
+// Check setting
+if(!acf_get_setting('acfe/modules/categories'))
+    return;
+
 add_action('init', 'acfe_field_group_category_register', 9);
 function acfe_field_group_category_register(){
     

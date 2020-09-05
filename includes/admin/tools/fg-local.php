@@ -20,7 +20,7 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
         
         if($ids = acf_maybe_get_GET('acfe-fg-local-sync')){
             
-            $ids = explode('+', $ids);
+            $ids = explode(' ', $ids);
         
             // Count number of imported field groups.
             $total = count($ids);
@@ -76,23 +76,23 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
             // Sync
             elseif($action === 'sync'){
                 
-                if(isset($array['key']))
-                    $array = array($array);
+                // Force array
+                $array = acf_array($array);
                 
                 // Remeber imported field group ids.
                 $ids = array();
                 
                 // Loop over json
-                foreach( $array as $field_group ) {
+                foreach($array as $field_group){
                     
                     // Search database for existing field group.
-                    $post = acf_get_field_group_post( $field_group['key'] );
-                    if( $post ) {
+                    $post = acf_get_field_group_post($field_group['key']);
+                    
+                    if($post)
                         $field_group['ID'] = $post->ID;
-                    }
                     
                     // Import field group.
-                    $field_group = acf_import_field_group( $field_group );
+                    $field_group = acf_import_field_group($field_group);
                     
                     // append message
                     $ids[] = $field_group['ID'];
@@ -259,6 +259,15 @@ class ACFE_Admin_Tool_FG_Local extends ACF_Admin_Tool{
         
         // Disable fitler: clone
         acf_disable_filter('clone');
+        
+        // Get desync PHP Field Groups
+        $desync_php_field_groups = acfe_get_desync_php_field_groups();
+        
+        foreach($desync_php_field_groups as $file_key => $file_path){
+            
+            require_once($file_path);
+            
+        }
         
         foreach($selected as $field_group_key){
             

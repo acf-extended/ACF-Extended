@@ -723,7 +723,6 @@ function acfe_get_abs_path_to_url($path = ''){
  */
 function acfe_get_roles($filtered_user_roles = array()){
     
-    
     $list = array();
     
     global $wp_roles;
@@ -1062,8 +1061,6 @@ function acfe_add_validation_error($selector = '', $message = ''){
         
     }
     
-    
-    
     // Field not found: General error
     if(!$field)
         return acf_add_validation_error('', $message);
@@ -1095,40 +1092,37 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
 	foreach( array_keys($taxonomies) as $taxonomy ) {
 		
 		// vars
-		$label = $taxonomies[ $taxonomy ];
+		$label = $taxonomies[$taxonomy];
 		$is_hierarchical = is_taxonomy_hierarchical( $taxonomy );
+		
 		$terms = acf_get_terms(array(
 			'taxonomy'		=> $taxonomy,
 			'hide_empty' 	=> false
 		));
 		
-		
-		// bail early i no terms
-		if( empty($terms) ) continue;
-		
+		// bail early if no terms
+		if(empty($terms))
+		    continue;
 		
 		// sort into hierachial order!
-		if( $is_hierarchical ) {
+		if($is_hierarchical){
 			
 			$terms = _get_term_children( 0, $terms, $taxonomy );
 			
 		}
 		
-		
 		// add placeholder		
 		$r[ $label ] = array();
 		
-		
 		// add choices
-		foreach( $terms as $term ) {
+		foreach($terms as $term){
 		
 			$k = "{$term->term_id}"; 
-			$r[ $label ][ $k ] = acf_get_term_title( $term );
+			$r[$label][$k] = acf_get_term_title($term);
 			
 		}
 		
 	}
-		
 	
 	// return
 	return $r;
@@ -1260,34 +1254,19 @@ function acfe_is_super_dev(){
 
 function acfe_update_setting($name, $value){
     
-    $name = "acfe/{$name}";
+    return acf_update_setting("acfe/{$name}", $value);
     
-    return acf_update_setting($name, $value);
+}
+
+function acfe_append_setting($name, $value){
+    
+    return acf_append_setting("acfe/{$name}", $value);
     
 }
 
 function acfe_get_setting($name, $value = null){
     
-    $_name = $name;
-    $name = "acfe/{$name}";
-    
-    // validate name
-    $name = acf_validate_setting($name);
-    
-    // check settings
-    if(acf_has_setting($name)){
-        
-        $value = acf_raw_setting($name);
-        
-    }
-    
-    // ACF filter
-    $value = apply_filters("acf/settings/{$name}", $value);
-    
-    // ACFE filter
-    $value = apply_filters("acfe/settings/{$_name}", $value);
-    
-    return $value;
+    return acf_get_setting("acfe/{$name}", $value);
     
 }
 
@@ -1476,5 +1455,18 @@ function acfe_render_field_group_locations_html($field_group){
         }
         
     }
+    
+}
+
+function acfe_unset(&$array, $key){
+
+    if(isset($array[$key]))
+        unset($array[$key]);
+
+}
+
+function acfe_get_post_id(){
+    
+    return acf_get_valid_post_id();
     
 }

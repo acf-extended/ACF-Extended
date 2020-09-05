@@ -199,8 +199,8 @@ function my_acf_post_object_new_post_action($new_post_id, $title, $post_id, $fie
         
         }
     
-        if(!$is_array)
-            $value = acf_unarray($value);
+        if(!$is_array && is_array($value))
+            reset($value);
     
         return $value;
         

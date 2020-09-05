@@ -1252,11 +1252,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
                     
                 }
                 
-                $div = '<div ' . acf_esc_attrs($div) . '></div>';
+                $div = '<div ' . acf_esc_atts($div) . '></div>';
                 
             }
             
-            $layout['label'] = $div . '<span ' . acf_esc_attrs($span) . '>' . $layout['label'] . '</span>';
+            $layout['label'] = $div . '<span ' . acf_esc_atts($span) . '>' . $layout['label'] . '</span>';
             
         }
         
@@ -2433,19 +2433,11 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         if($remove_actions){
             
             // Add
-            if(isset($icons['add']))    unset($icons['add']);
-    
-            // Duplicate
-            if(isset($icons['duplicate'])) unset($icons['duplicate']);
-            
-            // Delete
-            if(isset($icons['delete'])) unset($icons['delete']);
-            
-            // Clone
-            if(isset($icons['clone']))  unset($icons['clone']);
-            
-            // Copy/Paste
-            if(isset($icons['copy']))  unset($icons['copy']);
+            acfe_unset($icons, 'add');
+            acfe_unset($icons, 'duplicate');
+            acfe_unset($icons, 'delete');
+            acfe_unset($icons, 'clone');
+            acfe_unset($icons, 'copy');
             
         }
         

@@ -473,10 +473,10 @@ function my_acf_advanced_link_sub_fields($sub_fields, $field, $value){
 		$value = $this->get_value($value);
         
         // clean
-        unset($value['type']);
-        unset($value['post']);
-        unset($value['term']);
-        unset($value['url_title']);
+        acfe_unset($value, 'type');
+        acfe_unset($value, 'post');
+        acfe_unset($value, 'term');
+        acfe_unset($value, 'url_title');
 
 		return $value;
 		

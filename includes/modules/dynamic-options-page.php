@@ -324,8 +324,7 @@ function acfe_dop_filter_status_trash($post){
 	$option = acfe_settings('modules.dynamic_option.data');
     
     // Check ACFE option
-    if(isset($option[$name]))
-        unset($option[$name]);
+    acfe_unset($option, $name);
     
     // Update ACFE option
 	acfe_settings('modules.dynamic_option.data', $option, true);
@@ -351,8 +350,7 @@ function acfe_dop_filter_status_publish($post){
 add_filter('manage_edit-acfe-dop_columns', 'acfe_dop_admin_columns');
 function acfe_dop_admin_columns($columns){
     
-    if(isset($columns['date']))
-        unset($columns['date']);
+    acfe_unset($columns, 'date');
     
     $columns['name'] = __('Menu slug');
     $columns['post_id'] = __('Post ID');

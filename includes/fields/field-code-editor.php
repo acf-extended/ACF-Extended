@@ -3,7 +3,7 @@
 if(!defined('ABSPATH'))
     exit;
 
-if(version_compare($GLOBALS['wp_version'], '4.9', '<'))
+if(acf_version_compare($GLOBALS['wp_version'],  '<', '4.9'))
     return;
 
 if(!class_exists('acfe_field_code_editor')):
