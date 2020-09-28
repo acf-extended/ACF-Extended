@@ -12,9 +12,6 @@
     /*
      * Actions
      */
-    /*
-     * Actions
-     */
     model.events['click .acf-fc-layout-handle'] = 'acfeEditLayoutTitleToggleHandle';
     model.acfeEditLayoutTitleToggleHandle = function(e, $el){
         

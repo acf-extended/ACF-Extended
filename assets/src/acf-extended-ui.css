@@ -1,0 +1,457 @@
+/*
+ * ACFE: UI Enhanced
+ */
+.term-php .wrap > form,
+.profile-php .wrap > form,
+.user-edit-php .wrap > form,
+.user-new-php .wrap > form,
+.options-general-php .wrap > form,
+.options-writing-php .wrap > form,
+.options-reading-php .wrap > form,
+.options-discussion-php .wrap > form,
+.options-media-php .wrap > form,
+.options-permalink-php .wrap > form
+{
+    max-width:100% !important;
+    width: 100%;
+    float:left;
+}
+
+.term-php .wrap > form > div > div > h2,
+.profile-php .wrap > form > div > div > h2,
+.user-edit-php .wrap > form > div > div > h2,
+.user-new-php .wrap > form > div > div > h2,
+.options-general-php .wrap > form > div > div > h2,
+.options-writing-php .wrap > form > div > div > h2,
+.options-reading-php .wrap > form > div > div > h2,
+.options-discussion-php .wrap > form > div > div > h2,
+.options-media-php .wrap > form > div > div > h2,
+.options-permalink-php .wrap > form > div > div > h2
+{
+    background:#fff;
+    border: 1px solid #ccd0d4;
+    border-bottom: 0;
+    margin:0;
+    color: #23282d;
+    font-size: 14px;
+    padding: 8px 12px;
+    line-height: 1.4;
+}
+
+.term-php .wrap > form > div > div > h2 + p,
+.profile-php .wrap > form > div > div > h2 + p,
+.user-edit-php .wrap > form > div > div > h2 + p,
+.user-new-php .wrap > form > div > div > h2 + p,
+.options-general-php .wrap > form > div > div > h2 + p,
+.options-writing-php .wrap > form > div > div > h2 + p,
+.options-reading-php .wrap > form > div > div > h2 + p,
+.options-discussion-php .wrap > form > div > div > h2 + p,
+.options-media-php .wrap > form > div > div > h2 + p,
+.options-permalink-php .wrap > form > div > div > h2 + p
+{
+    margin:0;
+    border: 1px solid #ccd0d4;
+    border-bottom:0;
+    padding:15px 12px;
+}
+
+.term-php .wrap > form > div > div > h2 + .form-table,
+.term-php .wrap > form > div > div > h2 + p + .form-table,
+
+.profile-php .wrap > form > div > div > h2 + .form-table,
+.profile-php .wrap > form > div > div > h2 + p + .form-table,
+
+.user-edit-php .wrap > form > div > div > h2 + .form-table,
+.user-edit-php .wrap > form > div > div > h2 + p + .form-table,
+
+.user-new-php .wrap > form > div > div > h2 + .form-table,
+.user-new-php .wrap > form > div > div > h2 + p + .form-table,
+
+.options-general-php .wrap > form > div > div > h2 + .form-table,
+.options-general-php .wrap > form > div > div > h2 + p + .form-table,
+
+.options-writing-php .wrap > form > div > div > h2 + .form-table,
+.options-writing-php .wrap > form > div > div > h2 + p + .form-table,
+
+.options-reading-php .wrap > form > div > div > h2 + .form-table,
+.options-reading-php .wrap > form > div > div > h2 + p + .form-table,
+
+.options-discussion-php .wrap > form > div > div > h2 + .form-table,
+.options-discussion-php .wrap > form > div > div > h2 + p + .form-table,
+
+.options-media-php .wrap > form > div > div > h2 + .form-table,
+.options-media-php .wrap > form > div > div > h2 + p + .form-table,
+
+.options-permalink-php .wrap > form > div > div > h2 + .form-table,
+.options-permalink-php .wrap > form > div > div > h2 + p + .form-table
+{
+    margin-top:0;
+}
+
+.term-php .wrap > form .form-table,
+.profile-php .wrap > form .form-table,
+.user-edit-php .wrap > form .form-table,
+.user-new-php .wrap > form .form-table,
+.options-general-php .wrap > form .form-table,
+.options-writing-php .wrap > form .form-table,
+.options-reading-php .wrap > form .form-table,
+.options-discussion-php .wrap > form .form-table,
+.options-media-php .wrap > form .form-table,
+.options-permalink-php .wrap > form .form-table
+{
+    background:#fff;
+    width:100%;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin-bottom: 20px; /* Fix for Yoast & Rank Math Metaboxes below the term */
+}
+
+.term-php .wrap > form .form-table > tbody > tr > td,
+.profile-php .wrap > form .form-table > tbody > tr > td,
+.user-edit-php .wrap > form .form-table > tbody > tr > td,
+.user-new-php .wrap > form .form-table > tbody > tr > td,
+.options-general-php .wrap > form .form-table > tbody > tr > td,
+.options-writing-php .wrap > form .form-table > tbody > tr > td,
+.options-reading-php .wrap > form .form-table > tbody > tr > td,
+.options-discussion-php .wrap > form .form-table > tbody > tr > td,
+.options-media-php .wrap > form .form-table > tbody > tr > td,
+.options-permalink-php .wrap > form .form-table > tbody > tr > td
+{
+    background: #fff;
+    border-top: 1px solid #E1E1E1;
+    position:initial;
+}
+
+.term-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.term-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.profile-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.profile-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.user-edit-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.user-edit-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.user-new-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.user-new-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.options-general-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.options-general-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.options-writing-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.options-writing-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.options-reading-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.options-reading-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.options-discussion-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.options-discussion-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.options-media-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.options-media-php .wrap > form .form-table > tbody > tr:first-of-type > th,
+
+.options-permalink-php .wrap > form .form-table > tbody > tr:first-of-type > td,
+.options-permalink-php .wrap > form .form-table > tbody > tr:first-of-type > th
+{
+    border-top: 1px solid #ccd0d4;
+}
+
+.term-php .wrap > form .form-table > tbody > tr > td p,
+.profile-php .wrap > form .form-table > tbody > tr > td p,
+.user-edit-php .wrap > form .form-table > tbody > tr > td p,
+.user-new-php .wrap > form .form-table > tbody > tr > td p,
+.options-general-php .wrap > form .form-table > tbody > tr > td p,
+.options-writing-php .wrap > form .form-table > tbody > tr > td p,
+.options-reading-php .wrap > form .form-table > tbody > tr > td p,
+.options-discussion-php .wrap > form .form-table > tbody > tr > td p,
+.options-media-php .wrap > form .form-table > tbody > tr > td p,
+.options-permalink-php .wrap > form .form-table > tbody > tr > td p
+{
+    font-size:13px;
+}
+
+.term-php .wrap > form .form-table > tbody > tr > th,
+.term-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.profile-php .wrap > form .form-table > tbody > tr > th,
+.profile-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.user-edit-php .wrap > form .form-table > tbody > tr > th,
+.user-edit-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.user-new-php .wrap > form .form-table > tbody > tr > th,
+.user-new-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.options-general-php .wrap > form .form-table > tbody > tr > th,
+.options-general-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.options-writing-php .wrap > form .form-table > tbody > tr > th,
+.options-writing-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.options-reading-php .wrap > form .form-table > tbody > tr > th,
+.options-reading-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.options-discussion-php .wrap > form .form-table > tbody > tr > th,
+.options-discussion-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.options-media-php .wrap > form .form-table > tbody > tr > th,
+.options-media-php .wrap > form .form-table > tbody > tr > td.acf-label,
+
+.options-permalink-php .wrap > form .form-table > tbody > tr > th,
+.options-permalink-php .wrap > form .form-table > tbody > tr > td.acf-label
+{
+    border-top: 1px solid #E1E1E1;
+    border-right: 1px solid #E1E1E1;
+    background: #F9F9F9;
+    padding:15px 12px;
+    width:20%;
+    font-size:13px;
+    position:initial;
+    color:#444;
+}
+
+.term-php .wrap > form .form-table > tbody > tr > td.td-full,
+.profile-php .wrap > form .form-table > tbody > tr > td.td-full,
+.user-edit-php .wrap > form .form-table > tbody > tr > td.td-full,
+.user-new-php .wrap > form .form-table > tbody > tr > td.td-full,
+.options-general-php .wrap > form .form-table > tbody > tr > td.td-full,
+.options-writing-php .wrap > form .form-table > tbody > tr > td.td-full,
+.options-reading-php .wrap > form .form-table > tbody > tr > td.td-full,
+.options-discussion-php .wrap > form .form-table > tbody > tr > td.td-full,
+.options-media-php .wrap > form .form-table > tbody > tr > td.td-full,
+.options-permalink-php .wrap > form .form-table > tbody > tr > td.td-full
+{
+    padding:15px 12px;
+}
+
+.term-php .wrap > form .form-table > tbody > tr.acf-field,
+.profile-php .wrap > form .form-table > tbody > tr.acf-field,
+.user-edit-php .wrap > form .form-table > tbody > tr.acf-field,
+.user-new-php .wrap > form .form-table > tbody > tr.acf-field,
+.options-general-php .wrap > form .form-table > tbody > tr.acf-field,
+.options-writing-php .wrap > form .form-table > tbody > tr.acf-field,
+.options-reading-php .wrap > form .form-table > tbody > tr.acf-field,
+.options-discussion-php .wrap > form .form-table > tbody > tr.acf-field,
+.options-media-php .wrap > form .form-table > tbody > tr.acf-field,
+.options-permalink-php .wrap > form .form-table > tbody > tr.acf-field
+{
+    position: initial;
+}
+
+.term-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.profile-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.user-edit-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.user-new-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.options-general-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.options-writing-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.options-reading-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.options-discussion-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.options-media-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td,
+.options-permalink-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td
+{
+    background: #F9F9F9;
+    padding:15px 0 0 0;
+}
+
+.term-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.profile-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.user-edit-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.user-new-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.options-general-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.options-writing-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.options-reading-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.options-discussion-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.options-media-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group,
+.options-permalink-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group
+{
+    border-bottom:0;
+    padding:0 0 0 20%;
+}
+
+.term-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.profile-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.user-edit-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.user-new-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.options-general-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.options-writing-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.options-reading-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.options-discussion-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.options-media-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a,
+.options-permalink-php .wrap > form .form-table > tbody > tr.acf-tab-wrap > td ul.acf-tab-group > li.active a
+{
+    background: #fff;
+}
+
+.term-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.profile-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.user-edit-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.user-new-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.options-general-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.options-writing-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.options-reading-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.options-discussion-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.options-media-php .wrap > form #poststuff.acfe-acfe-bt-admin-column,
+.options-permalink-php .wrap > form #poststuff.acfe-acfe-bt-admin-column
+{
+    min-width:auto;
+    padding:0;
+}
+
+.term-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.profile-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.user-edit-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.user-new-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.options-general-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.options-writing-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.options-reading-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.options-discussion-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.options-media-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside,
+.options-permalink-php .wrap > form #poststuff.acfe-acfe-bt-admin-column .inside
+{
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * ACFE: UI Enhanced (Fix ACF)
+ */
+.term-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.profile-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.user-edit-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.user-new-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.options-general-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.options-writing-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.options-reading-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.options-discussion-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.options-media-php .wrap .form-table > tbody>.acf-field > .acf-label label,
+.options-permalink-php .wrap .form-table > tbody>.acf-field > .acf-label label
+{
+    font-size: 13px;
+    color: #444;
+}
+
+.term-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.profile-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.user-edit-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.user-new-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.options-general-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.options-writing-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.options-reading-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.options-discussion-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.options-media-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label,
+.options-permalink-php .wrap .acf-fields.-left > .acf-field.acfe-bt-no-label
+{
+    padding-left: 20%;
+}
+
+.term-php .wrap > form .acf-fields.-left > .acf-field,
+.profile-php .wrap > form .acf-fields.-left > .acf-field,
+.user-edit-php .wrap > form .acf-fields.-left > .acf-field,
+.user-new-php .wrap > form .acf-fields.-left > .acf-field,
+.options-general-php .wrap > form .acf-fields.-left > .acf-field,
+.options-writing-php .wrap > form .acf-fields.-left > .acf-field,
+.options-reading-php .wrap > form .acf-fields.-left > .acf-field,
+.options-discussion-php .wrap > form .acf-fields.-left > .acf-field,
+.options-media-php .wrap > form .acf-fields.-left > .acf-field,
+.options-permalink-php .wrap > form .acf-fields.-left > .acf-field
+{
+    padding-left: 0;
+}
+
+.term-php .wrap > form .acf-fields.-left > .acf-field:before,
+.profile-php .wrap > form .acf-fields.-left > .acf-field:before,
+.user-edit-php .wrap > form .acf-fields.-left > .acf-field:before,
+.user-new-php .wrap > form .acf-fields.-left > .acf-field:before,
+.options-general-php .wrap > form .acf-fields.-left > .acf-field:before,
+.options-writing-php .wrap > form .acf-fields.-left > .acf-field:before,
+.options-reading-php .wrap > form .acf-fields.-left > .acf-field:before,
+.options-discussion-php .wrap > form .acf-fields.-left > .acf-field:before,
+.options-media-php .wrap > form .acf-fields.-left > .acf-field:before,
+.options-permalink-php .wrap > form .acf-fields.-left > .acf-field:before
+{
+    width:20%;
+}
+
+.term-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.profile-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.user-edit-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.user-new-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.options-general-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.options-writing-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.options-reading-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.options-discussion-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.options-media-php .wrap > form .acf-fields.-left > .acf-field > .acf-label,
+.options-permalink-php .wrap > form .acf-fields.-left > .acf-field > .acf-label
+{
+    width: 20%;
+    margin-left: 0;
+    padding: 0 12px;
+}
+
+.term-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.profile-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.user-edit-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.user-new-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.options-general-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.options-writing-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.options-reading-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.options-discussion-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.options-media-php .wrap > form .acf-fields.-left > .acf-field > .acf-input,
+.options-permalink-php .wrap > form .acf-fields.-left > .acf-field > .acf-input
+{
+    padding: 0 12px;
+}
+
+.term-php .wrap > form p.submit,
+.profile-php .wrap > form p.submit,
+.user-edit-php .wrap > form p.submit,
+.user-new-php .wrap > form p.submit,
+.options-general-php .wrap > form p.submit,
+.options-writing-php .wrap > form p.submit,
+.options-reading-php .wrap > form p.submit,
+.options-discussion-php .wrap > form p.submit,
+.options-media-php .wrap > form p.submit,
+.options-permalink-php .wrap > form p.submit
+{
+    display:none;
+}
+
+/*
+ * ACFE: UI - Term Single
+ */
+.term-php .wrap > form{
+    margin-top:13px;
+}
+
+/*
+ * ACFE: UI - Terms List
+ */
+.edit-tags-php #col-left{
+    display:none;
+}
+
+.edit-tags-php #col-container #col-right{
+    float:none;
+    width:auto;
+}
+
+.edit-tags-php #col-container #col-right .col-wrap{
+    padding:0;
+}
+
+.edit-tags-php #col-left.acfe-bt{
+    float:none;
+    width:100%;
+}
+
+.edit-tags-php #col-left.acfe-bt .col-wrap{
+    padding:0;
+}
+
+.edit-tags-php #col-left.acfe-bt #poststuff{
+    min-width:100%;
+}
+
+.edit-tags-php #acfe-bt-form .submit.acf-field{
+    display:block !important;
+    margin: 0;
+}
