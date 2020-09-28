@@ -1141,6 +1141,16 @@ function acfe_recaptcha(){
     acf.registerConditionForFieldType('contains',       'date_picker');
     acf.registerConditionForFieldType('greaterThan',    'date_picker');
     acf.registerConditionForFieldType('lessThan',       'date_picker');
+
+    /**
+     * Field Conditions: Taxonomy
+     */
+    acf.registerConditionForFieldType('equalTo',        'taxonomy');
+    acf.registerConditionForFieldType('notEqualTo',     'taxonomy');
+    acf.registerConditionForFieldType('patternMatch',   'taxonomy');
+    acf.registerConditionForFieldType('contains',       'taxonomy');
+    acf.registerConditionForFieldType('hasValue',       'taxonomy');
+    acf.registerConditionForFieldType('hasNoValue',     'taxonomy');
     
     /**
      * Field Conditions: Forms

@@ -308,22 +308,12 @@ class ACFE_AutoSync{
      * PHP: Save File
      */
     function save_file($key, $field_group){
-        
-        // Determine save location.
-        if(isset($this->php_files[$key])){
-            
-            $file = $this->php_files[$key];
-            
-        }else{
-            
-            $path = untrailingslashit(acf_get_setting('acfe/php_save'));
-            
-            if(!is_writable($path))
-                return false;
-            
-            $file = "$path/$key.php";
-            
-        }
+    
+        $path = acf_get_setting('acfe/php_save');
+        $file = untrailingslashit($path) . '/' . $key . '.php';
+    
+        if(!is_writable($path))
+            return false;
     
         // Translation
         $l10n = acf_get_setting('l10n');
@@ -402,32 +392,17 @@ class ACFE_AutoSync{
      * PHP: Delete File
      */
     function delete_file($key){
+    
+        $path = acf_get_setting('acfe/php_save');
+        $file = untrailingslashit($path) . '/' . $key . '.php';
+    
+        if(is_readable($file)){
         
-        if(isset($this->php_files[$key]) && is_readable($this->php_files[$key])){
-            
-            unlink($this->php_files[$key]);
-            
+            unlink($file);
             return true;
-            
-        }else{
-    
-            $path = untrailingslashit(acf_get_setting('acfe/php_save'));
-    
-            if(!is_dir($path))
-                return false;
-    
-            $file = "$path/$key.php";
-            
-            if(is_readable($file)){
-    
-                unlink($file);
-                
-                return true;
-                
-            }
-            
-        }
         
+        }
+    
         return false;
         
     }

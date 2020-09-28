@@ -51,8 +51,11 @@ function acfe_plugin_row($plugin_file, $plugin_data, $status){
     if(acfe()->has_acf())
         return;
     
+    // >= WP 5.5
     $colspan = 4;
-    if(acf_version_compare($GLOBALS['wp_version'],  '<', '5.5'))
+    
+    // < WP 5.5
+    if(version_compare($GLOBALS['wp_version'], '5.5', '<'))
         $colspan = 3;
     
     ?>

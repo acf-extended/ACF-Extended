@@ -76,6 +76,23 @@ class acfe_field_select{
                         'field'     => 'ui',
                         'operator'  => '==',
                         'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'allow_null',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    )
+                ),
+                array(
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '1',
                     )
                 ),
                 array(

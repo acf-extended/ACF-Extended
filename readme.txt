@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 0.8.7.2
+Stable tag: 0.8.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -670,6 +670,21 @@ function my_acfe_modules(){
 
 == Changelog ==
 
+= 0.8.7.3 =
+* Field: Flexible Content - Fixed "Copy/Paste" function which wasn't working correctly with WYSIWYG & Code Editor fields since the latest ACF 5.9 update
+* Field: Column - Columns sizes are now based on a grid of 12 (1/12, 2/12, 3/12, 4/12 ...)
+* Field: Taxonomy - Added compatibility with "Value equal", "Value not equal", "Value pattern" & "Value contains" conditional logic
+* Field: Select - "Placeholder" setting is now only available when "Stylised UI" is enabled with "Allow multiple" or "Allow null"
+* Module: Dynamic Post Type - Fixed "Post Type Archive Location = All" which incorrectly matched Options Pages
+* Module: Dynamic Post Type - "Edit Post Type Archive" Admin bar item is now only displayed when the "Admin Archive Page" setting is enabled
+* Module: Dynamic Post Type/Taxonomy - Permalinks are now automatically flushed on each save
+* Module: Dynamic Options Pages - Sub Options Pages are now ordered based on the "Position" setting
+* Module: Dynamic Forms - Fixed an issue where visitors could not upload Image/File when using the WP modal field setting
+* Module: PHP AutoSync - Updated save logic to match the new ACF 5.9.1 version (See ACF Pro 5.9.1 changelog)
+* Field Groups - Added more widths to the "Fields" column
+* General: Fixed potential error during plugin activation when ACF Pro wasn't activated
+* General: Gutenberg - Enhanced WP Metabox Styles
+
 = 0.8.7.2 =
 * Module: AutoSync - Reworked codebase, enhanced Field Groups Columns and added more information about files/folders detection
 * Module: AutoSync - Added filters to target a specific field group for the PHP & Json save
@@ -681,8 +696,7 @@ function my_acfe_modules(){
 * Field Groups: Added Export PHP & Export Json to bulk actions
 * Field Groups: Description column is now hidden by default
 * Field Groups: Local - Added Export PHP, Export Json & Sync to database to bulk actions
-* Field Groups: Categories - Added `acfe/module/categories` setting to disable the custom taxonomy
-* Field: Taxonomy - Added "Value equal", "Value not equal", "Pattern match" & "Contains" to the native ACF field conditional rules
+* Field Groups: Categories - Added `acfe/modules/categories` setting to disable the custom taxonomy
 * Field: Post Object - Fixed undefined PHP function when using the "Allow custom value" setting with ACF version below 5.8.10
 * Field: Columns - Fixed "Endpoint" description typo
 * General: Settings - Fixed postbox header CSS

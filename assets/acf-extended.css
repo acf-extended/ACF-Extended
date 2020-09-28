@@ -431,45 +431,83 @@ form.acfe-form.is-invalid[data-errors-position="below"] .acf-field .acf-notice{
     width:100%;
 }
 
-.acf-fields > .acf-field.acf-field-acfe-column[data-columns="1/6"] {
-	width: 16.66666666%;
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="1/12"] {
+    width: 8.333333%;
 }
 
-.acf-fields > .acf-field.acf-field-acfe-column[data-columns="2/6"] {
-	width: 33.33333%;
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="2/12"] {
+    width: 16.66666%;
 }
 
-.acf-fields > .acf-field.acf-field-acfe-column[data-columns="3/6"] {
-	width: 50%;
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="3/12"] {
+    width: 25%;
 }
 
-.acf-fields > .acf-field.acf-field-acfe-column[data-columns="4/6"] {
-	width: 66.66666%;
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="4/12"] {
+    width: 33.33333%;
 }
 
-.acf-fields > .acf-field.acf-field-acfe-column[data-columns="5/6"] {
-	width: 83.33333%;
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="5/12"] {
+    width: 41.66667%;
 }
 
-.acf-fields > .acf-field.acf-field-acfe-column[data-columns="6/6"] {
-	width: 100%;
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="6/12"] {
+    width: 50%;
+}
+
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="7/12"] {
+    width: 58.33333%;
+}
+
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="8/12"] {
+    width: 66.66666%;
+}
+
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="9/12"] {
+    width: 75%;
+}
+
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="10/12"] {
+    width: 83.33333%;
+}
+
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="11/12"] {
+    width: 91.66667%;
+}
+
+.acf-fields > .acf-field.acf-field-acfe-column[data-columns="12/12"] {
+    width: 100%;
     border-right:0;
 }
 
 @media only screen and (max-width:1024px){
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="1/6"],
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="2/6"],
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="4/6"],
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="5/6"] {
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="1/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="2/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="3/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="4/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="5/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="7/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="8/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="9/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="10/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="11/12"] {
         width: 50%;
     }
 }
 
 @media only screen and (max-width:640px){
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="1/6"],
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="2/6"],
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="4/6"],
-    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="5/6"] {
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="1/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="2/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="3/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="4/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="5/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="6/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="7/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="8/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="9/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="10/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="11/12"],
+    .acf-fields > .acf-field.acf-field-acfe-column[data-columns="12/12"] {
         width: 100%;
     }
 }

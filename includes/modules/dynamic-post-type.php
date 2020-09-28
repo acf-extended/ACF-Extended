@@ -54,6 +54,18 @@ function acfe_dpt_register(){
 
 }
 
+
+add_action('current_screen', 'acfe_dpt_current_screen');
+function acfe_dpt_current_screen(){
+    
+    if(!acf_is_screen('acfe-dpt'))
+        return;
+    
+    // Flush Permalinks
+    flush_rewrite_rules();
+    
+}
+
 /**
  * WP Register Post Types
  */
@@ -323,9 +335,6 @@ function acfe_dpt_filter_save($post_id){
 		'ID'            => $post_id,
 		'post_name'     => $name,
 	));
-    
-    // Flush permalinks
-    flush_rewrite_rules();
     
 }
 

@@ -345,23 +345,18 @@ body.post-type-acfe-form.post-new-php #major-publishing-actions{
 /* 
  * Gutenberg: Fix metaboxes
  */
-.edit-post-layout__metaboxes:not(:empty) .edit-post-meta-boxes-area{
-    margin:10px 10px 0;
-}
-
-.edit-post-layout__metaboxes:not(:empty) {
+.edit-post-layout__metaboxes:not(:empty){
     background:#f3f4f5;
+    padding:10px 10px 0 10px !important;
 }
 
 .edit-post-layout__metaboxes .edit-post-meta-boxes-area .postbox{
     margin-bottom:10px;
+    border:1px solid #E1E1E1;
 }
 
-/* Firefox fix only */
-@supports (-moz-appearance:meterbar){
-    .edit-post-layout__metaboxes .postbox{
-        box-shadow:0 1px 1px 1px rgba(0,0,0,.04);
-    }
+.edit-post-layout__metaboxes .edit-post-meta-boxes-area .postbox > .inside{
+    border-bottom:0;
 }
 
 /*

@@ -13,13 +13,40 @@ class acfe_field_column extends acf_field{
         $this->label = __('Column', 'acfe');
         $this->category = 'layout';
         $this->defaults = array(
-            'columns' => '3/6',
+            'columns' => '6/12',
             'endpoint' => false,
         );
         
+        // Field wrapper
         add_filter('acfe/field_wrapper_attributes/type=acfe_column', array($this, 'field_wrapper_attributes'), 10, 2);
         
+        // New sizes compatibility
+        add_filter('acf/validate_field/type=acfe_column', array($this, 'new_validate_field'), 20);
+        
         parent::__construct();
+        
+    }
+    
+    function new_validate_field($field){
+        
+        if(!acfe_ends_with($field['columns'], '/6'))
+            return $field;
+        
+        if($field['columns'] === '1/6'){
+            $field['columns'] = '2/12';
+        }elseif($field['columns'] === '2/6'){
+            $field['columns'] = '4/12';
+        }elseif($field['columns'] === '3/6'){
+            $field['columns'] = '6/12';
+        }elseif($field['columns'] === '4/6'){
+            $field['columns'] = '8/12';
+        }elseif($field['columns'] === '5/6'){
+            $field['columns'] = '10/12';
+        }elseif($field['columns'] === '6/6'){
+            $field['columns'] = '12/12';
+        }
+        
+        return $field;
         
     }
     
@@ -32,12 +59,18 @@ class acfe_field_column extends acf_field{
             'type'          => 'select',
             'name'          => 'columns',
             'choices'       => array(
-                '1/6' => '1/6',
-                '2/6' => '2/6',
-                '3/6' => '3/6',
-                '4/6' => '4/6',
-                '5/6' => '5/6',
-                '6/6' => '6/6'
+                '1/12' => '1/12',
+                '2/12' => '2/12',
+                '3/12' => '3/12',
+                '4/12' => '4/12',
+                '5/12' => '5/12',
+                '6/12' => '6/12',
+                '7/12' => '7/12',
+                '8/12' => '8/12',
+                '9/12' => '9/12',
+                '10/12' => '10/12',
+                '11/12' => '11/12',
+                '12/12' => '12/12',
             ),
             'conditional_logic' => array(
                 array(

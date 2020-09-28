@@ -7,7 +7,7 @@ if(!class_exists('acfe_location_post_type_archive')):
 
 class acfe_location_post_type_archive{
     
-    public $post_type = '';
+    public $post_type = false;
     public $post_types = array();
     
 	function __construct(){
@@ -66,20 +66,37 @@ class acfe_location_post_type_archive{
             
             if(!acf_is_screen("{$post_type}_page_{$post_type}-archive"))
                 continue;
-            
-            $post_type_obj = get_post_type_object($post_type);
-            
-            if(!isset($post_type_obj->has_archive) || empty($post_type_obj->has_archive))
-                break;
-            
+    
             $this->post_type = $post_type;
-            
-            add_action('admin_footer', array($this, 'admin_footer'));
             
             break;
         
         }
         
+        if(!$this->post_type)
+            return;
+        
+        // Location screen
+        add_action('acf/location/screen', array($this, 'location_screen'));
+        
+        // Get Post Type object
+        $post_type_obj = get_post_type_object($post_type);
+    
+        if(isset($post_type_obj->has_archive) && !empty($post_type_obj->has_archive)){
+            
+            // Add "Permalink" under title
+            add_action('admin_footer', array($this, 'admin_footer'));
+            
+        }
+        
+    }
+    
+    function location_screen($screen){
+	    
+	    $screen['acfe_dpt_admin_page'] = true;
+	    
+	    return $screen;
+	    
     }
     
     function admin_footer(){
@@ -106,12 +123,20 @@ class acfe_location_post_type_archive{
 	    
 	    if(is_admin() || !is_post_type_archive())
 	        return;
-    
-        $post_type_obj = get_post_type_object(get_post_type());
-    
-        if(!isset($post_type_obj->has_archive) || empty($post_type_obj->has_archive))
+	    
+	    $post_type = get_query_var('post_type');
+	    
+	    if(!$post_type)
+	        return;
+	    
+        $post_type_obj = get_post_type_object($post_type);
+        
+        $has_archive = isset($post_type_obj->has_archive) && !empty($post_type_obj->has_archive);
+        $has_archive_page = isset($post_type_obj->acfe_admin_archive) && !empty($post_type_obj->acfe_admin_archive);
+        
+        if(!$has_archive || !$has_archive_page)
             return;
-    
+        
         $wp_admin_bar->add_node(array(
             'id'    	=> 'edit',
             'title' 	=> 'Edit ' . $post_type_obj->label . ' ' . __('Archive'),
@@ -175,7 +200,7 @@ class acfe_location_post_type_archive{
     
     function location_match($match, $rule, $screen){
         
-        if(!acf_maybe_get($screen, 'options_page') || !acf_maybe_get($rule, 'value'))
+        if(!acf_maybe_get($screen, 'options_page') || !acf_maybe_get($screen, 'acfe_dpt_admin_page') || !acf_maybe_get($rule, 'value'))
             return $match;
         
         $match = ($screen['options_page'] === $rule['value'] . '-archive');

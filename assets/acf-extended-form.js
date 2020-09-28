@@ -5,6 +5,14 @@
     
     acf.addAction('prepare', function(){
 
+        // Fix Image/File WP Media upload
+        if(acf.isset(window, 'wp', 'media', 'view', 'settings', 'post')){
+
+            // Unset Post ID
+            wp.media.view.settings.post = false;
+
+        }
+
         if($('.acfe-form[data-hide-unload="1"]').length){
 
             acf.unload.disable();

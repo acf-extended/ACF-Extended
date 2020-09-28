@@ -102,6 +102,14 @@ function acfe_dop_registers(){
         
     }
     
+    if(!empty($options_sub_pages)){
+        
+        usort($options_sub_pages, function($a, $b){
+            return (int) $a['position'] - (int) $b['position'];
+        });
+        
+    }
+    
     // Merge
     $options_pages = array_merge($options_top_pages, $options_sub_pages);
     
@@ -341,6 +349,20 @@ function acfe_dop_filter_status_publish($post){
         return;
     
     acfe_dop_filter_save($post->ID);
+    
+}
+
+add_action('pre_get_posts', 'acfe_dop_filter_admin_list', 15);
+function acfe_dop_filter_admin_list($query){
+    
+    global $pagenow;
+    
+    if (!is_admin() || !$query->is_main_query() || $pagenow !== 'edit.php' || $query->get('post_type') !== 'acfe-dop')
+        return;
+    
+    $query->set('meta_key', 'position');
+    $query->set('orderby', 'meta_value_num title');
+    $query->set('order', 'ASC');
     
 }
 

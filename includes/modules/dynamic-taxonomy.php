@@ -54,6 +54,17 @@ function acfe_dt_register(){
 
 }
 
+add_action('current_screen', 'acfe_dt_current_screen');
+function acfe_dt_current_screen(){
+    
+    if(!acf_is_screen('acfe-dt'))
+        return;
+    
+    // Flush Permalinks
+    flush_rewrite_rules();
+    
+}
+
 /**
  * WP Register Taxonomies
  */
@@ -297,9 +308,6 @@ function acfe_dt_filter_save($post_id){
 		'ID'            => $post_id,
 		'post_name'     => $name,
 	));
-    
-    // Flush permalinks
-    flush_rewrite_rules();
     
 }
 
