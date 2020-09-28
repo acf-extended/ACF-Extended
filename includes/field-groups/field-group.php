@@ -168,7 +168,7 @@ class ACFE_Field_Group{
             'label'         => __('Custom meta data'),
             'name'          => 'acfe_meta',
             'key'           => 'acfe_meta',
-            'instructions'  => __('Add custom meta data to the field group. Can be retrived using <code>acf_get_field_group()</code>'),
+            'instructions'  => __('Add custom meta data to the field group.'),
             'prefix'        => 'acf_field_group',
             'type'          => 'repeater',
             'button_label'  => __('+ Meta'),
