@@ -338,11 +338,12 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 * Field: Select - "Placeholder" setting is now only available when "Stylised UI" is enabled with "Allow multiple" or "Allow null"
 * Module: Dynamic Post Type - Fixed "Post Type Archive Location = All" which incorrectly matched Options Pages
 * Module: Dynamic Post Type - "Edit Post Type Archive" Admin bar item is now only displayed when the "Admin Archive Page" setting is enabled
-* Module: Dynamic Post Type/Taxonomy - Permalinks are now automatically flushed on each save
+* Module: Dynamic Post Type/Taxonomy - WP Permalinks are now automatically regenerated on each save
 * Module: Dynamic Options Pages - Sub Options Pages are now ordered based on the "Position" setting
 * Module: Dynamic Forms - Fixed an issue where visitors could not upload Image/File when using the WP modal field setting
 * Module: PHP AutoSync - Updated save logic to match the new ACF 5.9.1 version (See ACF Pro 5.9.1 changelog)
 * Field Groups - Added more widths to the "Fields" column
+* General: JS & CSS files are now minified and concatened. `SCRIPT_DEBUG` controls the unminified version
 * General: Fixed potential error during plugin activation when ACF Pro wasn't activated
 * General: Gutenberg - Enhanced WP Metabox Styles
 
