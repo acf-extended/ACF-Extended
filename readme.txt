@@ -681,8 +681,8 @@ function my_acfe_modules(){
 * Module: Dynamic Options Pages - Sub Options Pages are now ordered based on the "Position" setting
 * Module: Dynamic Forms - Fixed an issue where visitors could not upload Image/File when using the WP modal field setting
 * Module: PHP AutoSync - Updated save logic to match the new ACF 5.9.1 version (See ACF Pro 5.9.1 changelog)
-* Field Groups - Added more widths to the "Fields" column
-* General: JS & CSS files are now minified and concatened. `SCRIPT_DEBUG` controls the unminified version
+* Field Groups - Added more width to the "Fields" column
+* General: JS & CSS files are now minified and concatenated. `SCRIPT_DEBUG` controls the unminified version
 * General: Fixed potential error during plugin activation when ACF Pro wasn't activated
 * General: Gutenberg - Enhanced WP Metabox Styles
 
