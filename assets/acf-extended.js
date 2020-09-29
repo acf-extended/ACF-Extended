@@ -517,17 +517,17 @@
      */
     var flexible = acf.getFieldType('flexible_content');
     var model = flexible.prototype;
-
+    
     /*
      * Drag & Drop
      */
     model.addSortable = function( self ){
-
+        
         // bail early if max 1 row
         if( this.get('max') == 1 ) {
             return;
         }
-
+        
         // add sortable
         this.$layoutsWrap().sortable({
             items: ' > .layout',
@@ -543,70 +543,70 @@
                 self.$input().trigger('change');
             }
         });
-
+        
     };
-
+    
     /*
      * Actions
      */
     model.acfeOneClick = function(e, $el){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Vars
         var $clones = flexible.$clones();
         var $layout_name = $($clones[0]).data('layout');
-
+        
         // Source
         var $layout_source = null;
         if($el.hasClass('acf-icon'))
             $layout_source = $el.closest('.layout');
-
+        
         // Add
         var $layout_added = flexible.add({
             layout: $layout_name,
             before: $layout_source
         });
-
+        
         // Hide native tooltip
         if($('.acf-fc-popup').length)
             $('.acf-fc-popup').hide();
-
+        
     };
-
+    
     model.acfeLayoutInit = function($layout){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Vars
         var $controls = $layout.find('> .acf-fc-layout-controls');
         var $handle = $layout.find('> .acf-fc-layout-handle');
-
+        
         // Placeholder
         var $placeholder = $layout.find('> .acfe-fc-placeholder');
-
+        
         // Placeholder: Show
         $placeholder.removeClass('acf-hidden');
-
+        
         // If no modal edition & opened: Hide Placeholder
         if(!flexible.has('acfeFlexibleModalEdition') && !flexible.isLayoutClosed($layout)){
-
+            
             $placeholder.addClass('acf-hidden');
-
+        
         }
-
+        
         // Flexible has Preview
         if(flexible.isLayoutClosed($layout) && flexible.has('acfeFlexiblePreview') && !$placeholder.hasClass('-loading')){
-
+            
             $placeholder.addClass('acfe-fc-preview -loading').find('> .acfe-flexible-placeholder').prepend('<span class="spinner"></span>');
             $placeholder.find('> .acfe-fc-overlay').addClass('-hover');
-
+            
             // vars
 			var $input = $layout.children('input');
 			var prefix = $input.attr('name').replace('[acf_fc_layout]', '');
-
+			
 			// ajax data
 			var ajaxData = {
 				action: 	'acfe/flexible/layout_preview',
@@ -615,13 +615,13 @@
 				layout:		$layout.data('layout'),
 				value:		acf.serialize($layout, prefix)
 			};
-
+            
             acf.doAction('acfe/fields/flexible_content/before_preview',                                                                     flexible.$el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/name=' + flexible.get('name'),                                        flexible.$el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/key=' + flexible.get('key'),                                          flexible.$el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/name=' + flexible.get('name') + '&layout=' + $layout.data('layout'),  flexible.$el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/key=' + flexible.get('key') + '&layout=' + $layout.data('layout'),    flexible.$el, $layout, ajaxData);
-
+			
 			// ajax
 			$.ajax({
 		    	url: acf.get('ajaxurl'),
@@ -629,34 +629,34 @@
 				dataType: 'html',
 				type: 'post',
 				success: function(response){
-
+                    
 					if(response){
-
+                        
 						$placeholder.find('> .acfe-flexible-placeholder').html(response);
-
+                        
 					}else{
-
+                        
                         $placeholder.removeClass('acfe-fc-preview');
-
+                        
                     }
-
+                    
                     acf.doAction('acfe/fields/flexible_content/preview',                                                                     response, flexible.$el, $layout, ajaxData);
                     acf.doAction('acfe/fields/flexible_content/preview/name=' + flexible.get('name'),                                        response, flexible.$el, $layout, ajaxData);
                     acf.doAction('acfe/fields/flexible_content/preview/key=' + flexible.get('key'),                                          response, flexible.$el, $layout, ajaxData);
                     acf.doAction('acfe/fields/flexible_content/preview/name=' + flexible.get('name') + '&layout=' + $layout.data('layout'),  response, flexible.$el, $layout, ajaxData);
                     acf.doAction('acfe/fields/flexible_content/preview/key=' + flexible.get('key') + '&layout=' + $layout.data('layout'),    response, flexible.$el, $layout, ajaxData);
-
+                    
 				},
                 complete: function(){
-
+                    
                     $placeholder.find('> .acfe-fc-overlay').removeClass('-hover');
                     $placeholder.removeClass('-loading').find('> .acfe-flexible-placeholder > .spinner').remove();
-
+                    
                 }
 			});
-
+            
         }
-
+        
     };
 
     /*
@@ -974,150 +974,150 @@
      */
     model.events['click .acf-fc-layout-handle'] = 'acfeEditLayoutTitleToggleHandle';
     model.acfeEditLayoutTitleToggleHandle = function(e, $el){
-
+        
         var flexible = this;
-
+        
         // Title Edition
         if(!flexible.has('acfeFlexibleTitleEdition'))
             return;
-
+        
         // Vars
         var $layout = $el.closest('.layout');
-
+        
         if($layout.hasClass('acfe-flexible-title-edition')){
-
+            
             $layout.find('> .acf-fc-layout-handle > .acfe-layout-title > input.acfe-flexible-control-title').trigger('blur');
-
+            
         }
-
+        
     }
-
+    
     model.events['click .acfe-layout-title-text'] = 'acfeEditLayoutTitle';
     model.acfeEditLayoutTitle = function(e, $el){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Title Edition
         if(!flexible.has('acfeFlexibleTitleEdition'))
             return;
-
+        
         // Stop propagation
         e.stopPropagation();
-
+        
         // Toggle
         flexible.acfeEditLayoutTitleToggle(e, $el);
-
+        
     }
-
+    
     model.events['blur input.acfe-flexible-control-title'] = 'acfeEditLayoutTitleToggle';
     model.acfeEditLayoutTitleToggle = function(e, $el){
-
+        
         var flexible = this;
-
+        
         // Vars
         var $layout = $el.closest('.layout');
         var $handle = $layout.find('> .acf-fc-layout-handle');
         var $title = $handle.find('.acfe-layout-title');
-
+        
         if($layout.hasClass('acfe-flexible-title-edition')){
-
+            
             var $input = $title.find('> input[data-acfe-flexible-control-title-input]');
-
+            
             if($input.val() === '')
                 $input.val($input.attr('placeholder')).trigger('input');
-
+            
             $layout.removeClass('acfe-flexible-title-edition');
-
+            
             $input.insertAfter($handle);
-
+            
         }
-
+        
         else{
-
+            
             var $input = $layout.find('> input[data-acfe-flexible-control-title-input]');
-
+            
             var $input = $input.appendTo($title);
-
+            
             $layout.addClass('acfe-flexible-title-edition');
             $input.focus().attr('size', $input.val().length);
-
+            
         }
-
+        
     }
-
+    
     // Layout: Edit Title
     model.events['click input.acfe-flexible-control-title'] = 'acfeEditLayoutTitlePropagation';
     model.acfeEditLayoutTitlePropagation = function(e, $el){
-
+        
         e.stopPropagation();
-
+        
     }
-
+    
     // Layout: Edit Title Input
     model.events['input [data-acfe-flexible-control-title-input]'] = 'acfeEditLayoutTitleInput';
     model.acfeEditLayoutTitleInput = function(e, $el){
-
+        
         // Vars
         var $layout = $el.closest('.layout');
         var $title = $layout.find('> .acf-fc-layout-handle .acfe-layout-title .acfe-layout-title-text');
-
+        
         var val = $el.val();
-
+        
         $el.attr('size', val.length);
-
+        
         $title.html(val);
-
+        
     }
-
+    
     // Layout: Edit Title Input Enter
     model.events['keypress [data-acfe-flexible-control-title-input]'] = 'acfeEditLayoutTitleInputEnter';
     model.acfeEditLayoutTitleInputEnter = function(e, $el){
-
+        
         // Enter Key
         if(e.keyCode !== 13)
             return;
-
+        
         e.preventDefault();
         $el.blur();
-
+        
     }
-
+    
     // Layout: Settings
     model.events['click [data-acfe-flexible-settings]'] = 'acfeLayoutSettings';
     model.acfeLayoutSettings = function(e, $el){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Vars
         var $layout = $el.closest('.layout');
-
+        
         // Modal data
         var $modal = $layout.find('> .acfe-modal.-settings');
         var $handle = $layout.find('> .acf-fc-layout-handle');
-
+        
         var $layout_order = $handle.find('> .acf-fc-layout-order').outerHTML();
         var $layout_title = $handle.find('.acfe-layout-title-text').text();
-
+        
         // Open modal
         acfe.modal.open($modal, {
             title: $layout_order + ' ' + $layout_title,
             footer: acf.__('Close'),
             onOpen: function(){
-
+                
             },
             onClose: function(){
-
+                
                 if(flexible.has('acfeFlexiblePreview')){
-
+                    
                     flexible.closeLayout($layout);
-
+                    
                 }
-
+                
             }
         });
-
+        
     }
 
     /*
@@ -1176,18 +1176,18 @@
         }
 
     });
-
+    
     // Layout: Clone
     model.events['click [data-acfe-flexible-control-clone]'] = 'acfeCloneLayout';
     model.acfeCloneLayout = function(e, $el){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Vars
         var $layout = $el.closest('.layout');
         var layout_name = $layout.data('layout');
-
+        
         // Popup min/max
         var $popup = $(flexible.$popup().html());
         var $layouts = flexible.$layouts();
@@ -1197,67 +1197,67 @@
                 return $(this).data('layout') === name;
             }).length;
         };
-
+        
          // vars
         var $a = $popup.find('[data-layout="' + layout_name + '"]');
         var min = $a.data('min') || 0;
         var max = $a.data('max') || 0;
         var count = countLayouts(layout_name);
-
+        
         // max
         if(max && count >= max){
-
+            
             $el.addClass('disabled');
             return false;
-
+            
         }else{
-
+            
             $el.removeClass('disabled');
-
+            
         }
-
+        
         // Fix inputs
         flexible.acfeFixInputs($layout);
-
+        
         var $_layout = $layout.clone();
-
+        
         // Clean Layout
         flexible.acfeCleanLayouts($_layout);
-
+        
         var parent = $el.closest('.acf-flexible-content').find('> input[type=hidden]').attr('name');
-
+        
         // Clone
         var $layout_added = flexible.acfeDuplicate({
             layout: $_layout,
             before: $layout,
             parent: parent
         });
-
+        
     }
-
+    
     // Layout: Copy
     model.events['click [data-acfe-flexible-control-copy]'] = 'acfeCopyLayout';
     model.acfeCopyLayout = function(e, $el){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Vars
         var $layout = $el.closest('.layout').clone();
         var source = flexible.$control().find('> input[type=hidden]').attr('name');
-
+        
         // Fix inputs
         flexible.acfeFixInputs($layout);
-
+        
         // Clean layout
         flexible.acfeCleanLayouts($layout);
-
+        
         // Get layout data
         var data = JSON.stringify({
             source: source,
             layouts: $layout[0].outerHTML
         });
-
+        
         // Append Temp Input
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo($('body'));
         $input.attr('value', data).select();
@@ -1265,159 +1265,159 @@
         // Command: Copy
         if(document.execCommand('copy'))
             alert('Layout has been transferred to your clipboard');
-
+            
         // Prompt
         else
             prompt('Copy the following layout data to your clipboard', data);
-
+        
         // Remove the temp input
         $input.remove();
-
+        
     }
-
+    
     // Flexible: Copy Layouts
     model.acfeCopyLayouts = function(){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Get layouts
         var $layouts = flexible.$layoutsWrap().clone();
         var source = flexible.$control().find('> input[type=hidden]').attr('name');
-
+        
         // Fix inputs
         flexible.acfeFixInputs($layouts);
-
+        
         // Clean layout
         flexible.acfeCleanLayouts($layouts);
-
+        
         // Get layouts data
         var data = JSON.stringify({
             source: source,
             layouts: $layouts.html()
         });
-
+        
         // Append Temp Input
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo(flexible.$el);
         $input.attr('value', data).select();
-
+        
         // Command: Copy
         if(document.execCommand('copy'))
             alert('Layouts have been transferred to your clipboard');
-
+            
         // Prompt
         else
             prompt('Copy the following layouts data to your clipboard', data);
-
+        
         $input.remove();
-
+        
     }
-
+    
     // Flexible: Paste Layouts
     model.acfePasteLayouts = function(){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         var paste = prompt('Paste layouts data in the following field');
-
+        
         // No input
         if(paste == null || paste === '')
             return;
-
+        
         try{
-
+            
             // Paste HTML
             var data = JSON.parse(paste);
             var source = data.source;
             var $html = $(data.layouts);
-
+            
             // Parsed layouts
             var $html_layouts = $html.closest('[data-layout]');
-
+            
             if(!$html_layouts.length)
                 return alert('No layouts data available');
-
+            
             // Popup min/max
             var $popup = $(flexible.$popup().html());
             var $layouts = flexible.$layouts();
-
+            
             var countLayouts = function(name){
                 return $layouts.filter(function(){
                     return $(this).data('layout') === name;
                 }).length;
             };
-
+            
             // init
             var validated_layouts = [];
-
+            
             // Each first level layouts
             $html_layouts.each(function(){
-
+                
                 var $this = $(this);
                 var layout_name = $this.data('layout');
-
+                
                 // vars
                 var $a = $popup.find('[data-layout="' + layout_name + '"]');
                 var min = $a.data('min') || 0;
                 var max = $a.data('max') || 0;
                 var count = countLayouts(layout_name);
-
+                
                 // max
                 if(max && count >= max)
                     return;
-
+                
                 // Validate layout against available layouts
                 var get_clone_layout = flexible.$clone($this.attr('data-layout'));
-
+                
                 // Layout is invalid
                 if(!get_clone_layout.length)
                     return;
-
+                
                 // Add validated layout
                 validated_layouts.push($this);
-
+                
             });
-
+            
             // Nothing to add
             if(!validated_layouts.length)
                 return alert('No layouts could be pasted');
-
+            
             // Add layouts
             $.each(validated_layouts, function(){
-
+                
                 var $layout = $(this);
                 var search = source + '[' + $layout.attr('data-id') + ']';
                 var target = flexible.$control().find('> input[type=hidden]').attr('name');
-
+                
                 flexible.acfeDuplicate({
                     layout: $layout,
                     before: false,
                     search: search,
                     parent: target
                 });
-
+                
             });
-
+            
         }catch(e){
-
+            
             console.log(e);
             alert('Invalid data');
-
+            
         }
-
+        
     }
-
+    
     // Flexible: Dropdown
     model.events['click [data-name="acfe-flexible-control-button"]'] = 'acfeControl';
     model.acfeControl = function(e, $el){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Vars
         var $dropdown = $el.next('.tmpl-acfe-flexible-control-popup').html();
-
+        
         // Init Popup
         var Popup = acf.models.TooltipConfirm.extend({
             render: function(){
@@ -1425,7 +1425,7 @@
                 this.$el.addClass('acf-fc-popup');
             }
         });
-
+        
         // New Popup
         var popup = new Popup({
             target: $el,
@@ -1433,23 +1433,23 @@
             text: $dropdown,
             context: flexible,
             confirm: function(e, $el){
-
+                
                 if($el.attr('data-acfe-flexible-control-action') === 'paste')
                     flexible.acfePasteLayouts();
-
+                
                 else if($el.attr('data-acfe-flexible-control-action') === 'copy')
                     flexible.acfeCopyLayouts();
-
+                
             }
         });
-
+        
         popup.on('click', 'a', 'onConfirm');
-
+        
     }
-
+    
     // Flexible: Duplicate
     model.acfeDuplicate = function(args){
-
+        
         // Arguments
         args = acf.parseArgs(args, {
             layout: '',
@@ -1458,23 +1458,23 @@
             search: '',
             replace: '',
         });
-
+        
         // Validate
         if(!this.allowAdd())
             return false;
-
+        
         var uniqid = acf.uniqid();
-
+        
         if(args.parent){
-
+            
             if(!args.search){
-
+                
                 args.search = args.parent + '[' + args.layout.attr('data-id') + ']';
-
+                
             }
-
+            
             args.replace = args.parent + '[' + uniqid + ']';
-
+            
         }
 
         var duplicate_args = {
@@ -1527,7 +1527,7 @@
             var $el = model.acfeNewAcfDuplicate(duplicate_args);
 
         }
-
+        
         // trigger change for validation errors
         this.$input().trigger('change');
 
@@ -1551,10 +1551,10 @@
 
         }
 
-
+        
         // return
         return $el;
-
+        
     }
 
     /*
@@ -1643,82 +1643,82 @@
         // return
         return $el2;
     };
-
+    
     // Flexible: Fix Inputs
     model.acfeFixInputs = function($layout){
-
+        
         $layout.find('input').each(function(){
-
+            
             $(this).attr('value', this.value);
-
+            
         });
-
+        
         $layout.find('textarea').each(function(){
-
+            
             $(this).html(this.value);
-
+            
         });
-
+        
         $layout.find('input:radio,input:checkbox').each(function() {
-
+            
             if(this.checked)
                 $(this).attr('checked', 'checked');
-
+            
             else
                 $(this).attr('checked', false);
-
+            
         });
-
+        
         $layout.find('option').each(function(){
-
+            
             if(this.selected)
                 $(this).attr('selected', 'selected');
-
+                
             else
                 $(this).attr('selected', false);
-
+            
         });
-
+        
     }
-
+    
     // Flexible: Clean Layout
     model.acfeCleanLayouts = function($layout){
-
+        
         // Clean WP Editor
         $layout.find('.acf-editor-wrap').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('.wp-editor-container div').remove();
             $input.find('.wp-editor-container textarea').css('display', '');
-
+            
         });
-
+        
         // Clean Date
         $layout.find('.acf-date-picker').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('input.input').removeClass('hasDatepicker').removeAttr('id');
-
+            
         });
-
+        
         // Clean Time
         $layout.find('.acf-time-picker').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('input.input').removeClass('hasDatepicker').removeAttr('id');
-
+            
         });
-
+        
         // Clean DateTime
         $layout.find('.acf-date-time-picker').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('input.input').removeClass('hasDatepicker').removeAttr('id');
-
+            
         });
 
         // Clean Code Editor
@@ -1729,115 +1729,115 @@
             $input.find('.CodeMirror').remove();
 
         });
-
+        
         // Clean Color Picker
         $layout.find('.acf-color-picker').each(function(){
-
+            
             var $input = $(this);
-
+            
             var $color_picker = $input.find('> input');
             var $color_picker_proxy = $input.find('.wp-picker-container input.wp-color-picker').clone();
-
+            
             $color_picker.after($color_picker_proxy);
-
+            
             $input.find('.wp-picker-container').remove();
-
+            
         });
-
+        
         // Clean Post Object
         $layout.find('.acf-field-post-object').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('> .acf-input span').remove();
-
+            
             $input.find('> .acf-input select').removeAttr('tabindex aria-hidden').removeClass();
-
+            
         });
-
+        
         // Clean Page Link
         $layout.find('.acf-field-page-link').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('> .acf-input span').remove();
-
+            
             $input.find('> .acf-input select').removeAttr('tabindex aria-hidden').removeClass();
-
+            
         });
-
+        
         // Clean Select2
         $layout.find('.acf-field-select').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('> .acf-input span').remove();
-
+            
             $input.find('> .acf-input select').removeAttr('tabindex aria-hidden').removeClass();
-
+            
         });
-
+        
         // Clean FontAwesome
         $layout.find('.acf-field-font-awesome').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('> .acf-input span').remove();
-
+            
             $input.find('> .acf-input select').removeAttr('tabindex aria-hidden');
-
+            
         });
 
 
         // Clean Tab
         $layout.find('.acf-tab-wrap').each(function(){
-
+            
             var $wrap = $(this);
-
+            
             var $content = $wrap.closest('.acf-fields');
-
+            
             var tabs = [];
             $.each($wrap.find('li a'), function(){
-
+                
                 tabs.push($(this));
-
+                
             });
-
+            
             $content.find('> .acf-field-tab').each(function(){
-
+                
                 $current_tab = $(this);
-
+                
                 $.each(tabs, function(){
-
+                    
                     var $this = $(this);
-
+                    
                     if($this.attr('data-key') !== $current_tab.attr('data-key'))
                         return;
-
+                    
                     $current_tab.find('> .acf-input').append($this);
-
+                    
                 });
-
+                
             });
-
+            
             $wrap.remove();
-
+            
         });
-
+        
         // Clean Accordion
         $layout.find('.acf-field-accordion').each(function(){
-
+            
             var $input = $(this);
-
+            
             $input.find('> .acf-accordion-title > .acf-accordion-icon').remove();
-
+            
             // Append virtual endpoint after each accordion
             $input.after('<div class="acf-field acf-field-accordion" data-type="accordion"><div class="acf-input"><div class="acf-fields" data-endpoint="1"></div></div></div>');
-
+            
         });
-
+        
     }
-
+    
     /*
      * Spawn
      */
@@ -1868,23 +1868,23 @@
      * Actions
      */
     model.acfeModalSelect = function(e, $el){
-
+        
         // Get Flexible
         var flexible = this;
-
+        
         // Validate
         if(!flexible.validateAdd())
             return false;
-
+        
         // Layout
         var $layout_source = null;
-
+        
         if($el.hasClass('acf-icon'))
             $layout_source = $el.closest('.layout');
-
+        
         // Get Available Layouts
         var layouts = flexible.getPopupHTML();
-
+        
         // Init Categories
         var categories = {
             array: [],
@@ -1905,10 +1905,10 @@
             return -1;
 
         }
-
+        
         // Get Categories
         $(layouts).find('li a span').each(function(){
-
+            
             var $link = $(this);
 
             if(!$link.data('acfe-flexible-category'))
@@ -1924,132 +1924,132 @@
                 categories.array.push(c);
 
             });
-
+            
         });
-
+        
         // Categories HTML
         if(categories.array.length){
-
+        
             categories.array.sort();
-
+                
             categories.html += '<h2 class="acfe-flexible-categories nav-tab-wrapper">';
-
+            
             categories.html += '<a href="#" data-acfe-flexible-category="acfe-all" class="nav-tab nav-tab-active"><span class="dashicons dashicons-menu"></span></a>';
-
+            
             $(categories.array).each(function(k, category){
-
+                
                 categories.html += '<a href="#" data-acfe-flexible-category="' + category + '" class="nav-tab">' + category + '</a>';
-
+                
             });
-
+            
             categories.html += '</h2>';
-
+        
         }
-
+        
         // Modal Title
         var $modal_title = 'Add Row';
-
+        
         if(flexible.has('acfeFlexibleModalTitle'))
             $modal_title = flexible.get('acfeFlexibleModalTitle');
-
+        
         // Create Modal
-        var $modal = $('' +
-            '<div class="acfe-modal">' +
-
-                categories.html +
-                '<div class="acfe-flex-container">' +
-                    layouts +
+        var $modal = $('' + 
+            '<div class="acfe-modal">' + 
+            
+                categories.html + 
+                '<div class="acfe-flex-container">' + 
+                    layouts +        
                 '</div>' +
-
+                
             '</div>'
-
+        
         ).appendTo('body');
-
+        
         // Open Modal
         var $modal = acfe.modal.open($modal, {
             title: $modal_title,
             size: 'full',
             destroy: true
         });
-
+        
         // Modal: Columns
         if(flexible.has('acfeFlexibleModalCol'))
             $modal.find('.acfe-modal-content .acfe-flex-container').addClass('acfe-col-' + flexible.get('acfeFlexibleModalCol'));
-
+        
         // Modal: ACF autofocus fix
         $modal.find('li:first-of-type a').blur();
-
+        
         // count layouts
         var $layouts = flexible.$layouts();
         var countLayouts = function(name){
-
+            
             return $layouts.filter(function(){
                 return $(this).data('layout') === name;
             }).length;
-
+            
         };
-
+        
         $modal.find('a[data-layout]').each(function(){
-
+            
             // vars
             var $a = $(this);
             var min = $a.data('min') || 0;
             var max = $a.data('max') || 0;
             var name = $a.data('layout') || '';
             var count = countLayouts( name );
-
+            
             // max
             if(max && count >= max){
                 $a.addClass('disabled');
                 return;
             }
-
+            
             // min
             if(min && count < min){
-
+                
                 // vars
                 var required = min - count;
                 var title = acf.__('{required} {label} {identifier} required (min {min})');
                 var identifier = acf._n('layout', 'layouts', required);
-
+                                    
                 // translate
                 title = title.replace('{required}', required);
                 title = title.replace('{label}', name); // 5.5.0
                 title = title.replace('{identifier}', identifier);
                 title = title.replace('{min}', min);
-
+                
                 // badge
                 $a.append('<span class="badge" title="' + title + '">' + required + '</span>');
-
+                
             }
-
+        
         });
-
+        
         // Modal: Click Categories
         $modal.find('.acfe-flexible-categories a').click(function(e){
-
+            
             e.preventDefault();
-
+            
             var $link = $(this);
-
+            
             $link.closest('.acfe-flexible-categories').find('a').removeClass('nav-tab-active');
             $link.addClass('nav-tab-active');
-
+            
             var selected_category = $link.data('acfe-flexible-category');
-
+            
             $modal.find('a[data-layout] span').each(function(){
-
+                
                 // Get span
                 var $span = $(this);
-
+                
                 // Show All
                 $span.closest('li').show();
-
+                
                 var category = $span.data('acfe-flexible-category');
-
+                
                 // Specific category
                 if(selected_category !== 'acfe-all'){
-
+                    
                     // Hide All
                     $span.closest('li').hide();
 
@@ -2064,31 +2064,31 @@
                         }
 
                     });
-
+                    
                 }
-
+                
             });
-
+            
         });
-
+        
         // Modal: Click Add Layout
         $modal.on('click', 'a[data-layout]', function(e){
-
+            
             e.preventDefault();
-
+            
             // Close modal
             acfe.modal.close(true);
-
+            
             // Add layout
             var $layout_added = flexible.add({
                 layout: $(this).data('layout'),
                 before: $layout_source
             });
-
+            
         });
-
+        
     }
-
+    
     /*
      * Spawn
      */
@@ -2122,48 +2122,48 @@
      */
     var flexible = acf.getFieldType('flexible_content');
     var model = flexible.prototype;
-
+    
     /*
      * Actions
      */
     model.events['click [data-action="acfe-flexible-modal-edit"]'] = 'acfeModalEdit';
     model.acfeModalEdit = function(e, $el){
-
+        
         var flexible = this;
-
+        
         // Layout
         var $layout = $el.closest('.layout');
-
+        
         // Modal data
         var $modal = $layout.find('> .acfe-modal.-fields');
         var $handle = $layout.find('> .acf-fc-layout-handle');
-
+        
         var $layout_order = $handle.find('> .acf-fc-layout-order').outerHTML();
         var $layout_title = $handle.find('.acfe-layout-title-text').text();
-
+        
         var close = false;
         if(flexible.has('acfeFlexibleCloseButton')){
-
+            
             close = acf.__('Close');
-
+        
         }
-
+        
         // Open modal
         acfe.modal.open($modal, {
             title: $layout_order + ' ' + $layout_title,
             footer: close,
             onOpen: function(){
-
+                
                 flexible.openLayout($layout);
-
+                
             },
             onClose: function(){
-
+                
                 flexible.closeLayout($layout);
-
+                
             }
         });
-
+        
     };
     
     /*
@@ -3636,7 +3636,7 @@ function acfe_recaptcha(){
     
     acf.addAction('prepare', function(){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
 
         // Fix Image/File WP Media upload
@@ -3677,7 +3677,7 @@ function acfe_recaptcha(){
     // Datepicker: Add field class
     acf.addAction('new_field/type=date_picker', function(field){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         var $form = field.$el.closest('.acfe-form');
@@ -3695,7 +3695,7 @@ function acfe_recaptcha(){
     // Google Maps: Add field class
     acf.addAction('new_field/type=google_map', function(field){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         var $form = field.$el.closest('.acfe-form');
@@ -3713,7 +3713,7 @@ function acfe_recaptcha(){
     // Error: Move error
     acf.addAction('invalid_field', function(field){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         var $form = field.$el.closest('.acfe-form');
@@ -3812,7 +3812,7 @@ function acfe_recaptcha(){
     // Remove error message on validation
     acf.addAction('validation_begin', function($form){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         if(typeof $form === 'undefined')
@@ -3833,15 +3833,15 @@ function acfe_recaptcha(){
      */
     var repeater = acf.getFieldType('repeater');
     var model = repeater.prototype;
-
+    
     // Repeater: Lock Layouts
     model.acfeOnHover = function(){
-
+        
         var repeater = this;
-
+        
         // remove event
         repeater.off('mouseover');
-
+        
     }
     
     /*

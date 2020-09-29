@@ -8,7 +8,7 @@
      */
     var flexible = acf.getFieldType('flexible_content');
     var model = flexible.prototype;
-    
+
     /*
      * Actions
      */

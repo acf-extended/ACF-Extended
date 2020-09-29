@@ -5,7 +5,7 @@
     
     acf.addAction('prepare', function(){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
 
         // Fix Image/File WP Media upload
@@ -46,7 +46,7 @@
     // Datepicker: Add field class
     acf.addAction('new_field/type=date_picker', function(field){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         var $form = field.$el.closest('.acfe-form');
@@ -64,7 +64,7 @@
     // Google Maps: Add field class
     acf.addAction('new_field/type=google_map', function(field){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         var $form = field.$el.closest('.acfe-form');
@@ -82,7 +82,7 @@
     // Error: Move error
     acf.addAction('invalid_field', function(field){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         var $form = field.$el.closest('.acfe-form');
@@ -181,7 +181,7 @@
     // Remove error message on validation
     acf.addAction('validation_begin', function($form){
 
-        if(!acf.get('is_admin'))
+        if(acf.get('is_admin'))
             return;
         
         if(typeof $form === 'undefined')
