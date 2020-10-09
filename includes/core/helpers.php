@@ -964,7 +964,7 @@ function acfe_form_is_submitted($form_name = false){
     if(empty($form))
         return false;
     
-    if(!empty($form_name) && acf_maybe_get($form, 'form_name') !== $form_name)
+    if(!empty($form_name) && acf_maybe_get($form, 'name') !== $form_name)
         return false;
     
     return true;
@@ -973,7 +973,7 @@ function acfe_form_is_submitted($form_name = false){
 
 function acfe_form_unique_action_id($form, $type){
     
-    $name = $form['form_name'] . '-' . $type;
+    $name = $form['name'] . '-' . $type;
     
     global $acfe_form_uniqid;
     

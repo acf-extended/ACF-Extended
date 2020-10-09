@@ -95,12 +95,53 @@
     });
 
     /*
+     * Field Columns
+     */
+    var acfe_column_title = function($el){
+
+        var field = acf.getInstance($el);
+
+        var $columns = field.$setting('columns');
+        var columns = acf.getInstance($columns).getValue();
+
+        var $endpoint = field.$setting('endpoint');
+        var endpoint = acf.getInstance($endpoint).getValue();
+
+        if(endpoint){
+
+            field.set('label', '(Column endpoint)');
+
+        }else{
+
+            field.set('label', '(Column ' + columns + ')');
+
+        }
+
+    };
+
+    acf.addAction('change_field_label/type=acfe_column', acfe_column_title);
+    acf.addAction('change_field_type/type=acfe_column', acfe_column_title);
+
+    acf.addAction('render_field_settings/type=acfe_column', function($el){
+
+        var field = acf.getFieldObject($el);
+
+        var setLabel = function(){
+            field.set('label', true);
+        }
+
+        field.on('change', '.acfe-field-columns', setLabel);
+        field.on('change', '.acfe-field-columns-endpoint', setLabel);
+
+    });
+
+    /*
      * Field: WYSIWYG
      */
     var acfe_repeater_remove_primary_class = function(field){
         
         field.$('.acf-button').removeClass('button-primary');
-        
+
     };
     
     acf.addAction('new_field/name=acfe_meta', acfe_repeater_remove_primary_class);

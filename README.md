@@ -331,6 +331,19 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 
 ## 📋 Changelog
 
+### 0.8.7.4
+* Module: Json AutoSync - Fixed an issue where json file would not be updated when the field group was created without ACF Extended (Json Sync checkbox was unchecked)
+* Module: Dynamic Forms - Added the ability to pass an array to the `acfe_form()` function allowing to override settings
+* Module: Dynamic Forms - Fixed Elementor + YOAST inifinite loop when using the `[acfe_form]` shortcode to create a new post
+* Module: Dynamic Forms - Post/Term/User Actions load values setting is now disabled by default
+* Module: Dynamic Post Type - Updated Block Editor instructions for the `show_in_rest` setting
+* Module: Dynamic Taxonomy - Updated Block Editor instructions for the `show_in_rest` setting
+* Field: Hidden - Fixed the field render when in table element
+* Field: Columns - Enhanced Field Group UI
+* Field: Columns - Hidden in Users / Terms views to avoid display problem (Due to table render)
+* Field: Advanced Link - Fixed ACF CSS that adds a `display:none` on sub fields buttons
+* Field: Taxonomy Terms - Added hook `filter('acfe/fields/taxonomy_terms/query', $args, $field, $post_id)` to change the ajax query
+
 ### 0.8.7.3
 * Field: Flexible Content - Fixed "Copy/Paste" function which wasn't working correctly with WYSIWYG & Code Editor fields since the latest ACF 5.9 update
 * Field: Column - Columns sizes are now based on a grid of 12 (1/12, 2/12, 3/12, 4/12 ...)

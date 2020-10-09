@@ -20,6 +20,14 @@ class acfe_field_hidden extends acf_field{
         
     }
     
+    function prepare_field($field){
+        
+        $field['wrapper']['class'] = 'acf-hidden';
+        
+        return $field;
+        
+    }
+    
     function render_field($field){
         
         ?>

@@ -330,20 +330,46 @@ class ACFE_Field_Group{
         }
         
         /*
-         * AutoSync: Prepare
+         * AutoSync: Get Local
          */
         acf_enable_filter('local');
-        
-        $disable_json = acfe_get_local_json_file($field_group) ? true : false;
-        $disable_php = acfe_get_local_php_file($field_group) ? true : false;
-        
+    
+        $json_file = acfe_get_local_json_file($field_group);
+        $php_file = acfe_get_local_php_file($field_group);
+    
         $data = array(
             'php' => acf_get_instance('ACFE_Field_Groups')->get_php_data($field_group),
             'json' => acf_get_instance('ACFE_Field_Groups')->get_json_data($field_group),
         );
-        
+    
         acf_disable_filter('local');
+    
+        /*
+         * AutoSync: Values
+         */
+        $acfe_autosync = (array) acf_maybe_get($field_group, 'acfe_autosync');
+    
+        // Json
+        if($json_file){
         
+            if(!in_array('json', $acfe_autosync)){
+                $acfe_autosync[] = 'json';
+            }
+        
+        }
+    
+        // PHP
+        if($php_file){
+        
+            if(!in_array('php', $acfe_autosync)){
+                $acfe_autosync[] = 'php';
+            }
+        
+        }
+    
+        /*
+         * AutoSync: Choices
+         */
         $choices = array(
             'php' => 'PHP',
             'json' => 'Json',
@@ -358,13 +384,12 @@ class ACFE_Field_Group{
                 'title' => $info['file'],
             );
             
-            if($info['class'])
+            if($info['class']){
                 $wrapper['class'] .= ' ' . $info['class'];
+            }
             
             if($info['message']){
-                
                 $wrapper['title'] = $info['message'];
-                
             }
             
             $icons = array();
@@ -398,7 +423,7 @@ class ACFE_Field_Group{
             'type'          => 'checkbox',
             'name'          => 'acfe_autosync',
             'prefix'        => 'acf_field_group',
-            'value'         => acf_maybe_get($field_group, 'acfe_autosync', array()),
+            'value'         => $acfe_autosync,
             'choices'       => array(
                 'php'   => $choices['php'],
                 'json'  => $choices['json'],
@@ -436,7 +461,7 @@ class ACFE_Field_Group{
                 var $php = $('#acf_field_group-acfe_autosync-php');
                 var $sync_available = $('[data-name=acfe_sync_available]');
                 
-                <?php if($disable_json){ ?>
+                <?php if($json_file){ ?>
 
                 $json.prop('readonly', true).addClass('disabled').click(function(){
                     return false;
@@ -446,7 +471,7 @@ class ACFE_Field_Group{
                 
                 <?php } ?>
                 
-                <?php if($disable_php){ ?>
+                <?php if($php_file){ ?>
 
                 $php.prop('readonly', true).addClass('disabled').click(function(){
                     return false;

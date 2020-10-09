@@ -349,8 +349,8 @@ tr.acf-field.acf-field-clone[data-acfe-clone-modal="1"] > .acf-input > .acfe-mod
 /*
  * ACF Field: Advanced Link
  */
-.acf-link.-value .acfe-modal-footer .button{
-    display:unset;
+.acf-link.-value .acfe-modal .button{
+    display:inline-block;
 }
 
 /*

@@ -72,6 +72,7 @@ class acfe_field_column extends acf_field{
                 '11/12' => '11/12',
                 '12/12' => '12/12',
             ),
+            'class' => 'acfe-field-columns',
             'conditional_logic' => array(
                 array(
                     array(
@@ -90,6 +91,7 @@ class acfe_field_column extends acf_field{
 			'name'			=> 'endpoint',
 			'type'			=> 'true_false',
 			'ui'			=> 1,
+            'class'         => 'acfe-field-columns-endpoint',
 		));
         
     }
@@ -146,6 +148,12 @@ class acfe_field_column extends acf_field{
     }
     
     function prepare_field($field){
+    
+        global $pagenow;
+        
+        // Do not render on User/Term views (because of Table render)
+        if(acf_is_screen(array('profile', 'user', 'user-edit')) || $pagenow === 'edit-tags.php' || $pagenow === 'term.php')
+            return false;
         
         $field['label'] = false;
         

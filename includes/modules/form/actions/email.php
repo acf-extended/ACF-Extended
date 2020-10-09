@@ -22,8 +22,8 @@ class acfe_form_email{
     function make($form, $current_post_id, $action){
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
     
         // Prepare
         $prepare = true;
@@ -225,7 +225,7 @@ class acfe_form_email{
     function submit($args, $form, $action){
     
         // Form name
-        $form_name = acf_maybe_get($form, 'form_name');
+        $form_name = acf_maybe_get($form, 'name');
     
         $args = apply_filters('acfe/form/query_var/email',                    $args, $form, $action);
         $args = apply_filters('acfe/form/query_var/email/form=' . $form_name, $args, $form, $action);

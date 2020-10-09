@@ -2119,7 +2119,7 @@ assign_terms : edit_posts',
             'label' => 'Show in rest',
             'name' => 'show_in_rest',
             'type' => 'true_false',
-            'instructions' => 'Whether to include the taxonomy in the REST API',
+            'instructions' => 'Whether to include the taxonomy in the REST API. Set this to true for the taxonomy to be available in the block editor',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

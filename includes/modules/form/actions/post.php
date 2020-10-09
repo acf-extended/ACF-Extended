@@ -58,8 +58,8 @@ class acfe_form_post{
     function load($form, $current_post_id, $action){
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
         
         // Action
         $post_action = get_sub_field('acfe_form_post_action');
@@ -242,8 +242,8 @@ class acfe_form_post{
     function make($form, $current_post_id, $action){
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
         
         // Prepare
         $prepare = true;
@@ -307,12 +307,6 @@ class acfe_form_post{
         
         // Insert Post
         if($post_action === 'insert_post'){
-            
-            // Fix nasty Elementor + YOAST infinite loop
-            // Elementor bug report: https://github.com/elementor/elementor/issues/10998
-            // YOAST bug report: https://github.com/Yoast/wordpress-seo/issues/14643
-            
-            add_filter('wpseo_should_index_links', '__return_false');
             
             $_post_id = wp_insert_post(array(
                 'post_title' => 'Post'
@@ -582,7 +576,7 @@ class acfe_form_post{
     function submit($_post_id, $post_action, $args, $form, $action){
     
         // Form name
-        $form_name = acf_maybe_get($form, 'form_name');
+        $form_name = acf_maybe_get($form, 'name');
     
         // Get post array
         $post_object = get_post($_post_id, 'ARRAY_A');

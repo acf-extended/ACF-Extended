@@ -21,8 +21,8 @@ class acfe_form_custom{
     function make($form, $current_post_id, $action){
     
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
         
         // Custom Action Name
         $action = get_sub_field('acfe_form_custom_action');

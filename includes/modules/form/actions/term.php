@@ -50,8 +50,8 @@ class acfe_form_term{
     function load($form, $current_post_id, $action){
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
         
         // Action
         $term_action = get_sub_field('acfe_form_term_action');
@@ -169,8 +169,8 @@ class acfe_form_term{
     function make($form, $current_post_id, $action){
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
     
         // Prepare
         $prepare = true;
@@ -347,7 +347,7 @@ class acfe_form_term{
     function submit($_term_id, $term_action, $args, $form, $action){
     
         // Form name
-        $form_name = acf_maybe_get($form, 'form_name');
+        $form_name = acf_maybe_get($form, 'name');
     
         // Get term array
         $term_object = get_term($_term_id, $args['taxonomy'], 'ARRAY_A');

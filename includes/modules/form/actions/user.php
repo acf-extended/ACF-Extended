@@ -64,8 +64,8 @@ class acfe_form_user{
     function load($form, $current_post_id, $action){
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
         
         // Action
         $user_action = get_sub_field('acfe_form_user_action');
@@ -270,8 +270,8 @@ class acfe_form_user{
             return;
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
 
         // Fields
 	    $data = array(
@@ -391,8 +391,8 @@ class acfe_form_user{
     function make($form, $current_post_id, $action){
         
         // Form
-        $form_name = acf_maybe_get($form, 'form_name');
-        $form_id = acf_maybe_get($form, 'form_id');
+        $form_name = acf_maybe_get($form, 'name');
+        $form_id = acf_maybe_get($form, 'ID');
     
         // Prepare
         $prepare = true;
@@ -793,7 +793,7 @@ class acfe_form_user{
     function submit($_user_id, $user_action, $args, $form, $action){
     
         // Form name
-        $form_name = acf_maybe_get($form, 'form_name');
+        $form_name = acf_maybe_get($form, 'name');
     
         // Get user array
         $user_object = get_user_by('ID', $_user_id);

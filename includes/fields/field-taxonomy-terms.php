@@ -483,6 +483,11 @@ class acfe_field_taxonomy_terms extends acf_field{
             $args['search'] = $s;
         
         }
+    
+        // filters
+        $args = apply_filters('acfe/fields/taxonomy_terms/query',                           $args, $field, $options['post_id']);
+        $args = apply_filters('acfe/fields/taxonomy_terms/query/name=' . $field['name'],    $args, $field, $options['post_id']);
+        $args = apply_filters('acfe/fields/taxonomy_terms/query/key=' . $field['key'],      $args, $field, $options['post_id']);
         
         $terms = $this->get_terms($field, $args);
         

@@ -2660,7 +2660,7 @@ etc...',
             'label' => 'Show in rest',
             'name' => 'show_in_rest',
             'type' => 'true_false',
-            'instructions' => 'Whether to expose this post type in the REST API',
+            'instructions' => 'Whether to expose this post type in the REST API. Set this to true for the post type to be available in the block editor',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

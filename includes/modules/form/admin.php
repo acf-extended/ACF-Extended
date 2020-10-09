@@ -245,7 +245,7 @@ class acfe_form{
 			
 					if(empty($alias)){
                         
-                        $alias = acfe_form_unique_action_id(array('form_name' => get_field('acfe_form_name', $form_id)), $action);
+                        $alias = acfe_form_unique_action_id(array('name' => get_field('acfe_form_name', $form_id)), $action);
 					    
                     }
 			
@@ -842,26 +842,26 @@ class acfe_form{
             }
             
             // Templates Tags Examples
-            $field['choices']["Current: Post"]['{current:post:ID}'] = 'Post ID {current:post:ID}';
-            $field['choices']["Current: Post"]['{current:post:post_title}'] = 'Title {current:post:post_title}';
-            $field['choices']["Current: Post"]['{current:post:permalink}'] = 'Permalink {current:post:permalink}';
-            $field['choices']["Current: Post"]['{current:post:post_author}'] = 'Author {current:post:post_author}';
+            $field['choices']["Current Post"]['{current:post:ID}'] = 'Post ID {current:post:ID}';
+            $field['choices']["Current Post"]['{current:post:post_title}'] = 'Title {current:post:post_title}';
+            $field['choices']["Current Post"]['{current:post:permalink}'] = 'Permalink {current:post:permalink}';
+            $field['choices']["Current Post"]['{current:post:post_author}'] = 'Author {current:post:post_author}';
             
-            $field['choices']["Current: Term"]['{current:term:ID}'] = 'Term ID {current:term:ID}';
-            $field['choices']["Current: Term"]['{current:term:name}'] = 'Name {current:term:name}';
-            $field['choices']["Current: Term"]['{current:term:permalink}'] = 'Permalink {current:term:permalink}';
+            $field['choices']["Current Term"]['{current:term:ID}'] = 'Term ID {current:term:ID}';
+            $field['choices']["Current Term"]['{current:term:name}'] = 'Name {current:term:name}';
+            $field['choices']["Current Term"]['{current:term:permalink}'] = 'Permalink {current:term:permalink}';
             
-            $field['choices']["Current: User"]['{current:user:ID}'] = 'User ID {current:user:ID}';
-            $field['choices']["Current: User"]['{current:user:user_email}'] = 'E-mail {current:user:user_email}';
-            $field['choices']["Current: User"]['{current:user:permalink}'] = 'Permalink {current:user:permalink}';
+            $field['choices']["Current User"]['{current:user:ID}'] = 'User ID {current:user:ID}';
+            $field['choices']["Current User"]['{current:user:user_email}'] = 'E-mail {current:user:user_email}';
+            $field['choices']["Current User"]['{current:user:permalink}'] = 'Permalink {current:user:permalink}';
             
-            $field['choices']["Current: Author"]['{current:author:ID}'] = 'Author ID {current:author:ID}';
-            $field['choices']["Current: Author"]['{current:author:user_email}'] = 'E-mail {current:author:user_email}';
-            $field['choices']["Current: Author"]['{current:author:permalink}'] = 'Permalink {current:author:permalink}';
+            $field['choices']["Current Author"]['{current:author:ID}'] = 'Author ID {current:author:ID}';
+            $field['choices']["Current Author"]['{current:author:user_email}'] = 'E-mail {current:author:user_email}';
+            $field['choices']["Current Author"]['{current:author:permalink}'] = 'Permalink {current:author:permalink}';
             
-            $field['choices']["Current: Form"]['{current:form:ID}'] = 'Form ID {current:form:ID}';
-            $field['choices']["Current: Form"]['{current:form:title}'] = 'Title {current:form:title}';
-            $field['choices']["Current: Form"]['{current:form:name}'] = 'Name {current:form:name}';
+            $field['choices']["Current Form"]['{current:form:ID}'] = 'ID {current:form:ID}';
+            $field['choices']["Current Form"]['{current:form:name}'] = 'Name {current:form:name}';
+            $field['choices']["Current Form"]['{current:form:title}'] = 'Title {current:form:title}';
             
         }
 	    
@@ -1036,8 +1036,8 @@ class acfe_form{
     function render_fields($content, $post_id, $args){
         
         // Mapping
-        $form_id = $args['form_id'];
-        $form_name = $args['form_name'];
+        $form_id = $args['ID'];
+        $form_name = $args['name'];
         
         $mapped_field_groups = $this->get_fields_groups($form_id);
 	    $mapped_field_groups_keys = wp_list_pluck($mapped_field_groups, 'key');
@@ -1966,11 +1966,11 @@ acf.addAction('acfe/form/submit/success/name=<?php echo $form_name; ?>');</pre>
         <table class="acf-table">
             <tbody>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:name}</code></td>
+                    <td width="50%"><code>{query_var:name}</code></td>
                     <td>value</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:name:key}</code></td>
+                    <td width="50%"><code>{query_var:name:key}</code></td>
                     <td>Array value</td>
                 </tr>
             </tbody>
@@ -1981,217 +1981,217 @@ acf.addAction('acfe/form/submit/success/name=<?php echo $form_name; ?>');</pre>
         <table class="acf-table">
             <tbody>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:ID}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:ID}</code></td>
                     <td>128</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author}</code></td>
                     <td>1</td>
                 </tr>
 
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:ID}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:ID}</code></td>
                     <td>1</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_login}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_login}</code></td>
                     <td>login</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_pass}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_pass}</code></td>
                     <td>password_hash</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_nicename}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_nicename}</code></td>
                     <td>nicename</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_email}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_email}</code></td>
                     <td>user@domain.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_url}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_url}</code></td>
                     <td>https://www.website.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:permalink}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:permalink}</code></td>
                     <td><?php echo home_url('author/johndoe'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:admin_url}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:admin_url}</code></td>
                     <td><?php echo admin_url('user-edit.php?user_id=1'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_registered}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_registered}</code></td>
                     <td>2020-02-22 22:10:02</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_activation_key}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_activation_key}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:user_status}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:user_status}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:display_name}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:display_name}</code></td>
                     <td>John Doe</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:nickname}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:nickname}</code></td>
                     <td>JohnDoe</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:first_name}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:first_name}</code></td>
                     <td>John</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:last_name}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:last_name}</code></td>
                     <td>Doe</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:description}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:description}</code></td>
                     <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:rich_editing}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:rich_editing}</code></td>
                     <td>true</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:syntax_highlighting}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:syntax_highlighting}</code></td>
                     <td>true</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:comment_shortcuts}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:comment_shortcuts}</code></td>
                     <td>false</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:admin_color}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:admin_color}</code></td>
                     <td>fresh</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:use_ssl}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:use_ssl}</code></td>
                     <td>1</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:show_admin_bar_front}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:show_admin_bar_front}</code></td>
                     <td>true</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:locale}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:locale}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:wp_capabilities}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:wp_capabilities}</code></td>
                     <td>a:1:{s:13:"administrator";b:1;}</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:wp_user_level}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:wp_user_level}</code></td>
                     <td>10</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:dismissed_wp_pointers}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:dismissed_wp_pointers}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_author_data:show_welcome_panel}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_author_data:show_welcome_panel}</code></td>
                     <td>1</td>
                 </tr>
 
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_date}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_date}</code></td>
                     <td>2020-03-01 20:07:48</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_date_gmt}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_date_gmt}</code></td>
                     <td>2020-03-01 19:07:48</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_content}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_content}</code></td>
                     <td>Content</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_title}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_title}</code></td>
                     <td>Title</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_excerpt}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_excerpt}</code></td>
                     <td>Excerpt</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:permalink}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:permalink}</code></td>
                     <td><?php echo home_url('my-post'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:admin_url}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:admin_url}</code></td>
                     <td><?php echo admin_url('post.php?post=128&action=edit'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_status}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_status}</code></td>
                     <td>publish</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:comment_status}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:comment_status}</code></td>
                     <td>closed</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:ping_status}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:ping_status}</code></td>
                     <td>closed</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_password}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_password}</code></td>
                     <td>password</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_name}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_name}</code></td>
                     <td>name</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:to_ping}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:to_ping}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:pinged}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:pinged}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_modified}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_modified}</code></td>
                     <td>2020-03-01 20:07:48</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_modified_gmt}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_modified_gmt}</code></td>
                     <td>2020-03-01 19:07:48</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_content_filtered}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_content_filtered}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_parent}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_parent}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:guid}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:guid}</code></td>
                     <td><?php echo home_url('?page_id=128'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:menu_order}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:menu_order}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_type}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_type}</code></td>
                     <td>page</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:post_mime_type}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:post_mime_type}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:comment_count}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:comment_count}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:post:filter}</code></td>
+                    <td width="50%"><code>{query_var:my-post-action:filter}</code></td>
                     <td>raw</td>
                 </tr>
             </tbody>
@@ -2202,55 +2202,55 @@ acf.addAction('acfe/form/submit/success/name=<?php echo $form_name; ?>');</pre>
         <table class="acf-table">
             <tbody>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:ID}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:ID}</code></td>
                     <td>23</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:term_id}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:term_id}</code></td>
                     <td>23</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:name}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:name}</code></td>
                     <td>Term</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:slug}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:slug}</code></td>
                     <td>term</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:permalink}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:permalink}</code></td>
                     <td><?php echo home_url('taxonomy/term'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:admin_url}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:admin_url}</code></td>
                     <td><?php echo admin_url('term.php?tag_ID=23'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:term_group}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:term_group}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:term_taxonomy_id}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:term_taxonomy_id}</code></td>
                     <td>23</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:taxonomy}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:taxonomy}</code></td>
                     <td>taxonomy</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:description}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:description}</code></td>
                     <td>Content</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:parent}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:parent}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:count}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:count}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:term:filter}</code></td>
+                    <td width="50%"><code>{query_var:my-term-action:filter}</code></td>
                     <td>raw</td>
                 </tr>
             </tbody>
@@ -2261,111 +2261,111 @@ acf.addAction('acfe/form/submit/success/name=<?php echo $form_name; ?>');</pre>
         <table class="acf-table">
             <tbody>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:ID}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:ID}</code></td>
                     <td>1</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_login}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_login}</code></td>
                     <td>login</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_pass}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_pass}</code></td>
                     <td>password_hash</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_nicename}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_nicename}</code></td>
                     <td>nicename</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_email}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_email}</code></td>
                     <td>user@domain.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_url}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_url}</code></td>
                     <td>https://www.website.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:permalink}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:permalink}</code></td>
                     <td><?php echo home_url('author/johndoe'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:admin_url}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:admin_url}</code></td>
                     <td><?php echo admin_url('user-edit.php?user_id=1'); ?></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_registered}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_registered}</code></td>
                     <td>2020-02-22 22:10:02</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_activation_key}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_activation_key}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:user_status}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:user_status}</code></td>
                     <td>0</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:display_name}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:display_name}</code></td>
                     <td>John Doe</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:nickname}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:nickname}</code></td>
                     <td>JohnDoe</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:first_name}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:first_name}</code></td>
                     <td>John</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:last_name}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:last_name}</code></td>
                     <td>Doe</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:description}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:description}</code></td>
                     <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:rich_editing}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:rich_editing}</code></td>
                     <td>true</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:syntax_highlighting}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:syntax_highlighting}</code></td>
                     <td>true</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:comment_shortcuts}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:comment_shortcuts}</code></td>
                     <td>false</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:admin_color}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:admin_color}</code></td>
                     <td>fresh</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:use_ssl}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:use_ssl}</code></td>
                     <td>1</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:show_admin_bar_front}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:show_admin_bar_front}</code></td>
                     <td>true</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:locale}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:locale}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:wp_capabilities}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:wp_capabilities}</code></td>
                     <td>a:1:{s:13:"administrator";b:1;}</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:wp_user_level}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:wp_user_level}</code></td>
                     <td>10</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:dismissed_wp_pointers}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:dismissed_wp_pointers}</code></td>
                     <td></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:user:show_welcome_panel}</code></td>
+                    <td width="50%"><code>{query_var:my-user-action:show_welcome_panel}</code></td>
                     <td>1</td>
                 </tr>
             </tbody>
@@ -2376,39 +2376,39 @@ acf.addAction('acfe/form/submit/success/name=<?php echo $form_name; ?>');</pre>
         <table class="acf-table">
             <tbody>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:from}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:from}</code></td>
                     <td>Website <email@domain.com></td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:to}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:to}</code></td>
                     <td>email@domain.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:reply_to}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:reply_to}</code></td>
                     <td>email@domain.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:cc}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:cc}</code></td>
                     <td>email@domain.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:bcc}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:bcc}</code></td>
                     <td>email@domain.com</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:subject}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:subject}</code></td>
                     <td>Subject</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:content}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:content}</code></td>
                     <td>Content</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:headers}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:headers}</code></td>
                     <td>Array</td>
                 </tr>
                 <tr class="acf-row">
-                    <td width="35%"><code>{query_var:email:attachments}</code></td>
+                    <td width="50%"><code>{query_var:my-email-action:attachments}</code></td>
                     <td>Array</td>
                 </tr>
             </tbody>
@@ -2988,6 +2988,10 @@ acf.addAction('acfe/form/submit/success/name=<?php echo $form_name; ?>');</pre>
                     <td width="35%"><code>{current:form:name}</code></td>
                     <td>form<br/></td>
                 </tr>
+                <tr class="acf-row">
+                    <td width="35%"><code>{current:form:custom_key}</code></td>
+                    <td>Custom key value<br/></td>
+                </tr>
             </tbody>
         </table>
         <?php
@@ -3400,22 +3404,19 @@ function acfe_form_map_current($content, $post_id = 0, $form = array()){
                         
                         if(strtolower($field) === 'id' || strtolower($field) === 'form_id'){
                             
-                            $value = acf_maybe_get($form, 'form_id');
+                            $value = acf_maybe_get($form, 'ID');
                             
                         }
                         
                         elseif(strtolower($field) === 'name' || strtolower($field) === 'form_name'){
                             
-                            $value = acf_maybe_get($form, 'form_name');
+                            $value = acf_maybe_get($form, 'name');
                             
                         }
                         
                         elseif(strtolower($field) === 'title' || strtolower($field) === 'form_title'){
                             
-                            $form_id = acf_maybe_get($form, 'form_id');
-                            
-                            if($form_id)
-                                $value = get_the_title($form_id);
+                            $value = acf_maybe_get($form, 'title');
                             
                         }else{
                             
@@ -3458,7 +3459,7 @@ function acfe_form_map_current($content, $post_id = 0, $form = array()){
                 // {current:form}
                 elseif($name === 'form'){
                     
-                    $value = acf_maybe_get($form, 'form_id');
+                    $value = acf_maybe_get($form, 'ID');
                     
                 }
                 

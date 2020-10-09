@@ -263,7 +263,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => '(Optional) Target this action using hooks & allow custom <code>{query_var:my-action}</code> name.',
+                            'instructions' => '(Optional) Target this action using hooks.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -680,7 +680,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => '(Optional) Target this action using hooks & allow custom <code>{query_var:my-action}</code> name.',
+                            'instructions' => '(Optional) Target this action using hooks.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -1321,7 +1321,7 @@ acf_add_local_field_group(array(
                             ),
                             'acfe_permissions' => '',
                             'message' => '',
-                            'default_value' => 1,
+                            'default_value' => 0,
                             'ui' => 1,
                             'ui_on_text' => '',
                             'ui_off_text' => '',
@@ -1802,7 +1802,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => '(Optional) Target this action using hooks & allow custom <code>{query_var:my-action}</code> name.',
+                            'instructions' => '(Optional) Target this action using hooks.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -2262,7 +2262,7 @@ acf_add_local_field_group(array(
                             ),
                             'acfe_permissions' => '',
                             'message' => '',
-                            'default_value' => 1,
+                            'default_value' => 0,
                             'ui' => 1,
                             'ui_on_text' => '',
                             'ui_off_text' => '',
@@ -2638,7 +2638,7 @@ acf_add_local_field_group(array(
                             'label' => 'Action name',
                             'name' => 'acfe_form_custom_alias',
                             'type' => 'acfe_slug',
-                            'instructions' => '(Optional) Target this action using hooks & allow custom <code>{query_var:my-action}</code> name.',
+                            'instructions' => '(Optional) Target this action using hooks.',
                             'required' => 0,
                             'conditional_logic' => 0,
                             'wrapper' => array(
@@ -3661,7 +3661,7 @@ acf_add_local_field_group(array(
                             ),
                             'acfe_permissions' => '',
                             'message' => '',
-                            'default_value' => 1,
+                            'default_value' => 0,
                             'ui' => 1,
                             'ui_on_text' => '',
                             'ui_off_text' => '',
@@ -4977,6 +4977,7 @@ acf_add_local_field_group(array(
             'append' => '',
             'maxlength' => '',
         ),
+        /*
         array(
             'key' => 'field_acfe_form_validation_advanced_field_validation',
             'label' => 'PHP Field Validation',
@@ -5009,6 +5010,7 @@ acf_add_local_field_group(array(
             ),
             'acfe_permissions' => '',
         ),
+        */
         
         /*
          * Actions
@@ -5133,6 +5135,7 @@ If used, you have to include the following code <code>%s</code> to print the act
             'maxlength' => '',
             'rows' => 2,
         ),
+        /*
         array(
             'key' => 'field_acfe_form_submission_advanced_submission_php',
             'label' => 'PHP Form Submit: Custom Action',
@@ -5165,6 +5168,7 @@ If used, you have to include the following code <code>%s</code> to print the act
             ),
             'acfe_permissions' => '',
         ),
+        */
         
         /*
          * Cheatsheet
