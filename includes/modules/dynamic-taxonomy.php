@@ -867,6 +867,7 @@ acf_add_local_field_group(array(
                 'width' => '',
                 'class' => '',
                 'id' => '',
+                'data-no-preference' => true,
             ),
             'acfe_permissions' => '',
             'placement' => 'top',

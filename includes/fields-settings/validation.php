@@ -7,26 +7,85 @@ if(!class_exists('acfe_field_validation')):
 
 class acfe_field_validation{
     
-    public $functions = array();
-    
 	function __construct(){
-		
+        
         // Actions
-        add_action('load-post.php',                                     array($this, 'load'));
-        add_action('wp_ajax_acf/field_group/render_field_settings',		array($this, 'field_types_action'), 5);
+        add_action('acf/field_group/admin_head',                        array($this, 'load'));
+        add_action('wp_ajax_acf/field_group/render_field_settings',     array($this, 'load_ajax'), 5);
         
         // Filters
         add_filter('acf/validate_value',                                array($this, 'validate_value'), 99, 4);
         
-        // Validation functions
-        $this->functions = array(
+	}
+    
+    /*
+	 * Admin Head
+	 */
+    function load(){
+        
+        if(!acf_is_filter_enabled('acfe/field_group/advanced'))
+            return;
+        
+        $this->prepare_settings();
+        $this->add_settings();
+        
+    }
+    
+    /*
+     * Ajax Load
+     */
+    function load_ajax(){
+        
+        $post_id = acf_maybe_get_POST('post_id');
+        $field_group = acf_get_field_group($post_id);
+        
+        if(!$field_group)
+            return;
+        
+        if(!acf_maybe_get($field_group, 'acfe_form'))
+            return;
+        
+        $this->add_settings();
+        
+    }
+    
+    /*
+     * Add Settings
+     */
+    function add_settings(){
+        
+        // Exclude
+        $exclude = array('accordion', 'acfe_button', 'acfe_column', 'acfe_dynamic_message', 'clone', 'flexible_content', 'group', 'message', 'repeater', 'tab');
+        
+        // Get Fields Types
+        foreach(acf_get_field_types_info() as $field){
+            
+            // Field type
+            $field_type = $field['name'];
+            
+            // check
+            if(in_array($field_type, $exclude))
+                continue;
+            
+            add_action("acf/render_field_settings/type={$field_type}", array($this, 'render_field_settings'), 99);
+            
+        }
+        
+    }
+    
+    /*
+     * Render Settings
+     */
+    function render_field_settings($field){
+    
+        $functions = array(
         
             'General' => array(
                 'value'                 => 'If value',
                 'strlen'                => 'If value length - strlen(value)',
                 'count'                 => 'If count value - count(value)',
             ),
-            
+        
             'Exists' => array(
                 'email_exists'          => 'If email exists - email_exists(value)',
                 'post_type_exists'      => 'If post type exists - post_type_exists(value)',
@@ -34,7 +93,7 @@ class acfe_field_validation{
                 'term_exists'           => 'If term exists - term_exists(value)',
                 'username_exists'       => 'If username exists - username_exists(value)',
             ),
-            
+        
             'Is' => array(
                 'is_email'              => 'If is email - is_email(value)',
                 'is_user_logged_in'     => 'If is user logged in - is_user_logged_in()',
@@ -42,14 +101,14 @@ class acfe_field_validation{
                 'is_string'             => 'If is string - is_string(value)',
                 'is_numeric'            => 'If is numeric - is_numeric(value)',
             ),
-
+        
             'Post' => array(
                 'get_post_type'         => 'If get post type - get_post_type(value)',
                 'get_post_by_id'        => 'If post id exists - get_post_by_id(value)',
                 'get_post_by_slug'      => 'If post slug exists - get_post_by_slug(value)',
                 'get_post_by_title'     => 'If post title exists - get_post_by_title(value)',
             ),
-            
+        
             'Sanitize' => array(
                 'sanitize_email'        => 'If sanitize email - sanitize_email(value)',
                 'sanitize_file_name'    => 'If sanitize file name - sanitize_file_name(value)',
@@ -62,114 +121,24 @@ class acfe_field_validation{
                 'sanitize_title'        => 'If sanitize title - sanitize_title(value)',
                 'sanitize_user'         => 'If sanitize user - sanitize_user(value)',
             ),
-            
+        
             'User' => array(
                 'get_user_by_id'        => 'If get user by id - get_user_by(\'id\', value)',
                 'get_user_by_slug'      => 'If get user by slug - get_user_by(\'slug\', value)',
                 'get_user_by_email'     => 'If get user by email - get_user_by(\'email\', value)',
                 'get_user_by_login'     => 'If get user by login - get_user_by(\'login\', value)',
             )
-            
+    
         );
         
-	}
-    
-    /**
-     * Load
-     */
-    function load(){
-        
-        if(!acf_is_screen('acf-field-group'))
-            return;
-        
-        $this->field_types_action();
-        
-        // Fix: Repeater
-        add_filter('acf/prepare_field/name=acfe_validate',              array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_validate_location',     array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_validate_rules_and',    array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_validate_function',     array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_validate_operator',     array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_validate_match',        array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_validate_error',        array($this, 'fix_repeater'));
-        
-        // Fix: Clone
-        add_filter('acf/update_field',                                  array($this, 'fix_clone'));
-        
-    }
-    
-    /**
-     * Get field types
-     */
-    function field_types_action(){
-        
-        // Get Fields Types
-        foreach(acf_get_field_types_info() as $field){
-            
-            // Field type
-            $field_type = $field['name'];
-            
-            // Exclude
-            if(in_array($field_type, array('message', 'accordion', 'tab', 'acfe_button', 'acfe_column', 'acfe_dynamic_message', 'group', 'repeater', 'flexible_content', 'clone')))
-                continue;
-            
-            add_action('acf/render_field_settings/type=' . $field_type, array($this, 'render_field_settings'), 990);
-            
-        }
-        
-    }
-    
-    /**
-     * Add Setting
-     */
-    function render_field_settings($field){
-        
-        $valid = false;
-        
-        // Ajax
-        if(acf_verify_ajax()){
-            
-            $field_group = acfe_get_field_group_from_field($field);
-            
-            if(acf_maybe_get($field_group, 'acfe_form'))
-                $valid = true;
-            
-        }
-        
-        // Display
-        else{
-            
-            if(acf_maybe_get($field, 'acfe_form'))
-                $valid = true;
-            
-            if(!$valid && acf_maybe_get($field, '_name') === 'new_field'){
-                
-                $field_group_id = get_the_ID();
-                
-                if($field_group_id){
-                    
-                    $field_group = acf_get_field_group($field_group_id);
-                    
-                    if(acf_maybe_get($field_group, 'acfe_form'))
-                        $valid = true;
-                    
-                }
-                
-            }
-        
-        }
-        
-        if(!$valid)
-            return;
-        
-        $choices = apply_filters('acfe/validate/functions', $this->functions, $field);
+        $choices = apply_filters('acfe/validate/functions', $functions, $field);
         
         if(empty($choices))
             return;
         
         // Settings
         acf_render_field_setting($field, array(
-            'label'         => __('Advanced validation'),
+            'label'         => __('Advanced Validation'),
             'name'          => 'acfe_validate',
             'key'           => 'acfe_validate',
             'instructions'  => __('Validate value against rules'),
@@ -177,6 +146,9 @@ class acfe_field_validation{
             'button_label'  => __('Add validation'),
             'required'      => false,
             'layout'        => 'row',
+            'wrapper'       => array(
+                'data-enable-switch' => true
+            ),
             'sub_fields'    => array(
                 array(
                     'label'             => 'Location',
@@ -412,12 +384,12 @@ class acfe_field_validation{
                     ),
                 ),
             )
-        ), false);
+        ));
         
     }
     
-    /**
-     * Validate
+    /*
+     * Validate Value
      */
     function validate_value($valid, $value, $field, $input){
         
@@ -699,29 +671,28 @@ class acfe_field_validation{
         
     }
     
-    /**
-     * Process Setting
+    /*
+     * Prepare Settings
      */
-    function fix_repeater($field){
+    function prepare_settings(){
+    
+        $fields = array('acfe_validate', 'acfe_validate_location', 'acfe_validate_rules_and', 'acfe_validate_function', 'acfe_validate_operator', 'acfe_validate_match', 'acfe_validate_error');
+    
+        foreach($fields as $name){
         
-        $field['prefix'] = str_replace('row-', '', $field['prefix']);
-        $field['name'] = str_replace('row-', '', $field['name']);
+            add_filter("acf/prepare_field/name={$name}", function($field){
+    
+                $field['prefix'] = str_replace('row-', '', $field['prefix']);
+                $field['name'] = str_replace('row-', '', $field['name']);
+    
+                return $field;
+    
+            });
         
-        return $field;
+        }
         
     }
     
-    /**
-     * Setting: ACF Clone Index fix for flexible duplicate
-     */
-    function fix_clone($field){
-        
-        if(isset($field['acfe_validate']['acfcloneindex']))
-            $field['acfe_validate'] = false;
-        
-        return $field;
-        
-    }
     
 }
 

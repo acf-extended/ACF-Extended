@@ -10,116 +10,54 @@ class acfe_field_settings{
 	function __construct(){
 		
         // Actions
-        add_action('load-post.php',                                     array($this, 'load'));
-        add_action('wp_ajax_acf/field_group/render_field_settings',		array($this, 'field_types_action'), 5);
+        add_action('acf/field_group/admin_head',                        array($this, 'load'));
+        add_action('wp_ajax_acf/field_group/render_field_settings',     array($this, 'load_ajax'), 5);
         
         // Filters
-        add_filter('acfe/load_field',                                   array($this, 'load_field'));
-        add_filter('acf/prepare_field',                                 array($this, 'prepare_field'));
+        add_filter('acfe/load_field',                                   array($this, 'load_field'), 20);
+        add_filter('acfe/load_field',                                   array($this, 'load_field_additional'), 20);
+        add_filter('acf/prepare_field',                                 array($this, 'prepare_field'), 20);
         
 	}
-    
-    /**
-     * Load
-     */
+ 
+	/*
+	 * Admin Head
+	 */
     function load(){
-        
-        if(!acf_is_screen('acf-field-group'))
+    
+        if(!acf_is_filter_enabled('acfe/field_group/advanced'))
             return;
-        
-        $this->field_types_action();
-	
-	    //add_action('acf/render_field_settings',                             array($this, 'quick_settings'), 998);
-        
-        // Fix: Repeater
-        add_filter('acf/prepare_field/name=acfe_settings',                  array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_settings_location',         array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_settings_settings',         array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_settings_setting_type',     array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_settings_setting_name',     array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_settings_setting_operator', array($this, 'fix_repeater'));
-        add_filter('acf/prepare_field/name=acfe_settings_setting_value',    array($this, 'fix_repeater'));
-        
-        // Fix: Clone
-        add_filter('acf/update_field',                                      array($this, 'fix_clone'));
+    
+        $this->prepare_settings();
+        $this->add_settings();
         
     }
     
-	function quick_settings($field){
-    	
-    	$valid = false;
-		
-		$field_group = acfe_get_field_group_from_field($field);
-		
-		if(acf_maybe_get($field_group, 'acfe_form'))
-			$valid = true;
-		
-		if(!$valid && acf_maybe_get($field, '_name') === 'new_field'){
-			
-			$field_group_id = get_the_ID();
-			
-			if($field_group_id){
-				
-				$field_group = acf_get_field_group($field_group_id);
-				
-				if(acf_maybe_get($field_group, 'acfe_form'))
-					$valid = true;
-				
-			}
-			
-		}
-		
-		if(!$valid)
-			return;
-			
-		// Hide Field
-		acf_render_field_setting($field, array(
-			'label'         => __('Hide Field', 'acfe'),
-			'instructions'  => __('Hide field on specific location'),
-			'prepend'       => '',
-			'append'        => '',
-			'type'          => 'group',
-			'name'          => 'acfe_hide',
-			'sub_fields'    => array(
-				array(
-					'label'         => '',
-					'name'          => 'hide_front',
-					'key'           => 'hide_front',
-					'type'          => 'true_false',
-					'ui'            => true,
-					'message'       => 'Hide on front',
-					'default_value' => false,
-					'required'      => false,
-					'wrapper'       => array(
-						'width' => 33,
-						'class' => 'acfe_width_auto',
-						'id'    => '',
-					),
-				),
-				array(
-					'label'         => '',
-					'name'          => 'hide_admin',
-					'key'           => 'hide_admin',
-					'type'          => 'true_false',
-					'ui'            => true,
-					'message'       => 'Hide on admin',
-					'default_value' => false,
-					'required'      => false,
-					'wrapper'       => array(
-						'width' => 33,
-						'class' => 'acfe_width_auto',
-						'id'    => '',
-					),
-				),
-			)
-		));
-		
-	}
-    
-    /**
-     * Get field types
+    /*
+     * Ajax Load
      */
-    function field_types_action(){
+    function load_ajax(){
+        
+        $post_id = acf_maybe_get_POST('post_id');
+        $field_group = acf_get_field_group($post_id);
+    
+        if(!$field_group)
+            return;
+    
+        if(!acf_maybe_get($field_group, 'acfe_form'))
+            return;
+    
+        $this->add_settings();
+        
+    }
+    
+    /*
+     * Add Settings
+     */
+    function add_settings(){
+    
+        // Exclude
+        $exclude = array('accordion', 'acfe_column', 'tab');
         
         // Get Fields Types
         foreach(acf_get_field_types_info() as $field){
@@ -127,62 +65,24 @@ class acfe_field_settings{
             // Field type
             $field_type = $field['name'];
             
-            // Exclude
-            if(in_array($field_type, array('message', 'accordion', 'tab', 'acfe_column', 'acfe_dynamic_message')))
+            // check
+            if(in_array($field_type, $exclude))
                 continue;
             
-            add_action('acf/render_field_settings/type=' . $field_type, array($this, 'render_field_settings'), 990);
+            add_action("acf/render_field_settings/type={$field_type}", array($this, 'render_field_settings'), 99);
             
         }
         
     }
     
-    /**
-     * Add Setting
+    /*
+     * Render Settings
      */
     function render_field_settings($field){
         
-        $valid = false;
-        
-        // Ajax
-        if(acf_verify_ajax()){
-            
-            $field_group = acfe_get_field_group_from_field($field);
-            
-            if(acf_maybe_get($field_group, 'acfe_form'))
-                $valid = true;
-            
-        }
-        
-        // Display
-        else{
-            
-            if(acf_maybe_get($field, 'acfe_form'))
-                $valid = true;
-            
-            if(!$valid && acf_maybe_get($field, '_name') === 'new_field'){
-                
-                $field_group_id = get_the_ID();
-                
-                if($field_group_id){
-                    
-                    $field_group = acf_get_field_group($field_group_id);
-                    
-                    if(acf_maybe_get($field_group, 'acfe_form'))
-                        $valid = true;
-                    
-                }
-                
-            }
-        
-        }
-        
-        if(!$valid)
-            return;
-        
         // Settings
         acf_render_field_setting($field, array(
-            'label'         => __('Advanced settings', 'acf'),
+            'label'         => __('Advanced Settings', 'acf'),
             'name'          => 'acfe_settings',
             'key'           => 'acfe_settings',
             'instructions'  => __('Change field settings based on location'),
@@ -190,6 +90,9 @@ class acfe_field_settings{
             'button_label'  => __('Add settings'),
             'required'      => false,
             'layout'        => 'row',
+            'wrapper'       => array(
+                'data-enable-switch' => true
+            ),
             'sub_fields'    => array(
                 array(
                     'label'             => 'Location',
@@ -242,13 +145,14 @@ class acfe_field_settings{
                                 'id'    => '',
                             ),
                             'choices'       => array(
-                                'required'      => 'Required',
-                                'hide_field'    => 'Hide field',
-                                'hide_label'    => 'Hide label',
-                                'default_value' => 'Default value',
-                                'placeholder'   => 'Placeholder',
-                                'instructions'  => 'Instructions',
-                                'custom'        => 'Custom setting',
+                                'required'          => 'Required',
+                                'hide_field'        => 'Hide field',
+                                'hide_label'        => 'Hide label',
+                                'hide_instructions' => 'Hide instructions',
+                                'default_value'     => 'Default value',
+                                'placeholder'       => 'Placeholder',
+                                'instructions'      => 'Instructions',
+                                'custom'            => 'Custom setting',
                             )
                         ),
                         array(
@@ -334,11 +238,11 @@ class acfe_field_settings{
                     )
                 ),
             )
-        ), false);
+        ));
         
     }
     
-    /**
+    /*
      * Load field
      */
     function load_field($field){
@@ -441,50 +345,87 @@ class acfe_field_settings{
         
     }
     
+    function load_field_additional($field){
+    
+        $hide_required = acf_maybe_get($field, 'hide_required');
+    
+        if($hide_required){
+        
+            if(is_bool($hide_required) || $hide_required === 'all' || ($hide_required === 'front' && acfe_form_is_front()) || $hide_required === 'admin' && acfe_form_is_admin()){
+    
+                $field['required'] = false;
+            
+            }
+        
+        }
+        
+        return $field;
+        
+    }
+    
     /*
-     * Additional settings
+     * Prepare Field
      */
     function prepare_field($field){
         
-        if(isset($field['hide_field']) && !empty($field['hide_field'])){
+        $hide_field = acf_maybe_get($field, 'hide_field');
+        
+        if($hide_field){
             
-            return false;
+            if(is_bool($hide_field) || $hide_field === 'all' || ($hide_field === 'front' && acfe_form_is_front()) || $hide_field === 'admin' && acfe_form_is_admin()){
+        
+                return false;
+        
+            }
             
         }
         
-        if(isset($field['hide_label']) && !empty($field['hide_label'])){
+        $hide_label = acf_maybe_get($field, 'hide_label');
+        
+        if($hide_label){
+    
+            if(is_bool($hide_label) || $hide_label === 'all' || ($hide_label === 'front' && acfe_form_is_front()) || $hide_label === 'admin' && acfe_form_is_admin()){
+    
+                $field['label'] = '';
+        
+            }
             
-            $field['label'] = '';
-            
+        }
+        
+        $hide_instructions = acf_maybe_get($field, 'hide_instructions');
+        
+        if(is_bool($hide_instructions) || $hide_instructions === 'all' || ($hide_instructions === 'front' && acfe_form_is_front()) || $hide_instructions === 'admin' && acfe_form_is_admin()){
+        
+            $field['instructions'] = '';
+        
         }
         
         return $field;
         
     }
     
-    /**
-     * Process Setting
+    /*
+     * Prepare Settings
      */
-    function fix_repeater($field){
+    function prepare_settings(){
         
-        $field['prefix'] = str_replace('row-', '', $field['prefix']);
-        $field['name'] = str_replace('row-', '', $field['name']);
+        $fields = array('acfe_settings', 'acfe_settings_location', 'acfe_settings_settings', 'acfe_settings_setting_type', 'acfe_settings_setting_name', 'acfe_settings_setting_operator', 'acfe_settings_setting_value');
         
-        return $field;
+        foreach($fields as $name){
+            
+            add_filter("acf/prepare_field/name={$name}", function($field){
+    
+                $field['prefix'] = str_replace('row-', '', $field['prefix']);
+                $field['name'] = str_replace('row-', '', $field['name']);
+    
+                return $field;
+    
+            });
+            
+        }
         
     }
     
-    /**
-     * Setting: ACF Clone Index fix for flexible duplicate
-     */
-    function fix_clone($field){
-        
-        if(isset($field['acfe_settings']['acfcloneindex']))
-            $field['acfe_settings'] = false;
-        
-        return $field;
-        
-    }
     
 }
 

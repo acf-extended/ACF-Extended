@@ -162,8 +162,8 @@ class acfe_multilang{
         
                 // Copy from wp-content/plugins/polylang-pro/settings/settings.php:363
                 require_once ABSPATH . 'wp-admin/includes/translation-install.php';
-        
-                $languages    = include PLL_SETTINGS_INC . '/languages.php';
+    
+                $languages    = include POLYLANG_DIR . '/settings/languages.php';
                 $translations = wp_get_available_translations();
         
                 if (!empty($translations)){

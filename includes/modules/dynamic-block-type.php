@@ -300,9 +300,9 @@ function acfe_dbt_filter_save($post_id){
     // Supports: Experimental JSX
     $experimental_jsx = get_field('supports_experimental_jsx', $post_id);
     
-    $register_args['supports']['__experimental_jsx'] = false;
+    $register_args['supports']['jsx'] = false;
     if(!empty($experimental_jsx))
-        $register_args['supports']['__experimental_jsx'] = true;
+        $register_args['supports']['jsx'] = true;
     
     // Supports: Align Content
     $supports_align_content = get_field('supports_align_content', $post_id);
@@ -310,6 +310,13 @@ function acfe_dbt_filter_save($post_id){
     $register_args['supports']['align_content'] = false;
     if(!empty($supports_align_content))
         $register_args['supports']['align_content'] = true;
+    
+    // Supports: Anchor
+    $supports_anchor = get_field('supports_anchor', $post_id);
+    
+    $register_args['supports']['anchor'] = false;
+    if(!empty($supports_anchor))
+        $register_args['supports']['anchor'] = true;
     
         
     // Get ACFE option
@@ -1526,6 +1533,29 @@ full',
             'maxlength' => '',
             'rows' => '',
             'new_lines' => '',
+        ),
+
+        array(
+            'key' => 'field_acfe_dbt_supports_anchor',
+            'label' => 'Anchor',
+            'name' => 'supports_anchor',
+            'type' => 'true_false',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'acfe_validate' => '',
+            'acfe_update' => '',
+            'acfe_permissions' => '',
+            'message' => '',
+            'default_value' => 0,
+            'ui' => 1,
+            'ui_on_text' => 'True',
+            'ui_off_text' => 'False',
         ),
         
         $experimental_jsx,

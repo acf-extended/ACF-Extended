@@ -38,7 +38,9 @@ function get_flexible($selector, $post_id = false){
                 global $is_preview;
                 
                 // Vars
-                $is_preview = false;
+                if(!isset($is_preview))
+                    $is_preview = false;
+                
                 $name = $field['_name'];
                 $key = $field['key'];
     
@@ -472,69 +474,6 @@ function acfe_get_field_group_from_field($field){
 }
 
 /**
- * Add fields isntructions tooltip
- */
-function acfe_add_fields_instructions_tooltip(&$field){
-	
-	$instructions = '';
-	
-	if(acf_maybe_get($field, 'instructions'))
-		$instructions = acf_esc_html($field['instructions']);
-    
-    if(isset($field['sub_fields'])){
-        
-        foreach($field['sub_fields'] as &$sub_field){
-	
-	        acfe_add_fields_instructions_tooltip($sub_field);
-            
-        }
-        
-    }
-    
-    elseif(isset($field['layouts'])){
-        
-        foreach($field['layouts'] as &$layout){
-	
-	        acfe_add_fields_instructions_tooltip($layout);
-            
-        }
-        
-    }
-    
-    $field['acfe_instructions_tooltip'] = $instructions;
-    
-}
-
-/**
- * Add custom key to fields and all sub fields
- */
-function acfe_field_add_key_recursive(&$field, $key, $value){
-    
-    if(isset($field['sub_fields'])){
-        
-        foreach($field['sub_fields'] as &$sub_field){
-            
-            acfe_field_add_key_recursive($sub_field, $key, $value);
-            
-        }
-        
-    }
-    
-    elseif(isset($field['layouts'])){
-        
-        foreach($field['layouts'] as &$layout){
-            
-            acfe_field_add_key_recursive($layout, $key, $value);
-            
-        }
-        
-    }
-    
-    $field[$key] = $value;
-    
-}
-
-/**
  * Is Json
  * Source: https://stackoverflow.com/a/6041773
  */
@@ -954,7 +893,7 @@ function acfe_form_decrypt_args(){
     
 }
 
-function acfe_form_is_submitted($form_name = false){
+function acfe_is_form_success($form_name = false){
     
     if(!acf_maybe_get_POST('_acf_form'))
         return false;
@@ -968,6 +907,14 @@ function acfe_form_is_submitted($form_name = false){
         return false;
     
     return true;
+    
+}
+
+function acfe_form_is_submitted($form_name = false){
+    
+    _deprecated_function('ACF Extended - Dynamic Forms: "acfe_form_is_submitted()" function', '0.8.7.5', "acfe_is_form_success()");
+    
+    return acfe_is_form_success($form_name);
     
 }
 
@@ -991,6 +938,31 @@ function acfe_form_unique_action_id($form, $type){
     $acfe_form_uniqid[$type]++;
     
     return $name;
+    
+}
+
+function acfe_form_get_actions(){
+    
+    return get_query_var('acfe_form_actions', array());
+    
+}
+
+function acfe_form_get_action($name = false){
+    
+    $actions = acfe_form_get_actions();
+    
+    // No Action
+    if(empty($actions))
+        return false;
+    
+    // Last Action
+    if(empty($name))
+        return end($actions);
+    
+    if(isset($actions[$name]))
+        return $actions[$name];
+    
+    return false;
     
 }
 
@@ -1465,8 +1437,46 @@ function acfe_unset(&$array, $key){
 
 }
 
+function acfe_unarray($val){
+    
+    if(is_array($val)){
+        return reset($val);
+    }
+    
+    return $val;
+}
+
 function acfe_get_post_id(){
     
     return acf_get_valid_post_id();
+    
+}
+
+function acfe_highlight(){
+    
+    ini_set("highlight.comment", "#555");
+    /*
+    ini_set("highlight.keyword", "#0000BB"); // #4B2AFF
+    ini_set("highlight.default", "#222222");
+    ini_set("highlight.string", "#777777");
+    */
+    
+    static $on = false;
+    
+    if ( !$on ) {
+        ob_start();
+    } else {
+        $buffer = "<?php\n" . ob_get_contents();
+        ob_end_clean();
+        $code = highlight_string($buffer, true);
+        
+        $code = str_replace("&lt;?php<br />", '', $code);
+        $code = str_replace("<code>", '', $code);
+        $code = str_replace("</code>", '', $code);
+        
+        echo '<div class="acfe-pre-highlight">' . $code . '</div>';
+    }
+    
+    $on = !$on;
     
 }

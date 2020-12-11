@@ -192,7 +192,7 @@ function acfe_dpt_filter_save($post_id){
     }
     
     // Menu
-    $menu_position = (int) get_field('menu_position', $post_id);
+    $menu_position = get_field('menu_position', $post_id);
     $menu_icon = get_field('menu_icon', $post_id);
     $show_ui = get_field('show_ui', $post_id);
     $show_in_menu = get_field('show_in_menu', $post_id);
@@ -247,7 +247,6 @@ function acfe_dpt_filter_save($post_id){
         'labels'                => $labels_args,
         
         // Menu
-        'menu_position'         => $menu_position,
         'menu_icon'             => $menu_icon,
         'show_ui'               => $show_ui,
         'show_in_menu'          => $show_in_menu,
@@ -280,6 +279,10 @@ function acfe_dpt_filter_save($post_id){
         'acfe_admin_orderby'    => $admin_orderby,
         'acfe_admin_order'      => $admin_order,
     );
+    
+    // Menu Position
+    if(!acf_is_empty($menu_position))
+        $register_args['menu_position'] = (int) $menu_position;
     
     // Has archive: override
     if($has_archive && $has_archive_slug)
@@ -852,6 +855,7 @@ acf_add_local_field_group(array(
                 'width' => '',
                 'class' => '',
                 'id' => '',
+                'data-no-preference' => true,
             ),
             'acfe_permissions' => '',
             'placement' => 'top',
@@ -1135,7 +1139,7 @@ acf_add_local_field_group(array(
             'acfe_validate' => '',
             'acfe_update' => '',
             'acfe_permissions' => '',
-            'default_value' => 20,
+            'default_value' => '',
             'placeholder' => '',
             'prepend' => '',
             'append' => '',

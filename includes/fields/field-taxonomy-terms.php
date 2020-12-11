@@ -1018,6 +1018,12 @@ class acfe_field_taxonomy_terms extends acf_field{
                 
             }
             
+            if($field['field_type'] === 'radio'){
+                
+                $term_ids = acfe_unarray($term_ids);
+                
+            }
+            
             // update value
             $value = $term_ids;
             

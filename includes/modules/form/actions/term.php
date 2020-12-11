@@ -8,6 +8,8 @@ if(!class_exists('acfe_form_term')):
 class acfe_form_term{
     
     function __construct(){
+    
+        add_filter('acfe/form/actions',                                             array($this, 'add_action'));
         
         /*
          * Form
@@ -355,18 +357,35 @@ class acfe_form_term{
         $term_object['permalink'] = get_term_link($_term_id, $term_object['taxonomy']);
         $term_object['admin_url'] = admin_url('term.php?tag_ID=' . $_term_id . '&taxonomy=' . $term_object['taxonomy']);
     
-        $term_object = apply_filters('acfe/form/query_var/term',                    $term_object, $_term_id, $term_action, $args, $form, $action);
-        $term_object = apply_filters('acfe/form/query_var/term/form=' . $form_name, $term_object, $_term_id, $term_action, $args, $form, $action);
-        $term_object = apply_filters('acfe/form/query_var/term/action=' . $action,  $term_object, $_term_id, $term_action, $args, $form, $action);
+        // Deprecated
+        $term_object = apply_filters_deprecated("acfe/form/query_var/term",                    array($term_object, $_term_id, $term_action, $args, $form, $action), '0.8.7.5', "acfe/form/output/term");
+        $term_object = apply_filters_deprecated("acfe/form/query_var/term/form={$form_name}",  array($term_object, $_term_id, $term_action, $args, $form, $action), '0.8.7.5', "acfe/form/output/term/form={$form_name}");
+        $term_object = apply_filters_deprecated("acfe/form/query_var/term/action={$action}",   array($term_object, $_term_id, $term_action, $args, $form, $action), '0.8.7.5', "acfe/form/output/term/action={$action}");
     
-        // Query var
+        // Output
+        $term_object = apply_filters("acfe/form/output/term",                                       $term_object, $_term_id, $term_action, $args, $form, $action);
+        $term_object = apply_filters("acfe/form/output/term/form={$form_name}",                     $term_object, $_term_id, $term_action, $args, $form, $action);
+        $term_object = apply_filters("acfe/form/output/term/action={$action}",                      $term_object, $_term_id, $term_action, $args, $form, $action);
+    
+        // Old Query var
         $query_var = acfe_form_unique_action_id($form, 'term');
-    
+        
         if(!empty($action))
             $query_var = $action;
-    
-        // Set Query Var
+        
         set_query_var($query_var, $term_object);
+        // ------------------------------------------------------------
+        
+        // Action Output
+        $actions = get_query_var('acfe_form_actions', array());
+        
+        $actions['term'] = $term_object;
+        
+        if(!empty($action))
+            $actions[$action] = $term_object;
+        
+        set_query_var('acfe_form_actions', $actions);
+        // ------------------------------------------------------------
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_term_save_meta');
@@ -429,34 +448,35 @@ class acfe_form_term{
             $form_name = get_field('acfe_form_name', $field['value']);
         
         ?>You may use the following hooks:<br /><br />
-<pre>
+<?php acfe_highlight(); ?>
 add_filter('acfe/form/load/term_id', 'my_form_term_values_source', 10, 3);
 add_filter('acfe/form/load/term_id/form=<?php echo $form_name; ?>', 'my_form_term_values_source', 10, 3);
-add_filter('acfe/form/load/term_id/action=my-term-action', 'my_form_term_values_source', 10, 3);
-</pre>
+add_filter('acfe/form/load/term_id/action=my-term-action', 'my_form_term_values_source', 10, 3);<?php acfe_highlight(); ?>
 <br />
-<pre>
-/**
- * @int     $term_id    Term ID used as source
- * @array   $form       The form settings
- * @string  $action     The action alias name
+<?php acfe_highlight(); ?>
+/*
+ * @int     $term_id  Term ID used as source
+ * @array   $form     The form settings
+ * @string  $action   The action alias name
  */
 add_filter('acfe/form/load/term_id/form=<?php echo $form_name; ?>', 'my_form_term_values_source', 10, 3);
 function my_form_term_values_source($term_id, $form, $action){
-    
-    /**
-     * Force to load values from the term ID 45
+
+    /*
+     * Retrieve Form Setting
      */
-    $term_id = 45;
+    if($form['custom_key'] === 'custom_value'){
     
+        // Force to load values from the Term ID 45
+        $term_id = 45;
+
+    }
     
-    /**
-     * Return
-     */
     return $term_id;
     
-}
-</pre><?php
+}<?php acfe_highlight(); ?>
+        
+        <?php
         
     }
     
@@ -468,53 +488,65 @@ function my_form_term_values_source($term_id, $form, $action){
             $form_name = get_field('acfe_form_name', $field['value']);
         
         ?>You may use the following hooks:<br /><br />
-<pre>
+<?php acfe_highlight(); ?>
 add_filter('acfe/form/submit/term_args', 'my_form_term_args', 10, 4);
 add_filter('acfe/form/submit/term_args/form=<?php echo $form_name; ?>', 'my_form_term_args', 10, 4);
-add_filter('acfe/form/submit/term_args/action=my-term-action', 'my_form_term_args', 10, 4);
-</pre>
+add_filter('acfe/form/submit/term_args/action=my-term-action', 'my_form_term_args', 10, 4);<?php acfe_highlight(); ?>
 <br />
-<pre>
-/**
- * @array   $args   The generated term arguments
- * @string  $type   Action type: 'insert_term' or 'update_term'
- * @array   $form   The form settings
- * @string  $action The action alias name
+<?php acfe_highlight(); ?>
+/*
+ * @array   $args    The generated term arguments
+ * @string  $type    Action type: 'insert_term' or 'update_term'
+ * @array   $form    The form settings
+ * @string  $action  The action alias name
  */
 add_filter('acfe/form/submit/term_args/form=<?php echo $form_name; ?>', 'my_form_term_args', 10, 4);
 function my_form_term_args($args, $type, $form, $action){
     
-    /**
-     * Force specific description if the action type is 'insert_term'
-     */
+    // Change Description if the Action Type is 'insert_term'
     if($type === 'insert_term'){
         
         $args['description'] = 'My term description';
         
     }
     
-    
-    /**
+    /*
      * Get the form input value named 'my_field'
      * This is the value entered by the user during the form submission
      */
     $my_field = get_field('my_field');
     
+    if($my_field === 'Company'){
+        
+        // Change Description
+        $args['description'] = 'My term description';
+        
+    }
     
-    /**
-     * Get the field value 'my_field' from the post ID 145
+    /*
+     * Get previous Post Action output
      */
-    $my_post_field = get_field('my_field', 145);
+    $prev_post_action = acfe_form_get_action('post');
     
+    if(!empty($prev_post_action)){
+        
+        if($prev_post_action['post_title'] === 'Company'){
+            
+            // Change Description
+            $args['description'] = 'My term description';
+            
+        }
+        
+    }
     
-    /**
-     * Return arguments
-     * Note: Return false will stop post & meta insert/update
-     */
+    // Do not save Term
+    // return false;
+    
     return $args;
     
-}
-</pre><?php
+}<?php acfe_highlight(); ?>
+        
+        <?php
         
     }
     
@@ -526,39 +558,896 @@ function my_form_term_args($args, $type, $form, $action){
             $form_name = get_field('acfe_form_name', $field['value']);
         
         ?>You may use the following hooks:<br /><br />
-<pre>
+<?php acfe_highlight(); ?>
 add_action('acfe/form/submit/term', 'my_form_term_save', 10, 5);
 add_action('acfe/form/submit/term/form=<?php echo $form_name; ?>', 'my_form_term_save', 10, 5);
-add_action('acfe/form/submit/term/action=my-term-action', 'my_form_term_save', 10, 5);
-</pre>
+add_action('acfe/form/submit/term/action=my-term-action', 'my_form_term_save', 10, 5);<?php acfe_highlight(); ?>
 <br />
-<pre>
-/**
- * @int     $term_id    The targeted term ID
- * @string  $type       Action type: 'insert_term' or 'update_term'
- * @array   $args       The generated term arguments
- * @array   $form       The form settings
- * @string  $action     The action alias name
+<?php acfe_highlight(); ?>
+/*
+ * @int     $term_id  The targeted term ID
+ * @string  $type     Action type: 'insert_term' or 'update_term'
+ * @array   $args     The generated term arguments
+ * @array   $form     The form settings
+ * @string  $action   The action alias name
  *
  * Note: At this point the term is already saved into the database
  */
 add_action('acfe/form/submit/term/form=<?php echo $form_name; ?>', 'my_form_term_save', 10, 5);
 function my_form_term_save($term_id, $type, $args, $form, $action){
 
-    /**
+    /*
      * Get the form input value named 'my_field'
      * This is the value entered by the user during the form submission
      */
     $my_field = get_field('my_field');
+
+    if($my_field === 'Company'){
     
-    
-    /**
-     * Get the field value 'my_field' from the currently saved term
+        // do_something();
+
+    }
+
+    /*
+     * Get previous Post Action output
      */
-    $my_term_field = get_field('my_field', 'term_' . $term_id);
+    $prev_post_action = acfe_form_get_action('post');
+
+    if(!empty($prev_post_action)){
     
-}
-</pre><?php
+        if($prev_post_action['post_title'] === 'Company'){
+        
+            // do_something();
+        
+        }
+
+    }
+    
+}<?php acfe_highlight(); ?>
+        
+        <?php
+        
+    }
+    
+    function add_action($layouts){
+        
+        $layouts['layout_term'] = array(
+            'key' => 'layout_term',
+            'name' => 'term',
+            'label' => 'Term action',
+            'display' => 'row',
+            'sub_fields' => array(
+        
+                /*
+                 * Layout: Term Action
+                 */
+                array(
+                    'key' => 'field_acfe_form_term_tab_action',
+                    'label' => 'Action',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-no-preference' => true,
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'acfe_form_term_action',
+                    'label' => 'Action',
+                    'name' => 'acfe_form_term_action',
+                    'type' => 'radio',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                        'insert_term' => 'Create term',
+                        'update_term' => 'Update term',
+                    ),
+                    'default_value' => 'insert_term',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_custom_alias',
+                    'label' => 'Action name',
+                    'name' => 'acfe_form_custom_alias',
+                    'type' => 'acfe_slug',
+                    'instructions' => '(Optional) Target this action using hooks.',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'Term',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+        
+                /*
+                 * Layout: Term Save
+                 */
+                array(
+                    'key' => 'field_acfe_form_term_tab_save',
+                    'label' => 'Save',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_save_target',
+                    'label' => 'Target',
+                    'name' => 'acfe_form_term_save_target',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'acfe_form_term_action',
+                                'operator' => '==',
+                                'value' => 'update_term',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => 'current_term',
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'ajax' => 0,
+                    'return_format' => 'value',
+                    'placeholder' => '',
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_save_name',
+                    'label' => 'Name',
+                    'name' => 'acfe_form_term_save_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_name',
+                                'operator' => '==empty',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_name_message',
+                    'label' => 'Name',
+                    'name' => 'acfe_form_term_map_name_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_name',
+                                'operator' => '!=empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_save_slug',
+                    'label' => 'Slug',
+                    'name' => 'acfe_form_term_save_slug',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_slug',
+                                'operator' => '==empty',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_slug_message',
+                    'label' => 'Slug',
+                    'name' => 'acfe_form_term_map_slug_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_slug',
+                                'operator' => '!=empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_save_taxonomy',
+                    'label' => 'Taxonomy',
+                    'name' => 'acfe_form_term_save_taxonomy',
+                    'type' => 'acfe_taxonomies',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_taxonomy',
+                                'operator' => '==empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'taxonomy' => '',
+                    'field_type' => 'select',
+                    'default_value' => '',
+                    'return_format' => 'name',
+                    'allow_null' => 1,
+                    'placeholder' => 'Default',
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'choices' => array(
+                    ),
+                    'ajax' => 0,
+                    'layout' => '',
+                    'toggle' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_taxonomy_message',
+                    'label' => 'Taxonomy',
+                    'name' => 'acfe_form_term_map_taxonomy_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_taxonomy',
+                                'operator' => '!=empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_save_parent',
+                    'label' => 'Parent',
+                    'name' => 'acfe_form_term_save_parent',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_parent',
+                                'operator' => '==empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'ajax' => 0,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_parent_message',
+                    'label' => 'Parent',
+                    'name' => 'acfe_form_term_map_parent_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_parent',
+                                'operator' => '!=empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_save_description_group',
+                    'label' => 'Description',
+                    'name' => 'acfe_form_term_save_description_group',
+                    'type' => 'group',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_description',
+                                'operator' => '==empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'layout' => 'block',
+                    'acfe_seamless_style' => true,
+                    'acfe_group_modal' => 0,
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_acfe_form_term_save_description',
+                            'label' => '',
+                            'name' => 'acfe_form_term_save_description',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(
+                                'custom' => 'WYSIWYG Editor',
+                            ),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 1,
+                            'multiple' => 0,
+                            'ui' => 1,
+                            'return_format' => 'value',
+                            'placeholder' => 'Default',
+                            'ajax' => 0,
+                            'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                            'allow_custom' => 1,
+                        ),
+                        array(
+                            'key' => 'field_acfe_form_term_save_description_custom',
+                            'label' => '',
+                            'name' => 'acfe_form_term_save_description_custom',
+                            'type' => 'wysiwyg',
+                            'instructions' => '',
+                            'required' => 1,
+                            'conditional_logic' => array(
+                                array(
+                                    array(
+                                        'field' => 'field_acfe_form_term_save_description',
+                                        'operator' => '==',
+                                        'value' => 'custom',
+                                    ),
+                                ),
+                            ),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'default_value' => '',
+                            'tabs' => 'all',
+                            'toolbar' => 'full',
+                            'media_upload' => 1,
+                            'delay' => 0,
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_description_message',
+                    'label' => 'Description',
+                    'name' => 'acfe_form_term_map_description_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_map_description',
+                                'operator' => '!=empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_save_meta',
+                    'label' => 'Save ACF fields',
+                    'name' => 'acfe_form_term_save_meta',
+                    'type' => 'checkbox',
+                    'instructions' => 'Choose which ACF fields should be saved to this term',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'allow_custom' => 0,
+                    'default_value' => array(
+                    ),
+                    'layout' => 'vertical',
+                    'toggle' => 1,
+                    'return_format' => 'value',
+                    'save_custom' => 0,
+                ),
+        
+                /*
+                 * Layout: Term Load
+                 */
+                array(
+                    'key' => 'field_acfe_form_term_tab_load',
+                    'label' => 'Load',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_load_values',
+                    'label' => 'Load Values',
+                    'name' => 'acfe_form_term_load_values',
+                    'type' => 'true_false',
+                    'instructions' => 'Fill inputs with values',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'message' => '',
+                    'default_value' => 0,
+                    'ui' => 1,
+                    'ui_on_text' => '',
+                    'ui_off_text' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_load_source',
+                    'label' => 'Source',
+                    'name' => 'acfe_form_term_load_source',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => 'current_term',
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'ajax' => 0,
+                    'return_format' => 'value',
+                    'placeholder' => '',
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_name',
+                    'label' => 'Name',
+                    'name' => 'acfe_form_term_map_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_slug',
+                    'label' => 'Slug',
+                    'name' => 'acfe_form_term_map_slug',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_taxonomy',
+                    'label' => 'Taxonomy',
+                    'name' => 'acfe_form_term_map_taxonomy',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_parent',
+                    'label' => 'Parent',
+                    'name' => 'acfe_form_term_map_parent',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_map_description',
+                    'label' => 'Description',
+                    'name' => 'acfe_form_term_map_description',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_load_meta',
+                    'label' => 'Load ACF fields',
+                    'name' => 'acfe_form_term_load_meta',
+                    'type' => 'checkbox',
+                    'instructions' => 'Choose which ACF fields should have their values loaded',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_term_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'allow_custom' => 0,
+                    'default_value' => array(
+                    ),
+                    'layout' => 'vertical',
+                    'toggle' => 1,
+                    'return_format' => 'value',
+                    'save_custom' => 0,
+                ),
+        
+                /*
+                 * Layout: Term Advanced
+                 */
+                array(
+                    'key' => 'field_acfe_form_term_tab_advanced',
+                    'label' => 'Code',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_advanced_load',
+                    'label' => 'Change values source',
+                    'name' => 'acfe_form_term_advanced_load',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'Alter the term ID where meta values are loaded from',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_advanced_save_args',
+                    'label' => 'Change term arguments',
+                    'name' => 'acfe_form_term_advanced_save_args',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'Alter the term arguments before database insert/update',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_term_advanced_save',
+                    'label' => 'Add custom action on term save',
+                    'name' => 'acfe_form_term_advanced_save',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+            ),
+            'min' => '',
+            'max' => '',
+        );
+        
+        return $layouts;
         
     }
     

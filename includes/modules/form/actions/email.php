@@ -8,6 +8,8 @@ if(!class_exists('acfe_form_email')):
 class acfe_form_email{
     
     function __construct(){
+    
+        add_filter('acfe/form/actions',                                     array($this, 'add_action'));
         
         add_action('acfe/form/make/email',                                  array($this, 'make'), 10, 3);
         add_action('acfe/form/submit/email',                                array($this, 'submit'), 10, 3);
@@ -227,18 +229,35 @@ class acfe_form_email{
         // Form name
         $form_name = acf_maybe_get($form, 'name');
     
-        $args = apply_filters('acfe/form/query_var/email',                    $args, $form, $action);
-        $args = apply_filters('acfe/form/query_var/email/form=' . $form_name, $args, $form, $action);
-        $args = apply_filters('acfe/form/query_var/email/action=' . $action,  $args, $form, $action);
+        // Deprecated
+        $args = apply_filters_deprecated("acfe/form/query_var/email",                    array($args, $form, $action), '0.8.7.5', "acfe/form/output/email");
+        $args = apply_filters_deprecated("acfe/form/query_var/email/form={$form_name}",  array($args, $form, $action), '0.8.7.5', "acfe/form/output/email/form={$form_name}");
+        $args = apply_filters_deprecated("acfe/form/query_var/email/action={$action}",   array($args, $form, $action), '0.8.7.5', "acfe/form/output/email/action={$action}");
     
-        // Query var
+        // Output
+        $args = apply_filters("acfe/form/output/email",                                       $args, $form, $action);
+        $args = apply_filters("acfe/form/output/email/form={$form_name}",                     $args, $form, $action);
+        $args = apply_filters("acfe/form/output/email/action={$action}",                      $args, $form, $action);
+    
+        // Old Query var
         $query_var = acfe_form_unique_action_id($form, 'email');
     
         if(!empty($action))
             $query_var = $action;
-    
-        // Set Query Var
+        
         set_query_var($query_var, $args);
+        // ------------------------------------------------------------
+    
+        // Action Output
+        $actions = get_query_var('acfe_form_actions', array());
+        
+        $actions['email'] = $args;
+        
+        if(!empty($action))
+            $actions[$action] = $args;
+        
+        set_query_var('acfe_form_actions', $actions);
+        // ------------------------------------------------------------
         
     }
     
@@ -250,21 +269,21 @@ class acfe_form_email{
             $form_name = get_field('acfe_form_name', $field['value']);
         
         ?>You may use the following hooks:<br /><br />
-<pre data-codemirror="php-plain">
+        <?php acfe_highlight(); ?>
 add_filter('acfe/form/submit/email_args', 'my_form_email_args', 10, 3);
 add_filter('acfe/form/submit/email_args/form=<?php echo $form_name; ?>', 'my_form_email_args', 10, 3);
-add_filter('acfe/form/submit/email_args/action=my-email-action', 'my_form_email_args', 10, 3);</pre>
+add_filter('acfe/form/submit/email_args/action=my-email-action', 'my_form_email_args', 10, 3);<?php acfe_highlight(); ?>
 <br />
-<pre data-codemirror="php-plain">
-/**
- * @array   $args   The generated email arguments
- * @array   $form   The form settings
- * @string  $action The action alias name
+<?php acfe_highlight(); ?>
+/*
+ * @array   $args    The generated email arguments
+ * @array   $form    The form settings
+ * @string  $action  The action alias name
  */
 add_filter('acfe/form/submit/email_args/form=<?php echo $form_name; ?>', 'my_form_email_args', 10, 4);
 function my_form_email_args($args, $form, $action){
     
-    /**
+    /*
      * $args = array(
      *     'from'          => 'email@domain.com',
      *     'reply_to'      => 'email@domain.com',
@@ -286,15 +305,44 @@ function my_form_email_args($args, $form, $action){
      *     )
      * );
      */
-    
-    
-    /**
-     * Return arguments
-     * Note: Return false will stop e-mail from being sent
+
+    /*
+     * Get the form input value named 'my_field'
+     * This is the value entered by the user during the form submission
      */
+    $my_field = get_field('my_field');
+    
+    if($my_field === 'Company'){
+    
+        // Change Recipient
+        $args['to'] = 'new@domain.com';
+    
+    }
+    
+    /*
+     * Get previous Post Action output
+     */
+    $prev_post_action = acfe_form_get_action('post');
+    
+    if(!empty($prev_post_action)){
+    
+        if($prev_post_action['post_title'] === 'Company'){
+            
+            // Change Recipient
+            $args['to'] = 'new@domain.com';
+            
+        }
+    
+    }
+    
+    // Do not send Email
+    // return false;
+    
     return $args;
     
-}</pre><?php
+}<?php acfe_highlight(); ?>
+        
+        <?php
         
     }
     
@@ -306,27 +354,453 @@ function my_form_email_args($args, $form, $action){
             $form_name = get_field('acfe_form_name', $field['value']);
         
         ?>You may use the following hooks:<br /><br />
-<pre data-codemirror="php-plain">
+<?php acfe_highlight(); ?>
 add_action('acfe/form/submit/email', 'my_form_email_send', 10, 3);
 add_action('acfe/form/submit/email/form=<?php echo $form_name; ?>', 'my_form_email_send', 10, 3);
-add_action('acfe/form/submit/email/action=my-email-action', 'my_form_email_send', 10, 3);</pre>
+add_action('acfe/form/submit/email/action=my-email-action', 'my_form_email_send', 10, 3);<?php acfe_highlight(); ?>
 <br />
-<pre data-codemirror="php-plain">
-/**
- * @array   $args       The generated email arguments
- * @array   $form       The form settings
- * @string  $action     The action alias name
+<?php acfe_highlight(); ?>
+/*
+ * @array   $args    The generated email arguments
+ * @array   $form    The form settings
+ * @string  $action  The action alias name
  */
 add_action('acfe/form/submit/email/form=<?php echo $form_name; ?>', 'my_form_email_send', 10, 3);
 function my_form_email_send($args, $form, $action){
-    
-    /**
-     * Get the value from the form input named 'my_field'
+
+    /*
+     * Get the form input value named 'my_field'
      * This is the value entered by the user during the form submission
      */
     $my_field = get_field('my_field');
+
+    if($my_field === 'Company'){
+
+        // do_something();
+
+    }
+
+    /*
+     * Get previous Post Action output
+     */
+    $prev_post_action = acfe_form_get_action('post');
+
+    if(!empty($prev_post_action)){
+
+        if($prev_post_action['post_title'] === 'Company'){
+
+            // do_something();
     
-}</pre><?php
+        }
+
+    }
+    
+}<?php acfe_highlight(); ?>
+        
+        <?php
+        
+    }
+    
+    function add_action($layouts){
+        
+        $layouts['layout_email'] = array(
+            'key' => 'layout_email',
+            'name' => 'email',
+            'label' => 'Email action',
+            'display' => 'row',
+            'sub_fields' => array(
+        
+                /*
+                 * Layout: Email Action
+                 */
+                array(
+                    'key' => 'field_acfe_form_email_tab_action',
+                    'label' => 'Action',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-no-preference' => true,
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_custom_alias',
+                    'label' => 'Action name',
+                    'name' => 'acfe_form_custom_alias',
+                    'type' => 'acfe_slug',
+                    'instructions' => '(Optional) Target this action using hooks.',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'Email',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+        
+                /*
+                 * Layout: Email Send
+                 */
+                array(
+                    'key' => 'field_acfe_form_email_tab_email',
+                    'label' => 'Email',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_from',
+                    'label' => 'From',
+                    'name' => 'acfe_form_email_from',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'Name <email@domain.com>',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_to',
+                    'label' => 'To',
+                    'name' => 'acfe_form_email_to',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'email@domain.com',
+                    'prepend' => '',
+                    'append' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_reply_to',
+                    'label' => 'Reply to',
+                    'name' => 'acfe_form_email_reply_to',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'Name <email@domain.com>',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_cc',
+                    'label' => 'Cc',
+                    'name' => 'acfe_form_email_cc',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'email@domain.com',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_bcc',
+                    'label' => 'Bcc',
+                    'name' => 'acfe_form_email_bcc',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'email@domain.com',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_subject',
+                    'label' => 'Subject',
+                    'name' => 'acfe_form_email_subject',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_content',
+                    'label' => 'Content',
+                    'name' => 'acfe_form_email_content',
+                    'type' => 'wysiwyg',
+                    'instructions' => 'Fields values may be included using <code>{field:field_key}</code> <code>{field:title}</code>. All fields may be included using <code>{fields}</code>.<br />See "Cheatsheet" tab for advanced usage.',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'tabs' => 'all',
+                    'toolbar' => 'full',
+                    'media_upload' => 1,
+                    'delay' => 0,
+                ),
+        
+                /*
+                 * Layout: Email Attachments
+                 */
+                array(
+                    'key' => 'field_acfe_form_email_tab_attachments',
+                    'label' => 'Attachments',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_files',
+                    'label' => 'Dynamic files',
+                    'name' => 'acfe_form_email_files',
+                    'type' => 'repeater',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'acfe_repeater_stylised_button' => 0,
+                    'collapsed' => '',
+                    'min' => 0,
+                    'max' => 0,
+                    'layout' => 'table',
+                    'button_label' => 'Add file',
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_acfe_form_email_file',
+                            'label' => 'File',
+                            'name' => 'acfe_form_email_file',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(
+                            ),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 0,
+                            'multiple' => 0,
+                            'ui' => 1,
+                            'return_format' => 'value',
+                            'ajax' => 0,
+                            'placeholder' => '',
+                            'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                            'allow_custom' => 1,
+                        ),
+                        array(
+                            'key' => 'field_acfe_form_email_file_delete',
+                            'label' => 'Delete file',
+                            'name' => 'acfe_form_email_file_delete',
+                            'type' => 'true_false',
+                            'instructions' => '',
+                            'required' => 0,
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'message' => 'Delete once submitted',
+                            'default_value' => 0,
+                            'ui' => 1,
+                            'ui_on_text' => '',
+                            'ui_off_text' => '',
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_files_static',
+                    'label' => 'Static files',
+                    'name' => 'acfe_form_email_files_static',
+                    'type' => 'repeater',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'acfe_repeater_stylised_button' => 0,
+                    'collapsed' => '',
+                    'min' => 0,
+                    'max' => 0,
+                    'layout' => 'table',
+                    'button_label' => 'Add file',
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_acfe_form_email_file_static',
+                            'label' => 'File',
+                            'name' => 'acfe_form_email_file_static',
+                            'type' => 'file',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'return_format' => 'id',
+                        ),
+                    ),
+                ),
+        
+                /*
+                 * Layout: Email Advanced
+                 */
+                array(
+                    'key' => 'field_acfe_form_email_tab_advanced',
+                    'label' => 'Code',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_advanced_args',
+                    'label' => 'Change email arguments',
+                    'name' => 'acfe_form_email_advanced_args',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'Alter the <code>wp_mail()</code> arguments before it is sent',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_email_advanced_send',
+                    'label' => 'Add custom action when e-mail is sent',
+                    'name' => 'form_email_advanced_send',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'This action allows you to hook in after the e-mail has been sent',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+            ),
+            'min' => '',
+            'max' => '',
+        );
+        
+        return $layouts;
         
     }
     

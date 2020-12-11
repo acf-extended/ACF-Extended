@@ -56,12 +56,18 @@ class acfe_single_meta{
         add_action('load-user-new.php',     	array($this, 'load_user'));
         add_action('load-user-edit.php',    	array($this, 'load_user'));
         add_action('load-profile.php',      	array($this, 'load_user'));
+        
+        // Nav Menu Items
+        add_action('wp_nav_menu_item_custom_fields',	array($this, 'wp_nav_menu_item_custom_fields'), 5);
     
         // Options
         //add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_options'));
         
     }
     
+    /*
+     * Preload Meta
+     */
     function pre_load_meta($return, $post_id){
     
         if(acf_is_filter_enabled('acfe/meta/native_load'))
@@ -102,6 +108,13 @@ class acfe_single_meta{
         // Bail early if empty
         if(empty($acf))
             return $return;
+        
+        // Unslash values if needed
+        if(acf_is_filter_enabled('acfe/meta/unslash')){
+    
+            $acf = wp_unslash($acf);
+            
+        }
         
         // Prefix
         $prefix = $hidden ? '_' : '';
@@ -417,7 +430,7 @@ class acfe_single_meta{
     
         // Decode $post_id for $type and $id.
         extract(acf_decode_post_id($post_id));
-    
+        
         // Update option
         if($type === 'option'){
     
@@ -442,10 +455,10 @@ class acfe_single_meta{
         
         // Settings
         acf_render_field_setting($field, array(
-            'label'             => __('Save as meta'),
+            'label'             => __('Save as individual meta'),
             'key'               => 'acfe_save_meta',
             'name'              => 'acfe_save_meta',
-            'instructions'      => __('Save the field an individual meta (useful for WP_Query).'),
+            'instructions'      => __('Save the field as an individual meta.'),
             'type'              => 'true_false',
             'required'          => false,
             'conditional_logic' => false,
@@ -531,6 +544,16 @@ class acfe_single_meta{
         
     }
     */
+    
+    /*
+     * WP Nav Menu
+     * Unlash values after values updated
+     */
+    function wp_nav_menu_item_custom_fields(){
+        
+        acf_enable_filter('acfe/meta/unslash');
+        
+    }
     
     function render_metabox($post, $metabox){
         

@@ -20,16 +20,19 @@ class acfe_dev{
         if(!defined('SCRIPT_DEBUG'))
             define('SCRIPT_DEBUG', true);
         
+        // Additional Enqueue
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+        
         // Post
-        add_action('load-post.php',		array($this, 'load_post'));
-		add_action('load-post-new.php',	array($this, 'load_post'));
+        add_action('load-post.php',		    array($this, 'load_post'));
+		add_action('load-post-new.php',	    array($this, 'load_post'));
         
         // Term
-        add_action('load-term.php',     array($this, 'load_term'));
+        add_action('load-term.php',         array($this, 'load_term'));
         
         // User
-        add_action('show_user_profile', array($this, 'load_user'));
-		add_action('edit_user_profile', array($this, 'load_user'));
+        add_action('show_user_profile',     array($this, 'load_user'), 99);
+		add_action('edit_user_profile',     array($this, 'load_user'), 99);
         
         // Options
         add_action('acf/options_page/submitbox_before_major_actions',   array($this, 'load_admin'));
@@ -38,6 +41,21 @@ class acfe_dev{
         add_action('wp_ajax_acfe/bulk_delete_meta',                     array($this, 'ajax_bulk_delete_meta'));
         
 	}
+ 
+	/*
+	 * Enqueue Scripts
+	 */
+    function admin_enqueue_scripts(){
+        
+        // bail early if not valid screen
+        if(!acf_is_screen(array('profile-network', 'user-edit-network', 'user-network'))){
+            return;
+        }
+        
+        // enqueue
+        acf_enqueue_scripts();
+        
+    }
     
     /*
      * Post
@@ -81,14 +99,14 @@ class acfe_dev{
 		$taxonomy = $screen->taxonomy;
         
         // actions
-        add_action("{$taxonomy}_edit_form", array($this, 'edit_term'), 20, 2);
+        add_action("{$taxonomy}_edit_form", array($this, 'edit_term'), 99, 2);
         
     }
     
     function edit_term($term, $taxonomy){
         
         // Get Term ID
-        $post_id = acf_get_term_post_id($term->taxonomy, $term->term_id);
+        $post_id = 'term_' . $term->term_id;
         
         // Add Meta Boxes
         $this->add_meta_boxes($post_id, 'edit-term');
@@ -321,7 +339,7 @@ class acfe_dev{
                         <option value="delete"><?php _e('Delete'); ?></option>
                     </select>
                     
-                    <input type="submit" id="acfe_bulk_deleta_meta_submit" class="button action" value="<?php _e('Apply'); ?>">
+                    <input type="submit" id="acfe_bulk_delete_meta_submit" class="button action" value="<?php _e('Apply'); ?>">
                     
                 </div>
                 

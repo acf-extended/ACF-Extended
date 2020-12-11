@@ -8,6 +8,8 @@ if(!class_exists('acfe_form_user')):
 class acfe_form_user{
     
     function __construct(){
+    
+        add_filter('acfe/form/actions',                                             array($this, 'add_action'));
         
         /*
          * Form
@@ -827,19 +829,36 @@ class acfe_form_user{
                 $user_array['user_pass'] = $args['user_pass'];
             
             }
-        
-            $user_array = apply_filters('acfe/form/query_var/user',                    $user_array, $_user_id, $user_action, $args, $form, $action);
-            $user_array = apply_filters('acfe/form/query_var/user/form=' . $form_name, $user_array, $_user_id, $user_action, $args, $form, $action);
-            $user_array = apply_filters('acfe/form/query_var/user/action=' . $action,  $user_array, $_user_id, $user_action, $args, $form, $action);
-            
-            // Query var
-            $query_var = acfe_form_unique_action_id($form, 'user');
     
+            // Deprecated
+            $user_array = apply_filters_deprecated("acfe/form/query_var/user",                    array($user_array, $_user_id, $user_action, $args, $form, $action), '0.8.7.5', "acfe/form/output/user");
+            $user_array = apply_filters_deprecated("acfe/form/query_var/user/form={$form_name}",  array($user_array, $_user_id, $user_action, $args, $form, $action), '0.8.7.5', "acfe/form/output/user/form={$form_name}");
+            $user_array = apply_filters_deprecated("acfe/form/query_var/user/action={$action}",   array($user_array, $_user_id, $user_action, $args, $form, $action), '0.8.7.5', "acfe/form/output/user/action={$action}");
+    
+            // Output
+            $user_array = apply_filters("acfe/form/output/user",                                       $user_array, $_user_id, $user_action, $args, $form, $action);
+            $user_array = apply_filters("acfe/form/output/user/form={$form_name}",                     $user_array, $_user_id, $user_action, $args, $form, $action);
+            $user_array = apply_filters("acfe/form/output/user/action={$action}",                      $user_array, $_user_id, $user_action, $args, $form, $action);
+            
+            // Old Query var
+            $query_var = acfe_form_unique_action_id($form, 'user');
+            
             if(!empty($action))
                 $query_var = $action;
             
-            // Set Query Var
             set_query_var($query_var, $user_array);
+            // ------------------------------------------------------------
+            
+            // Action Output
+            $actions = get_query_var('acfe_form_actions', array());
+    
+            $actions['user'] = $user_array;
+            
+            if(!empty($action))
+                $actions[$action] = $user_array;
+            
+            set_query_var('acfe_form_actions', $actions);
+            // ------------------------------------------------------------
         
         }
         
@@ -917,23 +936,24 @@ add_filter('acfe/form/load/user_id/action=my-user-action', 'my_form_user_values_
 </pre>
 <br />
 <pre>
-/**
- * @int     $user_id    User ID used as source
- * @array   $form       The form settings
- * @string  $action     The action alias name
+/*
+ * @int     $user_id  User ID used as source
+ * @array   $form     The form settings
+ * @string  $action   The action alias name
  */
 add_filter('acfe/form/load/user_id/form=<?php echo $form_name; ?>', 'my_form_user_values_source', 10, 3);
 function my_form_user_values_source($user_id, $form, $action){
     
-    /**
-     * Force to load values from the user ID 12
+    /*
+     * Retrieve Form Setting
      */
-    $user_id = 12;
+    if($form['custom_key'] === 'custom_value'){
+
+        // Force to load values from the User ID 12
+        $user_id = 12;
+        
+    }
     
-    
-    /**
-     * Return
-     */
     return $user_id;
     
 }
@@ -949,53 +969,65 @@ function my_form_user_values_source($user_id, $form, $action){
             $form_name = get_field('acfe_form_name', $field['value']);
         
         ?>You may use the following hooks:<br /><br />
-<pre>
+<?php acfe_highlight(); ?>
 add_filter('acfe/form/submit/user_args', 'my_form_user_args', 10, 4);
 add_filter('acfe/form/submit/user_args/form=<?php echo $form_name; ?>', 'my_form_user_args', 10, 4);
-add_filter('acfe/form/submit/user_args/action=my-user-action', 'my_form_user_args', 10, 4);
-</pre>
+add_filter('acfe/form/submit/user_args/action=my-user-action', 'my_form_user_args', 10, 4);<?php acfe_highlight(); ?>
 <br />
-<pre>
-/**
- * @array   $args   The generated user arguments
- * @string  $type   Action type: 'insert_user' or 'update_user'
- * @array   $form   The form settings
- * @string  $action The action alias name
+<?php acfe_highlight(); ?>
+/*
+ * @array   $args    The generated user arguments
+ * @string  $type    Action type: 'insert_user' or 'update_user'
+ * @array   $form    The form settings
+ * @string  $action  The action alias name
  */
 add_filter('acfe/form/submit/user_args/form=<?php echo $form_name; ?>', 'my_form_user_args', 10, 4);
 function my_form_user_args($args, $type, $form, $action){
     
-    /**
-     * Force specific first name if the action type is 'insert_user'
-     */
+    // Change First Name if the Action Type is 'insert_user'
     if($type === 'insert_user'){
         
         $args['first_name'] = 'My name';
         
     }
-    
-    
-    /**
+
+    /*
      * Get the form input value named 'my_field'
      * This is the value entered by the user during the form submission
      */
     $my_field = get_field('my_field');
+
+    if($my_field === 'Company'){
     
-    
-    /**
-     * Get the field value 'my_field' from the post ID 145
+        // Change First Name
+        $args['first_name'] = 'My name';
+
+    }
+
+    /*
+     * Get previous Post Action output
      */
-    $my_post_field = get_field('my_field', 145);
+    $prev_post_action = acfe_form_get_action('post');
     
+    if(!empty($prev_post_action)){
     
-    /**
-     * Return arguments
-     * Note: Return false will stop post & meta insert/update
-     */
+        if($prev_post_action['post_title'] === 'Company'){
+        
+            // Change First Name
+            $args['first_name'] = 'My name';
+        
+        }
+
+    }
+    
+    // Do not save User
+    // return false;
+    
     return $args;
     
-}
-</pre><?php
+}<?php acfe_highlight(); ?>
+        
+        <?php
         
     }
     
@@ -1007,39 +1039,1687 @@ function my_form_user_args($args, $type, $form, $action){
             $form_name = get_field('acfe_form_name', $field['value']);
         
         ?>You may use the following hooks:<br /><br />
-<pre>
+<?php acfe_highlight(); ?>
 add_action('acfe/form/submit/user', 'my_form_user_save', 10, 5);
 add_action('acfe/form/submit/user/form=<?php echo $form_name; ?>', 'my_form_user_save', 10, 5);
-add_action('acfe/form/submit/user/action=my-user-action', 'my_form_user_save', 10, 5);
-</pre>
+add_action('acfe/form/submit/user/action=my-user-action', 'my_form_user_save', 10, 5);<?php acfe_highlight(); ?>
 <br />
-<pre>
-/**
- * @int     $user_id    The targeted user ID
- * @string  $type       Action type: 'insert_user' or 'update_user'
- * @array   $args       The generated user arguments
- * @array   $form       The form settings
- * @string  $action     The action alias name
+<?php acfe_highlight(); ?>
+/*
+ * @int     $user_id  The targeted user ID
+ * @string  $type     Action type: 'insert_user' or 'update_user'
+ * @array   $args     The generated user arguments
+ * @array   $form     The form settings
+ * @string  $action   The action alias name
  *
  * Note: At this point the user is already saved into the database
  */
 add_action('acfe/form/submit/user/form=<?php echo $form_name; ?>', 'my_form_user_save', 10, 5);
 function my_form_user_save($user_id, $type, $args, $form, $action){
-    
-    /**
+
+    /*
      * Get the form input value named 'my_field'
      * This is the value entered by the user during the form submission
      */
     $my_field = get_field('my_field');
-    
-    
-    /**
-     * Get the field value 'my_field' from the currently saved user
+
+    if($my_field === 'Company'){
+
+        // do_something();
+
+    }
+
+    /*
+     * Get previous Post Action output
      */
-    $my_user_field = get_field('my_field', 'user_' . $user_id);
+    $prev_post_action = acfe_form_get_action('post');
+
+    if(!empty($prev_post_action)){
     
-}
-</pre><?php
+        if($prev_post_action['post_title'] === 'Company'){
+            
+            // do_something();
+            
+        }
+
+    }
+    
+}<?php acfe_highlight(); ?>
+        
+        <?php
+        
+    }
+    
+    function add_action($layouts){
+        
+        $layouts['layout_user'] = array(
+            'key' => 'layout_user',
+            'name' => 'user',
+            'label' => 'User action',
+            'display' => 'row',
+            'sub_fields' => array(
+        
+                /*
+                 * Layout: User Action
+                 */
+                array(
+                    'key' => 'field_acfe_form_user_tab_action',
+                    'label' => 'Action',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-no-preference' => true,
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_action',
+                    'label' => 'Action',
+                    'name' => 'acfe_form_user_action',
+                    'type' => 'radio',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                        'insert_user'   => 'Create user',
+                        'update_user'   => 'Update user',
+                        'log_user'      => 'Log user',
+                    ),
+                    'default_value' => 'insert_post',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_custom_alias',
+                    'label' => 'Action name',
+                    'name' => 'acfe_form_custom_alias',
+                    'type' => 'acfe_slug',
+                    'instructions' => '(Optional) Target this action using hooks.',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'default_value' => '',
+                    'placeholder' => 'User',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ),
+        
+                /*
+                 * Layout: User Login
+                 */
+                array(
+                    'key' => 'field_acfe_form_user_tab_login',
+                    'label' => 'Login',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '==',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_log_type',
+                    'label' => 'Login type',
+                    'name' => 'acfe_form_user_log_type',
+                    'type' => 'radio',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                        'email'             => 'E-mail',
+                        'username'          => 'Username',
+                        'email_username'    => 'E-mail or username',
+                    ),
+                    'allow_null' => 0,
+                    'other_choice' => 0,
+                    'default_value' => 'email',
+                    'layout' => 'vertical',
+                    'return_format' => 'value',
+                    'save_other_choice' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '==',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_login_user',
+                    'label' => 'Login',
+                    'name' => 'acfe_form_user_save_login_user',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '==',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_login_pass',
+                    'label' => 'Password',
+                    'name' => 'acfe_form_user_save_login_pass',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '==',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_login_remember',
+                    'label' => 'Remember me',
+                    'name' => 'acfe_form_user_save_login_remember',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '==',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+        
+                /*
+                 * Layout: User Save
+                 */
+                array(
+                    'key' => 'field_acfe_form_user_tab_save',
+                    'label' => 'Save',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_target',
+                    'label' => 'Target',
+                    'name' => 'acfe_form_user_save_target',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '==',
+                                'value' => 'update_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => 'current_user',
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'ajax' => 0,
+                    'return_format' => 'value',
+                    'placeholder' => '',
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_email',
+                    'label' => 'Email',
+                    'name' => 'acfe_form_user_save_email',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_email',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_email_message',
+                    'label' => 'Email',
+                    'name' => 'acfe_form_user_map_email_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_email',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_username',
+                    'label' => 'Username',
+                    'name' => 'acfe_form_user_save_username',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_username',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_username_message',
+                    'label' => 'Username',
+                    'name' => 'acfe_form_user_map_username_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_username',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_password',
+                    'label' => 'Password',
+                    'name' => 'acfe_form_user_save_password',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                        'generate_password' => 'Generate password',
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_password',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_password_message',
+                    'label' => 'Password',
+                    'name' => 'acfe_form_user_map_password_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_password',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_first_name',
+                    'label' => 'First name',
+                    'name' => 'acfe_form_user_save_first_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_first_name',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_first_name_message',
+                    'label' => 'First name',
+                    'name' => 'acfe_form_user_map_first_name_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_first_name',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_last_name',
+                    'label' => 'Last name',
+                    'name' => 'acfe_form_user_save_last_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_last_name',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_last_name_message',
+                    'label' => 'Last name',
+                    'name' => 'acfe_form_user_map_last_name_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_last_name',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_nickname',
+                    'label' => 'Nickname',
+                    'name' => 'acfe_form_user_save_nickname',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_nickname',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_nickname_message',
+                    'label' => 'Nickname',
+                    'name' => 'acfe_form_user_map_nickname_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_nickname',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_display_name',
+                    'label' => 'Display name',
+                    'name' => 'acfe_form_user_save_display_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_display_name',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_display_name_message',
+                    'label' => 'Display name',
+                    'name' => 'acfe_form_user_map_display_name_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_display_name',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_website',
+                    'label' => 'Website',
+                    'name' => 'acfe_form_user_save_website',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_website',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_website_message',
+                    'label' => 'Website',
+                    'name' => 'acfe_form_user_map_website_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_website',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_description_group',
+                    'label' => 'Description',
+                    'name' => 'acfe_form_user_save_description_group',
+                    'type' => 'group',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_description',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'layout' => 'block',
+                    'acfe_seamless_style' => true,
+                    'acfe_group_modal' => 0,
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_acfe_form_user_save_description',
+                            'label' => '',
+                            'name' => 'acfe_form_user_save_description',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(
+                                'custom' => 'WYSIWYG Editor',
+                            ),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 1,
+                            'multiple' => 0,
+                            'ui' => 1,
+                            'return_format' => 'value',
+                            'placeholder' => 'Default',
+                            'ajax' => 0,
+                            'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                            'allow_custom' => 1,
+                        ),
+                        array(
+                            'key' => 'field_acfe_form_user_save_description_custom',
+                            'label' => '',
+                            'name' => 'acfe_form_user_save_description_custom',
+                            'type' => 'wysiwyg',
+                            'instructions' => '',
+                            'required' => 1,
+                            'conditional_logic' => array(
+                                array(
+                                    array(
+                                        'field' => 'field_acfe_form_user_save_description',
+                                        'operator' => '==',
+                                        'value' => 'custom',
+                                    ),
+                                ),
+                            ),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'default_value' => '',
+                            'tabs' => 'all',
+                            'toolbar' => 'full',
+                            'media_upload' => 1,
+                            'delay' => 0,
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_description_message',
+                    'label' => 'Description',
+                    'name' => 'acfe_form_user_map_description_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_description',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_role',
+                    'label' => 'Role',
+                    'name' => 'acfe_form_user_save_role',
+                    'type' => 'acfe_user_roles',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_role',
+                                'operator' => '==empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'user_role' => '',
+                    'field_type' => 'select',
+                    'default_value' => '',
+                    'allow_null' => 1,
+                    'placeholder' => 'Default',
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'choices' => array(
+                    ),
+                    'ajax' => 0,
+                    'layout' => '',
+                    'toggle' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_role_message',
+                    'label' => 'Role',
+                    'name' => 'acfe_form_user_map_role_message',
+                    'type' => 'acfe_dynamic_message',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_map_role',
+                                'operator' => '!=empty',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_save_meta',
+                    'label' => 'Save ACF fields',
+                    'name' => 'acfe_form_user_save_meta',
+                    'type' => 'checkbox',
+                    'instructions' => 'Choose which ACF fields should be saved to this user',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'allow_custom' => 0,
+                    'default_value' => array(
+                    ),
+                    'layout' => 'vertical',
+                    'toggle' => 1,
+                    'return_format' => 'value',
+                    'save_custom' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+        
+                /*
+                 * Layout: User Load
+                 */
+                array(
+                    'key' => 'acfe_form_user_tab_load',
+                    'label' => 'Load',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_load_values',
+                    'label' => 'Load Values',
+                    'name' => 'acfe_form_user_load_values',
+                    'type' => 'true_false',
+                    'instructions' => 'Fill inputs with values',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'message' => '',
+                    'default_value' => 0,
+                    'ui' => 1,
+                    'ui_on_text' => '',
+                    'ui_off_text' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_load_source',
+                    'label' => 'Source',
+                    'name' => 'acfe_form_user_load_source',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                        'data-instruction-placement' => 'field'
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => 'current_user',
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'ajax' => 0,
+                    'return_format' => 'value',
+                    'placeholder' => '',
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                ),
+        
+                array(
+                    'key' => 'field_acfe_form_user_map_email',
+                    'label' => 'Email',
+                    'name' => 'acfe_form_user_map_email',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_username',
+                    'label' => 'Username',
+                    'name' => 'acfe_form_user_map_username',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_password',
+                    'label' => 'Password',
+                    'name' => 'acfe_form_user_map_password',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_first_name',
+                    'label' => 'First name',
+                    'name' => 'acfe_form_user_map_first_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_last_name',
+                    'label' => 'Last name',
+                    'name' => 'acfe_form_user_map_last_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_nickname',
+                    'label' => 'Nickname',
+                    'name' => 'acfe_form_user_map_nickname',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_display_name',
+                    'label' => 'Display name',
+                    'name' => 'acfe_form_user_map_display_name',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_website',
+                    'label' => 'Website',
+                    'name' => 'acfe_form_user_map_website',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_description',
+                    'label' => 'Description',
+                    'name' => 'acfe_form_user_map_description',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_map_role',
+                    'label' => 'Role',
+                    'name' => 'acfe_form_user_map_role',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                            array(
+                                'field' => 'field_acfe_form_user_action',
+                                'operator' => '!=',
+                                'value' => 'log_user',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_load_meta',
+                    'label' => 'Load ACF fields',
+                    'name' => 'acfe_form_user_load_meta',
+                    'type' => 'checkbox',
+                    'instructions' => 'Choose which ACF fields should have their values loaded',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_user_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'allow_custom' => 0,
+                    'default_value' => array(
+                    ),
+                    'layout' => 'vertical',
+                    'toggle' => 1,
+                    'return_format' => 'value',
+                    'save_custom' => 0,
+                ),
+        
+        
+                /*
+                 * Layout: User Advanced
+                 */
+                array(
+                    'key' => 'field_acfe_form_user_tab_advanced',
+                    'label' => 'Code',
+                    'name' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_advanced_load',
+                    'label' => 'Change values source',
+                    'name' => 'acfe_form_user_advanced_load',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'Alter the user ID where meta values are loaded from',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_advanced_save_args',
+                    'label' => 'Change user arguments',
+                    'name' => 'acfe_form_user_advanced_save_args',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'Alter the user arguments before database insert/update',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
+                    'key' => 'field_acfe_form_user_advanced_save',
+                    'label' => 'Add custom action on user save',
+                    'name' => 'acfe_form_user_advanced_save',
+                    'type' => 'acfe_dynamic_message',
+                    'value' => isset($_REQUEST['post']) ? $_REQUEST['post'] : '',
+                    'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+            ),
+            'min' => '',
+            'max' => '',
+        );
+        
+        return $layouts;
         
     }
     

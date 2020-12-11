@@ -3,79 +3,79 @@
 if(!defined('ABSPATH'))
     exit;
 
-/**
- * Setting: Field Data
- */
-add_action('acf/render_field_settings', 'acfe_settings_field_data', 992);
-function acfe_settings_field_data($field){
+if(!class_exists('acfe_field_data')):
+
+class acfe_field_data{
     
-    if(!isset($field['ID']) || $field['ID'] === 'acfcloneindex')
-        return;
+    function __construct(){
     
-    $acfe_field_data_id = false;
-    if($field['ID'] != 'acfcloneindex')
-        $acfe_field_data_id = $field['ID'];
-    
-    acf_render_field_setting($field, array(
-        'label'         => false,
-        'instructions'  => '',
-        'type'          => 'acfe_dynamic_message',
-        'required'      => false,
-        'name'          => 'acfe_field_data',
-        'key'           => 'acfe_field_data',
-        'value'         => $acfe_field_data_id,
-    ), true);
-    
-}
-
-/**
- * Render: Field Data
- */
-add_filter('acf/render_field/name=acfe_field_data', 'acfe_render_field_data');
-function acfe_render_field_data($field){
-    
-    $acfe_field_data_id = $field['value'];
-
-    if(!$acfe_field_data_id)
-    	return;
-    
-    $get_field = acf_get_field($acfe_field_data_id);
-
-	$get_field = array_map(function($value){
-
-		if(is_array($value))
-			return $value;
-
-		return esc_html($value);
-
-	}, $get_field);
-
-    $get_field_debug = '<pre style="margin-bottom:15px;">' . print_r($get_field, true) . '</pre>';
-
-    if(!$get_field)
-        $get_field_debug = '<pre>Field data unavailable</pre>';
-
-    $get_post = get_post($acfe_field_data_id, ARRAY_A);
-
-	$get_post = array_map(function($value){
-
-		if(is_array($value))
-			return $value;
-
-		return esc_html($value);
-
-	}, $get_post);
-
-    $get_post_debug = '<pre>' . print_r($get_post, true) . '</pre>';
-    
-    if(!$get_post || $get_post['post_type'] !== 'acf-field'){
-        $get_post_debug = '<pre>Post object unavailable</pre>';
+        add_action('acf/render_field_settings',             array($this, 'render_field_settings'), 992);
+        add_filter('acf/render_field/name=acfe_field_data', array($this, 'render_field'));
+        
     }
     
-    $button = '<a href="#" class="button acfe_modal_open" style="margin-left:5px;" data-modal-key="' . $acfe_field_data_id . '">' . __('Data') . '</a>';
-    if(!$get_field && !$get_post)
-        $button = '<a href="#" class="button disabled" disabled>' . __('Data') . '</a>';
+    function render_field_settings($field){
     
-    echo $button . '<div class="acfe-modal" data-modal-key="' . $acfe_field_data_id . '"><div style="padding:15px;">' . $get_field_debug . $get_post_debug . '</div></div>';
+        $id = acf_maybe_get($field, 'ID');
+    
+        if(!$id || $id === 'acfcloneindex')
+            return;
+        
+        acf_render_field_setting($field, array(
+            'label'         => false,
+            'instructions'  => '',
+            'type'          => 'acfe_dynamic_message',
+            'required'      => false,
+            'name'          => 'acfe_field_data',
+            'key'           => 'acfe_field_data',
+            'value'         => $id,
+        ), true);
+        
+    }
+    
+    function render_field($field){
+    
+        $id = $field['value'];
+        
+        if(!$id)
+            return;
+        
+        // Field
+        $field = acf_get_field($id);
+        $field = array_map(function($value){
+            
+            if(is_array($value))
+                return $value;
+            
+            return esc_html($value);
+            
+        }, $field);
+        
+        $field_debug = $field ? '<pre>' . print_r($field, true) . '</pre>' : '<pre>Field data unavailable</pre>';
+        
+        // Post
+        $post = get_post($id, ARRAY_A);
+        $post = array_map(function($value){
+            
+            if(is_array($value))
+                return $value;
+            
+            return esc_html($value);
+            
+        }, $post);
+        
+        $post_debug = $post ? '<pre style="margin-top:15px;">' . print_r($post, true) . '</pre>' : '<pre>Post object unavailable</pre>';
+        
+        ?>
+        <a href="#" class="button acfe_modal_open" style="margin-left:5px;" data-modal-key="<?php echo $id; ?>"><?php _e('Data', 'acf'); ?></a>
+        <div class="acfe-modal" data-modal-key="<?php echo $id; ?>">
+            <div style="padding:15px;"><?php echo $field_debug . $post_debug; ?></div>
+        </div>
+        <?php
+    }
     
 }
+
+new acfe_field_data();
+
+endif;
