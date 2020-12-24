@@ -81,6 +81,11 @@ class acfe_form_email{
                 $files = acf_format_value($file_id, 0, $field);
                 $files = acf_get_array($files);
                 
+                // Single
+                if(acf_maybe_get($files, 'ID')){
+                    $files = array($files);
+                }
+                
                 foreach($files as $file){
     
                     if(!acf_maybe_get($file, 'ID'))
