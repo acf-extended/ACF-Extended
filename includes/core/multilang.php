@@ -54,11 +54,93 @@ class acfe_multilang{
             // Update settings
             acf_update_setting('default_language', $dl);
             acf_update_setting('current_language', $cl);
+    
+            add_filter('acf/pre_load_reference',    array($this, 'polylang_preload_reference'), 10, 3);
+            add_filter('acf/pre_load_value',        array($this, 'polylang_preload_value'), 10, 3);
         
         }
     
+        // Options Page Message
+        add_filter('acf/options_page/submitbox_before_major_actions', array($this, 'options_page_message'));
+    
         // ACF Options Post ID
         add_filter('acf/validate_post_id', array($this, 'set_options_post_id'), 99, 2);
+        
+    }
+    
+    function polylang_preload_reference($null, $field_name, $post_id){
+    
+        // Validate post id
+        $original_post_id = $this->polylang_validate_preload_post_id($post_id);
+    
+        if(!$original_post_id)
+            return $null;
+    
+        $reference = acf_get_metadata($post_id, $field_name, true);
+    
+        if($reference !== null)
+            return $null;
+        
+        return acf_get_metadata($original_post_id, $field_name, true);
+    
+    }
+    
+    function polylang_preload_value($null, $post_id, $field){
+        
+        // Validate post id
+        $original_post_id = $this->polylang_validate_preload_post_id($post_id);
+        
+        if(!$original_post_id)
+            return $null;
+    
+        // Get field name.
+        $field_name = $field['name'];
+    
+        // Check store.
+        $store = acf_get_store('values');
+        
+        if($store->has("$post_id:$field_name"))
+            return $null;
+    
+        // Load value from database.
+        $value = acf_get_metadata($post_id, $field_name);
+    
+        // Use field's default_value if no meta was found.
+        if($value !== null)
+            return $null;
+
+        return acf_get_value($original_post_id, $field);
+        
+    }
+    
+    function polylang_validate_preload_post_id($post_id){
+    
+        // Bail early if admin screen
+        if(is_admin() || !is_string($post_id))
+            return false;
+    
+        // Get post id info
+        $data = acf_get_post_id_info($post_id);
+    
+        // Bail early if post id isn't an option type
+        if($data['type'] !== 'option')
+            return false;
+    
+        // Bail early if not localized
+        if(!$this->is_localized($post_id))
+            return false;
+    
+        $original_post_id = preg_replace( '/([_\-][A-Za-z]{2}_[A-Za-z]{2})$/', '', $post_id);
+    
+        // Check the regex
+        if($original_post_id === $post_id)
+            return false;
+    
+        // Bail early if no Options Page found with that post id
+        if(!$this->is_options_page($original_post_id))
+            return false;
+        
+        return $original_post_id;
         
     }
     
@@ -340,6 +422,106 @@ class acfe_multilang{
         
     }
     
+    function options_page_message(){
+        
+        $default_language = acf_get_setting('default_language');
+        $current_language = acf_get_setting('current_language');
+        
+        $message = false;
+        
+        // Polylang
+        if($this->is_polylang){
+    
+            if(!$current_language)
+                $current_language = $default_language;
+    
+            $message = "Language: {$current_language}";
+    
+            $nice_language = false;
+            $nice_flag = false;
+            
+            $languages = pll_languages_list(array(
+                'hide_empty'    => false,
+                'fields'        => false
+            ));
+            
+            if($languages){
+    
+                foreach($languages as $language){
+        
+                    if($language->locale !== $current_language)
+                        continue;
+    
+                    $nice_language = $language->name;
+                    $nice_flag = $language->flag_url;
+                    break;
+        
+                }
+                
+            }
+    
+            if($nice_language){
+        
+                $message = "<img src='{$nice_flag}' style='margin-right:5px;vertical-align:-1px;' /> Language: {$nice_language}";
+        
+            }
+            
+            if($default_language === $current_language){
+                
+                $message .= ' (Default)';
+                
+            }
+            
+        }
+        
+        // WPML
+        elseif($this->is_wpml){
+            
+            if($current_language === 'all')
+                $current_language = 'All';
+    
+            $message = "Language: {$current_language}";
+            
+            if($current_language !== 'All'){
+                
+                $nice_language = false;
+                $nice_flag = false;
+                
+                $languages = apply_filters('wpml_active_languages', null, array('skip_missing' => 0));
+    
+                if($languages){
+                    
+                    foreach($languages as $language){
+            
+                        if($language['language_code'] !== $current_language)
+                            continue;
+        
+                        $nice_language = $language['native_name'];
+                        $nice_flag = $language['country_flag_url'];
+                        break;
+            
+                    }
+                    
+                }
+    
+                if($nice_language){
+    
+                    $message = "<img src='{$nice_flag}' style='margin-right:5px;vertical-align:-1px; width:16px; height:11px;' /> Language: {$nice_language}";
+        
+                }
+                
+            }
+            
+        }
+        
+        if(empty($message))
+            return;
+        
+        echo "<div class='misc-pub-section' style='padding-top:15px; padding-bottom:15px;'>{$message}</div>";
+        
+        
+    }
+    
 }
 
 acf_new_instance('acfe_multilang');
@@ -388,6 +570,10 @@ function acfe_is_wpml(){
 
 function acfe_get_post_lang($post_id, $field = false){
     
+    // Bail early if not multilang
+    if(!acfe_is_multilang())
+        return false;
+    
     // Polylang
     if(acfe_is_polylang()){
         
@@ -425,6 +611,49 @@ function acfe_get_post_lang($post_id, $field = false){
     }
     
     return false;
+    
+}
+
+function acfe_get_post_translated($post_id, $lang = false){
+    
+    // Bail early if not multilang
+    if(!acfe_is_multilang())
+        return $post_id;
+    
+    // Default
+    $translated_post_id = $post_id;
+    
+    // Polylang
+    if(acfe_is_polylang()){
+    
+        $translated_post_id = pll_get_post($post_id, $lang);
+        
+    // WPML
+    }elseif(acfe_is_wpml()){
+    
+        $translated_post_id = apply_filters('wpml_object_id', $post_id, 'post', false, $lang);
+        
+    }
+    
+    /*
+    if(empty($translated_post_id))
+        return $post_id;
+    */
+    
+    return $translated_post_id;
+    
+}
+
+function acfe_get_post_translated_default($post_id){
+    
+    // Get translated post id
+    $translated_post_id = acfe_get_post_translated($post_id, acf_get_setting('default_language'));
+    
+    // Fallback to current
+    if(empty($translated_post_id))
+        return $post_id;
+    
+    return $translated_post_id;
     
 }
 

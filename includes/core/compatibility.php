@@ -11,6 +11,14 @@ class acfe_compatibility{
         
         add_action('acf/init', array($this, 'init'), 98);
         
+        add_filter('pto/posts_orderby/ignore',                      array($this, 'pto_acf_field_group'), 10, 3);
+        add_filter('pto/get_options',                               array($this, 'pto_options_acf_field_group'));
+        
+        add_action('admin_menu',                                    array($this, 'cotto_submenu'), 999);
+        add_filter('rank_math/metabox/priority',                    array($this, 'rankmath_metaboxes_priority'));
+        add_filter('wpseo_metabox_prio',                            array($this, 'yoast_metaboxes_priority'));
+        add_filter('pll_get_post_types',                            array($this, 'polylang'), 10, 2 );
+        
 	}
     
     function init(){
@@ -25,14 +33,6 @@ class acfe_compatibility{
         add_filter('acfe/load_fields/type=flexible_content',        array($this, 'field_flexible_settings_title'), 20, 2);
         
         add_filter('acf/prepare_field/name=acfe_flexible_category', array($this, 'field_flexible_layout_categories'), 10, 2);
-        
-        add_filter('pto/posts_orderby/ignore',                      array($this, 'pto_acf_field_group'), 10, 3);
-        add_filter('pto/get_options',                               array($this, 'pto_options_acf_field_group'));
-        
-        add_action('admin_menu',                                    array($this, 'cotto_submenu'), 999);
-        add_filter('rank_math/metabox/priority',                    array($this, 'rankmath_metaboxes_priority'));
-        add_filter('wpseo_metabox_prio',                            array($this, 'yoast_metaboxes_priority'));
-        add_filter('pll_get_post_types',                            array($this, 'polylang'), 10, 2 );
         
     }
     
@@ -267,10 +267,12 @@ class acfe_compatibility{
         if($is_settings){
             
             unset($post_types['acfe-form']);
+            unset($post_types['acfe-template']);
             
         }else{
             
             $post_types['acfe-form'] = 'acfe-form';
+            $post_types['acfe-template'] = 'acfe-template';
             
         }
         

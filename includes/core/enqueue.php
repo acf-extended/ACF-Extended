@@ -7,18 +7,34 @@ if(!class_exists('acfe_enqueue')):
 
 class acfe_enqueue{
     
-    var $suffix = '';
-    var $version = '';
-    
     function __construct(){
-    
-        // Vars
-        $this->suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-        $this->version = ACFE_VERSION;
         
         // Hooks
-        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue'));
-        add_action('acf/input/admin_enqueue_scripts', array($this, 'acf_enqueue'));
+        add_action('init',                              array($this, 'register_assets'));
+        add_action('admin_enqueue_scripts',             array($this, 'admin_enqueue'));
+        add_action('acf/input/admin_enqueue_scripts',   array($this, 'acf_enqueue'));
+        
+    }
+    
+    function register_assets(){
+    
+        $version = ACFE_VERSION;
+        $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+    
+        // register scripts
+        wp_register_script('acf-extended',              acfe_get_url("assets/js/acfe{$min}.js"),                array('acf-input'),         $version);
+        wp_register_script('acf-extended-input',        acfe_get_url("assets/js/acfe-input{$min}.js"),          array('acf-extended'),      $version);
+        wp_register_script('acf-extended-admin',        acfe_get_url("assets/js/acfe-admin{$min}.js"),          array('acf-extended'),      $version);
+        wp_register_script('acf-extended-field-group',  acfe_get_url("assets/js/acfe-field-group{$min}.js"),    array('acf-field-group'),   $version);
+        wp_register_script('acf-extended-ui',           acfe_get_url("assets/js/acfe-ui{$min}.js"),             array('acf-extended'),      $version);
+    
+        // register styles
+        wp_register_style('acf-extended',               acfe_get_url("assets/css/acfe{$min}.css"),              array(),                    $version);
+        wp_register_style('acf-extended-input',         acfe_get_url("assets/css/acfe-input{$min}.css"),        array(),                    $version);
+        wp_register_style('acf-extended-admin',         acfe_get_url("assets/css/acfe-admin{$min}.css"),        array(),                    $version);
+        wp_register_style('acf-extended-field-group',   acfe_get_url("assets/css/acfe-field-group{$min}.css"),  array(),                    $version);
+        wp_register_style('acf-extended-ui',            acfe_get_url("assets/css/acfe-ui{$min}.css"),           array(),                    $version);
+        
     }
     
     /**
@@ -27,12 +43,12 @@ class acfe_enqueue{
     function admin_enqueue(){
     
         // Admin
-        wp_enqueue_style('acf-extended-admin', acfe_get_url('assets/css/acfe-admin' . $this->suffix . '.css'), false, $this->version);
+        wp_enqueue_style('acf-extended-admin');
     
         // Field Group
         if(acf_is_screen(array('edit-acf-field-group', 'acf-field-group'))){
         
-            wp_enqueue_style('acf-extended-field-group', acfe_get_url('assets/css/acfe-field-group' . $this->suffix . '.css'), false, $this->version);
+            wp_enqueue_style('acf-extended-field-group');
         
         }
         
@@ -44,24 +60,24 @@ class acfe_enqueue{
     function acf_enqueue(){
         
         // Global
-        wp_enqueue_style('acf-extended', acfe_get_url('assets/css/acfe' . $this->suffix . '.css'), false, $this->version);
-        wp_enqueue_script('acf-extended', acfe_get_url('assets/js/acfe' . $this->suffix . '.js'), array('acf'), $this->version);
+        wp_enqueue_style('acf-extended');
+        wp_enqueue_script('acf-extended');
     
         // Input
-        wp_enqueue_style('acf-extended-input', acfe_get_url('assets/css/acfe-input' . $this->suffix . '.css'), false, $this->version);
-        wp_enqueue_script('acf-extended-input', acfe_get_url('assets/js/acfe-input' . $this->suffix . '.js'), array('acf-input'), $this->version);
+        wp_enqueue_style('acf-extended-input');
+        wp_enqueue_script('acf-extended-input');
     
         // Admin
         if(is_admin()){
     
-            wp_enqueue_script('acf-extended-admin', acfe_get_url('assets/js/acfe-admin' . $this->suffix . '.js'), array('acf'), $this->version);
+            wp_enqueue_script('acf-extended-admin');
             
         }
     
         // Field Group
         if(acf_is_screen(array('acf-field-group'))){
             
-            wp_enqueue_script('acf-extended-field-group', acfe_get_url('assets/js/acfe-field-group' . $this->suffix . '.js'), array('acf-field-group'), $this->version);
+            wp_enqueue_script('acf-extended-field-group');
         
         }
         

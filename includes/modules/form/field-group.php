@@ -4,6 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 $actions_layouts = apply_filters('acfe/form/actions', array());
+ksort($actions_layouts);
 
 acf_add_local_field_group(array(
     'key' => 'group_acfe_dynamic_form',
@@ -532,8 +533,8 @@ acf_add_local_field_group(array(
             'acfe_permissions' => '',
             'choices' => array(
                 'default' => 'Default (Field based)',
-                'wp' => 'Media modal',
-                'basic' => 'Basic',
+                'wp' => 'WordPress',
+                'basic' => 'Browser',
             ),
             'allow_null' => 0,
             'other_choice' => 0,

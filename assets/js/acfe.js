@@ -2,7 +2,12 @@
 
     if(typeof acf === 'undefined')
         return;
-    
+
+    /*
+     * ACF Data
+     */
+    acf.data.acfe = {};
+
     /*
      * ACFE
      */

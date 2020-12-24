@@ -279,7 +279,7 @@ class acfe_form_front{
             'post_id'               => acf_get_valid_post_id(),
             'field_groups'          => get_field('acfe_form_field_groups',          $form_id),
             'field_groups_rules'    => get_field('acfe_form_field_groups_rules',    $form_id),
-            'post_field_groups'     => get_field('acfe_form_post_field_groups',     $form_id),
+            'post_field_groups'     => get_field('acfe_form_post_field_groups',     $form_id), // Deprecated
             'form'                  => get_field('acfe_form_form_element',          $form_id),
             'html_before_fields'    => get_field('acfe_form_html_before_fields',    $form_id),
             'custom_html_enabled'   => get_field('acfe_form_custom_html_enable',    $form_id),

@@ -231,7 +231,24 @@ class acfe_form_post{
                 
                 $field = acf_get_field($field_key);
                 
-                $form['map'][$field_key]['value'] = acf_get_value($_post_id, $field);
+                if(!$field)
+                    continue;
+                
+                if($field['type'] === 'clone' && $field['display'] === 'seamless'){
+                    
+                    $sub_fields = acf_get_value($_post_id, $field);
+                    
+                    foreach($sub_fields as $sub_field_key => $value){
+    
+                        $form['map'][$sub_field_key]['value'] = $value;
+                        
+                    }
+                    
+                }else{
+    
+                    $form['map'][$field_key]['value'] = acf_get_value($_post_id, $field);
+                    
+                }
                 
             }
             

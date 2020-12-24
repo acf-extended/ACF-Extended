@@ -250,10 +250,27 @@ class acfe_form_user{
         if(!empty($load_meta)){
             
             foreach($load_meta as $field_key){
-                
+    
                 $field = acf_get_field($field_key);
-                
-                $form['map'][$field_key]['value'] = acf_get_value('user_' . $_user_id, $field);
+    
+                if(!$field)
+                    continue;
+    
+                if($field['type'] === 'clone' && $field['display'] === 'seamless'){
+        
+                    $sub_fields = acf_get_value('user_' . $_user_id, $field);
+        
+                    foreach($sub_fields as $sub_field_key => $value){
+            
+                        $form['map'][$sub_field_key]['value'] = $value;
+            
+                    }
+        
+                }else{
+        
+                    $form['map'][$field_key]['value'] = acf_get_value('user_' . $_user_id, $field);
+        
+                }
                 
             }
             

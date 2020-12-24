@@ -396,6 +396,8 @@ class acfe_form{
                 if(!$field_group)
                     continue;
                 
+                acf_disable_filter('clone');
+                
                 $field_group['fields'] = acf_get_fields($field_group);
                 
                 $return[] = $field_group;
@@ -1298,11 +1300,17 @@ class acfe_form{
     
     // Image / File
     function format_value_file($value, $_value, $post_id, $field){
+    
+        $value = acf_get_array($_value);
+        $array = array();
+    
+        foreach($value as $v){
         
-        if(isset($_value['title']))
-            return $_value['title'];
+            $array[] = get_the_title($v);
         
-        return $value;
+        }
+        
+        return implode(', ', $array);
         
     }
     

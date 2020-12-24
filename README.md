@@ -351,6 +351,33 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 
 ## 📋 Changelog
 
+### 0.8.7.6
+
+**ACF Extended Pro 0.8.7.6:**
+* Field Groups: WP Settings Locations - Added new "General Settings", "Writing", "Reading", "Discussion", "Media" & "Permalinks" locations
+* Module: Global Field Condition - Fixed compatibility with required fields
+* Module: Dynamic Templates - Added Polylang/WPML compatibility
+* Module: Dynamic Templates - Improved code logic & compatibility with Clone fields
+* Module: Dynamic Forms - Added "Options Page Action". Allowing to Save & Load meta to ACF Options Page
+* Module: Dynamic Forms - Fixed "Email Action" to correctly use Multiple Upload files
+* Module: Dynamic Forms - Fixed Multiple Upload files on front-end for not logged users
+* Module: Dynamic Forms - Fixed Multiple Upload & Dropzone in Basic mode on Firefox
+* Field: Relationship/Post Object - Fixed Inline Post Creation when only one post type was allowed in the field setting
+
+**ACF Extended Basic 0.8.7.6:**
+* Module: Enhanced UI - Improved logic, compatibility and style. ACF Field Groups can now use any position and any style in Users & Terms views
+* Module: Enhanced UI - Fixed Terms WPML widget compatibility
+* Module: Dynamic Post Types - "Archive Page" submenu is now correctly translated
+* Module: Dynamic Forms - Fixed values loaded from Clones Fields in Seamless display
+* Module: Dynamic Forms - Enhanced Image/File format value when using the `{field:my_file}` Template Tag
+* Module: Multilang - Added "Current Language" text widget in Options Page submit box
+* Module: Multilang - Polylang - Added fallback to "Default Language" in Options Page values if a translated option was never saved before
+* Module: Multilang - Polylang - Fixed "Dynamic Forms" & "Dynamic Template" post types detection
+* Module: PHP AutoSync - Fixed Local Field Group detection when using a custom submenu on the ACF Field Group menu
+* Core: Added default `acf.data.acfe` in core JS
+* Core: Fixed ACF Pro 5.8 JS compatibility
+* Core: Fixed Google Map suggestions z-index CSS in modals
+
 ### 0.8.7.5
 
 **ACF Extended Pro 0.8.7.5:**
@@ -373,7 +400,7 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 * Field: Time picker: Added "Placeholder", "Min/max Time" & "Min/max H:i:s" settings
 * Core: Added the `ACFE_PRO_KEY` constant allowing to set the licence key in PHP
 
-**ACF Extended Free 0.8.7.5:**
+**ACF Extended Basic 0.8.7.5:**
 * Field Groups: Instruction Placement - Added "Above Fields" setting
 * Field Groups: Instruction Placement - "Tooltip" instructions can now be clicked on mobile device
 * Field Groups: Hide on screen - All field groups "Hide on screen" settings are now merged, instead of using only the first field group setting

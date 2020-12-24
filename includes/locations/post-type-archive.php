@@ -42,9 +42,12 @@ class acfe_location_post_type_archive{
             if($name === 'post')
                 $parent_slug = 'edit.php';
             
+            $label = __('Archive <span class="count">(%s)</span>');
+            $label = preg_replace('/ <span(.*?)<\/span>/', '', $label);
+            
             acf_add_options_page(array(
-                'page_title' 	            => $object->label . ' ' . __('Archive'),
-                'menu_title'	            => __('Archive'),
+                'page_title' 	            => $object->label . ' ' . $label,
+                'menu_title'	            => $label,
                 'menu_slug' 	            => $name . '-archive',
                 'post_id'                   => $name . '_archive',
                 'capability'	            => acf_get_setting('capability'),

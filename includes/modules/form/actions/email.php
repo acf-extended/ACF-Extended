@@ -74,17 +74,25 @@ class acfe_form_email{
                 $file_delete = get_sub_field('acfe_form_email_file_delete');
                 $file_id = acfe_form_map_field_value($file_field_key, $current_post_id, $form);
                 
+                // Force Array
                 $field = acf_get_field($file_field_key);
-                $file = acf_format_value($file_id, 0, $field);
+                $field['return_format'] = 'array';
                 
-                if(!acf_maybe_get($file, 'ID'))
-                    continue;
+                $files = acf_format_value($file_id, 0, $field);
+                $files = acf_get_array($files);
                 
-                $attachments[] = get_attached_file($file['ID']);
-                
-                if($file_delete){
-                    
-                    $delete_files[] = $file['ID'];
+                foreach($files as $file){
+    
+                    if(!acf_maybe_get($file, 'ID'))
+                        continue;
+    
+                    $attachments[] = get_attached_file($file['ID']);
+    
+                    if($file_delete){
+        
+                        $delete_files[] = $file['ID'];
+        
+                    }
                     
                 }
         

@@ -18,4 +18,6 @@ acfe_include('includes/modules/form/actions/redirect.php');
 acfe_include('includes/modules/form/actions/term.php');
 acfe_include('includes/modules/form/actions/user.php');
 
+do_action('acfe/include_form_actions');
+
 acfe_include('includes/modules/form/field-group.php');

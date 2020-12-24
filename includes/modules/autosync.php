@@ -184,7 +184,7 @@ class ACFE_AutoSync{
         $files = $this->scan_php_folders();
         
         // Do not include PHP files in ACF Admin
-        if(($pagenow === 'edit.php' && acf_maybe_get_GET('post_type') === 'acf-field-group') || ($pagenow === 'post.php' && get_post_type(acf_maybe_get_GET('post')) === 'acf-field-group'))
+        if(($pagenow === 'edit.php' && acf_maybe_get_GET('post_type') === 'acf-field-group' && !acf_maybe_get_GET('page')) || ($pagenow === 'post.php' && get_post_type(acf_maybe_get_GET('post')) === 'acf-field-group'))
             return;
     
         foreach($files as $key => $file){

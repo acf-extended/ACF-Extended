@@ -628,12 +628,13 @@ body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .
 .postbox .handle-order-higher,
 .postbox .handle-order-lower {
   vertical-align: bottom;
+  width: 1.42rem;
 }
 
 .postbox .handle-order-higher .order-higher-indicator:before,
 .postbox .handle-order-lower .order-lower-indicator:before {
   font-size: 15px;
-  top: .18rem;
+  top: .23rem;
 }
 
 .postbox .handlediv {
@@ -642,6 +643,13 @@ body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .
 
 .postbox .handlediv .toggle-indicator:before {
   text-indent: -7px;
+  top: .1rem;
+}
+
+#poststuff .stuffbox > h3,
+#poststuff h2,
+#poststuff h3.hndle {
+  line-height: 1.48;
 }
 
 .acf-settings-wrap .acf-box {
