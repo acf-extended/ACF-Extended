@@ -974,15 +974,13 @@ class acfe_field_flexible_content extends acf_field_flexible_content{
         // Thumbnail
         if($flexible['acfe_flexible_layouts_thumbnails']){
             
-            acf_render_field_wrap(array(
+	    acf_render_field_wrap(array(
                 'label'         => __('Thumbnail'),
                 'name'          => 'acfe_flexible_thumbnail',
-                'type'          => 'image',
+                'type'          => 'text',
                 'class'         => '',
                 'prefix'        => $prefix,
                 'value'         => $layout['acfe_flexible_thumbnail'],
-                'return_format' => 'array',
-                'preview_size'  => 'thumbnail',
                 'library'       => 'all',
             ), 'ul');
         
