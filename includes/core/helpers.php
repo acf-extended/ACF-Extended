@@ -3,8 +3,9 @@
 if(!defined('ABSPATH'))
     exit;
 
-/**
- * Get Flexible
+/*
+ * ACFE: Get Flexible
+ * Helper for the Flexible Content: Dynamic Render
  */
 if(!function_exists('get_flexible')){
     
@@ -68,8 +69,9 @@ function get_flexible($selector, $post_id = false){
 
 }
 
-/**
- * The Flexible
+/*
+ * ACFE: The Flexible
+ * Helper for the Flexible Content: Dynamic Render
  */
 if(!function_exists('the_flexible')){
     
@@ -81,8 +83,9 @@ function the_flexible($selector, $post_id = false){
 
 }
 
-/**
- * Has Flexible
+/*
+ * ACFE: Has Flexible
+ * Helper for the Flexible Content: Dynamic Render
  */
 if(!function_exists('has_flexible')){
     
@@ -94,8 +97,9 @@ function has_flexible($selector, $post_id = false){
 
 }
 
-/**
- * Flexible: have_settings()
+/*
+ * ACFE: Have Settings
+ * While() loop function for the Flexible Content: Settings Modal feature
  */
 if(!function_exists('have_settings')){
     
@@ -107,8 +111,9 @@ function have_settings(){
 
 }
 
-/**
- * Flexible: the_settings()
+/*
+ * ACFE: The Setting
+ * Setup data for the Flexible Content: Settings Modal loop
  */
 if(!function_exists('the_setting')){
     
@@ -120,8 +125,9 @@ function the_setting(){
 
 }
 
-/**
- * have_archive()
+/*
+ * ACFE: Have Archive
+ * While() loop function for the Dynamic Post Type: Archive Page feature
  */
 if(!function_exists('have_archive')){
 
@@ -165,8 +171,9 @@ function have_archive($_post_type = false){
 
 }
 
-/**
- * the_archive()
+/*
+ * ACFE: The Archive
+ * Setup data for the Dynamic Post Type: Archive Page feature
  */
 if(!function_exists('the_archive')){
     
@@ -182,6 +189,10 @@ function the_archive(){
 
 }
 
+/*
+ * ACFE: The Archive Post ID
+ * Dynamic Post Type: Archive Page helper
+ */
 function acfe_the_archive_post_id($null, $post_id){
     
     if($post_id !== false)
@@ -198,13 +209,15 @@ function acfe_the_archive_post_id($null, $post_id){
     
 }
 
-/**
- * ACFE Flexible: Render Template
+/*
+ * ACFE: Flexible Render Layout Template
+ * Find & include the Flexible Content Layouts PHP files
  */
 function acfe_flexible_render_layout_template($layout, $field){
     
     // Global
-    global $is_preview;
+    global $is_preview, $col;
+    $col = false;
     
     // Vars
     $name = $field['_name'];
@@ -296,11 +309,9 @@ function acfe_flexible_render_layout_template($layout, $field){
     
 }
 
-/**
- * ACFE Flexible: Render Enqueue
- *
- * @param $layout
- * @param $field
+/*
+ * ACFE: Flexible Render Layout Enqueue
+ * Find & Enqueue Scripts & Styles files for the Flexible Content
  */
 function acfe_flexible_render_layout_enqueue($layout, $field){
     
@@ -450,8 +461,9 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     
 }
 
-/**
- * Get Field Group from Field
+/*
+ * ACFE: Get Field Group from Field
+ * Retrieve the Field Group, starting from any field or sub field
  */
 function acfe_get_field_group_from_field($field){
     
@@ -473,8 +485,8 @@ function acfe_get_field_group_from_field($field){
     
 }
 
-/**
- * Is Json
+/*
+ * ACFE: Is Json
  * Source: https://stackoverflow.com/a/6041773
  */
 function acfe_is_json($string){
@@ -490,7 +502,7 @@ function acfe_is_json($string){
 }
 
 /*
- * Array Keys Recursive
+ * ACFE: Array Keys Recursive
  */
 function acfe_array_keys_r($array){
 
@@ -510,7 +522,8 @@ function acfe_array_keys_r($array){
 }
 
 /*
- * Locate File URL
+ * ACFE: Locate File URL
+ * Similar to locate_template(), but locate File URL instead
  * Check if file exists locally and return URL (supports parent/child theme)
  */
 function acfe_locate_file_url($filenames){
@@ -582,7 +595,8 @@ function acfe_locate_file_url($filenames){
 }
 
 /*
- * Locate File Path
+ * ACFE: Locate File Path
+ * Similar to locate_template(), but locate File Path instead
  * Based on wp-includes\template.php:653
  */
 function acfe_locate_file_path($filenames){
@@ -643,7 +657,8 @@ function acfe_locate_file_path($filenames){
     
 }
 
-/**
+/*
+ * ACFE: Get Absolute Path to URL
  * Convert ABSPATH . '/url' to https://www.domain.com/url
  */
 function acfe_get_abs_path_to_url($path = ''){
@@ -657,8 +672,9 @@ function acfe_get_abs_path_to_url($path = ''){
     
 }
 
-/**
- * Get Roles
+/*
+ * ACFE: Get Roles
+ * Retrieve all available roles (working with WPMU)
  */
 function acfe_get_roles($filtered_user_roles = array()){
     
@@ -696,8 +712,9 @@ function acfe_get_roles($filtered_user_roles = array()){
     
 }
 
-/**
- * Get Current Roles
+/*
+ * ACFE: Get Current User Roles
+ * Retrieve currently logged user roles
  */
 function acfe_get_current_user_roles(){
     
@@ -715,8 +732,9 @@ function acfe_get_current_user_roles(){
     
 }
 
-/**
- * Get post types objects
+/*
+ * ACFE: Get Post Types Objects
+ * Query & retrieve post types objects
  */
 function acfe_get_post_type_objects($args = array()){
     
@@ -743,8 +761,9 @@ function acfe_get_post_type_objects($args = array()){
     
 }
 
-/**
- * Get taxonomy objects
+/*
+ * ACFE: Get Taxonomy Objects
+ * Query & retrieve taxonomies objects
  */
 function acfe_get_taxonomy_objects($args = array()){
     
@@ -771,8 +790,9 @@ function acfe_get_taxonomy_objects($args = array()){
     
 }
 
-/**
- * Get post statuses
+/*
+ * ACFE: Get Pretty Post Statuses
+ * Similar to acf_get_pretty_post_types() but for Post Statuses
  */
 function acfe_get_pretty_post_statuses($posts_statuses = array()){
 	
@@ -801,8 +821,9 @@ function acfe_get_pretty_post_statuses($posts_statuses = array()){
 	
 }
 
-/**
- * Get forms
+/*
+ * ACFE: Get Pretty Forms
+ * Similar to acf_get_pretty_post_types() but for ACFE Forms
  */
 function acfe_get_pretty_forms($forms = array()){
 	
@@ -837,8 +858,9 @@ function acfe_get_pretty_forms($forms = array()){
 	
 }
 
-/**
- * Starts with
+/*
+ * ACFE: Ends with
+ * Check if a strings starts with something
  */
 function acfe_starts_with($haystack, $needle){
         
@@ -847,8 +869,9 @@ function acfe_starts_with($haystack, $needle){
 
 }
 
-/**
- * Ends with
+/*
+ * ACFE: Ends with
+ * Check if a strings ends with something
  */
 function acfe_ends_with($haystack, $needle){
         
@@ -861,16 +884,45 @@ function acfe_ends_with($haystack, $needle){
     
 }
 
+/*
+ * ACFE: Form Is Admin
+ * Legacy way to check if current screen is back-end
+ */
 function acfe_form_is_admin(){
     
-    if((is_admin() && !wp_doing_ajax()) || (is_admin() && wp_doing_ajax() && acf_maybe_get_POST('_acf_screen') !== 'acfe_form' && acf_maybe_get_POST('_acf_screen') !== 'acf_form'))
-        return true;
+    _deprecated_function('ACF Extended: acfe_form_is_admin()', '0.8.8', "acfe_is_admin()");
     
-    return false;
+    return acfe_is_admin();
     
 }
 
+/*
+ * ACFE: Form Is Front
+ * Legacy way to check if current screen is front-end
+ */
 function acfe_form_is_front(){
+    
+    _deprecated_function('ACF Extended: acfe_form_is_front()', '0.8.8', "acfe_is_front()");
+    
+    return acfe_is_front();
+    
+}
+
+/*
+ * ACFE: Is Front
+ * Check if current screen is back-end
+ */
+function acfe_is_admin(){
+    
+    return !acfe_is_front();
+    
+}
+
+/*
+ * ACFE: Is Front
+ * Check if current screen is front-end
+ */
+function acfe_is_front(){
     
     if(!is_admin() || (is_admin() && wp_doing_ajax() && (acf_maybe_get_POST('_acf_screen') === 'acfe_form' || acf_maybe_get_POST('_acf_screen') === 'acf_form')))
         return true;
@@ -879,6 +931,10 @@ function acfe_form_is_front(){
     
 }
 
+/*
+ * ACFE: Form Decrypt Args
+ * Wrapper to decrypt ACF & ACFE Forms arguments
+ */
 function acfe_form_decrypt_args(){
     
     if(!acf_maybe_get_POST('_acf_form'))
@@ -893,6 +949,10 @@ function acfe_form_decrypt_args(){
     
 }
 
+/*
+ * ACFE: is Form Success
+ * Check if the current page is a success form page
+ */
 function acfe_is_form_success($form_name = false){
     
     if(!acf_maybe_get_POST('_acf_form'))
@@ -910,6 +970,10 @@ function acfe_is_form_success($form_name = false){
     
 }
 
+/*
+ * ACFE: Form is submitted
+ * Legacy way to check if the current page is a success form page
+ */
 function acfe_form_is_submitted($form_name = false){
     
     _deprecated_function('ACF Extended - Dynamic Forms: "acfe_form_is_submitted()" function', '0.8.7.5', "acfe_is_form_success()");
@@ -918,6 +982,10 @@ function acfe_form_is_submitted($form_name = false){
     
 }
 
+/*
+ * ACFE: Form Unique Action ID
+ * Legacy way to make actions names unique
+ */
 function acfe_form_unique_action_id($form, $type){
     
     $name = $form['name'] . '-' . $type;
@@ -941,31 +1009,46 @@ function acfe_form_unique_action_id($form, $type){
     
 }
 
+/*
+ * ACFE: Form Get Actions
+ * Retrieve all actions output
+ */
 function acfe_form_get_actions(){
     
     return get_query_var('acfe_form_actions', array());
     
 }
 
-function acfe_form_get_action($name = false){
+/*
+ * ACFE: Form Get Action
+ * Retrieve the latest action output
+ */
+function acfe_form_get_action($name = false, $key = false){
     
     $actions = acfe_form_get_actions();
     
-    // No Action
+    // No action
     if(empty($actions))
         return false;
     
-    // Last Action
-    if(empty($name))
-        return end($actions);
+    // Action name
+    if(!empty($name)){
+        $return = acf_maybe_get($actions, $name, false);
+    }else{
+        $return = end($actions);
+    }
     
-    if(isset($actions[$name]))
-        return $actions[$name];
+    if($key !== false || is_numeric($key))
+        $return = acf_maybe_get($return, $key, false);
     
-    return false;
+    return $return;
     
 }
 
+/*
+ * ACFE: Array Insert Before
+ * Insert data before a specific array key
+ */
 function acfe_array_insert_before($key, array &$array, $new_key, $new_value){
     
     if(!array_key_exists($key, $array))
@@ -986,6 +1069,10 @@ function acfe_array_insert_before($key, array &$array, $new_key, $new_value){
     
 }
 
+/*
+ * ACFE: Array Insert After
+ * Insert data after a specific array key
+ */
 function acfe_array_insert_after($key, array &$array, $new_key, $new_value){
     
     if(!array_key_exists($key, $array))
@@ -1006,6 +1093,10 @@ function acfe_array_insert_after($key, array &$array, $new_key, $new_value){
     
 }
 
+/*
+ * ACFE: Array move
+ * Move the array key from position $a to $b
+ */
 function acfe_array_move(&$array, $a, $b){
     
     $out = array_splice($array, $a, 1);
@@ -1013,6 +1104,10 @@ function acfe_array_move(&$array, $a, $b){
     
 }
 
+/*
+ * ACFE: Add Validation Error
+ * Similar to acf_add_validation_error() but allows to use field name or field key
+ */
 function acfe_add_validation_error($selector = '', $message = ''){
     
     // General error
@@ -1047,7 +1142,9 @@ function acfe_add_validation_error($selector = '', $message = ''){
 }
 
 /*
- * Similar to acf_get_taxonomy_terms() but returns array('256' => 'Category name') instead of array('category:category_name' => 'Category name')
+ * ACFE: Get Taxonomy Terms IDs
+ * Similar to acf_get_taxonomy_terms()
+ * Returns "array('256' => 'Category name')" instead of "array('category:category_name' => 'Category name')"
  */
 function acfe_get_taxonomy_terms_ids($taxonomies = array()){
 	
@@ -1055,17 +1152,17 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
 	$taxonomies = acf_get_array($taxonomies);
 	
 	// get pretty taxonomy names
-	$taxonomies = acf_get_pretty_taxonomies( $taxonomies );
+	$taxonomies = acf_get_taxonomy_labels($taxonomies);
 	
 	// vars
 	$r = array();
 	
 	// populate $r
-	foreach( array_keys($taxonomies) as $taxonomy ) {
+	foreach(array_keys($taxonomies) as $taxonomy){
 		
 		// vars
 		$label = $taxonomies[$taxonomy];
-		$is_hierarchical = is_taxonomy_hierarchical( $taxonomy );
+		$is_hierarchical = is_taxonomy_hierarchical($taxonomy);
 		
 		$terms = acf_get_terms(array(
 			'taxonomy'		=> $taxonomy,
@@ -1079,7 +1176,7 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
 		// sort into hierachial order!
 		if($is_hierarchical){
 			
-			$terms = _get_term_children( 0, $terms, $taxonomy );
+			$terms = _get_term_children(0, $terms, $taxonomy);
 			
 		}
 		
@@ -1101,6 +1198,10 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
 	
 }
 
+/*
+ * ACFE: Get Term Level
+ * Retrive the Term Level number
+ */
 function acfe_get_term_level($term, $taxonomy){
     
     $ancestors = get_ancestors($term, $taxonomy);
@@ -1109,6 +1210,10 @@ function acfe_get_term_level($term, $taxonomy){
     
 }
 
+/*
+ * ACFE: Numer Suffix
+ * Adds 1"st", 2"nd", 3"rd" to number
+ */
 function acfe_number_suffix($num){
     
     if(!in_array(($num % 100), array(11,12,13))){
@@ -1125,6 +1230,10 @@ function acfe_number_suffix($num){
     
 }
 
+/*
+ * ACFE: Array to String
+ * Convert an array to string
+ */
 function acfe_array_to_string($array = array()){
 	
 	if(!is_array($array))
@@ -1161,6 +1270,10 @@ function acfe_array_to_string($array = array()){
 	
 }
 
+/*
+ * ACFE: Get ACF Screen ID
+ * Legacy way to check if the current admin screen is ACF Field Group UI, ACF Tools, ACF Updates screens etc...
+ */
 function acfe_get_acf_screen_id($page = ''){
 
     $prefix = sanitize_title( __("Custom Fields", 'acf') );
@@ -1172,6 +1285,10 @@ function acfe_get_acf_screen_id($page = ''){
     
 }
 
+/*
+ * ACFE: Is Admin Screen
+ * Check if the current admin screen is ACF Field Group UI, ACF tools, ACF Updates screens etc...
+ */
 function acfe_is_admin_screen($modules = false){
 
     // bail early if not defined
@@ -1194,11 +1311,8 @@ function acfe_is_admin_screen($modules = false){
     // include ACF Extended Modules?
     if($modules){
         
-        $post_types[] = 'acfe-dbt';     // Dynamic Block Type
-        $post_types[] = 'acfe-dop';     // Dynamic Option Page
-        $post_types[] = 'acfe-dpt';     // Dynamic Post Type
-        $post_types[] = 'acfe-dt';      // Dynamic Taxonomy
-        $post_types[] = 'acfe-form';    // Dynamic Form
+        // Reserved
+        $post_types = array_merge($post_types, acfe_get_setting('reserved_post_types', array()));
         
         // Field Group Category
         $field_group_category = $screen->post_type === 'post' && $screen->taxonomy === 'acf-field-group-category';
@@ -1212,36 +1326,60 @@ function acfe_is_admin_screen($modules = false){
     
 }
 
+/*
+ * ACFE: Is Dev
+ * Check if the developer mode is enabled
+ */
 function acfe_is_dev(){
 	
 	return acf_get_setting('acfe/dev', false) || (defined('ACFE_dev') && ACFE_dev);
 	
 }
 
+/*
+ * ACFE: Is Super Dev
+ * Only for awesome developers!
+ */
 function acfe_is_super_dev(){
 	
 	return acf_get_setting('acfe/super_dev', false) || (defined('ACFE_super_dev') && ACFE_super_dev);
 	
 }
 
+/*
+ * ACFE: Update Setting
+ * Similar to acf_update_setting() but with the 'acfe' prefix
+ */
 function acfe_update_setting($name, $value){
     
     return acf_update_setting("acfe/{$name}", $value);
     
 }
 
+/*
+ * ACFE: Append Setting
+ * Similar to acf_append_setting() but with the 'acfe' prefix
+ */
 function acfe_append_setting($name, $value){
     
     return acf_append_setting("acfe/{$name}", $value);
     
 }
 
+/*
+ * ACFE: Get Setting
+ * Similar to acf_get_setting() but with the 'acfe' prefix
+ */
 function acfe_get_setting($name, $value = null){
     
     return acf_get_setting("acfe/{$name}", $value);
     
 }
 
+/*
+ * ACFE: Get Locations Array
+ * Legacy way to retrieve Field Groups Locations data in ACF 5.8 versions
+ */
 function acfe_get_locations_array($locations){
     
     $return = array();
@@ -1406,6 +1544,10 @@ function acfe_get_locations_array($locations){
     
 }
 
+/*
+ * ACFE: Render Field Group Locations HTML
+ * Legacy way to display Field Groups Locations in ACF 5.8 versions
+ */
 function acfe_render_field_group_locations_html($field_group){
     
     foreach($field_group['location'] as $groups){
@@ -1430,6 +1572,10 @@ function acfe_render_field_group_locations_html($field_group){
     
 }
 
+/*
+ * ACFE: Unset
+ * Safely remove an array key
+ */
 function acfe_unset(&$array, $key){
 
     if(isset($array[$key]))
@@ -1437,6 +1583,10 @@ function acfe_unset(&$array, $key){
 
 }
 
+/*
+ * ACFE: Unarray
+ * Retrieve and return only the first value of an array
+ */
 function acfe_unarray($val){
     
     if(is_array($val)){
@@ -1446,26 +1596,124 @@ function acfe_unarray($val){
     return $val;
 }
 
+/*
+ * ACFE: Get Post ID
+ * Universal way to always retrieve the correct ACF Post ID on front-end and back-end
+ * Return ACF formatted Post ID. ie: 12|term_24|user_56|my-options
+ */
 function acfe_get_post_id(){
     
-    return acf_get_valid_post_id();
+    // Admin
+    if(acfe_is_admin()){
+        
+        // Legacy ACF method
+        $post_id = acf_get_valid_post_id();
+        
+        // Check Local Meta
+        $local_meta = acf_get_instance('ACF_Local_Meta')->meta;
+        $local_post_id = array();
+    
+        if(!empty($local_meta)){
+            $local_post_id = array_keys($local_meta);
+        }
+    
+        $exclude = apply_filters('acfe/get_post_id', $local_post_id);
+    
+        if(in_array($post_id, $exclude))
+            $post_id = false;
+    
+        if($post_id)
+            return $post_id;
+    
+        // ACF Form Data
+        $post_id = acf_get_form_data('post_id');
+    
+        // $_POST['_acf_post_id']
+        if(!$post_id){
+            $post_id = acf_maybe_get_POST('_acf_post_id');
+        }
+    
+        // $_REQUEST['post']
+        if(!$post_id){
+            $post_id = isset($_REQUEST['post']) ? absint($_REQUEST['post']) : 0;
+        }
+        
+        // $_REQUEST['user_id']
+        if(!$post_id){
+            $post_id = isset($_REQUEST['user_id']) ? 'user_' . absint($_REQUEST['user_id']) : 0;
+        }
+        
+        // $_REQUEST['tag_ID']
+        if(!$post_id){
+            $post_id = isset($_REQUEST['tag_ID']) ? 'term_' . absint($_REQUEST['tag_ID']) : 0;
+        }
+        
+        // Default
+        if(!$post_id){
+            $post_id = 0;
+        }
+        
+        
+    // Front
+    }else{
+        
+        // vars
+        $object = get_queried_object();
+        $post_id = 0;
+    
+        if(is_object($object)){
+    
+            // Post
+            if(isset($object->post_type, $object->ID)){
+        
+                $post_id = $object->ID;
+            
+            // Post Type Archive
+            }elseif(isset($object->hierarchical, $object->name, $object->acfe_admin_archive)){
+                
+                // Validate with ACF filter (for multilang)
+                $post_id = acf_get_valid_post_id($object->name . '_archive');
+    
+            // User
+            }elseif(isset($object->roles, $object->ID)){
+        
+                $post_id = 'user_' . $object->ID;
+        
+            // Term
+            }elseif(isset($object->taxonomy, $object->term_id)){
+        
+                $post_id = 'term_' . $object->term_id;
+        
+            // Comment
+            }elseif(isset($object->comment_ID)){
+        
+                $post_id = 'comment_' . $object->comment_ID;
+        
+            }
+            
+        }
+        
+    }
+    
+    return $post_id;
     
 }
 
+/*
+ * ACFE: Highlight Code
+ */
 function acfe_highlight(){
     
     ini_set("highlight.comment", "#555");
-    /*
-    ini_set("highlight.keyword", "#0000BB"); // #4B2AFF
-    ini_set("highlight.default", "#222222");
-    ini_set("highlight.string", "#777777");
-    */
     
     static $on = false;
     
-    if ( !$on ) {
+    if(!$on){
+        
         ob_start();
-    } else {
+        
+    }else{
+        
         $buffer = "<?php\n" . ob_get_contents();
         ob_end_clean();
         $code = highlight_string($buffer, true);
@@ -1475,6 +1723,7 @@ function acfe_highlight(){
         $code = str_replace("</code>", '', $code);
         
         echo '<div class="acfe-pre-highlight">' . $code . '</div>';
+        
     }
     
     $on = !$on;
@@ -1482,6 +1731,8 @@ function acfe_highlight(){
 }
 
 /*
+ * ACFE: Remove Class Filter
+ * Remove hook from inaccessible PHP class
  * https://gist.github.com/tripflex/c6518efc1753cf2392559866b4bd1a53
  */
 function acfe_remove_class_filter( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
@@ -1567,9 +1818,10 @@ function acfe_remove_class_action( $tag, $class_name = '', $method_name = '', $p
 }
 
 /*
- * Similar to get_fields() but with field keys
+ * ACFE: Get Fields
+ * Similar to get_fields() but with field keys only. Useful to inject & preload values
  */
-function acfe_get_fields($post_id = false, $format_value = true){
+function acfe_get_fields($post_id = false, $format_value = false){
     
     // vars
     $fields = get_field_objects($post_id, $format_value);
@@ -1589,4 +1841,94 @@ function acfe_get_fields($post_id = false, $format_value = true){
     // return
     return $meta;
 
+}
+
+/*
+ * ACFE: Is Dynamic Preview
+ * Check if currently in ACFE FlexibleContent Preview or ACF Block Type Preview
+ */
+function acfe_is_dynamic_preview(){
+    
+    global $is_preview;
+    
+    // Flexible Content
+    if(isset($is_preview) && $is_preview){
+        
+        return true;
+        
+    // Block Type
+    }elseif(wp_doing_ajax() && acf_maybe_get_POST('query')){
+        
+        $query = acf_maybe_get_POST('query');
+        
+        if(acf_maybe_get($query, 'preview'))
+            return true;
+        
+    }
+    
+    return false;
+    
+}
+
+/*
+ * ACFE: Maybe Get
+ * Similar to acf_maybe_get() but also works with OBJECTS
+ */
+function acfe_maybe_get($array = array(), $key = 0, $default = null){
+    
+    if(is_object($array)){
+        return isset($array->{$key}) ? $array->{$key} : $default;
+    }
+    
+    return acf_maybe_get($array, $key, $default);
+    
+}
+
+/*
+ * ACF: Maybe Get REQUEST
+ * Similar to acf_maybe_get_POST() but works with $_REQUEST
+ */
+function acfe_maybe_get_REQUEST($key = '', $default = null){
+    
+    return isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default;
+    
+}
+
+/*
+ * ACFE: Extract Sub Field form Layout & Set Value
+ */
+function acfe_extract_sub_field(&$layout, $name, $value){
+    
+    $sub_field = false;
+    
+    // loop
+    foreach($layout['sub_fields'] as $k => $row){
+        
+        if($row['name'] !== $name)
+            continue;
+        
+        $sub_field = acf_extract_var($layout['sub_fields'], $k);
+        break;
+        
+    }
+    
+    if(!$sub_field)
+        return false;
+    
+    // Reset keys
+    $layout['sub_fields'] = array_values($layout['sub_fields']);
+    
+    // Add value
+    if(isset($value[$sub_field['key']])){
+        
+        $sub_field['value'] = $value[$sub_field['key']];
+        
+    }elseif(isset($sub_field['default_value'])){
+        
+        $sub_field['value'] = $sub_field['default_value'];
+        
+    }
+    
+    return $sub_field;
+    
 }

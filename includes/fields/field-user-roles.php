@@ -319,6 +319,17 @@ class acfe_field_user_roles extends acf_field{
         
     }
     
+    function update_field($field){
+        
+        $field['default_value'] = acf_decode_choices($field['default_value'], true);
+        
+        if($field['field_type'] === 'radio')
+            $field['default_value'] = acfe_unarray($field['default_value']);
+        
+        return $field;
+        
+    }
+    
     function prepare_field($field){
         
         // Set Field Type

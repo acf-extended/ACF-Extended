@@ -214,6 +214,7 @@ class acfe_multilang{
      * PolyLang
      * https://polylang.pro/doc/filter-reference/
      * https://polylang.pro/doc/developpers-how-to/
+     * https://polylang.pro/doc-category/developers/
      * https://polylang.wordpress.com/documentation/documentation-for-developers/general/
      * https://polylang.wordpress.com/documentation/documentation-for-developers/functions-reference/
      */

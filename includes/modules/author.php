@@ -18,7 +18,7 @@ class acfe_author{
         add_action('init',                                  array($this, 'init'), 999);
         add_action('admin_menu',                            array($this, 'admin_menu'));
         
-        add_action('acf/save_post',                         array($this, 'save_post'), 0);
+        add_action('acf/save_post',                         array($this, 'save_post'), 20);
         add_filter('acf/load_value/name=acfe_author',       array($this, 'load_value'), 10, 3);
         add_filter('acf/pre_update_value',                  array($this, 'update_value'), 10, 4);
         
@@ -211,6 +211,6 @@ class acfe_author{
 }
 
 // initialize
-acfe()->acfe_author = new acfe_author();
+new acfe_author();
 
 endif;

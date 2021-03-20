@@ -72,10 +72,11 @@ class acfe_field_image{
             'instructions'  => __('Choose the uploader type'),
             'type'          => 'radio',
             'choices'       => array(
+                ''      => 'Default',
                 'wp'    => 'WordPress',
                 'basic' => 'Browser',
             ),
-            'default_value' => 'wp',
+            'default_value' => '',
             'layout'        => 'horizontal',
             'return_format' => 'value',
         ));
@@ -96,16 +97,18 @@ class acfe_field_image{
     }
     
     function prepare_field($field){
-    
-        if(!acf_maybe_get($field, 'uploader'))
-            $field['uploader'] = 'wp';
             
         // ACFE Form force uploader type
         if(acf_is_filter_enabled('acfe/form/uploader'))
             acfe_unset($field, 'uploader');
+        
+        if(!acf_maybe_get($field, 'uploader'))
+            $field['uploader'] = acf_get_setting('uploader');
+        
+        if(!current_user_can('upload_files'))
+            $field['uploader'] = 'basic';
     
-        if(acf_maybe_get($field, 'uploader'))
-            acf_update_setting('uploader', $field['uploader']);
+        acf_update_setting('uploader', $field['uploader']);
         
         return $field;
         
@@ -114,6 +117,9 @@ class acfe_field_image{
     function update_value($value, $post_id, $field){
         
         if(!acf_maybe_get($field, 'acfe_thumbnail'))
+            return $value;
+        
+        if(acf_maybe_get_POST('wp-preview') == 'dopreview')
             return $value;
         
         $data = acf_get_post_id_info($post_id);

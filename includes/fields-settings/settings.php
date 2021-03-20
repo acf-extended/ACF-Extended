@@ -272,14 +272,14 @@ class acfe_field_settings{
             }
             
             // Screen: Admin
-            elseif($screen === 'admin' && acfe_form_is_admin()){
+            elseif($screen === 'admin' && acfe_is_admin()){
                 
                 $screen_allow = true;
                 
             }
             
             // Screen: Front
-            elseif($screen === 'front' && acfe_form_is_front()){
+            elseif($screen === 'front' && acfe_is_front()){
                 
                 $screen_allow = true;
                 
@@ -351,7 +351,7 @@ class acfe_field_settings{
     
         if($hide_required){
         
-            if(is_bool($hide_required) || $hide_required === 'all' || ($hide_required === 'front' && acfe_form_is_front()) || $hide_required === 'admin' && acfe_form_is_admin()){
+            if(is_bool($hide_required) || $hide_required === 'all' || ($hide_required === 'front' && acfe_is_front()) || $hide_required === 'admin' && acfe_is_admin()){
     
                 $field['required'] = false;
             
@@ -372,7 +372,7 @@ class acfe_field_settings{
         
         if($hide_field){
             
-            if(is_bool($hide_field) || $hide_field === 'all' || ($hide_field === 'front' && acfe_form_is_front()) || $hide_field === 'admin' && acfe_form_is_admin()){
+            if(is_bool($hide_field) || $hide_field === 'all' || ($hide_field === 'front' && acfe_is_front()) || $hide_field === 'admin' && acfe_is_admin()){
         
                 return false;
         
@@ -384,7 +384,7 @@ class acfe_field_settings{
         
         if($hide_label){
     
-            if(is_bool($hide_label) || $hide_label === 'all' || ($hide_label === 'front' && acfe_form_is_front()) || $hide_label === 'admin' && acfe_form_is_admin()){
+            if(is_bool($hide_label) || $hide_label === 'all' || ($hide_label === 'front' && acfe_is_front()) || $hide_label === 'admin' && acfe_is_admin()){
     
                 $field['label'] = '';
         
@@ -394,7 +394,7 @@ class acfe_field_settings{
         
         $hide_instructions = acf_maybe_get($field, 'hide_instructions');
         
-        if(is_bool($hide_instructions) || $hide_instructions === 'all' || ($hide_instructions === 'front' && acfe_form_is_front()) || $hide_instructions === 'admin' && acfe_form_is_admin()){
+        if(is_bool($hide_instructions) || $hide_instructions === 'all' || ($hide_instructions === 'front' && acfe_is_front()) || $hide_instructions === 'admin' && acfe_is_admin()){
         
             $field['instructions'] = '';
         

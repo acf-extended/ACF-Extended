@@ -151,8 +151,12 @@ class acfe_field_column extends acf_field{
     
         global $pagenow;
         
-        // Do not render on User/Term views (because of Table render)
-        if(acf_is_screen(array('profile', 'user', 'user-edit')) || $pagenow === 'edit-tags.php' || $pagenow === 'term.php')
+        // Do not render on User/Term views without Enhanced UI module (because of Table render)
+        if((acf_is_screen(array('profile', 'user-edit')) || (acf_is_screen('user') && !is_multisite()) || $pagenow === 'term.php') && !acf_get_setting('acfe/modules/ui'))
+            return false;
+        
+        // Do not render on New Term page (forced to left)
+        if($pagenow === 'edit-tags.php')
             return false;
         
         $field['label'] = false;

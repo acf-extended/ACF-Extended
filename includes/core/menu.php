@@ -13,9 +13,7 @@ function acfe_screen_header($screen){
         return;
     
     add_action('in_admin_header', function(){
-        
         acf_get_view('html-admin-navigation');
-        
     });
     
 }

@@ -37,7 +37,7 @@ class acfe_location_post_type_list{
         
         // vars
         $this->post_type = $typenow;
-
+        
         $this->post_id = acf_get_valid_post_id($this->post_type . '_options');
         
         $this->field_groups = acf_get_field_groups(array(

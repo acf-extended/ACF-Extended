@@ -23,8 +23,8 @@ class acfe_field_advanced_link extends acf_field{
 		add_action('wp_ajax_nopriv_acfe/fields/advanced_link/post_query',	array($this, 'ajax_query'));
         
         $this->post_object = acf_get_field_type('post_object');
-        remove_action('acf/render_field/type=post_object',                  array($this->post_object, 'render_field'), 9);
         
+        remove_action('acf/render_field/type=post_object',                  array($this->post_object, 'render_field'), 9);
         add_action('acf/render_field/type=post_object',                     array($this, 'post_object_render_field'), 9);
 
         parent::__construct();
@@ -40,18 +40,17 @@ class acfe_field_advanced_link extends acf_field{
 		$field['choices'] = array();
 		
 		// load posts
-		$posts = $this->post_object->get_posts( $field['value'], $field );
+		$posts = $this->post_object->get_posts($field['value'], $field);
 		
 		if($posts){
 				
-			foreach( array_keys($posts) as $i ) {
+			foreach(array_keys($posts) as $i){
 				
 				// vars
-				$post = acf_extract_var( $posts, $i );
-				
+				$post = acf_extract_var($posts, $i);
 				
 				// append to choices
-				$field['choices'][ $post->ID ] = $this->post_object->get_post_title( $post, $field );
+				$field['choices'][ $post->ID ] = $this->post_object->get_post_title($post, $field);
 				
 			}
 			
@@ -273,8 +272,12 @@ function my_acf_advanced_link_sub_fields($sub_fields, $field, $value){
             
             $term = get_term(intval($value['term']));
             
-            $value['url'] = get_term_link($term);
-            $value['url_title'] = $term->name;
+            if(!empty($term) && !is_wp_error($term)){
+                
+                $value['url'] = get_term_link($term);
+                $value['url_title'] = $term->name;
+                
+            }
             
         }
         

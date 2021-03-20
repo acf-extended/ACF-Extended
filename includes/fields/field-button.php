@@ -70,7 +70,7 @@ class acfe_field_button extends acf_field{
             'layout'        => 'horizontal',
             'choices'       => array(
                 'button' => __('Button', 'acfe'),
-                'submit' => __('Submit', 'acfe'),
+                'submit' => __('Input', 'acfe'),
             ),
         ));
         
@@ -114,74 +114,10 @@ class acfe_field_button extends acf_field{
         // Ajax
         acf_render_field_setting($field, array(
             'label'         => __('Ajax call', 'acfe'),
-            'instructions'  => __('Trigger ajax event on click', 'acfe'),
+            'instructions'  => __('Trigger ajax event on click. <a href="https://www.acf-extended.com/features/fields/button" target="_blank">See documentation</a>', 'acfe'),
             'name'          => 'button_ajax',
             'type'			=> 'true_false',
 			'ui'			=> 1,
-        ));
-        
-        ob_start();
-        ?>
-        Write your own Ajax return data using the following hook:<br /><br />
-<pre>
-add_action('acfe/fields/button/name=my_button', 'my_acf_button_ajax', 10, 2);
-function my_acf_button_ajax($field, $post_id){
-    
-    /**
-     * @array       $field      Field array
-     * @bool/string $post_id    Current post ID
-     */
-    
-    wp_send_json('Success!');
-    
-}
-</pre>
-<br />
-You can get access to Javascript ajax call using the following JS hooks:<br /><br />
-<pre>
-acf.addAction('acfe/fields/button/before/name=my_button', function($el, data){
-    
-    // $el
-    
-});
-
-acf.addAction('acfe/fields/button/success/name=my_button', function(response, $el, data){
-    
-    // response
-    // $el
-    // data
-    
-});
-
-acf.addAction('acfe/fields/button/complete/name=my_button', function(response, $el, data){
-    
-    // response
-    // $el
-    // data
-    
-});
-</pre>
-        <?php
-        
-        $message = ob_get_clean();
-        
-        // ajax instructions
-        acf_render_field_setting($field, array(
-            'label'			=> __('Ajax instructions','acf'),
-            'instructions'	=> '',
-            'type'			=> 'message',
-            'name'			=> 'instructions',
-            'message'       => $message,
-            'new_lines'     => false,
-            'conditional_logic' => array(
-                array(
-                    array(
-                        'field'     => 'button_ajax',
-                        'operator'  => '==',
-                        'value'     => '1',
-                    )
-                )
-            )
         ));
         
     }
@@ -204,9 +140,12 @@ acf.addAction('acfe/fields/button/complete/name=my_button', function(response, $
         // Button
         if($field['button_type'] === 'button'){
             
-            echo '<button 
+            echo '<button
+                type="submit"
                 id="' . esc_attr($field['button_id']) . '" 
                 class="' . esc_attr($field['button_class']) . '" 
+                name="' . esc_attr($field['name']) . '"
+                value="' . esc_attr($field['button_value']) . '"
                 ' . $ajax . '
                 >' . esc_attr($field['button_value']) . '</button>';
         
@@ -214,10 +153,11 @@ acf.addAction('acfe/fields/button/complete/name=my_button', function(response, $
         }elseif($field['button_type'] === 'submit'){
             
             echo '<input 
-                type="submit" 
+                type="submit"
                 id="' . esc_attr($field['button_id']) . '" 
-                class="' . esc_attr($field['button_class']) . '" 
-                value="' . esc_attr($field['button_value']) . '" 
+                class="' . esc_attr($field['button_class']) . '"
+                name="' . esc_attr($field['name']) . '"
+                value="' . esc_attr($field['button_value']) . '"
                 ' . $ajax . '
                 />';
             

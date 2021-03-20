@@ -250,7 +250,7 @@ class ACFE_Field_Groups{
         $source = __('Theme/Plugin', 'acf');
     
         // ACF Extended
-        if(strpos($field_group['key'], 'group_acfe_') === 0){
+        if(in_array($field_group['key'], acfe_get_setting('reserved_field_groups', array()))){
         
             $source = 'ACF Extended';
             
@@ -807,15 +807,21 @@ class ACFE_Field_Groups{
      * Seamless Metabox
      */
     function seamless_metabox($post_type, $post, $field_groups){
+    
+        $current_screen = get_current_screen();
+        $is_gutenberg = false;
+    
+        if(method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor())
+            $is_gutenberg = true;
         
         foreach($field_groups as $field_group){
             
-            add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes) use($field_group){
+            add_filter("postbox_classes_{$post_type}_acf-{$field_group['key']}", function($classes) use($field_group, $is_gutenberg){
                 
                 $classes[] = 'acf-postbox';
                 
                 // Seamless
-                if($field_group['style'] === 'seamless')
+                if(!$is_gutenberg && $field_group['style'] === 'seamless')
                     $classes[] = 'seamless';
                 
                 // Left

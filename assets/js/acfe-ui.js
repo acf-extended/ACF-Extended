@@ -1,9 +1,9 @@
-(function($){
+(function($) {
 
-    if(typeof acf === 'undefined')
+    if (typeof acf === 'undefined')
         return;
 
-    acfe.enhancedEditUI = function(props){
+    acfe.enhancedEditUI = function(props) {
         return new enhancedEditUI(props);
     };
 
@@ -20,7 +20,7 @@
         $main: false,
         $sidebar: false,
 
-        setup: function(props){
+        setup: function(props) {
 
             // Extend data
             $.extend(this.data, props);
@@ -40,7 +40,7 @@
             this.$sidebar = this.$('.acf-column-2');
 
             // Fake Page Title
-            if(this.get('pageTitle')){
+            if (this.get('pageTitle')) {
                 this.$main.find('> table:first').before('<h2>' + this.title + '</h2>');
             }
 
@@ -56,30 +56,30 @@
 
         },
 
-        events:{
+        events: {
             'submit form': 'onSubmit'
         },
 
-        initialize: function(){
+        initialize: function() {
 
             this.addActions({
-                'acfe/ui/user-edit':    'userEdit',
-                'acfe/ui/user-new':     'userNew',
-                'acfe/ui/term-edit':    'termEdit',
-                'acfe/ui/settings':     'settings',
+                'acfe/ui/user-edit': 'userEdit',
+                'acfe/ui/user-new': 'userNew',
+                'acfe/ui/term-edit': 'termEdit',
+                'acfe/ui/settings': 'settings',
             });
 
             acf.doAction('acfe/ui/' + this.get('screen'), this);
 
         },
 
-        onSubmit: function(e, $el){
+        onSubmit: function(e, $el) {
 
             acf.lockForm($el);
 
         },
 
-        userEdit: function(){
+        userEdit: function() {
 
             // Vars
             var $main = this.$main;
@@ -90,7 +90,7 @@
             // Yoast Settings
             var $yoastSettings = this.$('> form .yoast.yoast-settings');
 
-            if($yoastSettings.length){
+            if ($yoastSettings.length) {
 
                 $yoastSettings.addClass('postbox');
                 $yoastSettings.find('> h2').wrapAll('<div class="postbox-header"></div>');
@@ -99,7 +99,7 @@
                 $yoastSettings.find('.acf-fields > label:nth-of-type(1), .acf-fields > label:nth-of-type(1) ~ *').wrapAll('<div class="acf-field"></div>');
                 $yoastSettings.find('.acf-fields > br').remove();
 
-                $yoastSettings.find('.acf-field').each(function(){
+                $yoastSettings.find('.acf-field').each(function() {
 
                     var $this = $(this);
                     $this.find('label:nth-of-type(1)').wrapAll('<div class="acf-label"></div>');
@@ -112,7 +112,7 @@
             // RankMath
             var $rankMath = this.$('> form .rank-math-metabox-frame');
 
-            if($rankMath.length){
+            if ($rankMath.length) {
 
                 var rankMathTitle = $rankMath.find('h2').text();
 
@@ -126,14 +126,14 @@
             // User Role Editor
             var $userRoleEditor = this.$('#ure_select_other_roles');
 
-            if($userRoleEditor.length){
+            if ($userRoleEditor.length) {
                 $userRoleEditor.closest('table').find('tr:eq(1) > td > br').remove();
             }
 
             // Application Passwords
             var $applicationPasswords = $('#application-passwords-section');
 
-            if($applicationPasswords.length){
+            if ($applicationPasswords.length) {
 
                 var title = $applicationPasswords.find('> h2').text();
 
@@ -151,7 +151,7 @@
             // Nickname Field
             var $userNickname = $('input#nickname');
 
-            if($userNickname.length){
+            if ($userNickname.length) {
 
                 $userNickname.wrapAll('<div id="titlediv"><div id="titlewrap"></div></div>');
                 $('#titlediv').append($('#edit-slug-box')).prependTo($main);
@@ -164,7 +164,7 @@
 
         },
 
-        userNew: function(){
+        userNew: function() {
 
             // Vars
             var $main = this.$main;
@@ -173,7 +173,7 @@
 
         },
 
-        termEdit: function(){
+        termEdit: function() {
 
             // Vars
             var $main = this.$main;
@@ -181,7 +181,7 @@
             // Term Name Field
             var $termName = $('input#name');
 
-            if($termName.length){
+            if ($termName.length) {
 
                 $termName.wrapAll('<div id="titlediv"><div id="titlewrap"></div></div>');
                 $('#titlediv').append($('.permalink')).prependTo($main);
@@ -192,7 +192,7 @@
             // WPML Widget
             var $wpml = $('#icl_tax_menu');
 
-            if($wpml.length){
+            if ($wpml.length) {
 
                 var widgetTitle = $wpml.find('h3.hndle').text();
                 $wpml.find('.inside').addClass('icl-tax-postbox-content').attr('style', '').insertAfter('#submitdiv');
@@ -203,7 +203,7 @@
             // Yoast
             var $yoast = $('.wpseo-taxonomy-metabox-postbox');
 
-            if($yoast.length){
+            if ($yoast.length) {
 
                 var metaboxTitle = $yoast.find('> h2').text();
                 $yoast.find('> .inside').removeClass('inside').wrapAll('<div class="acf-fields -left"><div class="acf-field"><div class="acf-input"></div></div></div>');
@@ -214,7 +214,7 @@
             // RankMath
             var $rankMath = this.$('> form .rank-math-metabox-frame');
 
-            if($rankMath.length){
+            if ($rankMath.length) {
 
                 var rankMathTitle = $rankMath.find('h2').text();
 
@@ -227,10 +227,10 @@
 
         },
 
-        settings: function(){
+        settings: function() {
 
             // Fix potential empty locale causing error
-            if(!acf.get('locale'))
+            if (!acf.get('locale'))
                 acf.set('locale', 'en_US');
 
             // Form Data
@@ -245,7 +245,7 @@
             // Writing: Ping
             var $pingSites = this.$('#ping_sites');
 
-            if($pingSites.length){
+            if ($pingSites.length) {
                 $pingSites.wrap('<table class="form-table"><tbody><td class="td-full"></td></tbody></table>');
                 $pingSites.css('width', '100%');
             }
@@ -253,7 +253,7 @@
             // Permlalinks
             var $permalinks = this.$('.permalink-structure');
 
-            if($permalinks.length){
+            if ($permalinks.length) {
                 $permalinks.prev().prev('p').insertBefore($permalinks);
             }
 
@@ -261,20 +261,20 @@
 
     });
 
-    acfe.enhancedListUI = function(props){
+    acfe.enhancedListUI = function(props) {
         return new enhancedListUI(props);
     };
 
     var enhancedListUI = acf.Model.extend({
 
-        setup: function(props){
+        setup: function(props) {
 
             // Extend data
             $.extend(this.data, props);
 
         },
 
-        initialize: function(){
+        initialize: function() {
 
             // Add button
             $('.wrap .wp-heading-inline').after($('#tmpl-button-add-term').html());
@@ -304,12 +304,12 @@
             var $fields = $('.acfe-bt .inside .form-field, .acfe-bt .inside .submit');
             $fields.addClass('acf-field');
 
-            $fields.each(function(){
+            $fields.each(function() {
 
                 var $this = $(this);
 
                 // Polylang Exception
-                if($this.is('#term-translations'))
+                if ($this.is('#term-translations'))
                     return;
 
                 $this.append('<div class="acf-input"></div>');
@@ -317,11 +317,11 @@
 
                 // Add spacing when a meta field has no label
                 var $label = $this.find('> label');
-                if($label.length){
+                if ($label.length) {
 
                     $label.wrap('<div class="acf-label"></div>');
 
-                }else{
+                } else {
 
                     $this.addClass('acfe-bt-no-label');
 
@@ -335,12 +335,12 @@
             // Button
             var $newButton = $('.acfe-bt-admin-button-add');
 
-            $newButton.click(function(e){
+            $newButton.click(function(e) {
 
                 e.preventDefault();
                 var $wrap = $('.acfe-bt');
 
-                if($wrap.is(':visible'))
+                if ($wrap.is(':visible'))
                     $wrap.hide();
                 else
                     $wrap.show();
@@ -348,10 +348,10 @@
             });
 
             // Label to left
-            if(typeof acf !== 'undefined'){
+            if (typeof acf !== 'undefined') {
                 acf.postbox.render({
-                    'id':       'acfe-bt-form',
-                    'label':    'left'
+                    'id': 'acfe-bt-form',
+                    'label': 'left'
                 });
             }
 
@@ -360,7 +360,7 @@
             // WPML Widget
             var $wpml = $('#icl_tax_menu');
 
-            if($wpml.length){
+            if ($wpml.length) {
 
                 var $wpmlWidget = $wpml.find('.postbox').removeClass('postbox');
                 $wpmlWidget.find('.inside').removeClass('inside').css('padding', 0);
@@ -378,5 +378,5 @@
         }
 
     });
-    
+
 })(jQuery);

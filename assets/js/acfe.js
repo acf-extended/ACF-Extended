@@ -1,6 +1,6 @@
-(function($){
+(function($) {
 
-    if(typeof acf === 'undefined')
+    if (typeof acf === 'undefined')
         return;
 
     /*
@@ -18,21 +18,21 @@
     /*
      * Get
      */
-    acfe.get = function(name){
+    acfe.get = function(name) {
         return acf.data.acfe[name] || null;
     };
 
     /*
      * Has
      */
-    acfe.has = function(name){
+    acfe.has = function(name) {
         return this.get(name) !== null;
     };
 
     /*
      * Set
      */
-    acfe.set = function(name, value){
+    acfe.set = function(name, value) {
         acf.data.acfe[name] = value;
         return this;
     };
@@ -45,12 +45,12 @@
     acfe.Popup = acf.Model.extend({
 
         data: {
-            title:      false,
-            footer:     false,
-            size:       false,
-            destroy:    false,
-            onOpen:     function(){},
-            onClose:    function(){},
+            title: false,
+            footer: false,
+            size: false,
+            destroy: false,
+            onOpen: function() {},
+            onClose: function() {},
         },
 
         events: {
@@ -58,7 +58,7 @@
             'click .acfe-modal-footer>button': 'onClickClose',
         },
 
-        setup: function($content, args){
+        setup: function($content, args) {
 
             $.extend(this.data, args);
 
@@ -67,23 +67,23 @@
 
         },
 
-        initialize: function(){
+        initialize: function() {
 
             this.open();
 
         },
 
-        render: function(){
+        render: function() {
 
             // Size
-            if(this.get('size')){
+            if (this.get('size')) {
 
                 this.$el.addClass('-' + this.get('size'));
 
             }
 
             // Wrapper
-            if(!this.$('> .acfe-modal-wrapper').length){
+            if (!this.$('> .acfe-modal-wrapper').length) {
 
                 this.$el.wrapInner('<div class="acfe-modal-wrapper" />');
 
@@ -92,14 +92,14 @@
             var $wrapper = this.$('> .acfe-modal-wrapper');
 
             // Content
-            if(!$wrapper.find('> .acfe-modal-content').length){
+            if (!$wrapper.find('> .acfe-modal-content').length) {
 
                 $wrapper.wrapInner('<div class="acfe-modal-content" />');
 
             }
 
             // Title
-            if(this.get('title')){
+            if (this.get('title')) {
 
                 $wrapper.prepend('<div class="acfe-modal-title"><span class="title">' + this.get('title') + '</span><button class="close"></button></div>');
 
@@ -109,7 +109,7 @@
             $wrapper.prepend('<div class="acfe-modal-wrapper-overlay"></div>');
 
             // Footer
-            if(this.get('footer')){
+            if (this.get('footer')) {
 
                 $wrapper.append('<div class="acfe-modal-footer"><button class="button button-primary">' + this.get('footer') + '</button></div>');
 
@@ -117,7 +117,7 @@
 
         },
 
-        open: function(){
+        open: function() {
 
             this.$el.addClass('-open');
 
@@ -125,13 +125,18 @@
 
             acfe.syncPopup();
 
+            // show fields
+            acf.getFields(this.$el.find('.acf-field')).map(function(field) {
+                acf.doAction('show_field', field, 'group');
+            }, this);
+
             acf.doAction('acfe/modal/open', this.$el, this.data);
 
             this.get('onOpen').apply(this.$el);
 
         },
 
-        close: function(){
+        close: function() {
 
             this.$('.acfe-modal-wrapper-overlay').remove();
             this.$('.acfe-modal-title').remove();
@@ -148,7 +153,7 @@
 
             this.remove();
 
-            if(this.get('destroy')){
+            if (this.get('destroy')) {
 
                 this.$el.remove();
 
@@ -156,7 +161,7 @@
 
         },
 
-        remove: function(){
+        remove: function() {
 
             this.removeEvents();
             this.removeActions();
@@ -164,11 +169,11 @@
 
         },
 
-        onClickClose: function(e){
+        onClickClose: function(e) {
 
             e.preventDefault();
 
-            if(!popups.length)
+            if (!popups.length)
                 return false;
 
             popups.pop().close();
@@ -180,9 +185,9 @@
     /*
      * Popup: Close
      */
-    acfe.closePopup = function(){
+    acfe.closePopup = function() {
 
-        if(!popups.length)
+        if (!popups.length)
             return false;
 
         popups.pop().close();
@@ -192,18 +197,18 @@
     /*
      * Popup: Sync
      */
-    acfe.syncPopup = function(){
+    acfe.syncPopup = function() {
 
         var $body = $('body');
 
-        if(popups.length){
+        if (popups.length) {
 
             // Prepare Body
-            if(!$body.hasClass('acfe-modal-opened')){
+            if (!$body.hasClass('acfe-modal-opened')) {
 
                 $body.addClass('acfe-modal-opened').append($('<div class="acfe-modal-overlay" />'));
 
-                $('.acfe-modal-overlay').on('click', function(e){
+                $('.acfe-modal-overlay').on('click', function(e) {
 
                     e.preventDefault();
                     acfe.closePopup();
@@ -213,17 +218,17 @@
             }
 
             // Prepare Multiple
-            popups.map(function(self, i){
+            popups.map(function(self, i) {
 
-                if(i === popups.length - 1){
+                if (i === popups.length - 1) {
                     return self.$el.removeClass('acfe-modal-sub').css('margin-left', '');
                 }
 
-                self.$el.addClass('acfe-modal-sub').css('margin-left',  - (500 / (i+1)));
+                self.$el.addClass('acfe-modal-sub').css('margin-left', -(500 / (i + 1)));
 
             });
 
-        }else{
+        } else {
 
             $('.acfe-modal-overlay').remove();
             $body.removeClass('acfe-modal-opened');
@@ -232,9 +237,9 @@
 
     };
 
-    $(window).on('keydown', function(e){
+    $(window).on('keydown', function(e) {
 
-        if(e.keyCode !== 27 || !$('body').hasClass('acfe-modal-opened'))
+        if (e.keyCode !== 27 || !$('body').hasClass('acfe-modal-opened'))
             return;
 
         e.preventDefault();
@@ -245,13 +250,13 @@
     // Compatibility
     acfe.modal = {
 
-        open: function($modal, args){
+        open: function($modal, args) {
 
             new acfe.Popup($modal, args);
 
         },
 
-        close: function(){
+        close: function() {
 
             acfe.closePopup();
 
@@ -264,30 +269,30 @@
      */
     var filters = [];
 
-    acfe.disableFilters = function(){
+    acfe.disableFilters = function() {
         filters = [];
     };
 
-    acfe.getFilters = function(){
+    acfe.getFilters = function() {
         return filters;
     };
 
-    acfe.isFilterEnabled = function(name){
+    acfe.isFilterEnabled = function(name) {
         return filters.indexOf(name) > -1;
     };
 
-    acfe.enableFilter = function(name){
+    acfe.enableFilter = function(name) {
 
-        if(filters.indexOf(name) === -1)
+        if (filters.indexOf(name) === -1)
             filters.push(name);
 
     };
 
-    acfe.disableFilter = function(name){
+    acfe.disableFilter = function(name) {
 
-        for(var i = filters.length; i--;){
+        for (var i = filters.length; i--;) {
 
-            if(filters[i] !== name)
+            if (filters[i] !== name)
                 continue;
 
             filters.splice(i, 1);
@@ -299,16 +304,16 @@
     /*
      * Parse String
      */
-    acfe.parseString = function(val){
+    acfe.parseString = function(val) {
         return val ? '' + val : '';
     };
 
     /*
      * In Array
      */
-    acfe.inArray = function(v1, array){
+    acfe.inArray = function(v1, array) {
 
-        array = array.map(function(v2){
+        array = array.map(function(v2) {
             return acfe.parseString(v2);
         });
 
@@ -319,7 +324,7 @@
     /*
      * Parse URL
      */
-    acfe.parseURL = function(url){
+    acfe.parseURL = function(url) {
 
         url = url || acfe.currentURL;
 
@@ -332,7 +337,7 @@
 
         var Pairs = queryString.split(/[;&]/);
 
-        for(var i = 0; i < Pairs.length; i++){
+        for (var i = 0; i < Pairs.length; i++) {
 
             var KeyVal = Pairs[i].split('=');
 
@@ -355,7 +360,7 @@
     /*
      * Current URL
      */
-    acfe.currentURL = function(){
+    acfe.currentURL = function() {
 
         return self.location.href;
 
@@ -364,7 +369,7 @@
     /*
      * Current Path
      */
-    acfe.currentPath = function(){
+    acfe.currentPath = function() {
 
         return self.location.pathname;
 
@@ -373,7 +378,7 @@
     /*
      * Current Filename
      */
-    acfe.currentFilename = function(){
+    acfe.currentFilename = function() {
 
         return acfe.currentPath().split('/').pop();
 
@@ -382,7 +387,7 @@
     /*
      * Parent Object
      */
-    acfe.parentObject = function(obj){
+    acfe.parentObject = function(obj) {
         return Object.getPrototypeOf(Object.getPrototypeOf(obj));
     }
 
@@ -397,13 +402,13 @@
             'click .acfe-field-tooltip': 'showTitle',
         },
 
-        showTitle: function(e, $el){
+        showTitle: function(e, $el) {
 
             // vars
             var title = $el.attr('title');
 
             // bail ealry if no title
-            if( !title ) {
+            if (!title) {
                 return;
             }
 
@@ -411,7 +416,7 @@
             $el.attr('title', '');
 
             // create
-            if( !this.tooltip ) {
+            if (!this.tooltip) {
                 this.tooltip = acf.newTooltip({
                     text: title,
                     target: $el
@@ -428,5 +433,57 @@
         }
 
     });
-    
+
+    /*
+     * Fix acf.getFileInputData
+     * Source: /advanced-custom-fields-pro/assets/js/acf.js:1927
+     */
+    acf.getFileInputData = function($input, callback) {
+
+        // vars
+        var value = $input.val();
+
+        // bail early if no value
+        if (!value) {
+            return false;
+        }
+
+        // data
+        var data = {
+            url: value
+        };
+
+        // fix
+        var file = $input[0].files.length ? acf.isget($input[0].files, 0) : false;
+
+        if (file) {
+
+            // update data
+            data.size = file.size;
+            data.type = file.type;
+
+            // image
+            if (file.type.indexOf('image') > -1) {
+
+                // vars
+                var windowURL = window.URL || window.webkitURL;
+                var img = new Image();
+
+                img.onload = function() {
+
+                    // update
+                    data.width = this.width;
+                    data.height = this.height;
+
+                    callback(data);
+                };
+                img.src = windowURL.createObjectURL(file);
+            } else {
+                callback(data);
+            }
+        } else {
+            callback(data);
+        }
+    };
+
 })(jQuery);

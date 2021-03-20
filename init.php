@@ -13,9 +13,7 @@ function acfe_include($filename = ''){
 	$file_path = ACFE_PATH . ltrim($filename, '/');
     
 	if(file_exists($file_path)){
-        
 		include_once($file_path);
-        
 	}
     
 }
@@ -30,9 +28,7 @@ function acfe_include($filename = ''){
 function acfe_get_url($filename = ''){
     
 	if(!defined('ACFE_URL')){
-        
 		define('ACFE_URL', acf_get_setting('acfe/url'));
-        
 	}
     
 	return ACFE_URL . ltrim($filename, '/');

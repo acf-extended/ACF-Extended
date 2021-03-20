@@ -1,6 +1,6 @@
-(function($){
-    
-    if(typeof acf === 'undefined')
+(function($) {
+
+    if (typeof acf === 'undefined')
         return;
 
     /*
@@ -13,9 +13,9 @@
         },
 
         // Fix duplicate Code Editor
-        appendCodeEditor: function(field){
+        appendCodeEditor: function(field) {
 
-            if(field.get('type') !== 'acfe_code_editor')
+            if (field.get('type') !== 'acfe_code_editor')
                 return;
 
             field.$setting('default_value').find('> .acf-input > .acf-input-wrap > .CodeMirror:last').remove();
@@ -31,12 +31,12 @@
     new acf.Model({
 
         actions: {
-            'change_field_label/type=acfe_column':      'renderTitle',
-            'change_field_type/type=acfe_column':       'renderTitle',
-            'render_field_settings/type=acfe_column':   'renderField',
+            'change_field_label/type=acfe_column': 'renderTitle',
+            'change_field_type/type=acfe_column': 'renderTitle',
+            'render_field_settings/type=acfe_column': 'renderField',
         },
 
-        renderTitle: function($el){
+        renderTitle: function($el) {
 
             var field = acf.getInstance($el);
 
@@ -46,11 +46,11 @@
             var $endpoint = field.$setting('endpoint');
             var endpoint = acf.getInstance($endpoint).getValue();
 
-            if(endpoint){
+            if (endpoint) {
 
                 field.set('label', '(Column endpoint)');
 
-            }else{
+            } else {
 
                 field.set('label', '(Column ' + columns + ')');
 
@@ -58,11 +58,11 @@
 
         },
 
-        renderField: function($el){
+        renderField: function($el) {
 
             var field = acf.getFieldObject($el);
 
-            var setLabel = function(){
+            var setLabel = function() {
                 field.set('label', true);
             }
 
@@ -82,14 +82,14 @@
             'select2_ajax_data/action=acfe/fields/taxonomy_terms/allow_query': 'taxonomyTermsAjax',
         },
 
-        taxonomyTermsAjax: function(ajaxData, data, $el, field, select){
+        taxonomyTermsAjax: function(ajaxData, data, $el, field, select) {
 
             // Taxonomies
             var $taxonomies = $el.closest('.acf-field-settings').find('> .acf-field-setting-taxonomy > .acf-input > select > option:selected');
 
             var tax = [];
 
-            $taxonomies.each(function(){
+            $taxonomies.each(function() {
                 tax.push($(this).val());
             });
 
@@ -117,7 +117,7 @@
             'click .acfe_modal_open': 'onClickOpen'
         },
 
-        onClickOpen: function(e, $el){
+        onClickOpen: function(e, $el) {
 
             new acfe.Popup($('.acfe-modal[data-modal-key=' + $el.attr('data-modal-key') + ']'), {
                 title: 'Data',
@@ -127,9 +127,9 @@
 
         },
 
-        initialize: function(){
+        initialize: function() {
 
-            $('.button.edit-field').each(function(){
+            $('.button.edit-field').each(function() {
 
                 var tbody = $(this).closest('tbody');
                 $(tbody).find('.acfe_modal_open:first').insertAfter($(this));
@@ -148,30 +148,30 @@
     new acf.Model({
 
         actions: {
-            'new_field' : 'onNewField'
+            'new_field': 'onNewField'
         },
 
-        onNewField: function(field){
+        onNewField: function(field) {
 
-            if(field.get('type') === 'tab')
+            if (field.get('type') === 'tab')
                 return;
 
             var $sibling;
 
-            if(field.has('before')){
+            if (field.has('before')) {
 
                 // vars
                 $sibling = field.$el.siblings('[data-name="' + field.get('before') + '"]').first();
 
-                if($sibling.length)
+                if ($sibling.length)
                     $sibling.before(field.$el);
 
-            }else if(field.has('after')){
+            } else if (field.has('after')) {
 
                 // vars
                 $sibling = field.$el.siblings('[data-name="' + field.get('after') + '"]').first();
 
-                if($sibling.length)
+                if ($sibling.length)
                     $sibling.after(field.$el);
 
             }
@@ -186,22 +186,22 @@
 
     acf.models.TabField = Tab.extend({
 
-        initialize: function(){
+        initialize: function() {
 
-            if(this.has('before')){
+            if (this.has('before')) {
 
                 // vars
                 $sibling = this.$el.siblings('[data-name="' + this.get('before') + '"]').first();
 
-                if($sibling.length)
+                if ($sibling.length)
                     $sibling.before(this.$el);
 
-            }else if(this.has('after')){
+            } else if (this.has('after')) {
 
                 // vars
                 $sibling = this.$el.siblings('[data-name="' + this.get('after') + '"]').first();
 
-                if($sibling.length)
+                if ($sibling.length)
                     $sibling.after(this.$el);
 
             }
@@ -220,33 +220,33 @@
 
         wait: 'ready',
 
-        actions:{
-            'append':                           'onAppend',
-            'acfe/field_group/rule_refresh':    'refreshFields'
+        actions: {
+            'append': 'onAppend',
+            'acfe/field_group/rule_refresh': 'refreshFields'
         },
 
-        initialize: function(){
+        initialize: function() {
             this.$el = $('#acf-field-group-locations');
         },
 
-        onAppend: function($el){
+        onAppend: function($el) {
 
-            if(!$el.is('.rule-group') && !$el.parent().parent().parent().is('.rule-group'))
+            if (!$el.is('.rule-group') && !$el.parent().parent().parent().is('.rule-group'))
                 return;
 
             this.refreshFields();
 
         },
 
-        refreshFields: function(){
+        refreshFields: function() {
 
             var fields = acf.getFields({
                 parent: this.$('td.value')
             });
 
-            fields.map(function(field){
+            fields.map(function(field) {
 
-                if(!acfe.inArray(field.get('type'), ['date_picker', 'date_time_picker', 'time_picker']))
+                if (!acfe.inArray(field.get('type'), ['date_picker', 'date_time_picker', 'time_picker']))
                     return;
 
                 field.$inputText().removeClass('hasDatepicker').removeAttr('id');
@@ -265,12 +265,12 @@
     new acf.Model({
 
         actions: {
-            'new_field/name=acfe_meta':     'renderClass',
+            'new_field/name=acfe_meta': 'renderClass',
             'new_field/name=acfe_settings': 'renderClass',
             'new_field/name=acfe_validate': 'renderClass',
         },
 
-        renderClass: function(field){
+        renderClass: function(field) {
 
             field.$('.acf-button').removeClass('button-primary');
 
@@ -287,11 +287,11 @@
             'keyup #post_name': 'onInput'
         },
 
-        onInput: function(e, $el){
+        onInput: function(e, $el) {
 
             var val = $el.val();
 
-            if(!val.startsWith('group_')){
+            if (!val.startsWith('group_')) {
 
                 val = 'group_' + val;
                 $el.val(val);
@@ -315,10 +315,10 @@
         },
 
         // 0.8.4.5 Flexible Content: Fix duplicated "layout_settings" & "layout_title"
-        flexibleContent: function(field){
+        flexibleContent: function(field) {
 
             // field_acfe_layout_abc123456_settings + field_acfe_layout_abc123456_title
-            if(!field.get('key').startsWith('field_acfe_layout_'))
+            if (!field.get('key').startsWith('field_acfe_layout_'))
                 return;
 
             field.delete();
@@ -326,5 +326,5 @@
         },
 
     });
-    
+
 })(jQuery);

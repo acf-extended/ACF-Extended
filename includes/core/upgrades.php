@@ -3,30 +3,186 @@
 if(!class_exists('acfe_upgrades')):
 
 class acfe_upgrades{
+    
+    public $upgrades = array(
+        'do_0_8_5' => '0.8.5',
+        'do_0_8_6' => '0.8.6',
+        'do_0_8_8' => '0.8.8',
+        'do_reset' => '0.0',
+    );
+    
+    public $model = array(
+        'version' => ACFE_VERSION,
+        'modules' => array(
+            'block_types'   => array(),
+            'options_pages' => array(),
+            'post_types'    => array(),
+            'taxonomies'    => array(),
+        )
+    );
 
 	function __construct(){
-		
-		$upgrades = acfe_settings('upgrades');
-		
-		if(empty($upgrades))
-			return;
-		
-		// ACF Extended: 0.8.5
-		add_action('acf/init', array($this, 'upgrade_0_8_5'), 999);
-		
-		// ACF Extended: 0.8.6
-		add_action('acf/init', array($this, 'upgrade_0_8_6'), 999);
-
+        
+        $db_version = acfe_get_settings('version');
+        
+        // Bail early
+        if(acf_version_compare($db_version, '>=', ACFE_VERSION))
+            return;
+        
+        // Loop upgrades
+        foreach($this->upgrades as $upgrade_function => $upgrade_version){
+            
+            if(acf_version_compare($upgrade_version, '<=', $db_version))
+                continue;
+            
+            add_action('acf/init', array($this, $upgrade_function), 999);
+            
+        }
+        
+        $settings = acfe_get_settings();
+        
+        $model = $this->parse_args_r($settings, $this->model);
+        $model['version'] = ACFE_VERSION;
+        
+        acfe_update_settings($model);
+        
 	}
+    
+    /*
+     * Reset Modules
+     */
+    function do_reset(){
+        
+        // Modules
+        acf_get_instance('acfe_dynamic_block_types')->reset();
+        acf_get_instance('acfe_dynamic_options_pages')->reset();
+        acf_get_instance('acfe_dynamic_post_types')->reset();
+        acf_get_instance('acfe_dynamic_taxonomies')->reset();
+        
+    }
 	
-	function upgrade_0_8_6(){
-		
-		$todo = acfe_settings('upgrades.0_8_6');
-		
-		if(!$todo)
-			return;
-		
-		acf_log('[ACF Extended] 0.8.6 Upgrade: Dynamic Options Pages');
+    /*
+     * ACF Extended: 0.8.8
+     */
+	function do_0_8_8(){
+        
+        $tasks = array(
+            'block_types',
+            'options_pages',
+            'post_types',
+            'taxonomies',
+            'clean',
+        );
+        
+        foreach($tasks as $task){
+    
+            /*
+             * Block Types
+             */
+            if($task === 'block_types'){
+        
+                $old = acfe_get_settings('modules.dynamic_block_type.data', array());
+                $new = acfe_get_settings('modules.block_types', array());
+        
+                // Check
+                if(empty($old))
+                    continue;
+    
+                // Log
+                acf_log('[ACF Extended] 0.8.8 Upgrade: Block Types');
+        
+                // Update
+                acfe_update_settings('modules.block_types', array_merge($old, $new));
+        
+            }
+            
+            /*
+             * Options Pages
+             */
+            elseif($task === 'options_pages'){
+                
+                $old = acfe_get_settings('modules.dynamic_option.data', array());
+                $new = acfe_get_settings('modules.options_pages', array());
+                
+                // Check
+                if(empty($old))
+                    continue;
+                
+                // Log
+                acf_log('[ACF Extended] 0.8.8 Upgrade: Options Pages');
+        
+                // Update
+                acfe_update_settings('modules.options_pages', array_merge($old, $new));
+        
+            }
+            
+            /*
+             * Post Types
+             */
+            elseif($task === 'post_types'){
+                
+                $old = acfe_get_settings('modules.dynamic_post_type.data', array());
+                $new = acfe_get_settings('modules.post_types', array());
+                
+                // Check
+                if(empty($old))
+                    continue;
+                
+                // Log
+                acf_log('[ACF Extended] 0.8.8 Upgrade: Post Types');
+        
+                // Update
+                acfe_update_settings('modules.post_types', array_merge($old, $new));
+        
+            }
+            
+            /*
+             * Taxonomies
+             */
+            elseif($task === 'taxonomies'){
+                
+                $old = acfe_get_settings('modules.dynamic_taxonomy.data', array());
+                $new = acfe_get_settings('modules.taxonomies', array());
+                
+                // Check
+                if(empty($old))
+                    continue;
+                
+                // Log
+                acf_log('[ACF Extended] 0.8.8 Upgrade: Taxonomies');
+        
+                // Update
+                acfe_update_settings('modules.taxonomies', array_merge($old, $new));
+        
+            }
+            
+            /*
+             * Clean
+             */
+            elseif($task === 'clean'){
+    
+                acfe_delete_settings('modules.author');
+                acfe_delete_settings('modules.dev');
+                acfe_delete_settings('modules.meta');
+                acfe_delete_settings('modules.option');
+                acfe_delete_settings('modules.ui');
+                acfe_delete_settings('modules.dynamic_block_type');
+                acfe_delete_settings('modules.dynamic_form');
+                acfe_delete_settings('modules.dynamic_option');
+                acfe_delete_settings('modules.dynamic_post_type');
+                acfe_delete_settings('modules.dynamic_taxonomy');
+                acfe_delete_settings('upgrades');
+        
+            }
+            
+        }
+	    
+    }
+	
+    /*
+     * ACF Extended: 0.8.6
+     */
+	function do_0_8_6(){
 		
 		$get_options = get_posts(array(
 			'post_type'         => 'acfe-dop',
@@ -35,6 +191,8 @@ class acfe_upgrades{
 		));
 		
 		if(!empty($get_options)){
+		    
+		    $updated = false;
 			
 			foreach($get_options as $post_id){
 				
@@ -63,13 +221,15 @@ class acfe_upgrades{
 					// Update field
 					update_field('menu_slug', $menu_slug, $post_id);
 					
+					$updated = true;
+					
 				}
 				
 				// Upgrade old name to menu_slug
 				if($acfe_dop_name === $post_name){
 					
 					// Get ACFE option
-					$option = acfe_settings('modules.dynamic_option.data');
+					$option = acfe_get_settings('modules.options_pages', array());
 					
 					// Check ACFE option
 					if(isset($option[$acfe_dop_name])){
@@ -86,7 +246,7 @@ class acfe_upgrades{
 						ksort($option);
 						
 						// Update ACFE option
-						acfe_settings('modules.dynamic_option.data', $option, true);
+						acfe_update_settings('modules.options_pages', $option);
 						
 						// Update post: force menu slug as name
 						wp_update_post(array(
@@ -94,34 +254,32 @@ class acfe_upgrades{
 							'post_name'     => $menu_slug,
 						));
 						
+						$updated = true;
+						
 					}
 					
 				}
 				
 			}
 			
+			if($updated)
+                acf_log('[ACF Extended] 0.8.6 Upgrade: Options Pages');
+			
 		}
-		
-		// Done
-		acfe_settings()->delete('upgrades.0_8_6');
-		
-		acf_log('[ACF Extended] 0.8.6 Upgrade: Done');
 		
 	}
 	
-	function upgrade_0_8_5(){
-		
-		$todo = acfe_settings('upgrades.0_8_5');
-		
-		if(!$todo)
-			return;
+	/*
+	 * ACF Extended: 0.8.5
+	 */
+	function do_0_8_5(){
 		
 		$tasks = array(
-			'dynamic_form',
-			'dynamic_post_type',
-			'dynamic_taxonomy',
-			'dynamic_block_type',
-			'dynamic_option',
+			'forms',
+			'post_types',
+			'taxonomies',
+			'block_types',
+			'options_pages',
 		);
 		
 		foreach($tasks as $task){
@@ -129,9 +287,7 @@ class acfe_upgrades{
 			/*
 			 * Forms
 			 */
-			if($task === 'dynamic_form'){
-				
-				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Forms');
+			if($task === 'forms'){
 				
 				// Retrieve all forms posts
 				$get_forms = get_posts(array(
@@ -142,12 +298,8 @@ class acfe_upgrades{
 				));
 				
 				// Bail early if no form found
-				if(empty($get_forms)){
-					
-					// Upgrade done
+				if(empty($get_forms))
 					continue;
-					
-				}
 				
 				$flexible = acf_get_field_type('flexible_content');
 				$field = acf_get_field('acfe_form_actions');
@@ -340,6 +492,8 @@ class acfe_upgrades{
 						}
 						
 						if(!empty($updates)){
+                            
+                            acf_log('[ACF Extended] 0.8.5 Upgrade: Forms');
 							
 							// Update meta
 							foreach($updates as $new_field => $data){
@@ -552,104 +706,109 @@ class acfe_upgrades{
 			/*
 			 * Post Types
 			 */
-			elseif($task === 'dynamic_post_type'){
+			elseif($task === 'post_types'){
 				
-				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Post Types');
+				$old = get_option('acfe_dynamic_post_types', array());
+				$new = acfe_get_settings('modules.post_types', array());
+                
+                delete_option('acfe_dynamic_post_types');
+                
+                if(empty($old))
+                    continue;
+                
+                acf_log('[ACF Extended] 0.8.5 Upgrade: Post Types');
 				
-				// Old Post Types
-				$old_post_types = get_option('acfe_dynamic_post_types', array());
-				
-				// New Post Types
-				$new_post_types = acfe_settings('modules.dynamic_post_type.data');
-				
-				$merged_post_types = array_merge($old_post_types, $new_post_types);
-				
-				// Update Post Types
-				acfe_settings('modules.dynamic_post_type.data', $merged_post_types, true);
-				
-				// Delete Old Post Types
-				delete_option('acfe_dynamic_post_types');
+				// Update
+				acfe_update_settings('modules.post_types', array_merge($old, $new));
 				
 			}
 			
 			/*
 			 * Taxonomies
 			 */
-			elseif($task === 'dynamic_taxonomy'){
+			elseif($task === 'taxonomies'){
+                
+                $old = get_option('acfe_dynamic_taxonomies', array());
+                $new = acfe_get_settings('modules.taxonomies', array());
+                
+                delete_option('acfe_dynamic_taxonomies');
+                
+                if(empty($old))
+                    continue;
 				
-				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Taxonomies');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Taxonomies');
 				
-				// Old Taxonomies
-				$old_taxonomies = get_option('acfe_dynamic_taxonomies', array());
-				
-				// New Taxonomies
-				$new_taxonomies = acfe_settings('modules.dynamic_taxonomy.data');
-				
-				$merged_taxonomies = array_merge($old_taxonomies, $new_taxonomies);
-				
-				// Update Taxonomies
-				acfe_settings('modules.dynamic_taxonomy.data', $merged_taxonomies, true);
-				
-				// Delete Old Taxonomies
-				delete_option('acfe_dynamic_taxonomies');
-				
+				// Update
+                acfe_update_settings('modules.taxonomies', array_merge($old, $new));
+                
 			}
 			
 			/*
 			 * Block Types
 			 */
-			elseif($task === 'dynamic_block_type'){
+			elseif($task === 'block_types'){
+                
+                $old = get_option('acfe_dynamic_block_types', array());
+                $new = acfe_get_settings('modules.block_types', array());
+                
+                delete_option('acfe_dynamic_block_types');
+                
+                if(empty($old))
+                    continue;
 				
-				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Block Types');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Block Types');
 				
-				// Old Block Types
-				$old_block_types = get_option('acfe_dynamic_block_types', array());
-				
-				// New Block Types
-				$new_block_types = acfe_settings('modules.dynamic_block_type.data');
-				
-				$merged_block_types = array_merge($old_block_types, $new_block_types);
-				
-				// Update Block Types
-				acfe_settings('modules.dynamic_block_type.data', $merged_block_types, true);
-				
-				// Delete Old Block Types
-				delete_option('acfe_dynamic_block_types');
+				// Update
+				acfe_update_settings('modules.block_types', array_merge($old, $new));
 				
 			}
 			
 			/*
 			 * Option Pages
 			 */
-			elseif($task === 'dynamic_option'){
+			elseif($task === 'options_pages'){
+                
+                $old = get_option('acfe_dynamic_options_pages', array());
+                $new = acfe_get_settings('modules.options_pages', array());
+                
+                delete_option('acfe_dynamic_options_pages');
+                
+                if(empty($old))
+                    continue;
 				
-				acf_log('[ACF Extended] 0.8.5 Upgrade: Dynamic Options Pages');
+				acf_log('[ACF Extended] 0.8.5 Upgrade: Options Pages');
 				
-				// Old Options
-				$old_options = get_option('acfe_dynamic_options_pages', array());
-				
-				// New Options
-				$new_options = acfe_settings('modules.dynamic_option.data');
-				
-				$merged_options = array_merge($old_options, $new_options);
-				
-				// Update Options
-				acfe_settings('modules.dynamic_option.data', $merged_options, true);
-				
-				// Delete Old Options
-				delete_option('acfe_dynamic_options_pages');
+				// Update
+                acfe_update_settings('modules.options_pages', array_merge($old, $new));
 				
 			}
 			
 		}
 		
-		// Done
-        acfe_settings()->delete('upgrades.0_8_5');
-		
-		acf_log('[ACF Extended] 0.8.5 Upgrade: Done');
-		
 	}
+    
+    function parse_args_r(&$a, $b){
+        
+        $a = (array) $a;
+        $b = (array) $b;
+        $r = $b;
+        
+        foreach($a as $k => &$v){
+            
+            if(is_array($v) && isset($r[ $k ])){
+                $r[$k] = $this->parse_args_r($v, $r[ $k ]);
+            }else{
+                $r[$k] = $v;
+            }
+            
+        }
+        
+        return $r;
+        
+    }
 	
 }
+
+acf_new_instance('acfe_upgrades');
 
 endif;

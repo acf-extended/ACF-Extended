@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 // Check setting
-if(!acfe_is_dev() && !acfe_is_super_dev())
+if((!acfe_is_dev() && !acfe_is_super_dev()) || !acf_get_setting('show_admin'))
     return;
 
 if(!class_exists('acfe_dev')):
@@ -35,7 +35,7 @@ class acfe_dev{
 		add_action('edit_user_profile',     array($this, 'load_user'), 20);
         
         // Options
-        add_action('acf/options_page/submitbox_before_major_actions',   array($this, 'load_admin'));
+        add_action('acf/options_page/submitbox_before_major_actions',   array($this, 'load_options'));
         
         add_action('wp_ajax_acfe/delete_meta',                          array($this, 'ajax_delete_meta'));
         add_action('wp_ajax_acfe/bulk_delete_meta',                     array($this, 'ajax_bulk_delete_meta'));
@@ -67,9 +67,10 @@ class acfe_dev{
         // Remove WP post meta box
         remove_meta_box('postcustom', false, 'normal');
         
-        if(!acfe_is_super_dev() && in_array($typenow, array('acf-field-group', 'acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form', 'acfe-template'))){
+        $reserved = acfe_get_setting('reserved_post_types', array());
+        
+        if(!acfe_is_super_dev() && in_array($typenow, $reserved))
             return;
-        }
         
         // actions
         add_action('add_meta_boxes', array($this, 'edit_post'), 10, 2);
@@ -124,7 +125,7 @@ class acfe_dev{
     /*
      * Admin
      */
-    function load_admin($page){
+    function load_options($page){
         
         $this->add_meta_boxes($page['post_id'], 'acf_options_page');
         
@@ -138,6 +139,8 @@ class acfe_dev{
         // Get Meta
         $this->get_meta($post_id);
         
+        do_action('acfe/dev/add_meta_boxes', $post_id, $object_type);
+        
         $render_bulk = false;
         
         // WP Metabox
@@ -147,10 +150,10 @@ class acfe_dev{
                 $render_bulk = true;
             
             $id = 'acfe-wp-custom-fields';
-            $title = 'WP Custom fields';
+            $title = 'WP Custom Fields';
             
             if($object_type === 'acf_options_page'){
-                $title = 'WP Options';
+                $title = 'WP Options Meta';
             }
             
             $title .= '<span class="acfe_dev_meta_count">' . count($this->wp_meta) . '</span>';
@@ -168,10 +171,10 @@ class acfe_dev{
                 $render_bulk = true;
             
             $id = 'acfe-acf-custom-fields';
-            $title = 'ACF Custom fields';
-    
+            $title = 'ACF Custom Fields';
+            
             if($object_type === 'acf_options_page'){
-                $title = 'ACF Options';
+                $title = 'ACF Options Meta';
             }
             
             $title .= '<span class="acfe_dev_meta_count">' . count($this->acf_meta) . '</span>';

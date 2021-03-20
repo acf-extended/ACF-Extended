@@ -9,39 +9,28 @@ class acfe_field_checkbox{
     
     function __construct(){
     
-        add_action('current_screen',                                array($this, 'current_screen'));
-        
-    }
-    
-    function current_screen(){
-        
         // Field Group UI
-        if(acfe_is_admin_screen()){
+        add_filter('acf/prepare_field/name=choices',                array($this, 'prepare_field_group_choices'), 5);
     
-            add_filter('acf/prepare_field/name=choices', array($this, 'prepare_field_choices'), 5);
-            
-        }else{
+        // Filters
+        add_filter('acf/prepare_field/type=acfe_taxonomy_terms',    array($this, 'prepare_checkbox'), 20);
+        add_filter('acf/prepare_field/type=radio',                  array($this, 'prepare_checkbox'), 20);
+        add_filter('acf/prepare_field/type=checkbox',               array($this, 'prepare_checkbox'), 20);
     
-            // Filters
-            add_filter('acf/prepare_field/type=acfe_taxonomy_terms',    array($this, 'prepare_checkbox'), 20);
-            add_filter('acf/prepare_field/type=radio',                  array($this, 'prepare_checkbox'), 20);
-            add_filter('acf/prepare_field/type=checkbox',               array($this, 'prepare_checkbox'), 20);
+        add_filter('acf/prepare_field/type=radio',                  array($this, 'prepare_radio'), 20);
+        add_filter('acf/prepare_field/type=acfe_taxonomy_terms',    array($this, 'prepare_radio'), 20);
     
-            add_filter('acf/prepare_field/type=radio',                  array($this, 'prepare_radio'), 20);
-            add_filter('acf/prepare_field/type=acfe_taxonomy_terms',    array($this, 'prepare_radio'), 20);
-    
-            add_filter('acfe/field_wrapper_attributes/type=radio',      array($this, 'field_wrapper'), 10, 2);
-            add_filter('acfe/field_wrapper_attributes/type=checkbox',   array($this, 'field_wrapper'), 10, 2);
-            
-        }
-        
-        
+        add_filter('acfe/field_wrapper_attributes/type=radio',      array($this, 'field_wrapper'), 10, 2);
+        add_filter('acfe/field_wrapper_attributes/type=checkbox',   array($this, 'field_wrapper'), 10, 2);
         
     }
     
-    function prepare_field_choices($field){
+    function prepare_field_group_choices($field){
         
-        $wrapper = $field['wrapper'];
+        $wrapper = acf_maybe_get($field, 'wrapper');
+        
+        if(!$wrapper)
+            return $field;
         
         if(acf_maybe_get($wrapper, 'data-setting') !== 'radio' && acf_maybe_get($wrapper, 'data-setting') !== 'checkbox')
             return $field;

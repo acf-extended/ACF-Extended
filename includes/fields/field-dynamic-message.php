@@ -50,6 +50,15 @@ function my_acf_dynamic_message(){
         
     }
     
+    function render_field($field){
+    
+        if(!isset($field['render']) || !is_callable($field['render']))
+            return;
+    
+        call_user_func_array($field['render'], array($field));
+    
+    }
+    
 }
 
 // initialize

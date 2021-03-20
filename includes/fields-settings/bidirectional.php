@@ -519,7 +519,7 @@ class acfe_bidirectional{
      * $p_field: the parent field
      * $p_id: the relationship to add
      */
-    function relationship($type = 'add', $r_id, $p_field, $p_value){
+    function relationship($type, $r_id, $p_field, $p_value){
         
         // Get Related Field Configuration
         $r_fields = acf_get_array($p_field['acfe_bidirectional']['acfe_bidirectional_related']);

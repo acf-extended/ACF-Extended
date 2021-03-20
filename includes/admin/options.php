@@ -20,13 +20,10 @@ require_once(ACFE_PATH . 'includes/admin/options.class.php');
 add_action('admin_menu', 'acfe_options_menu');
 function acfe_options_menu(){
     
-    $hook = add_submenu_page(
-        'options-general.php', 
-        __('Options'), 
-        __('Options'), 
-        acf_get_setting('capability'), 
-        'acfe-options'
-    );
+    if(!acf_get_setting('show_admin'))
+        return;
+    
+    add_submenu_page('options-general.php', __('Options'), __('Options'), acf_get_setting('capability'), 'acfe-options' );
     
 }
 

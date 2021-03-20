@@ -55,7 +55,7 @@ class acfe_enhanced_ui{
          * User
          * source: /advanced-custom-fields-pro/includes/forms/form-user.php
          */
-        elseif(acf_is_screen(array('profile', 'user-edit', 'user'))){
+        elseif(acf_is_screen(array('profile', 'user-edit')) || (acf_is_screen('user') && !is_multisite())){
             
             // vars
             $acf_form_user = acf_get_instance('ACF_Form_User');

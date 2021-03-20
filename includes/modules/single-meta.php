@@ -22,7 +22,7 @@ class acfe_single_meta{
     
     function __construct(){
         
-        $this->restricted = array('acf-field-group', 'acf-field', 'attachment', 'acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form');
+        $this->restricted = acfe_get_setting('reserved_post_types', array());
         
         $this->post_types = apply_filters('acfe/modules/single_meta/post_types', array());
         $this->taxonomies = apply_filters('acfe/modules/single_meta/taxonomies', array());
@@ -378,8 +378,6 @@ class acfe_single_meta{
             return true;
     
         }
-        
-        
         
         return false;
         

@@ -355,6 +355,16 @@ class acfe_field_forms extends acf_field{
         
     }
     
+    function update_field($field){
+        
+        $field['default_value'] = acf_decode_choices($field['default_value'], true);
+        
+        if($field['field_type'] === 'radio')
+            $field['default_value'] = acfe_unarray($field['default_value']);
+        
+        return $field;
+        
+    }
     
     function format_value($value, $post_id, $field){
         

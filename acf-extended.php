@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.8.7.6
+ * Version:     0.8.8
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Vars
-    var $version = '0.8.7.6';
+    var $version = '0.8.8';
     var $acf = false;
     
     /*
@@ -43,11 +43,12 @@ class ACFE{
         // Init
         include_once(ACFE_PATH . 'init.php');
         
+        // Essentials
+        acfe_include('includes/core/helpers.php');
+        acfe_include('includes/core/compatibility.php');
+    
         // Load
         add_action('acf/include_field_types', array($this, 'load'));
-        
-        // Compatibility
-        acfe_include('includes/core/compatibility.php');
         
     }
     
@@ -67,36 +68,54 @@ class ACFE{
         $this->settings(array(
             
             // General
-            'url'                               => plugin_dir_url(__FILE__),
-            'theme_path'                        => $theme_path,
-            'theme_url'                         => $theme_url,
-            'theme_folder'                      => parse_url($theme_url, PHP_URL_PATH),
+            'url'                           => plugin_dir_url(__FILE__),
+            'theme_path'                    => $theme_path,
+            'theme_url'                     => $theme_url,
+            'theme_folder'                  => parse_url($theme_url, PHP_URL_PATH),
+            'reserved_post_types'           => array('acf-field', 'acf-field-group', 'acfe-dbt', 'acfe-form', 'acfe-dop', 'acfe-dpt', 'acfe-dt'),
+            'reserved_taxonomies'           => array('acf-field-group-category'),
+            'reserved_field_groups'         => array(
+                'group_acfe_author',
+                'group_acfe_dynamic_block_type',
+                'group_acfe_dynamic_form',
+                'group_acfe_dynamic_options_page',
+                'group_acfe_dynamic_post_type',
+                'group_acfe_dynamic_taxonomy',
+            ),
             
             // Php
-            'php'                               => true,
-            'php_save'                          => "{$theme_path}/acfe-php",
-            'php_load'                          => array("{$theme_path}/acfe-php"),
-            'php_found'                         => false,
+            'php'                           => true,
+            'php_save'                      => "{$theme_path}/acfe-php",
+            'php_load'                      => array("{$theme_path}/acfe-php"),
+            'php_found'                     => false,
             
             // Json
-            'json'                              => acf_get_setting('json'),
-            'json_save'                         => acf_get_setting('save_json'),
-            'json_load'                         => acf_get_setting('load_json'),
-            'json_found'                        => false,
+            'json'                          => acf_get_setting('json'),
+            'json_save'                     => acf_get_setting('save_json'),
+            'json_load'                     => acf_get_setting('load_json'),
+            'json_found'                    => false,
             
             // Modules
-            'dev'                               => false,
-            'modules/author'                    => true,
-            'modules/categories'                => true,
-            'modules/dynamic_block_types'       => true,
-            'modules/dynamic_forms'             => true,
-            'modules/dynamic_options_pages'     => true,
-            'modules/dynamic_post_types'        => true,
-            'modules/dynamic_taxonomies'        => true,
-            'modules/multilang'                 => true,
-            'modules/options'                   => true,
-            'modules/single_meta'               => false,
-            'modules/ui'                        => true,
+            'dev'                           => false,
+            'modules/author'                => true,
+            'modules/categories'            => true,
+            'modules/block_types'           => true,
+            'modules/forms'                 => true,
+            'modules/options_pages'         => true,
+            'modules/post_types'            => true,
+            'modules/taxonomies'            => true,
+            'modules/multilang'             => true,
+            'modules/options'               => true,
+            'modules/single_meta'           => false,
+            'modules/ui'                    => true,
+            
+            // Fields
+            'field/recaptcha/site_key'      => '',
+            'field/recaptcha/secret_key'    => '',
+            'field/recaptcha/version'       => 'v2',
+            'field/recaptcha/v2/theme'      => 'light',
+            'field/recaptcha/v2/size'       => 'small',
+            'field/recaptcha/v3/hide_logo'  => false,
             
         ));
         
@@ -111,12 +130,15 @@ class ACFE{
         
         // Tools
         add_action('acf/include_admin_tools',   array($this, 'tools'));
+        add_action('acf/include_admin_tools',   array($this, 'tools_field_groups'), 20);
         
         // Additional
-        acfe_include('includes/core/helpers.php');
         acfe_include('includes/core/multilang.php');
         acfe_include('includes/core/settings.php');
 	    acfe_include('includes/core/upgrades.php');
+	    
+	    // Admin
+        acfe_include('includes/admin/settings.php');
 
     }
     
@@ -142,7 +164,6 @@ class ACFE{
          */
         acfe_include('includes/admin/options.php');
         acfe_include('includes/admin/plugins.php');
-        acfe_include('includes/admin/settings.php');
         
         /*
          * Fields
@@ -193,13 +214,14 @@ class ACFE{
         /*
          * Modules
          */
+        acfe_include('includes/modules/module.php');
         acfe_include('includes/modules/author.php');
         acfe_include('includes/modules/dev.php');
-        acfe_include('includes/modules/dynamic-block-type.php');
-        acfe_include('includes/modules/dynamic-form.php');
-        acfe_include('includes/modules/dynamic-options-page.php');
-        acfe_include('includes/modules/dynamic-post-type.php');
-        acfe_include('includes/modules/dynamic-taxonomy.php');
+        acfe_include('includes/modules/block-types.php');
+        acfe_include('includes/modules/forms.php');
+        acfe_include('includes/modules/options-pages.php');
+        acfe_include('includes/modules/post-types.php');
+        acfe_include('includes/modules/taxonomies.php');
         acfe_include('includes/modules/single-meta.php');
         acfe_include('includes/modules/ui.php');
         
@@ -241,19 +263,31 @@ class ACFE{
      */
     function tools(){
         
-        acfe_include('includes/admin/tools/dbt-export.php');
-        acfe_include('includes/admin/tools/dbt-import.php');
-        acfe_include('includes/admin/tools/dpt-export.php');
-        acfe_include('includes/admin/tools/dpt-import.php');
-        acfe_include('includes/admin/tools/dt-export.php');
-        acfe_include('includes/admin/tools/dt-import.php');
-        acfe_include('includes/admin/tools/dop-export.php');
-        acfe_include('includes/admin/tools/dop-import.php');
+        // Modules
+        acfe_include('includes/admin/tools/module-export.php');
+        acfe_include('includes/admin/tools/module-import.php');
         
-        acfe_include('includes/admin/tools/form-export.php');
-        acfe_include('includes/admin/tools/form-import.php');
-        acfe_include('includes/admin/tools/fg-local.php');
-        acfe_include('includes/admin/tools/fg-export.php');
+        acfe_include('includes/admin/tools/post-types-export.php');
+        acfe_include('includes/admin/tools/post-types-import.php');
+        acfe_include('includes/admin/tools/taxonomies-export.php');
+        acfe_include('includes/admin/tools/taxonomies-import.php');
+        acfe_include('includes/admin/tools/options-pages-export.php');
+        acfe_include('includes/admin/tools/options-pages-import.php');
+        acfe_include('includes/admin/tools/block-types-export.php');
+        acfe_include('includes/admin/tools/block-types-import.php');
+        acfe_include('includes/admin/tools/forms-export.php');
+        acfe_include('includes/admin/tools/forms-import.php');
+        
+    }
+    
+    /*
+     * Tools Field Groups
+     */
+    function tools_field_groups(){
+        
+        // Field Groups
+        acfe_include('includes/admin/tools/field-groups-local.php');
+        acfe_include('includes/admin/tools/field-groups-export.php');
         
     }
 
