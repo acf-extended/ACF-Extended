@@ -59,7 +59,7 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 
 == 💎 ACF Extended Pro ==
 
-> *What an adventure! Today ACF Extended celebrates its 2 years of existence, 20K+ install & 250K+ downloads. The most fervent supporters among the community know that ACF Extended Pro was launched last month. Today, I am proud to announce it to everyone.*
+> *What an adventure! Today ACF Extended celebrates its 2 years of existence, 30K+ install & 300K+ downloads. The most fervent supporters among the community know that ACF Extended Pro was launched last month. Today, I am proud to announce it to everyone.*
 >
 > *First thing first, be assured that all current free features will remain free and maintained. The Pro version will guarantee better support, more updates, as well as additional cutting-edge features.*
 >
