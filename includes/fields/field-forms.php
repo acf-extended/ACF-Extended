@@ -11,7 +11,7 @@ class acfe_field_forms extends acf_field{
         
         $this->name = 'acfe_forms';
         $this->label = __('Forms', 'acfe');
-        $this->category = 'relational';
+        $this->category = apply_filters('acfe/form_field_type_category', 'relational');
         $this->defaults = array(
             'post_type'     => array(),
             'field_type'    => 'checkbox',

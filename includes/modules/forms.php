@@ -38,6 +38,9 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         // Validate
         add_filter('acf/validate_value/name=acfe_form_name',    array($this, 'validate_name'), 10, 4);
         
+        // Save
+        add_action('acfe/form/save',                            array($this, 'save'), 10, 2);
+        
         // Import
         add_action('acfe/form/import_fields',                   array($this, 'import_fields'), 10, 3);
         
@@ -441,6 +444,26 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         do_action("acfe/form/save",                 $name, $post_id);
         do_action("acfe/form/save/name={$name}",    $name, $post_id);
         do_action("acfe/form/save/id={$post_id}",   $name, $post_id);
+        
+    }
+    
+    /*
+     * Save
+     */
+    function save($name, $post_id){
+        
+        // Update post
+        wp_update_post(array(
+            'ID'            => $post_id,
+            'post_name'     => $name,
+        ));
+        
+        // Get generated post name (possible name-2)
+        $_name = get_post_field('post_name', $post_id);
+        
+        // Update the meta if different
+        if($_name !== $name)
+            update_field('acfe_form_name', $_name, $post_id);
         
     }
     

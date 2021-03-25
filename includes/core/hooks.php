@@ -62,7 +62,7 @@ class acfe_hooks{
         $suffix = $pre ? 'pre_' : false;
     
         // Setup Meta
-        acf_setup_meta($_POST['acf'], 'acfe/save', true);
+        acfe_setup_meta($_POST['acf'], 'acfe/save', true);
     
             do_action("acfe/{$suffix}save",                        $post_id, $object);
             do_action("acfe/{$suffix}save/id={$post_id}",          $post_id, $object);
@@ -75,7 +75,7 @@ class acfe_hooks{
             
             do_action("acfe/{$suffix}save_{$type}/id={$post_id}",  $post_id, $object);
         
-        acf_reset_meta('acfe/save');
+        acfe_reset_meta();
         
     }
     
@@ -121,7 +121,7 @@ class acfe_hooks{
             $object = $data['object'];
             $hooks = $data['hooks'];
     
-            acf_setup_meta($acf, 'acfe/validate_save', true);
+            acfe_setup_meta($acf, 'acfe/validate_save', true);
         
                 do_action("acfe/validate_save",                         $post_id, $object);
                 do_action("acfe/validate_save/id={$post_id}",           $post_id, $object);
@@ -134,7 +134,7 @@ class acfe_hooks{
         
                 do_action("acfe/validate_save_{$type}/id={$post_id}",   $post_id, $object);
     
-            acf_reset_meta('acfe/validate_save');
+            acfe_reset_meta();
             
         }
         
@@ -282,16 +282,17 @@ class acfe_hooks{
         
         foreach($field_groups as $i => &$field_group){
     
-            $field_group = apply_filters("acfe/prepare_field_group",                            $field_group);
-            $field_group = apply_filters("acfe/prepare_field_group/ID={$field_group['ID']}",    $field_group);
-            $field_group = apply_filters("acfe/prepare_field_group/key={$field_group['key']}",  $field_group);
+            $field_group = apply_filters("acfe/prepare_field_group", $field_group);
+            
+            if(isset($field_group['ID']))
+                $field_group = apply_filters("acfe/prepare_field_group/ID={$field_group['ID']}", $field_group);
+    
+            if(isset($field_group['key']))
+                $field_group = apply_filters("acfe/prepare_field_group/key={$field_group['key']}", $field_group);
             
             // Do not render if false
-            if($field_group === false){
-                
+            if($field_group === false)
                 unset($field_groups[$i]);
-                
-            }
         
         }
     

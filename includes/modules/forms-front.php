@@ -72,7 +72,7 @@ class acfe_form_front{
 		}
         
         // Validation
-        acf_setup_meta($_POST['acf'], 'acfe_form_validation', true);
+        acfe_setup_meta($_POST['acf'], 'acfe/form/validation', true);
 		
 		    $rows = array();
         
@@ -118,7 +118,7 @@ class acfe_form_front{
             do_action('acfe/form/validation',                       $form, $post_id);
             do_action('acfe/form/validation/form=' . $form_name,    $form, $post_id);
         
-        acf_reset_meta('acfe_form_validation');
+        acfe_reset_meta();
         
     }
     
@@ -173,7 +173,7 @@ class acfe_form_front{
          */
         remove_shortcode('acfe_form');
         
-        acf_setup_meta($_POST['acf'], 'acfe_form_submit', true);
+        acfe_setup_meta($_POST['acf'], 'acfe/form/submit', true);
             
             // Actions
             if(have_rows('acfe_form_actions', $form_id)):
@@ -192,7 +192,7 @@ class acfe_form_front{
             do_action('acfe/form/submit',                       $form, $post_id);
             do_action('acfe/form/submit/form=' . $form_name,    $form, $post_id);
         
-        acf_reset_meta('acfe_form_submit');
+        acfe_reset_meta();
     
         add_shortcode('acfe_form', array($this, 'add_shortcode'));
         
@@ -377,7 +377,7 @@ class acfe_form_front{
         
         if(acf_maybe_get_POST('acf')){
     
-            acf_setup_meta($_POST['acf'], 'acfe_form_load', true);
+            acfe_setup_meta($_POST['acf'], 'acfe/form/load', true);
             
         }
         
@@ -412,7 +412,7 @@ class acfe_form_front{
         
         if(acf_maybe_get_POST('acf')){
     
-            acf_reset_meta('acfe_form_load');
+            acfe_reset_meta();
             
         }
         

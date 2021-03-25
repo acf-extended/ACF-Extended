@@ -356,7 +356,7 @@ class acfe_field_flexible_content_preview{
             wp_unslash($options['value'])
         ));
         
-        acf_setup_meta($meta, $post_id, true);
+        acfe_setup_meta($meta, $post_id, true);
         
         if(have_rows($options['field_key'])):
             while(have_rows($options['field_key'])): the_row();
@@ -380,7 +380,7 @@ class acfe_field_flexible_content_preview{
             endwhile;
         endif;
         
-        acf_reset_meta($post_id);
+        acfe_reset_meta();
         
         return $this->return_or_die();
         

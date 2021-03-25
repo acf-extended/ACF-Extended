@@ -11,7 +11,7 @@ class acfe_field_post_types extends acf_field{
         
         $this->name = 'acfe_post_types';
         $this->label = __('Post types', 'acfe');
-        $this->category = 'relational';
+        $this->category = 'WordPress';
         $this->defaults = array(
             'post_type'             => array(),
             'field_type'            => 'checkbox',

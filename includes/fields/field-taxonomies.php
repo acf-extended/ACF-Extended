@@ -11,7 +11,7 @@ class acfe_field_taxonomies extends acf_field{
         
         $this->name = 'acfe_taxonomies';
         $this->label = __('Taxonomies', 'acfe');
-        $this->category = 'relational';
+        $this->category = 'WordPress';
         $this->defaults = array(
             'taxonomy'              => array(),
             'field_type'            => 'checkbox',

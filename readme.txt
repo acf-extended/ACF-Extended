@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 0.8.8
+Stable tag: 0.8.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -684,6 +684,31 @@ function my_acfe_modules(){
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.8.1 =
+
+**ACF Extended Pro 0.8.8.1:**
+* Module: Added "Screen Layouts" module allowing to customize Post Edit Screen up to 3 columns
+* Field: Flexible Content - Added "Container Size" setting in the `get_flexible_grid()` helper
+* Field: "Menus" & "Menu Locations" - Added compatibility with min/max items settings
+* Field: Added "ACFE Template" Selector field
+* Field: Added "ACF Block Types" Selector field
+* Field: Added "ACF Field Groups" Selector field
+* Field: Added "ACF Field Types" Selector field
+* Field: Added "ACF Fields" Selector field
+* Field: Added "ACF Options Pages" Selector field
+* Field: Post Field - Fixed field type category translation
+
+**ACF Extended Basic 0.8.8.1:**
+* Field: reCaptcha - Fixed missing field Site key & Secret Key on field render
+* Fields: Fields types are now sorted in ASC order in the Field Group UI
+* Fields: Added "ACF" & "WordPress" Field Types Categories in the Field Group UI to declutter the "Relational" category
+* Module: Forms - Fixed empty `get_field()` used inside an action when a previous action saved additional meta
+* Module: Forms - Fixed Form Name not being correctly updated when changed
+* Locations: Post Type Archive - Added `acfe/post_type_archive_capability` filter to change Archive Page admin menu capability
+* Locations: Post Type Archive - Admin menu item on front-end now correctly check the user permissions
+* Field Groups: Permissions - Fixed undefined index notice when using the permission setting
+* General: Fixed "ACF Title" metabox position to become usable with drag&drop function when empty (while waiting for ACF to fix it)
 
 = 0.8.8 =
 

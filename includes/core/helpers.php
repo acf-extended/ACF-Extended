@@ -1609,14 +1609,25 @@ function acfe_get_post_id(){
         // Legacy ACF method
         $post_id = acf_get_valid_post_id();
         
-        // Check Local Meta
-        $local_meta = acf_get_instance('ACF_Local_Meta')->meta;
+        // Check Local post ID (via acf_setup_meta())
         $local_post_id = array();
-    
-        if(!empty($local_meta)){
-            $local_post_id = array_keys($local_meta);
+        
+        // ACF Local Meta
+        $local_acf_meta = acf_get_instance('ACF_Local_Meta')->meta;
+        
+        if(!empty($local_acf_meta)){
+            $local_post_id = array_merge($local_post_id, array_keys($local_acf_meta));
+        }
+        
+        // ACFE Local Meta
+        $local_acfe_meta = acf_get_instance('ACFE_Local_Meta')->meta;
+        
+        if(!empty($local_acfe_meta)){
+            $local_post_id = array_merge($local_post_id, array_keys($local_acfe_meta));
         }
     
+        $local_post_id = array_unique($local_post_id);
+        
         $exclude = apply_filters('acfe/get_post_id', $local_post_id);
     
         if(in_array($post_id, $exclude))

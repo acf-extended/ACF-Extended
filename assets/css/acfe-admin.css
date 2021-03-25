@@ -878,6 +878,13 @@ html[dir=rtl] .acf-columns-2 .acf-column-2 {
     }
 }
 
+body.is-dragging-metaboxes #acf_after_title-sortables {
+    outline: 3px dashed #646970;
+    display: flow-root;
+    min-height: 60px;
+    margin-bottom: 3px !important
+}
+
 .acf-input-wrap .acf-is-prepended+.select2>.selection>.select2-selection {
     border-radius: 0 3px 3px 0 !important
 }

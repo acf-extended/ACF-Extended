@@ -10,8 +10,8 @@ class acfe_field_post_statuses extends acf_field{
     function __construct(){
         
         $this->name = 'acfe_post_statuses';
-        $this->label = __('Post statuses', 'acfe');
-        $this->category = 'relational';
+        $this->label = __('Post Statuses', 'acfe');
+        $this->category = 'WordPress';
         $this->defaults = array(
             'post_status'           => array(),
             'field_type'            => 'checkbox',

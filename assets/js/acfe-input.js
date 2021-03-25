@@ -2570,9 +2570,13 @@ function acfe_recaptcha() {
             }
 
             // Add Class on Dropdown with Field Name + key for developers <3
-            $select.data('select2').$dropdown
-                .addClass('select2-dropdown-acf-field-' + field.get('name'))
-                .addClass('select2-dropdown-acf-field-' + field.get('key'));
+            if ($select.data('select2')) {
+
+                $select.data('select2').$dropdown
+                    .addClass('select2-dropdown-acf-field-' + field.get('name'))
+                    .addClass('select2-dropdown-acf-field-' + field.get('key'));
+
+            }
 
             acf.doAction('select2_init/type=' + field.get('type'), $select, options, data, field, instance);
             acf.doAction('select2_init/name=' + field.get('name'), $select, options, data, field, instance);

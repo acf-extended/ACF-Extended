@@ -11,7 +11,7 @@ class acfe_field_user_roles extends acf_field{
         
         $this->name = 'acfe_user_roles';
         $this->label = __('User Roles', 'acfe');
-        $this->category = 'relational';
+        $this->category = 'WordPress';
         $this->defaults = array(
             'user_role'             => array(),
             'field_type'            => 'checkbox',

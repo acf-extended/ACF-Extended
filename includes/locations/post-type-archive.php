@@ -42,15 +42,22 @@ class acfe_location_post_type_archive{
             if($name === 'post')
                 $parent_slug = 'edit.php';
             
+            // label
             $label = __('Archive <span class="count">(%s)</span>');
             $label = preg_replace('/ <span(.*?)<\/span>/', '', $label);
             
+            // Capability
+            $capability = acf_get_setting('capability');
+            $capability = apply_filters("acfe/post_type_archive_capability",                $capability, $name);
+            $capability = apply_filters("acfe/post_type_archive_capability/name={$name}",   $capability, $name);
+            
+            // Register
             acf_add_options_page(array(
                 'page_title' 	            => $object->label . ' ' . $label,
                 'menu_title'	            => $label,
                 'menu_slug' 	            => $name . '-archive',
                 'post_id'                   => $name . '_archive',
-                'capability'	            => acf_get_setting('capability'),
+                'capability'	            => $capability,
                 'redirect'		            => false,
                 'parent_slug'               => $parent_slug,
                 'updated_message'           => $object->label . ' Archive Saved.',
@@ -124,27 +131,40 @@ class acfe_location_post_type_archive{
     
     function admin_bar($wp_admin_bar){
 	    
+	    // Bail early
 	    if(is_admin() || !is_post_type_archive())
 	        return;
 	    
+	    // Get Post Type
 	    $post_type = get_query_var('post_type');
 	    
 	    if(!$post_type)
 	        return;
 	    
-        $post_type_obj = get_post_type_object($post_type);
+	    // Object
+        $object = get_post_type_object($post_type);
         
-        $has_archive = isset($post_type_obj->has_archive) && !empty($post_type_obj->has_archive);
-        $has_archive_page = isset($post_type_obj->acfe_admin_archive) && !empty($post_type_obj->acfe_admin_archive);
+        // Check has archive
+        $has_archive = acfe_maybe_get($object, 'has_archive');
+        $has_archive_page = acfe_maybe_get($object, 'acfe_admin_archive');
         
         if(!$has_archive || !$has_archive_page)
             return;
+    
+        // Check capability
+        $capability = acf_get_setting('capability');
+        $capability = apply_filters("acfe/post_type_archive_capability",                    $capability, $post_type);
+        $capability = apply_filters("acfe/post_type_archive_capability/name={$post_type}",  $capability, $post_type);
         
+        if(!current_user_can($capability))
+            return;
+        
+        // Add menu item
         $wp_admin_bar->add_node(array(
             'id'    	=> 'edit',
-            'title' 	=> 'Edit ' . $post_type_obj->label . ' ' . __('Archive'),
+            'title' 	=> 'Edit ' . $object->label . ' ' . __('Archive'),
             'parent' 	=> false,
-            'href' 		=> add_query_arg(array('post_type' => $post_type_obj->name, 'page' => $post_type_obj->name . '-archive'), admin_url('edit.php')),
+            'href' 		=> add_query_arg(array('post_type' => $object->name, 'page' => $object->name . '-archive'), admin_url('edit.php')),
             'meta'		=> array('class' => 'ab-item')
         ));
         
