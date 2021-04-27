@@ -48,6 +48,41 @@ class acfe_dynamic_forms_helpers{
         
     }
     
+    function get_field_groups_front($post_id = 0){
+        
+        $return = array();
+        
+        if(!$post_id)
+            $post_id = acfe_get_post_id();
+        
+        if(!$post_id)
+            return $return;
+        
+        // Field Groups
+        $field_groups = get_field('acfe_form_field_groups', $post_id);
+        
+        if(!empty($field_groups)){
+            
+            foreach($field_groups as $field_group_key){
+                
+                $field_group = acf_get_field_group($field_group_key);
+                
+                if(!$field_group)
+                    continue;
+                
+                $field_group['fields'] = acf_get_fields($field_group);
+                
+                $return[] = $field_group;
+                
+            }
+            
+        }
+        
+        // return
+        return $return;
+        
+    }
+    
     function map_fields_deep_no_custom($field){
         
         $choices = array();
@@ -268,7 +303,7 @@ class acfe_dynamic_forms_helpers{
         $form_id = $args['ID'];
         $form_name = $args['name'];
         
-        $mapped_field_groups = $this->get_field_groups($form_id);
+        $mapped_field_groups = $this->get_field_groups_front($form_id);
         $mapped_field_groups_keys = wp_list_pluck($mapped_field_groups, 'key');
         
         $mapped_fields = array();

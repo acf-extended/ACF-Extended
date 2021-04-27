@@ -795,12 +795,12 @@ function acfe_get_taxonomy_objects($args = array()){
  * Similar to acf_get_pretty_post_types() but for Post Statuses
  */
 function acfe_get_pretty_post_statuses($posts_statuses = array()){
-	
-	if(empty($posts_statuses)){
-		
-		$posts_statuses = get_post_stati(array(), 'names');
-		
-	}
+    
+    if(empty($posts_statuses)){
+        
+        $posts_statuses = get_post_stati(array(), 'names');
+        
+    }
     
     $return = array();
     
@@ -818,7 +818,7 @@ function acfe_get_pretty_post_statuses($posts_statuses = array()){
     }
     
     return $return;
-	
+    
 }
 
 /*
@@ -826,8 +826,8 @@ function acfe_get_pretty_post_statuses($posts_statuses = array()){
  * Similar to acf_get_pretty_post_types() but for ACFE Forms
  */
 function acfe_get_pretty_forms($forms = array()){
-	
-	if(empty($forms)){
+    
+    if(empty($forms)){
         
         $forms = get_posts(array(
             'post_type'         => 'acfe-form',
@@ -836,8 +836,8 @@ function acfe_get_pretty_forms($forms = array()){
             'orderby'           => 'title',
             'order'             => 'ASC',
         ));
-		
-	}
+        
+    }
     
     $return = array();
     
@@ -855,7 +855,7 @@ function acfe_get_pretty_forms($forms = array()){
     }
     
     return $return;
-	
+    
 }
 
 /*
@@ -1147,55 +1147,55 @@ function acfe_add_validation_error($selector = '', $message = ''){
  * Returns "array('256' => 'Category name')" instead of "array('category:category_name' => 'Category name')"
  */
 function acfe_get_taxonomy_terms_ids($taxonomies = array()){
-	
-	// force array
-	$taxonomies = acf_get_array($taxonomies);
-	
-	// get pretty taxonomy names
-	$taxonomies = acf_get_taxonomy_labels($taxonomies);
-	
-	// vars
-	$r = array();
-	
-	// populate $r
-	foreach(array_keys($taxonomies) as $taxonomy){
-		
-		// vars
-		$label = $taxonomies[$taxonomy];
-		$is_hierarchical = is_taxonomy_hierarchical($taxonomy);
-		
-		$terms = acf_get_terms(array(
-			'taxonomy'		=> $taxonomy,
-			'hide_empty' 	=> false
-		));
-		
-		// bail early if no terms
-		if(empty($terms))
-		    continue;
-		
-		// sort into hierachial order!
-		if($is_hierarchical){
-			
-			$terms = _get_term_children(0, $terms, $taxonomy);
-			
-		}
-		
-		// add placeholder		
-		$r[ $label ] = array();
-		
-		// add choices
-		foreach($terms as $term){
-		
-			$k = "{$term->term_id}"; 
-			$r[$label][$k] = acf_get_term_title($term);
-			
-		}
-		
-	}
-	
-	// return
-	return $r;
-	
+    
+    // force array
+    $taxonomies = acf_get_array($taxonomies);
+    
+    // get pretty taxonomy names
+    $taxonomies = acf_get_taxonomy_labels($taxonomies);
+    
+    // vars
+    $r = array();
+    
+    // populate $r
+    foreach(array_keys($taxonomies) as $taxonomy){
+        
+        // vars
+        $label = $taxonomies[$taxonomy];
+        $is_hierarchical = is_taxonomy_hierarchical($taxonomy);
+        
+        $terms = acf_get_terms(array(
+            'taxonomy'      => $taxonomy,
+            'hide_empty'    => false
+        ));
+        
+        // bail early if no terms
+        if(empty($terms))
+            continue;
+        
+        // sort into hierachial order!
+        if($is_hierarchical){
+            
+            $terms = _get_term_children(0, $terms, $taxonomy);
+            
+        }
+        
+        // add placeholder
+        $r[ $label ] = array();
+        
+        // add choices
+        foreach($terms as $term){
+        
+            $k = "{$term->term_id}";
+            $r[$label][$k] = acf_get_term_title($term);
+            
+        }
+        
+    }
+    
+    // return
+    return $r;
+    
 }
 
 /*
@@ -1235,39 +1235,39 @@ function acfe_number_suffix($num){
  * Convert an array to string
  */
 function acfe_array_to_string($array = array()){
-	
-	if(!is_array($array))
-		return $array;
-	
-	if(empty($array))
-		return false;
-	
-	if(acf_is_sequential_array($array)){
-		
-		foreach($array as $k => $v){
-			
-			if(!is_string($v))
-				continue;
-			
-			return $v;
-			
-		}
-		
-	}elseif(acf_is_associative_array($array)){
-		
-		foreach($array as $k => $v){
-			
-			if(!is_string($v))
-				continue;
-			
-			return $v;
-			
-		}
-		
-	}
-	
-	return false;
-	
+    
+    if(!is_array($array))
+        return $array;
+    
+    if(empty($array))
+        return false;
+    
+    if(acf_is_sequential_array($array)){
+        
+        foreach($array as $k => $v){
+            
+            if(!is_string($v))
+                continue;
+            
+            return $v;
+            
+        }
+        
+    }elseif(acf_is_associative_array($array)){
+        
+        foreach($array as $k => $v){
+            
+            if(!is_string($v))
+                continue;
+            
+            return $v;
+            
+        }
+        
+    }
+    
+    return false;
+    
 }
 
 /*
@@ -1331,9 +1331,9 @@ function acfe_is_admin_screen($modules = false){
  * Check if the developer mode is enabled
  */
 function acfe_is_dev(){
-	
-	return acf_get_setting('acfe/dev', false) || (defined('ACFE_dev') && ACFE_dev);
-	
+    
+    return acf_get_setting('acfe/dev', false) || (defined('ACFE_dev') && ACFE_dev);
+    
 }
 
 /*
@@ -1341,9 +1341,9 @@ function acfe_is_dev(){
  * Only for awesome developers!
  */
 function acfe_is_super_dev(){
-	
-	return acf_get_setting('acfe/super_dev', false) || (defined('ACFE_super_dev') && ACFE_super_dev);
-	
+    
+    return acf_get_setting('acfe/super_dev', false) || (defined('ACFE_super_dev') && ACFE_super_dev);
+    
 }
 
 /*
@@ -1609,29 +1609,15 @@ function acfe_get_post_id(){
         // Legacy ACF method
         $post_id = acf_get_valid_post_id();
         
-        // Check Local post ID (via acf_setup_meta())
-        $local_post_id = array();
-        
-        // ACF Local Meta
-        $local_acf_meta = acf_get_instance('ACF_Local_Meta')->meta;
-        
-        if(!empty($local_acf_meta)){
-            $local_post_id = array_merge($local_post_id, array_keys($local_acf_meta));
-        }
-        
-        // ACFE Local Meta
-        $local_acfe_meta = acf_get_instance('ACFE_Local_Meta')->meta;
-        
-        if(!empty($local_acfe_meta)){
-            $local_post_id = array_merge($local_post_id, array_keys($local_acfe_meta));
-        }
+        // Exclude local meta post ids
+        if(function_exists('acfe_get_local_post_ids')){
     
-        $local_post_id = array_unique($local_post_id);
-        
-        $exclude = apply_filters('acfe/get_post_id', $local_post_id);
+            $exclude_post_ids = acfe_get_local_post_ids();
     
-        if(in_array($post_id, $exclude))
-            $post_id = false;
+            if(in_array($post_id, $exclude_post_ids))
+                $post_id = false;
+            
+        }
     
         if($post_id)
             return $post_id;
@@ -1647,6 +1633,11 @@ function acfe_get_post_id(){
         // $_REQUEST['post']
         if(!$post_id){
             $post_id = isset($_REQUEST['post']) ? absint($_REQUEST['post']) : 0;
+        }
+    
+        // $_REQUEST['post_id'] - ACF Block Type
+        if(!$post_id){
+            $post_id = isset($_REQUEST['post_id']) ? absint($_REQUEST['post_id']) : 0;
         }
         
         // $_REQUEST['user_id']

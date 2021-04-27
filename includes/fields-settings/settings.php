@@ -7,8 +7,8 @@ if(!class_exists('acfe_field_settings')):
 
 class acfe_field_settings{
     
-	function __construct(){
-		
+    function __construct(){
+        
         // Actions
         add_action('acf/field_group/admin_head',                        array($this, 'load'));
         add_action('wp_ajax_acf/field_group/render_field_settings',     array($this, 'load_ajax'), 5);
@@ -18,11 +18,11 @@ class acfe_field_settings{
         add_filter('acfe/load_field',                                   array($this, 'load_field_additional'), 20);
         add_filter('acf/prepare_field',                                 array($this, 'prepare_field'), 20);
         
-	}
+    }
  
-	/*
-	 * Admin Head
-	 */
+    /*
+     * Admin Head
+     */
     function load(){
     
         if(!acf_is_filter_enabled('acfe/field_group/advanced'))

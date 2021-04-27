@@ -7,16 +7,16 @@ if(!class_exists('acfe_field_group_permissions')):
 
 class acfe_field_group_permissions{
  
-	function __construct(){
-	    
-	    add_filter('acfe/prepare_field_group', array($this, 'prepare_field_group'));
+    function __construct(){
         
-	}
-	
-	/*
-	 * Prepare Field Group
-	 */
-	function prepare_field_group($field_group){
+        add_filter('acfe/prepare_field_group', array($this, 'prepare_field_group'));
+        
+    }
+    
+    /*
+     * Prepare Field Group
+     */
+    function prepare_field_group($field_group){
         
         if(!acf_maybe_get($field_group, 'acfe_permissions'))
             return $field_group;
@@ -45,7 +45,7 @@ class acfe_field_group_permissions{
             $field_group = false;
         
         return $field_group;
-	    
+        
     }
     
 }

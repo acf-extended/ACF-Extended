@@ -348,16 +348,16 @@ class ACFE_AutoSync{
     
         // Prepare
         $str_replace = array(
-            "  "			=> "\t",
-            "'!!__(!!\'"	=> "__('",
-            "!!\', !!\'"	=> "', '",
-            "!!\')!!'"		=> "')",
-            "array ("		=> "array("
+            "  "            => "\t",
+            "'!!__(!!\'"    => "__('",
+            "!!\', !!\'"    => "', '",
+            "!!\')!!'"      => "')",
+            "array ("       => "array("
         );
     
         $preg_replace = array(
-            '/([\t\r\n]+?)array/'	=> 'array',
-            '/[0-9]+ => array/'		=> 'array'
+            '/([\t\r\n]+?)array/'   => 'array',
+            '/[0-9]+ => array/'     => 'array'
         );
     
         ob_start();
@@ -589,129 +589,3 @@ function acfe_get_local_json_file($field_group){
     return false;
     
 }
-
-/*
-function acfe_is_local_json($field_group){
-    
-    $key = $field_group;
-    
-    if(is_array($field_group) && isset($field_group['key']))
-        $key = $field_group['key'];
-    
-    if(!acf_is_local_field_group($key))
-        return false;
-    
-    $field_group = acf_get_local_field_group($key);
-    
-    if(acf_maybe_get($field_group, 'local') === 'json')
-        return true;
-    
-    return false;
-    
-}
-
-function acfe_is_local_php($field_group){
-    
-    $key = $field_group;
-    
-    if(is_array($field_group) && isset($field_group['key']))
-        $key = $field_group['key'];
-    
-    if(!acf_is_local_field_group($key))
-        return false;
-    
-    $field_group = acf_get_local_field_group($key);
-    
-    if(acf_maybe_get($field_group, 'local') === 'php')
-        return true;
-    
-    return false;
-    
-}
-
-function acfe_has_field_group_autosync($field_group, $type = false){
-    
-    $acfe_autosync = (array) acf_maybe_get($field_group, 'acfe_autosync', array());
-    
-    // Has something
-    if(!$type){
-    
-        return !empty($acfe_autosync);
-        
-    }
-    
-    // Has Json
-    elseif($type === 'json'){
-    
-        return in_array('json', $acfe_autosync);
-        
-    }
-    
-    // Has PHP
-    elseif($type === 'php'){
-    
-        return in_array('php', $acfe_autosync);
-        
-    }
-    
-    return false;
-    
-}
-
-function acfe_has_field_group_autosync_file($field_group, $type = 'json'){
-    
-    if($type === 'json'){
-        
-        $found = false;
-        $paths = (array) acf_get_setting('load_json', array());
-    
-        // True if json file found
-        if(acf_is_local_field_group($field_group['key'])){
-            
-            $local_field_group = acf_get_local_field_group($field_group['key']);
-            $get_local = acf_maybe_get($local_field_group, 'local', false);
-            
-            if($get_local === 'json')
-                $found = true;
-            
-        }
-        
-        if(!$found){
-    
-            foreach($paths as $path){
-        
-                $path = untrailingslashit($path);
-                $file = $field_group['key'] . '.json';
-                
-                if(!is_readable("{$path}/{$file}"))
-                    continue;
-        
-                $found = true;
-                break;
-        
-            }
-            
-        }
-        
-        return $found;
-        
-    }
-    
-    elseif($type === 'php'){
-        
-        $php_files = acfe_get_local_php_files();
-    
-        if(isset($php_files[$field_group['key']])){
-        
-            return $php_files[$field_group['key']];
-        
-        }
-        
-        return false;
-        
-    }
-    
-    return false;
-    
-}
- */

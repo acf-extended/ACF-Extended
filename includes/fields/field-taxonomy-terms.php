@@ -19,14 +19,14 @@ class acfe_field_taxonomy_terms extends acf_field{
             'taxonomy'      => array(),
             'allow_terms'   => array(),
             'field_type'    => 'checkbox',
-            'choices'		=> array(),
-            'default_value'	=> '',
+            'choices'       => array(),
+            'default_value' => '',
             'return_format' => 'id',
-            'ui'			=> 0,
-            'multiple' 		=> 0,
-            'allow_null' 	=> 0,
-            'ajax'			=> 0,
-            'placeholder'	=> '',
+            'ui'            => 0,
+            'multiple'      => 0,
+            'allow_null'    => 0,
+            'ajax'          => 0,
+            'placeholder'   => '',
             'layout'        => '',
             'toggle'        => 0,
             'load_terms'    => 0,
@@ -67,10 +67,10 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // defaults
         $options = acf_parse_args($options, array(
-            'post_id'		=> 0,
-            's'				=> '',
-            'field_key'		=> '',
-            'paged'			=> 1,
+            'post_id'       => 0,
+            's'             => '',
+            'field_key'     => '',
+            'paged'         => 1,
             'taxonomies'    => array(),
             'level'         => false,
         ));
@@ -116,8 +116,8 @@ class acfe_field_taxonomy_terms extends acf_field{
             
             // data
             $data = array(
-                'text'		=> $group_title,
-                'children'	=> array()
+                'text'      => $group_title,
+                'children'  => array()
             );
             
             $done = array();
@@ -143,8 +143,8 @@ class acfe_field_taxonomy_terms extends acf_field{
                     $text .= $taxonomy->label;
                     
                     $data['children'][] = array(
-                        'id' => $id, 
-                        'text' => '(' . $text . ')'
+                        'id'    => $id,
+                        'text'  => '(' . $text . ')'
                     );
                     
                 }
@@ -195,7 +195,7 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // vars
         $response = array(
-            'results'	=> $results
+            'results' => $results
         );
         
         // return
@@ -455,10 +455,10 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // defaults
         $options = acf_parse_args($options, array(
-            'post_id'		=> 0,
-            's'				=> '',
-            'field_key'		=> '',
-            'paged'			=> 0
+            'post_id'   => 0,
+            's'         => '',
+            'field_key' => '',
+            'paged'     => 0
         ));
         
         // load field
@@ -502,15 +502,15 @@ class acfe_field_taxonomy_terms extends acf_field{
             foreach($terms as $taxonomy => $term){
     
                 $data = array(
-                    'text'		=> $taxonomy,
-                    'children'	=> array()
+                    'text'      => $taxonomy,
+                    'children'  => array()
                 );
     
                 foreach($term as $term_id => $term_name){
         
                     $data['children'][] = array(
-                        'id' => $term_id,
-                        'text' => $term_name
+                        'id'    => $term_id,
+                        'text'  => $term_name
                     );
         
                 }
@@ -529,7 +529,7 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // vars
         $response = array(
-            'results'	=> $results
+            'results' => $results
         );
         
         // return
@@ -602,10 +602,10 @@ class acfe_field_taxonomy_terms extends acf_field{
             }
             
         }
-	
-	    // Allow Custom
-	    if($allow_custom){
-			
+    
+        // Allow Custom
+        if($allow_custom){
+            
             foreach($value as $v){
                 
                 $found = false;
@@ -625,8 +625,8 @@ class acfe_field_taxonomy_terms extends acf_field{
                     $field['choices'][$v] = $v;
             
             }
-		
-	    }
+        
+        }
         
         return $field;
         
@@ -639,15 +639,15 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // Allow Taxonomy
         acf_render_field_setting($field, array(
-            'label'			=> __('Allow Taxonomy','acf'),
-            'instructions'	=> '',
-            'type'			=> 'select',
-            'name'			=> 'taxonomy',
-            'choices'		=> acf_get_taxonomy_labels(),
-            'multiple'		=> 1,
-            'ui'			=> 1,
-            'allow_null'	=> 1,
-            'placeholder'	=> __("All taxonomies",'acf'),
+            'label'         => __('Allow Taxonomy','acf'),
+            'instructions'  => '',
+            'type'          => 'select',
+            'name'          => 'taxonomy',
+            'choices'       => acf_get_taxonomy_labels(),
+            'multiple'      => 1,
+            'ui'            => 1,
+            'allow_null'    => 1,
+            'placeholder'   => __("All taxonomies",'acf'),
         ));
         
         // Allow Terms
@@ -732,25 +732,25 @@ class acfe_field_taxonomy_terms extends acf_field{
         }
         
         acf_render_field_setting($field, array(
-            'label'			=> __('Allow Terms','acf'),
-            'instructions'	=> '',
-            'type'			=> 'select',
-            'name'			=> 'allow_terms',
-            'choices'		=> $choices,
-            'multiple'		=> 1,
-            'ui'			=> 1,
-            'allow_null'	=> 1,
+            'label'         => __('Allow Terms','acf'),
+            'instructions'  => '',
+            'type'          => 'select',
+            'name'          => 'allow_terms',
+            'choices'       => $choices,
+            'multiple'      => 1,
+            'ui'            => 1,
+            'allow_null'    => 1,
             'ajax'          => 1,
-            'placeholder'	=> __("All terms",'acf'),
-            'ajax_action'	=> 'acfe/fields/taxonomy_terms/allow_query',
+            'placeholder'   => __("All terms",'acf'),
+            'ajax_action'   => 'acfe/fields/taxonomy_terms/allow_query',
         ));
         
         // Select: Terms level
         acf_render_field_setting($field, array(
-            'label'			=> __('Terms_level','acf'),
-            'instructions'	=> '',
-            'name'			=> 'allow_level',
-            'type'			=> 'number',
+            'label'         => __('Terms_level','acf'),
+            'instructions'  => '',
+            'name'          => 'allow_level',
+            'type'          => 'number',
             'append'        => 'levels',
             'min'           => 0,
             'placeholder'   => __('All','acf'),
@@ -760,48 +760,48 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // field_type
         acf_render_field_setting($field, array(
-            'label'			=> __('Appearance','acf'),
-            'instructions'	=> __('Select the appearance of this field', 'acf'),
-            'type'			=> 'select',
-            'name'			=> 'field_type',
-            'optgroup'		=> true,
-            'choices'		=> array(
-                'checkbox'  => __('Checkbox', 'acf'),
-                'radio'     => __('Radio Buttons', 'acf'),
-                'select'    => _x('Select', 'noun', 'acf')
+            'label'         => __('Appearance','acf'),
+            'instructions'  => __('Select the appearance of this field', 'acf'),
+            'type'          => 'select',
+            'name'          => 'field_type',
+            'optgroup'      => true,
+            'choices'       => array(
+                'checkbox'      => __('Checkbox', 'acf'),
+                'radio'         => __('Radio Buttons', 'acf'),
+                'select'        => _x('Select', 'noun', 'acf')
             )
         ));
         
         // default_value
         acf_render_field_setting($field, array(
-            'label'			=> __('Default Value','acf'),
-            'instructions'	=> __('Enter each default value on a new line','acf'),
-            'name'			=> 'default_value',
-            'type'			=> 'textarea',
+            'label'         => __('Default Value','acf'),
+            'instructions'  => __('Enter each default value on a new line','acf'),
+            'name'          => 'default_value',
+            'type'          => 'textarea',
         ));
         
         // return_format
         acf_render_field_setting($field, array(
-            'label'			=> __('Return Value', 'acf'),
-            'instructions'	=> '',
-            'type'			=> 'radio',
-            'name'			=> 'return_format',
-            'choices'		=> array(
-                'object'    =>	__('Term object', 'acfe'),
-                'name'      =>	__('Term name', 'acfe'),
-                'id'      =>	__('Term ID', 'acfe'),
+            'label'         => __('Return Value', 'acf'),
+            'instructions'  => '',
+            'type'          => 'radio',
+            'name'          => 'return_format',
+            'choices'       => array(
+                'object'        => __('Term object', 'acfe'),
+                'name'          => __('Term name', 'acfe'),
+                'id'            => __('Term ID', 'acfe'),
             ),
-            'layout'	=>	'horizontal',
+            'layout'        =>    'horizontal',
         ));
         
         // Select: ui
         acf_render_field_setting( $field, array(
-            'label'			=> __('Stylised UI','acf'),
-            'instructions'	=> '',
-            'name'			=> 'ui',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
-            'conditions' => array(
+            'label'         => __('Stylised UI','acf'),
+            'instructions'  => '',
+            'name'          => 'ui',
+            'type'          => 'true_false',
+            'ui'            => 1,
+            'conditions'    => array(
                 array(
                     array(
                         'field'     => 'field_type',
@@ -814,12 +814,12 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // Select: allow_null
         acf_render_field_setting($field, array(
-            'label'			=> __('Allow Null?','acf'),
-            'instructions'	=> '',
-            'name'			=> 'allow_null',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
-            'conditions' => array(
+            'label'         => __('Allow Null?','acf'),
+            'instructions'  => '',
+            'name'          => 'allow_null',
+            'type'          => 'true_false',
+            'ui'            => 1,
+            'conditions'    => array(
                 array(
                     array(
                         'field'     => 'field_type',
@@ -839,11 +839,11 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // placeholder
         acf_render_field_setting($field, array(
-            'label'			=> __('Placeholder Text','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'placeholder',
-            'placeholder'   => _x('Select', 'verb', 'acf'),
+            'label'             => __('Placeholder Text','acf'),
+            'instructions'      => __('Appears within the input','acf'),
+            'type'              => 'text',
+            'name'              => 'placeholder',
+            'placeholder'       => _x('Select', 'verb', 'acf'),
             'conditional_logic' => array(
                 array(
                     array(
@@ -876,12 +876,12 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // Select: multiple
         acf_render_field_setting( $field, array(
-            'label'			=> __('Select multiple values?','acf'),
-            'instructions'	=> '',
-            'name'			=> 'multiple',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
-            'conditions' => array(
+            'label'         => __('Select multiple values?','acf'),
+            'instructions'  => '',
+            'name'          => 'multiple',
+            'type'          => 'true_false',
+            'ui'            => 1,
+            'conditions'    => array(
                 array(
                     array(
                         'field'     => 'field_type',
@@ -894,12 +894,12 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // Select: ajax
         acf_render_field_setting( $field, array(
-            'label'			=> __('Use AJAX to lazy load choices?','acf'),
-            'instructions'	=> '',
-            'name'			=> 'ajax',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
-            'conditions' => array(
+            'label'         => __('Use AJAX to lazy load choices?','acf'),
+            'instructions'  => '',
+            'name'          => 'ajax',
+            'type'          => 'true_false',
+            'ui'            => 1,
+            'conditions'    => array(
                 array(
                     array(
                         'field'     => 'field_type',
@@ -917,16 +917,16 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // Checkbox: layout
         acf_render_field_setting( $field, array(
-            'label'			=> __('Layout','acf'),
-            'instructions'	=> '',
-            'type'			=> 'radio',
-            'name'			=> 'layout',
-            'layout'		=> 'horizontal', 
-            'choices'		=> array(
-                'vertical'		=> __("Vertical",'acf'), 
-                'horizontal'	=> __("Horizontal",'acf')
+            'label'         => __('Layout','acf'),
+            'instructions'  => '',
+            'type'          => 'radio',
+            'name'          => 'layout',
+            'layout'        => 'horizontal', 
+            'choices'       => array(
+                'vertical'      => __("Vertical",'acf'),
+                'horizontal'    => __("Horizontal",'acf')
             ),
-            'conditions' => array(
+            'conditions'    => array(
                 array(
                     array(
                         'field'     => 'field_type',
@@ -946,12 +946,12 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // Checkbox: toggle
         acf_render_field_setting( $field, array(
-            'label'			=> __('Toggle','acf'),
-            'instructions'	=> __('Prepend an extra checkbox to toggle all choices','acf'),
-            'name'			=> 'toggle',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
-            'conditions' => array(
+            'label'         => __('Toggle','acf'),
+            'instructions'  => __('Prepend an extra checkbox to toggle all choices','acf'),
+            'name'          => 'toggle',
+            'type'          => 'true_false',
+            'ui'            => 1,
+            'conditions'    => array(
                 array(
                     array(
                         'field'     => 'field_type',
@@ -964,20 +964,20 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // save_terms
         acf_render_field_setting( $field, array(
-            'label'			=> __('Save Terms','acf'),
-            'instructions'	=> __('Connect selected terms to the post','acf'),
-            'name'			=> 'save_terms',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
+            'label'         => __('Save Terms','acf'),
+            'instructions'  => __('Connect selected terms to the post','acf'),
+            'name'          => 'save_terms',
+            'type'          => 'true_false',
+            'ui'            => 1,
         ));
         
         // load_terms
         acf_render_field_setting( $field, array(
-            'label'			=> __('Load Terms','acf'),
-            'instructions'	=> __('Load value from posts terms','acf'),
-            'name'			=> 'load_terms',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
+            'label'         => __('Load Terms','acf'),
+            'instructions'  => __('Load value from posts terms','acf'),
+            'name'          => 'load_terms',
+            'type'          => 'true_false',
+            'ui'            => 1,
         ));
         
     }

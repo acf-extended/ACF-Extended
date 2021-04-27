@@ -11,7 +11,7 @@ class acfe_location_post_type_list{
     
     public $field_groups;
     
-	function __construct(){
+    function __construct(){
         
         add_action('load-edit.php',                             array($this, 'load'));
         
@@ -19,7 +19,7 @@ class acfe_location_post_type_list{
         add_filter('acf/location/rule_values/post_type_list',   array($this, 'location_values'));
         add_filter('acf/location/rule_match/post_type_list',    array($this, 'location_match'), 10, 3);
         
-	}
+    }
     
     function load(){
         
@@ -27,8 +27,8 @@ class acfe_location_post_type_list{
         global $typenow;
         
         $get_post_types = acf_get_post_types(array(
-            'show_ui'	=> 1, 
-            'exclude'	=> array('attachment')
+            'show_ui' => 1,
+            'exclude' => array('attachment')
         ));
         
         // Check post type
@@ -126,7 +126,7 @@ class acfe_location_post_type_list{
                     // Args
                     array(
                         'total'         => $total, 
-                        'current'       => $current, 
+                        'current'       => $current,
                         'field_group'   => $field_group
                     )
                     
@@ -347,18 +347,18 @@ class acfe_location_post_type_list{
         
         // Create metabox localized data.
         $data = array(
-            'id'		=> 'acf-' . $field_group['ID'],
-            'key'		=> $field_group['key'],
-            'style'		=> $field_group['style'],
-            'label'		=> $field_group['label_placement'],
-            'edit'		=> acf_get_field_group_edit_link($field_group['ID'])
+            'id'    => 'acf-' . $field_group['ID'],
+            'key'   => $field_group['key'],
+            'style' => $field_group['style'],
+            'label' => $field_group['label_placement'],
+            'edit'  => acf_get_field_group_edit_link($field_group['ID'])
         );
         
         ?>
         <script type="text/javascript">
         if( typeof acf !== 'undefined' ) {
             acf.newPostbox(<?php echo wp_json_encode($data); ?>);
-        }	
+        }
         </script>
         
     <?php
@@ -385,8 +385,8 @@ class acfe_location_post_type_list{
     function location_values($choices){
         
         $post_types = acf_get_post_types(array(
-            'show_ui'	=> 1, 
-            'exclude'	=> array('attachment')
+            'show_ui'    => 1,
+            'exclude'    => array('attachment')
         ));
         
         $pretty_post_types = array();
@@ -398,7 +398,7 @@ class acfe_location_post_type_list{
         }
         
         $choices = array('all' => __('All', 'acf'));
-		$choices = array_merge($choices, $pretty_post_types);
+        $choices = array_merge($choices, $pretty_post_types);
         
         return $choices;
         
@@ -409,8 +409,8 @@ class acfe_location_post_type_list{
         if(!acf_maybe_get($screen, 'post_type_list') || !acf_maybe_get($rule, 'value'))
             return $match;
         
-		$match = ($screen['post_type_list'] === $rule['value']);
-		
+        $match = ($screen['post_type_list'] === $rule['value']);
+        
         if($rule['value'] === 'all')
             $match = true;
         

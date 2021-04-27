@@ -273,11 +273,11 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
                 return;
 
             acf.newPostbox(<?php echo wp_json_encode(array(
-                'id'		=> 'acfe-dbt-field-groups',
-                'key'		=> '',
-                'style'		=> 'default',
-                'label'		=> 'left',
-                'edit'		=> false
+                'id'    => 'acfe-dbt-field-groups',
+                'key'   => '',
+                'style' => 'default',
+                'label' => 'left',
+                'edit'  => false
             )); ?>);
 
         })(jQuery);
@@ -829,16 +829,16 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
         acf_update_setting('l10n_var_export', true);
         
         $str_replace = array(
-            "  "			=> "\t",
-            "'!!__(!!\'"	=> "__('",
-            "!!\', !!\'"	=> "', '",
-            "!!\')!!'"		=> "')",
-            "array ("		=> "array("
+            "  "            => "\t",
+            "'!!__(!!\'"    => "__('",
+            "!!\', !!\'"    => "', '",
+            "!!\')!!'"      => "')",
+            "array ("       => "array("
         );
         
         $preg_replace = array(
-            '/([\t\r\n]+?)array/'	=> 'array',
-            '/[0-9]+ => array/'		=> 'array'
+            '/([\t\r\n]+?)array/'   => 'array',
+            '/[0-9]+ => array/'     => 'array'
         );
         
         // Get settings.
@@ -1164,7 +1164,7 @@ cite',
                     'label' => 'Mode',
                     'name' => 'mode',
                     'type' => 'select',
-                    'instructions' => '(String) (Optional) The display mode for your block. Available settings are “auto”, “preview” and “edit”. Defaults to “auto”.<br /><br />
+                    'instructions' => '(String) (Optional) The display mode for your block. Available settings are “auto”, “preview” and “edit”. Defaults to “preview”.<br /><br />
 auto: Preview is shown by default but changes to edit form when block is selected.<br />
 preview: Preview is always shown. Edit form appears in sidebar when block is selected.<br />
 edit: Edit form is always shown.<br /><br />
@@ -1181,12 +1181,12 @@ Note. When in “preview” or “edit” modes, an icon will appear in the bloc
                     'acfe_update' => '',
                     'acfe_permissions' => '',
                     'choices' => array(
-                        'auto' => 'Auto',
                         'preview' => 'Preview',
+                        'auto' => 'Auto',
                         'edit' => 'Edit',
                     ),
                     'default_value' => array(
-                        0 => 'auto',
+                        0 => 'preview',
                     ),
                     'allow_null' => 0,
                     'multiple' => 0,

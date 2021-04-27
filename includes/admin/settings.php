@@ -658,7 +658,10 @@ class acfe_admin_settings_ui{
                 acf_render_field_wrap(array(
                     'type'  => 'acfe_dynamic_message',
                     'label' => '',
-                    'key'   => 'field_acfe_settings_thead',
+                    'key'   => 'field_acfe_settings_thead_' . $category,
+                    'wrapper' => array(
+                        'class' => 'acfe-settings-thead'
+                    ),
                     'render' => function($field){
                         ?>
                         <div>Default</div>

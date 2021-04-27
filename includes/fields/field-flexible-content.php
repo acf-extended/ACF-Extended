@@ -62,8 +62,8 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Layout Settings
-	 */
+     *  Layout Settings
+     */
     function render_field_layouts_settings($field){
         
         if($field['_name'] !== 'max' || stripos($field['name'], '[layouts]') === false)
@@ -104,8 +104,8 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Validate Field
-	 */
+     *  Validate Field
+     */
     function validate_field($field){
         
         // Defaults
@@ -161,8 +161,8 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Prepare Field
-	 */
+     *  Prepare Field
+     */
     function prepare_field($field){
         
         // Vars
@@ -202,8 +202,8 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Load Fields
-	 */
+     *  Load Fields
+     */
     function load_fields($fields, $field){
         
         if(acfe_is_admin_screen())
@@ -226,8 +226,8 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Wrapper Attributes
-	 */
+     *  Wrapper Attributes
+     */
     function wrapper_attributes($wrapper, $field){
     
         $wrapper = apply_filters('acfe/flexible/wrapper_attributes', $wrapper, $field);
@@ -237,8 +237,8 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Render Field
-	 */
+     *  Render Field
+     */
     function render_field($field){
         
         // Vars
@@ -259,9 +259,9 @@ class acfe_field_flexible_content{
         
         // vars
         $div = array(
-            'class'		=> 'acf-flexible-content',
-            'data-min'	=> $field['min'],
-            'data-max'	=> $field['max']
+            'class'     => 'acf-flexible-content',
+            'data-min'  => $field['min'],
+            'data-max'  => $field['max']
         );
         
         // empty
@@ -407,10 +407,10 @@ class acfe_field_flexible_content{
                 <?php foreach($layouts as $layout):
                     
                     $atts = array(
-                        'href'			=> '#',
-                        'data-layout'	=> $layout['name'],
-                        'data-min' 		=> $layout['min'],
-                        'data-max' 		=> $layout['max'],
+                        'href'          => '#',
+                        'data-layout'   => $layout['name'],
+                        'data-min'      => $layout['min'],
+                        'data-max'      => $layout['max'],
                     );
                     
                     ?><li><a <?php echo acf_esc_attrs($atts); ?>><?php echo $layout['label']; ?></a></li><?php
@@ -427,29 +427,29 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Render Layout
-	 */
-	function render_layout($field, $layout, $i, $value){
+     *  Render Layout
+     */
+    function render_layout($field, $layout, $i, $value){
         
-		// vars
-		$id = ($i === 'acfcloneindex') ? 'acfcloneindex' : "row-$i";
-		$prefix = $field['name'] . '[' . $id .  ']';
-		$name = $field['_name'];
-		$key = $field['key'];
-		$l_name = $layout['name'];
-		
-		// div
-		$div = array(
-			'class'			=> 'layout',
-			'data-id'		=> $id,
-			'data-layout'	=> $layout['name']
-		);
-		
-		// is clone?
-		if(!is_numeric($i)){
-			$div['class'] .= ' acf-clone';
-		}
-		
+        // vars
+        $id = ($i === 'acfcloneindex') ? 'acfcloneindex' : "row-$i";
+        $prefix = $field['name'] . '[' . $id .  ']';
+        $name = $field['_name'];
+        $key = $field['key'];
+        $l_name = $layout['name'];
+        
+        // div
+        $div = array(
+            'class'         => 'layout',
+            'data-id'       => $id,
+            'data-layout'   => $layout['name']
+        );
+        
+        // is clone?
+        if(!is_numeric($i)){
+            $div['class'] .= ' acf-clone';
+        }
+        
         $div = apply_filters("acfe/flexible/layouts/div",                               $div, $layout, $field, $i, $value, $prefix);
         $div = apply_filters("acfe/flexible/layouts/div/name={$name}",                  $div, $layout, $field, $i, $value, $prefix);
         $div = apply_filters("acfe/flexible/layouts/div/key={$key}",                    $div, $layout, $field, $i, $value, $prefix);
@@ -470,10 +470,10 @@ class acfe_field_flexible_content{
         $handle = apply_filters("acfe/flexible/layouts/handle/layout={$l_name}",                $handle, $layout, $field, $i, $value, $prefix);
         $handle = apply_filters("acfe/flexible/layouts/handle/name={$name}&layout={$l_name}",   $handle, $layout, $field, $i, $value, $prefix);
         $handle = apply_filters("acfe/flexible/layouts/handle/key={$key}&layout={$l_name}",     $handle, $layout, $field, $i, $value, $prefix);
-		
-		// remove row
+        
+        // remove row
         // This makes Flexible Content in ACFE Form buggy in a Flexible Content Preview
-		//reset_rows();
+        //reset_rows();
         
         ?>
         <div <?php echo acf_esc_attrs($div); ?>>
@@ -520,8 +520,8 @@ class acfe_field_flexible_content{
 
         </div>
         <?php
-		
-	}
+        
+    }
     
     /*
      *  Render Layout Fields
@@ -628,8 +628,8 @@ class acfe_field_flexible_content{
     }
     
     /*
-	 *  Prepare Layout Editor
-	 */
+     *  Prepare Layout Editor
+     */
     function prepare_layout_editor($field){
         
         $field['delay'] = 1;

@@ -471,12 +471,12 @@ body.post-type-acfe-template .column-acfe-terms {
     font-size: 21px
 }
 
-#acfe-admin-settings .inside>.acf-field[data-key=field_acfe_settings_thead]>.acf-input {
+#acfe-admin-settings .inside>.acf-field.acfe-settings-thead>.acf-input {
     padding: 0;
     border-bottom: 1px solid #eee
 }
 
-#acfe-admin-settings .inside>.acf-field[data-key=field_acfe_settings_thead]+.acf-field {
+#acfe-admin-settings .inside>.acf-field.acfe-settings-thead+.acf-field {
     border-top: 0
 }
 

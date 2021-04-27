@@ -82,17 +82,17 @@ class acfe_field_column extends acf_field{
                     )
                 )
             )
-		));
+        ));
         
         // endpoint
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Endpoint','acf'),
-			'instructions'	=> __('Define an endpoint for the previous columns to stop.', 'acf'),
-			'name'			=> 'endpoint',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
+        acf_render_field_setting( $field, array(
+            'label'         => __('Endpoint','acf'),
+            'instructions'  => __('Define an endpoint for the previous columns to stop.', 'acf'),
+            'name'          => 'endpoint',
+            'type'          => 'true_false',
+            'ui'            => 1,
             'class'         => 'acfe-field-columns-endpoint',
-		));
+        ));
         
     }
     
@@ -118,13 +118,13 @@ class acfe_field_column extends acf_field{
     function render_field($field){
         
         // vars
-		$atts = array(
-			'class' => 'acf-fields',
-		);
-		
-		?>
-		<div <?php acf_esc_attr_e($atts); ?>></div>
-		<?php
+        $atts = array(
+            'class' => 'acf-fields',
+        );
+        
+        ?>
+        <div <?php acf_esc_attr_e($atts); ?>></div>
+        <?php
         
     }
 

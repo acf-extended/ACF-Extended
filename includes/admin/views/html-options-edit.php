@@ -15,8 +15,8 @@
         
         // render post data
         acf_form_data(array(
-            'screen'	=> 'acfe-options-edit',
-            'post_id'	=> 'acfe_options_edit',
+            'screen'    => 'acfe-options-edit',
+            'post_id'   => 'acfe_options_edit',
         ));
         
         wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false);

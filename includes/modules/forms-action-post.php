@@ -72,8 +72,8 @@ class acfe_form_post{
         // Load values
         if(!$load_values)
             return $form;
-	
-	    $_post_id = get_sub_field('acfe_form_post_load_source');
+    
+        $_post_id = get_sub_field('acfe_form_post_load_source');
         $_post_type = get_sub_field('acfe_form_post_map_post_type');
         $_post_status = get_sub_field('acfe_form_post_map_post_status');
         $_post_title = get_sub_field('acfe_form_post_map_post_title');
@@ -85,14 +85,14 @@ class acfe_form_post{
         
         // Map {field:name} {get_field:name} {query_var:name}
         $_post_id = acfe_form_map_field_value_load($_post_id, $current_post_id, $form);
-	    $_post_type = acfe_form_map_field_value_load($_post_type, $current_post_id, $form);
-	    $_post_status = acfe_form_map_field_value_load($_post_status, $current_post_id, $form);
-	    $_post_title = acfe_form_map_field_value_load($_post_title, $current_post_id, $form);
-	    $_post_name = acfe_form_map_field_value_load($_post_name, $current_post_id, $form);
-	    $_post_content = acfe_form_map_field_value_load($_post_content, $current_post_id, $form);
-	    $_post_author = acfe_form_map_field_value_load($_post_author, $current_post_id, $form);
-	    $_post_parent = acfe_form_map_field_value_load($_post_parent, $current_post_id, $form);
-	    $_post_terms = acfe_form_map_field_value_load($_post_terms, $current_post_id, $form);
+        $_post_type = acfe_form_map_field_value_load($_post_type, $current_post_id, $form);
+        $_post_status = acfe_form_map_field_value_load($_post_status, $current_post_id, $form);
+        $_post_title = acfe_form_map_field_value_load($_post_title, $current_post_id, $form);
+        $_post_name = acfe_form_map_field_value_load($_post_name, $current_post_id, $form);
+        $_post_content = acfe_form_map_field_value_load($_post_content, $current_post_id, $form);
+        $_post_author = acfe_form_map_field_value_load($_post_author, $current_post_id, $form);
+        $_post_parent = acfe_form_map_field_value_load($_post_parent, $current_post_id, $form);
+        $_post_terms = acfe_form_map_field_value_load($_post_terms, $current_post_id, $form);
         
         // Filters
         $_post_id = apply_filters('acfe/form/load/post_id',                      $_post_id, $form, $action);
@@ -112,8 +112,8 @@ class acfe_form_post{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_post_type]['value'] = get_post_field('post_type', $_post_id);
+    
+            $form['map'][$_post_type]['value'] = get_post_field('post_type', $_post_id);
          
         }
         
@@ -124,8 +124,8 @@ class acfe_form_post{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_post_status]['value'] = get_post_field('post_status', $_post_id);
+    
+            $form['map'][$_post_status]['value'] = get_post_field('post_status', $_post_id);
          
         }
         
@@ -136,8 +136,8 @@ class acfe_form_post{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_post_title]['value'] = get_post_field('post_title', $_post_id);
+    
+            $form['map'][$_post_title]['value'] = get_post_field('post_title', $_post_id);
          
         }
         
@@ -148,8 +148,8 @@ class acfe_form_post{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_post_name]['value'] = get_post_field('post_name', $_post_id);
+    
+            $form['map'][$_post_name]['value'] = get_post_field('post_name', $_post_id);
          
         }
         
@@ -160,8 +160,8 @@ class acfe_form_post{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_post_content]['value'] = get_post_field('post_content', $_post_id);
+    
+            $form['map'][$_post_content]['value'] = get_post_field('post_content', $_post_id);
          
         }
         
@@ -172,8 +172,8 @@ class acfe_form_post{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_post_author]['value'] = get_post_field('post_author', $_post_id);
+    
+            $form['map'][$_post_author]['value'] = get_post_field('post_author', $_post_id);
          
         }
         
@@ -184,8 +184,8 @@ class acfe_form_post{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_post_parent]['value'] = get_post_field('post_parent', $_post_id);
+    
+            $form['map'][$_post_parent]['value'] = get_post_field('post_parent', $_post_id);
          
         }
         
@@ -195,31 +195,31 @@ class acfe_form_post{
             $key = array_search($_post_terms, $load_meta);
             
             if($key !== false)
-	            unset($load_meta[$key]);
-	
-	        $taxonomies = acf_get_taxonomies(array(
-		        'post_type' => get_post_type($_post_id)
-	        ));
-	
-	        if(!empty($taxonomies)){
-		
-		        $terms = array();
-		
-		        foreach($taxonomies as $taxonomy){
-			
-			        $get_the_terms = get_the_terms($_post_id, $taxonomy);
-			        if(!$get_the_terms || is_wp_error($get_the_terms))
-				        continue;
-			
-			        $terms = array_merge($terms, $get_the_terms);
-			
-		        }
-		
-		        $return = wp_list_pluck($terms, 'term_id');
-		
-		        $form['map'][$_post_terms]['value'] = $return;
-		
-	        }
+                unset($load_meta[$key]);
+    
+            $taxonomies = acf_get_taxonomies(array(
+                'post_type' => get_post_type($_post_id)
+            ));
+    
+            if(!empty($taxonomies)){
+        
+                $terms = array();
+        
+                foreach($taxonomies as $taxonomy){
+            
+                    $get_the_terms = get_the_terms($_post_id, $taxonomy);
+                    if(!$get_the_terms || is_wp_error($get_the_terms))
+                        continue;
+            
+                    $terms = array_merge($terms, $get_the_terms);
+            
+                }
+        
+                $return = wp_list_pluck($terms, 'term_id');
+        
+                $form['map'][$_post_terms]['value'] = $return;
+        
+            }
          
         }
         
@@ -278,7 +278,7 @@ class acfe_form_post{
         $post_action = get_sub_field('acfe_form_post_action');
         
         // Load values
-	    $load_values = get_sub_field('acfe_form_post_load_values');
+        $load_values = get_sub_field('acfe_form_post_load_values');
         
         // Pre-process
         $_post_content_group = get_sub_field('acfe_form_post_save_post_content_group');
@@ -291,19 +291,19 @@ class acfe_form_post{
         $map = array();
         
         if($load_values){
-	
-	        // Mapping
-	        $map = array(
-		        'post_type'    => get_sub_field('acfe_form_post_map_post_type'),
-		        'post_status'  => get_sub_field('acfe_form_post_map_post_status'),
-		        'post_title'   => get_sub_field('acfe_form_post_map_post_title'),
-		        'post_name'    => get_sub_field('acfe_form_post_map_post_name'),
-		        'post_content' => get_sub_field('acfe_form_post_map_post_content'),
-		        'post_author'  => get_sub_field('acfe_form_post_map_post_author'),
-		        'post_parent'  => get_sub_field('acfe_form_post_map_post_parent'),
-		        'post_terms'   => get_sub_field('acfe_form_post_map_post_terms'),
-	        );
-	
+    
+            // Mapping
+            $map = array(
+                'post_type'    => get_sub_field('acfe_form_post_map_post_type'),
+                'post_status'  => get_sub_field('acfe_form_post_map_post_status'),
+                'post_title'   => get_sub_field('acfe_form_post_map_post_title'),
+                'post_name'    => get_sub_field('acfe_form_post_map_post_name'),
+                'post_content' => get_sub_field('acfe_form_post_map_post_content'),
+                'post_author'  => get_sub_field('acfe_form_post_map_post_author'),
+                'post_parent'  => get_sub_field('acfe_form_post_map_post_parent'),
+                'post_terms'   => get_sub_field('acfe_form_post_map_post_terms'),
+            );
+    
         }
         
         // Fields
@@ -352,7 +352,7 @@ class acfe_form_post{
         if(!empty($data['post_type'])){
             
             if(is_array($data['post_type']))
-	            $data['post_type'] = acfe_array_to_string($data['post_type']);
+                $data['post_type'] = acfe_array_to_string($data['post_type']);
             
             $args['post_type'] = $data['post_type'];
             
@@ -360,9 +360,9 @@ class acfe_form_post{
         
         // Post status
         if(!empty($data['post_status'])){
-	
-	        if(is_array($data['post_status']))
-		        $data['post_status'] = acfe_array_to_string($data['post_status']);
+    
+            if(is_array($data['post_status']))
+                $data['post_status'] = acfe_array_to_string($data['post_status']);
             
             $args['post_status'] = $data['post_status'];
         
@@ -370,9 +370,9 @@ class acfe_form_post{
         
         // Post title
         if(!empty($data['post_title'])){
-	
-	        if(is_array($data['post_title']))
-		        $data['post_title'] = acfe_array_to_string($data['post_title']);
+    
+            if(is_array($data['post_title']))
+                $data['post_title'] = acfe_array_to_string($data['post_title']);
             
             $args['post_title'] = $data['post_title'];
             
@@ -383,9 +383,9 @@ class acfe_form_post{
         
         // Post name
         if(!empty($data['post_name'])){
-	
-	        if(is_array($data['post_name']))
-		        $data['post_name'] = acfe_array_to_string($data['post_name']);
+    
+            if(is_array($data['post_name']))
+                $data['post_name'] = acfe_array_to_string($data['post_name']);
             
             $args['post_name'] = $data['post_name'];
             
@@ -396,9 +396,9 @@ class acfe_form_post{
         
         // Post content
         if(!empty($data['post_content'])){
-	
-	        if(is_array($data['post_content']))
-		        $data['post_content'] = acfe_array_to_string($data['post_content']);
+    
+            if(is_array($data['post_content']))
+                $data['post_content'] = acfe_array_to_string($data['post_content']);
             
             $args['post_content'] = $data['post_content'];
         
@@ -406,9 +406,9 @@ class acfe_form_post{
         
         // Post author
         if(!empty($data['post_author'])){
-	
-	        if(is_array($data['post_author']))
-		        $data['post_author'] = acfe_array_to_string($data['post_author']);
+    
+            if(is_array($data['post_author']))
+                $data['post_author'] = acfe_array_to_string($data['post_author']);
             
             $args['post_author'] = $data['post_author'];
         
@@ -416,9 +416,9 @@ class acfe_form_post{
         
         // Post parent
         if(!empty($data['post_parent'])){
-	
-	        if(is_array($data['post_author']))
-		        $data['post_author'] = acfe_array_to_string($data['post_author']);
+    
+            if(is_array($data['post_author']))
+                $data['post_author'] = acfe_array_to_string($data['post_author']);
             
             $args['post_parent'] = $data['post_parent'];
         
@@ -435,49 +435,49 @@ class acfe_form_post{
                 foreach($terms as $term){
                     
                     if(is_string($term) || is_numeric($term)){
-	
-	                    $args['acfe_form_terms'][] = $term;
-	
+    
+                        $args['acfe_form_terms'][] = $term;
+    
                     }elseif(is_array($term)){
-	
-	                    foreach($term as $sub_term){
-		
-		                    // String || Numeric
-		                    if(is_string($sub_term) || is_numeric($sub_term)){
-			
-			                    $args['acfe_form_terms'][] = $sub_term;
-			
-			                    // Array
-		                    }elseif(is_array($sub_term)){
-			
-			                    if(!acf_maybe_get($sub_term, 'term_id'))
-				                    continue;
-			
-			                    $args['acfe_form_terms'][] = $sub_term['term_id'];
-			
-			                    // Object
-		                    }elseif(is_object($sub_term) && is_a($sub_term, 'WP_Term')){
-			
-			                    if(!isset($sub_term->term_id) || empty($sub_term->term_id))
-				                    continue;
-			
-			                    $args['acfe_form_terms'][] = $sub_term->term_id;
-			
-		                    }
-		
-		
-	                    }
-	
+    
+                        foreach($term as $sub_term){
+        
+                            // String || Numeric
+                            if(is_string($sub_term) || is_numeric($sub_term)){
+            
+                                $args['acfe_form_terms'][] = $sub_term;
+            
+                                // Array
+                            }elseif(is_array($sub_term)){
+            
+                                if(!acf_maybe_get($sub_term, 'term_id'))
+                                    continue;
+            
+                                $args['acfe_form_terms'][] = $sub_term['term_id'];
+            
+                                // Object
+                            }elseif(is_object($sub_term) && is_a($sub_term, 'WP_Term')){
+            
+                                if(!isset($sub_term->term_id) || empty($sub_term->term_id))
+                                    continue;
+            
+                                $args['acfe_form_terms'][] = $sub_term->term_id;
+            
+                            }
+        
+        
+                        }
+    
                     }elseif(is_object($term) && is_a($term, 'WP_Term')){
-	
-	                    if(!isset($term->term_id) || empty($term->term_id))
-		                    continue;
-	
-	                    $args['acfe_form_terms'][] = $term->term_id;
+    
+                        if(!isset($term->term_id) || empty($term->term_id))
+                            continue;
+    
+                        $args['acfe_form_terms'][] = $term->term_id;
                      
                     }
-	
-	                
+    
+                    
                     
                 }
                 
@@ -506,91 +506,91 @@ class acfe_form_post{
             
         }
         
-	    // Post terms pre-process (let post update first, for post type)
-	    $terms = array();
-	    
-	    if(acf_maybe_get($args, 'acfe_form_terms')){
-	        
-	        $terms = acf_extract_var($args, 'acfe_form_terms');
-		
-	    }
+        // Post terms pre-process (let post update first, for post type)
+        $terms = array();
+        
+        if(acf_maybe_get($args, 'acfe_form_terms')){
+            
+            $terms = acf_extract_var($args, 'acfe_form_terms');
+        
+        }
         
         // Update Post
         $_post_id = wp_update_post($args);
-	
-	    // Post terms process
-	    if(!empty($terms)){
-		
-		    $term_objects = array();
-		    $term_create = array();
-		
-		    foreach($terms as $term){
-			
-			    if(is_numeric($term)){
-				
-				    $get_term = get_term($term);
-				
-				    if(empty($get_term) || is_wp_error($get_term))
-					    continue;
-				
-				    $term_objects[$get_term->taxonomy][] = $get_term->term_id;
-				
-			    }elseif(is_string($term)){
-				
-				    $explode = explode('|', $term);
-				
-				    // No taxonomy found in input
-				    if(isset($explode[1])){
-					
-					    $term_create[$explode[1]][] = $explode[0];
-					
-				    }else{
-					
-					    // Get post type
-					    $post_type = 'post';
-					
-					    if(isset($args['post_type']))
-						    $post_type = $args['post_type'];
-					
-					    $taxonomies = get_object_taxonomies($post_type);
-					
-					    if(!empty($taxonomies)){
-						
-						    $taxonomy = $taxonomies[0];
-						
-						    $term_create[$taxonomy] = $explode[0];
-						
-					    }
-					
-				    }
-				
-			    }
-			
-		    }
-		
-		    // Term Objects
-		    if(!empty($term_objects)){
-			
-			    foreach($term_objects as $term_taxonomy => $term_ids){
-				
-				    wp_set_object_terms($args['ID'], $term_ids, $term_taxonomy, true);
-				
-			    }
-			
-		    }
-		
-		    // Create Terms (with slugs)
-		    if(!empty($term_create)){
-			
-			    foreach($term_create as $term_taxonomy => $term_slugs){
-				
-				    wp_set_object_terms($args['ID'], $term_slugs, $term_taxonomy, true);
-				
-			    }
-			
-		    }
-		
-	    }
+    
+        // Post terms process
+        if(!empty($terms)){
+        
+            $term_objects = array();
+            $term_create = array();
+        
+            foreach($terms as $term){
+            
+                if(is_numeric($term)){
+                
+                    $get_term = get_term($term);
+                
+                    if(empty($get_term) || is_wp_error($get_term))
+                        continue;
+                
+                    $term_objects[$get_term->taxonomy][] = $get_term->term_id;
+                
+                }elseif(is_string($term)){
+                
+                    $explode = explode('|', $term);
+                
+                    // No taxonomy found in input
+                    if(isset($explode[1])){
+                    
+                        $term_create[$explode[1]][] = $explode[0];
+                    
+                    }else{
+                    
+                        // Get post type
+                        $post_type = 'post';
+                    
+                        if(isset($args['post_type']))
+                            $post_type = $args['post_type'];
+                    
+                        $taxonomies = get_object_taxonomies($post_type);
+                    
+                        if(!empty($taxonomies)){
+                        
+                            $taxonomy = $taxonomies[0];
+                        
+                            $term_create[$taxonomy] = $explode[0];
+                        
+                        }
+                    
+                    }
+                
+                }
+            
+            }
+        
+            // Term Objects
+            if(!empty($term_objects)){
+            
+                foreach($term_objects as $term_taxonomy => $term_ids){
+                
+                    wp_set_object_terms($args['ID'], $term_ids, $term_taxonomy, true);
+                
+                }
+            
+            }
+        
+            // Create Terms (with slugs)
+            if(!empty($term_create)){
+            
+                foreach($term_create as $term_taxonomy => $term_slugs){
+                
+                    wp_set_object_terms($args['ID'], $term_slugs, $term_taxonomy, true);
+                
+                }
+            
+            }
+        
+        }
         
         // Submit
         do_action('acfe/form/submit/post',                     $_post_id, $post_action, $args, $form, $action);
@@ -726,7 +726,7 @@ class acfe_form_post{
                 
             }
         
-		}
+        }
         
         return $field;
         

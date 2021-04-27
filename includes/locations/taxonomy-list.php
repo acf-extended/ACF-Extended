@@ -11,7 +11,7 @@ class acfe_location_taxonomy_list{
     
     public $field_groups;
     
-	function __construct(){
+    function __construct(){
         
         add_action('load-edit-tags.php',                        array($this, 'load'));
         
@@ -19,7 +19,7 @@ class acfe_location_taxonomy_list{
         add_filter('acf/location/rule_values/taxonomy_list',    array($this, 'location_values'));
         add_filter('acf/location/rule_match/taxonomy_list',     array($this, 'location_match'), 10, 3);
         
-	}
+    }
     
     function load(){
         
@@ -338,18 +338,18 @@ class acfe_location_taxonomy_list{
         
         // Create metabox localized data.
         $data = array(
-            'id'		=> 'acf-' . $field_group['ID'],
-            'key'		=> $field_group['key'],
-            'style'		=> $field_group['style'],
-            'label'		=> $field_group['label_placement'],
-            'edit'		=> acf_get_field_group_edit_link($field_group['ID'])
+            'id'    => 'acf-' . $field_group['ID'],
+            'key'   => $field_group['key'],
+            'style' => $field_group['style'],
+            'label' => $field_group['label_placement'],
+            'edit'  => acf_get_field_group_edit_link($field_group['ID'])
         );
         
         ?>
         <script type="text/javascript">
         if( typeof acf !== 'undefined' ) {
             acf.newPostbox(<?php echo wp_json_encode($data); ?>);
-        }	
+        }
         </script>
         
     <?php
@@ -374,8 +374,8 @@ class acfe_location_taxonomy_list{
     
     function location_values($choices){
         
-		$choices = array('all' => __('All', 'acf'));
-		$choices = array_merge($choices, acf_get_taxonomy_labels());
+        $choices = array('all' => __('All', 'acf'));
+        $choices = array_merge($choices, acf_get_taxonomy_labels());
         
         return $choices;
         
@@ -386,8 +386,8 @@ class acfe_location_taxonomy_list{
         if(!acf_maybe_get($screen, 'taxonomy_list') || !acf_maybe_get($rule, 'value'))
             return $match;
         
-		$match = ($screen['taxonomy_list'] === $rule['value']);
-		
+        $match = ($screen['taxonomy_list'] === $rule['value']);
+        
         if($rule['value'] === 'all')
             $match = true;
         

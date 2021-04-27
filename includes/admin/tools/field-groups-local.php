@@ -25,7 +25,7 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
             $total = count($ids);
             
             // Generate text.
-            $text = sprintf( _n( 'Imported 1 field group', 'Imported %s field groups', $total, 'acf' ), $total );		
+            $text = sprintf( _n( 'Imported 1 field group', 'Imported %s field groups', $total, 'acf' ), $total );
             
             // Add links to text.
             $links = array();
@@ -110,8 +110,8 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
     }
     
     function html(){
-		
-		if($this->is_active()){
+        
+        if($this->is_active()){
             
             $data = $this->get_data();
             
@@ -124,16 +124,16 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
                     acf_update_setting('l10n_var_export', true);
                     
                     $str_replace = array(
-                        "  "			=> "\t",
-                        "'!!__(!!\'"	=> "__('",
-                        "!!\', !!\'"	=> "', '",
-                        "!!\')!!'"		=> "')",
-                        "array ("		=> "array("
+                        "  "            => "\t",
+                        "'!!__(!!\'"    => "__('",
+                        "!!\', !!\'"    => "', '",
+                        "!!\')!!'"      => "')",
+                        "array ("       => "array("
                     );
                     
                     $preg_replace = array(
-                        '/([\t\r\n]+?)array/'	=> 'array',
-                        '/[0-9]+ => array/'		=> 'array'
+                        '/([\t\r\n]+?)array/'   => 'array',
+                        '/[0-9]+ => array/'     => 'array'
                     );
                     
                     ?>
@@ -199,9 +199,9 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
 
                                     // tooltip
                                     acf.newTooltip({
-                                        text: 		"<?php _e('Copied', 'acf' ); ?>",
-                                        timeout:	250,
-                                        target: 	$(this),
+                                        text:       "<?php _e('Copied', 'acf' ); ?>",
+                                        timeout:    250,
+                                        target:     $(this),
                                     });
 
                                 }catch(err){
@@ -215,18 +215,18 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
                 </div>
             </div>
             <?php
-		
+        
         }
         
-	}
+    }
     
-	function get_data(){
-		
-		// vars
+    function get_data(){
+        
+        // vars
         $data = array();
-		$keys = $this->get_keys();
-		
-		if(!$keys)
+        $keys = $this->get_keys();
+        
+        if(!$keys)
             return $data;
         
         // Enable filters
@@ -261,13 +261,13 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
             $data[] = $field_group;
             
         }
-		
-		// return
-		return $data;
-		
-	}
+        
+        // return
+        return $data;
+        
+    }
     
-	function get_keys(){
+    function get_keys(){
         
         // vars
         $keys_post = acf_maybe_get_POST('keys');
@@ -290,8 +290,8 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
         }
         
         return $keys;
-		
-	}
+        
+    }
     
     function get_action(){
     
@@ -305,8 +305,8 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
     
         // return
         return $action;
-		
-	}
+        
+    }
     
 }
 

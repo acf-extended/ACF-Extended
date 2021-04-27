@@ -7,7 +7,7 @@ if(!class_exists('acfe_compatibility')):
 
 class acfe_compatibility{
     
-	function __construct(){
+    function __construct(){
         
         add_action('acf/init', array($this, 'init'), 98);
         
@@ -20,8 +20,9 @@ class acfe_compatibility{
         add_filter('wpseo_metabox_prio',                            array($this, 'yoast_metaboxes_priority'));
         add_filter('pll_get_post_types',                            array($this, 'polylang'), 10, 2);
         add_action('elementor/documents/register_controls',         array($this, 'elementor'));
+        add_filter('wpgraphql_acf_supported_fields',                array($this, 'wpgraphql'));
         
-	}
+    }
     
     function init(){
     
@@ -86,13 +87,13 @@ class acfe_compatibility{
         if(acf_get_setting('acfe/modules/dynamic_taxonomies') !== null){
             acf_update_setting('acfe/modules/taxonomies', acf_get_setting('acfe/modules/dynamic_taxonomies'));
         }
-	    
+        
     }
 
-	/**
-	 * ACF Extended: 0.8
-	 * Field Group Location: Archive renamed to List
-	 */
+    /**
+     * ACF Extended: 0.8
+     * Field Group Location: Archive renamed to List
+     */
     function field_group_location_list($field_group){
         
         if(!acf_maybe_get($field_group, 'location'))
@@ -129,10 +130,10 @@ class acfe_compatibility{
         
     }
 
-	/**
-	 * ACF Extended: 0.8
-	 * Field Filter Value: Removed from this version
-	 */
+    /**
+     * ACF Extended: 0.8
+     * Field Filter Value: Removed from this version
+     */
     function field_acfe_update($field){
         
         if(!acf_maybe_get($field, 'acfe_update'))
@@ -144,10 +145,10 @@ class acfe_compatibility{
         
     }
 
-	/**
-	 * ACF Extended: 0.8.5
-	 * Field Group/Clone: Fixed typo "Seamless"
-	 */
+    /**
+     * ACF Extended: 0.8.5
+     * Field Group/Clone: Fixed typo "Seamless"
+     */
     function field_seamless_style($field){
         
         if($seamless = acf_maybe_get($field, 'acfe_seemless_style', false)){
@@ -160,10 +161,10 @@ class acfe_compatibility{
         
     }
 
-	/**
-	 * ACF Extended: 0.8.4.5
-	 * Field Flexible Content: Fix duplicated "layout_settings" & "layout_title"
-	 */
+    /**
+     * ACF Extended: 0.8.4.5
+     * Field Flexible Content: Fix duplicated "layout_settings" & "layout_title"
+     */
     function field_flexible_settings_title($fields, $parent){
         
         // Check if is tool screen
@@ -452,11 +453,11 @@ class acfe_compatibility{
         
     }
 
-	/**
-	 * Plugin: Post Types Order
-	 * https://wordpress.org/plugins/post-types-order/
-	 * The plugin apply custom order to ACF Field Group Post Type. We have to fix this
-	 */
+    /**
+     * Plugin: Post Types Order
+     * https://wordpress.org/plugins/post-types-order/
+     * The plugin apply custom order to ACF Field Group Post Type. We have to fix this
+     */
     function pto_acf_field_group($ignore, $orderby, $query){
         
         if(is_admin() && $query->is_main_query() && $query->get('post_type') === 'acf-field-group')
@@ -544,9 +545,6 @@ class acfe_compatibility{
         
         add_filter('acf/load_field_groups', function($field_groups){
             
-            if(!$field_groups)
-                return $field_groups;
-            
             // Hidden Local Field Groups
             $hidden = acfe_get_setting('reserved_field_groups', array());
             
@@ -563,7 +561,31 @@ class acfe_compatibility{
             
             return $field_groups;
             
-        }, 30);
+        }, 25);
+        
+    }
+    
+    /*
+     * ACF Extended: 0.8.8.2
+     * WP GraphQL ACF Supported Fields
+     */
+    function wpgraphql($fields){
+        
+        $acfe_fields = array(
+            'acfe_advanced_link',
+            'acfe_button',
+            'acfe_code_editor',
+            'acfe_forms',
+            'acfe_hidden',
+            'acfe_post_statuses',
+            'acfe_post_types',
+            'acfe_slug',
+            'acfe_taxonomies',
+            'acfe_taxonomiy_terms',
+            'acfe_user_roles',
+        );
+        
+        return array_merge($fields, $acfe_fields);
         
     }
     

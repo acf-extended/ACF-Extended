@@ -12,8 +12,8 @@ function acfe_field_textarea_settings($field){
         'name'          => 'acfe_textarea_code',
         'key'           => 'acfe_textarea_code',
         'instructions'  => __('Switch font family to monospace and allow tab indent. For a more advanced code editor, please use the <code>Code Editor</code> field type'),
-        'type'			=> 'true_false',
-        'ui'			=> 1,
+        'type'          => 'true_false',
+        'ui'            => 1,
     ));
     
 }

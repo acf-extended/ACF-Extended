@@ -12,13 +12,13 @@ class acfe_form_front{
         // vars
         $this->fields = array(
             '_validate_email' => array(
-                'prefix'	=> 'acf',
-                'name'		=> '_validate_email',
-                'key'		=> '_validate_email',
-                'label'		=> __('Validate Email', 'acf'),
-                'type'		=> 'text',
-                'value'		=> '',
-                'wrapper'	=> array('style' => 'display:none !important;')
+                'prefix'    => 'acf',
+                'name'      => '_validate_email',
+                'key'       => '_validate_email',
+                'label'     => __('Validate Email', 'acf'),
+                'type'      => 'text',
+                'value'     => '',
+                'wrapper'   => array('style' => 'display:none !important;')
             )
         );
         
@@ -26,7 +26,7 @@ class acfe_form_front{
         add_action('wp',                        array($this, 'check_submit_form'));
         
         // Shortcode
-        add_shortcode('acfe_form',         array($this, 'add_shortcode'));
+        add_shortcode('acfe_form',              array($this, 'add_shortcode'));
         
         // Validation
         add_action('acf/validate_save_post',    array($this, 'validate_save_post'), 1);
@@ -54,27 +54,27 @@ class acfe_form_front{
             return;
         
         foreach($this->fields as $k => $field){
-			
-			// bail early if no in $_POST
-			if(!isset($_POST['acf'][ $k ]))
+            
+            // bail early if no in $_POST
+            if(!isset($_POST['acf'][ $k ]))
                 continue;
-			
-			// register
-			acf_add_local_field($field);
-			
-		}
+            
+            // register
+            acf_add_local_field($field);
+            
+        }
         
         // Honeypot
-		if(!empty($acf['_validate_email'])){
-			
-			acf_add_validation_error('', __('Spam Detected', 'acf'));
-			
-		}
+        if(!empty($acf['_validate_email'])){
+            
+            acf_add_validation_error('', __('Spam Detected', 'acf'));
+            
+        }
         
         // Validation
         acfe_setup_meta($_POST['acf'], 'acfe/form/validation', true);
-		
-		    $rows = array();
+        
+            $rows = array();
         
             // Actions
             if(have_rows('acfe_form_actions', $form_id)):
@@ -83,15 +83,15 @@ class acfe_form_front{
                     
                     $action = get_row_layout();
                     
-	                $alias = get_sub_field('acfe_form_custom_alias');
-	                
-	                // Custom Action
-	                if($action === 'custom'){
-	                 
-		                $action = get_sub_field('acfe_form_custom_action');
-		                $alias = '';
-		                
-	                }
+                    $alias = get_sub_field('acfe_form_custom_alias');
+                    
+                    // Custom Action
+                    if($action === 'custom'){
+                     
+                        $action = get_sub_field('acfe_form_custom_action');
+                        $alias = '';
+                        
+                    }
     
                     $rows[] = array(
                         'action' => $action,
@@ -125,8 +125,8 @@ class acfe_form_front{
     function check_submit_form(){
         
         // Verify nonce.
-		if(!acf_verify_nonce('acfe_form'))
-			return;
+        if(!acf_verify_nonce('acfe_form'))
+            return;
         
         $form = acfe_form_decrypt_args();
         
@@ -135,26 +135,26 @@ class acfe_form_front{
         
         // ACF
         $_POST['acf'] = isset($_POST['acf']) ? $_POST['acf'] : array();
-    	
-    	// Run kses on all $_POST data.
-    	if($form['kses'] && isset($_POST['acf'])){
+        
+        // Run kses on all $_POST data.
+        if($form['kses'] && isset($_POST['acf'])){
             
-	    	$_POST['acf'] = wp_kses_post_deep($_POST['acf']);
+            $_POST['acf'] = wp_kses_post_deep($_POST['acf']);
             
-    	}
-    	
-		// Validate data and show errors.
-		acf_validate_save_post(true);
-		
-		// Submit form.
-		$this->submit_form($form);
+        }
+        
+        // Validate data and show errors.
+        acf_validate_save_post(true);
+        
+        // Submit form.
+        $this->submit_form($form);
         
     }
     
     function submit_form($form){
-    	
-    	// vars
-    	$post_id = acf_maybe_get($form, 'post_id', false);
+        
+        // vars
+        $post_id = acf_maybe_get($form, 'post_id', false);
         $form_name = acf_maybe_get($form, 'name');
         $form_id = acf_maybe_get($form, 'ID');
         
@@ -211,8 +211,8 @@ class acfe_form_front{
             exit;
             
         }
-		
-	}
+        
+    }
     
     function validate_form($param){
     
@@ -322,7 +322,7 @@ class acfe_form_front{
             'errors_class'          => get_field('acfe_form_errors_class',          $form_id),
             'updated_message'       => get_field('acfe_form_updated_message',       $form_id),
             'html_updated_message'  => get_field('acfe_form_html_updated_message',  $form_id),
-            'updated_hide_form'	    => get_field('acfe_form_updated_hide_form',     $form_id),
+            'updated_hide_form'     => get_field('acfe_form_updated_hide_form',     $form_id),
             'return'                => get_field('acfe_form_return',                $form_id), // Deprecated
             
             // Advanced
@@ -389,24 +389,24 @@ class acfe_form_front{
         if(have_rows('acfe_form_actions', $form_id)):
             while(have_rows('acfe_form_actions', $form_id)): the_row();
              
-	            $action = get_row_layout();
-	            
-	            $alias = get_sub_field('acfe_form_custom_alias');
-	            
-	            // Custom Action
-	            if($action === 'custom'){
-	             
-		            $action = get_sub_field('acfe_form_custom_action');
-		            $alias = '';
-		            
-	            }
-	            
-	            $args = apply_filters('acfe/form/load/' . $action,                              $args, $args['post_id'], $alias);
-	            $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,      $args, $args['post_id'], $alias);
-	            
-	            if(!empty($alias))
-	                $args = apply_filters('acfe/form/load/' . $action . '/action=' . $alias,    $args, $args['post_id'], $alias);
-	            
+                $action = get_row_layout();
+                
+                $alias = get_sub_field('acfe_form_custom_alias');
+                
+                // Custom Action
+                if($action === 'custom'){
+                 
+                    $action = get_sub_field('acfe_form_custom_action');
+                    $alias = '';
+                    
+                }
+                
+                $args = apply_filters('acfe/form/load/' . $action,                              $args, $args['post_id'], $alias);
+                $args = apply_filters('acfe/form/load/' . $action . '/form=' . $form_name,      $args, $args['post_id'], $alias);
+                
+                if(!empty($alias))
+                    $args = apply_filters('acfe/form/load/' . $action . '/action=' . $alias,    $args, $args['post_id'], $alias);
+                
             endwhile;
         endif;
         
@@ -446,11 +446,11 @@ class acfe_form_front{
         }
         
         // Register local fields.
-		foreach($this->fields as $k => $field){
+        foreach($this->fields as $k => $field){
             
-			acf_add_local_field($field);
+            acf_add_local_field($field);
             
-		}
+        }
         
         // honeypot
         if($args['honeypot']){
@@ -539,12 +539,12 @@ class acfe_form_front{
         }
         
         // uploader (always set incase of multiple forms on the page)
-	    acf_disable_filter('acfe/form/uploader');
+        acf_disable_filter('acfe/form/uploader');
         
         if($args['uploader'] !== 'default'){
-	
-	        acf_enable_filter('acfe/form/uploader');
-	        acf_update_setting('uploader', $args['uploader']);
+    
+            acf_enable_filter('acfe/form/uploader');
+            acf_update_setting('uploader', $args['uploader']);
          
         }
         
@@ -555,8 +555,12 @@ class acfe_form_front{
         $wrapper = $args['form'] ? 'form' : 'div';
 
         ?>
+    
+        <?php do_action('acfe/form/render/before_form'); ?>
         
         <<?php echo $wrapper; ?> <?php acf_esc_attr_e($args['form_attributes']); ?>>
+    
+        <?php do_action('acfe/form/render/before_fields'); ?>
             
         <?php
         
@@ -564,9 +568,9 @@ class acfe_form_front{
                 
                 // render post data
                 acf_form_data(array(
-                    'screen'	=> 'acfe_form',
-                    'post_id'	=> $args['post_id'],
-                    'form'		=> acf_encrypt(json_encode($args))
+                    'screen'    => 'acfe_form',
+                    'post_id'    => $args['post_id'],
+                    'form'        => acf_encrypt(json_encode($args))
                 ));
                 
             }
@@ -592,95 +596,95 @@ class acfe_form_front{
                 
                 // Normal Render
                 else{
-	
-	                // vars
-	                $field_groups = array();
-	                $fields = array();
-	
-	                // Post Field groups (Deprecated)
-	                if($args['post_field_groups']){
-		
-		                // Override Field Groups
-		                $post_field_groups = acf_get_field_groups(array(
-			                'post_id' => $args['post_field_groups']
-		                ));
-		
-		                $args['field_groups'] = wp_list_pluck($post_field_groups, 'key');
-		
-	                }
-	
-	                // Field groups
-	                if($args['field_groups']){
-		
-		                foreach($args['field_groups'] as $selector){
-			
-			                // Bypass Author Module
-			                if($selector === 'group_acfe_author')
-				                continue;
-			
-			                $field_groups[] = acf_get_field_group($selector);
-			
-		                }
-		
-	                }
-	
-	                // Apply Field Groups Rules
-	                if($args['field_groups_rules']){
-		
-		                if(!empty($field_groups)){
-			
-			                $post_id = get_the_ID();
-			
-			                $filter = array(
-				                'post_id'   => $post_id,
-				                'post_type' => get_post_type($post_id),
-			                );
-			
-			                $filtered = array();
-			
-			                foreach($field_groups as $field_group){
-			                    
-			                    // Deleted field group
-			                    if(!isset($field_group['location']))
-			                        continue;
-				
-				                // Force active
-				                $field_group['active'] = true;
-				
-				                if(acf_get_field_group_visibility($field_group, $filter)){
-					
-					                $filtered[] = $field_group;
-					
-				                }
-				
-			                }
-			
-			                $field_groups = $filtered;
-			
-		                }
-		
-	                }
-	
-	                //load fields based on field groups
-	                if(!empty($field_groups)){
-		
-		                foreach($field_groups as $field_group){
-			
-			                $field_group_fields = acf_get_fields($field_group);
-			
-			                if(!empty($field_group_fields)){
-				
-				                foreach(array_keys($field_group_fields) as $i){
-					
-					                $fields[] = acf_extract_var($field_group_fields, $i);
-					
-				                }
-				
-			                }
-			
-		                }
-		
-	                }
+    
+                    // vars
+                    $field_groups = array();
+                    $fields = array();
+    
+                    // Post Field groups (Deprecated)
+                    if($args['post_field_groups']){
+        
+                        // Override Field Groups
+                        $post_field_groups = acf_get_field_groups(array(
+                            'post_id' => $args['post_field_groups']
+                        ));
+        
+                        $args['field_groups'] = wp_list_pluck($post_field_groups, 'key');
+        
+                    }
+    
+                    // Field groups
+                    if($args['field_groups']){
+        
+                        foreach($args['field_groups'] as $selector){
+            
+                            // Bypass Author Module
+                            if($selector === 'group_acfe_author')
+                                continue;
+            
+                            $field_groups[] = acf_get_field_group($selector);
+            
+                        }
+        
+                    }
+    
+                    // Apply Field Groups Rules
+                    if($args['field_groups_rules']){
+        
+                        if(!empty($field_groups)){
+            
+                            $post_id = get_the_ID();
+            
+                            $filter = array(
+                                'post_id'   => $post_id,
+                                'post_type' => get_post_type($post_id),
+                            );
+            
+                            $filtered = array();
+            
+                            foreach($field_groups as $field_group){
+                                
+                                // Deleted field group
+                                if(!isset($field_group['location']))
+                                    continue;
+                
+                                // Force active
+                                $field_group['active'] = true;
+                
+                                if(acf_get_field_group_visibility($field_group, $filter)){
+                    
+                                    $filtered[] = $field_group;
+                    
+                                }
+                
+                            }
+            
+                            $field_groups = $filtered;
+            
+                        }
+        
+                    }
+    
+                    //load fields based on field groups
+                    if(!empty($field_groups)){
+        
+                        foreach($field_groups as $field_group){
+            
+                            $field_group_fields = acf_get_fields($field_group);
+            
+                            if(!empty($field_group_fields)){
+                
+                                foreach(array_keys($field_group_fields) as $i){
+                    
+                                    $fields[] = acf_extract_var($field_group_fields, $i);
+                    
+                                }
+                
+                            }
+            
+                        }
+        
+                    }
                     
                     acf_render_fields($fields, acf_uniqid('acfe_form'), $args['field_el'], $args['instruction_placement']);
                     
@@ -703,8 +707,12 @@ class acfe_form_front{
                 </div>
             
             <?php endif; ?>
+            
+            <?php do_action('acfe/form/render/after_fields'); ?>
         
         </<?php echo $wrapper; ?>>
+    
+        <?php do_action('acfe/form/render/after_form'); ?>
         
         <?php
     

@@ -48,9 +48,9 @@ class acfe_form_email{
         // Fields
         $from = get_sub_field('acfe_form_email_from');
         $from = acfe_form_map_field_value($from, $current_post_id, $form);
-	
-	    $reply_to = get_sub_field('acfe_form_email_reply_to');
-	    $reply_to = acfe_form_map_field_value($reply_to, $current_post_id, $form);
+    
+        $reply_to = get_sub_field('acfe_form_email_reply_to');
+        $reply_to = acfe_form_map_field_value($reply_to, $current_post_id, $form);
         
         $to = get_sub_field('acfe_form_email_to');
         $to = acfe_form_map_field_value($to, $current_post_id, $form);
@@ -123,27 +123,27 @@ class acfe_form_email{
         endif;
         
         $headers[] = 'From: ' . $from;
-	
-	    if(!empty($reply_to)){
-		
-		    $headers[] = 'Reply-To: ' . $reply_to;
-		
-	    }
+    
+        if(!empty($reply_to)){
+        
+            $headers[] = 'Reply-To: ' . $reply_to;
+        
+        }
         
         if(!empty($cc)){
-	
-	        $headers[] = 'Cc: ' . $cc;
+    
+            $headers[] = 'Cc: ' . $cc;
          
         }
         
         if(!empty($bcc)){
-	
-	        $headers[] = 'Bcc: ' . $bcc;
+    
+            $headers[] = 'Bcc: ' . $bcc;
          
         }
-	
-	    $headers[] = 'Content-Type: text/html';
-	    $headers[] = 'charset=UTF-8';
+    
+        $headers[] = 'Content-Type: text/html';
+        $headers[] = 'charset=UTF-8';
         
         $args = array(
             'from'          => $from,
@@ -166,8 +166,8 @@ class acfe_form_email{
         $args = apply_filters('acfe/form/submit/email_args/form=' . $form_name,   $args, $form, $action);
         
         if(!empty($action)){
-	
-	        // Deprecated filter
+    
+            // Deprecated filter
             $args = apply_filters_deprecated('acfe/form/submit/email/args/action=' . $action, array($args, $form, $action), '0.8.1', 'acfe/form/submit/email_args/action=' . $action);
             
             // Filter
@@ -178,51 +178,51 @@ class acfe_form_email{
         // Bail early if no args
         if($args === false)
             return;
-	
-	    // Check if Headers changed
-	    $rules = array(
-		    array(
-			    'args_key'     => 'from',
-			    'value_old'    => $from,
-			    'header_key'   => 'From:',
-		    ),
-		    array(
-			    'args_key'     => 'reply_to',
-			    'value_old'    => $reply_to,
-			    'header_key'   => 'Reply-To:',
-		    ),
-		    array(
-			    'args_key'     => 'cc',
-			    'value_old'    => $cc,
-			    'header_key'   => 'Cc:',
-		    ),
-		    array(
-			    'args_key'     => 'bcc',
-			    'value_old'    => $bcc,
-			    'header_key'   => 'Bcc:',
-		    ),
-	    );
-	
-	    foreach($rules as $rule){
-		
-		    $new_check = acf_maybe_get($args, $rule['args_key']);
-		
-		    if(!empty($new_check) && $new_check !== $rule['value_old']){
-			
-			    foreach($args['headers'] as &$header){
-				
-				    if(stripos($header, $rule['header_key']) !== 0)
-					    continue;
-				
-				    $header = $rule['header_key'] . ' ' . $new_check;
-				    break;
-				
-			    }
-			
-		    }
-		
-	    }
-	    
+    
+        // Check if Headers changed
+        $rules = array(
+            array(
+                'args_key'     => 'from',
+                'value_old'    => $from,
+                'header_key'   => 'From:',
+            ),
+            array(
+                'args_key'     => 'reply_to',
+                'value_old'    => $reply_to,
+                'header_key'   => 'Reply-To:',
+            ),
+            array(
+                'args_key'     => 'cc',
+                'value_old'    => $cc,
+                'header_key'   => 'Cc:',
+            ),
+            array(
+                'args_key'     => 'bcc',
+                'value_old'    => $bcc,
+                'header_key'   => 'Bcc:',
+            ),
+        );
+    
+        foreach($rules as $rule){
+        
+            $new_check = acf_maybe_get($args, $rule['args_key']);
+        
+            if(!empty($new_check) && $new_check !== $rule['value_old']){
+            
+                foreach($args['headers'] as &$header){
+                
+                    if(stripos($header, $rule['header_key']) !== 0)
+                        continue;
+                
+                    $header = $rule['header_key'] . ' ' . $new_check;
+                    break;
+                
+                }
+            
+            }
+        
+        }
+        
         wp_mail($args['to'], $args['subject'], $args['content'], $args['headers'], $args['attachments']);
         
         do_action('acfe/form/submit/email',                     $args, $form, $action);
@@ -235,8 +235,8 @@ class acfe_form_email{
         if(!empty($delete_files)){
             
             foreach($delete_files as $file_id){
-	
-	            wp_delete_attachment($file_id, true);
+    
+                wp_delete_attachment($file_id, true);
             
             }
             

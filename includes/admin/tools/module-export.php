@@ -50,13 +50,13 @@ class acfe_module_export extends ACF_Admin_Tool{
             
                 // render
                 acf_render_field_wrap(array(
-                    'label'		=> $this->select,
-                    'type'		=> 'checkbox',
-                    'name'		=> 'keys',
-                    'prefix'	=> false,
-                    'value'		=> false,
-                    'toggle'	=> true,
-                    'choices'	=> $choices,
+                    'label'     => $this->select,
+                    'type'      => 'checkbox',
+                    'name'      => 'keys',
+                    'prefix'    => false,
+                    'value'     => false,
+                    'toggle'    => true,
+                    'choices'   => $choices,
                 ));
             
             }
@@ -130,9 +130,9 @@ class acfe_module_export extends ACF_Admin_Tool{
                             
                             // tooltip
                             acf.newTooltip({
-                                text: 		"<?php _e('Copied', 'acf' ); ?>",
-                                timeout:	250,
-                                target: 	$(this),
+                                text:       "<?php _e('Copied', 'acf' ); ?>",
+                                timeout:    250,
+                                target:     $(this),
                             });
                             
                         }catch(err){
@@ -151,8 +151,8 @@ class acfe_module_export extends ACF_Admin_Tool{
     
     function load(){
         
-		if(!$this->is_active())
-		    return;
+        if(!$this->is_active())
+            return;
             
         $this->action = $this->get_action();
         $this->data = $this->get_data();
@@ -188,7 +188,7 @@ class acfe_module_export extends ACF_Admin_Tool{
         $keys = array_keys($this->data);
         
         // validate
-		if(!$this->data){
+        if(!$this->data){
             return acf_add_admin_notice($this->messages['not_selected'], 'warning');
         }
         
@@ -235,53 +235,53 @@ class acfe_module_export extends ACF_Admin_Tool{
         
     }
     
-	function get_data(){
-		
-		// vars
-		$keys = $this->get_keys();
+    function get_data(){
+        
+        // vars
+        $keys = $this->get_keys();
         $data = array();
-		
-		foreach($keys as $key){
+        
+        foreach($keys as $key){
       
-		    // export
+            // export
             $args = $this->instance->export_data($key);
             
             if(!$args)
                 continue;
             
-			$data[$key] = $args;
-			
-		}
-		
-		return $data;
-		
-	}
+            $data[$key] = $args;
+            
+        }
+        
+        return $data;
+        
+    }
     
-	function get_keys(){
-		
-		// vars
+    function get_keys(){
+        
+        // vars
         $keys_post = acf_maybe_get_POST('keys');
         $keys_get = acf_maybe_get_GET('keys');
         $keys = array();
         
         // $_POST
-		if($keys_post){
-		 
-			$keys = (array) $keys_post;
-			
+        if($keys_post){
+         
+            $keys = (array) $keys_post;
+            
         }
-		
-		// $_GET
-		elseif($keys_get){
+        
+        // $_GET
+        elseif($keys_get){
             
             $keys_get = str_replace(' ', '+', $keys_get);
             $keys = explode('+', $keys_get);
             
-		}
-		
-		return $keys;
-		
-	}
+        }
+        
+        return $keys;
+        
+    }
     
     function get_action(){
         
@@ -295,8 +295,8 @@ class acfe_module_export extends ACF_Admin_Tool{
         
         // return
         return $action;
-		
-	}
+        
+    }
     
 }
 

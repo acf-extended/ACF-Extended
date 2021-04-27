@@ -60,14 +60,13 @@ class acfe_dynamic_forms_hooks{
      */
     function field_groups_choices($field){
         
+        // Vars
         $field_groups = acf_get_field_groups();
-        
-        if(empty($field_groups))
-            return $field;
+        $hidden = acfe_get_setting('reserved_field_groups', array());
         
         foreach($field_groups as $field_group){
             
-            if(strpos($field_group['key'], 'group_acfe_') === 0)
+            if(in_array($field_group['key'], $hidden))
                 continue;
             
             $field['choices'][$field_group['key']] = $field_group['title'];

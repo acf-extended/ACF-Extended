@@ -319,12 +319,12 @@ class acfe_field_flexible_content_preview{
             
             // Options
             $options = acf_parse_args($_POST, array(
-                'post_id'		=> 0,
-                'i'				=> 0,
-                'field_key'		=> '',
-                'nonce'			=> '',
-                'layout'		=> '',
-                'value'			=> array()
+                'post_id'   => 0,
+                'i'         => 0,
+                'field_key' => '',
+                'nonce'     => '',
+                'layout'    => '',
+                'value'     => array()
             ));
             
         }

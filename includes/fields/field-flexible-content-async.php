@@ -112,9 +112,9 @@ class acfe_field_flexible_content_async{
         $l_name = $layout['name'];
     
         $div = array(
-            'class'			=> 'layout acf-clone',
-            'data-id'		=> 'acfcloneindex',
-            'data-layout'	=> $layout['name']
+            'class'         => 'layout acf-clone',
+            'data-id'       => 'acfcloneindex',
+            'data-layout'   => $layout['name']
         );
     
         $div = apply_filters("acfe/flexible/layouts/div",                               $div, $layout, $field, $i, $value, $prefix);

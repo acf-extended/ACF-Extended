@@ -65,8 +65,8 @@ class acfe_form_term{
         // Load values
         if(!$load_values)
             return $form;
-	
-	    $_term_id = get_sub_field('acfe_form_term_load_source');
+    
+        $_term_id = get_sub_field('acfe_form_term_load_source');
         $_name = get_sub_field('acfe_form_term_map_name');
         $_slug = get_sub_field('acfe_form_term_map_slug');
         $_taxonomy = get_sub_field('acfe_form_term_map_taxonomy');
@@ -75,11 +75,11 @@ class acfe_form_term{
         
         // Map {field:name} {get_field:name} {query_var:name}
         $_term_id = acfe_form_map_field_value_load($_term_id, $current_post_id, $form);
-	    $_name = acfe_form_map_field_value_load($_name, $current_post_id, $form);
-	    $_slug = acfe_form_map_field_value_load($_slug, $current_post_id, $form);
-	    $_taxonomy = acfe_form_map_field_value_load($_taxonomy, $current_post_id, $form);
-	    $_parent = acfe_form_map_field_value_load($_parent, $current_post_id, $form);
-	    $_description = acfe_form_map_field_value_load($_description, $current_post_id, $form);
+        $_name = acfe_form_map_field_value_load($_name, $current_post_id, $form);
+        $_slug = acfe_form_map_field_value_load($_slug, $current_post_id, $form);
+        $_taxonomy = acfe_form_map_field_value_load($_taxonomy, $current_post_id, $form);
+        $_parent = acfe_form_map_field_value_load($_parent, $current_post_id, $form);
+        $_description = acfe_form_map_field_value_load($_description, $current_post_id, $form);
         
         $_term_id = apply_filters('acfe/form/load/term_id',                      $_term_id, $form, $action);
         $_term_id = apply_filters('acfe/form/load/term_id/form=' . $form_name,   $_term_id, $form, $action);
@@ -98,8 +98,8 @@ class acfe_form_term{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_name]['value'] = get_term_field('name', $_term_id);
+    
+            $form['map'][$_name]['value'] = get_term_field('name', $_term_id);
             
         }
         
@@ -110,8 +110,8 @@ class acfe_form_term{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_slug]['value'] = get_term_field('slug', $_term_id);
+    
+            $form['map'][$_slug]['value'] = get_term_field('slug', $_term_id);
             
         }
         
@@ -122,8 +122,8 @@ class acfe_form_term{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_taxonomy]['value'] = get_term_field('taxonomy', $_term_id);
+    
+            $form['map'][$_taxonomy]['value'] = get_term_field('taxonomy', $_term_id);
             
         }
         
@@ -146,8 +146,8 @@ class acfe_form_term{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_description]['value'] = get_term_field('description', $_term_id);
+    
+            $form['map'][$_description]['value'] = get_term_field('description', $_term_id);
             
         }
         
@@ -204,9 +204,9 @@ class acfe_form_term{
         
         // Action
         $term_action = get_sub_field('acfe_form_term_action');
-	
-	    // Load values
-	    $load_values = get_sub_field('acfe_form_term_load_values');
+    
+        // Load values
+        $load_values = get_sub_field('acfe_form_term_load_values');
         
         // Pre-process
         $_description_group = get_sub_field('acfe_form_term_save_description_group');
@@ -215,21 +215,21 @@ class acfe_form_term{
         
         if($_description === 'custom')
             $_description = $_description_custom;
-	
-	    $map = array();
-	
-	    if($load_values){
-		
-		    // Mapping
-		    $map = array(
-			    'name'        => get_sub_field( 'acfe_form_term_map_name' ),
-			    'slug'        => get_sub_field( 'acfe_form_term_map_slug' ),
-			    'taxonomy'    => get_sub_field( 'acfe_form_term_map_taxonomy' ),
-			    'parent'      => get_sub_field( 'acfe_form_term_map_parent' ),
-			    'description' => get_sub_field( 'acfe_form_term_map_description' ),
-		    );
-		
-	    }
+    
+        $map = array();
+    
+        if($load_values){
+        
+            // Mapping
+            $map = array(
+                'name'        => get_sub_field( 'acfe_form_term_map_name' ),
+                'slug'        => get_sub_field( 'acfe_form_term_map_slug' ),
+                'taxonomy'    => get_sub_field( 'acfe_form_term_map_taxonomy' ),
+                'parent'      => get_sub_field( 'acfe_form_term_map_parent' ),
+                'description' => get_sub_field( 'acfe_form_term_map_description' ),
+            );
+        
+        }
         
         // Fields
         $fields = array(
@@ -264,9 +264,9 @@ class acfe_form_term{
         
         // Name
         if(!empty($data['name'])){
-	
-	        if(is_array($data['name']))
-		        $data['name'] = acfe_array_to_string($data['name']);
+    
+            if(is_array($data['name']))
+                $data['name'] = acfe_array_to_string($data['name']);
             
             $args['name'] = $data['name'];
             
@@ -274,9 +274,9 @@ class acfe_form_term{
         
         // Slug
         if(!empty($data['slug'])){
-	
-	        if(is_array($data['name']))
-		        $data['name'] = acfe_array_to_string($data['name']);
+    
+            if(is_array($data['name']))
+                $data['name'] = acfe_array_to_string($data['name']);
             
             $args['slug'] = $data['slug'];
             
@@ -284,9 +284,9 @@ class acfe_form_term{
         
         // Taxonomy
         if(!empty($data['taxonomy'])){
-	
-	        if(is_array($data['name']))
-		        $data['name'] = acfe_array_to_string($data['name']);
+    
+            if(is_array($data['name']))
+                $data['name'] = acfe_array_to_string($data['name']);
             
             $args['taxonomy'] = $data['taxonomy'];
             
@@ -294,9 +294,9 @@ class acfe_form_term{
         
         // Parent
         if(!empty($data['parent'])){
-	
-	        if(is_array($data['name']))
-		        $data['name'] = acfe_array_to_string($data['name']);
+    
+            if(is_array($data['name']))
+                $data['name'] = acfe_array_to_string($data['name']);
             
             $args['parent'] = $data['parent'];
             
@@ -304,9 +304,9 @@ class acfe_form_term{
         
         // Description
         if(!empty($data['description'])){
-	
-	        if(is_array($data['name']))
-		        $data['name'] = acfe_array_to_string($data['name']);
+    
+            if(is_array($data['name']))
+                $data['name'] = acfe_array_to_string($data['name']);
             
             $args['description'] = $data['description'];
             

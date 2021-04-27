@@ -7,9 +7,9 @@ if(!class_exists('acfe_field_group_hide_on_screen')):
 
 class acfe_field_group_hide_on_screen{
  
-	function __construct(){
+    function __construct(){
      
-	    // Field Group
+        // Field Group
         add_action('acf/field_group/admin_head',    array($this, 'admin_head'));
         
         // Post Metaboxes
@@ -19,12 +19,12 @@ class acfe_field_group_hide_on_screen{
         add_action('load-post.php',                 array($this, 'hide_block_editor'));
         add_action('load-post-new.php',             array($this, 'hide_block_editor'));
         
-	}
-	
-	function admin_head(){
+    }
+    
+    function admin_head(){
         
         add_filter('acf/prepare_field/name=hide_on_screen', array($this, 'prepare_hide_on_screen'));
-	    
+        
     }
     
     /*
@@ -50,7 +50,7 @@ class acfe_field_group_hide_on_screen{
         $field['choices'] = $choices;
     
         return $field;
-	    
+        
     }
     
     /*
@@ -58,19 +58,19 @@ class acfe_field_group_hide_on_screen{
      * Fix ACF only which only use the first Field Group style
      */
     function acf_add_meta_boxes($post_type, $post, $field_groups){
-	    
-	    $instance = acf_get_instance('ACF_Form_Post');
-	    
-	    $styles = '';
-	    
-	    foreach($field_groups as $field_group){
+        
+        $instance = acf_get_instance('ACF_Form_Post');
+        
+        $styles = '';
+        
+        foreach($field_groups as $field_group){
         
             $styles .= acf_get_field_group_style($field_group);
-	        
+            
         }
     
         $instance->style = $styles;
-	    
+        
     }
     
     /*
@@ -101,8 +101,8 @@ class acfe_field_group_hide_on_screen{
         }
         
         $field_groups = acf_get_field_groups(array(
-            'post_id'	=> $post_id,
-            'post_type'	=> $post_type
+            'post_id'   => $post_id,
+            'post_type' => $post_type
         ));
         
         $hide_block_editor = false;

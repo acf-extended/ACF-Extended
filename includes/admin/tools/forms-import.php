@@ -1,11 +1,11 @@
 <?php
 
 if(!defined('ABSPATH'))
-	exit;
+    exit;
 
 // Check setting
 if(!acf_get_setting('acfe/modules/forms'))
-	return;
+    return;
 
 if(!class_exists('acfe_dynamic_forms_import')):
 

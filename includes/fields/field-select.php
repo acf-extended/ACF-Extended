@@ -7,7 +7,7 @@ if(!class_exists('acfe_field_select')):
 
 class acfe_field_select{
     
-	function __construct(){
+    function __construct(){
         
         // Actions
         add_action('acf/render_field_settings/type=select',         array($this, 'field_settings'));
@@ -18,40 +18,40 @@ class acfe_field_select{
 
         add_action('current_screen', array($this, 'current_screen'));
         
-	}
+    }
 
-	function current_screen(){
+    function current_screen(){
 
-		if(!acfe_is_admin_screen())
-			return;
+        if(!acfe_is_admin_screen())
+            return;
 
-		add_filter('acf/prepare_field/name=choices', array($this, 'prepare_field_choices'), 5);
+        add_filter('acf/prepare_field/name=choices', array($this, 'prepare_field_choices'), 5);
 
-	}
+    }
 
-	function prepare_field_choices($field){
+    function prepare_field_choices($field){
 
-		$wrapper = $field['wrapper'];
+        $wrapper = $field['wrapper'];
 
-		if(acf_maybe_get($wrapper, 'data-setting') !== 'select')
-			return $field;
+        if(acf_maybe_get($wrapper, 'data-setting') !== 'select')
+            return $field;
 
-		$field['instructions'] .= '<br/><br/>You may use "## Title" to create a group of options.';
+        $field['instructions'] .= '<br/><br/>You may use "## Title" to create a group of options.';
 
-		return $field;
+        return $field;
 
-	}
+    }
 
     function field_settings($field){
 
         // allow custom
         acf_render_field_setting($field, array(
-            'label'			=> __('Allow Custom','acf'),
-            'instructions'	=> '',
-            'name'			=> 'allow_custom',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
-            'message'       => __("Allow 'custom' values to be added", 'acf'),
+            'label'             => __('Allow Custom','acf'),
+            'instructions'      => '',
+            'name'              => 'allow_custom',
+            'type'              => 'true_false',
+            'ui'                => 1,
+            'message'           => __("Allow 'custom' values to be added", 'acf'),
             'conditional_logic' => array(
                 array(
                     array(
@@ -65,11 +65,11 @@ class acfe_field_select{
 
         // placeholder
         acf_render_field_setting($field, array(
-            'label'			=> __('Placeholder','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'placeholder',
-            'placeholder'   => _x('Select', 'verb', 'acf'),
+            'label'             => __('Placeholder','acf'),
+            'instructions'      => __('Appears within the input','acf'),
+            'type'              => 'text',
+            'name'              => 'placeholder',
+            'placeholder'       => _x('Select', 'verb', 'acf'),
             'conditional_logic' => array(
                 array(
                     array(
@@ -107,11 +107,11 @@ class acfe_field_select{
 
         // search placeholder
         acf_render_field_setting($field, array(
-            'label'			=> __('Search Input Placeholder','acf'),
-            'instructions'	=> __('Appears within the search input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'search_placeholder',
-            'placeholder'   => '',
+            'label'             => __('Search Input Placeholder','acf'),
+            'instructions'      => __('Appears within the search input','acf'),
+            'type'              => 'text',
+            'name'              => 'search_placeholder',
+            'placeholder'       => '',
             'conditional_logic' => array(
                 array(
                     array(
@@ -149,42 +149,42 @@ class acfe_field_select{
 
         if(!acf_maybe_get($field, 'ajax')){
 
-	        if(is_array($field['choices'])){
+            if(is_array($field['choices'])){
 
-		        $found = false;
-		        $found_array = array();
+                $found = false;
+                $found_array = array();
 
-		        foreach($field['choices'] as $k => $choice){
+                foreach($field['choices'] as $k => $choice){
 
-					if(is_string($choice)){
-					
-						$choice = trim($choice);
-						
-						if(strpos($choice, '##') === 0){
-						
-							$choice = substr($choice, 2);
-							$choice = trim($choice);
-							
-							$found = $choice;
-							$found_array[$choice] = array();
-						
-						}elseif(!empty($found)){
-						
-							$found_array[$found][$k] = $choice;
-						
-						}
-					
-					}
+                    if(is_string($choice)){
+                    
+                        $choice = trim($choice);
+                        
+                        if(strpos($choice, '##') === 0){
+                        
+                            $choice = substr($choice, 2);
+                            $choice = trim($choice);
+                            
+                            $found = $choice;
+                            $found_array[$choice] = array();
+                        
+                        }elseif(!empty($found)){
+                        
+                            $found_array[$found][$k] = $choice;
+                        
+                        }
+                    
+                    }
 
-		        }
+                }
 
-		        if(!empty($found_array)){
+                if(!empty($found_array)){
 
-			        $field['choices'] = $found_array;
+                    $field['choices'] = $found_array;
 
-		        }
+                }
 
-	        }
+            }
 
         }
         

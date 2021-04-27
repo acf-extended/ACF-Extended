@@ -91,7 +91,7 @@ class acfe_form_redirect{
                 array(
                     'key' => 'field_acfe_form_redirect_custom_alias',
                     'label' => 'Action name',
-                    'name' => 'acfe_form_redirect_custom_alias',
+                    'name' => 'acfe_form_custom_alias',
                     'type' => 'acfe_slug',
                     'instructions' => '(Optional) Target this action using hooks.',
                     'required' => 0,

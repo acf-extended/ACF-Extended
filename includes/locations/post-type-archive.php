@@ -10,7 +10,7 @@ class acfe_location_post_type_archive{
     public $post_type = false;
     public $post_types = array();
     
-	function __construct(){
+    function __construct(){
         
         add_action('init',                                          array($this, 'init'), 99);
         add_action('current_screen',                                array($this, 'current_screen'));
@@ -23,7 +23,7 @@ class acfe_location_post_type_archive{
         add_filter('acf/location/rule_values/post_type_archive',    array($this, 'location_values'));
         add_filter('acf/location/rule_match/post_type_archive',     array($this, 'location_match'), 10, 3);
         
-	}
+    }
     
     function init(){
         
@@ -53,12 +53,12 @@ class acfe_location_post_type_archive{
             
             // Register
             acf_add_options_page(array(
-                'page_title' 	            => $object->label . ' ' . $label,
-                'menu_title'	            => $label,
-                'menu_slug' 	            => $name . '-archive',
+                'page_title'                => $object->label . ' ' . $label,
+                'menu_title'                => $label,
+                'menu_slug'                 => $name . '-archive',
                 'post_id'                   => $name . '_archive',
-                'capability'	            => $capability,
-                'redirect'		            => false,
+                'capability'                => $capability,
+                'redirect'                  => false,
                 'parent_slug'               => $parent_slug,
                 'updated_message'           => $object->label . ' Archive Saved.',
                 'acfe_post_type_archive'    => true
@@ -102,15 +102,15 @@ class acfe_location_post_type_archive{
     }
     
     function location_screen($screen){
-	    
-	    $screen['acfe_dpt_admin_page'] = true;
-	    
-	    return $screen;
-	    
+        
+        $screen['acfe_dpt_admin_page'] = true;
+        
+        return $screen;
+        
     }
     
     function admin_footer(){
-	    
+        
         ?>
         <div id="tmpl-acf-after-title">
             <div style="margin-top:7px;">
@@ -130,18 +130,18 @@ class acfe_location_post_type_archive{
     }
     
     function admin_bar($wp_admin_bar){
-	    
-	    // Bail early
-	    if(is_admin() || !is_post_type_archive())
-	        return;
-	    
-	    // Get Post Type
-	    $post_type = get_query_var('post_type');
-	    
-	    if(!$post_type)
-	        return;
-	    
-	    // Object
+        
+        // Bail early
+        if(is_admin() || !is_post_type_archive())
+            return;
+        
+        // Get Post Type
+        $post_type = get_query_var('post_type');
+        
+        if(!$post_type)
+            return;
+        
+        // Object
         $object = get_post_type_object($post_type);
         
         // Check has archive
@@ -161,11 +161,11 @@ class acfe_location_post_type_archive{
         
         // Add menu item
         $wp_admin_bar->add_node(array(
-            'id'    	=> 'edit',
-            'title' 	=> 'Edit ' . $object->label . ' ' . __('Archive'),
-            'parent' 	=> false,
-            'href' 		=> add_query_arg(array('post_type' => $object->name, 'page' => $object->name . '-archive'), admin_url('edit.php')),
-            'meta'		=> array('class' => 'ab-item')
+            'id'        => 'edit',
+            'title'     => 'Edit ' . $object->label . ' ' . __('Archive'),
+            'parent'    => false,
+            'href'      => add_query_arg(array('post_type' => $object->name, 'page' => $object->name . '-archive'), admin_url('edit.php')),
+            'meta'      => array('class' => 'ab-item')
         ));
         
     }
@@ -215,7 +215,7 @@ class acfe_location_post_type_archive{
         }
         
         $choices = array('all' => __('All', 'acf'));
-		$choices = array_merge($choices, $pretty_post_types);
+        $choices = array_merge($choices, $pretty_post_types);
         
         return $choices;
         

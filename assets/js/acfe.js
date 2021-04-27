@@ -125,8 +125,14 @@
 
             acfe.syncPopup();
 
-            // show fields
-            acf.getFields(this.$el.find('.acf-field')).map(function(field) {
+            // Get sub fields
+            var getSubFields = acf.getFields({
+                parent: this.$el,
+                visible: true,
+            });
+
+            // Show sub fields
+            getSubFields.map(function(field) {
                 acf.doAction('show_field', field, 'group');
             }, this);
 

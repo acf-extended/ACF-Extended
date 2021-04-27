@@ -13,11 +13,11 @@ class acfe_field_slug extends acf_field{
         $this->label = __('Slug', 'acfe');
         $this->category = 'basic';
         $this->defaults = array(
-            'default_value'	=> '',
-            'maxlength'		=> '',
-            'placeholder'	=> '',
-            'prepend'		=> '',
-            'append'		=> ''
+            'default_value' => '',
+            'maxlength'     => '',
+            'placeholder'   => '',
+            'prepend'       => '',
+            'append'        => ''
         );
         
         parent::__construct();
@@ -36,46 +36,46 @@ class acfe_field_slug extends acf_field{
         
         // default_value
         acf_render_field_setting($field, array(
-            'label'			=> __('Default Value','acf'),
-            'instructions'	=> __('Appears when creating a new post','acf'),
-            'type'			=> 'text',
-            'name'			=> 'default_value',
+            'label'         => __('Default Value','acf'),
+            'instructions'  => __('Appears when creating a new post','acf'),
+            'type'          => 'text',
+            'name'          => 'default_value',
         ));
         
         
         // placeholder
         acf_render_field_setting($field, array(
-            'label'			=> __('Placeholder Text','acf'),
-            'instructions'	=> __('Appears within the input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'placeholder',
+            'label'         => __('Placeholder Text','acf'),
+            'instructions'  => __('Appears within the input','acf'),
+            'type'          => 'text',
+            'name'          => 'placeholder',
         ));
         
         
         // prepend
         acf_render_field_setting($field, array(
-            'label'			=> __('Prepend','acf'),
-            'instructions'	=> __('Appears before the input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'prepend',
+            'label'         => __('Prepend','acf'),
+            'instructions'  => __('Appears before the input','acf'),
+            'type'          => 'text',
+            'name'          => 'prepend',
         ));
         
         
         // append
         acf_render_field_setting($field, array(
-            'label'			=> __('Append','acf'),
-            'instructions'	=> __('Appears after the input','acf'),
-            'type'			=> 'text',
-            'name'			=> 'append',
+            'label'         => __('Append','acf'),
+            'instructions'  => __('Appears after the input','acf'),
+            'type'          => 'text',
+            'name'          => 'append',
         ));
         
         
         // maxlength
         acf_render_field_setting($field, array(
-            'label'			=> __('Character Limit','acf'),
-            'instructions'	=> __('Leave blank for no limit','acf'),
-            'type'			=> 'number',
-            'name'			=> 'maxlength',
+            'label'         => __('Character Limit','acf'),
+            'instructions'  => __('Leave blank for no limit','acf'),
+            'type'          => 'number',
+            'name'          => 'maxlength',
         ));
         
     }

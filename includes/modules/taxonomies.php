@@ -998,16 +998,16 @@ class acfe_dynamic_taxonomies extends acfe_dynamic_module{
         acf_update_setting('l10n_var_export', true);
         
         $str_replace = array(
-            "  "			=> "\t",
-            "'!!__(!!\'"	=> "__('",
-            "!!\', !!\'"	=> "', '",
-            "!!\')!!'"		=> "')",
-            "array ("		=> "array("
+            "  "            => "\t",
+            "'!!__(!!\'"    => "__('",
+            "!!\', !!\'"    => "', '",
+            "!!\')!!'"      => "')",
+            "array ("       => "array("
         );
         
         $preg_replace = array(
-            '/([\t\r\n]+?)array/'	=> 'array',
-            '/[0-9]+ => array/'		=> 'array'
+            '/([\t\r\n]+?)array/'   => 'array',
+            '/[0-9]+ => array/'     => 'array'
         );
         
         // Get settings.

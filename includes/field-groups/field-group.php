@@ -268,7 +268,7 @@ class ACFE_Field_Group{
                     'name'          => 'acfe_permissions',
                     'prefix'        => 'acf_field_group',
                     'type'          => 'checkbox',
-                    'instructions'	=> __('Select user roles that are allowed to view and edit this field group in post edition'),
+                    'instructions'  => __('Select user roles that are allowed to view and edit this field group in post edition'),
                     'required'      => false,
                     'default_value' => false,
                     'choices'       => acfe_get_roles(),
@@ -358,8 +358,8 @@ class ACFE_Field_Group{
                         method: 'POST',
                         dataType: 'json',
                         data: acf.prepareForAjax({
-                            action:	'acf/ajax/local_json_diff',
-                            id: props.id
+                            action: 'acf/ajax/local_json_diff',
+                            id:     props.id
                         })
                     })
                         .done(function( data, textStatus, jqXHR ) {

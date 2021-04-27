@@ -11,12 +11,12 @@ if(!class_exists('acfe_field_group_meta')):
 
 class acfe_field_group_meta{
  
-	function __construct(){
+    function __construct(){
         
         add_action('acf/field_group/admin_head', array($this, 'admin_head'));
         add_action('acf/field_group/admin_head', array($this, 'prepare_meta'));
         
-	}
+    }
     
     /**
      * Admin Head
@@ -95,7 +95,7 @@ class acfe_field_group_meta{
             'name'          => 'acfe_note',
             'prefix'        => 'acf_field_group',
             'type'          => 'textarea',
-            'instructions'	=> __('Add personal note. Only visible to administrators'),
+            'instructions'  => __('Add personal note. Only visible to administrators'),
             'value'         => (isset($field_group['acfe_note'])) ? $field_group['acfe_note'] : '',
             'required'      => false,
             'wrapper'       => array(

@@ -248,11 +248,11 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
                 return;
 
             acf.newPostbox(<?php echo wp_json_encode(array(
-                'id'		=> 'acfe-dop-field-groups',
-                'key'		=> '',
-                'style'		=> 'default',
-                'label'		=> 'left',
-                'edit'		=> false
+                'id'    => 'acfe-dop-field-groups',
+                'key'   => '',
+                'style' => 'default',
+                'label' => 'left',
+                'edit'  => false
             )); ?>);
 
         })(jQuery);
@@ -827,16 +827,16 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
         acf_update_setting('l10n_var_export', true);
         
         $str_replace = array(
-            "  "			=> "\t",
-            "'!!__(!!\'"	=> "__('",
-            "!!\', !!\'"	=> "', '",
-            "!!\')!!'"		=> "')",
-            "array ("		=> "array("
+            "  "            => "\t",
+            "'!!__(!!\'"    => "__('",
+            "!!\', !!\'"    => "', '",
+            "!!\')!!'"      => "')",
+            "array ("       => "array("
         );
         
         $preg_replace = array(
-            '/([\t\r\n]+?)array/'	=> 'array',
-            '/[0-9]+ => array/'		=> 'array'
+            '/([\t\r\n]+?)array/'   => 'array',
+            '/[0-9]+ => array/'     => 'array'
         );
         
         // Get settings.
@@ -1128,7 +1128,7 @@ Defaults to \'options\'.',
                     'label' => 'Autoload',
                     'name' => 'autoload',
                     'type' => 'true_false',
-                    'instructions' => '(boolean)	Whether to load the option (values saved from this options page) when WordPress starts up.
+                    'instructions' => '(boolean) Whether to load the option (values saved from this options page) when WordPress starts up.
 Defaults to false.',
                     'required' => 0,
                     'conditional_logic' => 0,

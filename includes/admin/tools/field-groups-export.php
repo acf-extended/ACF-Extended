@@ -9,9 +9,9 @@ class acfe_field_groups_export extends ACF_Admin_Tool{
     
     function initialize(){
     
-		$this->name = 'acfe-export';
-		
-	}
+        $this->name = 'acfe-export';
+        
+    }
     
     function load(){
         
@@ -53,8 +53,8 @@ class acfe_field_groups_export extends ACF_Admin_Tool{
     
         // return
         return $action;
-		
-	}
+        
+    }
     
 }
 

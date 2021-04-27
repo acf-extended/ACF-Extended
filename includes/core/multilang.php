@@ -283,7 +283,7 @@ class acfe_multilang{
     function set_options_post_id($post_id, $original_post_id){
         
         // Bail early if original post id is 'options' ||'option'
-        if(!is_string($post_id) || in_array($original_post_id, array('options', 'option')))
+        if(!is_string($post_id))
             return $post_id;
         
         $data = acf_get_post_id_info($post_id);
@@ -291,6 +291,21 @@ class acfe_multilang{
         // Bail early if post id isn't an option type
         if($data['type'] !== 'option')
             return $post_id;
+        
+        // Options Exception
+        // $post_id already translated during the native acf/validate_post_id
+        if(in_array($original_post_id, array('options', 'option'))){
+            
+            // Exclude filter
+            $exclude = apply_filters('acfe/modules/multilang/exclude_options', array());
+            
+            if(in_array('options', $exclude)){
+                return 'options';
+            }
+    
+            return $post_id;
+            
+        }
 
         // Bail early if no Options Page found with that post id
         if(!$this->is_options_page($post_id))
@@ -362,8 +377,8 @@ class acfe_multilang{
             
             // Add 'Post Types List' location
             $post_types = acf_get_post_types(array(
-                'show_ui'	=> 1,
-                'exclude'	=> array('attachment')
+                'show_ui' => 1,
+                'exclude' => array('attachment')
             ));
     
             if(!empty($post_types)){
@@ -389,7 +404,29 @@ class acfe_multilang{
         
             }
             
-            $list = apply_filters('acfe/modules/multilang/options', $list);
+            // Depreacted filter
+            $list = apply_filters_deprecated('acfe/modules/multilang/options', array($list), '0.8.8.2', 'acfe/modules/multilang/exclude_options');
+            
+            // Include filter
+            $list = apply_filters('acfe/modules/multilang/include_options', $list);
+            
+            // Exclude filter
+            $exclude = apply_filters('acfe/modules/multilang/exclude_options', array());
+            
+            if(is_array($exclude) && !empty($exclude)){
+                
+                foreach($list as $i => $option){
+                    
+                    if(!in_array($option, $exclude))
+                        continue;
+                    
+                    unset($list[$i]);
+                    
+                }
+                
+                $list = array_values($list);
+                
+            }
             
             $this->options_pages = $list;
             
@@ -669,9 +706,9 @@ function acfe__(&$string, $name = false, $textdomain = 'acfe'){
     // WPML
     if(acfe_is_wpml()){
         
-        do_action( 'wpml_register_single_string', $textdomain, $name, $string);
+        do_action('wpml_register_single_string', $textdomain, $name, $string);
         
-        $string = __($string, $textdomain);
+        $string = apply_filters('wpml_translate_single_string', $string, $textdomain, $name);
         
         return $string;
         

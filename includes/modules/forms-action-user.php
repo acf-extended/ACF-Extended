@@ -71,10 +71,10 @@ class acfe_form_user{
         
         // Action
         $user_action = get_sub_field('acfe_form_user_action');
-	
-	    // Bail early if Log user
-	    if($user_action === 'log_user')
-		    return $form;
+    
+        // Bail early if Log user
+        if($user_action === 'log_user')
+            return $form;
         
         // Load values
         $load_values = get_sub_field('acfe_form_user_load_values');
@@ -83,8 +83,8 @@ class acfe_form_user{
         // Load values
         if(!$load_values)
             return $form;
-	
-	    $_user_id = get_sub_field('acfe_form_user_load_source');
+    
+        $_user_id = get_sub_field('acfe_form_user_load_source');
         $_email = get_sub_field('acfe_form_user_map_email');
         $_username = get_sub_field('acfe_form_user_map_username');
         $_password = get_sub_field('acfe_form_user_map_password');
@@ -98,16 +98,16 @@ class acfe_form_user{
         
         // Map {field:name} {get_field:name} {query_var:name}
         $_user_id = acfe_form_map_field_value_load($_user_id, $current_post_id, $form);
-	    $_email = acfe_form_map_field_value_load($_email, $current_post_id, $form);
-	    $_username = acfe_form_map_field_value_load($_username, $current_post_id, $form);
-	    $_password = acfe_form_map_field_value_load($_password, $current_post_id, $form);
-	    $_first_name = acfe_form_map_field_value_load($_first_name, $current_post_id, $form);
-	    $_last_name = acfe_form_map_field_value_load($_last_name, $current_post_id, $form);
-	    $_nickname = acfe_form_map_field_value_load($_nickname, $current_post_id, $form);
-	    $_display_name = acfe_form_map_field_value_load($_display_name, $current_post_id, $form);
-	    $_website = acfe_form_map_field_value_load($_website, $current_post_id, $form);
-	    $_description = acfe_form_map_field_value_load($_description, $current_post_id, $form);
-	    $_role = acfe_form_map_field_value_load($_role, $current_post_id, $form);
+        $_email = acfe_form_map_field_value_load($_email, $current_post_id, $form);
+        $_username = acfe_form_map_field_value_load($_username, $current_post_id, $form);
+        $_password = acfe_form_map_field_value_load($_password, $current_post_id, $form);
+        $_first_name = acfe_form_map_field_value_load($_first_name, $current_post_id, $form);
+        $_last_name = acfe_form_map_field_value_load($_last_name, $current_post_id, $form);
+        $_nickname = acfe_form_map_field_value_load($_nickname, $current_post_id, $form);
+        $_display_name = acfe_form_map_field_value_load($_display_name, $current_post_id, $form);
+        $_website = acfe_form_map_field_value_load($_website, $current_post_id, $form);
+        $_description = acfe_form_map_field_value_load($_description, $current_post_id, $form);
+        $_role = acfe_form_map_field_value_load($_role, $current_post_id, $form);
         
         $_user_id = apply_filters('acfe/form/load/user_id',                      $_user_id, $form, $action);
         $_user_id = apply_filters('acfe/form/load/user_id/form=' . $form_name,   $_user_id, $form, $action);
@@ -132,8 +132,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_email]['value'] = $user_data->user_email;
+    
+            $form['map'][$_email]['value'] = $user_data->user_email;
             
         }
         
@@ -144,9 +144,9 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_username]['value'] = $user_data->user_login;
-	        $form['map'][$_username]['maxlength'] = 60;
+    
+            $form['map'][$_username]['value'] = $user_data->user_login;
+            $form['map'][$_username]['maxlength'] = 60;
             
         }
         
@@ -157,8 +157,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        //$form['map'][$_password]['value'] = $user_data->user_pass;
+    
+            //$form['map'][$_password]['value'] = $user_data->user_pass;
             
         }
         
@@ -169,8 +169,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_first_name]['value'] = $user_data->first_name;
+    
+            $form['map'][$_first_name]['value'] = $user_data->first_name;
             
         }
         
@@ -181,8 +181,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_last_name]['value'] = $user_data->last_name;
+    
+            $form['map'][$_last_name]['value'] = $user_data->last_name;
             
         }
         
@@ -193,8 +193,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_nickname]['value'] = $user_data->nickname;
+    
+            $form['map'][$_nickname]['value'] = $user_data->nickname;
             
         }
         
@@ -205,8 +205,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_display_name]['value'] = $user_data->display_name;
+    
+            $form['map'][$_display_name]['value'] = $user_data->display_name;
             
         }
         
@@ -217,8 +217,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_website]['value'] = $user_data->website;
+    
+            $form['map'][$_website]['value'] = $user_data->website;
             
         }
         
@@ -229,8 +229,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_description]['value'] = $user_data->description;
+    
+            $form['map'][$_description]['value'] = $user_data->description;
             
         }
         
@@ -241,8 +241,8 @@ class acfe_form_user{
             
             if($key !== false)
                 unset($load_meta[$key]);
-	
-	        $form['map'][$_role]['value'] = implode(', ', $user_data->roles);
+    
+            $form['map'][$_role]['value'] = implode(', ', $user_data->roles);
             
         }
         
@@ -293,16 +293,16 @@ class acfe_form_user{
         $form_id = acf_maybe_get($form, 'ID');
 
         // Fields
-	    $data = array(
+        $data = array(
             'type'  => get_sub_field('acfe_form_user_log_type'),
             'login' => get_sub_field('acfe_form_user_save_login_user'),
             'pass'  => get_sub_field('acfe_form_user_save_login_pass'),
         );
-	
-	    $data['login'] = acfe_form_map_field_value($data['login'], $current_post_id, $form);
-	    $data['pass'] = acfe_form_map_field_value($data['pass'], $current_post_id, $form);
-	    
-	    $errors = array(
+    
+        $data['login'] = acfe_form_map_field_value($data['login'], $current_post_id, $form);
+        $data['pass'] = acfe_form_map_field_value($data['pass'], $current_post_id, $form);
+        
+        $errors = array(
             'empty_user_pass'               => 'An error has occured. Please try again',
             'invalid_email'                 => 'Invalid e-mail',
             'invalid_email_password'        => 'Invalid e-mail or password',
@@ -311,9 +311,9 @@ class acfe_form_user{
         );
     
         $errors = apply_filters('acfe/form/validation/user/login_errors', $errors);
-	
-	    $login = false;
-	    $pass = false;
+    
+        $login = false;
+        $pass = false;
         
         // Email
         if(!empty($data['login'])){
@@ -436,9 +436,9 @@ class acfe_form_user{
         
         // Action
         $user_action = get_sub_field('acfe_form_user_action');
-	
-	    // Load values
-	    $load_values = get_sub_field('acfe_form_user_load_values');
+    
+        // Load values
+        $load_values = get_sub_field('acfe_form_user_load_values');
         
         // Pre-process
         $_description_group = get_sub_field('acfe_form_user_save_description_group');
@@ -447,26 +447,26 @@ class acfe_form_user{
         
         if($_description === 'custom')
             $_description = $_description_custom;
-	
-	    $map = array();
-	
-	    if($load_values){
-		
-		    // Mapping
-		    $map = array(
-			    'user_email'   => get_sub_field( 'acfe_form_user_map_email' ),
-			    'user_login'   => get_sub_field( 'acfe_form_user_map_username' ),
-			    'user_pass'    => get_sub_field( 'acfe_form_user_map_password' ),
-			    'first_name'   => get_sub_field( 'acfe_form_user_map_first_name' ),
-			    'last_name'    => get_sub_field( 'acfe_form_user_map_last_name' ),
-			    'nickname'     => get_sub_field( 'acfe_form_user_map_nickname' ),
-			    'display_name' => get_sub_field( 'acfe_form_user_map_display_name' ),
-			    'user_url'     => get_sub_field( 'acfe_form_user_map_website' ),
-			    'description'  => get_sub_field( 'acfe_form_user_map_description' ),
-			    'role'         => get_sub_field( 'acfe_form_user_map_role' ),
-		    );
-		
-	    }
+    
+        $map = array();
+    
+        if($load_values){
+        
+            // Mapping
+            $map = array(
+                'user_email'   => get_sub_field( 'acfe_form_user_map_email' ),
+                'user_login'   => get_sub_field( 'acfe_form_user_map_username' ),
+                'user_pass'    => get_sub_field( 'acfe_form_user_map_password' ),
+                'first_name'   => get_sub_field( 'acfe_form_user_map_first_name' ),
+                'last_name'    => get_sub_field( 'acfe_form_user_map_last_name' ),
+                'nickname'     => get_sub_field( 'acfe_form_user_map_nickname' ),
+                'display_name' => get_sub_field( 'acfe_form_user_map_display_name' ),
+                'user_url'     => get_sub_field( 'acfe_form_user_map_website' ),
+                'description'  => get_sub_field( 'acfe_form_user_map_description' ),
+                'role'         => get_sub_field( 'acfe_form_user_map_role' ),
+            );
+        
+        }
         
         // Fields
         $fields = array(
@@ -516,9 +516,9 @@ class acfe_form_user{
             
             // Email
             if(!empty($data['user_email'])){
-	
-	            if(is_array($data['user_email']))
-		            $data['user_email'] = acfe_array_to_string($data['user_email']);
+    
+                if(is_array($data['user_email']))
+                    $data['user_email'] = acfe_array_to_string($data['user_email']);
                 
                 $args['user_email'] = $data['user_email'];
                 
@@ -526,9 +526,9 @@ class acfe_form_user{
             
             // Username
             if(!empty($data['user_login'])){
-	
-	            if(is_array($data['user_login']))
-		            $data['user_login'] = acfe_array_to_string($data['user_login']);
+    
+                if(is_array($data['user_login']))
+                    $data['user_login'] = acfe_array_to_string($data['user_login']);
                 
                 $args['user_login'] = $data['user_login'];
                 
@@ -536,9 +536,9 @@ class acfe_form_user{
             
             // Password
             if(!empty($data['user_pass'])){
-	
-	            if(is_array($data['user_pass']))
-		            $data['user_pass'] = acfe_array_to_string($data['user_pass']);
+    
+                if(is_array($data['user_pass']))
+                    $data['user_pass'] = acfe_array_to_string($data['user_pass']);
                 
                 $args['user_pass'] = $data['user_pass'];
                 
@@ -546,9 +546,9 @@ class acfe_form_user{
             
             // First name
             if(!empty($data['first_name'])){
-	
-	            if(is_array($data['first_name']))
-		            $data['first_name'] = acfe_array_to_string($data['first_name']);
+    
+                if(is_array($data['first_name']))
+                    $data['first_name'] = acfe_array_to_string($data['first_name']);
                 
                 $args['first_name'] = $data['first_name'];
                 
@@ -556,9 +556,9 @@ class acfe_form_user{
             
             // Last name
             if(!empty($data['last_name'])){
-	
-	            if(is_array($data['last_name']))
-		            $data['last_name'] = acfe_array_to_string($data['last_name']);
+    
+                if(is_array($data['last_name']))
+                    $data['last_name'] = acfe_array_to_string($data['last_name']);
                 
                 $args['last_name'] = $data['last_name'];
                 
@@ -566,9 +566,9 @@ class acfe_form_user{
             
             // Nickname
             if(!empty($data['nickname'])){
-	
-	            if(is_array($data['nickname']))
-		            $data['nickname'] = acfe_array_to_string($data['nickname']);
+    
+                if(is_array($data['nickname']))
+                    $data['nickname'] = acfe_array_to_string($data['nickname']);
                 
                 $args['nickname'] = $data['nickname'];
                 
@@ -576,9 +576,9 @@ class acfe_form_user{
             
             // Display name
             if(!empty($data['display_name'])){
-	
-	            if(is_array($data['display_name']))
-		            $data['display_name'] = acfe_array_to_string($data['display_name']);
+    
+                if(is_array($data['display_name']))
+                    $data['display_name'] = acfe_array_to_string($data['display_name']);
                 
                 $args['display_name'] = $data['display_name'];
                 
@@ -586,9 +586,9 @@ class acfe_form_user{
             
             // Website
             if(!empty($data['user_url'])){
-	
-	            if(is_array($data['user_url']))
-		            $data['user_url'] = acfe_array_to_string($data['user_url']);
+    
+                if(is_array($data['user_url']))
+                    $data['user_url'] = acfe_array_to_string($data['user_url']);
                 
                 $args['user_url'] = $data['user_url'];
                 
@@ -596,9 +596,9 @@ class acfe_form_user{
             
             // Description
             if(!empty($data['description'])){
-	
-	            if(is_array($data['description']))
-		            $data['description'] = acfe_array_to_string($data['description']);
+    
+                if(is_array($data['description']))
+                    $data['description'] = acfe_array_to_string($data['description']);
                 
                 $args['description'] = $data['description'];
                 
@@ -606,9 +606,9 @@ class acfe_form_user{
             
             // Role
             if(!empty($data['role'])){
-	
-	            if(is_array($data['role']))
-		            $data['role'] = acfe_array_to_string($data['role']);
+    
+                if(is_array($data['role']))
+                    $data['role'] = acfe_array_to_string($data['role']);
                 
                 $args['role'] = $data['role'];
                 
@@ -619,9 +619,9 @@ class acfe_form_user{
             
             if(!empty($action))
                 $args = apply_filters('acfe/form/submit/user_args/action=' . $action, $args, $user_action, $form, $action);
-	
-	        if($args === false)
-		        return false;
+    
+            if($args === false)
+                return false;
             
             // Insert User
             if($user_action === 'insert_user'){
@@ -631,12 +631,12 @@ class acfe_form_user{
                     return false;
                 
                 // No login? Fallback to e-mail
-	            if(!isset($args['user_login']))
-	                $args['user_login'] = $args['user_email'];
-	            
-	            // No password? Fallback to generated password
-	            if(!isset($args['user_pass']))
-		            $args['user_pass'] = wp_generate_password(8, false);
+                if(!isset($args['user_login']))
+                    $args['user_login'] = $args['user_email'];
+                
+                // No password? Fallback to generated password
+                if(!isset($args['user_pass']))
+                    $args['user_pass'] = wp_generate_password(8, false);
                 
             }
             
@@ -726,9 +726,9 @@ class acfe_form_user{
         elseif($user_action === 'log_user'){
             
             $_insert_user = false;
-	
-	        $_login_user = false;
-	        $_login_pass = false;
+    
+            $_login_user = false;
+            $_login_pass = false;
             $_login_remember = false;
             
             // Email
@@ -747,8 +747,8 @@ class acfe_form_user{
             
             // Remember me
             if(!empty($data['login_remember'])){
-	
-	            $_login_remember = $data['login_remember'];
+    
+                $_login_remember = $data['login_remember'];
              
             }
 
@@ -786,8 +786,8 @@ class acfe_form_user{
                 }
                 
             }
-	
-	        $_login_remember = boolval($_login_remember);
+    
+            $_login_remember = boolval($_login_remember);
             
             // Login
             $_insert_user = wp_signon(array(

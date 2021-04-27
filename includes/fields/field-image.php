@@ -116,12 +116,19 @@ class acfe_field_image{
     
     function update_value($value, $post_id, $field){
         
+        // Bail early if no thumbnail setting
         if(!acf_maybe_get($field, 'acfe_thumbnail'))
             return $value;
-        
-        if(acf_maybe_get_POST('wp-preview') == 'dopreview')
+    
+        // Bail early if local meta
+        if(acfe_is_local_post_id($post_id))
             return $value;
         
+        // Bail early if wp preview
+        if(acf_maybe_get_POST('wp-preview') == 'dopreview')
+            return $value;
+    
+        // Bail early if not post
         $data = acf_get_post_id_info($post_id);
         
         if($data['type'] !== 'post')

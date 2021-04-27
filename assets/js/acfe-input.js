@@ -1139,11 +1139,11 @@
         /**
          * Fires after an element has been duplicated and appended to the DOM.
          *
-         * @date	30/10/19
-         * @since	5.8.7
+         * @date    30/10/19
+         * @since   5.8.7
          *
-         * @param	jQuery $el The original element.
-         * @param	jQuery $el2 The duplicated element.
+         * @param   jQuery $el The original element.
+         * @param   jQuery $el2 The duplicated element.
          */
         //acf.doAction('duplicate', $el, $el2 );
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.8.8.1
+ * Version:     0.8.8.2
  * Author:      ACF Extended
  * Author URI:  https://www.acf-extended.com
  * Text Domain: acfe
@@ -16,7 +16,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // Vars
-    var $version = '0.8.8.1';
+    var $version = '0.8.8.2';
     var $acf = false;
     
     /*
@@ -136,9 +136,9 @@ class ACFE{
         acfe_include('includes/core/meta.php');
         acfe_include('includes/core/multilang.php');
         acfe_include('includes/core/settings.php');
-	    acfe_include('includes/core/upgrades.php');
-	    
-	    // Admin
+        acfe_include('includes/core/upgrades.php');
+        
+        // Admin
         acfe_include('includes/admin/settings.php');
 
     }
@@ -292,9 +292,9 @@ class ACFE{
         
     }
 
-	/*
-	 * Set Constants
-	 */
+    /*
+     * Set Constants
+     */
     function constants($array = array()){
     
         foreach($array as $name => $value){
@@ -309,8 +309,8 @@ class ACFE{
     }
     
     /*
-	 * Set Settings
-	 */
+     * Set Settings
+     */
     function settings($array = array()){
         
         foreach($array as $name => $value){

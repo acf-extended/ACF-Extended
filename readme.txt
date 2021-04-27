@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 0.8.8.1
+Stable tag: 0.8.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -684,6 +684,44 @@ function my_acfe_modules(){
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.8.2 =
+
+**ACF Extended Pro 0.8.8.2:**
+* Field: Added Advanced "Color Picker" field settings with RGBA support, Palette display style, Custom predefined colors & Allow null
+* Field: Added "Date Range Picker" field with Custom ranges, No weekends, Min/max date & Min/max days support
+* Field: Flexible Content Grid System - Fixed sub Flexible Content Grid CSS bug
+* Field: Flexible Content Grid System - Tweaked `get_flexible_grid_class()` prefix
+* Field: Fields Selector - Added "Field Name" return value setting
+* Field: Post Field - Fixed Permalink "Save" & "Cancel" missing text when editing a permalink
+* Module: Added "Force Sync" module allowing to automatically sync Json Files to DB with the newest version
+* Module: Dynamic Template - Improved instruction
+* Module: Global Conditional Logic - Fixed compatibility with Terms & Users screen when Enhanced UI is disabled
+
+**ACF Extended Basic 0.8.8.2:**
+* Field: Clone - Fixed internal ACFE module field groups which where selectable in clone
+* Field: Google reCaptcha - Renamed the field to Google reCaptcha
+* Field: Post Object - Fixed duplicated post creation when using "Custom Value" setting
+* Module: Forms - Fixed Clone Render when using "Override Form Render" settings
+* Module: Forms - Fixed "Redirect Action" named hook not working with a custom action name
+* Module: Forms - Added render actions hooks
+* Module: Forms - Fixed `acfe_import_form()` function
+* Module: Block Types - Changed the "Mode" setting default value to "Preview", as in the documentation
+* Module: Multilang - Options Post ID `options` can now be excluded from the module translation
+* Module: Multilang - Added `acfe/modules/multilang/exclude_options` filter to exclude specific Options Post ID from module translation
+* Module: Multilang - Added `acfe/modules/multilang/include_options` filter to include specific Options Post ID from module translation
+* Module: Multilang - Deprecated the `acfe/modules/multilang/options` filter
+* Module: Multilang - WPML string translations now use `wpml_translate_single_string` instead of `__()`
+* Module: Settings UI - Fixed potential duplicated table `thead` columns
+* Module: Enhanced UI - Fixed possible metaboxes screen name collision with taxonomy name
+* General: ACFE Modal - Fixed `show_field` on modal open
+* General: ACFE Modal - Fixed possible duplicate field instructions in repeaters
+* General: The `acfe_get_post_id()` helper now correctly retrieve the Post ID in ACF Block Types
+* General: Fixed `get_fields()` calls in `acfe/save` hooks when a bidirectional value is set
+* General: Enhanced Local Meta logic
+* General: Enhanced `acfe/save` & `acfe/validate_save` hooks logic
+* General: Code format cleanup
+* Compatibility: Added ACFE Field Types to WP GraphQL ACF plugin
 
 = 0.8.8.1 =
 

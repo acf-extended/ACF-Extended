@@ -190,11 +190,11 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
             if(typeof acf !== 'undefined'){
 
                 acf.newPostbox(<?php echo wp_json_encode(array(
-                    'id'		=> 'acfe-form-integration',
-                    'key'		=> '',
-                    'style'		=> 'default',
-                    'label'		=> 'top',
-                    'edit'		=> false
+                    'id'    => 'acfe-form-integration',
+                    'key'   => '',
+                    'style' => 'default',
+                    'label' => 'top',
+                    'edit'  => false
                 )); ?>);
 
             }
@@ -269,11 +269,11 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
             if(typeof acf !== 'undefined'){
 
                 acf.newPostbox(<?php echo wp_json_encode(array(
-                    'id'		=> 'acfe-form-details',
-                    'key'		=> '',
-                    'style'		=> 'default',
-                    'label'		=> 'left',
-                    'edit'		=> false
+                    'id'    => 'acfe-form-details',
+                    'key'   => '',
+                    'style' => 'default',
+                    'label' => 'left',
+                    'edit'  => false
                 )); ?>);
 
             }
@@ -1802,39 +1802,6 @@ acf_new_instance('acfe_dynamic_forms');
 endif;
 
 /*
- * ACFE: Import Forms
- */
-function acfe_import_forms($forms){
-    
-    // json
-    if(is_string($forms))
-        $forms = json_decode($forms, true);
-    
-    if(!is_array($forms) || empty($forms))
-        return new WP_Error('acfe_import_forms_invalid_input', __("Input is invalid"));
-    
-    if(!acf_is_sequential_array($forms))
-        return new WP_Error('acfe_import_forms_invalid_array', __("Array is not sequential"));
-    
-    $return = array();
-    
-    // Loop over args
-    foreach($forms as $args){
-        
-        $message = acfe_import_form($args);
-        
-        if(is_wp_error($message))
-            return $message;
-        
-        $return[] = $message;
-        
-    }
-    
-    return $return;
-    
-}
-
-/*
  * ACFE: Import Form
  */
 function acfe_import_form($args){
@@ -1844,41 +1811,76 @@ function acfe_import_form($args){
         $args = json_decode($args, true);
     
     if(!is_array($args) || empty($args))
-        return new WP_Error('acfe_import_form_invalid_input', __("Input is invalid"));
+        return new WP_Error('acfe_import_form_invalid_input', __("Input is invalid: Must be a json string or an array."));
     
-    if(!acf_is_associative_array($args))
-        return new WP_Error('acfe_import_form_invalid_array', __("Array is not associative"));
-    
-    // Import
+    // Instance
     $instance = acf_get_instance('acfe_dynamic_forms');
-    $post_id = $instance->import($args);
     
-    $return = array(
-        'success'   => true,
-        'message'   => '',
-        'post_id'   => 0,
-        'title'     => acf_maybe_get($args, 'title'),
-        'name'      => acf_maybe_get($args, 'acfe_form_name')
-    );
-    
-    if(is_wp_error($post_id)){
-    
-        $return['success'] = false;
-        $return['message'] = $post_id->get_error_message();
+    // Single
+    if(acf_maybe_get($args, 'title')){
         
-    }else{
-    
-        $return['post_id'] = $post_id;
+        $name = acf_maybe_get($args, 'acfe_form_name');
+        
+        $args = array(
+            $name => $args
+        );
         
     }
     
-    return $return;
+    $result = array();
     
+    foreach($args as $name => $data){
+        
+        // Import
+        $post_id = $instance->import($name, $data);
+        
+        $return = array(
+            'success'   => true,
+            'post_id'   => $post_id,
+            'message'   => 'Form "' . acf_maybe_get($data, 'title') . '" successfully imported.',
+        );
+        
+        // Error
+        if(is_wp_error($post_id)){
+            
+            $return['post_id'] = 0;
+            $return['success'] = false;
+            $return['message'] = $post_id->get_error_message();
+            
+            if($post_id->get_error_code() === 'acfe_form_import_already_exists'){
+                
+                $get_post = get_page_by_path($name, OBJECT, $instance->post_type);
+                
+                if($get_post){
+                    $return['post_id'] = $get_post->ID;
+                }
+                
+            }
+            
+        }
+        
+        $result[] = $return;
+        
+    }
+    
+    if(count($result) === 1){
+        $result = $result[0];
+    }
+    
+    return $result;
+    
+}
+
+/*
+ * Deprecated ACFE: Import Forms
+ */
+function acfe_import_forms($forms){
+    return acfe_import_form($forms);
 }
 
 /*
  * Deprecated ACFE: Import Dynamic Form
  */
 function acfe_import_dynamic_form($forms = false){
-    return acfe_import_forms($forms);
+    return acfe_import_form($forms);
 }

@@ -7,7 +7,7 @@ if(!class_exists('acfe_field_validation')):
 
 class acfe_field_validation{
     
-	function __construct(){
+    function __construct(){
         
         // Actions
         add_action('acf/field_group/admin_head',                        array($this, 'load'));
@@ -16,11 +16,11 @@ class acfe_field_validation{
         // Filters
         add_filter('acf/validate_value',                                array($this, 'validate_value'), 99, 4);
         
-	}
+    }
     
     /*
-	 * Admin Head
-	 */
+     * Admin Head
+     */
     function load(){
         
         if(!acf_is_filter_enabled('acfe/field_group/advanced'))

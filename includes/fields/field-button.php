@@ -13,12 +13,12 @@ class acfe_field_button extends acf_field{
         $this->label = __('Button', 'acfe');
         $this->category = 'basic';
         $this->defaults = array(
-            'button_value' => __('Submit', 'acfe'),
-            'button_type' => 'button',
+            'button_value'  => __('Submit', 'acfe'),
+            'button_type'   => 'button',
             'button_before' => '',
-            'button_after' => '',
-            'button_class' => 'button button-secondary',
-            'button_id' => '',
+            'button_after'  => '',
+            'button_class'  => 'button button-secondary',
+            'button_id'     => '',
         );
         
         add_action('wp_ajax_acfe/fields/button',        array($this, 'ajax_request'), 99);
@@ -69,27 +69,27 @@ class acfe_field_button extends acf_field{
             'default_value' => 'button',
             'layout'        => 'horizontal',
             'choices'       => array(
-                'button' => __('Button', 'acfe'),
-                'submit' => __('Input', 'acfe'),
+                'button'        => __('Button', 'acfe'),
+                'submit'        => __('Input', 'acfe'),
             ),
         ));
         
         // class
         acf_render_field_setting($field, array(
-            'label'			=> __('Button attributes','acf'),
-            'instructions'	=> '',
-            'type'			=> 'text',
-            'name'			=> 'button_class',
-            'prepend'		=> __('class', 'acf'),
+            'label'         => __('Button attributes','acf'),
+            'instructions'  => '',
+            'type'          => 'text',
+            'name'          => 'button_class',
+            'prepend'       => __('class', 'acf'),
         ));
         
         // id
         acf_render_field_setting($field, array(
-            'label'			=> '',
-            'instructions'	=> '',
-            'type'			=> 'text',
-            'name'			=> 'button_id',
-            'prepend'		=> __('id', 'acf'),
+            'label'         => '',
+            'instructions'  => '',
+            'type'          => 'text',
+            'name'          => 'button_id',
+            'prepend'       => __('id', 'acf'),
             '_append'       => 'button_class'
         ));
         
@@ -116,8 +116,8 @@ class acfe_field_button extends acf_field{
             'label'         => __('Ajax call', 'acfe'),
             'instructions'  => __('Trigger ajax event on click. <a href="https://www.acf-extended.com/features/fields/button" target="_blank">See documentation</a>', 'acfe'),
             'name'          => 'button_ajax',
-            'type'			=> 'true_false',
-			'ui'			=> 1,
+            'type'          => 'true_false',
+            'ui'            => 1,
         ));
         
     }

@@ -32,7 +32,7 @@ class acfe_single_meta{
         add_filter('acf/pre_load_meta',         array($this, 'pre_load_meta'),          999, 2);
         
         // Values
-        add_filter('acf/pre_load_metadata',     array($this, 'pre_load_metadata'), 		999, 4);
+        add_filter('acf/pre_load_metadata',     array($this, 'pre_load_metadata'),      999, 4);
         add_filter('acf/update_value',          array($this, 'update_value'),           999, 3);
         add_filter('acf/pre_update_metadata',   array($this, 'pre_update_metadata'),    999, 5);
         add_filter('acf/pre_delete_metadata',   array($this, 'pre_delete_metadata'),    999, 4);
@@ -45,20 +45,20 @@ class acfe_single_meta{
         add_action('acf/render_field_settings', array($this, 'field_setting'));
         
         // Post
-        add_action('load-post.php',         	array($this, 'load_post'));
-        add_action('load-post-new.php',     	array($this, 'load_post'));
+        add_action('load-post.php',             array($this, 'load_post'));
+        add_action('load-post-new.php',         array($this, 'load_post'));
         
         // Term
-        add_action('load-edit-tags.php',    	array($this, 'load_term'));
-        add_action('load-term.php',         	array($this, 'load_term'));
+        add_action('load-edit-tags.php',        array($this, 'load_term'));
+        add_action('load-term.php',             array($this, 'load_term'));
         
         // User
-        add_action('load-user-new.php',     	array($this, 'load_user'));
-        add_action('load-user-edit.php',    	array($this, 'load_user'));
-        add_action('load-profile.php',      	array($this, 'load_user'));
+        add_action('load-user-new.php',         array($this, 'load_user'));
+        add_action('load-user-edit.php',        array($this, 'load_user'));
+        add_action('load-profile.php',          array($this, 'load_user'));
         
         // Nav Menu Items
-        add_action('wp_nav_menu_item_custom_fields',	array($this, 'wp_nav_menu_item_custom_fields'), 5);
+        add_action('wp_nav_menu_item_custom_fields',    array($this, 'wp_nav_menu_item_custom_fields'), 5);
     
         // Options
         //add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_options'));

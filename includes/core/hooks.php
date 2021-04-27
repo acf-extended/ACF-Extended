@@ -47,34 +47,56 @@ class acfe_hooks{
     
         // Validate acf
         if(!acf_maybe_get_POST('acf'))
-            return false;
+            return;
         
-        //vars
+        // Check data
         $data = $this->decode_object($post_id);
         
         if(!$data)
-            return false;
+            return;
         
+        // Vars
         $id = $data['id'];
         $type = $data['type'];
         $object = $data['object'];
         $hooks = $data['hooks'];
         $suffix = $pre ? 'pre_' : false;
-    
+        
+        // All hooks
+        $all_hooks = array();
+        $all_hooks[] = "acfe/{$suffix}save";
+        $all_hooks[] = "acfe/{$suffix}save/id={$post_id}";
+        $all_hooks[] = "acfe/{$suffix}save_{$type}";
+        foreach($hooks as $hook){
+            $all_hooks[] = "acfe/{$suffix}save_{$type}/{$hook}";
+        }
+        $all_hooks[] = "acfe/{$suffix}save_{$type}/id={$post_id}";
+        
+        // Check if hooked
+        $do_action = false;
+        
+        foreach($all_hooks as $all_hook){
+            
+            if(!has_action($all_hook)) continue;
+            
+            $do_action = true;
+            break;
+            
+        }
+        
+        // Bail early
+        if(!$do_action)
+            return;
+        
         // Setup Meta
         acfe_setup_meta($_POST['acf'], 'acfe/save', true);
     
-            do_action("acfe/{$suffix}save",                        $post_id, $object);
-            do_action("acfe/{$suffix}save/id={$post_id}",          $post_id, $object);
-            
-            do_action("acfe/{$suffix}save_{$type}",                $post_id, $object);
-            
-            foreach($hooks as $hook){
-                do_action("acfe/{$suffix}save_{$type}/{$hook}",    $post_id, $object);
-            }
-            
-            do_action("acfe/{$suffix}save_{$type}/id={$post_id}",  $post_id, $object);
+        foreach($all_hooks as $all_hook){
+    
+            do_action($all_hook, $post_id, $object);
         
+        }
+    
         acfe_reset_meta();
         
     }
@@ -110,30 +132,54 @@ class acfe_hooks{
         
         foreach($rows as $post_id => $acf){
     
-            //vars
+            // Check data
             $data = $this->decode_object($post_id);
     
             if(!$data)
                 continue;
-    
+            
+            // Vars
             $id = $data['id'];
             $type = $data['type'];
             $object = $data['object'];
             $hooks = $data['hooks'];
     
-            acfe_setup_meta($acf, 'acfe/validate_save', true);
-        
-                do_action("acfe/validate_save",                         $post_id, $object);
-                do_action("acfe/validate_save/id={$post_id}",           $post_id, $object);
-        
-                do_action("acfe/validate_save_{$type}",                 $post_id, $object);
-        
-                foreach($hooks as $hook){
-                    do_action("acfe/validate_save_{$type}/{$hook}",     $post_id, $object);
-                }
-        
-                do_action("acfe/validate_save_{$type}/id={$post_id}",   $post_id, $object);
+            // All hooks
+            $all_hooks = array();
+            $all_hooks[] = "acfe/validate_save";
+            $all_hooks[] = "acfe/validate_save/id={$post_id}";
+            $all_hooks[] = "acfe/validate_save_{$type}";
+            foreach($hooks as $hook){
+                $all_hooks[] = "acfe/validate_save_{$type}/{$hook}";
+            }
+            $all_hooks[] = "acfe/validate_save_{$type}/id={$post_id}";
     
+            // Check if hooked
+            $do_action = false;
+    
+            foreach($all_hooks as $all_hook){
+        
+                if(!has_action($all_hook)) continue;
+        
+                $do_action = true;
+                break;
+        
+            }
+    
+            // Bail early
+            if(!$do_action)
+                continue;
+            
+            // Setup Meta
+            acfe_setup_meta($acf, 'acfe/validate_save', true);
+    
+            foreach($all_hooks as $all_hook){
+        
+                do_action($all_hook, $post_id, $object);
+        
+            }
+            
+            // Reset meta
             acfe_reset_meta();
             
         }
@@ -430,9 +476,9 @@ class acfe_hooks{
             return;
     
         acf_hidden_input(array(
-            'id'	=> '_acf_options_page',
-            'name'	=> '_acf_options_page',
-            'value'	=> $plugin_page
+            'id'    => '_acf_options_page',
+            'name'  => '_acf_options_page',
+            'value' => $plugin_page
         ));
         
     }

@@ -19,16 +19,16 @@ class acfe_module_import extends ACF_Admin_Tool{
         
         <div class="acf-fields">
             <?php 
-			
-			acf_render_field_wrap(array(
-				'label'		=> __('Select File', 'acf'),
-				'type'		=> 'file',
-				'name'		=> 'acf_import_file',
-				'value'		=> false,
-				'uploader'	=> 'basic',
-			));
-			
-			?>
+            
+            acf_render_field_wrap(array(
+                'label'     => __('Select File', 'acf'),
+                'type'      => 'file',
+                'name'      => 'acf_import_file',
+                'value'     => false,
+                'uploader'  => 'basic',
+            ));
+            
+            ?>
         </div>
         
         <p class="acf-submit">
@@ -46,10 +46,10 @@ class acfe_module_import extends ACF_Admin_Tool{
         if(!$json)
             return;
         
-    	$ids = array();
-    	
-    	// Loop over json
-    	foreach($json as $name => $args){
+        $ids = array();
+        
+        // Loop over json
+        foreach($json as $name => $args){
         
             // Import
             $post_id = $this->instance->import($name, $args);
@@ -61,33 +61,33 @@ class acfe_module_import extends ACF_Admin_Tool{
                 continue;
             
             }
-	    	
-	    	// append message
-	    	$ids[] = $post_id;
             
-    	}
+            // append message
+            $ids[] = $post_id;
+            
+        }
         
         if(empty($ids))
             return;
-    	
-    	// Count total
-		$total = count($ids);
-		
-		// Generate text
-		$text = sprintf(_n($this->messages['success_single'], $this->messages['success_multiple'], $total, 'acf'), $total);
-		
-		// Add links to text
-		$links = array();
-		foreach($ids as $id){
-			$links[] = '<a href="' . get_edit_post_link($id) . '">' . get_the_title($id) . '</a>';
-		}
         
-		$text .= ': ' . implode(', ', $links);
-		
-		// Add notice
-		acf_add_admin_notice($text, 'success');
-		
-		// Do Action
+        // Count total
+        $total = count($ids);
+        
+        // Generate text
+        $text = sprintf(_n($this->messages['success_single'], $this->messages['success_multiple'], $total, 'acf'), $total);
+        
+        // Add links to text
+        $links = array();
+        foreach($ids as $id){
+            $links[] = '<a href="' . get_edit_post_link($id) . '">' . get_the_title($id) . '</a>';
+        }
+        
+        $text .= ': ' . implode(', ', $links);
+        
+        // Add notice
+        acf_add_admin_notice($text, 'success');
+        
+        // Do Action
         do_action("acfe/{$this->hook}/import", $ids, $json);
         
     }

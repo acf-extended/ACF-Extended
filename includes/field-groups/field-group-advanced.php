@@ -19,8 +19,8 @@ class acfe_field_group_advanced{
     }
     
     /*
-	 * Admin Head
-	 */
+     * Admin Head
+     */
     function admin_head(){
         
         global $field_group;
@@ -42,9 +42,9 @@ class acfe_field_group_advanced{
             'label'         => __('Advanced settings'),
             'name'          => 'acfe_form',
             'prefix'        => 'acf_field_group',
-            'type'			=> 'true_false',
-            'ui'			=> 1,
-            'instructions'	=> __('Enable advanced fields settings & validation'),
+            'type'          => 'true_false',
+            'ui'            => 1,
+            'instructions'  => __('Enable advanced fields settings & validation'),
             'value'         => (isset($field_group['acfe_form'])) ? $field_group['acfe_form'] : '',
             'required'      => false,
             'wrapper'       => array(

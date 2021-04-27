@@ -14,7 +14,7 @@ class acfe_enhanced_ui{
     function __construct(){
         
         // Action
-        add_action('admin_enqueue_scripts',	array($this, 'admin_enqueue_scripts'), 15);
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'), 15);
         
     }
     
@@ -126,7 +126,7 @@ class acfe_enhanced_ui{
         $post_id = 'term_' . $term->term_id;
         
         // screen
-        $screen = "edit-{$taxonomy}";
+        $screen = get_current_screen();
         
         // field groups
         $field_groups = acf_get_field_groups(array(
@@ -137,8 +137,8 @@ class acfe_enhanced_ui{
     
             // form data
             acf_form_data(array(
-                'screen'	=> 'taxonomy',
-                'post_id'	=> $post_id,
+                'screen'    => 'taxonomy',
+                'post_id'   => $post_id,
             ));
             
             $this->add_metaboxes($field_groups, $post_id, $screen);
@@ -225,9 +225,9 @@ class acfe_enhanced_ui{
         (function($){
             
             acfe.enhancedEditUI({
-                screen: 'term-edit',
-                submit: '> .edit-tag-actions',
-                pageTitle: true
+                screen:     'term-edit',
+                submit:     '> .edit-tag-actions',
+                pageTitle:  true
             });
 
         })(jQuery);
@@ -248,8 +248,8 @@ class acfe_enhanced_ui{
     
         // render
         $this->user_add_metaboxes(array(
-            'user_id'	=> $user->ID,
-            'view'		=> 'edit'
+            'user_id'   => $user->ID,
+            'view'      => 'edit'
         ));
     
     }
@@ -287,8 +287,8 @@ class acfe_enhanced_ui{
     
         // args
         $args = wp_parse_args($args, array(
-            'user_id'	=> 0,
-            'view'		=> 'edit'
+            'user_id'    => 0,
+            'view'        => 'edit'
         ));
         
         // screen
@@ -303,8 +303,8 @@ class acfe_enhanced_ui{
     
         // field groups
         $field_groups = acf_get_field_groups(array(
-            'user_id'	=> $args['user_id'] ? $args['user_id'] : 'new',
-            'user_form'	=> $args['view']
+            'user_id'   => $args['user_id'] ? $args['user_id'] : 'new',
+            'user_form' => $args['view']
         ));
         
         if($field_groups){
@@ -348,8 +348,8 @@ class acfe_enhanced_ui{
         (function($){
 
             acfe.enhancedEditUI({
-                screen: 'user-new',
-                pageTitle: true
+                screen:     'user-new',
+                pageTitle:  true
             });
 
         })(jQuery);
@@ -442,8 +442,8 @@ class acfe_enhanced_ui{
             <?php } ?>
 
             acfe.enhancedEditUI({
-                screen: 'settings',
-                pageTitle: pageTitle
+                screen:     'settings',
+                pageTitle:  pageTitle
             });
 
         })(jQuery);
@@ -461,10 +461,10 @@ class acfe_enhanced_ui{
         foreach($field_groups as $field_group){
         
             // vars
-            $id = "acf-{$field_group['key']}";			// acf-group_123
-            $title = $field_group['title'];				// Group 1
-            $context = $field_group['position'];		// normal, side, acf_after_title
-            $priority = 'high';							// high, core, default, low
+            $id = "acf-{$field_group['key']}";      // acf-group_123
+            $title = $field_group['title'];         // Group 1
+            $context = $field_group['position'];    // normal, side, acf_after_title
+            $priority = 'high';                     // high, core, default, low
         
             // Reduce priority for sidebar metaboxes for best position.
             if($context == 'side'){
@@ -475,11 +475,11 @@ class acfe_enhanced_ui{
         
             // Localize data
             $postboxes[] = array(
-                'id'		=> $id,
-                'key'		=> $field_group['key'],
-                'style'		=> $field_group['style'],
-                'label'		=> $field_group['label_placement'],
-                'edit'		=> acf_get_field_group_edit_link($field_group['ID'])
+                'id'    => $id,
+                'key'   => $field_group['key'],
+                'style' => $field_group['style'],
+                'label' => $field_group['label_placement'],
+                'edit'  => acf_get_field_group_edit_link($field_group['ID'])
             );
         
             // Add meta box
@@ -489,7 +489,7 @@ class acfe_enhanced_ui{
     
         // Localize postboxes.
         acf_localize_data(array(
-            'postboxes'	=> $postboxes
+            'postboxes' => $postboxes
         ));
     
     }
