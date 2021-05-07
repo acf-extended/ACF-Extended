@@ -34,17 +34,24 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
      */
     function actions(){
         
+        // Validate
         add_filter('acf/validate_value/key=field_acfe_dbt_name',    array($this, 'validate_name'), 10, 4);
         add_filter('acf/update_value/key=field_acfe_dbt_name',      array($this, 'update_name'), 10, 3);
         
-        // Save
+        // Register
         add_filter('acfe/block_type/register',                      array($this, 'register'), 10, 2);
+        
+        // Save
         add_filter('acfe/block_type/save_args',                     array($this, 'save_args'), 10, 3);
         add_action('acfe/block_type/save',                          array($this, 'save'), 10, 3);
         
         // Import
         add_action('acfe/block_type/import_fields',                 array($this, 'import_fields'), 10, 3);
         add_action('acfe/block_type/import',                        array($this, 'after_import'), 10, 2);
+    
+        // Multilang
+        add_action('acfe/block_type/save',                          array($this, 'l10n_save'), 10, 3);
+        add_filter('acfe/block_type/register',                      array($this, 'l10n_register'), 10, 2);
     
         $this->register_user_block_types();
         
@@ -373,194 +380,6 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
     }
     
     /*
-     * ACF Save post
-     */
-    function save_post($post_id){
-    
-        // vars
-        $args = array();
-        $name = $this->get_name($post_id);
-    
-        // Filters
-        $args = apply_filters("acfe/block_type/save_args",                  $args, $name, $post_id);
-        $args = apply_filters("acfe/block_type/save_args/name={$name}",     $args, $name, $post_id);
-        $args = apply_filters("acfe/block_type/save_args/id={$post_id}",    $args, $name, $post_id);
-    
-        if($args === false)
-            return;
-    
-        // Actions
-        do_action("acfe/block_type/save",               $name, $args, $post_id);
-        do_action("acfe/block_type/save/name={$name}",  $name, $args, $post_id);
-        do_action("acfe/block_type/save/id={$post_id}", $name, $args, $post_id);
-        
-    }
-    
-    /*
-     * Save Args
-     */
-    function save_args($args, $name, $post_id){
-        
-        $label = get_post_field('post_title', $post_id);
-        $name = get_field('name', $post_id);
-        $description = get_field('description', $post_id);
-        $category = get_field('category', $post_id);
-        $keywords = acf_decode_choices(get_field('keywords', $post_id), true);
-        $post_types = acf_get_array(get_field('post_types', $post_id));
-        $mode = get_field('mode', $post_id);
-        $align = get_field('align', $post_id);
-        $align_content = get_field('align_content', $post_id);
-        $render_template = get_field('render_template', $post_id);
-        $render_callback = get_field('render_callback', $post_id);
-        $enqueue_style = get_field('enqueue_style', $post_id);
-        $enqueue_script = get_field('enqueue_script', $post_id);
-        $enqueue_assets = get_field('enqueue_assets', $post_id);
-    
-        // Register: Args
-        $args = array(
-            'name'              => $name,
-            'title'             => $label,
-            'description'       => $description,
-            'category'          => $category,
-            'keywords'          => $keywords,
-            'post_types'        => $post_types,
-            'mode'              => $mode,
-            'align'             => $align,
-            'align_content'     => $align_content,
-            'render_template'   => $render_template,
-            'render_callback'   => $render_callback,
-            'enqueue_style'     => $enqueue_style,
-            'enqueue_script'    => $enqueue_script,
-            'enqueue_assets'    => $enqueue_assets,
-        );
-    
-        // Align
-        if($align === 'none')
-            $args['align'] = '';
-    
-        // Icon
-        $icon_type = get_field('icon_type', $post_id);
-    
-        // Icon: Simple
-        if($icon_type === 'simple'){
-        
-            $icon_text = get_field('icon_text', $post_id);
-            $args['icon'] = $icon_text;
-        
-        }
-    
-        // Icon: Colors
-        elseif($icon_type == 'colors'){
-        
-            $icon_background = get_field('icon_background', $post_id);
-            $icon_foreground = get_field('icon_foreground', $post_id);
-            $icon_src = get_field('icon_src', $post_id);
-        
-            $args['icon'] = array(
-                'background'    => $icon_background,
-                'foreground'    => $icon_foreground,
-                'src'           => $icon_src,
-            );
-        
-        }
-    
-        // Supports: Align
-        $supports_align = get_field('supports_align', $post_id);
-        $supports_align_args = acf_decode_choices(get_field('supports_align_args', $post_id), true);
-    
-        $args['supports']['align'] = false;
-        if(!empty($supports_align)){
-        
-            $args['supports']['align'] = true;
-        
-            if(!empty($supports_align_args))
-                $args['supports']['align'] = $supports_align_args;
-        
-        }
-    
-        // Supports: Mode
-        $supports_mode = get_field('supports_mode', $post_id);
-    
-        $args['supports']['mode'] = false;
-        if(!empty($supports_mode))
-            $args['supports']['mode'] = true;
-    
-        // Supports: Multiple
-        $supports_multiple = get_field('supports_multiple', $post_id);
-    
-        $args['supports']['multiple'] = false;
-        if(!empty($supports_multiple))
-            $args['supports']['multiple'] = true;
-    
-        // Supports: Experimental JSX
-        $experimental_jsx = get_field('supports_experimental_jsx', $post_id);
-    
-        $args['supports']['jsx'] = false;
-        if(!empty($experimental_jsx))
-            $args['supports']['jsx'] = true;
-    
-        // Supports: Align Content
-        $supports_align_content = get_field('supports_align_content', $post_id);
-    
-        $args['supports']['align_content'] = false;
-        if(!empty($supports_align_content))
-            $args['supports']['align_content'] = true;
-    
-        // Supports: Anchor
-        $supports_anchor = get_field('supports_anchor', $post_id);
-    
-        $args['supports']['anchor'] = false;
-        if(!empty($supports_anchor))
-            $args['supports']['anchor'] = true;
-        
-        return $args;
-        
-    }
-    
-    /*
-     * Save
-     */
-    function save($name, $args, $post_id){
-    
-        // Get ACFE option
-        $settings = acfe_get_settings($this->settings);
-    
-        // Create ACFE option
-        $settings[$name] = $args;
-    
-        // Sort keys ASC
-        ksort($settings);
-    
-        // Update ACFE option
-        acfe_update_settings($this->settings, $settings);
-    
-        // Update post
-        wp_update_post(array(
-            'ID'            => $post_id,
-            'post_name'     => $name,
-        ));
-        
-    }
-    
-    /*
-     * Trashed Post Type
-     */
-    function trashed_post($post_id){
-        
-        $name = $this->get_name($post_id);
-    
-        // Get ACFE option
-        $settings = acfe_get_settings($this->settings);
-    
-        // Unset ACFE option
-        acfe_unset($settings, $name);
-    
-        // Update ACFE option
-        acfe_update_settings($this->settings, $settings);
-    
-    }
-    
-    /*
      * Validate Name
      */
     function validate_name($valid, $value, $field, $input){
@@ -612,16 +431,6 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
      * Register
      */
     function register($args, $name){
-    
-        // Translate: Title
-        if(isset($args['title'])){
-            acfe__($args['title'], 'Title', $this->textdomain);
-        }
-    
-        // Translate: Description
-        if(isset($args['description'])){
-            acfe__($args['description'], 'Description', $this->textdomain);
-        }
         
         // Template
         if(acf_maybe_get($args, 'render_template')){
@@ -651,6 +460,195 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
         }
         
         return $args;
+        
+    }
+    
+    /*
+     * ACF Save post
+     */
+    function save_post($post_id){
+        
+        // vars
+        $args = array();
+        $name = $this->get_name($post_id);
+        
+        // Filters
+        $args = apply_filters("acfe/block_type/save_args",                  $args, $name, $post_id);
+        $args = apply_filters("acfe/block_type/save_args/name={$name}",     $args, $name, $post_id);
+        $args = apply_filters("acfe/block_type/save_args/id={$post_id}",    $args, $name, $post_id);
+        
+        if($args === false)
+            return;
+        
+        // Actions
+        do_action("acfe/block_type/save",               $name, $args, $post_id);
+        do_action("acfe/block_type/save/name={$name}",  $name, $args, $post_id);
+        do_action("acfe/block_type/save/id={$post_id}", $name, $args, $post_id);
+        
+    }
+    
+    /*
+     * Save Args
+     */
+    function save_args($args, $name, $post_id){
+        
+        $label = get_post_field('post_title', $post_id);
+        $name = get_field('name', $post_id);
+        $description = get_field('description', $post_id);
+        $category = get_field('category', $post_id);
+        $keywords = acf_decode_choices(get_field('keywords', $post_id), true);
+        $post_types = acf_get_array(get_field('post_types', $post_id));
+        $mode = get_field('mode', $post_id);
+        $align = get_field('align', $post_id);
+        $align_content = get_field('align_content', $post_id);
+        $render_template = get_field('render_template', $post_id);
+        $render_callback = get_field('render_callback', $post_id);
+        $enqueue_style = get_field('enqueue_style', $post_id);
+        $enqueue_script = get_field('enqueue_script', $post_id);
+        $enqueue_assets = get_field('enqueue_assets', $post_id);
+        
+        // Register: Args
+        $args = array(
+            'name'              => $name,
+            'title'             => $label,
+            'description'       => $description,
+            'category'          => $category,
+            'keywords'          => $keywords,
+            'post_types'        => $post_types,
+            'mode'              => $mode,
+            'align'             => $align,
+            'align_content'     => $align_content,
+            'render_template'   => $render_template,
+            'render_callback'   => $render_callback,
+            'enqueue_style'     => $enqueue_style,
+            'enqueue_script'    => $enqueue_script,
+            'enqueue_assets'    => $enqueue_assets,
+        );
+        
+        // Align
+        if($align === 'none')
+            $args['align'] = '';
+        
+        // Icon
+        $icon_type = get_field('icon_type', $post_id);
+        
+        // Icon: Simple
+        if($icon_type === 'simple'){
+            
+            $icon_text = get_field('icon_text', $post_id);
+            $args['icon'] = $icon_text;
+            
+        }
+        
+        // Icon: Colors
+        elseif($icon_type == 'colors'){
+            
+            $icon_background = get_field('icon_background', $post_id);
+            $icon_foreground = get_field('icon_foreground', $post_id);
+            $icon_src = get_field('icon_src', $post_id);
+            
+            $args['icon'] = array(
+                'background'    => $icon_background,
+                'foreground'    => $icon_foreground,
+                'src'           => $icon_src,
+            );
+            
+        }
+        
+        // Supports: Align
+        $supports_align = get_field('supports_align', $post_id);
+        $supports_align_args = acf_decode_choices(get_field('supports_align_args', $post_id), true);
+        
+        $args['supports']['align'] = false;
+        if(!empty($supports_align)){
+            
+            $args['supports']['align'] = true;
+            
+            if(!empty($supports_align_args))
+                $args['supports']['align'] = $supports_align_args;
+            
+        }
+        
+        // Supports: Mode
+        $supports_mode = get_field('supports_mode', $post_id);
+        
+        $args['supports']['mode'] = false;
+        if(!empty($supports_mode))
+            $args['supports']['mode'] = true;
+        
+        // Supports: Multiple
+        $supports_multiple = get_field('supports_multiple', $post_id);
+        
+        $args['supports']['multiple'] = false;
+        if(!empty($supports_multiple))
+            $args['supports']['multiple'] = true;
+        
+        // Supports: Experimental JSX
+        $experimental_jsx = get_field('supports_experimental_jsx', $post_id);
+        
+        $args['supports']['jsx'] = false;
+        if(!empty($experimental_jsx))
+            $args['supports']['jsx'] = true;
+        
+        // Supports: Align Content
+        $supports_align_content = get_field('supports_align_content', $post_id);
+        
+        $args['supports']['align_content'] = false;
+        if(!empty($supports_align_content))
+            $args['supports']['align_content'] = true;
+        
+        // Supports: Anchor
+        $supports_anchor = get_field('supports_anchor', $post_id);
+        
+        $args['supports']['anchor'] = false;
+        if(!empty($supports_anchor))
+            $args['supports']['anchor'] = true;
+        
+        return $args;
+        
+    }
+    
+    /*
+     * Save
+     */
+    function save($name, $args, $post_id){
+        
+        // Get ACFE option
+        $settings = acfe_get_settings($this->settings);
+        
+        // Create ACFE option
+        $settings[$name] = $args;
+        
+        // Sort keys ASC
+        ksort($settings);
+        
+        // Update ACFE option
+        acfe_update_settings($this->settings, $settings);
+        
+        // Update post
+        wp_update_post(array(
+            'ID'            => $post_id,
+            'post_name'     => $name,
+            'post_status'   => 'publish',
+        ));
+        
+    }
+    
+    /*
+     * Trashed Post Type
+     */
+    function trashed_post($post_id){
+        
+        $name = $this->get_name($post_id);
+        
+        // Get ACFE option
+        $settings = acfe_get_settings($this->settings);
+        
+        // Unset ACFE option
+        acfe_unset($settings, $name);
+        
+        // Update ACFE option
+        acfe_update_settings($this->settings, $settings);
         
     }
     
@@ -903,6 +901,46 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
         acf_log('[ACF Extended] Reset: Block Types');
         
         return true;
+        
+    }
+    
+    /*
+     * Multilang Save
+     */
+    function l10n_save($name, $args, $post_id){
+        
+        // Bail early
+        if(!acfe_is_wpml())
+            return;
+        
+        // Translate: Title
+        if(isset($args['title'])){
+            do_action('wpml_register_single_string', $this->textdomain, 'Title', $args['title']);
+        }
+        
+        // Translate: Description
+        if(isset($args['description'])){
+            do_action('wpml_register_single_string', $this->textdomain, 'Description', $args['description']);
+        }
+        
+    }
+    
+    /*
+     * Multilang Register
+     */
+    function l10n_register($args, $name){
+        
+        // Translate: Title
+        if(isset($args['title'])){
+            $args['title'] = acfe_translate($args['title'], 'Title', $this->textdomain);
+        }
+        
+        // Translate: Description
+        if(isset($args['description'])){
+            $args['description'] = acfe_translate($args['description'], 'Description', $this->textdomain);
+        }
+        
+        return $args;
         
     }
     

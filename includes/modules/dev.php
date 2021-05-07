@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
     exit;
 
 // Check setting
-if((!acfe_is_dev() && !acfe_is_super_dev()) || !acf_get_setting('show_admin'))
+if((!acfe_is_dev() && !acfe_is_super_dev()) || !acf_current_user_can_admin())
     return;
 
 if(!class_exists('acfe_dev')):

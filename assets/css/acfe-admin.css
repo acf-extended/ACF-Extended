@@ -532,11 +532,18 @@ body.post-type-acfe-template .column-acfe-terms {
     margin: 0
 }
 
-.postbox#acfe-acf-custom-fields+.tablenav,
-.postbox#acfe-wp-custom-fields+.tablenav,
-.postbox#acfe-wp-object+.tablenav {
+.postbox#acfe-acf-custom-fields+.acfe_dev_bulk_actions,
+.postbox#acfe-wp-custom-fields+.acfe_dev_bulk_actions,
+.postbox#acfe-wp-object+.acfe_dev_bulk_actions {
     padding-top: 0;
-    margin-top: -8px
+    margin-top: -8px;
+    margin-bottom: 20px
+}
+
+.postbox#acfe-acf-custom-fields+.acfe_dev_bulk_actions:last-child,
+.postbox#acfe-wp-custom-fields+.acfe_dev_bulk_actions:last-child,
+.postbox#acfe-wp-object+.acfe_dev_bulk_actions:last-child {
+    margin-bottom: 0
 }
 
 .postbox#acfe-acf-custom-fields em,

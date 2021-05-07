@@ -83,7 +83,7 @@ class acfe_field_taxonomies extends acf_field{
                 'object'        => __('Taxonomy object', 'acfe'),
                 'name'          => __('Taxonomy name', 'acfe')
             ),
-            'layout'        =>    'horizontal',
+            'layout'        => 'horizontal',
         ));
         
         // Select + Radio: allow_null
@@ -377,31 +377,39 @@ class acfe_field_taxonomies extends acf_field{
     }
     
     function format_value($value, $post_id, $field){
+    
+        // Bail early
+        if(empty($value))
+            return $value;
+    
+        // Vars
+        $is_array = is_array($value);
+        $value = acf_get_array($value);
+    
+        // Loop
+        foreach($value as &$v){
         
-        // Return: object
-        if($field['return_format'] === 'object'){
+            // Retrieve Object
+            $object = get_taxonomy($v);
+        
+            if(!$object || is_wp_error($object))
+                continue;
+        
+            // Return: Object
+            if($field['return_format'] === 'object'){
             
-            // array
-            if(acf_is_array($value)){
-                
-                foreach($value as $i => $v){
-                    
-                    if($get_taxonomy = get_taxonomy($v))
-                        $value[$i] = $get_taxonomy;
-                    
-                }
+                $v = $object;
             
-            // string
-            }else{
-                
-                if($get_taxonomy = get_taxonomy($value))
-                    $value = $get_taxonomy;
-                
             }
         
         }
-        
-        // return
+    
+        // Do not return array
+        if(!$is_array){
+            $value = acfe_unarray($value);
+        }
+    
+        // Return
         return $value;
         
     }

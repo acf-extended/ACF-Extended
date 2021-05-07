@@ -2438,6 +2438,7 @@ function acfe_recaptcha() {
             $label.remove();
 
             var $parent = $field.parent();
+            $parent.addClass('acfe-column-wrapper');
             $wrap.addClass($parent.hasClass('-left') ? '-left' : '');
             $wrap.addClass($parent.hasClass('-clear') ? '-clear' : '');
 
@@ -2922,13 +2923,13 @@ function acfe_recaptcha() {
         return;
 
     /*
-     * Field Conditions: Checkbox & Radio
+     * Checkbox & Radio
      */
     acf.registerConditionForFieldType('contains', 'checkbox');
     acf.registerConditionForFieldType('contains', 'radio');
 
     /*
-     * Field Conditions: Code Editor
+     * Code Editor
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_code_editor');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_code_editor');
@@ -2938,7 +2939,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_code_editor');
 
     /*
-     * Field Conditions: Datepicker
+     * Date Picker
      */
     acf.registerConditionForFieldType('equalTo', 'date_picker');
     acf.registerConditionForFieldType('notEqualTo', 'date_picker');
@@ -2948,7 +2949,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('lessThan', 'date_picker');
 
     /*
-     * Field Conditions: Datetime picker
+     * Date Time Picker
      */
     acf.registerConditionForFieldType('equalTo', 'date_time_picker');
     acf.registerConditionForFieldType('notEqualTo', 'date_time_picker');
@@ -2956,25 +2957,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('contains', 'date_time_picker');
 
     /*
-     * Field Conditions: Timepicker
-     */
-    acf.registerConditionForFieldType('equalTo', 'time_picker');
-    acf.registerConditionForFieldType('notEqualTo', 'time_picker');
-    acf.registerConditionForFieldType('patternMatch', 'time_picker');
-    acf.registerConditionForFieldType('contains', 'time_picker');
-
-    /*
-     * Field Conditions: Taxonomy
-     */
-    acf.registerConditionForFieldType('equalTo', 'taxonomy');
-    acf.registerConditionForFieldType('notEqualTo', 'taxonomy');
-    acf.registerConditionForFieldType('patternMatch', 'taxonomy');
-    acf.registerConditionForFieldType('contains', 'taxonomy');
-    acf.registerConditionForFieldType('hasValue', 'taxonomy');
-    acf.registerConditionForFieldType('hasNoValue', 'taxonomy');
-
-    /*
-     * Field Conditions: Forms
+     * Forms
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_forms');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_forms');
@@ -2984,7 +2967,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_forms');
 
     /*
-     * Field Conditions: Hidden
+     * Hidden
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_hidden');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_hidden');
@@ -2994,7 +2977,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_hidden');
 
     /*
-     * Field Conditions: Post Status
+     * Post Status
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_post_statuses');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_post_statuses');
@@ -3004,7 +2987,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_post_statuses');
 
     /*
-     * Field Conditions: Post Types
+     * Post Types
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_post_types');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_post_types');
@@ -3014,7 +2997,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_post_types');
 
     /*
-     * Field Conditions: Slug
+     * Slug
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_slug');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_slug');
@@ -3024,7 +3007,7 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_slug');
 
     /*
-     * Field Conditions: Taxonomies
+     * Taxonomies
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_taxonomies');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_taxonomies');
@@ -3034,7 +3017,17 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_taxonomies');
 
     /*
-     * Field Conditions: Taxonomy Terms
+     * Taxonomy
+     */
+    acf.registerConditionForFieldType('equalTo', 'taxonomy');
+    acf.registerConditionForFieldType('notEqualTo', 'taxonomy');
+    acf.registerConditionForFieldType('patternMatch', 'taxonomy');
+    acf.registerConditionForFieldType('contains', 'taxonomy');
+    acf.registerConditionForFieldType('hasValue', 'taxonomy');
+    acf.registerConditionForFieldType('hasNoValue', 'taxonomy');
+
+    /*
+     * Taxonomy Terms
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_taxonomy_terms');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_taxonomy_terms');
@@ -3044,7 +3037,15 @@ function acfe_recaptcha() {
     acf.registerConditionForFieldType('hasNoValue', 'acfe_taxonomy_terms');
 
     /*
-     * Field Conditions: User Roles
+     * Time Picker
+     */
+    acf.registerConditionForFieldType('equalTo', 'time_picker');
+    acf.registerConditionForFieldType('notEqualTo', 'time_picker');
+    acf.registerConditionForFieldType('patternMatch', 'time_picker');
+    acf.registerConditionForFieldType('contains', 'time_picker');
+
+    /*
+     * User Roles
      */
     acf.registerConditionForFieldType('equalTo', 'acfe_user_roles');
     acf.registerConditionForFieldType('notEqualTo', 'acfe_user_roles');

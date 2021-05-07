@@ -497,6 +497,7 @@ class acfe_dynamic_forms_helpers{
                 return array();
             
             $array = $_POST['acf'];
+            $array = wp_unslash($array);
             
         }
         

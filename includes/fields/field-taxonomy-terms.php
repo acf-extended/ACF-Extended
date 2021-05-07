@@ -791,7 +791,7 @@ class acfe_field_taxonomy_terms extends acf_field{
                 'name'          => __('Term name', 'acfe'),
                 'id'            => __('Term ID', 'acfe'),
             ),
-            'layout'        =>    'horizontal',
+            'layout'        => 'horizontal',
         ));
         
         // Select: ui
@@ -1133,52 +1133,44 @@ class acfe_field_taxonomy_terms extends acf_field{
     }
     
     function format_value($value, $post_id, $field){
-        
+    
+        // Bail early
         if(empty($value))
             return $value;
+    
+        // Vars
+        $is_array = is_array($value);
+        $value = acf_get_array($value);
+    
+        // Loop
+        foreach($value as &$v){
         
-        // Return: object
-        if($field['return_format'] === 'object' || $field['return_format'] === 'name'){
+            // Retrieve Object
+            $object = get_term($v);
+        
+            if(!$object || is_wp_error($object))
+                continue;
+        
+            // Return: Object
+            if($field['return_format'] === 'object'){
             
-            // array
-            if(acf_is_array($value)){
-                
-                foreach($value as $i => $v){
-                    
-                    $term = get_term($v);
-                    
-                    if($field['return_format'] === 'object'){
-                        
-                        $value[$i] = $term;
-                        
-                    }elseif($field['return_format'] === 'name'){
-                        
-                        $value[$i] = $term->name;
-                        
-                    }
-                    
-                }
-            
-            // string
-            }else{
-                
-                $term = get_term($value);
-                
-                if($field['return_format'] === 'object'){
-                    
-                    $value = $term;
-                    
-                }elseif($field['return_format'] === 'name'){
-                    
-                    $value = $term->name;
-                    
-                }
+                $v = $object;
+    
+            // Return: Name
+            }elseif($field['return_format'] === 'name'){
+    
+                $v = $object->name;
                 
             }
         
         }
-        
-        // return
+    
+        // Do not return array
+        if(!$is_array){
+            $value = acfe_unarray($value);
+        }
+    
+        // Return
         return $value;
         
     }

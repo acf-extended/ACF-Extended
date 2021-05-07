@@ -456,6 +456,7 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         wp_update_post(array(
             'ID'            => $post_id,
             'post_name'     => $name,
+            'post_status'   => 'publish',
         ));
         
         // Get generated post name (possible name-2)

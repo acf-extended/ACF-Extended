@@ -435,6 +435,10 @@ class acfe_form_front{
         // load acf scripts
         acf_enqueue_scripts();
         
+        // Vars
+        $field_groups = array();
+        $fields = array();
+        
         // Check Flexible Preview & Block Type Preview
         $is_dynamic_preview = acfe_is_dynamic_preview();
         
@@ -538,7 +542,7 @@ class acfe_form_front{
             
         }
         
-        // uploader (always set incase of multiple forms on the page)
+        // uploader (always set in case of multiple forms on the page)
         acf_disable_filter('acfe/form/uploader');
         
         if($args['uploader'] !== 'default'){
@@ -556,11 +560,19 @@ class acfe_form_front{
 
         ?>
     
-        <?php do_action('acfe/form/render/before_form'); ?>
+        <?php
+        do_action("acfe/form/render/before_form",                       $args);
+        do_action("acfe/form/render/before_form/id={$args['ID']}",      $args);
+        do_action("acfe/form/render/before_form/name={$args['name']}",  $args);
+        ?>
         
         <<?php echo $wrapper; ?> <?php acf_esc_attr_e($args['form_attributes']); ?>>
     
-        <?php do_action('acfe/form/render/before_fields'); ?>
+        <?php
+        do_action("acfe/form/render/before_fields",                         $args);
+        do_action("acfe/form/render/before_fields/id={$args['ID']}",        $args);
+        do_action("acfe/form/render/before_fields/name={$args['name']}",    $args);
+        ?>
             
         <?php
         
@@ -589,6 +601,8 @@ class acfe_form_front{
                 
                 // Custom HTML
                 if(!empty($args['custom_html_enabled']) && !empty($args['custom_html'])){
+    
+                    acf_render_fields($fields, false, $args['field_el'], $args['instruction_placement']);
                     
                     echo acfe_form_render_fields($args['custom_html'], $args['post_id'], $args);
                 
@@ -596,10 +610,6 @@ class acfe_form_front{
                 
                 // Normal Render
                 else{
-    
-                    // vars
-                    $field_groups = array();
-                    $fields = array();
     
                     // Post Field groups (Deprecated)
                     if($args['post_field_groups']){
@@ -708,11 +718,19 @@ class acfe_form_front{
             
             <?php endif; ?>
             
-            <?php do_action('acfe/form/render/after_fields'); ?>
+            <?php
+            do_action("acfe/form/render/after_fields",                      $args);
+            do_action("acfe/form/render/after_fields/id={$args['ID']}",     $args);
+            do_action("acfe/form/render/after_fields/name={$args['name']}", $args);
+            ?>
         
         </<?php echo $wrapper; ?>>
     
-        <?php do_action('acfe/form/render/after_form'); ?>
+        <?php
+        do_action("acfe/form/render/after_form",                        $args);
+        do_action("acfe/form/render/after_form/id={$args['ID']}",       $args);
+        do_action("acfe/form/render/after_form/name={$args['name']}",   $args);
+        ?>
         
         <?php
     

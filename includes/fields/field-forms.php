@@ -93,7 +93,7 @@ class acfe_field_forms extends acf_field{
                 'id'    => __('Form ID', 'acfe'),
                 'name'  => __('Form name', 'acfe')
             ),
-            'layout'        =>    'horizontal',
+            'layout'        => 'horizontal',
         ));
         
         // Select + Radio: allow_null
@@ -367,31 +367,39 @@ class acfe_field_forms extends acf_field{
     }
     
     function format_value($value, $post_id, $field){
+    
+        // Bail early
+        if(empty($value))
+            return $value;
+    
+        // Vars
+        $is_array = is_array($value);
+        $value = acf_get_array($value);
+    
+        // Loop
+        foreach($value as &$v){
         
-        // Return: name
-        if($field['return_format'] === 'name'){
+            // Retrieve Object
+            $object = get_field('acfe_form_name', $v);
             
-            // array
-            if(acf_is_array($value)){
-                
-                foreach($value as $i => $v){
-                    
-                    $form_name = get_field('acfe_form_name', $v);
-                    
-                    $value[$i] = $form_name;
-                    
-                }
+            if(!$object || is_wp_error($object))
+                continue;
+        
+            // Return: Name
+            if($field['return_format'] === 'name'){
             
-            // string
-            }else{
-                
-                $value = get_field('acfe_form_name', $value);
-                
+                $v = $object;
+            
             }
-            
-        }
         
-        // return
+        }
+    
+        // Do not return array
+        if(!$is_array){
+            $value = acfe_unarray($value);
+        }
+    
+        // Return
         return $value;
         
     }

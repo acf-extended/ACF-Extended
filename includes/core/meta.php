@@ -76,7 +76,7 @@ class ACFE_Local_Meta{
      */
     function pre_load_post_id($null, $post_id){
         
-        if(!$post_id && end($this->curr_id) === end($this->main_id)){
+        if(!$post_id && $this->main_id && end($this->curr_id) === end($this->main_id)){
             return end($this->main_id);
         }
         
@@ -101,10 +101,27 @@ class ACFE_Local_Meta{
         
         // Listen for any added meta.
         add_filter('acf/pre_update_metadata', array($this, 'capture_update_metadata'), 1, 5);
-        
+    
         // Simulate update.
         if($values){
-            $this->update_values($values, $post_id);
+            
+            // Get hook variations
+            $hook = acf_get_store('hook-variations')->get('acf/update_value');
+            
+            // Clone Hook
+            $_hook = $hook;
+            unset($_hook['variations'][1]); // unset name
+            unset($_hook['variations'][2]); // unset key
+            
+            // Update hook variations
+            acf_get_store('hook-variations')->set('acf/update_value', $_hook);
+            
+            // update values
+            acf_update_values($values, $post_id);
+            
+            // Reset hook variations back to default
+            acf_get_store('hook-variations')->set('acf/update_value', $hook);
+            
         }
         
         // Remove listener filter.
@@ -158,58 +175,6 @@ class ACFE_Local_Meta{
         }
         
         return $null;
-        
-    }
-    
-    /*
-     * Update Values: Proxy acf_update_values
-     * /advanced-custom-fields-pro/includes/acf-value-functions.php:218
-     */
-    function update_values($values, $post_id){
-    
-        foreach($values as $key => $value){
-            
-            $field = acf_get_field($key);
-            
-            if($field){
-                $this->update_value($value, $post_id, $field);
-            }
-            
-        }
-        
-    }
-    
-    /*
-     * Update Value: Proxy acf_update_value
-     * /advanced-custom-fields-pro/includes/acf-value-functions.php:164
-     */
-    function update_value($value, $post_id, $field){
-    
-        // Allow filter to short-circuit update_value logic.
-        $check = apply_filters("acf/pre_update_value", null, $value, $post_id, $field);
-        if($check !== null){
-            return $check;
-        }
-        
-        // ACF Extended: Use field type filter only
-        $value = apply_filters("acf/update_value/type={$field['type']}", $value, $post_id, $field, $value);
-    
-        // Allow null to delete value.
-        if($value === null){
-            return acf_delete_value($post_id, $field);
-        }
-    
-        // Update meta.
-        $return = acf_update_metadata($post_id, $field['name'], $value);
-    
-        // Update reference.
-        acf_update_metadata($post_id, $field['name'], $field['key'], true);
-    
-        // Delete stored data.
-        acf_flush_value_cache($post_id, $field['name']);
-    
-        // Return update status.
-        return $return;
         
     }
     

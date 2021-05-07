@@ -566,12 +566,18 @@ acf_new_instance('acfe_multilang');
 
 endif;
 
+/*
+ * Is Multilang Enabled
+ */
 function acfe_is_multilang(){
     
     return acf_get_instance('acfe_multilang')->is_multilang;
     
 }
 
+/*
+ * Get Multilang Data
+ */
 function acfe_get_multilang(){
     
     $wpml = acf_get_instance('acfe_multilang')->is_wpml;
@@ -588,24 +594,36 @@ function acfe_get_multilang(){
     
 }
 
+/*
+ * Get Languages
+ */
 function acfe_get_languages($pluck = 'code', $type = 'all', $plugin = false){
     
     return acf_get_instance('acfe_multilang')->get_languages($pluck, $type, $plugin);
     
 }
 
+/*
+ * Is Polylang
+ */
 function acfe_is_polylang(){
     
     return acf_get_instance('acfe_multilang')->is_polylang;
     
 }
 
+/*
+ * Is WPML
+ */
 function acfe_is_wpml(){
     
     return acf_get_instance('acfe_multilang')->is_wpml;
     
 }
 
+/*
+ * Get Post Language
+ */
 function acfe_get_post_lang($post_id, $field = false){
     
     // Bail early if not multilang
@@ -652,6 +670,9 @@ function acfe_get_post_lang($post_id, $field = false){
     
 }
 
+/*
+ * Get Post Translated
+ */
 function acfe_get_post_translated($post_id, $lang = false){
     
     // Bail early if not multilang
@@ -682,6 +703,9 @@ function acfe_get_post_translated($post_id, $lang = false){
     
 }
 
+/*
+ * Get Default Post Translated
+ */
 function acfe_get_post_translated_default($post_id){
     
     // Get translated post id
@@ -695,44 +719,57 @@ function acfe_get_post_translated_default($post_id){
     
 }
 
-function acfe__(&$string, $name = false, $textdomain = 'acfe'){
+/*
+ * Translate String
+ */
+function acfe_translate($string, $name = false, $textdomain = 'acfe'){
     
+    // Bail early
     if(!acfe_is_multilang() || empty($string))
         return __($string, $textdomain);
     
+    // Name compatibility
     if(empty($name))
         $name = $string;
     
     // WPML
     if(acfe_is_wpml()){
         
-        do_action('wpml_register_single_string', $textdomain, $name, $string);
-        
-        $string = apply_filters('wpml_translate_single_string', $string, $textdomain, $name);
-        
-        return $string;
+        // Translate (Register string during save)
+        return apply_filters('wpml_translate_single_string', $string, $textdomain, $name);
         
     }
     
     // PolyLang
     if(acfe_is_polylang()){
         
+        // Register string
         pll_register_string($name, $string, $textdomain);
         
-        $string = pll__($string);
-        
-        return $string;
+        // Translate
+        return pll__($string);
         
     }
     
-    $string = __($string, $textdomain);
-    
-    return $string;
+    // Default Translate
+    return __($string, $textdomain);
     
 }
 
+/*
+ * Deprecated Translate String
+ */
+function acfe__($string, $name = false, $textdomain = 'acfe'){
+    
+    return acfe_translate($string, $name, $textdomain);
+    
+}
+
+/*
+ * Deprecated Translate String (echo)
+ */
 function acfe__e($string, $name = false, $textdomain = 'acfe'){
     
-    echo acfe__($string, $name, $textdomain);
+    echo acfe_translate($string, $name, $textdomain);
     
 }

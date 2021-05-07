@@ -10,7 +10,7 @@ class acfe_field_post_types extends acf_field{
     function __construct(){
         
         $this->name = 'acfe_post_types';
-        $this->label = __('Post types', 'acfe');
+        $this->label = __('Post Types', 'acfe');
         $this->category = 'WordPress';
         $this->defaults = array(
             'post_type'             => array(),
@@ -83,7 +83,7 @@ class acfe_field_post_types extends acf_field{
                 'object'        => __('Post type object', 'acfe'),
                 'name'          => __('Post type name', 'acfe')
             ),
-            'layout'        =>    'horizontal',
+            'layout'        => 'horizontal',
         ));
         
         // Select + Radio: allow_null
@@ -378,31 +378,39 @@ class acfe_field_post_types extends acf_field{
     }
     
     function format_value($value, $post_id, $field){
+    
+        // Bail early
+        if(empty($value))
+            return $value;
+    
+        // Vars
+        $is_array = is_array($value);
+        $value = acf_get_array($value);
+    
+        // Loop
+        foreach($value as &$v){
         
-        // Return: object
-        if($field['return_format'] === 'object'){
+            // Retrieve Object
+            $object = get_post_type_object($v);
+        
+            if(!$object || is_wp_error($object))
+                continue;
+        
+            // Return: Object
+            if($field['return_format'] === 'object'){
             
-            // array
-            if(acf_is_array($value)){
-                
-                foreach($value as $i => $v){
-                    
-                    if($get_post_type_object = get_post_type_object($v))
-                        $value[$i] = $get_post_type_object;
-                    
-                }
+                $v = $object;
             
-            // string
-            }else{
-                
-                if($get_post_type_object = get_post_type_object($value))
-                    $value = $get_post_type_object;
-                
             }
         
         }
-        
-        // return
+    
+        // Do not return array
+        if(!$is_array){
+            $value = acfe_unarray($value);
+        }
+    
+        // Return
         return $value;
         
     }

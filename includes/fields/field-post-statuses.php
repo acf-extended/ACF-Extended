@@ -83,7 +83,7 @@ class acfe_field_post_statuses extends acf_field{
                 'object'        => __('Post status object', 'acfe'),
                 'name'          => __('Post status name', 'acfe')
             ),
-            'layout'        =>    'horizontal',
+            'layout'        => 'horizontal',
         ));
         
         // Select + Radio: allow_null
@@ -377,31 +377,39 @@ class acfe_field_post_statuses extends acf_field{
     }
     
     function format_value($value, $post_id, $field){
+    
+        // Bail early
+        if(empty($value))
+            return $value;
+    
+        // Vars
+        $is_array = is_array($value);
+        $value = acf_get_array($value);
+    
+        // Loop
+        foreach($value as &$v){
         
-        // Return: object
-        if($field['return_format'] === 'object'){
+            // Retrieve Object
+            $object = get_post_status_object($v);
+        
+            if(!$object || is_wp_error($object))
+                continue;
+        
+            // Return: Object
+            if($field['return_format'] === 'object'){
             
-            // array
-            if(acf_is_array($value)){
-                
-                foreach($value as $i => $v){
-                    
-                    if($get_post_status_object = get_post_status_object($v))
-                        $value[$i] = $get_post_status_object;
-                    
-                }
+                $v = $object;
             
-            // string
-            }else{
-                
-                if($get_post_status_object = get_post_status_object($value))
-                    $value = $get_post_status_object;
-                
             }
         
         }
-        
-        // return
+    
+        // Do not return array
+        if(!$is_array){
+            $value = acfe_unarray($value);
+        }
+    
+        // Return
         return $value;
         
     }

@@ -1934,3 +1934,62 @@ function acfe_extract_sub_field(&$layout, $name, $value){
     return $sub_field;
     
 }
+
+/*
+ * Clone of wp_get_registered_image_subsizes (WP 5.3 only)
+ * https://developer.wordpress.org/reference/functions/wp_get_registered_image_subsizes/
+ */
+function acfe_get_registered_image_sizes($filter = false){
+    
+    $additional_sizes   = wp_get_additional_image_sizes();
+    $all_sizes          = array();
+    
+    $wp_sizes           = get_intermediate_image_sizes();
+    $wp_sizes[]         = 'full';
+    
+    foreach($wp_sizes as $size_name){
+        
+        if($filter && $size_name !== $filter)
+            continue;
+        
+        $size_data = array(
+            'name'   => $size_name,
+            'width'  => 0,
+            'height' => 0,
+            'crop'   => false,
+        );
+        
+        // For sizes added by plugins and themes.
+        if(isset( $additional_sizes[ $size_name ]['width'])){
+            $size_data['width'] = (int) $additional_sizes[ $size_name ]['width'];
+            // For default sizes set in options.
+        }else{
+            $size_data['width'] = (int) get_option("{$size_name}_size_w");
+        }
+        
+        if(isset($additional_sizes[ $size_name ]['height'])){
+            $size_data['height'] = (int) $additional_sizes[ $size_name ]['height'];
+        }else{
+            $size_data['height'] = (int) get_option("{$size_name}_size_h");
+        }
+        
+        if(isset($additional_sizes[ $size_name ]['crop'])){
+            $size_data['crop'] = $additional_sizes[ $size_name ]['crop'];
+        }else{
+            $size_data['crop'] = get_option("{$size_name}_crop");
+        }
+        
+        if(!is_array( $size_data['crop']) || empty($size_data['crop'])){
+            $size_data['crop'] = (bool) $size_data['crop'];
+        }
+        
+        $all_sizes[ $size_name ] = $size_data;
+        
+    }
+    
+    if($filter && isset($all_sizes[ $filter ]))
+        return $all_sizes[ $filter ];
+    
+    return $all_sizes;
+    
+}

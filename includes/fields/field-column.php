@@ -13,15 +13,13 @@ class acfe_field_column extends acf_field{
         $this->label = __('Column', 'acfe');
         $this->category = 'layout';
         $this->defaults = array(
-            'columns' => '6/12',
-            'endpoint' => false,
+            'columns'       => '6/12',
+            'endpoint'      => false,
         );
         
-        // Field wrapper
-        add_filter('acfe/field_wrapper_attributes/type=acfe_column', array($this, 'field_wrapper_attributes'), 10, 2);
-        
-        // New sizes compatibility
-        add_filter('acf/validate_field/type=acfe_column', array($this, 'new_validate_field'), 20);
+        // Hooks
+        add_filter('acfe/field_wrapper_attributes/type=acfe_column',    array($this, 'field_wrapper_attributes'), 10, 2);
+        add_filter('acf/validate_field/type=acfe_column',               array($this, 'new_validate_field'), 20);
         
         parent::__construct();
         
