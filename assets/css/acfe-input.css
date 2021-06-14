@@ -27,11 +27,7 @@
 }
 
 .acf-field-flexible-content[data-acfe-flexible-lock="1"]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-handle {
-    cursor: initial
-}
-
-.acf-field-flexible-content[data-acfe-flexible-remove-collapse="1"]:not([data-acfe-flexible-lock="1"])>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-handle {
-    cursor: initial
+    cursor: pointer
 }
 
 .acf-fc-popup.top.acfe-fc-popup-grey:before {
@@ -331,7 +327,8 @@ body:not(.acf-admin-5-3) .layout>.acfe-fc-placeholder>a span {
 }
 
 .acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons.dashicons-admin-generic:before {
-    margin-left: 1px
+    margin-left: 1px;
+    line-height: .9
 }
 
 .acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-duplicate,
@@ -360,10 +357,6 @@ body:not(.acf-admin-5-3) .layout>.acfe-fc-placeholder>a span {
 .acf-flexible-content .layout>.acf-fc-layout-controls .acf-icon.disabled:hover {
     color: #ccc;
     background: #f5f5f5
-}
-
-.acf-flexible-content[data-acfe-flexible-lock="1"] .layout .acf-fc-layout-handle {
-    cursor: initial
 }
 
 .acf-field-acfe-flexible-layout-title {
@@ -910,6 +903,18 @@ form.acfe-form.is-invalid[data-errors-position=below] .acf-field .acf-notice {
     width: auto;
     margin: 0;
     padding: 0
+}
+
+.acf-fields.acfe-column-wrapper>.acfe-flexible-opened-actions {
+    width: 100%
+}
+
+.acf-postbox.seamless>.inside.acfe-column-wrapper {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -ms-flex-wrap: wrap !important;
+    flex-wrap: wrap !important
 }
 
 .acf-media-modal .screen-reader-text,

@@ -301,10 +301,10 @@
             $nativeTitle.remove();
 
             // ACF class
-            var $fields = $('.acfe-bt .inside .form-field, .acfe-bt .inside .submit');
-            $fields.addClass('acf-field');
+            $('.acfe-bt .inside .form-field').addClass('acf-field');
+            $('.acfe-bt .inside .submit').addClass('form-field');
 
-            $fields.each(function() {
+            $('.acfe-bt .inside .form-field').each(function() {
 
                 var $this = $(this);
 

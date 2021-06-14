@@ -39,7 +39,7 @@ class acfe_field_post_types extends acf_field{
             $field['default_value'] = acf_encode_choices($field['default_value'], false);
         
         // Allow Post Type
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Allow Post Type','acf'),
             'instructions'  => '',
             'type'          => 'select',
@@ -66,7 +66,7 @@ class acfe_field_post_types extends acf_field{
         ));
         
         // default_value
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Default Value','acf'),
             'instructions'  => __('Enter each default value on a new line','acf'),
             'name'          => 'default_value',
@@ -87,7 +87,7 @@ class acfe_field_post_types extends acf_field{
         ));
         
         // Select + Radio: allow_null
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Allow Null?','acf'),
             'instructions'  => '',
             'name'          => 'allow_null',
@@ -112,7 +112,7 @@ class acfe_field_post_types extends acf_field{
         ));
         
         // Select: multiple
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Select multiple values?','acf'),
             'instructions'  => '',
             'name'          => 'multiple',
@@ -130,7 +130,7 @@ class acfe_field_post_types extends acf_field{
         ));
         
         // Select: ui
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Stylised UI','acf'),
             'instructions'  => '',
             'name'          => 'ui',
@@ -149,7 +149,7 @@ class acfe_field_post_types extends acf_field{
                 
         
         // Select: ajax
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Use AJAX to lazy load choices?','acf'),
             'instructions'  => '',
             'name'          => 'ajax',
@@ -170,8 +170,8 @@ class acfe_field_post_types extends acf_field{
                 ),
             )
         ));
-        
-        // placeholder
+    
+        // Select: Placeholder
         acf_render_field_setting($field, array(
             'label'             => __('Placeholder','acf'),
             'instructions'      => __('Appears within the input','acf'),
@@ -186,9 +186,19 @@ class acfe_field_post_types extends acf_field{
                         'value'     => 'select',
                     ),
                     array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '0',
+                    ),
+                    array(
                         'field'     => 'allow_null',
                         'operator'  => '==',
                         'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '0',
                     ),
                 ),
                 array(
@@ -208,16 +218,33 @@ class acfe_field_post_types extends acf_field{
                         'value'     => '1',
                     ),
                 ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                ),
             )
         ));
-        
-        // search placeholder
+    
+        // Select: Search Placeholder
         acf_render_field_setting($field, array(
             'label'             => __('Search Input Placeholder','acf'),
             'instructions'      => __('Appears within the search input','acf'),
             'type'              => 'text',
             'name'              => 'search_placeholder',
-            'placeholder'       => _x('Select', 'verb', 'acf'),
+            'placeholder'       => '',
             'conditional_logic' => array(
                 array(
                     array(
@@ -230,12 +257,17 @@ class acfe_field_post_types extends acf_field{
                         'operator'  => '==',
                         'value'     => '1',
                     ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '0',
+                    ),
                 ),
             )
         ));
         
         // Radio: other_choice
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Other','acf'),
             'instructions'  => '',
             'name'          => 'other_choice',
@@ -254,7 +286,7 @@ class acfe_field_post_types extends acf_field{
         ));
         
         // Checkbox: layout
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Layout','acf'),
             'instructions'  => '',
             'type'          => 'radio',
@@ -283,7 +315,7 @@ class acfe_field_post_types extends acf_field{
         ));
         
         // Checkbox: toggle
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Toggle','acf'),
             'instructions'  => __('Prepend an extra checkbox to toggle all choices','acf'),
             'name'          => 'toggle',
@@ -301,7 +333,7 @@ class acfe_field_post_types extends acf_field{
         ));
         
         // Checkbox: other_choice
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Allow Custom','acf'),
             'instructions'  => '',
             'name'          => 'allow_custom',

@@ -51,7 +51,7 @@ class acfe_field_column extends acf_field{
     function render_field_settings($field){
         
         // columns
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Columns', 'acfe'),
             'instructions'  => '',
             'type'          => 'select',
@@ -83,7 +83,7 @@ class acfe_field_column extends acf_field{
         ));
         
         // endpoint
-        acf_render_field_setting( $field, array(
+        acf_render_field_setting($field, array(
             'label'         => __('Endpoint','acf'),
             'instructions'  => __('Define an endpoint for the previous columns to stop.', 'acf'),
             'name'          => 'endpoint',
@@ -130,12 +130,12 @@ class acfe_field_column extends acf_field{
         
         $columns = '';
         if($field['columns'])
-            $columns = ' ' . $field['columns'];
+            $columns = ucfirst($field['columns']);
         
         if($field['endpoint'])
-            $columns = ' endpoint';
+            $columns = 'Endpoint';
         
-        $field['label'] = '(Column' . $columns .')';
+        $field['label'] = '(Column ' . $columns . ')';
         $field['name'] = '';
         $field['instructions'] = '';
         $field['required'] = 0;

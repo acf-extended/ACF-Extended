@@ -566,7 +566,7 @@ class acfe_dynamic_forms_helpers{
             $c = acfe_form_map_field($c);
             
             // Match {fields}
-            $c = acfe_form_map_fields($c);
+            $c = acfe_form_map_fields($c, $post_id, $form);
             
             // Match current_post {current:post:id}
             $c = acfe_form_map_current($c, $post_id, $form);
@@ -1215,7 +1215,7 @@ function acfe_form_map_field($content){
 }
 
 // Match {fields}
-function acfe_form_map_fields($content){
+function acfe_form_map_fields($content, $post_id, $form){
     
     if(empty($content) || !is_string($content))
         return $content;
@@ -1243,6 +1243,9 @@ function acfe_form_map_fields($content){
             
             foreach($data as $field){
                 
+                // Exclude recaptcha
+                if($field['field']['type'] === 'acfe_recaptcha') continue;
+                
                 // Label
                 $label = !empty($field['label']) ? $field['label'] : $field['name'];
                 
@@ -1256,7 +1259,8 @@ function acfe_form_map_fields($content){
             
         }
         
-        $content_html = apply_filters('acfe/form/template_tag/fields', $content_html, $data);
+        $content_html = apply_filters("acfe/form/template_tag/fields",                      $content_html, $data, $form);
+        $content_html = apply_filters("acfe/form/template_tag/fields/form={$form['name']}", $content_html, $data, $form);
         
         // Replace
         $content = str_replace('{fields}', $content_html, $content);

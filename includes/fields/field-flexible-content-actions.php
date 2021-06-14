@@ -36,7 +36,7 @@ class acfe_field_flexible_content_actions{
     function render_field_settings($field){
         
         /*
-         * Old settings:
+         * old settings:
          *
          * acfe_flexible_title_edition
          * acfe_flexible_toggle

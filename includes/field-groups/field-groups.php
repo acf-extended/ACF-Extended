@@ -807,12 +807,9 @@ class ACFE_Field_Groups{
      * Seamless Metabox
      */
     function seamless_metabox($post_type, $post, $field_groups){
-    
-        $current_screen = get_current_screen();
-        $is_gutenberg = false;
-    
-        if(method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor())
-            $is_gutenberg = true;
+        
+        // check gutenberg
+        $is_gutenberg = acfe_is_gutenberg();
         
         foreach($field_groups as $field_group){
             

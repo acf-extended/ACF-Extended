@@ -366,7 +366,7 @@ class acfe_field_advanced_link extends acf_field{
                 'key'       => 'target',
                 'label'     => __('Target', 'acf'),
                 'type'      => 'true_false',
-                'message'   => __('Open in an new window', 'acf'),
+                'message'   => __('Open in a new window', 'acf'),
                 'required'  => false,
                 'class'     => 'input-target',
             ),

@@ -370,6 +370,14 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     display: none
 }
 
+.acf-field-object-acfe-column .li-field-name {
+    visibility: hidden
+}
+
+.acf-field-object-acfe-column.open>.handle a span {
+    color: #fff
+}
+
 .acf-field-object+.acf-field-object-acfe-column:before {
     display: block;
     content: "";
@@ -377,10 +385,6 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     width: 100%;
     background: #f9f9f9;
     border-bottom: #f0f0f0 solid 1px
-}
-
-.acf-field-object-acfe-column .li-field-name {
-    visibility: hidden
 }
 
 .acf-field-setting-allow_terms>.acf-input>ul>li:first-of-type {

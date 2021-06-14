@@ -36,6 +36,10 @@
             'render_field_settings/type=acfe_column': 'renderField',
         },
 
+        ucFirst: function(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+
         renderTitle: function($el) {
 
             var field = acf.getInstance($el);
@@ -48,13 +52,11 @@
 
             if (endpoint) {
 
-                field.set('label', '(Column endpoint)');
-
-            } else {
-
-                field.set('label', '(Column ' + columns + ')');
+                columns = 'Endpoint';
 
             }
+
+            field.set('label', '(Column ' + this.ucFirst(columns) + ')');
 
         },
 

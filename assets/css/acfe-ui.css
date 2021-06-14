@@ -692,7 +692,54 @@ body:not(.taxonomy-product_cat):not(.woocommerce-page) .wrap {
 
 .edit-tags-php #col-left .col-wrap #poststuff #addtag .submit {
     display: block;
-    margin: 0
+    position: relative;
+    margin: 0;
+    padding: 15px 12px;
+    border-top: #eee solid 1px;
+    padding-left: 20%
+}
+
+.edit-tags-php #col-left .col-wrap #poststuff #addtag .submit::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 0;
+    background: #f9f9f9;
+    border-color: #e1e1e1;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20%
+}
+
+.edit-tags-php #col-left .col-wrap #poststuff #addtag .submit::after {
+    content: "";
+    display: block;
+    clear: both
+}
+
+.edit-tags-php #col-left .col-wrap #poststuff #addtag .submit>.acf-input {
+    vertical-align: top;
+    float: left;
+    width: 80%;
+    margin: 0;
+    padding: 0 12px
+}
+
+@media screen and (max-width:640px) {
+    .edit-tags-php #col-left .col-wrap #poststuff #addtag .submit {
+        padding: 15px 0
+    }
+
+    .edit-tags-php #col-left .col-wrap #poststuff #addtag .submit::before {
+        display: none
+    }
+
+    .edit-tags-php #col-left .col-wrap #poststuff #addtag .submit>.acf-input {
+        width: 100%
+    }
 }
 
 .edit-tags-php #col-container #col-right {

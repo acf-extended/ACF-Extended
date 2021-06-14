@@ -125,6 +125,9 @@ class acfe_field_flexible_content_hide{
         if(in_array('delete', $field['acfe_flexible_remove_button']))
             acfe_unset($icons, 'delete');
         
+        if(in_array('collapse', $field['acfe_flexible_remove_button']))
+            acfe_unset($icons, 'collapse');
+        
         return $icons;
         
     }

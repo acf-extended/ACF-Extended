@@ -27,7 +27,6 @@ class acfe_field_flexible_content{
         // Render Flexible
         remove_action('acf/render_field/type=flexible_content',             array($this->instance, 'render_field'), 9);
         add_action('acf/render_field/type=flexible_content',                array($this, 'render_field'), 9);
-        add_filter('acf/fields/flexible_content/layout_title',              array($this, 'prepare_layout_title'), 0, 4);
         
     }
     
@@ -634,15 +633,6 @@ class acfe_field_flexible_content{
         
         $field['delay'] = 1;
         return $field;
-        
-    }
-    
-    /*
-     * Prepare Layout Title
-     */
-    function prepare_layout_title($title, $field, $layout, $i){
-        
-        return '<span class="acfe-layout-title-text">' . $title . '</span>';
         
     }
     

@@ -46,7 +46,7 @@ class acfe_field_flexible_content_thumbnail{
             'label'         => __('Layouts Thumbnails'),
             'name'          => 'acfe_flexible_layouts_thumbnails',
             'key'           => 'acfe_flexible_layouts_thumbnails',
-            'instructions'  => __('Set a thumbnail for each layouts. You must save the field group to apply this setting'),
+            'instructions'  => __('Set a thumbnail for each layouts'),
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,

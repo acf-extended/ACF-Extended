@@ -14,6 +14,7 @@ class acfe_field_group_hide_on_screen{
         
         // Post Metaboxes
         add_action('acf/add_meta_boxes',            array($this, 'acf_add_meta_boxes'), 10, 3);
+        add_action('wp_ajax_acf/ajax/check_screen', array($this, 'ajax_check_screen'), 9);
         
         // Hide Block Editor
         add_action('load-post.php',                 array($this, 'hide_block_editor'));
@@ -71,6 +72,55 @@ class acfe_field_group_hide_on_screen{
     
         $instance->style = $styles;
         
+    }
+    
+    /*
+     * Ajax Check Screen
+     * Merge hide on screen settings instead of using the first field group style only
+     */
+    function ajax_check_screen(){
+        
+        // get ajax check screen instance & simulate request
+        $instance = acf_get_instance('ACF_Ajax_Check_Screen');
+        $instance->request = wp_unslash($_REQUEST);
+        
+        // get response from ACF core
+        $response = $instance->get_response($instance->request);
+    
+        // vars
+        $args = wp_parse_args($instance->request, array(
+            'screen'    => '',
+            'post_id'   => 0,
+            'ajax'      => true,
+            'exists'    => array()
+        ));
+    
+        // get field groups
+        $field_groups = acf_get_field_groups($args);
+    
+        // loop through field groups
+        if($field_groups){
+            
+            $response['style'] = '';
+            
+            foreach($field_groups as $i => $field_group){
+    
+                // merge styles instead of using only the first field group rules
+                $response['style'] .= acf_get_field_group_style($field_group);
+                
+            }
+            
+        }
+    
+        // verify error and send request based on ACF_Ajax->request() method
+        $error = $instance->verify_request($instance->request);
+        if(is_wp_error($error)){
+            $instance->send($error);
+        }
+    
+        // send response
+        $instance->send($response);
+    
     }
     
     /*

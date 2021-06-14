@@ -40,7 +40,7 @@ class acfe_field_flexible_content_settings{
     }
     
     function render_field_settings($field){
-    
+        
         acf_render_field_setting($field, array(
             'label'         => __('Layouts Settings Modal'),
             'name'          => 'acfe_flexible_layouts_settings',
@@ -235,7 +235,7 @@ class acfe_field_flexible_content_settings{
             return $icons;
         
         $icons = array_merge($icons, array(
-            'settings' => '<a class="acf-icon small light acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-generic" href="#" title="Settings" data-acfe-flexible-settings="' . $layout['name'] . '"></a>'
+            'settings' => '<a class="acf-icon small acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-generic" href="#" title="Settings" data-acfe-flexible-settings="' . $layout['name'] . '"></a>'
         ));
         
         return $icons;

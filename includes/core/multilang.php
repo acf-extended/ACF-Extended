@@ -148,59 +148,54 @@ class acfe_multilang{
      * WPML
      * https://wpml.org/documentation/support/wpml-coding-api/wpml-hooks-reference/
      */
-    function wpml_get_languages($pluck, $type = 'all'){
-        
-        // Pluck
-        $pluck_filter = $pluck;
-    
-        if($pluck === 'locale')
-            $pluck_filter = 'default_locale';
+    function wpml_get_languages($pluck = '', $type = 'all'){
         
         // Vars
         $languages = array();
+        $pluck = $pluck === 'locale' ? 'default_locale' : $pluck;
     
         switch($type){
         
             // Active
             case 'active':
                 
-                // Active Languages
                 // https://wpml.org/wpml-hook/wpml_active_languages/
                 $languages = apply_filters('wpml_active_languages', null, array('skip_missing' => 0));
                 
-                $languages = wp_list_pluck($languages, $pluck_filter, true);
+                // Set locale as key
+                $_languages = $languages;
+                $languages = array();
+                
+                foreach($_languages as $lang){
+                    $languages[ $lang['default_locale'] ] = $lang;
+                }
+                
+                if($pluck)
+                    $languages = wp_list_pluck($languages, $pluck, true);
                 
                 return $languages;
                 
             // All
+            case '':
             case 'all':
-    
-                // Active Languages
+                
                 // https://wpml.org/wpml-hook/wpml_active_languages/
                 $languages = apply_filters('wpml_active_languages', null, array('skip_missing' => 0));
+                $languages = wp_list_pluck($languages, 'code', 'default_locale');
+                
+                // Default Languages
+                $_languages = icl_get_languages_locales();
+                $_languages = array_flip($_languages);
     
-                $languages = wp_list_pluck($languages, $pluck_filter, true);
+                if(!empty($_languages)){
     
-                // Plugin Languages
-                $plugin_languages = icl_get_languages_locales();
-    
-                if(!empty($plugin_languages)){
-        
-                    if($pluck === 'code'){
-            
-                        $plugin_languages = array_keys($plugin_languages);
-            
-                    }elseif($pluck === 'locale'){
-            
-                        $plugin_languages = array_values($plugin_languages);
-            
-                    }
-        
-                    // Merge
-                    $languages = array_merge($languages, $plugin_languages);
+                    $languages = array_merge($languages, $_languages);
                     $languages = array_unique($languages);
         
                 }
+    
+                if($pluck)
+                    $languages = $pluck === 'code' ? array_values($_languages) : array_keys($_languages);
                 
                 return $languages;
                 
@@ -218,7 +213,7 @@ class acfe_multilang{
      * https://polylang.wordpress.com/documentation/documentation-for-developers/general/
      * https://polylang.wordpress.com/documentation/documentation-for-developers/functions-reference/
      */
-    function polylang_get_languages($pluck, $type = 'all'){
+    function polylang_get_languages($pluck = '', $type = 'all'){
         
         // Vars
         $languages = array();
@@ -227,47 +222,26 @@ class acfe_multilang{
             
             // Active
             case 'active':
-        
-                $pluck_filter = $pluck;
-                if($pluck === 'code')
-                    $pluck_filter = 'slug';
+                
+                // Convert pluck
+                $pluck = $pluck === 'code' ? 'slug' : $pluck;
         
                 // https://polylang.wordpress.com/documentation/documentation-for-developers/functions-reference/
                 $languages = pll_languages_list(array(
                     'hide_empty'    => false,
-                    'fields'        => $pluck_filter
+                    'fields'        => $pluck
                 ));
         
                 return $languages;
     
             // All
+            case '':
             case 'all':
-        
-                // Copy from wp-content/plugins/polylang-pro/settings/settings.php:363
-                require_once ABSPATH . 'wp-admin/includes/translation-install.php';
-    
-                $languages    = include POLYLANG_DIR . '/settings/languages.php';
-                $translations = wp_get_available_translations();
-        
-                if (!empty($translations)){
-            
-                    $translations['en_US'] = '';
-                    $languages = array_intersect_key($languages, $translations);
-            
-                }
-        
-                $languages = apply_filters('pll_predefined_languages', $languages);
-        
-                foreach($languages as $k => $lang){
-            
-                    if(isset($lang['code'], $lang['locale'], $lang['name'], $lang['dir'], $lang['flag']))
-                        continue;
-            
-                    unset($languages[$k]);
-            
-                }
-        
-                $languages = wp_list_pluck($languages, $pluck, true);
+                
+                $languages = PLL_Settings::get_predefined_languages();
+                
+                if($pluck)
+                    $languages = wp_list_pluck($languages, $pluck, true);
         
                 return $languages;
                 
@@ -442,7 +416,7 @@ class acfe_multilang{
         
     }
     
-    function get_languages($pluck = 'code', $type = 'all', $plugin = false){
+    function get_languages($pluck = '', $type = '', $plugin = ''){
         
         // Polylang
         if($this->is_polylang || $plugin === 'polylang'){
@@ -597,7 +571,7 @@ function acfe_get_multilang(){
 /*
  * Get Languages
  */
-function acfe_get_languages($pluck = 'code', $type = 'all', $plugin = false){
+function acfe_get_multilang_languages($pluck = '', $type = '', $plugin = ''){
     
     return acf_get_instance('acfe_multilang')->get_languages($pluck, $type, $plugin);
     

@@ -13,19 +13,20 @@ class acfe_field_forms extends acf_field{
         $this->label = __('Forms', 'acfe');
         $this->category = apply_filters('acfe/form_field_type_category', 'relational');
         $this->defaults = array(
-            'post_type'     => array(),
-            'field_type'    => 'checkbox',
-            'multiple'      => 0,
-            'allow_null'    => 0,
-            'choices'       => array(),
-            'default_value' => '',
-            'ui'            => 0,
-            'ajax'          => 0,
-            'placeholder'   => '',
-            'layout'        => '',
-            'toggle'        => 0,
-            'allow_custom'  => 0,
-            'return_format' => 'name',
+            'post_type'             => array(),
+            'field_type'            => 'checkbox',
+            'multiple'              => 0,
+            'allow_null'            => 0,
+            'choices'               => array(),
+            'default_value'         => '',
+            'ui'                    => 0,
+            'ajax'                  => 0,
+            'placeholder'           => '',
+            'search_placeholder'    => '',
+            'layout'                => '',
+            'toggle'                => 0,
+            'allow_custom'          => 0,
+            'return_format'         => 'name',
         );
         
         parent::__construct();
@@ -120,14 +121,14 @@ class acfe_field_forms extends acf_field{
                 ),
             )
         ));
-        
-        // placeholder
+    
+        // Select: Placeholder
         acf_render_field_setting($field, array(
-            'label'         => __('Placeholder Text','acf'),
-            'instructions'  => __('Appears within the input','acf'),
-            'type'          => 'text',
-            'name'          => 'placeholder',
-            'placeholder'   => _x('Select', 'verb', 'acf'),
+            'label'             => __('Placeholder','acf'),
+            'instructions'      => __('Appears within the input','acf'),
+            'type'              => 'text',
+            'name'              => 'placeholder',
+            'placeholder'       => _x('Select', 'verb', 'acf'),
             'conditional_logic' => array(
                 array(
                     array(
@@ -136,11 +137,20 @@ class acfe_field_forms extends acf_field{
                         'value'     => 'select',
                     ),
                     array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '0',
+                    ),
+                    array(
                         'field'     => 'allow_null',
                         'operator'  => '==',
                         'value'     => '1',
                     ),
-                    
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '0',
+                    ),
                 ),
                 array(
                     array(
@@ -153,7 +163,56 @@ class acfe_field_forms extends acf_field{
                         'operator'  => '==',
                         'value'     => '1',
                     ),
-                    
+                    array(
+                        'field'     => 'allow_null',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                ),
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                ),
+            )
+        ));
+    
+        // Select: Search Placeholder
+        acf_render_field_setting($field, array(
+            'label'             => __('Search Input Placeholder','acf'),
+            'instructions'      => __('Appears within the search input','acf'),
+            'type'              => 'text',
+            'name'              => 'search_placeholder',
+            'placeholder'       => '',
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'     => 'field_type',
+                        'operator'  => '==',
+                        'value'     => 'select',
+                    ),
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '0',
+                    ),
                 ),
             )
         ));

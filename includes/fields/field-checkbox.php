@@ -29,11 +29,9 @@ class acfe_field_checkbox{
         
         $wrapper = acf_maybe_get($field, 'wrapper');
         
-        if(!$wrapper)
-            return $field;
+        if(!$wrapper) return $field;
         
-        if(acf_maybe_get($wrapper, 'data-setting') !== 'radio' && acf_maybe_get($wrapper, 'data-setting') !== 'checkbox')
-            return $field;
+        if(acf_maybe_get($wrapper, 'data-setting') !== 'radio' && acf_maybe_get($wrapper, 'data-setting') !== 'checkbox') return $field;
         
         $field['instructions'] .= '<br/><br/>You may use "## Title" to create a group of options.';
         
@@ -42,11 +40,11 @@ class acfe_field_checkbox{
     }
     
     function prepare_checkbox($field){
-    
-        if(empty($field['choices']))
-            return $field;
         
-        // Map '## Group'
+        // bail early if no choices
+        if(empty($field['choices'])) return $field;
+        
+        // map '## group'
         if(is_array($field['choices'])){
         
             $found = false;
@@ -57,7 +55,7 @@ class acfe_field_checkbox{
                 if(is_string($choice)){
                 
                     $choice = trim($choice);
-                
+                    
                     if(strpos($choice, '##') === 0){
                     
                         $choice = substr($choice, 2);
@@ -100,23 +98,21 @@ class acfe_field_checkbox{
     function walk($choices = array(), $depth = 1, $labels = array()){
         
         // bail early if no choices
-        if(empty($choices))
-            return $labels;
+        if(empty($choices)) return $labels;
         
         foreach($choices as $value => $label){
             
-            // optgroup
-            if(is_array($label)){
+            // bail early if not array
+            if(!is_array($label)) continue;
     
-                reset($label);
-                $key = key($label);
-                
-                if(!is_numeric($value))
-                    $labels = array_merge($labels, array($value => $key));
-                
-                $labels = $this->walk($label, $depth+1, $labels);
-                
+            reset($label);
+            $key = key($label);
+            
+            if(!is_numeric($value)){
+                $labels = array_merge($labels, array($value => $key));
             }
+            
+            $labels = $this->walk($label, $depth+1, $labels);
             
         }
         
@@ -125,25 +121,19 @@ class acfe_field_checkbox{
     }
     
     function prepare_radio($field){
+        
+        if($field['type'] !== 'radio' && $field['field_type'] !== 'radio') return $field;
     
-        if($field['type'] !== 'radio' && $field['field_type'] !== 'radio')
-            return $field;
-    
-        if(empty($field['choices']))
-            return $field;
+        if(empty($field['choices'])) return $field;
     
         $choices = array();
     
         foreach($field['choices'] as $value => $label){
         
             if(is_array($label)){
-            
                 $choices = $choices + $label;
-            
             }else{
-            
                 $choices = $choices + array($value => $label);
-            
             }
         
         }
@@ -158,8 +148,7 @@ class acfe_field_checkbox{
         
         $labels = acf_maybe_get($field, 'acfe_labels');
         
-        if(empty($labels))
-            return $wrapper;
+        if(empty($labels)) return $wrapper;
         
         $wrapper['data-acfe-labels'] = $labels;
         
@@ -169,6 +158,17 @@ class acfe_field_checkbox{
     
 }
 
-new acfe_field_checkbox();
+acf_new_instance('acfe_field_checkbox');
 
 endif;
+
+function acfe_prepare_checkbox_labels($field){
+    
+    $instance = acf_get_instance('acfe_field_checkbox');
+    
+    $field = $instance->prepare_checkbox($field);
+    $field = $instance->prepare_radio($field);
+    
+    return $field;
+    
+}

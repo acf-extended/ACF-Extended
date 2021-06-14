@@ -160,14 +160,14 @@ class acfe_field_recaptcha extends acf_field{
             );
             
             ?>
-            <div <?php acf_esc_attr_e($wrapper); ?>>
+            <div <?php echo acf_esc_attrs($wrapper); ?>>
                 
                 <div></div>
                 <?php acf_hidden_input($hidden_input); ?>
                 
             </div>
             
-            <script src="https://www.google.com/recaptcha/api.js?onload=acfe_recaptcha&render=explicit" async defer></script>
+            <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
             
             <?php
             return;
@@ -192,7 +192,7 @@ class acfe_field_recaptcha extends acf_field{
             );
             
             ?>
-            <div <?php acf_esc_attr_e($wrapper); ?>>
+            <div <?php echo acf_esc_attrs($wrapper); ?>>
                 
                 <div></div>
                 <?php acf_hidden_input($hidden_input); ?>
@@ -208,7 +208,7 @@ class acfe_field_recaptcha extends acf_field{
                 </style>
             <?php } ?>
             
-            <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $site_key; ?>&onload=acfe_recaptcha" async defer></script>
+            <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $site_key; ?>" async defer></script>
             
             <?php
             return;
@@ -218,27 +218,12 @@ class acfe_field_recaptcha extends acf_field{
     }
     
     function validate_value($valid, $value, $field, $input){
-    
-        if(!$field['required'])
-            return $valid;
-    
-        // Expired
-        if($value === 'expired'){
         
-            return __('reCaptcha has expired.');
-        
-        }
-    
-        // Error
-        elseif($value === 'error'){
-        
-            return __('An error has occured.');
-        
-        }
+        // bail early if not required
+        if(!$field['required']) return $valid;
     
         // Avoid duplicate token: Do not process during Ajax validation
-        if(wp_doing_ajax())
-            return $valid;
+        if(wp_doing_ajax()) return $valid;
     
         // Secret key
         $secret_key = acf_get_setting('acfe/field/recaptcha/secret_key', $field['secret_key']);
@@ -254,23 +239,19 @@ class acfe_field_recaptcha extends acf_field{
         curl_close($curl);
     
         // No API response
-        if(empty($api))
-            return __('An error has occured.');
+        if(empty($api)) return __('An error has occured');
     
         // Decode
         $response = json_decode($api);
     
         // No success
-        if(!isset($response->success))
-            return __('An error has occured.');
+        if(!isset($response->success)) return __('An error has occured');
     
         if($response->success === false){
         
             $valid = false;
         
-        }
-
-        elseif($response->success === true){
+        }elseif($response->success === true){
         
             $valid = true;
         

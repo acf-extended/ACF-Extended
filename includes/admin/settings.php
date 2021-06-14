@@ -521,6 +521,8 @@ class acfe_admin_settings_ui{
         
         $name = $setting['name'];
         $type = $setting['type'];
+        $default = $this->defaults[$name];
+        $updated = $this->updated[$name];
         
         $vars = array(
             'default' => $this->defaults[$name],
@@ -560,8 +562,11 @@ class acfe_admin_settings_ui{
         }
     
         // Local Changes
-        if($this->defaults[$name] !== $this->updated[$name]){
+        if($default !== $updated){
+        
+            $setting['updated'] .= '<span style="color:#888; margin-left:7px;vertical-align: middle;font-size:11px;">(Local code)</span>';
             $setting['diff'] = true;
+        
         }
         
         return $setting;

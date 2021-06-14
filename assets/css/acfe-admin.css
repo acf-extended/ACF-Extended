@@ -713,6 +713,10 @@ body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .
 .acf-field .select2-container .select2-search--inline .select2-search__field {
     margin-top: 4px !important;
     font-size: 14px !important;
+    padding-left: 6px !important
+}
+
+.acf-field .select2-container .select2-selection__choice+.select2-search--inline .select2-search__field {
     padding-left: 2px !important
 }
 
@@ -735,8 +739,12 @@ body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .
 }
 
 .acf-field .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    line-height: 15px;
-    font-size: 15px
+    float: right;
+    margin-left: 3px;
+    margin-right: 0;
+    line-height: 23px;
+    font-size: 15px;
+    vertical-align: text-top
 }
 
 .acf-field .select2-container--default.select2-container--focus .select2-selection--multiple {
@@ -757,7 +765,20 @@ body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .
     min-height: 30px !important;
     border: 0 !important;
     -webkit-box-shadow: none !important;
-    box-shadow: none !important
+    box-shadow: none !important;
+    padding: 0 2px
+}
+
+.acf-input-wrap .acf-is-prepended+.select2>.selection>.select2-selection {
+    border-radius: 0 3px 3px 0 !important
+}
+
+.acf-input-wrap .acf-is-appended+.select2>.selection>.select2-selection {
+    border-radius: 3px 0 0 3px !important
+}
+
+.acf-input-wrap .acf-is-prepended.acf-is-appended+.select2>.selection>.select2-selection {
+    border-radius: 0 !important
 }
 
 .acf-tab-group li a .acfe-tab-badge {
@@ -777,6 +798,15 @@ body:not(.acf-admin-5-3) .acf-field .select2-container .select2-search--inline .
 .acf-tab-group li a:hover .acfe-tab-badge,
 .acf-tab-group li.active a .acfe-tab-badge {
     background: #f1f1f1
+}
+
+.acf-field>.acf-input>.acf-input-wrap {
+    overflow: initial
+}
+
+.acf-field>.acf-input>.acf-input-append+.acf-input-wrap,
+.acf-field>.acf-input>.acf-input-prepend+.acf-input-wrap {
+    overflow: hidden
 }
 
 .menu-item-settings {
@@ -890,8 +920,4 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     display: flow-root;
     min-height: 60px;
     margin-bottom: 3px !important
-}
-
-.acf-input-wrap .acf-is-prepended+.select2>.selection>.select2-selection {
-    border-radius: 0 3px 3px 0 !important
 }

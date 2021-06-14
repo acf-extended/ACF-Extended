@@ -355,7 +355,7 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
         (function($){
 
             // Add button
-            $('.wrap h1').append($('#tmpl-acfe-dop-title-config').html());
+            $('.wrap > h1').append($('#tmpl-acfe-dop-title-config').html());
 
         })(jQuery);
         </script>
@@ -451,8 +451,15 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
         
             // Sub pages
             if(acf_maybe_get($args, 'parent_slug')){
+                
+                // force int position
+                $args['position'] = (int) $args['position'];
+                
+                // save sub page
                 $sub_pages[$name] = $args;
+                
                 continue;
+                
             }
         
             // Top pages
@@ -462,9 +469,11 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
     
         // Re-order sub pages
         if(!empty($sub_pages)){
+            
             uasort($sub_pages, function($a, $b){
                 return (int) $a['position'] - (int) $b['position'];
             });
+            
         }
     
         // Merge

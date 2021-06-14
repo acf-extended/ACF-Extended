@@ -1,5 +1,8 @@
 <?php
 
+use WPGraphQL\AppContext;
+use WPGraphQL\Model\Term;
+
 if(!defined('ABSPATH'))
     exit;
 
@@ -20,7 +23,8 @@ class acfe_compatibility{
         add_filter('wpseo_metabox_prio',                            array($this, 'yoast_metaboxes_priority'));
         add_filter('pll_get_post_types',                            array($this, 'polylang'), 10, 2);
         add_action('elementor/documents/register_controls',         array($this, 'elementor'));
-        add_filter('wpgraphql_acf_supported_fields',                array($this, 'wpgraphql'));
+        add_filter('wpgraphql_acf_supported_fields',                array($this, 'wpgraphql_supported_fields'));
+        add_filter('wpgraphql_acf_register_graphql_field',          array($this, 'wpgraphql_register_field'), 10, 4);
         
     }
     
@@ -569,11 +573,10 @@ class acfe_compatibility{
      * ACF Extended: 0.8.8.2
      * WP GraphQL ACF Supported Fields
      */
-    function wpgraphql($fields){
+    function wpgraphql_supported_fields($fields){
         
         $acfe_fields = array(
             'acfe_advanced_link',
-            'acfe_button',
             'acfe_code_editor',
             'acfe_forms',
             'acfe_hidden',
@@ -581,11 +584,66 @@ class acfe_compatibility{
             'acfe_post_types',
             'acfe_slug',
             'acfe_taxonomies',
-            'acfe_taxonomiy_terms',
+            'acfe_taxonomy_terms',
             'acfe_user_roles',
         );
         
         return array_merge($fields, $acfe_fields);
+        
+    }
+    
+    /*
+     * ACF Extended: 0.8.8.4
+     * WP GraphQL ACF Register Field
+     */
+    function wpgraphql_register_field($field_config, $type_name, $field_name, $config){
+    
+        $acf_field = isset( $config['acf_field'] ) ? $config['acf_field'] : null;
+        $acf_type  = isset( $acf_field['type'] ) ? $acf_field['type'] : null;
+        
+        if($acf_type === 'acfe_advanced_link'){
+    
+            $field_config['type'] = array('list_of' => 'String');
+            
+        }elseif($acf_type === 'acfe_code_editor'){
+    
+            $field_config['type'] = 'String';
+            
+        }elseif($acf_type === 'acfe_forms'){
+    
+            $field_config['type'] = array('list_of' => 'String');
+            
+        }elseif($acf_type === 'acfe_hidden'){
+    
+            $field_config['type'] = 'String';
+            
+        }elseif($acf_type === 'acfe_post_statuses'){
+    
+            $field_config['type'] = array('list_of' => 'String');
+            
+        }elseif($acf_type === 'acfe_post_types'){
+    
+            $field_config['type'] = array('list_of' => 'String');
+            
+        }elseif($acf_type === 'acfe_slug'){
+    
+            $field_config['type'] = 'String';
+            
+        }elseif($acf_type === 'acfe_taxonomies'){
+    
+            $field_config['type'] = array('list_of' => 'String');
+            
+        }elseif($acf_type === 'acfe_taxonomy_terms'){
+    
+            $field_config['type'] = array('list_of' => 'String');
+            
+        }elseif($acf_type === 'acfe_user_roles'){
+    
+            $field_config['type'] = array('list_of' => 'String');
+            
+        }
+        
+        return $field_config;
         
     }
     

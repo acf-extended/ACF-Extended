@@ -42,7 +42,6 @@ class acfe_field_slug extends acf_field{
             'name'          => 'default_value',
         ));
         
-        
         // placeholder
         acf_render_field_setting($field, array(
             'label'         => __('Placeholder Text','acf'),
@@ -50,7 +49,6 @@ class acfe_field_slug extends acf_field{
             'type'          => 'text',
             'name'          => 'placeholder',
         ));
-        
         
         // prepend
         acf_render_field_setting($field, array(
@@ -60,7 +58,6 @@ class acfe_field_slug extends acf_field{
             'name'          => 'prepend',
         ));
         
-        
         // append
         acf_render_field_setting($field, array(
             'label'         => __('Append','acf'),
@@ -68,7 +65,6 @@ class acfe_field_slug extends acf_field{
             'type'          => 'text',
             'name'          => 'append',
         ));
-        
         
         // maxlength
         acf_render_field_setting($field, array(

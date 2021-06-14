@@ -62,8 +62,8 @@ class acfe_field_select{
                 ),
             )
         ));
-
-        // placeholder
+    
+        // Placeholder
         acf_render_field_setting($field, array(
             'label'             => __('Placeholder','acf'),
             'instructions'      => __('Appears within the input','acf'),
@@ -75,13 +75,30 @@ class acfe_field_select{
                     array(
                         'field'     => 'ui',
                         'operator'  => '==',
+                        'value'     => '0',
+                    ),
+                    array(
+                        'field'     => 'allow_null',
+                        'operator'  => '==',
+                        'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '0',
+                    ),
+                ),
+                array(
+                    array(
+                        'field'     => 'ui',
+                        'operator'  => '==',
                         'value'     => '1',
                     ),
                     array(
                         'field'     => 'allow_null',
                         'operator'  => '==',
                         'value'     => '1',
-                    )
+                    ),
                 ),
                 array(
                     array(
@@ -93,19 +110,12 @@ class acfe_field_select{
                         'field'     => 'multiple',
                         'operator'  => '==',
                         'value'     => '1',
-                    )
-                ),
-                array(
-                    array(
-                        'field'     => 'allow_null',
-                        'operator'  => '==',
-                        'value'     => '1',
-                    )
+                    ),
                 ),
             )
         ));
-
-        // search placeholder
+    
+        // Search Placeholder
         acf_render_field_setting($field, array(
             'label'             => __('Search Input Placeholder','acf'),
             'instructions'      => __('Appears within the search input','acf'),
@@ -118,6 +128,11 @@ class acfe_field_select{
                         'field'     => 'ui',
                         'operator'  => '==',
                         'value'     => '1',
+                    ),
+                    array(
+                        'field'     => 'multiple',
+                        'operator'  => '==',
+                        'value'     => '0',
                     ),
                 ),
             )

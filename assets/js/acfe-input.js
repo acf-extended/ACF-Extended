@@ -1672,23 +1672,6 @@
 /*
  * Field: reCaptcha Callback
  */
-function acfe_recaptcha() {
-
-    (function($) {
-
-        if (typeof acf === 'undefined')
-            return;
-
-        $.each(acf.getFields({
-            type: 'acfe_recaptcha'
-        }), function() {
-            this.render();
-        });
-
-    })(jQuery);
-
-}
-
 (function($) {
 
     if (typeof acf === 'undefined')
@@ -1700,6 +1683,8 @@ function acfe_recaptcha() {
     var reCaptcha = acf.Field.extend({
 
         type: 'acfe_recaptcha',
+
+        wait: 'load',
 
         actions: {
             'validation_failure': 'validationFailure'
@@ -1721,65 +1706,78 @@ function acfe_recaptcha() {
             return this.$selector()[0];
         },
 
-        version: function() {
-            return this.get('version');
-        },
+        initialize: function() {
 
-        render: function() {
+            if (this.get('version') === 'v2') {
 
-            var field = this;
+                this.renderV2(this);
 
-            if (this.version() === 'v2') {
+            } else if (this.get('version') === 'v3') {
 
-                this.recaptcha = grecaptcha.render(field.selector(), {
-                    'sitekey': field.$control().data('site-key'),
-                    'theme': field.$control().data('theme'),
-                    'size': field.$control().data('size'),
-
-
-                    'callback': function(response) {
-
-                        field.$input().val(response).change();
-                        field.$input().closest('.acf-input').find('> .acf-notice.-error').hide();
-
-                    },
-
-                    'error-callback': function() {
-
-                        field.$input().val('error').change();
-
-                    },
-
-                    'expired-callback': function() {
-
-                        field.$input().val('expired').change();
-
-                    }
-                });
-
-            } else if (this.version() === 'v3') {
-
-                grecaptcha.ready(function() {
-                    grecaptcha.execute(field.$control().data('site-key'), {
-                        action: 'homepage'
-                    }).then(function(response) {
-
-                        field.$input().val(response).change();
-                        field.$input().closest('.acf-input').find('> .acf-notice.-error').hide();
-
-                    });
-                });
+                this.renderV3();
 
             }
 
         },
 
+        renderV2: function(self) {
+
+            // selectors
+            var selector = this.selector();
+            var $input = this.$input();
+
+            // vars
+            var sitekey = this.get('siteKey');
+            var theme = this.get('theme');
+            var size = this.get('size');
+
+            // request
+            this.recaptcha = grecaptcha.render(selector, {
+                'sitekey': sitekey,
+                'theme': theme,
+                'size': size,
+
+                'callback': function(response) {
+                    acf.val($input, response, true);
+                    self.removeError();
+                },
+
+                'error-callback': function() {
+                    acf.val($input, '', true);
+                    self.showError('An error has occured');
+                },
+
+                'expired-callback': function() {
+                    acf.val($input, '', true);
+                    self.showError('reCaptcha has expired');
+                }
+            });
+
+        },
+
+        renderV3: function() {
+
+            // vars
+            var $input = this.$input();
+            var sitekey = this.get('siteKey');
+
+            // request
+            grecaptcha.ready(function() {
+                grecaptcha.execute(sitekey, {
+                    action: 'homepage'
+                }).then(function(response) {
+
+                    acf.val($input, response, true);
+
+                });
+            });
+
+        },
+
         validationFailure: function($form) {
 
-            if (this.version() === 'v2') {
-
+            if (this.get('version') === 'v2') {
                 grecaptcha.reset(this.recaptcha);
-
             }
 
         }

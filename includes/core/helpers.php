@@ -1873,6 +1873,31 @@ function acfe_is_dynamic_preview(){
 }
 
 /*
+ * ACFE: Is Gutenberg
+ * Check if current screen is block editor
+ */
+function acfe_is_gutenberg(){
+    
+    // bail early if not defined
+    if(!function_exists('get_current_screen')) return false;
+    
+    // vars
+    $current_screen = get_current_screen();
+    
+    // no screen
+    if(!$current_screen) return false;
+    
+    // check screen
+    if((method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor()) || (function_exists('is_gutenberg_page') && is_gutenberg_page())){
+        return true;
+    }
+    
+    // return false
+    return false;
+    
+}
+
+/*
  * ACFE: Maybe Get
  * Similar to acf_maybe_get() but also works with OBJECTS
  */
