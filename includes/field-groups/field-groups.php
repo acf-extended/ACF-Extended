@@ -809,7 +809,7 @@ class ACFE_Field_Groups{
     function seamless_metabox($post_type, $post, $field_groups){
         
         // check gutenberg
-        $is_gutenberg = acfe_is_gutenberg();
+        $is_gutenberg = acf_is_block_editor();
         
         foreach($field_groups as $field_group){
             

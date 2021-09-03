@@ -465,6 +465,27 @@ class acfe_form_term{
             'label' => 'Term action',
             'display' => 'row',
             'sub_fields' => array(
+    
+                /*
+                 * Documentation
+                 */
+                array(
+                    'key' => 'field_acfe_form_term_action_docs',
+                    'label' => '',
+                    'name' => 'acfe_form_action_docs',
+                    'type' => 'acfe_dynamic_render',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'render' => function(){
+                        echo '<a href="https://www.acf-extended.com/features/modules/dynamic-forms/term-action" target="_blank">' . __('Documentation', 'acfe') . '</a>';
+                    }
+                ),
         
                 /*
                  * Layout: Term Action
@@ -621,7 +642,7 @@ class acfe_form_term{
                     'key' => 'field_acfe_form_term_map_name_message',
                     'label' => 'Name',
                     'name' => 'acfe_form_term_map_name_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -676,7 +697,7 @@ class acfe_form_term{
                     'key' => 'field_acfe_form_term_map_slug_message',
                     'label' => 'Slug',
                     'name' => 'acfe_form_term_map_slug_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -735,7 +756,7 @@ class acfe_form_term{
                     'key' => 'field_acfe_form_term_map_taxonomy_message',
                     'label' => 'Taxonomy',
                     'name' => 'acfe_form_term_map_taxonomy_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -791,7 +812,7 @@ class acfe_form_term{
                     'key' => 'field_acfe_form_term_map_parent_message',
                     'label' => 'Parent',
                     'name' => 'acfe_form_term_map_parent_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -896,7 +917,7 @@ class acfe_form_term{
                     'key' => 'field_acfe_form_term_map_description_message',
                     'label' => 'Description',
                     'name' => 'acfe_form_term_map_description_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1221,226 +1242,7 @@ class acfe_form_term{
                     'return_format' => 'value',
                     'save_custom' => 0,
                 ),
-        
-                /*
-                 * Layout: Term Advanced
-                 */
-                array(
-                    'key' => 'field_acfe_form_term_tab_advanced',
-                    'label' => 'Code',
-                    'name' => '',
-                    'type' => 'tab',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'acfe_permissions' => '',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ),
-                array(
-                    'key' => 'field_acfe_form_term_advanced_load',
-                    'label' => 'Change values source',
-                    'name' => 'acfe_form_term_advanced_load',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Alter the term ID where meta values are loaded from',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_filter('acfe/form/load/term_id', 'my_form_term_values_source', 10, 3);
-add_filter('acfe/form/load/term_id/form=<?php echo $form_name; ?>', 'my_form_term_values_source', 10, 3);
-add_filter('acfe/form/load/term_id/action=my-term-action', 'my_form_term_values_source', 10, 3);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @int     $term_id  Term ID used as source
- * @array   $form     The form settings
- * @string  $action   The action alias name
- */
-add_filter('acfe/form/load/term_id/form=<?php echo $form_name; ?>', 'my_form_term_values_source', 10, 3);
-function my_form_term_values_source($term_id, $form, $action){
-
-    /*
-     * Retrieve Form Setting
-     */
-    if($form['custom_key'] === 'custom_value'){
-    
-        // Force to load values from the Term ID 45
-        $term_id = 45;
-
-    }
-    
-    return $term_id;
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
-                array(
-                    'key' => 'field_acfe_form_term_advanced_save_args',
-                    'label' => 'Change term arguments',
-                    'name' => 'acfe_form_term_advanced_save_args',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Alter the term arguments before database insert/update',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_filter('acfe/form/submit/term_args', 'my_form_term_args', 10, 4);
-add_filter('acfe/form/submit/term_args/form=<?php echo $form_name; ?>', 'my_form_term_args', 10, 4);
-add_filter('acfe/form/submit/term_args/action=my-term-action', 'my_form_term_args', 10, 4);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @array   $args    The generated term arguments
- * @string  $type    Action type: 'insert_term' or 'update_term'
- * @array   $form    The form settings
- * @string  $action  The action alias name
- */
-add_filter('acfe/form/submit/term_args/form=<?php echo $form_name; ?>', 'my_form_term_args', 10, 4);
-function my_form_term_args($args, $type, $form, $action){
-    
-    // Change Description if the Action Type is 'insert_term'
-    if($type === 'insert_term'){
-        
-        $args['description'] = 'My term description';
-        
-    }
-    
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-    
-    if($my_field === 'Company'){
-        
-        // Change Description
-        $args['description'] = 'My term description';
-        
-    }
-    
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-    
-    if(!empty($prev_post_action)){
-        
-        if($prev_post_action['post_title'] === 'Company'){
-            
-            // Change Description
-            $args['description'] = 'My term description';
-            
-        }
-        
-    }
-    
-    // Do not save Term
-    // return false;
-    
-    return $args;
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
-                array(
-                    'key' => 'field_acfe_form_term_advanced_save',
-                    'label' => 'Add custom action on term save',
-                    'name' => 'acfe_form_term_advanced_save',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_action('acfe/form/submit/term', 'my_form_term_save', 10, 5);
-add_action('acfe/form/submit/term/form=<?php echo $form_name; ?>', 'my_form_term_save', 10, 5);
-add_action('acfe/form/submit/term/action=my-term-action', 'my_form_term_save', 10, 5);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @int     $term_id  The targeted term ID
- * @string  $type     Action type: 'insert_term' or 'update_term'
- * @array   $args     The generated term arguments
- * @array   $form     The form settings
- * @string  $action   The action alias name
- *
- * Note: At this point the term is already saved into the database
- */
-add_action('acfe/form/submit/term/form=<?php echo $form_name; ?>', 'my_form_term_save', 10, 5);
-function my_form_term_save($term_id, $type, $args, $form, $action){
-
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-
-    if($my_field === 'Company'){
-    
-        // do_something();
-
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-
-    if(!empty($prev_post_action)){
-    
-        if($prev_post_action['post_title'] === 'Company'){
-        
-            // do_something();
-        
-        }
-
-    }
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
+                
             ),
             'min' => '',
             'max' => '',

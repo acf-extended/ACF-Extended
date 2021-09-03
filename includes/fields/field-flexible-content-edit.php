@@ -51,10 +51,10 @@ class acfe_field_flexible_content_edit{
     function render_field_settings($field){
     
         acf_render_field_setting($field, array(
-            'label'         => __('Edit Modal'),
+            'label'         => __('Edit Modal', 'acfe'),
             'name'          => 'acfe_flexible_modal_edit',
             'key'           => 'acfe_flexible_modal_edit',
-            'instructions'  => __('Edit layout content in a modal'),
+            'instructions'  => __('Edit layout content in a modal', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/modal-settings#edit-modal" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'          => 'group',
             'layout'        => 'block',
             'sub_fields'    => array(
@@ -133,7 +133,7 @@ class acfe_field_flexible_content_edit{
         // Title
         echo '</li>';
         acf_render_field_wrap(array(
-            'label' => __('Modal settings'),
+            'label' => __('Modal settings', 'acfe'),
             'type'  => 'hidden',
             'name'  => 'acfe_flexible_modal_edit_label',
             'wrapper' => array(

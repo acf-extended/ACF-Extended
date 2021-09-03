@@ -219,7 +219,7 @@ class acfe_dynamic_forms_helpers{
             
             foreach($field_group['fields'] as $s_field){
                 
-                $field_groups[$field_group['title']][] = $s_field;
+                $field_groups[ $field_group['title'] ][] = $s_field;
                 
             }
             
@@ -231,8 +231,9 @@ class acfe_dynamic_forms_helpers{
                 
                 foreach($fields as $field){
                     
-                    if(isset($choices[$field_group_title][$field['key']]))
-                        continue;
+                    if(isset($choices[ $field_group_title ][ $field['key'] ])) continue;
+                    
+                    if($field['type'] === 'acfe_payment_cart' || $field['type'] === 'acfe_payment_selector') continue;
                     
                     // First level
                     if(!$deep){
@@ -240,9 +241,9 @@ class acfe_dynamic_forms_helpers{
                         $label = !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acf') . ')';
                         $label .= $field['required'] ? ' *' : '';
                         
-                        $choices[$field_group_title][$field['key']] = $label. ' (' . $field['key'] . ')';
+                        $choices[ $field_group_title ][ $field['key'] ] = $label. ' (' . $field['key'] . ')';
                         
-                        // Deep
+                    // Deep
                     }else{
                         
                         $this->get_fields_choices_recursive($choices[$field_group_title], $field, $original_field);
@@ -547,13 +548,7 @@ class acfe_dynamic_forms_helpers{
             
         }
         
-        $is_array = false;
-        
-        if(is_array($content)){
-            
-            $is_array = true;
-            
-        }
+        $is_array = is_array($content);
         
         $content = acf_array($content);
         
@@ -570,6 +565,12 @@ class acfe_dynamic_forms_helpers{
             
             // Match current_post {current:post:id}
             $c = acfe_form_map_current($c, $post_id, $form);
+    
+            // Match {action:field}
+            $c = acfe_form_map_action($c);
+    
+            // Match {request:name}
+            $c = acfe_form_map_request($c);
             
             // Match {get_field:name} {get_field:name:123}
             $c = acfe_form_map_get_field($c, $post_id);
@@ -580,19 +581,15 @@ class acfe_dynamic_forms_helpers{
             // Match {query_var:name} {query_var:name:key}
             $c = acfe_form_map_query_var($c);
             
-            // Match {action:field}
-            $c = acfe_form_map_action($c);
-            
-            // Match {request:name}
-            $c = acfe_form_map_request($c);
-            
         }
         
-        if($is_array)
+        if($is_array){
             return $content;
+        }
         
-        if(isset($content[0]))
+        if(isset($content[0])){
             return $content[0];
+        }
         
         return false;
         
@@ -600,17 +597,11 @@ class acfe_dynamic_forms_helpers{
     
     function map_field_value_load($content, $post_id = 0, $form = array()){
         
-        $is_array = false;
-        
-        if(is_array($content)){
-            
-            $is_array = true;
-            
-        }
+        $is_array = is_array($content);
         
         $content = acf_array($content);
         
-        foreach($content as &$c) {
+        foreach($content as &$c){
             
             // Match current_post {current:post:id}
             $c = acfe_form_map_current($c, $post_id, $form);
@@ -629,11 +620,13 @@ class acfe_dynamic_forms_helpers{
             
         }
         
-        if($is_array)
+        if($is_array){
             return $content;
+        }
         
-        if(isset($content[0]))
+        if(isset($content[0])){
             return $content[0];
+        }
         
         return false;
         
@@ -659,16 +652,13 @@ class acfe_dynamic_forms_helpers{
     
     function format_value_array($value){
         
-        if(!is_array($value))
-            return $value;
+        if(!is_array($value)) return $value;
         
         $return = array();
         
         foreach($value as $i => $v){
             
-            $key = '';
-            if(!is_numeric($i))
-                $key = $i . ': ';
+            $key = !is_numeric($i) ? $i . ': ' : '';
             
             $return[] = $key . $this->format_value_array($v);
             
@@ -685,10 +675,10 @@ class acfe_dynamic_forms_helpers{
         
         $value = acf_format_value($value, $post_id, $field);
         
-        $value = apply_filters('acfe/form/format_value',                        $value, $_value, $post_id, $field);
-        $value = apply_filters('acfe/form/format_value/type=' . $field['type'], $value, $_value, $post_id, $field);
-        $value = apply_filters('acfe/form/format_value/key=' . $field['key'],   $value, $_value, $post_id, $field);
-        $value = apply_filters('acfe/form/format_value/name=' . $field['name'], $value, $_value, $post_id, $field);
+        $value = apply_filters("acfe/form/format_value",                        $value, $_value, $post_id, $field);
+        $value = apply_filters("acfe/form/format_value/type={$field['type']}",  $value, $_value, $post_id, $field);
+        $value = apply_filters("acfe/form/format_value/key={$field['key']}",    $value, $_value, $post_id, $field);
+        $value = apply_filters("acfe/form/format_value/name={$field['name']}",  $value, $_value, $post_id, $field);
         
         // Is Array? Fallback
         if(is_array($value)){
@@ -912,9 +902,17 @@ function acfe_form_map_query_var($content){
         
         foreach($matches[1] as $i => $name){
             
-            if(stripos($name, 'post') !== false || stripos($name, 'term') !== false || stripos($name, 'user') !== false || stripos($name, 'email') !== false){
+            if(stripos($name, '-post') !== false || stripos($name, '-term') !== false || stripos($name, '-user') !== false || stripos($name, '-email') !== false){
                 
-                _deprecated_function('ACF Extended - Dynamic Forms: "{query_var:' . $name . '}" template tag', '0.8.7.5', "the new {action} Template Tag (See documentation: https://www.acf-extended.com/features/modules/dynamic-forms)");
+                // global
+                global $wp_query;
+                
+                // check if the query var exists
+                if(!isset($wp_query->query_vars) || !isset($wp_query->query_vars[$name])){
+                    
+                    _deprecated_function('ACF Extended - Dynamic Forms: "{query_var:' . $name . '}" template tag', '0.8.7.5', "the new {action} Template Tag (See documentation: https://www.acf-extended.com/features/modules/dynamic-forms)");
+                    
+                }
                 
             }
             

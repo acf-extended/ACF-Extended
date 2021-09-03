@@ -68,10 +68,10 @@ class acfe_field_flexible_content_controls{
     
         // Advanced settings
         acf_render_field_setting($field, array(
-            'label'         => __('Advanced Flexible Content'),
+            'label'         => __('Advanced Flexible Content', 'acfe'),
             'name'          => 'acfe_flexible_advanced',
             'key'           => 'acfe_flexible_advanced',
-            'instructions'  => __('Show advanced Flexible Content settings'),
+            'instructions'  => __('Show advanced Flexible Content settings', 'acfe'),
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -82,10 +82,10 @@ class acfe_field_flexible_content_controls{
     
         // Stylised button
         acf_render_field_setting($field, array(
-            'label'         => __('Stylised Button'),
+            'label'         => __('Stylised Button', 'acfe'),
             'name'          => 'acfe_flexible_stylised_button',
             'key'           => 'acfe_flexible_stylised_button',
-            'instructions'  => __('Better actions buttons integration'),
+            'instructions'  => __('Better actions buttons integration', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/advanced-settings#stylised-button" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -110,10 +110,10 @@ class acfe_field_flexible_content_controls{
     
         // Hide Empty Message
         acf_render_field_setting($field, array(
-            'label'         => __('Hide Empty Message'),
+            'label'         => __('Hide Empty Message', 'acfe'),
             'name'          => 'acfe_flexible_hide_empty_message',
             'key'           => 'acfe_flexible_hide_empty_message',
-            'instructions'  => __('Hide the empty message box'),
+            'instructions'  => '<a href="https://www.acf-extended.com/features/fields/flexible-content/advanced-settings#empty-message" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -138,12 +138,12 @@ class acfe_field_flexible_content_controls{
     
         // Empty Message
         acf_render_field_setting($field, array(
-            'label'         => __('Empty Message'),
+            'label'         => __('Empty Message', 'acfe'),
             'name'          => 'acfe_flexible_empty_message',
             'key'           => 'acfe_flexible_empty_message',
-            'instructions'  => __('Text displayed when the flexible field is empty'),
+            'instructions'  => __('Text displayed when the flexible field is empty', 'acfe'),
             'type'          => 'text',
-            'placeholder'   => __('Click the "Add Row" button below to start creating your layout'),
+            'placeholder'   => __('Click the "Add Row" button below to start creating your layout', 'acfe'),
             'conditional_logic' => array(
                 array(
                     array(

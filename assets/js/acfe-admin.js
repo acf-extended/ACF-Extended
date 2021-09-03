@@ -4,164 +4,6 @@
         return;
 
     /*
-     * ACFE Form
-     */
-    new acf.Model({
-
-        actions: {
-
-            // Buttons
-            'new_field/name=acfe_form_actions': 'actionsButton',
-            'new_field/name=acfe_form_email_files': 'filesButton',
-            'new_field/name=acfe_form_email_files_static': 'filesButton',
-
-            // Post
-            'new_field/name=acfe_form_post_map_target': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_type': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_status': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_title': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_name': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_content': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_author': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_parent': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_terms': 'mapFields',
-
-            // User
-            'new_field/name=acfe_form_user_map_email': 'mapFields',
-            'new_field/name=acfe_form_user_map_username': 'mapFields',
-            'new_field/name=acfe_form_user_map_password': 'mapFields',
-            'new_field/name=acfe_form_user_map_first_name': 'mapFields',
-            'new_field/name=acfe_form_user_map_last_name': 'mapFields',
-            'new_field/name=acfe_form_user_map_nickname': 'mapFields',
-            'new_field/name=acfe_form_user_map_display_name': 'mapFields',
-            'new_field/name=acfe_form_user_map_website': 'mapFields',
-            'new_field/name=acfe_form_user_map_description': 'mapFields',
-            'new_field/name=acfe_form_user_map_role': 'mapFields',
-
-            // Term
-            'new_field/name=acfe_form_term_map_name': 'mapFields',
-            'new_field/name=acfe_form_term_map_slug': 'mapFields',
-            'new_field/name=acfe_form_term_map_taxonomy': 'mapFields',
-            'new_field/name=acfe_form_term_map_parent': 'mapFields',
-            'new_field/name=acfe_form_term_map_description': 'mapFields',
-        },
-
-        filters: {
-            'select2_args': 'select2Args'
-        },
-
-        actionsButton: function(field) {
-
-            field.on('click', '[data-name="add-layout"]', function(e) {
-
-                $('body').find('.acf-fc-popup').addClass('acfe-fc-popup-grey');
-
-            });
-
-        },
-
-        filesButton: function(field) {
-
-            field.$('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
-
-        },
-
-        mapFields: function(field) {
-
-            var $layout = field.$el.closest('.layout');
-            var $message = $layout.find('> .acf-fields > .acf-field[data-name="' + field.get('name') + '_message"] > .acf-input');
-
-            var selected = field.$input().find('option:selected').text();
-
-            if (selected.length) {
-                $message.html(selected);
-            }
-
-            field.$input().on('change', function() {
-
-                // Message
-                var text = $(this).find('option:selected').text();
-
-                $message.html(text);
-
-            });
-
-        },
-
-        select2Args: function(options, $select, fieldData, field, instance) {
-
-            if (field.get('acfeAllowCustom')) {
-
-                options.templateSelection = function(state) {
-
-                    if (!state.id) {
-                        return state.text;
-                    }
-
-                    var text = state.text;
-
-                    var match_field = /{field:(.*)}/g;
-                    var match_fields = /{fields}/g;
-                    var match_get_field = /{get_field:(.*)}/g;
-                    var match_query_var = /{query_var:(.*)}/g;
-                    var match_request = /{request:(.*)}/g;
-                    var match_current = /{current:(.*)}/g;
-                    var match_form = /{(form|form:.*?)}/g;
-                    var match_action = /{action:(.*)}/g;
-
-                    text = text.replace(match_field, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{field:$1}</code>");
-                    text = text.replace(match_fields, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{fields}</code>");
-                    text = text.replace(match_current, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{current:$1}</code>");
-                    text = text.replace(match_form, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{$1}</code>");
-                    text = text.replace(match_action, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{action:$1}</code>");
-                    text = text.replace(match_get_field, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{get_field:$1}</code>");
-                    text = text.replace(match_query_var, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{query_var:$1}</code>");
-                    text = text.replace(match_request, "<code style='font-size:12px;padding:3px;vertical-align: 1px;line-height: 12px;'>{request:$1}</code>");
-
-
-                    return text;
-
-                };
-
-                options.templateResult = function(state) {
-
-                    if (!state.id) {
-                        return state.text;
-                    }
-
-                    var text = state.text;
-
-                    var match_field = /{field:(.*?)}/g;
-                    var match_fields = /{fields}/g;
-                    var match_get_field = /{get_field:(.*?)}/g;
-                    var match_query_var = /{query_var:(.*?)}/g;
-                    var match_request = /{request:(.*?)}/g;
-                    var match_current = /{current:(.*?)}/g;
-                    var match_form = /{(form|form:.*?)}/g;
-                    var match_action = /{action:(.*?)}/g;
-
-                    text = text.replace(match_field, "<code style='font-size:12px;'>{field:$1}</code>");
-                    text = text.replace(match_fields, "<code style='font-size:12px;'>{fields}</code>");
-                    text = text.replace(match_get_field, "<code style='font-size:12px;'>{get_field:$1}</code>");
-                    text = text.replace(match_query_var, "<code style='font-size:12px;'>{query_var:$1}</code>");
-                    text = text.replace(match_request, "<code style='font-size:12px;'>{request:$1}</code>");
-                    text = text.replace(match_current, "<code style='font-size:12px;'>{current:$1}</code>");
-                    text = text.replace(match_form, "<code style='font-size:12px;'>{$1}</code>");
-                    text = text.replace(match_action, "<code style='font-size:12px;'>{action:$1}</code>");
-
-                    return text;
-
-                };
-
-            }
-
-            return options;
-
-        }
-
-    });
-
-    /*
      * Dev Mode
      */
     new acf.Model({
@@ -172,17 +14,6 @@
             'click .acfe_delete_meta': 'onClickSingle',
             'click #acfe_bulk_delete_meta_submit': 'onSubmitBulk',
             'click.postboxes .hide-postbox-tog': 'onClickPostbox',
-            'click .acfe-wp-object-modal': 'onClickOpen'
-        },
-
-        onClickOpen: function(e, $el) {
-
-            new acfe.Popup($('.acfe-modal[data-modal-key=' + $el.attr('data-modal-key') + ']'), {
-                title: $el.attr('data-modal-title'),
-                size: 'medium',
-                footer: acf.__('Close')
-            });
-
         },
 
         $acfWrap: function() {
@@ -368,6 +199,152 @@
         }
 
     });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined')
+        return;
+
+    /*
+     * ACFE Form
+     */
+    new acf.Model({
+
+        actions: {
+
+            // Buttons
+            'new_field/name=acfe_form_actions': 'actionsButton',
+            'new_field/name=acfe_form_email_files': 'filesButton',
+            'new_field/name=acfe_form_email_files_static': 'filesButton',
+
+            // Post
+            'new_field/name=acfe_form_post_map_target': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_type': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_status': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_title': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_name': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_content': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_author': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_parent': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_terms': 'mapFields',
+
+            // User
+            'new_field/name=acfe_form_user_map_email': 'mapFields',
+            'new_field/name=acfe_form_user_map_username': 'mapFields',
+            'new_field/name=acfe_form_user_map_password': 'mapFields',
+            'new_field/name=acfe_form_user_map_first_name': 'mapFields',
+            'new_field/name=acfe_form_user_map_last_name': 'mapFields',
+            'new_field/name=acfe_form_user_map_nickname': 'mapFields',
+            'new_field/name=acfe_form_user_map_display_name': 'mapFields',
+            'new_field/name=acfe_form_user_map_website': 'mapFields',
+            'new_field/name=acfe_form_user_map_description': 'mapFields',
+            'new_field/name=acfe_form_user_map_role': 'mapFields',
+
+            // Term
+            'new_field/name=acfe_form_term_map_name': 'mapFields',
+            'new_field/name=acfe_form_term_map_slug': 'mapFields',
+            'new_field/name=acfe_form_term_map_taxonomy': 'mapFields',
+            'new_field/name=acfe_form_term_map_parent': 'mapFields',
+            'new_field/name=acfe_form_term_map_description': 'mapFields',
+        },
+
+        filters: {
+            'select2_args': 'select2Args'
+        },
+
+        actionsButton: function(field) {
+
+            field.on('click', '[data-name="add-layout"]', function(e) {
+
+                $('body').find('.acf-fc-popup').addClass('acfe-fc-popup-grey');
+
+            });
+
+        },
+
+        filesButton: function(field) {
+
+            field.$('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
+
+        },
+
+        mapFields: function(field) {
+
+            var $layout = field.$el.closest('.layout');
+            var $message = $layout.find('> .acf-fields > .acf-field[data-name="' + field.get('name') + '_message"] > .acf-input');
+
+            var selected = field.$input().find('option:selected').text();
+
+            if (selected.length) {
+                $message.html(selected);
+            }
+
+            field.$input().on('change', function() {
+
+                // Message
+                var text = $(this).find('option:selected').text();
+
+                $message.html(text);
+
+            });
+
+        },
+
+        select2Args: function(options, $select, fieldData, field, instance) {
+
+            if (field.get('acfeAllowCustom')) {
+
+                var self = this;
+
+                options.templateSelection = function(state) {
+
+                    if (!state.id) {
+                        return state.text;
+                    }
+
+                    return self.replaceCode(state.text);
+
+                };
+
+                options.templateResult = function(state) {
+
+                    if (!state.id) {
+                        return state.text;
+                    }
+
+                    return self.replaceCode(state.text);
+
+                };
+
+            }
+
+            return options;
+
+        },
+
+        replaceCode: function(text) {
+
+            text = text.replace(/{field:(.*?)}/g, "<code>{field:$1}</code>");
+            text = text.replace(/{fields}/g, "<code>{fields}</code>");
+            text = text.replace(/{get_field:(.*?)}/g, "<code>{get_field:$1}</code>");
+            text = text.replace(/{query_var:(.*?)}/g, "<code>{query_var:$1}</code>");
+            text = text.replace(/{request:(.*?)}/g, "<code>{request:$1}</code>");
+            text = text.replace(/{current:(.*?)}/g, "<code>{current:$1}</code>");
+            text = text.replace(/{(form|form:.*?)}/g, "<code>{$1}</code>");
+            text = text.replace(/{action:(.*?)}/g, "<code>{action:$1}</code>");
+
+            return text;
+
+        }
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined')
+        return;
 
     /*
      * Module: Author

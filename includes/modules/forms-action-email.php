@@ -289,6 +289,27 @@ class acfe_form_email{
             'label' => 'Email action',
             'display' => 'row',
             'sub_fields' => array(
+    
+                /*
+                 * Documentation
+                 */
+                array(
+                    'key' => 'field_acfe_form_email_action_docs',
+                    'label' => '',
+                    'name' => 'acfe_form_action_docs',
+                    'type' => 'acfe_dynamic_render',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'render' => function(){
+                        echo '<a href="https://www.acf-extended.com/features/modules/dynamic-forms/e-mail-action" target="_blank">' . __('Documentation', 'acfe') . '</a>';
+                    }
+                ),
         
                 /*
                  * Layout: Email Action
@@ -316,7 +337,7 @@ class acfe_form_email{
                     'label' => 'Action name',
                     'name' => 'acfe_form_custom_alias',
                     'type' => 'acfe_slug',
-                    'instructions' => '(Optional) Target this action using hooks.',
+                    'instructions' => __('(Optional) Target this action using hooks.', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => array(
@@ -622,187 +643,7 @@ class acfe_form_email{
                         ),
                     ),
                 ),
-        
-                /*
-                 * Layout: Email Advanced
-                 */
-                array(
-                    'key' => 'field_acfe_form_email_tab_advanced',
-                    'label' => 'Code',
-                    'name' => '',
-                    'type' => 'tab',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'acfe_permissions' => '',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ),
-                array(
-                    'key' => 'field_acfe_form_email_advanced_args',
-                    'label' => 'Change email arguments',
-                    'name' => 'acfe_form_email_advanced_args',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Alter the <code>wp_mail()</code> arguments before it is sent',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_filter('acfe/form/submit/email_args', 'my_form_email_args', 10, 3);
-add_filter('acfe/form/submit/email_args/form=<?php echo $form_name; ?>', 'my_form_email_args', 10, 3);
-add_filter('acfe/form/submit/email_args/action=my-email-action', 'my_form_email_args', 10, 3);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @array   $args    The generated email arguments
- * @array   $form    The form settings
- * @string  $action  The action alias name
- */
-add_filter('acfe/form/submit/email_args/form=<?php echo $form_name; ?>', 'my_form_email_args', 10, 4);
-function my_form_email_args($args, $form, $action){
-    
-    /*
-     * $args = array(
-     *     'from'          => 'email@domain.com',
-     *     'reply_to'      => 'email@domain.com',
-     *     'to'            => 'email@domain.com',
-     *     'cc'            => 'email@domain.com',
-     *     'bcc'           => 'email@domain.com',
-     *     'subject'       => 'Subject',
-     *     'content'       => 'Content',
-     *     'headers'       => array(
-     *         'From: email@domain.com',
-     *         'Reply-to: email@domain.com',
-     *         'Cc: email@domain.com',
-     *         'Bcc: email@domain.com',
-     *         'Content-Type: text/html',
-     *         'charset=UTF-8'
-     *     ),
-     *     'attachments'   => array(
-     *         '/path/to/file.jpg'
-     *     )
-     * );
-     */
 
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-    
-    if($my_field === 'Company'){
-    
-        // Change Recipient
-        $args['to'] = 'new@domain.com';
-    
-    }
-    
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-    
-    if(!empty($prev_post_action)){
-    
-        if($prev_post_action['post_title'] === 'Company'){
-            
-            // Change Recipient
-            $args['to'] = 'new@domain.com';
-            
-        }
-    
-    }
-    
-    // Do not send Email
-    // return false;
-    
-    return $args;
-    
-}<?php acfe_highlight();
-                        
-                    }
-                ),
-                array(
-                    'key' => 'field_acfe_form_email_advanced_send',
-                    'label' => 'Add custom action when e-mail is sent',
-                    'name' => 'form_email_advanced_send',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'This action allows you to hook in after the e-mail has been sent',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_action('acfe/form/submit/email', 'my_form_email_send', 10, 3);
-add_action('acfe/form/submit/email/form=<?php echo $form_name; ?>', 'my_form_email_send', 10, 3);
-add_action('acfe/form/submit/email/action=my-email-action', 'my_form_email_send', 10, 3);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @array   $args    The generated email arguments
- * @array   $form    The form settings
- * @string  $action  The action alias name
- */
-add_action('acfe/form/submit/email/form=<?php echo $form_name; ?>', 'my_form_email_send', 10, 3);
-function my_form_email_send($args, $form, $action){
-
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-
-    if($my_field === 'Company'){
-
-        // do_something();
-
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-
-    if(!empty($prev_post_action)){
-
-        if($prev_post_action['post_title'] === 'Company'){
-
-            // do_something();
-    
-        }
-
-    }
-    
-}<?php acfe_highlight();
-                        
-                    }
-                ),
             ),
             'min' => '',
             'max' => '',

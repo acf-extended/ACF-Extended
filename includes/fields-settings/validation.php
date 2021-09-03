@@ -55,7 +55,7 @@ class acfe_field_validation{
     function add_settings(){
         
         // Exclude
-        $exclude = array('accordion', 'acfe_button', 'acfe_column', 'acfe_dynamic_message', 'clone', 'flexible_content', 'group', 'message', 'repeater', 'tab');
+        $exclude = array('accordion', 'acfe_button', 'acfe_column', 'acfe_dynamic_render', 'clone', 'flexible_content', 'group', 'message', 'repeater', 'tab');
         
         // Get Fields Types
         foreach(acf_get_field_types_info() as $field){

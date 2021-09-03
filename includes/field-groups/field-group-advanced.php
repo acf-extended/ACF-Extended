@@ -39,7 +39,7 @@ class acfe_field_group_advanced{
         
         // Form settings
         acf_render_field_wrap(array(
-            'label'         => __('Advanced settings'),
+            'label'         => __('Advanced settings', 'acfe'),
             'name'          => 'acfe_form',
             'prefix'        => 'acf_field_group',
             'type'          => 'true_false',

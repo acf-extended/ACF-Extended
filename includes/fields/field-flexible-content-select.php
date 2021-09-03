@@ -46,10 +46,10 @@ class acfe_field_flexible_content_select{
     function render_field_settings($field){
     
         acf_render_field_setting($field, array(
-            'label'         => __('Selection Modal'),
+            'label'         => __('Selection Modal', 'acfe'),
             'name'          => 'acfe_flexible_modal',
             'key'           => 'acfe_flexible_modal',
-            'instructions'  => __('Select layouts in a modal'),
+            'instructions'  => __('Select layouts in a modal', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/modal-settings#selection-modal" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'          => 'group',
             'layout'        => 'block',
             'sub_fields'    => array(
@@ -76,7 +76,7 @@ class acfe_field_flexible_content_select{
                     'name'          => 'acfe_flexible_modal_title',
                     'key'           => 'acfe_flexible_modal_title',
                     'type'          => 'text',
-                    'prepend'       => __('Title'),
+                    'prepend'       => __('Title', 'acfe'),
                     'placeholder'   => 'Add Row',
                     'instructions'  => false,
                     'required'      => false,
@@ -165,7 +165,7 @@ class acfe_field_flexible_content_select{
                     'name'          => 'acfe_flexible_modal_categories',
                     'key'           => 'acfe_flexible_modal_categories',
                     'type'          => 'true_false',
-                    'message'       => __('Categories'),
+                    'message'       => __('Categories', 'acfe'),
                     'instructions'  => false,
                     'required'      => false,
                     'wrapper'       => array(
@@ -206,7 +206,7 @@ class acfe_field_flexible_content_select{
             return;
         
         acf_render_field_wrap(array(
-            'prepend'       => __('Category'),
+            'prepend'       => __('Category', 'acfe'),
             'name'          => 'acfe_flexible_category',
             'type'          => 'select',
             'ui'            => 1,
@@ -215,7 +215,7 @@ class acfe_field_flexible_content_select{
             'class'         => 'acf-fc-meta-name',
             'prefix'        => $prefix,
             'value'         => $layout['acfe_flexible_category'],
-            'placeholder'   => __('Enter value'),
+            'placeholder'   => __('Enter value', 'acfe'),
             'wrapper'       => array(
                 'data-acfe-prepend' => 'Categories',
             ),

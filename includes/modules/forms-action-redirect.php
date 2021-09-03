@@ -66,6 +66,27 @@ class acfe_form_redirect{
             'label' => 'Redirect action',
             'display' => 'row',
             'sub_fields' => array(
+    
+                /*
+                 * Documentation
+                 */
+                array(
+                    'key' => 'field_acfe_form_redirect_action_docs',
+                    'label' => '',
+                    'name' => 'acfe_form_action_docs',
+                    'type' => 'acfe_dynamic_render',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'render' => function(){
+                        echo '<a href="https://www.acf-extended.com/features/modules/dynamic-forms/redirect-action" target="_blank">' . __('Documentation', 'acfe') . '</a>';
+                    }
+                ),
                 
                 /*
                  * Layout: Redirect Action
@@ -93,7 +114,7 @@ class acfe_form_redirect{
                     'label' => 'Action name',
                     'name' => 'acfe_form_custom_alias',
                     'type' => 'acfe_slug',
-                    'instructions' => '(Optional) Target this action using hooks.',
+                    'instructions' => __('(Optional) Target this action using hooks.', 'acfe'),
                     'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => array(
@@ -129,171 +150,6 @@ class acfe_form_redirect{
                     'prepend' => '',
                     'append' => '',
                     'maxlength' => '',
-                ),
-
-                /*
-                 * Layout: Redirect Advanced
-                 */
-                array(
-                    'key' => 'field_acfe_form_redirect_action_tab_advanced',
-                    'label' => 'Code',
-                    'name' => '',
-                    'type' => 'tab',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'acfe_permissions' => '',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ),
-                array(
-                    'key' => 'field_acfe_form_redirect_action_tab_advanced_prepare',
-                    'label' => 'Prepare the action',
-                    'name' => 'acfe_form_redirect_action_tab_advanced_prepare',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Stop the action execution if necessary',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-        
-        ?>You may use the following hooks:<br /><br />
-        
-        <?php acfe_highlight(); ?>
-add_filter('acfe/form/prepare/redirect', 'my_form_redirect_prepare', 10, 4);
-add_filter('acfe/form/prepare/redirect/form=<?php echo $form_name; ?>', 'my_form_redirect_prepare', 10, 4);
-add_filter('acfe/form/prepare/redirect/action=my-redirect-action', 'my_form_redirect_prepare', 10, 4);<?php acfe_highlight(); ?>
-        <br />
-        <?php acfe_highlight(); ?>
-/*
- * @bool    $prepare  Execute the action
- * @array   $form     The form settings
- * @int     $post_id  Current post ID
- * @string  $action   Action alias name
- */
-add_filter('acfe/form/prepare/redirect/form=<?php echo $form_name; ?>', 'my_form_redirect_prepare', 10, 4);
-function my_form_redirect_prepare($prepare, $form, $post_id, $action){
-
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-
-    if($my_field === 'Company'){
-
-        // Do not execute Redirect
-        $prepare = false;
-
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-
-    if(!empty($prev_post_action)){
-
-        if($prev_post_action['post_title'] === 'Company'){
-
-            // Do not execute Redirect
-            $prepare = false;
-
-        }
-
-    }
-    
-    return $prepare;
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
-                array(
-                    'key' => 'field_acfe_form_redirect_action_tab_advanced_url',
-                    'label' => 'Change Redirect URL',
-                    'name' => 'acfe_form_redirect_action_tab_advanced_url',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-        
-        ?>You may use the following hooks:<br /><br />
-        
-        <?php acfe_highlight(); ?>
-add_filter('acfe/form/submit/redirect_url', 'my_form_redirect_url', 10, 3);
-add_filter('acfe/form/submit/redirect_url/form=<?php echo $form_name; ?>', 'my_form_redirect_url', 10, 3);
-add_filter('acfe/form/submit/redirect_url/action=my-redirect-action', 'my_form_redirect_url', 10, 3);<?php acfe_highlight(); ?>
-        <br />
-        <?php acfe_highlight(); ?>
-/*
- * @bool    $url     Redirect URL
- * @array   $form    The form settings
- * @string  $action  Action alias name
- */
-add_filter('acfe/form/submit/redirect_url/form=<?php echo $form_name; ?>', 'my_form_redirect_url', 10, 3);
-function my_form_redirect_url($url, $form, $action){
-    
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-    
-    if($my_field === 'Company'){
-        
-        // Change Redirect URL
-        $url = home_url('thank-you');
-        
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-    
-    if(!empty($prev_post_action)){
-
-        if($prev_post_action['post_title'] === 'Company'){
-
-            // Change Redirect URL
-            $url = home_url('thank-you');
-
-        }
-        
-    }
-    
-    // Do not redirect
-    // return false;
-    
-    return $url;
-    
-}<?php acfe_highlight();
-                    
-                    },
                 ),
                 
             ),

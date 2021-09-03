@@ -35,6 +35,9 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
      */
     function actions(){
         
+        // TinyMCE
+        add_filter('mce_external_plugins',                      array($this, 'mce_plugins'));
+        
         // Validate
         add_filter('acf/validate_value/name=acfe_form_name',    array($this, 'validate_name'), 10, 4);
         
@@ -58,6 +61,19 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         acfe_include('includes/modules/forms-action-user.php');
     
         do_action('acfe/include_form_actions');
+        
+    }
+    
+    /*
+     * TinyMCE Plugin JS
+     */
+    function mce_plugins($plugins){
+        
+        $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+        
+        $plugins['acfe_form'] = acfe_get_url('assets/inc/tinymce/acfe-form' . $suffix . '.js');
+        
+        return $plugins;
         
     }
     
@@ -155,7 +171,26 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         <div class="acf-field">
 
             <div class="acf-label">
-                <label>Shortcodes:</label>
+                <label><?php _e('Documentation', 'acfe'); ?>:</label>
+            </div>
+
+            <div class="acf-input">
+
+                <ul style="list-style:inside;">
+                    <li><a href="https://www.acf-extended.com/features/modules/dynamic-forms" target="_blank"><?php _e('Forms', 'acfe'); ?></a></li>
+                    <li><a href="https://www.acf-extended.com/features/modules/dynamic-forms/form-cheatsheet" target="_blank"><?php _e('Cheatsheet', 'acfe'); ?></a></li>
+                    <li><a href="https://www.acf-extended.com/features/modules/dynamic-forms/form-hooks" target="_blank"><?php _e('Hooks', 'acfe'); ?></a></li>
+                    <li><a href="https://www.acf-extended.com/features/modules/dynamic-forms/form-helpers" target="_blank"><?php _e('Helpers', 'acfe'); ?></a></li>
+                </ul>
+
+            </div>
+
+        </div>
+        
+        <div class="acf-field">
+
+            <div class="acf-label">
+                <label><?php _e('Shortcodes', 'acfe'); ?>:</label>
             </div>
 
             <div class="acf-input">
@@ -170,7 +205,7 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         <div class="acf-field">
 
             <div class="acf-label">
-                <label>PHP code:</label>
+                <label><?php _e('PHP code', 'acfe'); ?>:</label>
             </div>
 
             <div class="acf-input">
@@ -1562,7 +1597,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_field',
                     'label' => 'Field',
                     'name' => 'acfe_form_cheatsheet_field',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve user input from the current form',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1576,7 +1611,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_fields',
                     'label' => 'Fields',
                     'name' => 'acfe_form_cheatsheet_fields',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve all user inputs from the current form',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1590,7 +1625,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_get_field',
                     'label' => 'Get Field',
                     'name' => 'acfe_form_cheatsheet_get_field',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve ACF field value from database',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1604,7 +1639,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_get_option',
                     'label' => 'Get Option',
                     'name' => 'acfe_form_cheatsheet_get_option',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'value' => '',
                     'instructions' => 'Retrieve option value from database',
                     'required' => 0,
@@ -1619,7 +1654,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_request',
                     'label' => 'Request',
                     'name' => 'acfe_form_cheatsheet_request',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'value' => '',
                     'instructions' => 'Retrieve <code>$_REQUEST</code> value',
                     'required' => 0,
@@ -1634,7 +1669,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_query_var',
                     'label' => 'Query Var',
                     'name' => 'acfe_form_cheatsheet_query_var',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve query var values. Can be used to get data from previous action',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1648,7 +1683,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_current_form',
                     'label' => 'Form Settings',
                     'name' => 'acfe_form_cheatsheet_current_form',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve current Dynamic Form data',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1662,7 +1697,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_actions_post',
                     'label' => 'Action Output: Post',
                     'name' => 'acfe_form_cheatsheet_actions_post',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve actions output',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1676,7 +1711,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'acfe_form_cheatsheet_actions_term',
                     'label' => 'Action Output: Term',
                     'name' => 'acfe_form_cheatsheet_actions_term',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve actions output',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1690,7 +1725,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'acfe_form_cheatsheet_actions_user',
                     'label' => 'Action Output: User',
                     'name' => 'acfe_form_cheatsheet_actions_user',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve actions output',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1704,7 +1739,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'acfe_form_cheatsheet_actions_email',
                     'label' => 'Action Output: Email',
                     'name' => 'acfe_form_cheatsheet_actions_email',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve actions output',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1718,7 +1753,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_current_post',
                     'label' => 'Current Post',
                     'name' => 'acfe_form_cheatsheet_current_post',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve current post data (where the form is being printed)',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1732,7 +1767,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_current_term',
                     'label' => 'Current Term',
                     'name' => 'acfe_form_cheatsheet_current_term',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve current term data (where the form is being printed)',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1746,7 +1781,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_current_user',
                     'label' => 'Current User',
                     'name' => 'acfe_form_cheatsheet_current_user',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve currently logged user data',
                     'required' => 0,
                     'conditional_logic' => 0,
@@ -1760,7 +1795,7 @@ If used, you have to include the following code <code>%s</code> to print the act
                     'key' => 'field_acfe_form_cheatsheet_current_author',
                     'label' => 'Current Author',
                     'name' => 'acfe_form_cheatsheet_current_author',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => 'Retrieve current post author data (where the form is being printed)',
                     'required' => 0,
                     'conditional_logic' => 0,

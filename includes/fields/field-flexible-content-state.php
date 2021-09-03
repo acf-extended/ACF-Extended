@@ -34,10 +34,10 @@ class acfe_field_flexible_content_state{
     
         // Layouts: Force State
         acf_render_field_setting($field, array(
-            'label'         => __('Default Layouts State'),
+            'label'         => __('Default Layouts State', 'acfe'),
             'name'          => 'acfe_flexible_layouts_state',
             'key'           => 'acfe_flexible_layouts_state',
-            'instructions'  => __('Force layouts to be collapsed or opened'),
+            'instructions'  => __('Force layouts to be collapsed or opened', 'acfe'),
             'type'          => 'radio',
             'layout'        => 'horizontal',
             'default_value' => 'user',
@@ -80,7 +80,7 @@ class acfe_field_flexible_content_state{
     function wrapper_attributes($wrapper, $field){
         
         // Check setting
-        if($field['acfe_flexible_layouts_state'] !== 'open' || $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(($field['acfe_flexible_layouts_state'] !== 'open' && $field['acfe_flexible_layouts_state'] !== 'force_open') || $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
             return $wrapper;
     
         $wrapper['data-acfe-flexible-open'] = 1;

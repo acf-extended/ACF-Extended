@@ -303,11 +303,11 @@ class acfe_form_user{
         $data['pass'] = acfe_form_map_field_value($data['pass'], $current_post_id, $form);
         
         $errors = array(
-            'empty_user_pass'               => 'An error has occured. Please try again',
-            'invalid_email'                 => 'Invalid e-mail',
-            'invalid_email_password'        => 'Invalid e-mail or password',
-            'invalid_username'              => 'Invalid username',
-            'invalid_username_password'     => 'Invalid username or password',
+            'empty_user_pass'               => __('An error has occured. Please try again', 'acfe'),
+            'invalid_email'                 => __('Invalid e-mail', 'acfe'),
+            'invalid_email_password'        => __('Invalid e-mail or password', 'acfe'),
+            'invalid_username'              => __('Invalid username', 'acfe'),
+            'invalid_username_password'     => __('Invalid username or password', 'acfe'),
         );
     
         $errors = apply_filters('acfe/form/validation/user/login_errors', $errors);
@@ -330,6 +330,7 @@ class acfe_form_user{
         }
         
         $pass = wp_specialchars_decode($pass);
+        $pass = wp_slash($pass);
         
         if(empty($login) || empty($pass)){
             
@@ -541,6 +542,9 @@ class acfe_form_user{
                     $data['user_pass'] = acfe_array_to_string($data['user_pass']);
                 
                 $args['user_pass'] = $data['user_pass'];
+    
+                $args['user_pass'] = wp_specialchars_decode($args['user_pass']);
+                $args['user_pass'] = wp_slash($args['user_pass']);
                 
             }
             
@@ -753,6 +757,7 @@ class acfe_form_user{
             }
 
             $_login_pass = wp_specialchars_decode($_login_pass);
+            $_login_pass = wp_slash($_login_pass);
             
             // Email
             if($data['login_type'] === 'email'){
@@ -956,6 +961,27 @@ class acfe_form_user{
             'label' => 'User action',
             'display' => 'row',
             'sub_fields' => array(
+    
+                /*
+                 * Documentation
+                 */
+                array(
+                    'key' => 'field_acfe_form_user_action_docs',
+                    'label' => '',
+                    'name' => 'acfe_form_action_docs',
+                    'type' => 'acfe_dynamic_render',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'render' => function(){
+                        echo '<a href="https://www.acf-extended.com/features/modules/dynamic-forms/user-action" target="_blank">' . __('Documentation', 'acfe') . '</a>';
+                    }
+                ),
         
                 /*
                  * Layout: User Action
@@ -1291,7 +1317,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_email_message',
                     'label' => 'Email',
                     'name' => 'acfe_form_user_map_email_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1356,7 +1382,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_username_message',
                     'label' => 'Username',
                     'name' => 'acfe_form_user_map_username_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1423,7 +1449,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_password_message',
                     'label' => 'Password',
                     'name' => 'acfe_form_user_map_password_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1488,7 +1514,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_first_name_message',
                     'label' => 'First name',
                     'name' => 'acfe_form_user_map_first_name_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1552,7 +1578,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_last_name_message',
                     'label' => 'Last name',
                     'name' => 'acfe_form_user_map_last_name_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1617,7 +1643,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_nickname_message',
                     'label' => 'Nickname',
                     'name' => 'acfe_form_user_map_nickname_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1682,7 +1708,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_display_name_message',
                     'label' => 'Display name',
                     'name' => 'acfe_form_user_map_display_name_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1747,7 +1773,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_website_message',
                     'label' => 'Website',
                     'name' => 'acfe_form_user_map_website_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1862,7 +1888,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_description_message',
                     'label' => 'Description',
                     'name' => 'acfe_form_user_map_description_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1930,7 +1956,7 @@ class acfe_form_user{
                     'key' => 'field_acfe_form_user_map_role_message',
                     'label' => 'Role',
                     'name' => 'acfe_form_user_map_role_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -2502,228 +2528,7 @@ class acfe_form_user{
                     'return_format' => 'value',
                     'save_custom' => 0,
                 ),
-        
-                /*
-                 * Layout: User Advanced
-                 */
-                array(
-                    'key' => 'field_acfe_form_user_tab_advanced',
-                    'label' => 'Code',
-                    'name' => '',
-                    'type' => 'tab',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'acfe_permissions' => '',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ),
-                array(
-                    'key' => 'field_acfe_form_user_advanced_load',
-                    'label' => 'Change values source',
-                    'name' => 'acfe_form_user_advanced_load',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Alter the user ID where meta values are loaded from',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_filter('acfe/form/load/user_id', 'my_form_user_values_source', 10, 3);
-add_filter('acfe/form/load/user_id/form=<?php echo $form_name; ?>', 'my_form_user_values_source', 10, 3);
-add_filter('acfe/form/load/user_id/action=my-user-action', 'my_form_user_values_source', 10, 3);
-<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @int     $user_id  User ID used as source
- * @array   $form     The form settings
- * @string  $action   The action alias name
- */
-add_filter('acfe/form/load/user_id/form=<?php echo $form_name; ?>', 'my_form_user_values_source', 10, 3);
-function my_form_user_values_source($user_id, $form, $action){
-    
-    /*
-     * Retrieve Form Setting
-     */
-    if($form['custom_key'] === 'custom_value'){
-
-        // Force to load values from the User ID 12
-        $user_id = 12;
-        
-    }
-    
-    return $user_id;
-    
-}
-<?php acfe_highlight();
-                    
-                    },
-                ),
-                array(
-                    'key' => 'field_acfe_form_user_advanced_save_args',
-                    'label' => 'Change user arguments',
-                    'name' => 'acfe_form_user_advanced_save_args',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Alter the user arguments before database insert/update',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_filter('acfe/form/submit/user_args', 'my_form_user_args', 10, 4);
-add_filter('acfe/form/submit/user_args/form=<?php echo $form_name; ?>', 'my_form_user_args', 10, 4);
-add_filter('acfe/form/submit/user_args/action=my-user-action', 'my_form_user_args', 10, 4);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @array   $args    The generated user arguments
- * @string  $type    Action type: 'insert_user' or 'update_user'
- * @array   $form    The form settings
- * @string  $action  The action alias name
- */
-add_filter('acfe/form/submit/user_args/form=<?php echo $form_name; ?>', 'my_form_user_args', 10, 4);
-function my_form_user_args($args, $type, $form, $action){
-    
-    // Change First Name if the Action Type is 'insert_user'
-    if($type === 'insert_user'){
-        
-        $args['first_name'] = 'My name';
-        
-    }
-
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-
-    if($my_field === 'Company'){
-    
-        // Change First Name
-        $args['first_name'] = 'My name';
-
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-    
-    if(!empty($prev_post_action)){
-    
-        if($prev_post_action['post_title'] === 'Company'){
-        
-            // Change First Name
-            $args['first_name'] = 'My name';
-        
-        }
-
-    }
-    
-    // Do not save User
-    // return false;
-    
-    return $args;
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
-                array(
-                    'key' => 'field_acfe_form_user_advanced_save',
-                    'label' => 'Add custom action on user save',
-                    'name' => 'acfe_form_user_advanced_save',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function(){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_action('acfe/form/submit/user', 'my_form_user_save', 10, 5);
-add_action('acfe/form/submit/user/form=<?php echo $form_name; ?>', 'my_form_user_save', 10, 5);
-add_action('acfe/form/submit/user/action=my-user-action', 'my_form_user_save', 10, 5);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @int     $user_id  The targeted user ID
- * @string  $type     Action type: 'insert_user' or 'update_user'
- * @array   $args     The generated user arguments
- * @array   $form     The form settings
- * @string  $action   The action alias name
- *
- * Note: At this point the user is already saved into the database
- */
-add_action('acfe/form/submit/user/form=<?php echo $form_name; ?>', 'my_form_user_save', 10, 5);
-function my_form_user_save($user_id, $type, $args, $form, $action){
-
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-
-    if($my_field === 'Company'){
-
-        // do_something();
-
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-
-    if(!empty($prev_post_action)){
-    
-        if($prev_post_action['post_title'] === 'Company'){
-            
-            // do_something();
-            
-        }
-
-    }
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
+                
             ),
             'min' => '',
             'max' => '',

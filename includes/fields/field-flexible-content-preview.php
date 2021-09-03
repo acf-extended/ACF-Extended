@@ -49,10 +49,10 @@ class acfe_field_flexible_content_preview{
     
         // Render
         acf_render_field_setting($field, array(
-            'label'         => __('Dynamic Render'),
+            'label'         => __('Dynamic Render', 'acfe'),
             'name'          => 'acfe_flexible_layouts_templates',
             'key'           => 'acfe_flexible_layouts_templates',
-            'instructions'  => __('Render the layout using custom template, style & javascript files.'),
+            'instructions'  => __('Render the layout using custom template, style & javascript files', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/dynamic-render" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -72,10 +72,10 @@ class acfe_field_flexible_content_preview{
     
         // Preview
         acf_render_field_setting($field, array(
-            'label'         => __('Dynamic Preview'),
+            'label'         => __('Dynamic Preview', 'acfe'),
             'name'          => 'acfe_flexible_layouts_previews',
             'key'           => 'acfe_flexible_layouts_previews',
-            'instructions'  => __('Use layouts render settings to display a dynamic preview in the administration'),
+            'instructions'  => __('Use layouts render settings to display a dynamic preview in the administration', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/dynamic-render#dynamic-preview" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -100,10 +100,10 @@ class acfe_field_flexible_content_preview{
     
         // Placholder
         acf_render_field_setting($field, array(
-            'label'         => __('Layouts Placeholder'),
+            'label'         => __('Layouts Placeholder', 'acfe'),
             'name'          => 'acfe_flexible_layouts_placeholder',
             'key'           => 'acfe_flexible_layouts_placeholder',
-            'instructions'  => __('Display a placeholder with an icon'),
+            'instructions'  => __('Display a placeholder with an icon', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/advanced-settings#layouts-placeholder" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -142,7 +142,7 @@ class acfe_field_flexible_content_preview{
         // Title
         echo '</li>';
         acf_render_field_wrap(array(
-            'label' => __('Render'),
+            'label' => __('Render', 'acfe'),
             'type'  => 'hidden',
             'name'  => 'acfe_flexible_render_label',
             'wrapper' => array(

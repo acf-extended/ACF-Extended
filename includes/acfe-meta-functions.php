@@ -1,0 +1,417 @@
+<?php
+
+if(!defined('ABSPATH'))
+    exit;
+
+/**
+ * acfe_get_fields
+ *
+ * This function will return an array containing all the custom field values for a specific post_id.
+ * Similar to get_fields(), but but allow to output dataset identical to a $_POST dataset
+ *
+ * Unformatted:
+ * array(
+ *     'field_60ed19d658ce1' => array(
+ *         'field_60eaeee6e6fa4' => 'Value',
+ *     )
+ * )
+ *
+ * Formatted:
+ * array(
+ *     'my_field' => array(
+ *         'my_field_subfield' => 'Value',
+ *     )
+ * )
+ *
+ * @param false $post_id
+ * @param false $format_value
+ *
+ * @return array|false
+ */
+function acfe_get_fields($post_id = false, $format_value = false){
+    
+    // vars
+    $fields = get_field_objects($post_id, $format_value);
+    $meta = array();
+    
+    // bail early
+    if(!$fields) return false;
+    
+    // populate
+    foreach($fields as $k => $field){
+        
+        // use key or name
+        $key = $format_value ? $k : $field['key'];
+        
+        // append
+        $meta[ $key ] = $field['value'];
+        
+    }
+    
+    // return
+    return $meta;
+    
+}
+
+/**
+ * acfe_get_meta
+ *
+ * Retrieve all meta details of a given object in the following format
+ *
+ * array(
+ *     'key'   => 'field_abcd1234',
+ *     'name'  => 'repeater_0_my_field',
+ *     'value' => 'Text value',
+ *     'field' => array(
+ *         'key'  => 'field_abcd1234',
+ *         'name' => 'My Field',
+ *         'type' => 'text',
+ *     ),
+ *     'field_group' => array(
+ *         'key'   => 'group_abcd1234',
+ *         'title' => 'Field Group',
+ *     )
+ * )
+ *
+ * @param false $post_id
+ *
+ * @return array
+ */
+function acfe_get_meta($post_id = false){
+    
+    // validate post_id
+    $post_id = acf_get_valid_post_id($post_id);
+    
+    // get meta
+    $meta = acf_get_meta($post_id);
+    
+    // sort array
+    // fix an issue where virtual layouts sub fields (layout title edit, toggle, grid...) aren't correctly loaded
+    // because field values appear before the parent flexible content
+    ksort($meta);
+    
+    // Vars
+    $data = array();
+    
+    // Loop
+    foreach($meta as $key => $value){
+        
+        // Bail early
+        if(!isset($meta["_$key"])) continue;
+        
+        $field_key = $meta["_$key"];
+        
+        // Bail early if field key isn't valid
+        if(!acf_is_field_key($field_key)) continue;
+        
+        // Get field
+        $field = acf_get_field($field_key);
+        
+        // Check clone in sub field: field_123456abcdef_field_123456abcfed
+        if(!$field && substr_count($field_key, 'field_') === 2){
+            
+            // get field key (last part)
+            $_field_key = substr($field_key, strrpos($field_key, 'field_'));
+            
+            // get field
+            $field = acf_get_field($_field_key);
+            
+        }
+        
+        // Get field group
+        $field_group = $field ? acfe_get_field_group_from_field($field) : false;
+        
+        // construct
+        $data[] = array(
+            'key'   => $field_key,
+            'name'  => $key,
+            'value' => $value,
+            'field' => $field,
+            'field_group' => $field_group,
+        );
+        
+    }
+    
+    // Return
+    return $data;
+    
+}
+
+/**
+ * acfe_delete_orphan_meta
+ *
+ * Delete orphan meta from a post id
+ *
+ * @param int $post_id
+ */
+function acfe_delete_orphan_meta($post_id = 0, $confirm = true){
+    
+    // get orphan
+    $meta = acfe_get_orphan_meta($post_id);
+    $deleted = array();
+    
+    // loop
+    foreach($meta as $row){
+    
+        // vars
+        $key = $row['key'];
+        $name = $row['name'];
+        $value = $row['value'];
+        
+        // delete single meta
+        if($confirm){
+            
+            acf_delete_metadata($post_id, $name, true);  // prefix
+            acf_delete_metadata($post_id, $name);        // normal
+            
+        }
+        
+        // store
+        $deleted[ "_{$name}" ] = $key;
+        $deleted[ $name ] = $value;
+        
+    }
+    
+    $_deleted = array();
+    
+    // single meta enabled: clean normal meta
+    if(acfe_is_single_meta_enabled($post_id)){
+        
+        if(!empty($deleted)){
+            $_deleted['single_meta'] = $deleted;
+        }
+        
+        // get single meta for comparison (already cleaned)
+        $acf = acf_get_meta($post_id);
+        
+        // disable single meta
+        acf_disable_filter('acfe/single_meta');
+    
+        // clean normal meta and keep individual meta
+        $meta = acfe_get_meta($post_id);
+        $normal_deleted = array();
+    
+        foreach($meta as $row){
+            
+            // vars
+            $field = $row['field'];
+            $key = $row['key'];
+            $name = $row['name'];
+            $value = $row['value'];
+        
+            // check if field has 'save as individual meta' and already in 'acf' meta
+            if(acf_maybe_get($field, 'acfe_save_meta') && isset($acf[ $name ])) continue;
+        
+            // delete normal meta
+            if($confirm){
+    
+                acf_delete_metadata($post_id, $name, true);
+                acf_delete_metadata($post_id, $name);
+                
+            }
+            
+            $normal_deleted['normal'][ "_{$name}" ] = $key;
+            $normal_deleted['normal'][ $name ] = $value;
+        
+        }
+        
+        // re-enable single meta
+        acf_enable_filter('acfe/single_meta');
+        
+        // store
+        if($normal_deleted){
+            $deleted = array_merge($_deleted, $normal_deleted);
+        }
+        
+    // single meta disabled: clean 'acf' meta if it is present
+    }else{
+    
+        if(!empty($deleted)){
+            $_deleted['normal'] = $deleted;
+        }
+        
+        // get single meta
+        $meta = acf_get_array(acfe_get_single_meta($post_id));
+        $single_deleted = array();
+    
+        foreach($meta as $key => $val){
+            
+            $single_deleted['single_meta'][ $key ] = $val;
+            
+        }
+    
+        // store
+        if($single_deleted){
+            $deleted = array_merge($_deleted, $single_deleted);
+        }
+        
+        // delete single meta
+        if($confirm){
+            
+            acfe_delete_single_meta($post_id);
+            
+        }
+    
+    }
+    
+    return $deleted;
+    
+}
+
+/**
+ * acfe_get_orphan_meta
+ *
+ * Retrieve a list of orphan meta from a post id
+ *
+ * @param int $post_id
+ *
+ * @return array
+ */
+function acfe_get_orphan_meta($post_id = 0){
+    
+    // validate post_id
+    $post_id = acf_get_valid_post_id($post_id);
+    
+    // get meta
+    $meta = acfe_get_meta($post_id);
+    
+    // allowed fields
+    $allowed_fields = array();
+    
+    // allowed field groups
+    $allowed_field_groups = acfe_get_post_id_field_groups($post_id);
+    $allowed_field_groups = wp_list_pluck($allowed_field_groups, 'key');
+    
+    // collection
+    $clones = array();
+    
+    // check clones
+    foreach($meta as $row){
+        
+        // vars
+        $field = $row['field'];
+        $field_key = $row['key'];
+        
+        // get clone
+        if(acf_maybe_get($field, 'type') === 'clone'){
+            
+            // add to collection
+            $clones[] = $field;
+            
+        // get clone seamless sub field: field_123456abcdef_field_123456abcfed
+        }elseif(substr_count($field_key, 'field_') === 2){
+            
+            // get clone key (first part)
+            $clone_key = substr($field_key, 0, strpos($field_key, '_field'));
+            
+            // get clone field
+            $clone = acf_get_field($clone_key);
+            
+            if(acf_maybe_get($clone, 'type') === 'clone'){
+                
+                // add to collection
+                $clones[] = $clone;
+                
+            }
+            
+        }
+        
+    }
+    
+    // process clones
+    $run = true;
+    
+    while($run){
+        
+        $run = false;
+        
+        foreach(array_keys($clones) as $i){
+            
+            // get field
+            $field = $clones[$i];
+            
+            // get field group
+            $field_group = acfe_get_field_group_from_field($field);
+            
+            // conditions
+            $is_allowed_field = $field && in_array($field['key'], $allowed_fields);
+            $is_allowed_field_group = $field_group && in_array($field_group['key'], $allowed_field_groups);
+            
+            // field or field group found in allowed list
+            if($is_allowed_field || $is_allowed_field_group){
+                
+                // get cloned fields/field groups and sub fields to allowed list
+                foreach(acf_get_array($field['clone']) as $cloned_key){
+                    
+                    // group_60e52a459bea4
+                    if(acf_is_field_group_key($cloned_key)){
+                        
+                        $allowed_field_groups[] = $cloned_key;
+                        
+                    // field_60e242edd72e7
+                    }elseif(acf_is_field_key($cloned_key)){
+                        
+                        $allowed_fields[] = $cloned_key;
+                        
+                    }
+                    
+                }
+                
+                // remove from collection
+                unset($clones[$i]);
+                
+                // run again
+                $run = true;
+                
+            }
+            
+        }
+        
+    }
+    
+    // remove duplicated entries
+    $allowed_fields = array_unique($allowed_fields);
+    $allowed_field_groups = array_unique($allowed_field_groups);
+    
+    // delete collection
+    $delete = array();
+    
+    foreach($meta as $row){
+        
+        // vars
+        $field = $row['field'];
+        $field_group = $row['field_group'];
+        
+        // field doesn't exists
+        if(!$field){
+            
+            $delete[] = $row;
+            continue;
+            
+        }
+        
+        // field group doesn't exists
+        if(!$field_group){
+            
+            $delete[] = $row;
+            continue;
+            
+        }
+        
+        // conditions
+        $is_allowed_field = in_array($field['key'], $allowed_fields);
+        $is_allowed_field_group = in_array($field_group['key'], $allowed_field_groups);
+        
+        // field is not allowed
+        if(!$is_allowed_field && !$is_allowed_field_group){
+            
+            $delete[] = $row;
+            continue;
+            
+        }
+        
+    }
+    
+    return $delete;
+    
+}

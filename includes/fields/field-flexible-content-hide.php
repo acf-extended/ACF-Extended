@@ -42,10 +42,10 @@ class acfe_field_flexible_content_hide{
     
         // Hide Buttons
         acf_render_field_setting($field, array(
-            'label'         => __('Hide Buttons'),
+            'label'         => __('Hide Buttons', 'acfe'),
             'name'          => 'acfe_flexible_remove_button',
             'key'           => 'acfe_flexible_remove_button',
-            'instructions'  => __('Hide buttons'),
+            'instructions'  => '<a href="https://www.acf-extended.com/features/fields/flexible-content/advanced-settings#hide-buttons" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'checkbox',
             'default_value'     => '',
             'layout'            => 'horizontal',

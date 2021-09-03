@@ -27,12 +27,18 @@ class ACFE_Field_Group{
         foreach($groups as $group => &$fields){
             asort($fields);
         }
-        
-        if(isset($groups['ACF']))
-            $groups = acfe_array_insert_after('jQuery', $groups, 'ACF', $groups['ACF']);
     
-        if(isset($groups['WordPress']))
+        if(isset($groups['E-Commerce'])){
+            $groups = acfe_array_insert_after('jQuery', $groups, 'E-Commerce', $groups['E-Commerce']);
+        }
+        
+        if(isset($groups['ACF'])){
+            $groups = acfe_array_insert_after('jQuery', $groups, 'ACF', $groups['ACF']);
+        }
+    
+        if(isset($groups['WordPress'])){
             $groups = acfe_array_insert_after('jQuery', $groups, 'WordPress', $groups['WordPress']);
+        }
     
         return $groups;
         
@@ -390,33 +396,28 @@ class ACFE_Field_Group{
      */
     function validate_default_autosync($field_group){
         
-        // Only new field groups
-        if(!acf_maybe_get($field_group, 'location')){
+        // validate screen
+        if(!acf_is_screen('acf-field-group')) return $field_group;
+        
+        // only new field groups (location is empty on new field groups)
+        if(acf_maybe_get($field_group, 'location')) return $field_group;
             
-            // Default label placement: Left
-            $field_group['label_placement'] = 'left';
-            
-            // AutoSync
-            $acfe_autosync = array();
-            
-            if(acf_get_setting('acfe/json_found', false)){
-                
-                $acfe_autosync[] = 'json';
-                
-            }
-            
-            if(acf_get_setting('acfe/php_found', false)){
-                
-                $acfe_autosync[] = 'php';
-                
-            }
-            
-            if(!empty($acfe_autosync)){
-                
-                $field_group['acfe_autosync'] = $acfe_autosync;
-                
-            }
-            
+        // Default label placement: Left
+        $field_group['label_placement'] = 'left';
+        
+        // AutoSync
+        $acfe_autosync = array();
+        
+        if(acf_get_setting('acfe/json_found', false)){
+            $acfe_autosync[] = 'json';
+        }
+        
+        if(acf_get_setting('acfe/php_found', false)){
+            $acfe_autosync[] = 'php';
+        }
+        
+        if(!empty($acfe_autosync)){
+            $field_group['acfe_autosync'] = $acfe_autosync;
         }
         
         return $field_group;

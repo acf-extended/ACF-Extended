@@ -7,47 +7,35 @@ if(!class_exists('acfe_location_post_type_list')):
 
 class acfe_location_post_type_list{
     
-    public $post_type;
-    
-    public $field_groups;
+    // vars
+    var $post_id;
+    var $post_type;
+    var $field_groups = array();
     
     function __construct(){
         
-        add_action('load-edit.php',                             array($this, 'load'));
+        // load
+        add_action('acfe/load_posts',                           array($this, 'load_posts'));
         
-        add_filter('acf/location/rule_types',                   array($this, 'location_types'));
-        add_filter('acf/location/rule_values/post_type_list',   array($this, 'location_values'));
-        add_filter('acf/location/rule_match/post_type_list',    array($this, 'location_match'), 10, 3);
+        // locations
+        add_filter('acf/location/rule_types',                   array($this, 'rule_types'));
+        add_filter('acf/location/rule_values/post_type_list',   array($this, 'rule_values'));
+        add_filter('acf/location/rule_match/post_type_list',    array($this, 'rule_match'), 10, 3);
         
     }
     
-    function load(){
+    function load_posts($post_type){
         
-        // Get post type
-        global $typenow;
-        
-        $get_post_types = acf_get_post_types(array(
-            'show_ui' => 1,
-            'exclude' => array('attachment')
-        ));
-        
-        // Check post type
-        if(!in_array($typenow, $get_post_types))
+        // bail early if restricted
+        if(acfe_is_post_type_reserved($post_type)){
             return;
+        }
         
         // vars
-        $this->post_type = $typenow;
+        $this->post_type = $post_type;
+        $this->post_id = acf_get_valid_post_id("{$this->post_type}_options");
         
-        $this->post_id = acf_get_valid_post_id($this->post_type . '_options');
-        
-        $this->field_groups = acf_get_field_groups(array(
-            'post_type_list' => $this->post_type
-        ));
-        
-        if(empty($this->field_groups))
-            return;
-        
-        // Submit
+        // submit
         if(acf_verify_nonce('post_type_list')){
             
             // Validate
@@ -60,318 +48,167 @@ class acfe_location_post_type_list{
                 acf_save_post($this->post_id);
                 
                 // Redirect
-                wp_redirect(add_query_arg(array('message' => 'acfe_post_type_list')));
+                wp_redirect(add_query_arg(array('message' => 'post_type_list')));
                 exit;
             
             }
         
         }
         
-        // Enqueue ACF JS
-        acf_enqueue_scripts();
-        
-        // Success message
-        if(isset($_GET['message']) && $_GET['message'] === 'acfe_post_type_list'){
+        // success message
+        if(acf_maybe_get_GET('message') === 'post_type_list'){
             
             $object = get_post_type_object($this->post_type);
             
             acf_add_admin_notice($object->label . ' List Saved.', 'success');
             
         }
-        
-        add_action('in_admin_header', array($this, 'in_admin_header'));
-        
-        add_action('admin_footer', array($this, 'admin_footer'));
-        
-    }
     
-    function admin_footer(){
-        
-        // Init field groups by position
-        $field_groups = array();
-        
-        foreach($this->field_groups as $field_group){
-            
-            $field_groups[$field_group['position']][] = $field_group;
-            
-        }
-        
-        // Position: After Title
-        if(acf_maybe_get($field_groups, 'acf_after_title')){
-            
-            $total = count($field_groups['acf_after_title']);
-            
-            $current = 0; foreach($field_groups['acf_after_title'] as $field_group){ $current++;
-                    
-                add_meta_box(
-                
-                    // ID
-                    'acf-' . $field_group['ID'], 
-                    
-                    // Title
-                    $field_group['title'], 
-                    
-                    // Render
-                    array($this, 'metabox_render'), 
-                    
-                    // Screen
-                    'edit', 
-                    
-                    // Position
-                    $field_group['position'], 
-                    
-                    // Priority
-                    'default', 
-                    
-                    // Args
-                    array(
-                        'total'         => $total, 
-                        'current'       => $current,
-                        'field_group'   => $field_group
-                    )
-                    
-                );
-            
-            }
-            
-            ?>
-            <div id="tmpl-acf-after-title" class="acfe-postbox acfe-postbox-no-handle">
-                <form class="acf-form" action="" method="post">
-                
-                    <div id="poststuff" style="padding-top:0;">
-                    
-                        <?php do_meta_boxes('edit', 'acf_after_title', array()); ?>
-                        
-                    </div>
-                    
-                </form>
-            </div>
-            <script type="text/javascript">
-            (function($){
-                
-                // add after title
-                $('.subsubsub').before($('#tmpl-acf-after-title'));
-                
-            })(jQuery);
-            </script>
-            <?php
-            
-        }
-        
-        // Position: Normal
-        if(acf_maybe_get($field_groups, 'normal')){
-            
-            $total = count($field_groups['normal']);
-            
-            $current = 0; foreach($field_groups['normal'] as $field_group){ $current++;
-            
-                add_meta_box(
-                
-                    // ID
-                    'acf-' . $field_group['ID'], 
-                    
-                    // Title
-                    $field_group['title'], 
-                    
-                    // Render
-                    array($this, 'metabox_render'), 
-                    
-                    // Screen
-                    'edit', 
-                    
-                    // Position
-                    $field_group['position'], 
-                    
-                    // Priority
-                    'default', 
-                    
-                    // Args
-                    array(
-                        'total'         => $total, 
-                        'current'       => $current, 
-                        'field_group'   => $field_group
-                    )
-                    
-                );
-            
-            }
-            
-            ?>
-            <div id="tmpl-acf-normal" class="acfe-postbox acfe-postbox-no-handle">
-                <form class="acf-form" action="" method="post">
-                
-                    <div id="poststuff">
-                    
-                        <?php do_meta_boxes('edit', 'normal', array()); ?>
-                        
-                    </div>
-                    
-                </form>
-            </div>
-            <script type="text/javascript">
-            (function($){
-                
-                // add normal
-                $('#posts-filter').after($('#tmpl-acf-normal'));
-                
-            })(jQuery);
-            </script>
-            <?php
-            
-        }
-        
-        // Position: Side
-        if(acf_maybe_get($field_groups, 'side')){
-            
-            $total = count($field_groups['side']);
-            
-            $current = 0; foreach($field_groups['side'] as $field_group){ $current++;
-            
-                add_meta_box(
-                
-                    // ID
-                    'acf-' . $field_group['ID'], 
-                    
-                    // Title
-                    $field_group['title'], 
-                    
-                    // Render
-                    array($this, 'metabox_render'), 
-                    
-                    // Screen
-                    'edit', 
-                    
-                    // Position
-                    $field_group['position'], 
-                    
-                    // Priority
-                    'default', 
-                    
-                    // Args
-                    array(
-                        'total'         => $total, 
-                        'current'       => $current, 
-                        'field_group'   => $field_group
-                    )
-                    
-                );
-            
-            }
-            
-            ?>
-            <div id="tmpl-acf-side" class="acfe-postbox acfe-postbox-no-handle">
-                <div class="acf-column-2">
-                    <form class="acf-form" action="" method="post">
-                    
-                        <div id="poststuff" style="padding-top:0; min-width:auto;">
-                        
-                            <?php do_meta_boxes('edit', 'side', array()); ?>
-                            
-                        </div>
-                        
-                    </form>
-                </div>
-            </div>
-            <script type="text/javascript">
-            (function($){
-                
-                // wrap form
-                $('#posts-filter').wrap('<div class="acf-columns-2" />');
-                
-                // Move subsubsub inside column
-                $('#posts-filter').prepend($('.subsubsub'));
-                
-                // Move After title field group
-                $('#posts-filter').prepend($('#tmpl-acf-after-title'));
-                
-                // Move Normal field group
-                $('#posts-filter').append($('#tmpl-acf-normal'));
-                
-                // add column main
-                $('#posts-filter').addClass('acf-column-1');
-                
-                // add column side
-                $('#posts-filter').after($('#tmpl-acf-side'));
-                
-            })(jQuery);
-            </script>
-            <?php
-            
-        }
-        
-    }
-    
-    function metabox_render($array, $args){
-        
-        $total = $args['args']['total'];
-        $current = $args['args']['current'];
-        $field_group = $args['args']['field_group'];
-        
-        // Set post_id
-        $post_id = $this->post_id;
-        
-        // Set form data
-        acf_form_data(array(
-            'screen'    => 'post_type_list', 
-            'post_id'   => $post_id, 
+        // enqueue
+        acf_enqueue_scripts(array(
+            'uploader'	=> true,
         ));
         
-        // Get fields
+        // get field groups
+        $this->field_groups = acf_get_field_groups(array(
+            'post_type_list' => $this->post_type
+        ));
+        
+        // validate
+        if(empty($this->field_groups)){
+            return;
+        }
+    
+        // enable filter
+        acf_enable_filter('acfe/post_type_list');
+        
+        // hooks
+        add_action('acfe/add_posts_meta_boxes', array($this, 'add_posts_meta_boxes'));
+        
+    }
+    
+    function add_posts_meta_boxes(){
+    
+        // Storage for localized postboxes.
+        $postboxes = array();
+        $field_groups = array();
+    
+        // merge field groups with their position
+        foreach($this->field_groups as $field_group){
+        
+            $field_groups[ $field_group['position'] ][] = $field_group;
+        
+        }
+    
+        // loop
+        foreach($field_groups as $position => $_field_groups){
+        
+            $i = 0;
+            $total = count($_field_groups) - 1;
+    
+            // enable sidebar
+            if($position === 'side'){
+                acf_enable_filter('acfe/post_type_list/side');
+            }
+        
+            foreach($_field_groups as $field_group){
+            
+                // vars
+                $id = "acf-{$field_group['key']}";      // acf-group_123
+                $title = $field_group['title'];         // Group 1
+                $context = $field_group['position'];    // normal, side, acf_after_title
+                $priority = 'high';                     // high, core, default, low
+            
+                // Reduce priority for sidebar metaboxes for best position.
+                if($context == 'side'){
+                    $priority = 'core';
+                }
+            
+                $priority = apply_filters('acf/input/meta_box_priority', $priority, $field_group);
+            
+                // Localize data
+                $postboxes[] = array(
+                    'id'    => $id,
+                    'key'   => $field_group['key'],
+                    'style' => $field_group['style'],
+                    'label' => $field_group['label_placement'],
+                    'edit'  => acf_get_field_group_edit_link($field_group['ID'])
+                );
+            
+                // Add the meta box.
+                add_meta_box($id, acf_esc_html($title), array($this, 'render_meta_box'), 'edit', $context, $priority, array('field_group' => $field_group, 'index' => $i, 'total' => $total));
+            
+                $i++;
+            
+            }
+        
+        }
+    
+        // Localize postboxes.
+        acf_localize_data(array(
+            'postboxes' => $postboxes
+        ));
+        
+    }
+    
+    function render_meta_box($post_type, $metabox){
+    
+        // vars
+        $id = $metabox['id'];
+        $index = $metabox['args']['index'];
+        $total = $metabox['args']['total'];
+        $field_group = $metabox['args']['field_group'];
+        
+        // first metabox
+        if($index === 0){
+            
+            // Set form data
+            acf_form_data(array(
+                'screen'    => 'post_type_list',
+                'post_id'   => $this->post_id,
+            ));
+            
+        }
+    
+        // render fields
         $fields = acf_get_fields($field_group);
         
-        // Render fields
-        acf_render_fields($fields, $post_id, 'div', $field_group['instruction_placement']);
+        acf_render_fields($fields, $this->post_id, 'div', $field_group['instruction_placement']);
         
-        if($current === $total){ ?>
-        
-        <?php 
-        $id = ($field_group['style'] != 'seamless') ? 'major-publishing-actions' : '';
-        $style = ($field_group['style'] === 'seamless') ? 'padding:0 12px;' : '';
-        ?>
-        
-            <div id="<?php echo $id; ?>" style="<?php echo $style; ?>">
+        // do not show submit if there is already a submitdiv
+        if($field_group['position'] === 'side' && acf_is_filter_enabled('acfe/post_type_list/submitdiv')){
+            return;
+        }
+    
+        // last metabox
+        if($index === $total){
             
+            $atts = array(
+                'id' => ($field_group['style'] === 'seamless' ? '' : 'major-publishing-actions'),
+                'style' => ($field_group['style'] === 'seamless' ? 'padding:0 12px;' : ''),
+            );
+            
+            ?>
+            <div <?php echo acf_esc_attrs($atts); ?>>
+        
                 <div id="publishing-action">
-                
+            
                     <div class="acf-form-submit">
-                        <input type="submit" class="acf-button button button-primary button-large" value="<?php _e('Update', 'acfe'); ?>" />
-                        <span class="acf-spinner"></span>
+                        <span class="spinner"></span>
+                        <input type="submit" class="button button-primary button-large" value="<?php _e('Update', 'acfe'); ?>" />
                     </div>
-                    
+        
                 </div>
                 <div class="clear"></div>
-                
+    
             </div>
+            <?php
             
-        <?php }
-        
-        // Create metabox localized data.
-        $data = array(
-            'id'    => 'acf-' . $field_group['ID'],
-            'key'   => $field_group['key'],
-            'style' => $field_group['style'],
-            'label' => $field_group['label_placement'],
-            'edit'  => acf_get_field_group_edit_link($field_group['ID'])
-        );
-        
-        ?>
-        <script type="text/javascript">
-        if( typeof acf !== 'undefined' ) {
-            acf.newPostbox(<?php echo wp_json_encode($data); ?>);
         }
-        </script>
-        
-    <?php
         
     }
     
-    function in_admin_header(){
-        
-        acf_enqueue_uploader();
-        
-    }
-    
-    function location_types($choices){
+    function rule_types($choices){
         
         $name = __('Post', 'acf');
         
@@ -382,7 +219,7 @@ class acfe_location_post_type_list{
     }
 
     
-    function location_values($choices){
+    function rule_values($choices){
         
         $post_types = acf_get_post_types(array(
             'show_ui'    => 1,
@@ -404,18 +241,21 @@ class acfe_location_post_type_list{
         
     }
     
-    function location_match($match, $rule, $screen){
+    function rule_match($match, $rule, $screen){
         
-        if(!acf_maybe_get($screen, 'post_type_list') || !acf_maybe_get($rule, 'value'))
+        if(!acf_maybe_get($screen, 'post_type_list') || !acf_maybe_get($rule, 'value')){
             return $match;
+        }
         
         $match = ($screen['post_type_list'] === $rule['value']);
         
-        if($rule['value'] === 'all')
+        if($rule['value'] === 'all'){
             $match = true;
+        }
         
-        if($rule['operator'] === '!=')
+        if($rule['operator'] === '!='){
             $match = !$match;
+        }
         
         return $match;
 

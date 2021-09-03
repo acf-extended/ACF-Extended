@@ -107,7 +107,7 @@ class acfe_field_group_meta{
         acf_render_field_wrap(array(
             'label'         => __('Field group data'),
             'instructions'  => __('View raw field group data, for development use'),
-            'type'          => 'acfe_dynamic_message',
+            'type'          => 'acfe_dynamic_render',
             'name'          => 'acfe_data',
             'prefix'        => 'acf_field_group',
             'value'         => $field_group['key'],
@@ -139,13 +139,12 @@ class acfe_field_group_meta{
             
         }
         
-        $field_group_key = $field_group['key'];
         $raw_field_group = get_post($field_group['ID']);
         
         ?>
-        <a href="#" class="acf-button button acfe_modal_open" data-modal-key="<?php echo $field_group_key; ?>"><?php _e('Data'); ?></a>
-        <div class="acfe-modal" data-modal-key="<?php echo $field_group_key; ?>">
-            <div style="padding:15px;">
+        <a href="#" class="acf-button button" data-acfe-modal data-acfe-modal-title="<?php echo $field_group['title']; ?>" data-acfe-modal-footer="<?php _e('Close', 'acfe'); ?>"><?php _e('Data', 'acfe'); ?></a>
+        <div class="acfe-modal">
+            <div class="acfe-modal-spacer">
                 <pre style="margin-bottom:15px;"><?php print_r($field_group); ?></pre>
                 <pre><?php print_r($raw_field_group); ?></pre>
             </div>

@@ -60,10 +60,10 @@ class acfe_field_flexible_content_actions{
         }
     
         acf_render_field_setting($field, array(
-            'label'         => __('Additional Actions'),
+            'label'         => __('Additional Actions', 'acfe'),
             'name'          => 'acfe_flexible_add_actions',
             'key'           => 'acfe_flexible_add_actions',
-            'instructions'  => __('Additional actions'),
+            'instructions'  => '<a href="https://www.acf-extended.com/features/fields/flexible-content/advanced-settings" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'checkbox',
             'default_value'     => '',
             'layout'            => 'horizontal',
@@ -364,8 +364,9 @@ class acfe_field_flexible_content_actions{
         // Get Layout Title
         $value = get_sub_field('acfe_flexible_layout_title');
         
-        if(!empty($value))
+        if(!empty($value)){
             $title = wp_unslash($value);
+        }
         
         return '<span class="acfe-layout-title acf-js-tooltip" title="' . __('Layout', 'acfe') . ': ' . esc_attr(strip_tags($layout['label'])) . '"><span class="acfe-layout-title-text">' . $title . '</span></span>';
         
@@ -412,6 +413,9 @@ class acfe_field_flexible_content_actions{
             unset($value[$k]);
             
         }
+        
+        // reassign keys
+        $value = array_values($value);
         
         return $value;
         

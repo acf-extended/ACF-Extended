@@ -109,20 +109,6 @@
 
             }
 
-            // RankMath
-            var $rankMath = this.$('> form .rank-math-metabox-frame');
-
-            if ($rankMath.length) {
-
-                var rankMathTitle = $rankMath.find('h2').text();
-
-                $rankMath.find('h2').remove();
-                $rankMath.wrapAll('<div class="postbox acf-postbox rankmath"><div class="acf-fields -left"><div class="acf-field"><div class="acf-input"></div></div></div></div>');
-                $rankMath.closest('.acf-field').prepend('<div class="acf-label"><label>' + rankMathTitle + '</label></div>');
-                $rankMath.closest('.postbox').prepend('<div class="postbox-header"><h2>' + rankMathTitle + '</h2></div>');
-
-            }
-
             // User Role Editor
             var $userRoleEditor = this.$('#ure_select_other_roles');
 
@@ -211,19 +197,8 @@
 
             }
 
-            // RankMath
-            var $rankMath = this.$('> form .rank-math-metabox-frame');
-
-            if ($rankMath.length) {
-
-                var rankMathTitle = $rankMath.find('h2').text();
-
-                $rankMath.find('h2').remove();
-                $rankMath.wrapAll('<div class="postbox acf-postbox rankmath"><div class="acf-fields -left"><div class="acf-field"><div class="acf-input"></div></div></div></div>');
-                $rankMath.closest('.acf-field').prepend('<div class="acf-label"><label>' + rankMathTitle + '</label></div>');
-                $rankMath.closest('.postbox').prepend('<div class="postbox-header"><h2>' + rankMathTitle + '</h2></div>');
-
-            }
+            // Add Class to submitdiv to let rankmath save changes
+            $('#submitdiv #publishing-action').addClass('edit-tag-actions');
 
         },
 

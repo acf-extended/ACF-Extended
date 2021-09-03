@@ -61,7 +61,7 @@ class acfe_multilang{
         }
     
         // Options Page Message
-        add_filter('acf/options_page/submitbox_before_major_actions', array($this, 'options_page_message'));
+        add_action('acf/options_page/submitbox_before_major_actions', array($this, 'options_page_message'));
     
         // ACF Options Post ID
         add_filter('acf/validate_post_id', array($this, 'set_options_post_id'), 99, 2);

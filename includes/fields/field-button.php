@@ -19,6 +19,7 @@ class acfe_field_button extends acf_field{
             'button_after'  => '',
             'button_class'  => 'button button-secondary',
             'button_id'     => '',
+            'button_ajax'   => 0,
         );
         
         add_action('wp_ajax_acfe/fields/button',        array($this, 'ajax_request'), 99);
@@ -30,20 +31,29 @@ class acfe_field_button extends acf_field{
     
     function ajax_request(){
         
-        /**
-         * @bool/string $_POST['post_id'] Current post ID
-         * @string      $_POST['field_key'] Button's field key
-         * @string      $_POST['field_name'] Button's field name
-         */
+        // vars
+        $field_key = acf_maybe_get_POST('field_key', '');
+        $post_id = acf_maybe_get_POST('post_id', 0);
+        $acf = acf_maybe_get_POST('acf', array());
         
-        $field_name = acf_maybe_get_POST('field_name');
-        $field_key = acf_maybe_get_POST('field_key');
-        $post_id = acf_maybe_get_POST('post_id');
+        // get field
         $field = acf_get_field($field_key);
         
-        do_action('acfe/fields/button',                     $field, $post_id);
-        do_action('acfe/fields/button/name=' . $field_name, $field, $post_id);
-        do_action('acfe/fields/button/key=' . $field_key,   $field, $post_id);
+        // field not found
+        if(!$field){
+            die;
+        }
+        
+        // setup meta
+        acfe_setup_meta($acf, 'acfe/button', true);
+            
+            // actions
+            do_action("acfe/fields/button",                         $field, $post_id);
+            do_action("acfe/fields/button/name={$field['name']}",   $field, $post_id);
+            do_action("acfe/fields/button/key={$field_key}",        $field, $post_id);
+        
+        // reset
+        acfe_reset_meta();
         
         die;
         
@@ -57,7 +67,6 @@ class acfe_field_button extends acf_field{
             'instructions'  => __('Set a default button value', 'acfe'),
             'type'          => 'text',
             'name'          => 'button_value',
-            'default_value' => __('Submit', 'acfe')
         ));
         
         // Type
@@ -66,7 +75,6 @@ class acfe_field_button extends acf_field{
             'instructions'  => __('Choose the button type', 'acfe'),
             'type'          => 'radio',
             'name'          => 'button_type',
-            'default_value' => 'button',
             'layout'        => 'horizontal',
             'choices'       => array(
                 'button'        => __('Button', 'acfe'),
@@ -113,8 +121,8 @@ class acfe_field_button extends acf_field{
         
         // Ajax
         acf_render_field_setting($field, array(
-            'label'         => __('Ajax call', 'acfe'),
-            'instructions'  => __('Trigger ajax event on click. <a href="https://www.acf-extended.com/features/fields/button" target="_blank">See documentation</a>', 'acfe'),
+            'label'         => __('Ajax Request', 'acfe'),
+            'instructions'  => __('Trigger ajax event on click', 'acfe') . '. <a href="https://www.acf-extended.com/features/fields/button" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'name'          => 'button_ajax',
             'type'          => 'true_false',
             'ui'            => 1,
@@ -125,17 +133,15 @@ class acfe_field_button extends acf_field{
     function render_field($field){
         
         // Before
-        if(isset($field['button_before']) && !empty($field['button_before'])){
-            
+        if($field['button_before']){
             echo $field['button_before'];
-            
         }
         
         $ajax = false;
-        $button_ajax = $field['button_ajax'];
         
-        if($button_ajax)
+        if($field['button_ajax']){
             $ajax = 'data-ajax="1"';
+        }
         
         // Button
         if($field['button_type'] === 'button'){
@@ -164,10 +170,8 @@ class acfe_field_button extends acf_field{
         }
         
         // After
-        if(isset($field['button_after']) && !empty($field['button_after'])){
-            
+        if($field['button_after']){
             echo $field['button_after'];
-            
         }
         
     }

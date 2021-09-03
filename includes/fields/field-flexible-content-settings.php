@@ -42,10 +42,10 @@ class acfe_field_flexible_content_settings{
     function render_field_settings($field){
         
         acf_render_field_setting($field, array(
-            'label'         => __('Layouts Settings Modal'),
+            'label'         => __('Layouts Settings Modal', 'acfe'),
             'name'          => 'acfe_flexible_layouts_settings',
             'key'           => 'acfe_flexible_layouts_settings',
-            'instructions'  => __('Choose a field group to clone and to be used as a configuration modal'),
+            'instructions'  => __('Choose a field group to clone and to be used as a configuration modal', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/modal-settings#settings-modal" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -88,7 +88,7 @@ class acfe_field_flexible_content_settings{
         // Title
         echo '</li>';
         acf_render_field_wrap(array(
-            'label' => __('Clone settings'),
+            'label' => __('Clone settings', 'acfe'),
             'type'  => 'hidden',
             'name'  => 'acfe_flexible_settings_label',
             'wrapper' => array(

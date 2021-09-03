@@ -8,10 +8,15 @@ if(!class_exists('acfe_hooks')):
 class acfe_hooks{
     
     public $field_group;
+    public $upload_field = false;
     
     function __construct(){
         
-        // General
+        // Prepare
+        add_action('acf/validate_save_post',                        array($this, 'set_form_data'), 0);
+        add_action('acf/save_post',                                 array($this, 'set_form_data'), 0);
+        
+        // Hooks
         add_action('acf/save_post',                                 array($this, 'pre_save_post'), 9);
         add_action('acf/save_post',                                 array($this, 'save_post'), 15);
         add_action('acf/validate_save_post',                        array($this, 'validate_save_post'));
@@ -26,8 +31,28 @@ class acfe_hooks{
         add_filter('acf/load_fields',                               array($this, 'load_fields'), 10, 2);
         add_filter('acf/load_field',                                array($this, 'load_field'));
         
-        // Options Page
+        // Form Data
+        add_filter('acf/location/screen',                           array($this, 'location_screen'), 99);
         add_action('acf/input/form_data',                           array($this, 'form_data'));
+        
+        // Upload
+        add_filter('acf/upload_prefilter',                          array($this, 'attachment_upload'), 10, 3);
+        
+    }
+    
+    function set_form_data(){
+    
+        // vars
+        $screen = acf_maybe_get_POST('_acf_screen', 'post');
+        $post_id = acf_maybe_get_POST('_acf_post_id', 0);
+        $location = acf_maybe_get_POST('_acf_location', array());
+    
+        // set form data
+        acf_set_form_data(array(
+            'screen'    => $screen,
+            'post_id'   => $post_id,
+            'location'  => $location,
+        ));
         
     }
     
@@ -263,8 +288,9 @@ class acfe_hooks{
     
         // Option
         }elseif($type === 'option'){
-    
-            $options_page = acf_maybe_get_POST('_acf_options_page');
+            
+            $location = acf_get_form_data('location');
+            $options_page = acf_maybe_get($location, 'options_page');
             
             if($options_page){
     
@@ -323,22 +349,26 @@ class acfe_hooks{
     function load_field_groups($field_groups){
         
         // Do not execute in ACF Field Group UI
-        if(acfe_is_admin_screen())
+        if(acfe_is_admin_screen()){
             return $field_groups;
+        }
         
         foreach($field_groups as $i => &$field_group){
     
             $field_group = apply_filters("acfe/prepare_field_group", $field_group);
             
-            if(isset($field_group['ID']))
+            if(isset($field_group['ID'])){
                 $field_group = apply_filters("acfe/prepare_field_group/ID={$field_group['ID']}", $field_group);
+            }
     
-            if(isset($field_group['key']))
+            if(isset($field_group['key'])){
                 $field_group = apply_filters("acfe/prepare_field_group/key={$field_group['key']}", $field_group);
+            }
             
             // Do not render if false
-            if($field_group === false)
+            if($field_group === false){
                 unset($field_groups[$i]);
+            }
         
         }
     
@@ -353,16 +383,13 @@ class acfe_hooks{
         
         $this->field_group = array();
         
-        if(!isset($fields[0]))
-            return $fields;
+        if(!isset($fields[0])) return $fields;
         
-        if(!acf_maybe_get($fields[0], 'parent'))
-            return $fields;
+        if(!acf_maybe_get($fields[0], 'parent')) return $fields;
         
         $field_group = acf_get_field_group($fields[0]['parent']);
         
-        if(!$field_group)
-            return $fields;
+        if(!$field_group) return $fields;
         
         $this->field_group = $field_group;
         
@@ -379,8 +406,7 @@ class acfe_hooks{
      */
     function render_fields($fields, $post_id){
         
-        if(empty($this->field_group))
-            return;
+        if(empty($this->field_group)) return;
         
         $field_group = $this->field_group;
         
@@ -410,8 +436,7 @@ class acfe_hooks{
     function load_fields($fields, $parent){
         
         // check if field (fitler is also called on field groups)
-        if(!acf_maybe_get($parent, 'type'))
-            return $fields;
+        if(!acf_maybe_get($parent, 'type')) return $fields;
         
         $fields = apply_filters("acfe/load_fields",                         $fields, $parent);
         $fields = apply_filters("acfe/load_fields/type={$parent['type']}",  $fields, $parent);
@@ -428,8 +453,7 @@ class acfe_hooks{
     function load_field($field){
     
         // Do not execute in ACF Field Group UI
-        if(acfe_is_admin_screen())
-            return $field;
+        if(acfe_is_admin_screen()) return $field;
         
         // Hooks
         $field = apply_filters("acfe/load_field",                       $field);
@@ -445,11 +469,9 @@ class acfe_hooks{
             $field = apply_filters_deprecated("acfe/load_field_admin/type={$field['type']}",    array($field), '0.8.8', "acfe/load_field/type={$field['type']}");
             $field = apply_filters_deprecated("acfe/load_field_admin/name={$field['name']}",    array($field), '0.8.8', "acfe/load_field/name={$field['name']}");
             $field = apply_filters_deprecated("acfe/load_field_admin/key={$field['key']}",      array($field), '0.8.8', "acfe/load_field/key={$field['key']}");
-            
-        }
-        
+    
         // Deprecated: Front
-        else{
+        }else{
     
             $field = apply_filters_deprecated("acfe/load_field_front",                          array($field), '0.8.8', "acfe/load_field");
             $field = apply_filters_deprecated("acfe/load_field_front/type={$field['type']}",    array($field), '0.8.8', "acfe/load_field/type={$field['type']}");
@@ -462,24 +484,109 @@ class acfe_hooks{
         
     }
     
+    function location_screen($screen){
+        
+        // add taxonomy term id
+        if(acf_maybe_get($screen, 'taxonomy')){
+            
+            // check term_id already set
+            if(!acf_maybe_get($screen, 'term_id')){
+    
+                global $tag;
+    
+                $screen['term_id'] = acfe_maybe_get($tag, 'term_id');
+                
+            }
+            
+        }
+        
+        // get location form data
+        /*$location = acf_get_form_data('location');
+        
+        // location already set
+        if($location === $screen){
+            return $screen;
+        }*/
+        
+        // clone var
+        $location = $screen;
+        unset($location['lang'], $location['ajax']);
+        
+        // set form data
+        acf_set_form_data('location', $location);
+        
+        return $screen;
+        
+    }
+    
+    function form_data(){
+        
+        // get location form data
+        $location = acf_get_form_data('location');
+        
+        // generate hidden input
+        if($location){
+            
+            foreach($location as $name => $value){
+                
+                acf_hidden_input(array(
+                    'id'	=> "_acf_location[$name]",
+                    'name'	=> "_acf_location[$name]",
+                    'value'	=> $value
+                ));
+                
+            }
+            
+        }
+    
+    }
+    
     /*
-     * Form Data for Options Page
+     * Attachment Upload
      */
-    function form_data($data){
+    function attachment_upload($errors, $file, $field){
         
-        if(acf_maybe_get($data, 'screen') !== 'options')
-            return;
-    
-        global $plugin_page;
+        // vars
+        $this->upload_field = $field;
         
-        if(!$plugin_page)
-            return;
+        // filters
+        add_filter('upload_dir',                    array($this, 'handle_upload_dir'), 20);
+        add_filter('wp_handle_upload_prefilter',    array($this, 'handle_upload_file'), 20);
+        
+        // return
+        return $errors;
+        
+    }
     
-        acf_hidden_input(array(
-            'id'    => '_acf_options_page',
-            'name'  => '_acf_options_page',
-            'value' => $plugin_page
-        ));
+    function handle_upload_dir($uploads){
+        
+        // vars
+        $field = $this->upload_field;
+        
+        // filters
+        $uploads = apply_filters("acfe/upload_dir",                         $uploads, $field);
+        $uploads = apply_filters("acfe/upload_dir/type={$field['type']}",   $uploads, $field);
+        $uploads = apply_filters("acfe/upload_dir/name={$field['name']}",   $uploads, $field);
+        $uploads = apply_filters("acfe/upload_dir/key={$field['key']}",     $uploads, $field);
+        
+        // return
+        return $uploads;
+        
+    }
+    
+    function handle_upload_file($file){
+        
+        // vars
+        $field = $this->upload_field;
+        
+        // filters
+        $file = apply_filters("acfe/upload_file",                           $file, $field);
+        $file = apply_filters("acfe/upload_file/type={$field['type']}",     $file, $field);
+        $file = apply_filters("acfe/upload_file/name={$field['name']}",     $file, $field);
+        $file = apply_filters("acfe/upload_file/key={$field['key']}",       $file, $field);
+        
+        // return
+        return $file;
         
     }
     

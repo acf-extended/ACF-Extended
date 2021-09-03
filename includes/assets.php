@@ -3,20 +3,26 @@
 if(!defined('ABSPATH'))
     exit;
 
-if(!class_exists('acfe_enqueue')):
+if(!class_exists('acfe_assets')):
 
-class acfe_enqueue{
+class acfe_assets{
     
+    /*
+     * Construct
+     */
     function __construct(){
         
         // Hooks
-        add_action('init',                              array($this, 'register_assets'));
-        add_action('admin_enqueue_scripts',             array($this, 'admin_enqueue'));
-        add_action('acf/input/admin_enqueue_scripts',   array($this, 'acf_enqueue'));
+        add_action('init',                              array($this, 'init'));
+        add_action('admin_enqueue_scripts',             array($this, 'wp_admin_enqueue_scripts'));
+        add_action('acf/input/admin_enqueue_scripts',   array($this, 'acf_admin_enqueue_scripts'));
         
     }
     
-    function register_assets(){
+    /*
+     * Init
+     */
+    function init(){
     
         $version = ACFE_VERSION;
         $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
@@ -37,10 +43,10 @@ class acfe_enqueue{
         
     }
     
-    /**
-     * Admin Enqueue
+    /*
+     * WP Admin Enqueue Scripts
      */
-    function admin_enqueue(){
+    function wp_admin_enqueue_scripts(){
     
         // Admin
         wp_enqueue_style('acf-extended-admin');
@@ -54,10 +60,10 @@ class acfe_enqueue{
         
     }
     
-    /**
-     * ACF (Front + Back) Enqueue
+    /*
+     * ACF Admin Enqueue Scripts
      */
-    function acf_enqueue(){
+    function acf_admin_enqueue_scripts(){
         
         // Global
         wp_enqueue_style('acf-extended');
@@ -82,27 +88,25 @@ class acfe_enqueue{
         }
         
         acf_localize_data(array(
-            'acfe_version' => ACFE_VERSION,
             'acfe' => array(
+                'version'           => ACFE_VERSION,
                 'home_url'          => home_url(),
                 'is_admin'          => is_admin(),
                 'is_user_logged_in' => is_user_logged_in(),
             )
         ));
         
-        $read_more = __('Read more...');
-        $read_more = str_replace('…', '', $read_more);
-        $read_more = str_replace('...', '', $read_more);
-        
         acf_localize_text(array(
-            'Close'     => __('Close', 'acf'),
-            'Read more' => $read_more,
+            'Close'     => __('Close', 'acfe'),
+            'Read more' => __('Read more', 'acfe'),
+            'Details'   => __('Details', 'acfe'),
+            'Debug'     => __('Debug', 'acfe'),
         ));
         
     }
     
 }
 
-new acfe_enqueue();
+new acfe_assets();
 
 endif;

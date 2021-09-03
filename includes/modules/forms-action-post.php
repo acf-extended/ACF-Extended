@@ -376,8 +376,11 @@ class acfe_form_post{
             
             $args['post_title'] = $data['post_title'];
             
-            if($data['post_title'] === 'generated_id')
+            if($data['post_title'] === 'generated_id'){
                 $args['post_title'] = $_post_id;
+            }elseif($data['post_title'] === '#generated_id'){
+                $args['post_title'] = "#{$_post_id}";
+            }
         
         }
         
@@ -775,6 +778,27 @@ class acfe_form_post{
             'label' => 'Post action',
             'display' => 'row',
             'sub_fields' => array(
+                
+                /*
+                 * Documentation
+                 */
+                array(
+                    'key' => 'field_acfe_form_post_action_docs',
+                    'label' => '',
+                    'name' => 'acfe_form_action_docs',
+                    'type' => 'acfe_dynamic_render',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'render' => function(){
+                        echo '<a href="https://www.acf-extended.com/features/modules/dynamic-forms/post-action" target="_blank">' . __('Documentation', 'acfe') . '</a>';
+                    }
+                ),
         
                 /*
                  * Layout: Post Action
@@ -935,7 +959,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_type_message',
                     'label' => 'Post type',
                     'name' => 'acfe_form_post_map_post_type_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -994,7 +1018,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_status_message',
                     'label' => 'Post status',
                     'name' => 'acfe_form_post_map_post_status_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1027,7 +1051,8 @@ class acfe_form_post{
                     ),
                     'acfe_permissions' => '',
                     'choices' => array(
-                        'generated_id' => 'Generated ID',
+                        'generated_id'  => 'Generated ID',
+                        '#generated_id' => '#Generated ID',
                     ),
                     'default_value' => array(
                     ),
@@ -1053,7 +1078,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_title_message',
                     'label' => 'Post title',
                     'name' => 'acfe_form_post_map_post_title_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1111,7 +1136,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_name_message',
                     'label' => 'Post slug',
                     'name' => 'acfe_form_post_map_post_name_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1216,7 +1241,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_content_message',
                     'label' => 'Post content',
                     'name' => 'acfe_form_post_map_post_content_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1272,7 +1297,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_author_message',
                     'label' => 'Post author',
                     'name' => 'acfe_form_post_map_post_author_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1328,7 +1353,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_parent_message',
                     'label' => 'Post parent',
                     'name' => 'acfe_form_post_map_post_parent_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1387,7 +1412,7 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_terms_message',
                     'label' => 'Post terms',
                     'name' => 'acfe_form_post_map_post_terms_message',
-                    'type' => 'acfe_dynamic_message',
+                    'type' => 'acfe_dynamic_render',
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -1818,226 +1843,7 @@ class acfe_form_post{
                     'return_format' => 'value',
                     'save_custom' => 0,
                 ),
-        
-                /*
-                 * Layout: Post Advanced
-                 */
-                array(
-                    'key' => 'field_acfe_form_post_tab_advanced',
-                    'label' => 'Code',
-                    'name' => '',
-                    'type' => 'tab',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'acfe_permissions' => '',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ),
-                array(
-                    'key' => 'field_acfe_form_post_advanced_load',
-                    'label' => 'Change values source',
-                    'name' => 'acfe_form_post_advanced_load',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Alter the post ID where meta values are loaded from',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_filter('acfe/form/load/post_id', 'my_form_post_values_source', 10, 3);
-add_filter('acfe/form/load/post_id/form=<?php echo $form_name; ?>', 'my_form_post_values_source', 10, 3);
-add_filter('acfe/form/load/post_id/action=my-post-action', 'my_form_post_values_source', 10, 3);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @int     $post_id  Post ID used as source
- * @array   $form     The form settings
- * @string  $action   The action alias name
- */
-add_filter('acfe/form/load/post_id/form=<?php echo $form_name; ?>', 'my_form_post_values_source', 10, 3);
-function my_form_post_values_source($post_id, $form, $action){
-    
-    /*
-     * Retrieve Form Setting
-     */
-    if($form['custom_key'] === 'custom_value'){
-
-        // Force to load values from the Post ID 145
-        $post_id = 145;
-        
-    }
-    
-    return $post_id;
-    
-}<?php acfe_highlight();
-                    
-                    }
-                ),
-                array(
-                    'key' => 'field_acfe_form_post_advanced_save_args',
-                    'label' => 'Change post arguments',
-                    'name' => 'acfe_form_post_advanced_save_args',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'Alter the post arguments before database insert/update',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_filter('acfe/form/submit/post_args', 'my_form_post_args', 10, 4);
-add_filter('acfe/form/submit/post_args/form=<?php echo $form_name; ?>', 'my_form_post_args', 10, 4);
-add_filter('acfe/form/submit/post_args/action=my-post-action', 'my_form_post_args', 10, 4);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @array   $args    The generated post arguments
- * @string  $type    Action type: 'insert_post' or 'update_post'
- * @array   $form    The form settings
- * @string  $action  The action alias name
- */
-add_filter('acfe/form/submit/post_args/form=<?php echo $form_name; ?>', 'my_form_post_args', 10, 4);
-function my_form_post_args($args, $type, $form, $action){
-    
-    // Change Post Title if the Action Type is 'insert_post'
-    if($type === 'insert_post'){
-        
-        $args['post_title'] = 'My title';
-        
-    }
-
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-
-    if($my_field === 'Company'){
-    
-        // Change Post Title
-        $args['post_title'] = 'Company';
-    
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-    
-    if(!empty($prev_post_action)){
-    
-        if($prev_post_action['post_title'] === 'Company'){
-            
-            // Change Post Title
-            $args['post_title'] = 'Company';
-            
-        }
-
-    }
-    
-    // Do not save the Post
-    // return false;
-    
-    return $args;
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
-                array(
-                    'key' => 'field_acfe_form_post_advanced_save',
-                    'label' => 'Add custom action on post save',
-                    'name' => 'acfe_form_post_advanced_save',
-                    'type' => 'acfe_dynamic_message',
-                    'instructions' => 'This action allows you to hook in before or after the meta data have been saved',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function($field){
-                        
-                        $form_name = get_field('acfe_form_name', acfe_get_post_id());
-                        if(empty($form_name))
-                            $form_name = 'my_form';
-                        
-                        ?>You may use the following hooks:<br /><br />
-<?php acfe_highlight(); ?>
-add_action('acfe/form/submit/post', 'my_form_post_save', 10, 5);
-add_action('acfe/form/submit/post/form=<?php echo $form_name; ?>', 'my_form_post_save', 10, 5);
-add_action('acfe/form/submit/post/action=my-post-action', 'my_form_post_save', 10, 5);<?php acfe_highlight(); ?>
-<br />
-<?php acfe_highlight(); ?>
-/*
- * @int     $post_id  The targeted post ID
- * @string  $type     Action type: 'insert_post' or 'update_post'
- * @array   $args     The generated post arguments
- * @array   $form     The form settings
- * @string  $action   The action alias name
- *
- * Note: At this point the post & meta fields are already saved in the database
- */
-add_action('acfe/form/submit/post/form=<?php echo $form_name; ?>', 'my_form_post_save', 10, 5);
-function my_form_post_save($post_id, $type, $args, $form, $action){
-
-    /*
-     * Get the form input value named 'my_field'
-     * This is the value entered by the user during the form submission
-     */
-    $my_field = get_field('my_field');
-
-    if($my_field === 'Company'){
-    
-        // do_something();
-        
-    }
-
-    /*
-     * Get previous Post Action output
-     */
-    $prev_post_action = acfe_form_get_action('post');
-    
-    if(!empty($prev_post_action)){
-        
-        if($prev_post_action['post_title'] === 'Company'){
-            
-            // do_something();
-            
-        }
-        
-    }
-    
-}<?php acfe_highlight();
-                    
-                    },
-                ),
+                
             ),
             'min' => '',
             'max' => '',

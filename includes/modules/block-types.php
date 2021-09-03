@@ -249,10 +249,10 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
                             foreach($array as $field_key => $field_label){
                             
                                 $field = acf_get_field($field_key);
+                                if(!$field) continue;
+                                
                                 $type = acf_get_field_type($field['type']);
-                                $type_label = '-';
-                                if(isset($type->label))
-                                    $type_label = $type->label;
+                                $type_label = acfe_maybe_get($type, 'label', '-');
                                 ?>
 
                                 <tr class="acf-row">

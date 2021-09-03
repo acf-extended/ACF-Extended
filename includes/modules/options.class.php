@@ -3,14 +3,16 @@
 if(!defined('ABSPATH'))
     exit;
 
-if(!class_exists('WP_List_Table'))
+if(!class_exists('WP_List_Table')){
+    
     require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
+    
+}
 
 class ACFE_Admin_Options_List extends WP_List_Table{
 
     /**
      * Constructor
-     *
      */
     public function __construct(){
 
@@ -21,8 +23,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         ));
 
     }
-
-
+    
     /**
      * Retrieve data from the database
      *
@@ -69,8 +70,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         return $result;
         
     }
-
-
+    
     /**
      * Returns the count of records in the database.
      *
@@ -99,8 +99,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         _e('No options avaliable.', 'acfe');
         
     }
-
-
+    
     /**
      * Render a column when no column specific method exist.
      *
@@ -160,8 +159,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         );
         
     }
-
-
+    
     /**
      * Method for name column
      *
@@ -184,7 +182,6 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         
     }
 
-
     /**
      *  Associative array of columns
      *
@@ -203,8 +200,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         return $columns;
         
     }
-
-
+    
     /**
      * Columns to make sortable.
      *
@@ -237,8 +233,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         return $actions;
         
     }
-
-
+    
     /**
      * Handles data query and filter, sorting, and pagination.
      */

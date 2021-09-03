@@ -43,10 +43,10 @@ class acfe_field_flexible_content_thumbnail{
     function render_field_settings($field){
     
         acf_render_field_setting($field, array(
-            'label'         => __('Layouts Thumbnails'),
+            'label'         => __('Layouts Thumbnails', 'acfe'),
             'name'          => 'acfe_flexible_layouts_thumbnails',
             'key'           => 'acfe_flexible_layouts_thumbnails',
-            'instructions'  => __('Set a thumbnail for each layouts'),
+            'instructions'  => __('Set a thumbnail for each layouts', 'acfe') . '. ' . '<a href="https://www.acf-extended.com/features/fields/flexible-content/advanced-settings#layouts-thumbnails" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'true_false',
             'message'           => '',
             'default_value'     => false,
@@ -74,7 +74,7 @@ class acfe_field_flexible_content_thumbnail{
         // Title
         echo '</li>';
         acf_render_field_wrap(array(
-            'label' => __('Thumbnail'),
+            'label' => __('Thumbnail', 'acfe'),
             'type'  => 'hidden',
             'name'  => 'acfe_flexible_thumbnail_label',
             'wrapper' => array(

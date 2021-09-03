@@ -47,6 +47,10 @@ body.acfe-modal-opened {
     pointer-events: none
 }
 
+.acfe-modal .acfe-modal-spacer {
+    padding: 15px
+}
+
 .acfe-modal.-open>.acfe-modal-wrapper {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .7);
     box-shadow: 0 5px 15px rgba(0, 0, 0, .7);

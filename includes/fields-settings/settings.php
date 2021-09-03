@@ -82,7 +82,7 @@ class acfe_field_settings{
         
         // Settings
         acf_render_field_setting($field, array(
-            'label'         => __('Advanced Settings', 'acf'),
+            'label'         => __('Advanced Settings', 'acfe'),
             'name'          => 'acfe_settings',
             'key'           => 'acfe_settings',
             'instructions'  => __('Change field settings based on location'),

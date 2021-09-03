@@ -15,196 +15,150 @@ class acfe_author{
     
     function __construct(){
         
-        add_action('init',                                  array($this, 'init'), 999);
-        add_action('admin_menu',                            array($this, 'admin_menu'));
+        acf_add_local_field(array(
+            'label'                 => '',
+            'key'                   => 'field_acfe_author',
+            'name'                  => 'acfe_author',
+            'type'                  => 'user',
+            'instructions'          => '',
+            'required'              => 0,
+            'conditional_logic'     => 0,
+            'allow_null'            => 0,
+            'multiple'              => 0,
+            'roles'                 => $this->get_roles(),
+            'return_format'         => 'array',
+        ));
         
-        add_action('acf/save_post',                         array($this, 'save_post'), 20);
-        add_filter('acf/load_value/name=acfe_author',       array($this, 'load_value'), 10, 3);
-        add_filter('acf/pre_update_value',                  array($this, 'update_value'), 10, 4);
-        
-        add_filter('acf/get_field_group_style',             array($this, 'hide_on_screen'), 10, 2);
-        
-    }
-    
-    function init(){
-        
-        // Get Post Types Locations
-        $get_post_types = get_post_types_by_support('author');
-        if(empty($get_post_types))
-            return;
-        
-        foreach($get_post_types as $post_type){
-            
-            if(in_array($post_type, array('attachment', 'revision', 'customize_changeset')))
-                continue;
-            
-            $post_type_object = get_post_type_object($post_type);
-            
-            if(!current_user_can($post_type_object->cap->edit_others_posts))
-                continue;
-            
-            $this->post_types[] = $post_type;
-            
-        }
-        
-        if(!empty($this->post_types)){
-            
-            // Locations init
-            $locations = array();
-            
-            foreach($this->post_types as $post_type){
-                
-                // Set Location
-                $locations[] = array(
-                    array(
-                        'param'     => 'post_type',
-                        'operator'  => '==',
-                        'value'     => $post_type,
-                    )
-                );
-        
-            }
-            
-            // Roles
-            global $wp_roles;
-
-            $authors_roles = array();
-            foreach($wp_roles->roles as $role_name => $role){
-                
-                if(!isset($role['capabilities']['level_1']) || empty($role['capabilities']['level_1']))
-                    continue;
-                
-                $authors_roles[] = $role_name;
-                
-            }
-            
-            /**
-             * Add Local Field Group
-             */
-            acf_add_local_field_group(array(
-                'title'                 => __('Author'),
-                'key'                   => 'group_acfe_author',
-                'menu_order'            => 99999,
-                'position'              => 'side',
-                'style'                 => 'default',
-                'label_placement'       => 'top',
-                'instruction_placement' => 'label',
-                'hide_on_screen'        => '',
-                'active'                => 1,
-                'description'           => '',
-                'location'              => $locations,
-                'fields'                => array(
-                    array(
-                        'label'                 => '',
-                        'key'                   => 'acfe_author',
-                        'name'                  => 'acfe_author',
-                        'type'                  => 'user',
-                        'instructions'          => '',
-                        'required'              => 0,
-                        'conditional_logic'     => 0,
-                        'allow_null'            => 0,
-                        'multiple'              => 0,
-                        'return_format'         => 'array',
-                        'role'                  => $authors_roles,
-                        'wrapper'               => array(
-                            'width' => '',
-                            'class' => '',
-                            'id'    => '',
-                        )
-                    ),
-                )
-            ));
-            
-        }
+        add_action('acfe/add_post_meta_boxes',  array($this, 'add_post_meta_boxes'), 10, 2);
+        add_filter('wp_insert_post_data',       array($this, 'wp_insert_post_data'), 10, 2);
+        add_filter('acf/get_field_group_style', array($this, 'get_field_group_style'), 10, 2);
         
     }
     
-    /**
-     * Remove Legacy Authordiv
+    /*
+     * Add Post Meta Boxes
      */
-    function admin_menu(){
-        
-        foreach($this->post_types as $post_type){
-            
-            // Remove Metabox
-            remove_meta_box('authordiv', $post_type, 'normal');
+    function add_post_meta_boxes($post_type, $post){
     
+        // disable on block editor
+        if(acf_is_block_editor()){
+            return;
+        }
+    
+        // validate author supports
+        if(!post_type_supports($post_type, 'author')){
+            return;
         }
         
-    }
+        // post type object
+        $post_type_object = get_post_type_object($post_type);
     
-    /**
-     * Save Post Action
-     */
-    function save_post($post_id){
-        
-        // Check Field Exists
-        if(!isset($_POST['acf']['acfe_author']))
+        // check permission
+        if(!current_user_can($post_type_object->cap->edit_others_posts)){
             return;
+        }
         
-        $post_author = (int) $_POST['acf']['acfe_author'];
-        $_post_author = (int) get_post_field('post_author', $post_id);
+        // remove legacy authordiv
+        remove_meta_box('authordiv', $post_type, 'normal');
         
-        // Check if author has been changed
-        if($_post_author === $post_author)
-            return;
+        // add metabox
+        add_meta_box('acfe-author', __('Author'), array($this, 'render_meta_box'), $post_type, 'side', 'core', array());
         
-        $post_type = get_post_type($post_id);
-        if(!in_array($post_type, $this->post_types))
-            return false;
+        // generate postbox
+        $postboxes = array();
+        $postboxes[] = array(
+            'id' => 'acfe-author',
+        );
         
-        // Validate Author
-        if(!get_user_by('ID', $post_author))
-            return;
-        
-        remove_action('post_updated', 'wp_save_post_revision');
-        
-        // Update Post Author
-        wp_update_post(array(
-            'ID'            => $post_id,
-            'post_author'   => $post_author
+        // get postboxes
+        $data = acf_get_instance('ACF_Assets')->data;
+        $acf_postboxes = acf_maybe_get($data, 'postboxes', array());
+        $acf_postboxes = array_merge($acf_postboxes, $postboxes);
+    
+        // localize postboxes
+        acf_localize_data(array(
+            'postboxes' => $acf_postboxes
         ));
         
     }
     
-    /**
-     * Load Default Value
+    /*
+     * Render Meta Box
      */
-    function load_value($value, $post_id, $field){
+    function render_meta_box($post, $metabox){
         
-        $post_type = get_post_type($post_id);
-        if(!in_array($post_type, $this->post_types))
-            return false;
+        // retrieve field
+        $field = acf_get_field('acfe_author');
         
-        // Set Default
-        $author_id = get_post_field('post_author', $post_id);
-        $value = $author_id;
+        // add value
+        $field['prefix'] = '';
+        $field['value'] = get_post_field('post_author', $post->ID);
         
-        return $value;
+        // render field
+        acf_render_field_wrap($field);
         
     }
     
-    /**
-     * Bypass Metadata Update
+    /*
+     * WP Insert Post Data
      */
-    function update_value($return, $value, $post_id, $field){
+    function wp_insert_post_data($data, $post_array){
         
-        if($field['name'] === 'acfe_author')
-            return false;
+        // check field exists
+        if(!acf_maybe_get($post_array, 'field_acfe_author')){
+            return $data;
+        }
+    
+        // authors
+        $post_author = (int) acf_maybe_get($post_array, 'field_acfe_author');
+        $_post_author = (int) acf_maybe_get($post_array, 'post_author');
+    
+        // check if author has been changed
+        if($_post_author === $post_author){
+            return $data;
+        }
+    
+        // validate author
+        if(!get_user_by('ID', $post_author)){
+            return $data;
+        }
         
-        return $return;
+        // set new author
+        $data['post_author'] = $post_author;
+        
+        return $data;
         
     }
     
-    /**
-     * Field Group Hide on Screen
+    /*
+     * Get Field Group Style
      */
-    function hide_on_screen($style, $field_group){
+    function get_field_group_style($style, $field_group){
         
-        $style = str_replace('authordiv', 'acf-group_acfe_author', $style);
+        $style = str_replace('authordiv', 'acfe-author', $style);
         $style = str_replace('display: none;', 'display: none !important;', $style);
         
         return $style;
+        
+    }
+    
+    /*
+     * Get Roles
+     */
+    function get_roles(){
+    
+        $roles = array();
+    
+        foreach(wp_roles()->roles as $name => $role){
+        
+            // check capability
+            if(empty($role['capabilities']['level_1'])) continue;
+        
+            $roles[] = $name;
+        
+        }
+        
+        return $roles;
         
     }
     

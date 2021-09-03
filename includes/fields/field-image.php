@@ -22,8 +22,7 @@ class acfe_field_image{
     
     function prepare_library($field){
         
-        if(acf_maybe_get($field['wrapper'], 'data-setting') !== 'image')
-            return $field;
+        if(acf_maybe_get($field['wrapper'], 'data-setting') !== 'image') return $field;
         
         $field['conditional_logic'] = array(
             array(
@@ -41,11 +40,9 @@ class acfe_field_image{
     
     function gettext($translated_text, $text, $domain){
         
-        if($domain !== 'acf')
-            return $translated_text;
+        if($domain !== 'acf') return $translated_text;
     
-        if($text === 'No image selected')
-            return '';
+        if($text === 'No image selected') return '';
         
         return $translated_text;
         
@@ -53,8 +50,7 @@ class acfe_field_image{
     
     function validate_field($field){
         
-        if(!acf_maybe_get($field, 'acfe_uploader'))
-            return $field;
+        if(!acf_maybe_get($field, 'acfe_uploader')) return $field;
         
         $field['uploader'] = $field['acfe_uploader'];
         unset($field['acfe_uploader']);
@@ -99,14 +95,17 @@ class acfe_field_image{
     function prepare_field($field){
             
         // ACFE Form force uploader type
-        if(acf_is_filter_enabled('acfe/form/uploader'))
-            acfe_unset($field, 'uploader');
+        if(acf_is_filter_enabled('acfe/form/uploader')){
+            unset($field['uploader']);
+        }
         
-        if(!acf_maybe_get($field, 'uploader'))
+        if(!acf_maybe_get($field, 'uploader')){
             $field['uploader'] = acf_get_setting('uploader');
+        }
         
-        if(!current_user_can('upload_files'))
+        if(!current_user_can('upload_files')){
             $field['uploader'] = 'basic';
+        }
     
         acf_update_setting('uploader', $field['uploader']);
         
@@ -117,22 +116,26 @@ class acfe_field_image{
     function update_value($value, $post_id, $field){
         
         // Bail early if no thumbnail setting
-        if(!acf_maybe_get($field, 'acfe_thumbnail'))
+        if(!acf_maybe_get($field, 'acfe_thumbnail')){
             return $value;
+        }
     
         // Bail early if local meta
-        if(acfe_is_local_post_id($post_id))
+        if(acfe_is_local_post_id($post_id)){
             return $value;
+        }
         
         // Bail early if wp preview
-        if(acf_maybe_get_POST('wp-preview') == 'dopreview')
+        if(acf_maybe_get_POST('wp-preview') == 'dopreview'){
             return $value;
+        }
     
         // Bail early if not post
         $data = acf_get_post_id_info($post_id);
         
-        if($data['type'] !== 'post')
+        if($data['type'] !== 'post'){
             return $value;
+        }
         
         update_post_meta($post_id, '_thumbnail_id', $value);
         
@@ -142,13 +145,19 @@ class acfe_field_image{
     
     function load_value($value, $post_id, $field){
         
-        if(!acf_maybe_get($field, 'acfe_thumbnail'))
+        if(!acf_maybe_get($field, 'acfe_thumbnail')){
             return $value;
+        }
+    
+        if(acf_maybe_get_GET('preview') && filter_var(acf_maybe_get_GET('preview'), FILTER_VALIDATE_BOOLEAN)){
+            return $value;
+        }
         
         $data = acf_get_post_id_info($post_id);
         
-        if($data['type'] !== 'post')
+        if($data['type'] !== 'post'){
             return $value;
+        }
         
         $value = get_post_meta($post_id, '_thumbnail_id', true);
         

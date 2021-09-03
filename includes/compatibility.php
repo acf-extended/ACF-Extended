@@ -11,8 +11,9 @@ if(!class_exists('acfe_compatibility')):
 class acfe_compatibility{
     
     function __construct(){
-        
-        add_action('acf/init', array($this, 'init'), 98);
+    
+        add_action('acf/init',                                      array($this, 'init'), 98);
+        add_action('after_plugin_row_' . ACFE_BASENAME,             array($this, 'plugin_row'), 5, 3);
         
         add_filter('acfe/form/import_args',                         array($this, 'acfe_form_import_compatibility'), 10, 3);
         add_filter('pto/posts_orderby/ignore',                      array($this, 'pto_acf_field_group'), 10, 3);
@@ -28,6 +29,45 @@ class acfe_compatibility{
         
     }
     
+    function plugin_row($plugin_file, $plugin_data, $status){
+    
+        // Bail early
+        if(acfe()->acf()) return;
+    
+        // Check WP version
+        $colspan = version_compare($GLOBALS['wp_version'], '5.5', '<') ? 3 : 4;
+    
+        ?>
+        <style>
+            .plugins tr[data-plugin='<?php echo ACFE_BASENAME; ?>'] th,
+            .plugins tr[data-plugin='<?php echo ACFE_BASENAME; ?>'] td{
+                box-shadow:none;
+            }
+        
+            <?php if(isset($plugin_data['update']) && !empty($plugin_data['update'])){ ?>
+
+            .plugins tr.acfe-plugin-tr td{
+                box-shadow:none !important;
+            }
+
+            .plugins tr.acfe-plugin-tr .update-message{
+                margin-bottom:0;
+            }
+        
+            <?php } ?>
+        </style>
+    
+        <tr class="plugin-update-tr active acfe-plugin-tr">
+            <td colspan="<?php echo $colspan; ?>" class="plugin-update colspanchange">
+                <div class="update-message notice inline notice-error notice-alt">
+                    <p><?php _e('ACF Extended requires <a href="https://www.advancedcustomfields.com/pro/" target="_blank">Advanced Custom Fields PRO</a> (minimum: 5.8).', 'acfe'); ?></p>
+                </div>
+            </td>
+        </tr>
+        <?php
+        
+    }
+    
     function init(){
     
         $this->update_settings();
@@ -37,6 +77,7 @@ class acfe_compatibility{
         
         add_filter('acf/validate_field/type=group',                 array($this, 'field_seamless_style'), 20);
         add_filter('acf/validate_field/type=clone',                 array($this, 'field_seamless_style'), 20);
+        add_filter('acf/validate_field/type=acfe_dynamic_message',  array($this, 'field_dynamic_message'), 20);
         add_filter('acfe/load_fields/type=flexible_content',        array($this, 'field_flexible_settings_title'), 20, 2);
         
         add_filter('acf/prepare_field/name=acfe_flexible_category', array($this, 'field_flexible_layout_categories'), 10, 2);
@@ -160,6 +201,18 @@ class acfe_compatibility{
             $field['acfe_seamless_style'] = $seamless;
             
         }
+        
+        return $field;
+        
+    }
+    
+    /**
+     * ACF Extended: 0.8.8.5
+     * Renamed Dynamic Message to Dynamic Render
+     */
+    function field_dynamic_message($field){
+        
+        $field['type'] = 'acfe_dynamic_render';
         
         return $field;
         

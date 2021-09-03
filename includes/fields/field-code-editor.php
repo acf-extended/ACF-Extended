@@ -22,8 +22,9 @@ class acfe_field_code_editor extends acf_field{
             'lines'         => true,
             'indent_unit'   => 4,
             'maxlength'     => '',
-            'rows'          => '',
-            'max_rows'      => ''
+            'rows'          => 4,
+            'max_rows'      => '',
+            'return_entities' => false
         );
         
         $this->textarea = acf_get_field_type('textarea');
@@ -82,6 +83,7 @@ class acfe_field_code_editor extends acf_field{
             'choices'       => array(
                 'text/html'                 => __('Text/HTML', 'acf'),
                 'javascript'                => __('JavaScript', 'acf'),
+                'application/x-json'        => __('Json', 'acf'),
                 'css'                       => __('CSS', 'acf'),
                 'application/x-httpd-php'   => __('PHP (mixed)', 'acf'),
                 'text/x-php'                => __('PHP (plain)', 'acf'),
@@ -120,7 +122,7 @@ class acfe_field_code_editor extends acf_field{
             'instructions'  => __('Sets the textarea height','acf'),
             'type'          => 'number',
             'name'          => 'rows',
-            'placeholder'   => 8
+            'placeholder'   => ''
         ));
         
         // max rows
@@ -130,6 +132,15 @@ class acfe_field_code_editor extends acf_field{
             'type'          => 'number',
             'name'          => 'max_rows',
             'placeholder'   => ''
+        ));
+    
+        // return entities
+        acf_render_field_setting($field, array(
+            'label'         => __('Return HTML Entities', 'acf'),
+            'instructions'  => 'Whether to return the value as HTML entities',
+            'type'          => 'true_false',
+            'name'          => 'return_entities',
+            'ui'            => true,
         ));
         
     }
@@ -144,6 +155,14 @@ class acfe_field_code_editor extends acf_field{
     function validate_value($valid, $value, $field, $input){
         
         return $this->textarea->validate_value($valid, $value, $field, $input);
+        
+    }
+    
+    function format_value($value, $post_id, $field){
+        
+        if(!$field['return_entities']) return $value;
+        
+        return htmlentities($value);
         
     }
 

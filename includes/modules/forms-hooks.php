@@ -29,6 +29,7 @@ class acfe_dynamic_forms_hooks{
         add_filter('acfe/form/format_value/type=checkbox',                          array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=radio',                             array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=google_map',                        array($this, 'format_value_google_map'), 5, 4);
+        add_filter('acfe/form/format_value/type=repeater',                          array($this, 'format_value_repeater'), 5, 4);
         
     }
     
@@ -182,6 +183,43 @@ class acfe_dynamic_forms_hooks{
         $address = acf_maybe_get($value, 'address');
         
         return $address;
+        
+    }
+    
+    // Repeater
+    function format_value_repeater($value, $_value, $post_id, $field){
+        
+        $value = acf_get_array($_value);
+        $return = '';
+        
+        foreach($value as $i => $sub_fields){
+            
+            $array = array();
+            $return .= "<br/>\n- ";
+            
+            foreach($sub_fields as $key => $val){
+                
+                $sub_field = acf_get_field($key);
+                
+                if(!$sub_field) continue;
+                
+                // Label
+                $label = !empty($sub_field['label']) ? $sub_field['label'] : $sub_field['name'];
+                
+                // Value
+                $sub_field['name'] = $field['name'] . '_' . $i . '_' . $sub_field['name'];
+                $val = acfe_form_format_value($val, $sub_field);
+                
+                // Add
+                $array[] = $label . ': ' . $val;
+                
+            }
+            
+            $return .= implode(', ', $array);
+            
+        }
+        
+        return $return;
         
     }
     

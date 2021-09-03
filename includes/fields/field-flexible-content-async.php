@@ -41,10 +41,10 @@ class acfe_field_flexible_content_async{
          */
     
         acf_render_field_setting($field, array(
-            'label'         => __('Asynchronous Settings'),
+            'label'         => __('Asynchronous Settings', 'acfe'),
             'name'          => 'acfe_flexible_async',
             'key'           => 'acfe_flexible_async',
-            'instructions'  => __('Asynchronous settings'),
+            'instructions'  => '<a href="https://www.acf-extended.com/features/fields/flexible-content/advanced-settings#async-settings" target="_blank">' . __('See documentation', 'acfe') . '</a>',
             'type'              => 'checkbox',
             'default_value'     => '',
             'layout'            => 'horizontal',

@@ -468,7 +468,7 @@ class acfe_admin_settings_ui{
     
         $page = add_submenu_page('edit.php?post_type=acf-field-group', __('Settings'), __('Settings'), acf_get_setting('capability'), 'acfe-settings', array($this, 'menu_html'));
         
-        add_action('load-' . $page, array($this, 'menu_load'));
+        add_action("load-{$page}", array($this, 'menu_load'));
         
     }
     
@@ -521,6 +521,7 @@ class acfe_admin_settings_ui{
         
         $name = $setting['name'];
         $type = $setting['type'];
+        $format = $setting['format'];
         $default = $this->defaults[$name];
         $updated = $this->updated[$name];
         
@@ -540,6 +541,10 @@ class acfe_admin_settings_ui{
             }elseif($type === 'text'){
             
                 $result = '<span class="dashicons dashicons-no-alt"></span>';
+    
+                if($format === 'array' && empty($var) && $v === 'updated' && $default !== $updated){
+                    $var = array('(empty)');
+                }
             
                 if(!empty($var)){
                 
@@ -564,7 +569,7 @@ class acfe_admin_settings_ui{
         // Local Changes
         if($default !== $updated){
         
-            $setting['updated'] .= '<span style="color:#888; margin-left:7px;vertical-align: middle;font-size:11px;">(Local code)</span>';
+            $setting['updated'] .= '<span style="color:#888; margin-left:7px;vertical-align: 6px;font-size:11px;">(Local code)</span>';
             $setting['diff'] = true;
         
         }
@@ -661,7 +666,7 @@ class acfe_admin_settings_ui{
     
                 // Thead
                 acf_render_field_wrap(array(
-                    'type'  => 'acfe_dynamic_message',
+                    'type'  => 'acfe_dynamic_render',
                     'label' => '',
                     'key'   => 'field_acfe_settings_thead_' . $category,
                     'wrapper' => array(

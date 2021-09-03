@@ -27,6 +27,7 @@ class acfe_field_flexible_content{
         // Render Flexible
         remove_action('acf/render_field/type=flexible_content',             array($this->instance, 'render_field'), 9);
         add_action('acf/render_field/type=flexible_content',                array($this, 'render_field'), 9);
+        add_filter('acf/fields/flexible_content/layout_title',              array($this, 'prepare_layout_title'), 0, 4);
         
     }
     
@@ -51,7 +52,7 @@ class acfe_field_flexible_content{
         echo '</li>';
         
         acf_render_field_wrap(array(
-            'label' => __('Settings'),
+            'label' => __('Settings', 'acfe'),
             'type'  => 'hidden',
             'name'  => 'acfe_flexible_settings_label'
         ), 'ul');
@@ -246,7 +247,7 @@ class acfe_field_flexible_content{
         
         // defaults
         if(empty($field['button_label'])){
-            $field['button_label'] = __("Add Row", 'acf');
+            $field['button_label'] = __('Add Row', 'acf');
         }
         
         // sort layouts into names
@@ -633,6 +634,15 @@ class acfe_field_flexible_content{
         
         $field['delay'] = 1;
         return $field;
+        
+    }
+    
+    /*
+     * Prepare Layout Title
+     */
+    function prepare_layout_title($title, $field, $layout, $i){
+        
+        return '<span class="acfe-layout-title-text">' . $title . '</span>';
         
     }
     
