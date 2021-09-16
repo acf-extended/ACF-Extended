@@ -148,7 +148,9 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         <script type="text/javascript">
         (function($){
 
-            acfe.enhancedListUI();
+            acfe.enhancedListUI({
+                taxonomy: '<?php echo $tax->name; ?>'
+            });
 
             // Polylang + WPML Compatibility New Lang
             <?php if((acf_maybe_get_GET('from_tag') && acf_maybe_get_GET('new_lang')) || acf_maybe_get_GET('trid')){ ?>

@@ -651,8 +651,8 @@ class acfe_admin_settings_ui{
         
                 }
     
-                $tab_style = $count === 0 ? 'style="display:none;"' : '';
-                $tab .= ' <span class="acfe-tab-badge" ' . $tab_style . '>' . $count . '</span>';
+                $class = $count > 0 ? 'acfe-tab-badge' : 'acfe-tab-badge acf-hidden';
+                $tab .= ' <span class="' . $class . '">' . $count . '</span>';
     
                 // Tab
                 acf_render_field_wrap(array(

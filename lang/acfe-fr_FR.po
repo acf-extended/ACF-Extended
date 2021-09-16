@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2021-08-21 01:39+0200\n"
-"PO-Revision-Date: 2021-08-21 01:39+0200\n"
+"POT-Creation-Date: 2021-09-12 18:42+0200\n"
+"PO-Revision-Date: 2021-09-12 18:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
 "Language: fr_FR\n"
@@ -22,33 +22,33 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: .build\n"
 
-#: assets/js/acfe-admin.js:499 includes/modules/options-pages.php:301
-#: includes/modules/options.php:469 pro/includes/updates.php:360
+#: assets/js/acfe-admin.js:475 includes/modules/options-pages.php:301
+#: includes/modules/options.php:469 pro/includes/updates.php:361
 msgid "Yes"
 msgstr "Oui"
 
-#: assets/js/acfe-admin.js:500 includes/modules/options-pages.php:297
-#: includes/modules/options.php:468 pro/includes/updates.php:372
+#: assets/js/acfe-admin.js:476 includes/modules/options-pages.php:297
+#: includes/modules/options.php:468 pro/includes/updates.php:373
 msgid "No"
 msgstr "Non"
 
 #: assets/js/acfe-input.js:106 assets/js/acfe-input.js:370
-#: assets/js/acfe-input.js:734 assets/js/acfe-input.js:1513
-#: assets/js/acfe-input.js:2308 includes/assets.php:100
+#: assets/js/acfe-input.js:734 assets/js/acfe-input.js:1511
+#: assets/js/acfe-input.js:2304 includes/assets.php:100
 #: includes/field-groups/field-group-meta.php:145
 #: includes/fields-settings/data.php:81
 #: includes/fields/field-flexible-content.php:616
 #: includes/fields/field-flexible-content.php:622 includes/modules/dev.php:129
 #: pro/assets/js/acfe-pro-admin.js:375 pro/assets/js/acfe-pro-input.js:631
 #: pro/includes/field-groups/field-group-ui.php:237
-#: pro/includes/fields/field-payment.php:451 pro/includes/modules/dev.php:77
-#: pro/includes/modules/dev.php:147 pro/includes/modules/dev.php:206
-#: pro/includes/modules/dev.php:290 pro/includes/modules/dev.php:338
-#: pro/includes/modules/dev.php:386 pro/includes/modules/dev.php:434
+#: pro/includes/fields/field-payment.php:444 pro/includes/modules/dev.php:77
+#: pro/includes/modules/dev.php:154 pro/includes/modules/dev.php:213
+#: pro/includes/modules/dev.php:297 pro/includes/modules/dev.php:345
+#: pro/includes/modules/dev.php:393 pro/includes/modules/dev.php:441
 msgid "Close"
 msgstr "Fermer"
 
-#: assets/js/acfe-input.js:1645 includes/fields/field-flexible-content.php:250
+#: assets/js/acfe-input.js:1643 includes/fields/field-flexible-content.php:250
 msgid "Add Row"
 msgstr "Ajouter une rangée"
 
@@ -186,7 +186,7 @@ msgstr ""
 "thème.php fichier ou l’inclure dans un fichier externe."
 
 #: includes/admin/tools/module-import.php:24
-#: pro/assets/js/acfe-pro-input.js:1007
+#: pro/assets/js/acfe-pro-input.js:1050 pro/assets/js/acfe-pro-input.js:1068
 #: pro/includes/admin/tools/settings-import.php:27
 msgid "Select File"
 msgstr "Choisir un fichier"
@@ -302,7 +302,7 @@ msgstr "Options"
 msgid "Add New"
 msgstr "Ajouter"
 
-#: includes/assets.php:101 pro/assets/js/acfe-pro-input.js:4878
+#: includes/assets.php:101 pro/assets/js/acfe-pro-input.js:4950
 msgid "Read more"
 msgstr "Lire la suite"
 
@@ -411,7 +411,7 @@ msgstr "Clé"
 #: includes/field-groups/field-group-meta.php:74
 #: includes/fields/field-hidden.php:43 includes/modules/options.class.php:196
 #: pro/includes/field-groups/field-group-ui.php:172
-#: pro/includes/fields/field-color-picker.php:82
+#: pro/includes/fields/field-color-picker.php:132
 #: pro/includes/fields/field-image-selector.php:147
 msgid "Value"
 msgstr "Valeur"
@@ -790,17 +790,17 @@ msgid "Button"
 msgstr "Bouton"
 
 #: includes/fields/field-button.php:16 includes/modules/options.php:480
-#: pro/includes/modules/dev.php:532
+#: pro/includes/modules/dev.php:539
 msgid "Submit"
 msgstr "Envoyer"
 
 #: includes/fields/field-button.php:66
-#: pro/includes/fields/field-payment.php:116
+#: pro/includes/fields/field-payment.php:118
 msgid "Button value"
 msgstr "Valeur du bouton"
 
 #: includes/fields/field-button.php:67
-#: pro/includes/fields/field-payment.php:117
+#: pro/includes/fields/field-payment.php:119
 msgid "Set a default button value"
 msgstr "Définir une valeur de bouton par défaut"
 
@@ -817,37 +817,37 @@ msgid "Input"
 msgstr "Entrée"
 
 #: includes/fields/field-button.php:87
-#: pro/includes/fields/field-payment.php:131
+#: pro/includes/fields/field-payment.php:133
 msgid "Button attributes"
 msgstr "Attributs du bouton"
 
 #: includes/fields/field-button.php:91
-#: pro/includes/fields/field-payment.php:135
+#: pro/includes/fields/field-payment.php:137
 msgid "class"
 msgstr "classe"
 
 #: includes/fields/field-button.php:100
-#: pro/includes/fields/field-payment.php:151
+#: pro/includes/fields/field-payment.php:153
 msgid "id"
 msgstr "id"
 
 #: includes/fields/field-button.php:106
-#: pro/includes/fields/field-payment.php:164
+#: pro/includes/fields/field-payment.php:166
 msgid "Before HTML"
 msgstr "Avant HTML"
 
 #: includes/fields/field-button.php:107
-#: pro/includes/fields/field-payment.php:165
+#: pro/includes/fields/field-payment.php:167
 msgid "Custom HTML before the button"
 msgstr "HTML personnalisé avant le bouton"
 
 #: includes/fields/field-button.php:115
-#: pro/includes/fields/field-payment.php:180
+#: pro/includes/fields/field-payment.php:182
 msgid "After HTML"
 msgstr "Après HTML"
 
 #: includes/fields/field-button.php:116
-#: pro/includes/fields/field-payment.php:181
+#: pro/includes/fields/field-payment.php:183
 msgid "Custom HTML after the button"
 msgstr "HTML personnalisé après le bouton"
 
@@ -1470,7 +1470,7 @@ msgstr "Entrer chaque valeur par défaut sur une nouvelle ligne"
 #: includes/fields/field-taxonomies.php:78
 #: includes/fields/field-taxonomy-terms.php:848
 #: pro/includes/fields/field-block-types.php:98
-#: pro/includes/fields/field-color-picker.php:76
+#: pro/includes/fields/field-color-picker.php:126
 #: pro/includes/fields/field-countries.php:87
 #: pro/includes/fields/field-currencies.php:102
 #: pro/includes/fields/field-field-groups.php:97
@@ -1998,8 +1998,8 @@ msgstr ""
 "target=\"_blank\">Administration de l’API reCaptcha</a>"
 
 #: includes/fields/field-recaptcha.php:113
-#: pro/includes/fields/field-payment.php:200
-#: pro/includes/fields/field-payment.php:219
+#: pro/includes/fields/field-payment.php:202
+#: pro/includes/fields/field-payment.php:221
 msgid "Secret key"
 msgstr "Clé secrète"
 
@@ -2013,12 +2013,12 @@ msgstr ""
 
 #: includes/fields/field-recaptcha.php:242
 #: includes/fields/field-recaptcha.php:248
-#: pro/includes/fields/field-payment.php:589
-#: pro/includes/fields/field-payment.php:688
-#: pro/includes/fields/field-payment.php:814
-#: pro/includes/fields/field-payment.php:837
-#: pro/includes/fields/field-payment.php:885
-#: pro/includes/fields/field-payment.php:977
+#: pro/includes/fields/field-payment.php:582
+#: pro/includes/fields/field-payment.php:681
+#: pro/includes/fields/field-payment.php:807
+#: pro/includes/fields/field-payment.php:830
+#: pro/includes/fields/field-payment.php:878
+#: pro/includes/fields/field-payment.php:970
 msgid "An error has occured"
 msgstr "Une erreur s’est produite"
 
@@ -2173,7 +2173,7 @@ msgstr "Archives de type de contenu"
 #: includes/locations/taxonomy-list.php:198 includes/modules/options.php:510
 #: pro/includes/admin/settings.php:306
 #: pro/includes/locations/attachment-list.php:190
-#: pro/includes/locations/user-list.php:188 pro/includes/modules/dev.php:579
+#: pro/includes/locations/user-list.php:188 pro/includes/modules/dev.php:586
 msgid "Update"
 msgstr "Mettre à jour"
 
@@ -2185,7 +2185,7 @@ msgstr "Liste de Type d’article"
 msgid "Taxonomy List"
 msgstr "Liste de sites web"
 
-#: includes/modules/author.php:85 pro/includes/fields/field-post-field.php:35
+#: includes/modules/author.php:65 pro/includes/fields/field-post-field.php:35
 msgid "Author"
 msgstr "Auteur"
 
@@ -2216,10 +2216,10 @@ msgstr "Meta supprimées"
 
 #: includes/modules/dev.php:129 includes/modules/options-pages.php:315
 #: includes/modules/post-types.php:175 includes/modules/taxonomies.php:262
-#: pro/includes/fields/field-payment.php:451 pro/includes/modules/dev.php:77
-#: pro/includes/modules/dev.php:147 pro/includes/modules/dev.php:206
-#: pro/includes/modules/dev.php:290 pro/includes/modules/dev.php:338
-#: pro/includes/modules/dev.php:386 pro/includes/modules/dev.php:434
+#: pro/includes/fields/field-payment.php:444 pro/includes/modules/dev.php:77
+#: pro/includes/modules/dev.php:154 pro/includes/modules/dev.php:213
+#: pro/includes/modules/dev.php:297 pro/includes/modules/dev.php:345
+#: pro/includes/modules/dev.php:393 pro/includes/modules/dev.php:441
 #: pro/includes/modules/scripts-list.php:197
 msgid "View"
 msgstr "Voir"
@@ -2251,7 +2251,7 @@ msgstr "vide"
 #: includes/modules/forms-action-post.php:799
 #: includes/modules/forms-action-redirect.php:87
 #: includes/modules/forms-action-term.php:486
-#: includes/modules/forms-action-user.php:977 includes/modules/forms.php:174
+#: includes/modules/forms-action-user.php:982 includes/modules/forms.php:174
 #: pro/includes/modules/forms-action-option.php:216
 msgid "Documentation"
 msgstr "Documentation"
@@ -2285,19 +2285,19 @@ msgstr "Nom d'utilisateur invalide"
 msgid "Invalid username or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide"
 
-#: includes/modules/forms-action-user.php:675
+#: includes/modules/forms-action-user.php:679
 msgid "Cannot create a user with an empty login name."
 msgstr "Impossible de créer un utilisateur avec un identifiant vide."
 
-#: includes/modules/forms-action-user.php:679
+#: includes/modules/forms-action-user.php:683
 msgid "Username may not be longer than 60 characters."
 msgstr "Nom d'utilisateur ne peut pas excéder 60 caractères."
 
-#: includes/modules/forms-action-user.php:685
+#: includes/modules/forms-action-user.php:689
 msgid "Sorry, that username already exists!"
 msgstr "Désolé, cet identifiant existe déjà&nbsp;!"
 
-#: includes/modules/forms-action-user.php:693
+#: includes/modules/forms-action-user.php:697
 msgid "Nicename may not be longer than 50 characters."
 msgstr "Un pseudo ne devrait pas dépasser les 50 caractères."
 
@@ -2407,10 +2407,10 @@ msgid "No options avaliable."
 msgstr "Aucune option disponible."
 
 #: includes/modules/options.class.php:194 pro/includes/modules/dev.php:68
-#: pro/includes/modules/dev.php:138 pro/includes/modules/dev.php:197
-#: pro/includes/modules/dev.php:248 pro/includes/modules/dev.php:285
-#: pro/includes/modules/dev.php:333 pro/includes/modules/dev.php:381
-#: pro/includes/modules/dev.php:429 pro/includes/modules/dev.php:476
+#: pro/includes/modules/dev.php:145 pro/includes/modules/dev.php:204
+#: pro/includes/modules/dev.php:255 pro/includes/modules/dev.php:292
+#: pro/includes/modules/dev.php:340 pro/includes/modules/dev.php:388
+#: pro/includes/modules/dev.php:436 pro/includes/modules/dev.php:483
 msgid "ID"
 msgstr "ID"
 
@@ -2503,34 +2503,34 @@ msgstr "ou"
 msgid "Clear"
 msgstr "Effacer"
 
-#: pro/assets/js/acfe-pro-input.js:981
+#: pro/assets/js/acfe-pro-input.js:979
 msgid "Maximum items reached ({max} items)"
 msgstr "Nombre maximal d’objets atteints ({max} éléments)"
 
-#: pro/assets/js/acfe-pro-input.js:1024
+#: pro/assets/js/acfe-pro-input.js:1094
 msgid "Edit File"
 msgstr "Modifier le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1025
+#: pro/assets/js/acfe-pro-input.js:1095
 msgid "Update File"
 msgstr "Mettre à jour le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1475
+#: pro/assets/js/acfe-pro-input.js:1547
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr "Ce champ a une limite de {Max} {label} {identificateur}"
 
-#: pro/assets/js/acfe-pro-input.js:1476
+#: pro/assets/js/acfe-pro-input.js:1548
 #: pro/includes/fields/field-flexible-content-locations.php:180
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] "disposition"
 msgstr[1] "mises en page"
 
-#: pro/assets/js/acfe-pro-input.js:3545
+#: pro/assets/js/acfe-pro-input.js:3617
 msgid "OK"
 msgstr "OK"
 
-#: pro/assets/js/acfe-pro-input.js:3545
+#: pro/assets/js/acfe-pro-input.js:3617
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -2580,7 +2580,7 @@ msgstr "Aucun modèle sélectionné"
 msgid "Import Templates"
 msgstr "Importer un modèle"
 
-#: pro/includes/fields-settings/instructions.php:42
+#: pro/includes/fields-settings/instructions.php:38
 msgid "Instructions Placement"
 msgstr "Instructions Placement"
 
@@ -2647,68 +2647,69 @@ msgstr "Nom du type de bloc"
 msgid "Toggle All"
 msgstr "Sélectionner tout"
 
-#: pro/includes/fields/field-color-picker.php:22
-#: pro/includes/fields/field-color-picker.php:93
+#: pro/includes/fields/field-color-picker.php:29
+#: pro/includes/fields/field-color-picker.php:145
 msgid "Select Color"
 msgstr "Sélectionner une couleur"
 
-#: pro/includes/fields/field-color-picker.php:65
+#: pro/includes/fields/field-color-picker.php:111
 msgid "Display Style"
 msgstr "Style d’affichage"
 
-#: pro/includes/fields/field-color-picker.php:83
+#: pro/includes/fields/field-color-picker.php:133
+#: pro/includes/fields/field-color-picker.php:261
 msgid "Label"
 msgstr "Label"
 
-#: pro/includes/fields/field-color-picker.php:84
+#: pro/includes/fields/field-color-picker.php:134
 msgid "Both (Array)"
 msgstr "Les deux (Tableau)"
 
-#: pro/includes/fields/field-color-picker.php:89
+#: pro/includes/fields/field-color-picker.php:141
 #: pro/includes/fields/field-file.php:354
 msgid "Button Label"
 msgstr "Nom du bouton"
 
-#: pro/includes/fields/field-color-picker.php:106
+#: pro/includes/fields/field-color-picker.php:158
 msgid "Color Picker"
 msgstr "Sélecteur de couleur"
 
-#: pro/includes/fields/field-color-picker.php:114
+#: pro/includes/fields/field-color-picker.php:166
 msgid "Position Absolute"
 msgstr "Position Absolue"
 
-#: pro/includes/fields/field-color-picker.php:131
+#: pro/includes/fields/field-color-picker.php:183
 msgid "Text Input"
 msgstr "Saisie de texte"
 
-#: pro/includes/fields/field-color-picker.php:155
+#: pro/includes/fields/field-color-picker.php:207
 #: pro/includes/fields/field-date-range-picker.php:228
 msgid "Allow null"
 msgstr "Autoriser une valeur « null »"
 
-#: pro/includes/fields/field-color-picker.php:163
+#: pro/includes/fields/field-color-picker.php:218
 msgid "RGBA"
 msgstr "RGBA"
 
-#: pro/includes/fields/field-color-picker.php:171
+#: pro/includes/fields/field-color-picker.php:228
 msgid "Use Theme Colors"
 msgstr "Utiliser les couleurs du thème"
 
-#: pro/includes/fields/field-color-picker.php:179
+#: pro/includes/fields/field-color-picker.php:236
 msgid "Custom Colors"
 msgstr "Couleurs personnalisées"
 
-#: pro/includes/fields/field-color-picker.php:180
+#: pro/includes/fields/field-color-picker.php:237
 msgid "Enter each choice on a new line."
 msgstr "Entrez chaque choix sur une nouvelle ligne."
 
-#: pro/includes/fields/field-color-picker.php:180
+#: pro/includes/fields/field-color-picker.php:237
 msgid "For more control, you may specify both a value and label like this:"
 msgstr ""
 "Pour plus de contrôle, vous pouvez spécifier à la fois une valeur et une "
 "étiquette comme ceci:"
 
-#: pro/includes/fields/field-color-picker.php:180
+#: pro/includes/fields/field-color-picker.php:237
 msgid "#2271b1 : Primary"
 msgstr "#2271b1 : Primaire"
 
@@ -3327,163 +3328,170 @@ msgstr "Paiement"
 msgid "Pay now"
 msgstr "Payer maintenant"
 
-#: pro/includes/fields/field-payment.php:63
+#: pro/includes/fields/field-payment.php:65
 msgid "Gateways"
 msgstr "Passerelles"
 
-#: pro/includes/fields/field-payment.php:64
+#: pro/includes/fields/field-payment.php:66
 msgid "Choose your payment gateways"
 msgstr "Choisissez vos passerelles de paiement"
 
-#: pro/includes/fields/field-payment.php:77
-#: pro/includes/fields/field-payment.php:429
+#: pro/includes/fields/field-payment.php:79
+#: pro/includes/fields/field-payment.php:422
+#: pro/includes/fields/field-payment.php:1154
 msgid "Amount"
 msgstr "Montant"
 
-#: pro/includes/fields/field-payment.php:78
+#: pro/includes/fields/field-payment.php:80
 msgid "The amount to charge"
 msgstr "Le montant à facturer"
 
-#: pro/includes/fields/field-payment.php:86
+#: pro/includes/fields/field-payment.php:88
 msgid "Currency"
 msgstr "Devise"
 
-#: pro/includes/fields/field-payment.php:87
+#: pro/includes/fields/field-payment.php:89
 msgid "The currency to use"
 msgstr "La devise à utiliser"
 
-#: pro/includes/fields/field-payment.php:99
+#: pro/includes/fields/field-payment.php:101
 #: pro/includes/modules/scripts-list.php:260
 msgid "Description"
 msgstr "Description"
 
-#: pro/includes/fields/field-payment.php:100
+#: pro/includes/fields/field-payment.php:102
 msgid "A description attached to the payment. Useful for displaying to users"
 msgstr ""
 "Une description jointe au paiement. Utile pour l’affichage aux utilisateurs"
 
-#: pro/includes/fields/field-payment.php:107
+#: pro/includes/fields/field-payment.php:109
 msgid "Display Button"
 msgstr "Affichager Bouton"
 
-#: pro/includes/fields/field-payment.php:196
+#: pro/includes/fields/field-payment.php:198
 msgid "Stripe Test API"
 msgstr "Stripe Test API"
 
-#: pro/includes/fields/field-payment.php:197
+#: pro/includes/fields/field-payment.php:199
 msgid "Your Stripe Test API Keys"
 msgstr "Vos clés API Stripe test"
 
-#: pro/includes/fields/field-payment.php:209
-#: pro/includes/fields/field-payment.php:228
+#: pro/includes/fields/field-payment.php:211
+#: pro/includes/fields/field-payment.php:230
 msgid "Public key"
 msgstr "Clé publique"
 
-#: pro/includes/fields/field-payment.php:215
+#: pro/includes/fields/field-payment.php:217
 msgid "Stripe Production API"
 msgstr "Stripe Production API"
 
-#: pro/includes/fields/field-payment.php:216
+#: pro/includes/fields/field-payment.php:218
 msgid "Your Stripe Production API Keys"
 msgstr "Vos clés API Stripe Production"
 
-#: pro/includes/fields/field-payment.php:234
+#: pro/includes/fields/field-payment.php:236
 msgid "PayPal Test API"
 msgstr "PayPal Test API"
 
-#: pro/includes/fields/field-payment.php:235
+#: pro/includes/fields/field-payment.php:237
 msgid "Your PayPal Sandbox Credentials"
 msgstr "Vos informations d’identification sandbox PayPal"
 
-#: pro/includes/fields/field-payment.php:238
-#: pro/includes/fields/field-payment.php:277
+#: pro/includes/fields/field-payment.php:240
+#: pro/includes/fields/field-payment.php:279
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: pro/includes/fields/field-payment.php:247
-#: pro/includes/fields/field-payment.php:286
+#: pro/includes/fields/field-payment.php:249
+#: pro/includes/fields/field-payment.php:288
 msgid "Password"
 msgstr "Mot de passe"
 
-#: pro/includes/fields/field-payment.php:257
-#: pro/includes/fields/field-payment.php:296
+#: pro/includes/fields/field-payment.php:259
+#: pro/includes/fields/field-payment.php:298
 msgid "Signature"
 msgstr "Signature"
 
-#: pro/includes/fields/field-payment.php:267
-#: pro/includes/fields/field-payment.php:306
+#: pro/includes/fields/field-payment.php:269
+#: pro/includes/fields/field-payment.php:308
 msgid "Merchant ID"
 msgstr "ID du Marchand"
 
-#: pro/includes/fields/field-payment.php:273
+#: pro/includes/fields/field-payment.php:275
 msgid "PayPal Production API"
 msgstr "PayPal Production API"
 
-#: pro/includes/fields/field-payment.php:274
+#: pro/includes/fields/field-payment.php:276
 msgid "Your PayPal Production Credentials"
 msgstr "Vos informations d’identification de production PayPal"
 
-#: pro/includes/fields/field-payment.php:312
-#: pro/includes/fields/field-payment.php:424
+#: pro/includes/fields/field-payment.php:314
+#: pro/includes/fields/field-payment.php:417
+#: pro/includes/fields/field-payment.php:1151
 msgid "Mode"
 msgstr "Mode"
 
-#: pro/includes/fields/field-payment.php:313
+#: pro/includes/fields/field-payment.php:315
 msgid "Switch API mode"
 msgstr "Changer de mode API"
 
-#: pro/includes/fields/field-payment.php:318
-#: pro/includes/fields/field-payment.php:1105
+#: pro/includes/fields/field-payment.php:320
+#: pro/includes/fields/field-payment.php:1098
 msgid "Test"
 msgstr "Test"
 
-#: pro/includes/fields/field-payment.php:319
-#: pro/includes/fields/field-payment.php:1106
+#: pro/includes/fields/field-payment.php:321
+#: pro/includes/fields/field-payment.php:1099
 msgid "Production"
 msgstr "Production"
 
-#: pro/includes/fields/field-payment.php:389
+#: pro/includes/fields/field-payment.php:382
 msgid "Payment meta is invalid."
 msgstr "Les données meta du paiement sont invalides."
 
-#: pro/includes/fields/field-payment.php:419
+#: pro/includes/fields/field-payment.php:412
+#: pro/includes/fields/field-payment.php:1148
 msgid "Gateway"
 msgstr "Passerelle"
 
-#: pro/includes/fields/field-payment.php:434
+#: pro/includes/fields/field-payment.php:427
+#: pro/includes/fields/field-payment.php:1157
 msgid "Items"
 msgstr "Articles"
 
-#: pro/includes/fields/field-payment.php:439
+#: pro/includes/fields/field-payment.php:432
+#: pro/includes/fields/field-payment.php:1160
 #: pro/includes/fields/field-post-field.php:38
 msgid "Date"
 msgstr "Date"
 
-#: pro/includes/fields/field-payment.php:443
+#: pro/includes/fields/field-payment.php:436
+#: pro/includes/fields/field-payment.php:1162
 msgid "IP Address"
 msgstr "Adresse IP"
 
-#: pro/includes/fields/field-payment.php:447
+#: pro/includes/fields/field-payment.php:440
+#: pro/includes/fields/field-payment.php:1164
 msgid "Payment ID"
 msgstr "ID du Paiement"
 
-#: pro/includes/fields/field-payment.php:451
+#: pro/includes/fields/field-payment.php:444
 msgid "Payment Object"
 msgstr "Objet de Paiement"
 
-#: pro/includes/fields/field-payment.php:538
+#: pro/includes/fields/field-payment.php:531
 msgid "PayPal Checkout"
 msgstr "Paiement PayPal"
 
-#: pro/includes/fields/field-payment.php:646
+#: pro/includes/fields/field-payment.php:639
 msgid "Amount can't be null"
 msgstr "Le montant ne peut pas être nul"
 
-#: pro/includes/fields/field-payment.php:723
+#: pro/includes/fields/field-payment.php:716
 msgid "Payment failed"
 msgstr "Échec de paiement"
 
-#: pro/includes/fields/field-payment.php:964
+#: pro/includes/fields/field-payment.php:957
 msgid "Your card number is invalid"
 msgstr "Votre numéro de carte n’est pas valide"
 
@@ -3612,7 +3620,7 @@ msgstr "Statut"
 #: pro/includes/fields/field-post-field.php:48
 #: pro/includes/fields/field-post-field.php:57
 #: pro/includes/locations/menu-item-type.php:23
-#: pro/includes/modules/dev.php:142
+#: pro/includes/modules/dev.php:149
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
@@ -3967,70 +3975,70 @@ msgstr "Terme enfant (a un parent)"
 msgid "Taxonomy Term"
 msgstr "Terme de taxonomie"
 
-#: pro/includes/modules/dev.php:76 pro/includes/modules/dev.php:146
-#: pro/includes/modules/dev.php:205 pro/includes/modules/dev.php:289
-#: pro/includes/modules/dev.php:337 pro/includes/modules/dev.php:385
-#: pro/includes/modules/dev.php:433
+#: pro/includes/modules/dev.php:76 pro/includes/modules/dev.php:153
+#: pro/includes/modules/dev.php:212 pro/includes/modules/dev.php:296
+#: pro/includes/modules/dev.php:344 pro/includes/modules/dev.php:392
+#: pro/includes/modules/dev.php:440
 msgid "Object data"
-msgstr "Object de données"
+msgstr "Données objet"
 
 #: pro/includes/modules/dev.php:77
 msgid "Post Object"
 msgstr "Objet de l'article"
 
-#: pro/includes/modules/dev.php:80 pro/includes/modules/dev.php:150
-#: pro/includes/modules/dev.php:209 pro/includes/modules/dev.php:252
-#: pro/includes/modules/dev.php:293 pro/includes/modules/dev.php:341
-#: pro/includes/modules/dev.php:389 pro/includes/modules/dev.php:437
-#: pro/includes/modules/dev.php:480
+#: pro/includes/modules/dev.php:80 pro/includes/modules/dev.php:157
+#: pro/includes/modules/dev.php:216 pro/includes/modules/dev.php:259
+#: pro/includes/modules/dev.php:300 pro/includes/modules/dev.php:348
+#: pro/includes/modules/dev.php:396 pro/includes/modules/dev.php:444
+#: pro/includes/modules/dev.php:487
 msgid "Meta count"
 msgstr "Nombre de meta"
 
-#: pro/includes/modules/dev.php:83 pro/includes/modules/dev.php:153
-#: pro/includes/modules/dev.php:212 pro/includes/modules/dev.php:255
-#: pro/includes/modules/dev.php:296 pro/includes/modules/dev.php:344
-#: pro/includes/modules/dev.php:392 pro/includes/modules/dev.php:440
-#: pro/includes/modules/dev.php:483
-msgid "Clean"
-msgstr "Nettoyer"
-
-#: pro/includes/modules/dev.php:89 pro/includes/modules/dev.php:159
-#: pro/includes/modules/dev.php:218 pro/includes/modules/dev.php:261
-#: pro/includes/modules/dev.php:302 pro/includes/modules/dev.php:350
-#: pro/includes/modules/dev.php:398 pro/includes/modules/dev.php:446
-#: pro/includes/modules/dev.php:489
-msgid "Single meta"
-msgstr "Méta unique"
-
-#: pro/includes/modules/dev.php:90 pro/includes/modules/dev.php:160
+#: pro/includes/modules/dev.php:83 pro/includes/modules/dev.php:160
 #: pro/includes/modules/dev.php:219 pro/includes/modules/dev.php:262
 #: pro/includes/modules/dev.php:303 pro/includes/modules/dev.php:351
 #: pro/includes/modules/dev.php:399 pro/includes/modules/dev.php:447
 #: pro/includes/modules/dev.php:490
+msgid "Clean"
+msgstr "Nettoyer"
+
+#: pro/includes/modules/dev.php:89 pro/includes/modules/dev.php:166
+#: pro/includes/modules/dev.php:225 pro/includes/modules/dev.php:268
+#: pro/includes/modules/dev.php:309 pro/includes/modules/dev.php:357
+#: pro/includes/modules/dev.php:405 pro/includes/modules/dev.php:453
+#: pro/includes/modules/dev.php:496
+msgid "Single meta"
+msgstr "Méta unique"
+
+#: pro/includes/modules/dev.php:90 pro/includes/modules/dev.php:167
+#: pro/includes/modules/dev.php:226 pro/includes/modules/dev.php:269
+#: pro/includes/modules/dev.php:310 pro/includes/modules/dev.php:358
+#: pro/includes/modules/dev.php:406 pro/includes/modules/dev.php:454
+#: pro/includes/modules/dev.php:497
 msgid "Enabled"
 msgstr "Activé"
 
-#: pro/includes/modules/dev.php:147
+#: pro/includes/modules/dev.php:154
 msgid "Term Object"
 msgstr "Objet du terme"
 
-#: pro/includes/modules/dev.php:206
+#: pro/includes/modules/dev.php:213
 msgid "User Object"
 msgstr "Objet utilisateur"
 
-#: pro/includes/modules/dev.php:290
+#: pro/includes/modules/dev.php:297
 msgid "Options Page Object"
 msgstr "Objet de Page Options"
 
-#: pro/includes/modules/dev.php:338 pro/includes/modules/dev.php:434
+#: pro/includes/modules/dev.php:345 pro/includes/modules/dev.php:441
 msgid "Post Type Object"
 msgstr "Object du type de publication"
 
-#: pro/includes/modules/dev.php:386
+#: pro/includes/modules/dev.php:393
 msgid "Taxonomy Object"
 msgstr "Objet de la taxonomie"
 
-#: pro/includes/modules/dev.php:546
+#: pro/includes/modules/dev.php:553
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -4151,19 +4159,19 @@ msgstr ""
 msgid "Error"
 msgstr "Erreur"
 
-#: pro/includes/updates.php:243
+#: pro/includes/updates.php:245
 msgid "Deactivate License"
 msgstr "Désactiver la licence"
 
-#: pro/includes/updates.php:243
+#: pro/includes/updates.php:245
 msgid "Activate License"
 msgstr "Activer la licence"
 
-#: pro/includes/updates.php:283
+#: pro/includes/updates.php:285
 msgid "ACF Extended: License Information"
 msgstr "ACF Extended : informations de licence"
 
-#: pro/includes/updates.php:287
+#: pro/includes/updates.php:289
 #, php-format
 msgid ""
 "To unlock updates, please enter your license key below. If you don't have a "
@@ -4174,71 +4182,71 @@ msgstr ""
 "dessous. Si vous n’en possédez pas encore une, jetez un œil à nos <a href="
 "\"%s\" target=\"_blank\">détails & tarifs</a>."
 
-#: pro/includes/updates.php:298
+#: pro/includes/updates.php:299
 msgid "License Key"
 msgstr "Clé de licence"
 
-#: pro/includes/updates.php:330
+#: pro/includes/updates.php:331
 msgid "ACF Extended: Update Information"
 msgstr "ACF Extended : informations de mise à jour"
 
-#: pro/includes/updates.php:337
+#: pro/includes/updates.php:338
 msgid "Current Version"
 msgstr "Version Actuelle"
 
-#: pro/includes/updates.php:346
+#: pro/includes/updates.php:347
 msgid "Latest Version"
 msgstr "Dernière version"
 
-#: pro/includes/updates.php:355
+#: pro/includes/updates.php:356
 msgid "Update Available"
 msgstr "Mise à jour disponible"
 
-#: pro/includes/updates.php:364
+#: pro/includes/updates.php:365
 msgid "Update Plugin"
 msgstr "Mettre à jour l'extension"
 
-#: pro/includes/updates.php:367
+#: pro/includes/updates.php:368
 msgid "Please enter your license key above to unlock updates"
 msgstr "Ajouter une clé pour obtenir les futures mise à jour"
 
-#: pro/includes/updates.php:373
+#: pro/includes/updates.php:374
 msgid "Check Again"
 msgstr "Vérifier à nouveau"
 
-#: pro/includes/updates.php:381
+#: pro/includes/updates.php:382
 msgid "Changelog"
 msgstr "Changelog"
 
-#: pro/includes/updates.php:420
+#: pro/includes/updates.php:421
 msgid "An error occurred, please try again."
 msgstr "Une erreur est survenue, veuillez réessayer."
 
-#: pro/includes/updates.php:424
+#: pro/includes/updates.php:425
 msgid "Your license key has expired."
 msgstr "Votre clé de licence a expiré."
 
-#: pro/includes/updates.php:428
+#: pro/includes/updates.php:429
 msgid "Your license key has been disabled."
 msgstr "Votre clé de licence a été désactivée."
 
-#: pro/includes/updates.php:432
+#: pro/includes/updates.php:433
 msgid "Licence key invalid."
 msgstr "Clé de licence non valide."
 
-#: pro/includes/updates.php:436
+#: pro/includes/updates.php:437
 msgid "Your license is not active for this URL."
 msgstr "Votre licence n'est pas active pour cette URL."
 
-#: pro/includes/updates.php:440
+#: pro/includes/updates.php:441
 msgid "This appears to be an invalid license key for ACF Extended Pro."
 msgstr "Cette clé de licence semble être invalide pour ACF Extended Pro."
 
-#: pro/includes/updates.php:444
+#: pro/includes/updates.php:445
 msgid "Your license key has reached its activation limit."
 msgstr "Votre clé de licence a atteint sa limite d'activation."
 
-#: pro/includes/updates.php:448
+#: pro/includes/updates.php:449
 msgid "<b>Licence key activated</b>. Updates are now enabled."
 msgstr ""
 "<b>Clé de licence activée</b>. Les mises à jour sont maintenant activées."

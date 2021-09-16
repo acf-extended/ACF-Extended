@@ -721,7 +721,13 @@ function acfe_form_filter_meta($meta, $acf){
     
 }
 
-function acfe_form_format_value($value, $field){
+function acfe_form_format_value($value, $field, $deprecated = null){
+    
+    // compatibility for 0.8.7.6 old argument
+    // second argument was $post_id
+    if($deprecated !== null){
+        $field = $deprecated;
+    }
     
     return acf_get_instance('acfe_dynamic_forms_helpers')->format_value($value, $field);
     

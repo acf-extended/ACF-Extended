@@ -36,6 +36,7 @@ class acfe_form_post{
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_title',         array($helpers, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_name',          array($helpers, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_content',       array($helpers, 'map_fields_deep'));
+        add_filter('acf/prepare_field/name=acfe_form_post_save_post_excerpt',       array($helpers, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_author',        array($helpers, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_parent',        array($helpers, 'map_fields_deep'));
         add_filter('acf/prepare_field/name=acfe_form_post_save_post_terms',         array($helpers, 'map_fields_deep'));
@@ -45,6 +46,7 @@ class acfe_form_post{
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_title',          array($helpers, 'map_fields_deep_no_custom'));
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_name',           array($helpers, 'map_fields_deep_no_custom'));
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_content',        array($helpers, 'map_fields_deep_no_custom'));
+        add_filter('acf/prepare_field/name=acfe_form_post_map_post_excerpt',        array($helpers, 'map_fields_deep_no_custom'));
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_author',         array($helpers, 'map_fields_deep_no_custom'));
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_parent',         array($helpers, 'map_fields_deep_no_custom'));
         add_filter('acf/prepare_field/name=acfe_form_post_map_post_terms',          array($helpers, 'map_fields_deep_no_custom'));
@@ -79,6 +81,7 @@ class acfe_form_post{
         $_post_title = get_sub_field('acfe_form_post_map_post_title');
         $_post_name = get_sub_field('acfe_form_post_map_post_name');
         $_post_content = get_sub_field('acfe_form_post_map_post_content');
+        $_post_excerpt = get_sub_field('acfe_form_post_map_post_excerpt');
         $_post_author = get_sub_field('acfe_form_post_map_post_author');
         $_post_parent = get_sub_field('acfe_form_post_map_post_parent');
         $_post_terms = get_sub_field('acfe_form_post_map_post_terms');
@@ -90,6 +93,7 @@ class acfe_form_post{
         $_post_title = acfe_form_map_field_value_load($_post_title, $current_post_id, $form);
         $_post_name = acfe_form_map_field_value_load($_post_name, $current_post_id, $form);
         $_post_content = acfe_form_map_field_value_load($_post_content, $current_post_id, $form);
+        $_post_excerpt = acfe_form_map_field_value_load($_post_excerpt, $current_post_id, $form);
         $_post_author = acfe_form_map_field_value_load($_post_author, $current_post_id, $form);
         $_post_parent = acfe_form_map_field_value_load($_post_parent, $current_post_id, $form);
         $_post_terms = acfe_form_map_field_value_load($_post_terms, $current_post_id, $form);
@@ -162,6 +166,18 @@ class acfe_form_post{
                 unset($load_meta[$key]);
     
             $form['map'][$_post_content]['value'] = get_post_field('post_content', $_post_id);
+         
+        }
+        
+        // Post excerpt
+        if(acf_is_field_key($_post_excerpt)){
+            
+            $key = array_search($_post_excerpt, $load_meta);
+            
+            if($key !== false)
+                unset($load_meta[$key]);
+    
+            $form['map'][$_post_excerpt]['value'] = get_post_field('post_excerpt', $_post_id);
          
         }
         
@@ -285,8 +301,17 @@ class acfe_form_post{
         $_post_content = $_post_content_group['acfe_form_post_save_post_content'];
         $_post_content_custom = $_post_content_group['acfe_form_post_save_post_content_custom'];
         
-        if($_post_content === 'custom')
+        if($_post_content === 'custom'){
             $_post_content = $_post_content_custom;
+        }
+    
+        $_post_excerpt_group = get_sub_field('acfe_form_post_save_post_excerpt_group');
+        $_post_excerpt = $_post_excerpt_group['acfe_form_post_save_post_excerpt'];
+        $_post_excerpt_custom = $_post_excerpt_group['acfe_form_post_save_post_excerpt_custom'];
+    
+        if($_post_excerpt === 'custom'){
+            $_post_excerpt = $_post_excerpt_custom;
+        }
         
         $map = array();
         
@@ -299,6 +324,7 @@ class acfe_form_post{
                 'post_title'   => get_sub_field('acfe_form_post_map_post_title'),
                 'post_name'    => get_sub_field('acfe_form_post_map_post_name'),
                 'post_content' => get_sub_field('acfe_form_post_map_post_content'),
+                'post_excerpt' => get_sub_field('acfe_form_post_map_post_excerpt'),
                 'post_author'  => get_sub_field('acfe_form_post_map_post_author'),
                 'post_parent'  => get_sub_field('acfe_form_post_map_post_parent'),
                 'post_terms'   => get_sub_field('acfe_form_post_map_post_terms'),
@@ -314,6 +340,7 @@ class acfe_form_post{
             'post_title'    => get_sub_field('acfe_form_post_save_post_title'),
             'post_name'     => get_sub_field('acfe_form_post_save_post_name'),
             'post_content'  => $_post_content,
+            'post_excerpt'  => $_post_excerpt,
             'post_author'   => get_sub_field('acfe_form_post_save_post_author'),
             'post_parent'   => get_sub_field('acfe_form_post_save_post_parent'),
             'post_terms'    => get_sub_field('acfe_form_post_save_post_terms'),
@@ -404,6 +431,16 @@ class acfe_form_post{
                 $data['post_content'] = acfe_array_to_string($data['post_content']);
             
             $args['post_content'] = $data['post_content'];
+        
+        }
+        
+        // Post excerpt
+        if(!empty($data['post_excerpt'])){
+    
+            if(is_array($data['post_excerpt']))
+                $data['post_excerpt'] = acfe_array_to_string($data['post_excerpt']);
+            
+            $args['post_excerpt'] = $data['post_excerpt'];
         
         }
         
@@ -1260,6 +1297,107 @@ class acfe_form_post{
                     'acfe_permissions' => '',
                 ),
                 array(
+                    'key' => 'field_acfe_form_post_save_post_excerpt_group',
+                    'label' => 'Post excerpt',
+                    'name' => 'acfe_form_post_save_post_excerpt_group',
+                    'type' => 'group',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_post_map_post_excerpt',
+                                'operator' => '==empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'layout' => 'block',
+                    'acfe_seamless_style' => true,
+                    'acfe_group_modal' => 0,
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_acfe_form_post_save_post_excerpt',
+                            'label' => '',
+                            'name' => 'acfe_form_post_save_post_excerpt',
+                            'type' => 'select',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'choices' => array(
+                                'custom' => 'Textarea',
+                            ),
+                            'default_value' => array(
+                            ),
+                            'allow_null' => 1,
+                            'multiple' => 0,
+                            'ui' => 1,
+                            'return_format' => 'value',
+                            'placeholder' => 'Default',
+                            'ajax' => 0,
+                            'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                            'allow_custom' => 1,
+                        ),
+                        array(
+                            'key' => 'field_acfe_form_post_save_post_excerpt_custom',
+                            'label' => '',
+                            'name' => 'acfe_form_post_save_post_excerpt_custom',
+                            'type' => 'textarea',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(
+                                array(
+                                    array(
+                                        'field' => 'field_acfe_form_post_save_post_excerpt',
+                                        'operator' => '==',
+                                        'value' => 'custom',
+                                    ),
+                                ),
+                            ),
+                            'wrapper' => array(
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'acfe_permissions' => '',
+                            'default_value' => '',
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_post_map_post_excerpt_message',
+                    'label' => 'Post excerpt',
+                    'name' => 'acfe_form_post_map_post_excerpt_message',
+                    'type' => 'acfe_dynamic_render',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_post_map_post_excerpt',
+                                'operator' => '!=empty',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                ),
+                array(
                     'key' => 'field_acfe_form_post_save_post_author',
                     'label' => 'Post author',
                     'name' => 'acfe_form_post_save_post_author',
@@ -1435,7 +1573,7 @@ class acfe_form_post{
                     'label' => 'Save ACF fields',
                     'name' => 'acfe_form_post_save_meta',
                     'type' => 'checkbox',
-                    'instructions' => 'Choose which ACF fields should be saved to this post',
+                    'instructions' => 'Choose which ACF fields should be saved as metadata',
                     'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => array(
@@ -1675,6 +1813,41 @@ class acfe_form_post{
                     'key' => 'field_acfe_form_post_map_post_content',
                     'label' => 'Post content',
                     'name' => 'acfe_form_post_map_post_content',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'acfe_permissions' => '',
+                    'choices' => array(
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'return_format' => 'value',
+                    'placeholder' => 'Default',
+                    'ajax' => 0,
+                    'search_placeholder' => 'Enter a custom value or template tag. (See "Cheatsheet" tab)',
+                    'allow_custom' => 1,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_acfe_form_post_load_values',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_acfe_form_post_map_post_excerpt',
+                    'label' => 'Post excerpt',
+                    'name' => 'acfe_form_post_map_post_excerpt',
                     'type' => 'select',
                     'instructions' => '',
                     'required' => 0,

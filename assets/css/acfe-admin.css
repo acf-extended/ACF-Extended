@@ -523,6 +523,7 @@ body.post-type-acfe-template .column-acfe-terms {
 }
 
 .acf-field[data-name=acfe_form_post_save_post_content_custom],
+.acf-field[data-name=acfe_form_post_save_post_excerpt_custom],
 .acf-field[data-name=acfe_form_post_save_post_name_custom],
 .acf-field[data-name=acfe_form_post_save_post_title_custom],
 .acf-field[data-name=acfe_form_term_save_description_custom],
@@ -537,8 +538,8 @@ body.post-type-acfe-template .column-acfe-terms {
 .acf-field[data-name=acfe_form_user_save_password_custom],
 .acf-field[data-name=acfe_form_user_save_username_custom],
 .acf-field[data-name=acfe_form_user_save_website_custom] {
-    border-top: 0;
-    padding-top: 0
+    border-top: 0 !important;
+    padding-top: 0 !important
 }
 
 .acf-field.acf-field-acfe-form-attributes>.acf-input>.acf-fields>.acf-field {

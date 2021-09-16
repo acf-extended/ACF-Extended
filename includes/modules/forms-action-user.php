@@ -1984,7 +1984,7 @@ class acfe_form_user{
                     'label' => 'Save ACF fields',
                     'name' => 'acfe_form_user_save_meta',
                     'type' => 'checkbox',
-                    'instructions' => 'Choose which ACF fields should be saved to this user',
+                    'instructions' => 'Choose which ACF fields should be saved as metadata',
                     'required' => 0,
                     'wrapper' => array(
                         'width' => '',

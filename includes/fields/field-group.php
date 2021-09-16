@@ -123,27 +123,21 @@ class acfe_field_group_field{
      */
     function field_wrapper_attributes($wrapper, $field){
         
-        if(isset($field['acfe_group_modal']) && !empty($field['acfe_group_modal'])){
+        if(acf_maybe_get($field, 'acfe_group_modal')){
             
             $wrapper['data-acfe-group-modal'] = 1;
             $wrapper['data-acfe-group-modal-button'] = __('Edit', 'acf');
             
-            if(isset($field['acfe_group_modal_button']) && !empty($field['acfe_group_modal_button'])){
-                
+            if(acf_maybe_get($field, 'acfe_group_modal_button')){
                 $wrapper['data-acfe-group-modal-button'] = $field['acfe_group_modal_button'];
-                
             }
             
             if(acf_maybe_get($field, 'acfe_group_modal_close')){
-                
                 $wrapper['data-acfe-group-modal-close'] = $field['acfe_group_modal_close'];
-                
             }
             
             if(acf_maybe_get($field, 'acfe_group_modal_size')){
-                
                 $wrapper['data-acfe-group-modal-size'] = $field['acfe_group_modal_size'];
-                
             }
             
         }
@@ -158,9 +152,7 @@ class acfe_field_group_field{
     function prepare_field($field){
         
         if(acf_maybe_get($field, 'acfe_seamless_style')){
-            
             $field['wrapper']['class'] .= ' acfe-seamless-style';
-            
         }
         
         $field['wrapper']['class'] .= ' acfe-field-group-layout-' . $field['layout'];

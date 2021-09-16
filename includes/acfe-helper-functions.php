@@ -52,14 +52,14 @@ function acfe_maybe_get_REQUEST($key = '', $default = null){
  */
 function acfe_is_json($string){
     
-    // in case string = 1
-    if(is_numeric($string)){
+    // in case string = 1 or not string
+    if(is_numeric($string) || !is_string($string)){
         return false;
     }
     
     json_decode($string);
     
-    return (json_last_error() == JSON_ERROR_NONE);
+    return json_last_error() == JSON_ERROR_NONE;
     
 }
 
@@ -287,6 +287,8 @@ function acfe_add_validation_error($selector = '', $message = ''){
     add_filter("acf/validate_value/key={$field['key']}", function() use($message){
         return $message;
     });
+    
+    return false;
     
 }
 

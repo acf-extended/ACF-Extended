@@ -940,7 +940,7 @@ class acfe_form_term{
                     'label' => 'Save ACF fields',
                     'name' => 'acfe_form_term_save_meta',
                     'type' => 'checkbox',
-                    'instructions' => 'Choose which ACF fields should be saved to this term',
+                    'instructions' => 'Choose which ACF fields should be saved as metadata',
                     'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => array(

@@ -509,6 +509,15 @@ body.block-editor-page .edit-post-layout .acfe-modal.-open {
     background: rgba(0, 0, 0, .7)
 }
 
+body.block-editor-page .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
+    height: 100%;
+    width: 100%;
+    max-height: calc(100vh - 70px);
+    max-width: calc(100vw - 340px);
+    margin-left: 170px;
+    margin-top: 50px
+}
+
 body.block-editor-page .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper>.acfe-modal-content>.acf-fields.-left {
     height: 100%
 }
@@ -541,54 +550,59 @@ body.block-editor-page .acfe-modal.-open.acfe-modal-sub>.acfe-modal-wrapper>.acf
 }
 
 body.block-editor-page .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
-    height: 100%;
-    width: 100%;
-    max-height: calc(100vh - 70px);
-    max-width: calc(100vw - 340px);
+    margin-top: 103px;
     margin-left: 170px;
-    margin-top: 50px
+    max-height: calc(100vh - 139px);
+    max-width: calc(100vw - 181px)
 }
 
-body.block-editor-page.auto-fold .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
-    margin-left: 240px
+body.block-editor-page.folded .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
+    margin-top: 103px;
+    margin-left: 46px;
+    max-height: calc(100vh - 139px);
+    max-width: calc(100vw - 57px)
 }
 
-body.block-editor-page.auto-fold.folded .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper,
 body.block-editor-page.is-fullscreen-mode .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
-    margin-left: 170px
+    margin-top: 69px;
+    margin-left: 9px;
+    max-height: calc(100vh - 104px);
+    max-width: calc(100vw - 18px)
 }
 
-@media only screen and (max-width:1080px) {
-    body.block-editor-page.auto-fold .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
-        max-height: calc(100vh - 50px);
-        margin-top: 40px;
-        max-width: calc(100vw - 180px);
-        margin-left: 170px
-    }
+body.block-editor-page .edit-post-layout.is-sidebar-opened .acfe-modal.-open>.acfe-modal-wrapper {
+    max-width: calc(100vw - 461px)
+}
 
-    body.block-editor-page.auto-fold.folded .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper,
-    body.block-editor-page.is-fullscreen-mode .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
-        max-height: calc(100vh - 50px);
-        margin-top: 40px;
-        max-width: calc(100vw - 56px);
-        margin-left: 46px
-    }
+body.block-editor-page.folded .edit-post-layout.is-sidebar-opened .acfe-modal.-open>.acfe-modal-wrapper {
+    max-width: calc(100vw - 337px)
+}
+
+body.block-editor-page.is-fullscreen-mode .edit-post-layout.is-sidebar-opened .acfe-modal.-open>.acfe-modal-wrapper {
+    max-width: calc(100vw - 298px)
 }
 
 @media only screen and (max-width:960px) {
     body.block-editor-page .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
-        max-height: calc(100vh - 50px);
-        margin-top: 40px;
-        max-width: calc(100vw - 180px);
-        margin-left: 170px
+        margin-top: 103px;
+        margin-left: 170px;
+        max-height: calc(100vh - 139px);
+        max-width: calc(100vw - 181px)
     }
 
-    body.block-editor-page.auto-fold .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper,
-    body.block-editor-page.is-fullscreen-mode .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
-        max-height: calc(100vh - 50px);
-        margin-top: 40px;
-        max-width: calc(100vw - 56px);
-        margin-left: 46px
+    body.block-editor-page .edit-post-layout.is-sidebar-opened .acfe-modal.-open>.acfe-modal-wrapper {
+        max-width: calc(100vw - 461px)
+    }
+
+    body.block-editor-page.auto-fold .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
+        margin-top: 103px;
+        margin-left: 46px;
+        max-height: calc(100vh - 139px);
+        max-width: calc(100vw - 57px)
+    }
+
+    body.block-editor-page.auto-fold .edit-post-layout.is-sidebar-opened .acfe-modal.-open>.acfe-modal-wrapper {
+        max-width: calc(100vw - 337px)
     }
 }
 
@@ -596,8 +610,8 @@ body.block-editor-page.is-fullscreen-mode .edit-post-layout .acfe-modal.-open>.a
     body.block-editor-page .edit-post-layout .acfe-modal.-open>.acfe-modal-wrapper {
         max-width: calc(100vw - 20px) !important;
         margin-left: 10px !important;
-        max-height: calc(100vh - 66px) !important;
-        margin-top: 56px !important
+        max-height: calc(100vh - 127px) !important;
+        margin-top: 117px !important
     }
 }
 

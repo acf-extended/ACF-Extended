@@ -174,14 +174,39 @@ function acfe_is_dynamic_preview(){
 }
 
 /**
+ * acfe_is_block_editor
+ *
+ * An enhanced version of acf_is_block_editor that also check if currently in a block type
+ *
+ * @return bool
+ */
+function acfe_is_block_editor(){
+    
+    // check block editor screen
+    if(acf_is_block_editor()){
+        return true;
+    }
+    
+    // check if a block is currently fetched (edit mode)
+    if(acf_maybe_get_POST('action') === 'acf/ajax/fetch-block'){
+        return true;
+    }
+    
+    return false;
+    
+}
+
+
+/**
  * acfe_is_gutenberg
  *
  * Check if current screen is block editor
  *
  * @return bool
+ * @deprecated
  */
 function acfe_is_gutenberg(){
     
-    return acf_is_block_editor();
+    return acfe_is_block_editor();
     
 }

@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 0.8.8.5
+Stable tag: 0.8.8.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,6 +124,9 @@ A collection of multiple new Field Groups locations allowing developers to targe
 **[Location: All post types](https://www.acf-extended.com/features/field-groups/locations/all-post-types)**
 Display field groups on all post types edition screen.
 
+**[Location: Attachment List](https://www.acf-extended.com/features/field-groups/locations/attachment-list)** **(PRO)**
+Display field group on attachment admin list screen.
+
 **[Location: Field Value](https://www.acf-extended.com/features/field-groups/locations/field-value)** **(PRO)**
 Display a field group based on the field value of an another field group.
 
@@ -135,6 +138,9 @@ Display field group on post types admin list screen.
 
 **[Location: Taxonomy List](https://www.acf-extended.com/features/field-groups/locations/taxonomy-list)**
 Display field group on taxonomies admin list screen.
+
+**[Location: User List](https://www.acf-extended.com/features/field-groups/locations/user-list)** **(PRO)**
+Display field group on user admin list screen.
 
 **[Location: WP Settings](https://www.acf-extended.com/features/field-groups/locations/wp-settings)** **(PRO)**
 Display field groups on WP Settings pages: General, Writing, Reading, Discussion, Media and Pemalinks.
@@ -227,7 +233,7 @@ Display a modern UI of the ACF Datepicker field. CSS and icons have been enhance
 **[Date Range Picker](https://www.acf-extended.com/features/fields/date-range-picker)** **(PRO)**
 Display a Date Range Picker. The field support a wide range of customization, such as: Placeholder, Default dates, Range Restriction, Date restriction, No weekends etc.
 
-**[Dynamic Message](https://www.acf-extended.com/features/fields/dynamic-message)**
+**[Dynamic Render](https://www.acf-extended.com/features/fields/dynamic-render)**
 Display custom HTML/PHP content using a simple named hook.
 
 **[Field Groups](https://www.acf-extended.com/features/fields/field-groups-selector)** **(PRO)**
@@ -280,6 +286,15 @@ Display a Menu selector as radio, checkbox or select field type.
 
 **[Options Pages](https://www.acf-extended.com/features/fields/options-pages)** **(PRO)**
 Display an ACF Options Pages selector as radio, checkbox or select field type.
+
+**[Payment](https://www.acf-extended.com/features/fields/payment)** **(PRO)**
+Display a Payment Field that supports with Stripe & PayPal Express gateways, working on both front-end and back-end.
+
+**[Payment Cart](https://www.acf-extended.com/features/fields/payment-cart)** **(PRO)**
+Display an optional Payment Cart to easily setup an e-commerce solution.
+
+**[Payment Selector](https://www.acf-extended.com/features/fields/payment-selector)** **(PRO)**
+Display an optional Payment Selector which let the user switch the payment gateway.
 
 **[Phone Number](https://www.acf-extended.com/features/fields/phone-number)** **(PRO)**
 Display a fully customizable international Phone Number field.
@@ -343,10 +358,10 @@ The Dynamic Block Types module allows you to register and manage ACF Block Types
 **[Classic Editor](https://www.acf-extended.com/features/modules/classic-editor)** **(PRO)**
 ACF Extended is bundled with a custom merged version of the Classic Editor & Disable Gutenberg plugins.
 
-**[Developer Mode](https://www.acf-extended.com/features/modules/developer-mode)**
-The Developer Mode allow you to view all Posts, Terms, Users & Options custom meta data in a readable format. This feature is very useful to check what is actually saved in any WordPress Object.
+**[Developer Mode](https://www.acf-extended.com/features/modules/developer-mode)** **(FREE / PRO)**
+The Developer Mode allow you to view all Posts, Terms, Users & Options custom metadata in a readable format. This feature is very useful to check what is actually saved in any WordPress Object.
 
-**[Forms](https://www.acf-extended.com/features/modules/dynamic-forms)**
+**[Forms](https://www.acf-extended.com/features/modules/dynamic-forms)** **(FREE / PRO)**
 Manage Advanced ACF Forms from the WordPress administration. This module is an enhanced version of the native ACF Form feature. While all native settings can used, Dynamic Forms adds many new settings and introduce “Actions” for a complete control over the form behavior.
 
 **[Options Pages UI](https://www.acf-extended.com/features/modules/dynamic-options-pages)**
@@ -357,13 +372,17 @@ The Dynamic Post Types module allows you to register and manage custom post type
 
 All native post types settings can be set within the UI. ACF Extended also adds more advanced settings allowing to manage posts per page, order etc…
 
+**[Rewrite Rules](https://www.acf-extended.com/features/modules/rewrite-rules)** **(PRO)**
+Get an overview of all WordPress permalinks structures and rules. Test URLs, export rules and flush permalinks from the UI.
+
+**Scripts UI** **(PRO)**
+Run custom scripts on thousands of posts. Including builtin "Orphan Meta Cleaner" and "Single Meta Converter" scripts.
+
 **[Settings UI](https://www.acf-extended.com/features/modules/settings-ui)** **(FREE / PRO)**
 The Settings UI allows developers to get an overview of all ACF and ACF Extended settings values from the ACF > Settings menu.
 
-**[Single Meta](https://www.acf-extended.com/features/modules/single-meta-save)**
-Compress all fields values from the current post, term, user or options into one single meta data. This process lighten the database load as values are saved and read from one single row.
-
-Once activated and after saving a post/term/user in the administration, all old meta data will be removed and packed together in a meta called `acf`.
+**[Single Meta](https://www.acf-extended.com/features/modules/single-meta)**
+Compress all fields values from the current post, term, user or options into one single meta data. This process lighten the database load as values are saved and read from one single row called `acf`.
 
 **[Taxonomies UI](https://www.acf-extended.com/features/modules/dynamic-taxonomies)**
 The Dynamic Taxonomies module allows you to register and manage custom taxonomies from your WordPress admin, in Tools > Taxonomies menu.
@@ -465,6 +484,38 @@ The content of the upcoming patch and work in progress features are all listed o
 
 == Changelog ==
 
+= 0.8.8.6 =
+
+**ACF Extended Pro 0.8.8.6:**
+
+* Field: File - Fixed single file not being correctly saved when removed on Gutenberg screen
+* Field: Payment - Added PayPal Production & Test API URL in settings instructions
+* Field: Payment - Enhanced Stripe/PayPal JS enqueue on Gutenberg screen
+* Field: Payment Cart - Fixed multiline "Default Value" setting
+* Field: Phone Number - Fixed format value causing problem in some edge case
+* Field: Phone Number - Changed default "Return Format" to "Number"
+* Field Settings: Instructions More - Fixed `&dash;` in field settings instructions with ACF 5.10
+* Module: Dev Mode - Fixed "Object Data" modal on Post Screen when sidebar is fixed
+* Module: Forms - Fixed Shortcode Preview issue when the ACFE Form module was disabled
+* Module: Orphan Meta Cleaner Script - Added support of multi-sublevel clones seamless fields
+* General: Removed "No license key has been provided" annoying message on Updates Screen
+
+**ACF Extended Basic 0.8.8.6:**
+
+* Field: Flexible Content - Fixed WYSIWYG copy/paste layout feature with ACF 5.10
+* Fields: Fixed ACFE Modal position on Gutenberg screen
+* Module: Dev Mode - Added support of multi-sublevel clones seamless fields
+* Module: Enhanced UI - Added LearnDash Taxonomies compatibility
+* Module: Forms - Added `acfe_form_format_value()` back-compatibility with 3rd argument
+* Module: Forms - Enhanced "Save ACF Fields" instructions text
+* Module: Forms - Added "Post Excerpt" in the "Post Action" fields
+* Module: Settings UI - Fixed tabs badge count with ACF 5.10
+* General: Enhanced `acfe_is_json()` helper
+* General: Added `acfe_is_block_editor()` helper
+* General: Fixed typo in changelog
+* General: Enhanced french translation
+* General: Enhanced readme
+
 = 0.8.8.5 =
 
 **ACF Extended Pro 0.8.8.5:**
@@ -512,7 +563,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Field: Code Editor - Added "Json" Mode
 * Field: Code Editor - Added "Return HTML Entities" setting to render entities instead of HTML
 * Field: Code Editor - Fixed duplicated textarea when the field was duplicated within a Repeater or a Flexible Content
-* Field: Columns - Fixed CSS when columns where used in Tabs
+* Field: Columns - Fixed CSS when columns when used in Tabs
 * Field: Dynamic Message - Renamed field to "Dynamic Render"
 * Field: File - Added `acfe/upload_dir` and `acfe/upload_file` hooks (+ variations) to allow developers easily change upload folder and file name during an upload
 * Field: Flexible Content - Fixed "Toggle Layout" feature which rendered duplicated layouts on the front-end when a layout was toggled off

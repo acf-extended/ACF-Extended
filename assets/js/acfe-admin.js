@@ -225,6 +225,7 @@
             'new_field/name=acfe_form_post_map_post_title': 'mapFields',
             'new_field/name=acfe_form_post_map_post_name': 'mapFields',
             'new_field/name=acfe_form_post_map_post_content': 'mapFields',
+            'new_field/name=acfe_form_post_map_post_excerpt': 'mapFields',
             'new_field/name=acfe_form_post_map_post_author': 'mapFields',
             'new_field/name=acfe_form_post_map_post_parent': 'mapFields',
             'new_field/name=acfe_form_post_map_post_terms': 'mapFields',

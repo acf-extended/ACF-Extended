@@ -41,7 +41,7 @@ class acfe_author{
     function add_post_meta_boxes($post_type, $post){
     
         // disable on block editor
-        if(acf_is_block_editor()){
+        if(acfe_is_block_editor()){
             return;
         }
     

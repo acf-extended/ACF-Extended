@@ -883,7 +883,7 @@
         });
 
         // Append Temp Input
-        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo($('body'));
+        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo($('body'));
         $input.attr('value', data).select();
 
         // Command: Copy
@@ -922,7 +922,7 @@
         });
 
         // Append Temp Input
-        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:rect(0,0,0,0);position:absolute;" value="" />').appendTo(flexible.$el);
+        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo(flexible.$el);
         $input.attr('value', data).select();
 
         // Command: Copy
@@ -1137,9 +1137,7 @@
             })
         }
 
-        var acfVersion = parseFloat(acf.get('acf_version'));
-
-        if (acfVersion < 5.9) {
+        if (acfe.versionCompare(acf.get('acf_version'), '<', '5.9')) {
 
             // Add row
             var $el = acf.duplicate(duplicate_args);
@@ -2206,9 +2204,7 @@
 
         } else {
 
-            var acfVersion = parseFloat(acf.get('acf_version'));
-
-            if (acfVersion < 5.9) {
+            if (acfe.versionCompare(acf.get('acf_version'), '<', '5.9')) {
 
                 // Scroll to new layout
                 $('html, body').animate({

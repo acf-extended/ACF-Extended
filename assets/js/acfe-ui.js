@@ -242,6 +242,10 @@
 
     var enhancedListUI = acf.Model.extend({
 
+        data: {
+            taxonomy: false,
+        },
+
         setup: function(props) {
 
             // Extend data
@@ -315,10 +319,11 @@
                 e.preventDefault();
                 var $wrap = $('.acfe-bt');
 
-                if ($wrap.is(':visible'))
+                if ($wrap.is(':visible')) {
                     $wrap.hide();
-                else
+                } else {
                     $wrap.show();
+                }
 
             });
 
@@ -347,8 +352,27 @@
 
                 $wpmlWidget.wrapAll('<div class="form-field acf-field"><div class="acf-input"></div></div>').parent().parent().prepend('<div class="acf-label"><label>' + wpmlTitle + '</label></div>');
 
-
             }
+
+            this.addAction('ready', 'ready');
+
+        },
+
+        ready: function() {
+
+            // LearnDash taxonomies buttons
+            $('.global-new-entity-button').click(function(e) {
+
+                e.preventDefault();
+                var $wrap = $('.acfe-bt');
+
+                if ($wrap.is(':visible')) {
+                    $wrap.hide();
+                } else {
+                    $wrap.show();
+                }
+
+            });
 
         }
 
