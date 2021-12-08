@@ -259,7 +259,9 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    border: 0
+    border: 0;
+    flex-wrap: wrap;
+    row-gap: 15px;
 }
 
 .acfe-field-setting-flex>.acf-input>.acf-fields>.acf-field:first-child {
