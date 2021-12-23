@@ -732,7 +732,7 @@ class acfe_dev{
                     }
                     
                     // found db field group
-                    if($field_group['ID']){
+                    if($field_group && $field_group['ID']){
                         
                         $post_status = get_post_status($field_group['ID']);
     

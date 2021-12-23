@@ -19,7 +19,7 @@ class acfe_hooks{
         // Hooks
         add_action('acf/save_post',                                 array($this, 'pre_save_post'), 9);
         add_action('acf/save_post',                                 array($this, 'save_post'), 15);
-        add_action('acf/validate_save_post',                        array($this, 'validate_save_post'));
+        add_action('acf/validate_save_post',                        array($this, 'validate_save_post'), 4);
         
         // Field Groups
         add_filter('acf/load_field_groups',                         array($this, 'load_field_groups'), 100);

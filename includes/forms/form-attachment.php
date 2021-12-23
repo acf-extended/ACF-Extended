@@ -72,29 +72,31 @@ class acfe_screen_attachment{
         acf_enqueue_scripts();
         
         ?>
-        <script type="text/html" id="tmpl-acf-after-title">
+        <template id="tmpl-acf-after-title">
 
-            <div id="poststuff" class="acfe-dev-postboxes">
+            <div id="poststuff" class="acfe-list-postboxes">
                 <form method="post">
                     <?php do_meta_boxes('edit', 'acf_after_title', 'attachment'); ?>
                 </form>
             </div>
 
-        </script>
-        <script type="text/html" id="tmpl-acf-normal">
+        </template>
+        
+        <template id="tmpl-acf-normal">
 
-            <div id="poststuff" class="acfe-dev-postboxes">
+            <div id="poststuff" class="acfe-list-postboxes">
                 <form method="post">
                     <?php do_meta_boxes('edit', 'normal', 'attachment'); ?>
                 </form>
             </div>
 
-        </script>
-        <script type="text/html" id="tmpl-acf-side">
+        </template>
+        
+        <template id="tmpl-acf-side">
 
             <div class="acf-column-2">
 
-                <div id="poststuff" class="acfe-dev-postboxes -side">
+                <div id="poststuff" class="acfe-list-postboxes -side">
                     <form method="post">
                         <?php do_meta_boxes('edit', 'side', 'attachment'); ?>
                     </form>
@@ -102,7 +104,7 @@ class acfe_screen_attachment{
 
             </div>
 
-        </script>
+        </template>
         <script type="text/javascript">
         (function($){
             

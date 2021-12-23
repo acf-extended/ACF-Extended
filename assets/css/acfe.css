@@ -630,3 +630,36 @@ body.wp-admin.upload-php.acfe-modal-opened>div:not([style*="display: none;"])>.m
 .pac-container {
     z-index: 100001
 }
+
+#side-sortables .acf-fields.-left .acfe-modal .acf-fields.-left>.acf-field::before {
+    display: block
+}
+
+#side-sortables .acf-fields.-left .acfe-modal .acf-fields.-left>.acf-field>.acf-label {
+    width: 20%;
+    margin: 0
+}
+
+#side-sortables .acf-fields.-left .acfe-modal .acf-fields.-left>.acf-field>.acf-input {
+    width: 80%
+}
+
+.block-editor .edit-post-sidebar .acfe-modal .acf-fields>.acf-field .acf-label label {
+    font-weight: 600
+}
+
+.block-editor .edit-post-sidebar .acfe-modal .acf-fields.-left>.acf-field {
+    margin: 0;
+    padding: 15px 0;
+    border-width: 1px;
+    border-color: #eee
+}
+
+.block-editor .edit-post-sidebar .acfe-modal .acf-fields.-left>.acf-field::before {
+    border-width: 0;
+    background: 0 0
+}
+
+body.acfe-modal-opened .edit-post-sidebar__panel-tabs {
+    visibility: hidden
+}

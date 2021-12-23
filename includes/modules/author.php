@@ -65,20 +65,20 @@ class acfe_author{
         add_meta_box('acfe-author', __('Author'), array($this, 'render_meta_box'), $post_type, 'side', 'core', array());
         
         // generate postbox
-        $postboxes = array();
-        $postboxes[] = array(
-            'id' => 'acfe-author',
-        );
+        // $postboxes = array();
+        // $postboxes[] = array(
+        //     'id' => 'acfe-author',
+        // );
         
         // get postboxes
-        $data = acf_get_instance('ACF_Assets')->data;
-        $acf_postboxes = acf_maybe_get($data, 'postboxes', array());
-        $acf_postboxes = array_merge($acf_postboxes, $postboxes);
-    
+        // $data = acf_get_instance('ACF_Assets')->data;
+        // $acf_postboxes = acf_maybe_get($data, 'postboxes', array());
+        // $acf_postboxes = array_merge($acf_postboxes, $postboxes);
+        
         // localize postboxes
-        acf_localize_data(array(
-            'postboxes' => $acf_postboxes
-        ));
+        // acf_localize_data(array(
+        //     'postboxes' => $acf_postboxes
+        // ));
         
     }
     

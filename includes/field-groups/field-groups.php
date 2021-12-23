@@ -610,6 +610,11 @@ class ACFE_Field_Groups{
      */
     function row_actions($actions, $post){
         
+        // bail early
+        if($post->post_type !== 'acf-field-group'){
+            return $actions;
+        }
+        
         $field_group = acf_get_field_group($post->ID);
         
         $actions['acfe-export-php'] = '<a href="' . admin_url('edit.php?post_type=acf-field-group&page=acf-tools&tool=export&action=php&keys=' . $field_group['key']) . '">PHP</a>';

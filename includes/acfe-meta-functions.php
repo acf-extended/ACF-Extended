@@ -360,6 +360,31 @@ function acfe_get_orphan_meta($post_id = 0){
                         
                         $allowed_fields[] = $cloned_key;
                         
+                        // get field group from cloned field
+                        $clone_field_group = acfe_get_field_group_from_field($cloned_key);
+    
+                        // add field group in the allowed list
+                        if($clone_field_group){
+                            $allowed_field_groups[] = $clone_field_group['key'];
+                        }
+                        
+                        // todo: enhance logic to only allow sub field of the targeted field
+                        /*
+                        $is_enabled = acf_is_filter_enabled('clone');
+                        
+                        if($is_enabled){
+                            acf_disable_filter('clone');
+                        }
+                        
+                        // also allow descendants in case of repeater, flexible content or group
+                        $descendants = acfe_get_field_descendants($cloned_key);
+                        $allowed_fields = array_merge($allowed_fields, $descendants);
+    
+                        if($is_enabled){
+                            acf_enable_filter('clone');
+                        }
+                        */
+                        
                     }
                     
                 }

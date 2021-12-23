@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 0.8.8.6
+Stable tag: 0.8.8.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -483,6 +483,52 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.8.7 =
+
+**ACF Extended Pro 0.8.8.7:**
+
+* Module: Templates - Fixed top-level Seamless Clones values not being correctly loaded
+* Module: Templates - Fixed Templates List columns data
+* Module: Global Conditional Logic - Fixed Field Group Locations when using a Global Field on the "Add Term" screen
+* Module: Global Conditional Logic - Enhanced Field Group Locations to only use matched groups when using the same field on different screens
+* Module: Global Conditional Logic - Fixed ACF Ajax Screen rules being incorrectly applied
+* Field: Date Range Picker - Fixed "Default Start/End" settings not working correctly
+* Field: Date Range Picker - Added "Show Dropdowns" settings
+* Field: Date Range Picker - Enhanced dropdowns CSS
+* Field: Flexible Content - Grid System - Renamed "Wrap" setting to "No Wrap" for consistency
+* Field: Payment - Fixed Conditional Logic not working correctly
+* Field: Payment - Fixed "Incorrect Payment Data" in Summary Render when there was no items saved
+* Field: Payment - Enhanced Summary Render & Data validation
+* Field: Payment - Fixed recursive "Payment Field Selection" when payment fields are inside sub fields
+* Field: Post Field - Taxonomy - Fixed initialization with non-hierarchical taxonomy
+* Field: Post Field - Editor - Added delayed re-initialization
+* Field: Post Object - Fixed "Allow Creation" setting not triggering Conditional Logic on post creation
+* Field: WYSIWYG - Added "Auto Init" setting when using "Delay Init"
+
+**ACF Extended Basic 0.8.8.7:**
+
+* Module: Ajax Authorbox - Fixed disappearing authorbox when ACF Ajax Screen is triggered (category selection etc...)
+* Module: Clean Orphan Meta - Enhanced logic for cloned fields with sub fields
+* Module: Forms - Enhanced `acfe/form/prepare` arguments when using `return false`
+* Module: Developer Mode - Fixed potential PHP notice when using Local Field Groups
+* Module: Developer Mode - `ACFE_DEV` & `ACFE_SUPER_DEV` constants are now uppercase
+* Module: Options UI - Fixed `orderby` column sanitization
+* Module: Single Meta - Fixed Preview Changes not working correctly with Single Meta
+* Field: Columns - Fixed CSS when used inside Tabs Aligned Left
+* Field: Flexible Content - Fixed "Modal Select Size" being always forced to "Full"
+* Field: Flexible Content - Fixed sub fields CSS when displayed inside a "Modal Edit" from the Sidebar
+* Field: Flexible Content - Fixed sidebar Gutenberg title CSS glitch
+* Field: WYSIWYG - Fixed "Delay init" setting being automatically initialized on page load
+* Field Groups: Fixed potential PHP notice when no Field Group are saved in DB in the "Sync Available" Tab
+* Locations: Post Type list/Taxonomy list/User list/Attachment list - Fixed Flexible Content field initialization
+* Locations: Post Type list/Taxonomy list/User list/Attachment list - Fixed fields CSS padding
+* General: Added `acfe_get_field_descendants()` & `acfe_map_any_field()` helpers
+* General: Fixed native ACF 5.11 bug with multiple front-end forms which wrongly trigger validation when one one field was requried
+* General: Fixed `acfe/validate_save_post` to correctly work with `acfe_add_validation_error()` helper
+* General: Enhanced Select2 CSS integration for ACF 5.10/5.11.3/5.11.4 and YOAST
+* General: Enhanced french translation
+* General: Code Cleanup & Formatting
 
 = 0.8.8.6 =
 

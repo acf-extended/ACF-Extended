@@ -24,8 +24,7 @@ class acfe_dynamic_module{
     
         $this->initialize();
     
-        if(!$this->active)
-            return;
+        if(!$this->active) return;
         
         $this->actions();
         $this->add_local_field_group();
@@ -159,21 +158,20 @@ class acfe_dynamic_module{
         
         $post_ids = acfe_maybe_get_REQUEST('post');
         
-        if(!$post_ids)
+        if(!$post_ids){
             return $redirect;
+        }
     
         foreach($this->tools as $tool_action){
             
-            if($action !== "export_{$tool_action}")
-                continue;
+            if($action !== "export_{$tool_action}") continue;
             
             $keys = array();
             foreach($post_ids as $post_id){
                 
                 $name = $this->get_name($post_id);
                 
-                if(!$name)
-                    continue;
+                if(!$name) continue;
                 
                 $keys[] = $name;
                 
@@ -268,9 +266,8 @@ class acfe_dynamic_module{
                 var $title = $('#titlewrap #title');
 
                 // empty
-                if($title.val())
-                    return;
-                    
+                if($title.val()) return;
+                
                 e.preventDefault();
                 
                 alert('<?php echo $this->label; ?> is required.');
@@ -295,8 +292,9 @@ class acfe_dynamic_module{
      */
     function _edit_columns($columns){
         
-        if(empty($this->columns))
+        if(empty($this->columns)){
             return $columns;
+        }
     
         $columns = array_merge(array('cb' => $columns['cb'], 'title' => $columns['title']), $this->columns);
         
@@ -333,8 +331,9 @@ class acfe_dynamic_module{
      */
     function _edit_row_actions($actions, $post){
     
-        if(!in_array($post->post_status, array('publish', 'acf-disabled')))
+        if(!in_array($post->post_status, array('publish', 'acf-disabled'))){
             return $actions;
+        }
     
         $post_id = $post->ID;
         $name = $this->get_name($post_id);
@@ -343,8 +342,10 @@ class acfe_dynamic_module{
         
         // View
         $view = $this->edit_row_actions_view($post, $name);
-        if($view)
+        
+        if($view){
             $actions['view'] = $view;
+        }
         
         // Tools
         foreach($this->tools as $action){
@@ -378,8 +379,9 @@ class acfe_dynamic_module{
      */
     function _save_post($post_id){
     
-        if(!is_numeric($post_id) || get_post_type($post_id) !== $this->post_type)
+        if(!is_numeric($post_id) || get_post_type($post_id) !== $this->post_type){
             return;
+        }
         
         $this->save_post($post_id);
         
@@ -394,8 +396,9 @@ class acfe_dynamic_module{
      */
     function _trashed_post($post_id){
         
-        if(get_post_type($post_id) !== $this->post_type)
+        if(get_post_type($post_id) !== $this->post_type){
             return;
+        }
     
         $this->trashed_post($post_id);
         
@@ -410,8 +413,9 @@ class acfe_dynamic_module{
      */
     function _untrashed_post($post_id){
         
-        if(get_post_type($post_id) !== $this->post_type)
+        if(get_post_type($post_id) !== $this->post_type){
             return;
+        }
         
         $this->_save_post($post_id);
         $this->untrashed_post($post_id);
@@ -456,13 +460,9 @@ class acfe_dynamic_module{
      */
     function get_post_types($post_types, $args){
         
-        if(empty($post_types))
-            return $post_types;
-        
         foreach($post_types as $k => $post_type){
             
-            if($post_type !== $this->post_type)
-                continue;
+            if($post_type !== $this->post_type) continue;
             
             unset($post_types[$k]);
             

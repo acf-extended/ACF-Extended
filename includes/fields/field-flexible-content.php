@@ -633,6 +633,7 @@ class acfe_field_flexible_content{
     function prepare_layout_editor($field){
         
         $field['delay'] = 1;
+        $field['acfe_wysiwyg_auto_init'] = 1;
         return $field;
         
     }

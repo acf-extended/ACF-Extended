@@ -48,12 +48,16 @@ class ACFE_Admin_Options_List extends WP_List_Table{
             
             $sql .= ' ORDER BY option_id ASC';
             
-        }
-        
-        else{
+        }else{
             
-            $sql .= ' ORDER BY ' . esc_sql($_REQUEST['orderby']);
-            $sql .= !empty($_REQUEST['order']) ? ' ' . esc_sql($_REQUEST['order']) : ' ASC';
+            $orderby = esc_sql($_REQUEST['orderby']);
+            $order = !empty($_REQUEST['order']) ? esc_sql($_REQUEST['order']) : 'ASC';
+            
+            $orderby_order = sanitize_sql_orderby($orderby . ' ' . $order);
+            
+            if($orderby_order){
+                $sql .= ' ORDER BY ' . $orderby_order;
+            }
             
         }
         

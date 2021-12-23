@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2021-09-12 18:42+0200\n"
-"PO-Revision-Date: 2021-09-12 18:42+0200\n"
+"POT-Creation-Date: 2021-12-23 07:26+0100\n"
+"PO-Revision-Date: 2021-12-23 07:28+0100\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
 "Language: fr_FR\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: acf-extended.php\n"
@@ -22,26 +22,26 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: .build\n"
 
-#: assets/js/acfe-admin.js:475 includes/modules/options-pages.php:301
+#: assets/js/acfe-admin.js:476 includes/modules/options-pages.php:301
 #: includes/modules/options.php:469 pro/includes/updates.php:361
 msgid "Yes"
 msgstr "Oui"
 
-#: assets/js/acfe-admin.js:476 includes/modules/options-pages.php:297
+#: assets/js/acfe-admin.js:477 includes/modules/options-pages.php:297
 #: includes/modules/options.php:468 pro/includes/updates.php:373
 msgid "No"
 msgstr "Non"
 
 #: assets/js/acfe-input.js:106 assets/js/acfe-input.js:370
 #: assets/js/acfe-input.js:734 assets/js/acfe-input.js:1511
-#: assets/js/acfe-input.js:2304 includes/assets.php:100
+#: assets/js/acfe-input.js:2269 includes/assets.php:100
 #: includes/field-groups/field-group-meta.php:145
 #: includes/fields-settings/data.php:81
 #: includes/fields/field-flexible-content.php:616
 #: includes/fields/field-flexible-content.php:622 includes/modules/dev.php:129
-#: pro/assets/js/acfe-pro-admin.js:375 pro/assets/js/acfe-pro-input.js:631
+#: pro/assets/js/acfe-pro-admin.js:377 pro/assets/js/acfe-pro-input.js:631
 #: pro/includes/field-groups/field-group-ui.php:237
-#: pro/includes/fields/field-payment.php:444 pro/includes/modules/dev.php:77
+#: pro/includes/fields/field-payment.php:414 pro/includes/modules/dev.php:77
 #: pro/includes/modules/dev.php:154 pro/includes/modules/dev.php:213
 #: pro/includes/modules/dev.php:297 pro/includes/modules/dev.php:345
 #: pro/includes/modules/dev.php:393 pro/includes/modules/dev.php:441
@@ -186,7 +186,7 @@ msgstr ""
 "thème.php fichier ou l’inclure dans un fichier externe."
 
 #: includes/admin/tools/module-import.php:24
-#: pro/assets/js/acfe-pro-input.js:1050 pro/assets/js/acfe-pro-input.js:1068
+#: pro/assets/js/acfe-pro-input.js:1054 pro/assets/js/acfe-pro-input.js:1072
 #: pro/includes/admin/tools/settings-import.php:27
 msgid "Select File"
 msgstr "Choisir un fichier"
@@ -302,7 +302,7 @@ msgstr "Options"
 msgid "Add New"
 msgstr "Ajouter"
 
-#: includes/assets.php:101 pro/assets/js/acfe-pro-input.js:4950
+#: includes/assets.php:101 pro/assets/js/acfe-pro-input.js:4986
 msgid "Read more"
 msgstr "Lire la suite"
 
@@ -310,7 +310,7 @@ msgstr "Lire la suite"
 msgid "Details"
 msgstr "Details"
 
-#: includes/assets.php:103 pro/assets/js/acfe-pro-admin.js:375
+#: includes/assets.php:103 pro/assets/js/acfe-pro-admin.js:377
 msgid "Debug"
 msgstr "Débogage"
 
@@ -409,7 +409,7 @@ msgid "Key"
 msgstr "Clé"
 
 #: includes/field-groups/field-group-meta.php:74
-#: includes/fields/field-hidden.php:43 includes/modules/options.class.php:196
+#: includes/fields/field-hidden.php:43 includes/modules/options.class.php:200
 #: pro/includes/field-groups/field-group-ui.php:172
 #: pro/includes/fields/field-color-picker.php:132
 #: pro/includes/fields/field-image-selector.php:147
@@ -509,12 +509,12 @@ msgid "Select %s"
 msgstr "Sélectionner %s"
 
 #: includes/field-groups/field-groups-local.php:224
-#: includes/field-groups/field-groups.php:707
+#: includes/field-groups/field-groups.php:712
 msgid "Export PHP"
 msgstr "Exporter php"
 
 #: includes/field-groups/field-groups-local.php:225
-#: includes/field-groups/field-groups.php:708
+#: includes/field-groups/field-groups.php:713
 msgid "Export Json"
 msgstr "Exporter Json"
 
@@ -618,31 +618,31 @@ msgstr "Importer"
 msgid "Review"
 msgstr "Avis"
 
-#: includes/field-groups/field-groups.php:638
-#: includes/field-groups/field-groups.php:648 includes/modules/module.php:324
+#: includes/field-groups/field-groups.php:643
+#: includes/field-groups/field-groups.php:653 includes/modules/module.php:322
 msgctxt "post status"
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: includes/field-groups/field-groups.php:659
+#: includes/field-groups/field-groups.php:664
 msgid "Alternative title"
 msgstr "Titre alternatif"
 
-#: includes/field-groups/field-groups.php:775
-#: includes/field-groups/field-groups.php:785
-#: includes/field-groups/field-groups.php:795
+#: includes/field-groups/field-groups.php:780
+#: includes/field-groups/field-groups.php:790
+#: includes/field-groups/field-groups.php:800
 msgid "Located"
 msgstr "Situé"
 
-#: includes/field-groups/field-groups.php:778
+#: includes/field-groups/field-groups.php:783
 msgid "in theme:"
 msgstr "dans le thème:"
 
-#: includes/field-groups/field-groups.php:788
+#: includes/field-groups/field-groups.php:793
 msgid "in plugin:"
 msgstr "dans le plugin:"
 
-#: includes/field-groups/field-groups.php:798
+#: includes/field-groups/field-groups.php:803
 msgid "in:"
 msgstr "dans :"
 
@@ -772,7 +772,7 @@ msgstr "Ouvrir dans une nouvelle fenêtre/onglet"
 #: includes/fields/field-advanced-link.php:422
 #: includes/fields/field-clone.php:98 includes/fields/field-clone.php:145
 #: includes/fields/field-group.php:83 includes/fields/field-group.php:129
-#: includes/modules/dev.php:467 includes/modules/options.class.php:177
+#: includes/modules/dev.php:467 includes/modules/options.class.php:181
 #: includes/modules/options.php:485 includes/modules/ui-settings.php:63
 #: includes/modules/ui-term.php:87 includes/modules/ui-user.php:154
 #: pro/includes/fields/field-file.php:653
@@ -929,7 +929,7 @@ msgstr "Éditeur de code"
 #: includes/fields/field-taxonomies.php:70
 #: includes/fields/field-taxonomy-terms.php:840
 #: includes/fields/field-user-roles.php:69
-#: pro/includes/fields/field-block-types.php:90
+#: pro/includes/fields/field-block-types.php:89
 #: pro/includes/fields/field-countries.php:79
 #: pro/includes/fields/field-currencies.php:79
 #: pro/includes/fields/field-field-groups.php:89
@@ -944,7 +944,7 @@ msgstr "Éditeur de code"
 #: pro/includes/fields/field-payment-cart.php:80
 #: pro/includes/fields/field-phone-number.php:144
 #: pro/includes/fields/field-post-formats.php:72
-#: pro/includes/fields/field-templates.php:96
+#: pro/includes/fields/field-templates.php:93
 msgid "Default Value"
 msgstr "Valeur par défaut"
 
@@ -958,13 +958,13 @@ msgstr "Apparaît à la création d’un nouvel article"
 #: includes/fields/field-taxonomies.php:176
 #: includes/fields/field-taxonomy-terms.php:905
 #: includes/fields/field-user-roles.php:162
-#: pro/includes/fields/field-block-types.php:195
+#: pro/includes/fields/field-block-types.php:194
 #: pro/includes/fields/field-countries.php:258
 #: pro/includes/fields/field-currencies.php:247
 #: pro/includes/fields/field-date-picker.php:26
 #: pro/includes/fields/field-date-picker.php:107
 #: pro/includes/fields/field-date-picker.php:347
-#: pro/includes/fields/field-date-range-picker.php:92
+#: pro/includes/fields/field-date-range-picker.php:93
 #: pro/includes/fields/field-field-groups.php:196
 #: pro/includes/fields/field-field-types.php:197
 #: pro/includes/fields/field-fields.php:207
@@ -977,7 +977,7 @@ msgstr "Apparaît à la création d’un nouvel article"
 #: pro/includes/fields/field-payment-cart.php:176
 #: pro/includes/fields/field-phone-number.php:152
 #: pro/includes/fields/field-post-formats.php:164
-#: pro/includes/fields/field-templates.php:202
+#: pro/includes/fields/field-templates.php:199
 msgid "Placeholder"
 msgstr "Etiquette"
 
@@ -987,7 +987,7 @@ msgstr "Etiquette"
 #: includes/fields/field-slug.php:48 includes/fields/field-taxonomies.php:177
 #: includes/fields/field-taxonomy-terms.php:906
 #: includes/fields/field-user-roles.php:163
-#: pro/includes/fields/field-block-types.php:196
+#: pro/includes/fields/field-block-types.php:195
 #: pro/includes/fields/field-countries.php:259
 #: pro/includes/fields/field-currencies.php:248
 #: pro/includes/fields/field-field-groups.php:197
@@ -1000,7 +1000,7 @@ msgstr "Etiquette"
 #: pro/includes/fields/field-options-pages.php:194
 #: pro/includes/fields/field-payment-cart.php:177
 #: pro/includes/fields/field-post-formats.php:165
-#: pro/includes/fields/field-templates.php:203
+#: pro/includes/fields/field-templates.php:200
 msgid "Appears within the input"
 msgstr "Apparaît dans l’entrée"
 
@@ -1121,7 +1121,7 @@ msgstr "Coller des dispositions"
 #: includes/fields/field-taxonomies.php:290
 #: includes/fields/field-taxonomy-terms.php:1041
 #: includes/fields/field-user-roles.php:276
-#: pro/includes/fields/field-block-types.php:309
+#: pro/includes/fields/field-block-types.php:308
 #: pro/includes/fields/field-countries.php:372
 #: pro/includes/fields/field-currencies.php:361
 #: pro/includes/fields/field-field-groups.php:310
@@ -1136,7 +1136,7 @@ msgstr "Coller des dispositions"
 #: pro/includes/fields/field-payment-cart.php:271
 #: pro/includes/fields/field-payment-selector.php:92
 #: pro/includes/fields/field-post-formats.php:278
-#: pro/includes/fields/field-templates.php:316
+#: pro/includes/fields/field-templates.php:313
 msgid "Layout"
 msgstr "Mise en page"
 
@@ -1316,7 +1316,7 @@ msgstr "Faites glisser pour réorganiser"
 #: includes/modules/forms.php:100 includes/modules/forms.php:101
 #: includes/modules/forms.php:103 includes/modules/forms.php:105
 #: includes/modules/forms.php:180 pro/includes/locations/settings.php:76
-#: pro/includes/modules/templates.php:659
+#: pro/includes/modules/templates.php:684
 msgid "Forms"
 msgstr "Formulaires"
 
@@ -1334,7 +1334,7 @@ msgstr "Tous les formulaires"
 #: includes/fields/field-taxonomies.php:56
 #: includes/fields/field-taxonomy-terms.php:826
 #: includes/fields/field-user-roles.php:55
-#: pro/includes/fields/field-block-types.php:76
+#: pro/includes/fields/field-block-types.php:75
 #: pro/includes/fields/field-countries.php:66
 #: pro/includes/fields/field-currencies.php:66
 #: pro/includes/fields/field-field-groups.php:75
@@ -1346,7 +1346,7 @@ msgstr "Tous les formulaires"
 #: pro/includes/fields/field-menus.php:73
 #: pro/includes/fields/field-options-pages.php:73
 #: pro/includes/fields/field-post-formats.php:59
-#: pro/includes/fields/field-templates.php:82
+#: pro/includes/fields/field-templates.php:79
 msgid "Appearance"
 msgstr "Apparence"
 
@@ -1356,7 +1356,7 @@ msgstr "Apparence"
 #: includes/fields/field-taxonomies.php:57
 #: includes/fields/field-taxonomy-terms.php:827
 #: includes/fields/field-user-roles.php:56
-#: pro/includes/fields/field-block-types.php:77
+#: pro/includes/fields/field-block-types.php:76
 #: pro/includes/fields/field-countries.php:67
 #: pro/includes/fields/field-currencies.php:67
 #: pro/includes/fields/field-field-groups.php:76
@@ -1368,7 +1368,7 @@ msgstr "Apparence"
 #: pro/includes/fields/field-menus.php:74
 #: pro/includes/fields/field-options-pages.php:74
 #: pro/includes/fields/field-post-formats.php:60
-#: pro/includes/fields/field-templates.php:83
+#: pro/includes/fields/field-templates.php:80
 msgid "Select the appearance of this field"
 msgstr "Sélectionnez l'apparence de ce champ"
 
@@ -1378,7 +1378,7 @@ msgstr "Sélectionnez l'apparence de ce champ"
 #: includes/fields/field-taxonomies.php:62
 #: includes/fields/field-taxonomy-terms.php:832
 #: includes/fields/field-user-roles.php:61
-#: pro/includes/fields/field-block-types.php:82
+#: pro/includes/fields/field-block-types.php:81
 #: pro/includes/fields/field-countries.php:71
 #: pro/includes/fields/field-currencies.php:71
 #: pro/includes/fields/field-field-groups.php:81
@@ -1391,7 +1391,7 @@ msgstr "Sélectionnez l'apparence de ce champ"
 #: pro/includes/fields/field-options-pages.php:79
 #: pro/includes/fields/field-payment-cart.php:107
 #: pro/includes/fields/field-post-formats.php:64
-#: pro/includes/fields/field-templates.php:88
+#: pro/includes/fields/field-templates.php:85
 msgid "Checkbox"
 msgstr "Case à cocher"
 
@@ -1401,7 +1401,7 @@ msgstr "Case à cocher"
 #: includes/fields/field-taxonomies.php:63
 #: includes/fields/field-taxonomy-terms.php:833
 #: includes/fields/field-user-roles.php:62
-#: pro/includes/fields/field-block-types.php:83
+#: pro/includes/fields/field-block-types.php:82
 #: pro/includes/fields/field-countries.php:72
 #: pro/includes/fields/field-currencies.php:72
 #: pro/includes/fields/field-field-groups.php:82
@@ -1413,7 +1413,7 @@ msgstr "Case à cocher"
 #: pro/includes/fields/field-menus.php:80
 #: pro/includes/fields/field-options-pages.php:80
 #: pro/includes/fields/field-post-formats.php:65
-#: pro/includes/fields/field-templates.php:89
+#: pro/includes/fields/field-templates.php:86
 msgid "Radio Buttons"
 msgstr "Boutons radio"
 
@@ -1423,7 +1423,7 @@ msgstr "Boutons radio"
 #: includes/fields/field-taxonomies.php:64
 #: includes/fields/field-taxonomy-terms.php:834
 #: includes/fields/field-user-roles.php:63
-#: pro/includes/fields/field-block-types.php:84
+#: pro/includes/fields/field-block-types.php:83
 #: pro/includes/fields/field-countries.php:73
 #: pro/includes/fields/field-currencies.php:73
 #: pro/includes/fields/field-field-groups.php:83
@@ -1435,7 +1435,7 @@ msgstr "Boutons radio"
 #: pro/includes/fields/field-menus.php:81
 #: pro/includes/fields/field-options-pages.php:81
 #: pro/includes/fields/field-post-formats.php:66
-#: pro/includes/fields/field-templates.php:90
+#: pro/includes/fields/field-templates.php:87
 msgctxt "noun"
 msgid "Select"
 msgstr "Sélectionner"
@@ -1446,7 +1446,7 @@ msgstr "Sélectionner"
 #: includes/fields/field-taxonomies.php:71
 #: includes/fields/field-taxonomy-terms.php:841
 #: includes/fields/field-user-roles.php:70
-#: pro/includes/fields/field-block-types.php:91
+#: pro/includes/fields/field-block-types.php:90
 #: pro/includes/fields/field-countries.php:80
 #: pro/includes/fields/field-currencies.php:80
 #: pro/includes/fields/field-field-groups.php:90
@@ -1460,7 +1460,7 @@ msgstr "Sélectionner"
 #: pro/includes/fields/field-options-pages.php:88
 #: pro/includes/fields/field-payment-cart.php:81
 #: pro/includes/fields/field-post-formats.php:73
-#: pro/includes/fields/field-templates.php:97
+#: pro/includes/fields/field-templates.php:94
 msgid "Enter each default value on a new line"
 msgstr "Entrer chaque valeur par défaut sur une nouvelle ligne"
 
@@ -1469,7 +1469,7 @@ msgstr "Entrer chaque valeur par défaut sur une nouvelle ligne"
 #: includes/fields/field-post-types.php:78
 #: includes/fields/field-taxonomies.php:78
 #: includes/fields/field-taxonomy-terms.php:848
-#: pro/includes/fields/field-block-types.php:98
+#: pro/includes/fields/field-block-types.php:97
 #: pro/includes/fields/field-color-picker.php:126
 #: pro/includes/fields/field-countries.php:87
 #: pro/includes/fields/field-currencies.php:102
@@ -1482,7 +1482,7 @@ msgstr "Entrer chaque valeur par défaut sur une nouvelle ligne"
 #: pro/includes/fields/field-menus.php:95
 #: pro/includes/fields/field-options-pages.php:95
 #: pro/includes/fields/field-phone-number.php:160
-#: pro/includes/fields/field-templates.php:104
+#: pro/includes/fields/field-templates.php:101
 msgid "Return Value"
 msgstr "Valeur de retour"
 
@@ -1500,7 +1500,7 @@ msgstr "Nom du formulaire"
 #: includes/fields/field-taxonomies.php:91
 #: includes/fields/field-taxonomy-terms.php:880
 #: includes/fields/field-user-roles.php:77
-#: pro/includes/fields/field-block-types.php:111
+#: pro/includes/fields/field-block-types.php:110
 #: pro/includes/fields/field-countries.php:174
 #: pro/includes/fields/field-currencies.php:163
 #: pro/includes/fields/field-field-groups.php:111
@@ -1514,7 +1514,7 @@ msgstr "Nom du formulaire"
 #: pro/includes/fields/field-options-pages.php:108
 #: pro/includes/fields/field-payment-cart.php:115
 #: pro/includes/fields/field-post-formats.php:80
-#: pro/includes/fields/field-templates.php:117
+#: pro/includes/fields/field-templates.php:114
 msgid "Allow Null?"
 msgstr "Autoriser une valeur « null »?"
 
@@ -1524,7 +1524,7 @@ msgstr "Autoriser une valeur « null »?"
 #: includes/fields/field-taxonomies.php:180
 #: includes/fields/field-taxonomy-terms.php:909
 #: includes/fields/field-user-roles.php:166
-#: pro/includes/fields/field-block-types.php:199
+#: pro/includes/fields/field-block-types.php:198
 #: pro/includes/fields/field-countries.php:262
 #: pro/includes/fields/field-currencies.php:251
 #: pro/includes/fields/field-field-groups.php:200
@@ -1537,7 +1537,7 @@ msgstr "Autoriser une valeur « null »?"
 #: pro/includes/fields/field-options-pages.php:197
 #: pro/includes/fields/field-payment-cart.php:180
 #: pro/includes/fields/field-post-formats.php:168
-#: pro/includes/fields/field-templates.php:206
+#: pro/includes/fields/field-templates.php:203
 msgctxt "verb"
 msgid "Select"
 msgstr "Sélectionner"
@@ -1549,7 +1549,7 @@ msgstr "Sélectionner"
 #: includes/fields/field-taxonomies.php:243
 #: includes/fields/field-taxonomy-terms.php:972
 #: includes/fields/field-user-roles.php:229
-#: pro/includes/fields/field-block-types.php:262
+#: pro/includes/fields/field-block-types.php:261
 #: pro/includes/fields/field-countries.php:325
 #: pro/includes/fields/field-currencies.php:314
 #: pro/includes/fields/field-field-groups.php:263
@@ -1562,7 +1562,7 @@ msgstr "Sélectionner"
 #: pro/includes/fields/field-options-pages.php:260
 #: pro/includes/fields/field-payment-cart.php:243
 #: pro/includes/fields/field-post-formats.php:231
-#: pro/includes/fields/field-templates.php:269
+#: pro/includes/fields/field-templates.php:266
 msgid "Search Input Placeholder"
 msgstr "Espace réservé pour les entrées de recherche"
 
@@ -1573,7 +1573,7 @@ msgstr "Espace réservé pour les entrées de recherche"
 #: includes/fields/field-taxonomies.php:244
 #: includes/fields/field-taxonomy-terms.php:973
 #: includes/fields/field-user-roles.php:230
-#: pro/includes/fields/field-block-types.php:263
+#: pro/includes/fields/field-block-types.php:262
 #: pro/includes/fields/field-countries.php:326
 #: pro/includes/fields/field-currencies.php:315
 #: pro/includes/fields/field-field-groups.php:264
@@ -1586,7 +1586,7 @@ msgstr "Espace réservé pour les entrées de recherche"
 #: pro/includes/fields/field-options-pages.php:261
 #: pro/includes/fields/field-payment-cart.php:244
 #: pro/includes/fields/field-post-formats.php:232
-#: pro/includes/fields/field-templates.php:270
+#: pro/includes/fields/field-templates.php:267
 msgid "Appears within the search input"
 msgstr "Apparaît dans l’entrée de recherche"
 
@@ -1596,7 +1596,7 @@ msgstr "Apparaît dans l’entrée de recherche"
 #: includes/fields/field-taxonomies.php:116
 #: includes/fields/field-taxonomy-terms.php:1000
 #: includes/fields/field-user-roles.php:102
-#: pro/includes/fields/field-block-types.php:136
+#: pro/includes/fields/field-block-types.php:135
 #: pro/includes/fields/field-countries.php:199
 #: pro/includes/fields/field-currencies.php:188
 #: pro/includes/fields/field-field-groups.php:136
@@ -1610,7 +1610,7 @@ msgstr "Apparaît dans l’entrée de recherche"
 #: pro/includes/fields/field-options-pages.php:133
 #: pro/includes/fields/field-payment-cart.php:140
 #: pro/includes/fields/field-post-formats.php:105
-#: pro/includes/fields/field-templates.php:142
+#: pro/includes/fields/field-templates.php:139
 msgid "Select multiple values?"
 msgstr "Sélectionnez plusieurs valeurs?"
 
@@ -1620,7 +1620,7 @@ msgstr "Sélectionnez plusieurs valeurs?"
 #: includes/fields/field-taxonomies.php:134
 #: includes/fields/field-taxonomy-terms.php:862
 #: includes/fields/field-user-roles.php:120
-#: pro/includes/fields/field-block-types.php:154
+#: pro/includes/fields/field-block-types.php:153
 #: pro/includes/fields/field-countries.php:217
 #: pro/includes/fields/field-currencies.php:206
 #: pro/includes/fields/field-field-groups.php:154
@@ -1634,7 +1634,7 @@ msgstr "Sélectionnez plusieurs valeurs?"
 #: pro/includes/fields/field-payment-cart.php:158
 #: pro/includes/fields/field-payment-selector.php:112
 #: pro/includes/fields/field-post-formats.php:123
-#: pro/includes/fields/field-templates.php:160
+#: pro/includes/fields/field-templates.php:157
 msgid "Stylised UI"
 msgstr "UI Stylised"
 
@@ -1644,7 +1644,7 @@ msgstr "UI Stylised"
 #: includes/fields/field-taxonomies.php:153
 #: includes/fields/field-taxonomy-terms.php:1018
 #: includes/fields/field-user-roles.php:139
-#: pro/includes/fields/field-block-types.php:172
+#: pro/includes/fields/field-block-types.php:171
 #: pro/includes/fields/field-countries.php:235
 #: pro/includes/fields/field-currencies.php:224
 #: pro/includes/fields/field-field-groups.php:173
@@ -1656,7 +1656,7 @@ msgstr "UI Stylised"
 #: pro/includes/fields/field-menus.php:171
 #: pro/includes/fields/field-options-pages.php:170
 #: pro/includes/fields/field-post-formats.php:141
-#: pro/includes/fields/field-templates.php:179
+#: pro/includes/fields/field-templates.php:176
 msgid "Use AJAX to lazy load choices?"
 msgstr "Utilisez AJAX pour des choix de charge paresseux?"
 
@@ -1665,7 +1665,7 @@ msgstr "Utilisez AJAX pour des choix de charge paresseux?"
 #: includes/fields/field-post-types.php:271
 #: includes/fields/field-taxonomies.php:271
 #: includes/fields/field-user-roles.php:257
-#: pro/includes/fields/field-block-types.php:290
+#: pro/includes/fields/field-block-types.php:289
 #: pro/includes/fields/field-countries.php:353
 #: pro/includes/fields/field-currencies.php:342
 #: pro/includes/fields/field-field-groups.php:291
@@ -1677,7 +1677,7 @@ msgstr "Utilisez AJAX pour des choix de charge paresseux?"
 #: pro/includes/fields/field-menus.php:289
 #: pro/includes/fields/field-options-pages.php:288
 #: pro/includes/fields/field-post-formats.php:259
-#: pro/includes/fields/field-templates.php:297
+#: pro/includes/fields/field-templates.php:294
 msgid "Other"
 msgstr "Autre"
 
@@ -1686,7 +1686,7 @@ msgstr "Autre"
 #: includes/fields/field-post-types.php:276
 #: includes/fields/field-taxonomies.php:276
 #: includes/fields/field-user-roles.php:262
-#: pro/includes/fields/field-block-types.php:295
+#: pro/includes/fields/field-block-types.php:294
 #: pro/includes/fields/field-countries.php:358
 #: pro/includes/fields/field-currencies.php:347
 #: pro/includes/fields/field-field-groups.php:296
@@ -1698,7 +1698,7 @@ msgstr "Autre"
 #: pro/includes/fields/field-menus.php:294
 #: pro/includes/fields/field-options-pages.php:293
 #: pro/includes/fields/field-post-formats.php:264
-#: pro/includes/fields/field-templates.php:302
+#: pro/includes/fields/field-templates.php:299
 msgid "Add 'other' choice to allow for custom values"
 msgstr ""
 "Ajouter 'les autres' pour un autre choix afin d'autoriser les valeurs "
@@ -1718,7 +1718,7 @@ msgstr "Enregistrer 'les autres' pour les valeurs dans les choix du champ"
 #: includes/fields/field-taxonomies.php:296
 #: includes/fields/field-taxonomy-terms.php:1047
 #: includes/fields/field-user-roles.php:282
-#: pro/includes/fields/field-block-types.php:315
+#: pro/includes/fields/field-block-types.php:314
 #: pro/includes/fields/field-countries.php:378
 #: pro/includes/fields/field-currencies.php:367
 #: pro/includes/fields/field-field-groups.php:316
@@ -1733,7 +1733,7 @@ msgstr "Enregistrer 'les autres' pour les valeurs dans les choix du champ"
 #: pro/includes/fields/field-payment-cart.php:277
 #: pro/includes/fields/field-payment-selector.php:98
 #: pro/includes/fields/field-post-formats.php:284
-#: pro/includes/fields/field-templates.php:322
+#: pro/includes/fields/field-templates.php:319
 msgid "Vertical"
 msgstr "Vertical"
 
@@ -1743,7 +1743,7 @@ msgstr "Vertical"
 #: includes/fields/field-taxonomies.php:297
 #: includes/fields/field-taxonomy-terms.php:1048
 #: includes/fields/field-user-roles.php:283
-#: pro/includes/fields/field-block-types.php:316
+#: pro/includes/fields/field-block-types.php:315
 #: pro/includes/fields/field-countries.php:379
 #: pro/includes/fields/field-currencies.php:368
 #: pro/includes/fields/field-field-groups.php:317
@@ -1758,7 +1758,7 @@ msgstr "Vertical"
 #: pro/includes/fields/field-payment-cart.php:278
 #: pro/includes/fields/field-payment-selector.php:99
 #: pro/includes/fields/field-post-formats.php:285
-#: pro/includes/fields/field-templates.php:323
+#: pro/includes/fields/field-templates.php:320
 msgid "Horizontal"
 msgstr "Horizontal"
 
@@ -1768,7 +1768,7 @@ msgstr "Horizontal"
 #: includes/fields/field-taxonomies.php:319
 #: includes/fields/field-taxonomy-terms.php:1070
 #: includes/fields/field-user-roles.php:305
-#: pro/includes/fields/field-block-types.php:338
+#: pro/includes/fields/field-block-types.php:337
 #: pro/includes/fields/field-countries.php:401
 #: pro/includes/fields/field-currencies.php:390
 #: pro/includes/fields/field-field-groups.php:339
@@ -1781,7 +1781,7 @@ msgstr "Horizontal"
 #: pro/includes/fields/field-options-pages.php:336
 #: pro/includes/fields/field-payment-cart.php:300
 #: pro/includes/fields/field-post-formats.php:307
-#: pro/includes/fields/field-templates.php:345
+#: pro/includes/fields/field-templates.php:342
 msgid "Toggle"
 msgstr "Basculer"
 
@@ -1791,7 +1791,7 @@ msgstr "Basculer"
 #: includes/fields/field-taxonomies.php:320
 #: includes/fields/field-taxonomy-terms.php:1071
 #: includes/fields/field-user-roles.php:306
-#: pro/includes/fields/field-block-types.php:339
+#: pro/includes/fields/field-block-types.php:338
 #: pro/includes/fields/field-countries.php:402
 #: pro/includes/fields/field-currencies.php:391
 #: pro/includes/fields/field-field-groups.php:340
@@ -1804,7 +1804,7 @@ msgstr "Basculer"
 #: pro/includes/fields/field-options-pages.php:337
 #: pro/includes/fields/field-payment-cart.php:301
 #: pro/includes/fields/field-post-formats.php:308
-#: pro/includes/fields/field-templates.php:346
+#: pro/includes/fields/field-templates.php:343
 msgid "Prepend an extra checkbox to toggle all choices"
 msgstr "Ajouter une case supplémentaire pour sélectionner tous les choix"
 
@@ -1813,7 +1813,7 @@ msgstr "Ajouter une case supplémentaire pour sélectionner tous les choix"
 #: includes/fields/field-post-types.php:337 includes/fields/field-select.php:49
 #: includes/fields/field-taxonomies.php:337
 #: includes/fields/field-user-roles.php:323
-#: pro/includes/fields/field-block-types.php:356
+#: pro/includes/fields/field-block-types.php:355
 #: pro/includes/fields/field-countries.php:419
 #: pro/includes/fields/field-currencies.php:408
 #: pro/includes/fields/field-field-groups.php:357
@@ -1825,7 +1825,7 @@ msgstr "Ajouter une case supplémentaire pour sélectionner tous les choix"
 #: pro/includes/fields/field-menus.php:355
 #: pro/includes/fields/field-options-pages.php:354
 #: pro/includes/fields/field-post-formats.php:325
-#: pro/includes/fields/field-templates.php:363
+#: pro/includes/fields/field-templates.php:360
 msgid "Allow Custom"
 msgstr "Autoriser les mots clés personnalisés"
 
@@ -1834,7 +1834,7 @@ msgstr "Autoriser les mots clés personnalisés"
 #: includes/fields/field-post-types.php:342 includes/fields/field-select.php:54
 #: includes/fields/field-taxonomies.php:342
 #: includes/fields/field-user-roles.php:328
-#: pro/includes/fields/field-block-types.php:361
+#: pro/includes/fields/field-block-types.php:360
 #: pro/includes/fields/field-countries.php:424
 #: pro/includes/fields/field-currencies.php:413
 #: pro/includes/fields/field-field-groups.php:362
@@ -1846,7 +1846,7 @@ msgstr "Autoriser les mots clés personnalisés"
 #: pro/includes/fields/field-menus.php:360
 #: pro/includes/fields/field-options-pages.php:359
 #: pro/includes/fields/field-post-formats.php:330
-#: pro/includes/fields/field-templates.php:368
+#: pro/includes/fields/field-templates.php:365
 msgid "Allow 'custom' values to be added"
 msgstr "Autoriser l’ajout de valeurs « personnalisées »"
 
@@ -2013,12 +2013,12 @@ msgstr ""
 
 #: includes/fields/field-recaptcha.php:242
 #: includes/fields/field-recaptcha.php:248
-#: pro/includes/fields/field-payment.php:582
-#: pro/includes/fields/field-payment.php:681
-#: pro/includes/fields/field-payment.php:807
-#: pro/includes/fields/field-payment.php:830
-#: pro/includes/fields/field-payment.php:878
-#: pro/includes/fields/field-payment.php:970
+#: pro/includes/fields/field-payment.php:552
+#: pro/includes/fields/field-payment.php:651
+#: pro/includes/fields/field-payment.php:777
+#: pro/includes/fields/field-payment.php:800
+#: pro/includes/fields/field-payment.php:848
+#: pro/includes/fields/field-payment.php:940
 msgid "An error has occured"
 msgstr "Une erreur s’est produite"
 
@@ -2070,7 +2070,7 @@ msgstr "Objet taxonomie"
 
 #: includes/fields/field-taxonomies.php:84
 msgid "Taxonomy name"
-msgstr "Nom de la taxinomie"
+msgstr "Nom de la taxonomie"
 
 #: includes/fields/field-taxonomy-terms.php:16
 msgid "Taxonomy Terms"
@@ -2190,7 +2190,7 @@ msgid "Author"
 msgstr "Auteur"
 
 #: includes/modules/block-types.php:24 includes/modules/forms.php:25
-#: includes/modules/options.class.php:195 includes/modules/options.php:331
+#: includes/modules/options.class.php:199 includes/modules/options.php:331
 #: includes/modules/post-types.php:24 includes/modules/taxonomies.php:24
 #: pro/includes/fields/field-post-field.php:42
 msgid "Name"
@@ -2216,7 +2216,7 @@ msgstr "Meta supprimées"
 
 #: includes/modules/dev.php:129 includes/modules/options-pages.php:315
 #: includes/modules/post-types.php:175 includes/modules/taxonomies.php:262
-#: pro/includes/fields/field-payment.php:444 pro/includes/modules/dev.php:77
+#: pro/includes/fields/field-payment.php:414 pro/includes/modules/dev.php:77
 #: pro/includes/modules/dev.php:154 pro/includes/modules/dev.php:213
 #: pro/includes/modules/dev.php:297 pro/includes/modules/dev.php:345
 #: pro/includes/modules/dev.php:393 pro/includes/modules/dev.php:441
@@ -2225,8 +2225,8 @@ msgid "View"
 msgstr "Voir"
 
 #: includes/modules/dev.php:472 includes/modules/dev.php:515
-#: includes/modules/options.class.php:178
-#: includes/modules/options.class.php:230 includes/modules/options.php:502
+#: includes/modules/options.class.php:182
+#: includes/modules/options.class.php:234 includes/modules/options.php:502
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -2248,7 +2248,7 @@ msgstr "vide"
 
 #: includes/modules/forms-action-custom.php:82
 #: includes/modules/forms-action-email.php:310
-#: includes/modules/forms-action-post.php:799
+#: includes/modules/forms-action-post.php:836
 #: includes/modules/forms-action-redirect.php:87
 #: includes/modules/forms-action-term.php:486
 #: includes/modules/forms-action-user.php:982 includes/modules/forms.php:174
@@ -2358,22 +2358,22 @@ msgstr "Article mis à jour"
 msgid "Input is invalid: Must be a json string or an array."
 msgstr "L’entrée n’est pas valide : doit être une chaîne json ou un tableau."
 
-#: includes/modules/module.php:97
+#: includes/modules/module.php:96
 #, php-format
 msgid "Active <span class=\"count\">(%s)</span>"
 msgid_plural "Active <span class=\"count\">(%s)</span>"
 msgstr[0] "Actif <span class=\"count\">(%s)</span>"
 msgstr[1] "Actif <span class=\"count\">(%s)</span>"
 
-#: includes/modules/module.php:150
+#: includes/modules/module.php:149
 msgid "Export "
 msgstr "Exporter "
 
-#: includes/modules/module.php:215
+#: includes/modules/module.php:213
 msgid "Active"
 msgstr "Actif"
 
-#: includes/modules/module.php:215
+#: includes/modules/module.php:213
 msgid "Inactive"
 msgstr "Inactif"
 
@@ -2385,7 +2385,7 @@ msgstr "Slug de menu"
 msgid "Post ID"
 msgstr "ID de l'article"
 
-#: includes/modules/options-pages.php:26 includes/modules/options.class.php:197
+#: includes/modules/options-pages.php:26 includes/modules/options.class.php:201
 #: includes/modules/options.php:453
 msgid "Autoload"
 msgstr "Chargement automatique"
@@ -2402,11 +2402,11 @@ msgstr "Options de la Page"
 msgid "Option"
 msgstr "Option"
 
-#: includes/modules/options.class.php:99
+#: includes/modules/options.class.php:103
 msgid "No options avaliable."
 msgstr "Aucune option disponible."
 
-#: includes/modules/options.class.php:194 pro/includes/modules/dev.php:68
+#: includes/modules/options.class.php:198 pro/includes/modules/dev.php:68
 #: pro/includes/modules/dev.php:145 pro/includes/modules/dev.php:204
 #: pro/includes/modules/dev.php:255 pro/includes/modules/dev.php:292
 #: pro/includes/modules/dev.php:340 pro/includes/modules/dev.php:388
@@ -2503,34 +2503,34 @@ msgstr "ou"
 msgid "Clear"
 msgstr "Effacer"
 
-#: pro/assets/js/acfe-pro-input.js:979
+#: pro/assets/js/acfe-pro-input.js:983
 msgid "Maximum items reached ({max} items)"
 msgstr "Nombre maximal d’objets atteints ({max} éléments)"
 
-#: pro/assets/js/acfe-pro-input.js:1094
+#: pro/assets/js/acfe-pro-input.js:1098
 msgid "Edit File"
 msgstr "Modifier le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1095
+#: pro/assets/js/acfe-pro-input.js:1099
 msgid "Update File"
 msgstr "Mettre à jour le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1547
+#: pro/assets/js/acfe-pro-input.js:1551
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr "Ce champ a une limite de {Max} {label} {identificateur}"
 
-#: pro/assets/js/acfe-pro-input.js:1548
+#: pro/assets/js/acfe-pro-input.js:1552
 #: pro/includes/fields/field-flexible-content-locations.php:180
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] "disposition"
 msgstr[1] "mises en page"
 
-#: pro/assets/js/acfe-pro-input.js:3617
+#: pro/assets/js/acfe-pro-input.js:3637
 msgid "OK"
 msgstr "OK"
 
-#: pro/assets/js/acfe-pro-input.js:3617
+#: pro/assets/js/acfe-pro-input.js:3637
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -2627,19 +2627,19 @@ msgstr "Champ de visibilité"
 msgid "Block Types"
 msgstr "Types de bloc"
 
-#: pro/includes/fields/field-block-types.php:63
+#: pro/includes/fields/field-block-types.php:62
 msgid "Allow Block Types"
 msgstr "Autoriser les types de blocs"
 
-#: pro/includes/fields/field-block-types.php:71
+#: pro/includes/fields/field-block-types.php:70
 msgid "All block types"
 msgstr "Tous types de blocs"
 
-#: pro/includes/fields/field-block-types.php:104
+#: pro/includes/fields/field-block-types.php:103
 msgid "Block type object"
 msgstr "Objet de type bloc"
 
-#: pro/includes/fields/field-block-types.php:105
+#: pro/includes/fields/field-block-types.php:104
 msgid "Block type name"
 msgstr "Nom du type de bloc"
 
@@ -2683,7 +2683,7 @@ msgid "Text Input"
 msgstr "Saisie de texte"
 
 #: pro/includes/fields/field-color-picker.php:207
-#: pro/includes/fields/field-date-range-picker.php:228
+#: pro/includes/fields/field-date-range-picker.php:239
 msgid "Allow null"
 msgstr "Autoriser une valeur « null »"
 
@@ -2757,7 +2757,7 @@ msgstr "Code du pays"
 
 #: pro/includes/fields/field-countries.php:113
 #: pro/includes/fields/field-currencies.php:87
-#: pro/includes/fields/field-date-range-picker.php:52
+#: pro/includes/fields/field-date-range-picker.php:53
 #: pro/includes/fields/field-image-sizes.php:116
 #: pro/includes/fields/field-languages.php:131
 #: pro/includes/fields/field-payment-cart.php:88
@@ -2766,7 +2766,7 @@ msgstr "Format d’affichage"
 
 #: pro/includes/fields/field-countries.php:114
 #: pro/includes/fields/field-currencies.php:88
-#: pro/includes/fields/field-date-range-picker.php:53
+#: pro/includes/fields/field-date-range-picker.php:54
 #: pro/includes/fields/field-languages.php:132
 #: pro/includes/fields/field-payment-cart.php:89
 msgid "The format displayed when editing a post"
@@ -2774,8 +2774,8 @@ msgstr "Le format affiché lors de la modification d'un poste"
 
 #: pro/includes/fields/field-countries.php:122
 #: pro/includes/fields/field-currencies.php:96
-#: pro/includes/fields/field-date-range-picker.php:61
-#: pro/includes/fields/field-date-range-picker.php:77
+#: pro/includes/fields/field-date-range-picker.php:62
+#: pro/includes/fields/field-date-range-picker.php:78
 #: pro/includes/fields/field-languages.php:140
 #: pro/includes/fields/field-payment-cart.php:96
 msgid "Custom:"
@@ -2836,13 +2836,13 @@ msgstr "Regrouper les monnaies par continent"
 
 #: pro/includes/fields/field-date-picker.php:35
 #: pro/includes/fields/field-date-picker.php:117
-#: pro/includes/fields/field-date-range-picker.php:162
+#: pro/includes/fields/field-date-range-picker.php:163
 msgid "Date Restriction"
 msgstr "Date Restriction"
 
 #: pro/includes/fields/field-date-picker.php:60
 #: pro/includes/fields/field-date-picker.php:167
-#: pro/includes/fields/field-date-range-picker.php:208
+#: pro/includes/fields/field-date-range-picker.php:219
 msgid "No Weekends"
 msgstr "Pas de week-end"
 
@@ -2870,35 +2870,39 @@ msgstr "Restriction des secondes"
 msgid "Date Range Picker"
 msgstr "Sélecteur de plages de dates"
 
-#: pro/includes/fields/field-date-range-picker.php:67
+#: pro/includes/fields/field-date-range-picker.php:68
 msgid "Return Format"
 msgstr "Format de retour"
 
-#: pro/includes/fields/field-date-range-picker.php:68
+#: pro/includes/fields/field-date-range-picker.php:69
 msgid "The format returned via template functions"
 msgstr "Le format renvoyé par l'intermédiaire des fonctions de modèle"
 
-#: pro/includes/fields/field-date-range-picker.php:83
+#: pro/includes/fields/field-date-range-picker.php:84
 msgid "Week Starts On"
 msgstr "La semaine débute&nbsp;le"
 
-#: pro/includes/fields/field-date-range-picker.php:100
+#: pro/includes/fields/field-date-range-picker.php:101
 msgid "Separator"
 msgstr "Séparateur"
 
-#: pro/includes/fields/field-date-range-picker.php:108
+#: pro/includes/fields/field-date-range-picker.php:109
 msgid "Default Date"
 msgstr "Date par Défaut"
 
-#: pro/includes/fields/field-date-range-picker.php:135
+#: pro/includes/fields/field-date-range-picker.php:136
 msgid "Range Restriction"
 msgstr "Restriction de plage"
 
-#: pro/includes/fields/field-date-range-picker.php:191
+#: pro/includes/fields/field-date-range-picker.php:192
 msgid "Custom Ranges"
 msgstr "Plages personnalisées"
 
-#: pro/includes/fields/field-date-range-picker.php:218
+#: pro/includes/fields/field-date-range-picker.php:209
+msgid "Show Dropdowns"
+msgstr "Autoriser les menus déroulants"
+
+#: pro/includes/fields/field-date-range-picker.php:229
 msgid "Auto Close on Selection"
 msgstr "Fermeture automatique lors de la sélection"
 
@@ -3337,8 +3341,8 @@ msgid "Choose your payment gateways"
 msgstr "Choisissez vos passerelles de paiement"
 
 #: pro/includes/fields/field-payment.php:79
-#: pro/includes/fields/field-payment.php:422
-#: pro/includes/fields/field-payment.php:1154
+#: pro/includes/fields/field-payment.php:392
+#: pro/includes/fields/field-payment.php:1203
 msgid "Amount"
 msgstr "Montant"
 
@@ -3426,8 +3430,6 @@ msgid "Your PayPal Production Credentials"
 msgstr "Vos informations d’identification de production PayPal"
 
 #: pro/includes/fields/field-payment.php:314
-#: pro/includes/fields/field-payment.php:417
-#: pro/includes/fields/field-payment.php:1151
 msgid "Mode"
 msgstr "Mode"
 
@@ -3436,62 +3438,60 @@ msgid "Switch API mode"
 msgstr "Changer de mode API"
 
 #: pro/includes/fields/field-payment.php:320
-#: pro/includes/fields/field-payment.php:1098
+#: pro/includes/fields/field-payment.php:388
+#: pro/includes/fields/field-payment.php:1170
+#: pro/includes/fields/field-payment.php:1201
 msgid "Test"
 msgstr "Test"
 
 #: pro/includes/fields/field-payment.php:321
-#: pro/includes/fields/field-payment.php:1099
+#: pro/includes/fields/field-payment.php:1171
 msgid "Production"
 msgstr "Production"
 
-#: pro/includes/fields/field-payment.php:382
-msgid "Payment meta is invalid."
-msgstr "Les données meta du paiement sont invalides."
-
-#: pro/includes/fields/field-payment.php:412
-#: pro/includes/fields/field-payment.php:1148
+#: pro/includes/fields/field-payment.php:388
+#: pro/includes/fields/field-payment.php:1201
 msgid "Gateway"
 msgstr "Passerelle"
 
-#: pro/includes/fields/field-payment.php:427
-#: pro/includes/fields/field-payment.php:1157
+#: pro/includes/fields/field-payment.php:397
+#: pro/includes/fields/field-payment.php:1206
 msgid "Items"
 msgstr "Articles"
 
-#: pro/includes/fields/field-payment.php:432
-#: pro/includes/fields/field-payment.php:1160
+#: pro/includes/fields/field-payment.php:402
+#: pro/includes/fields/field-payment.php:1209
 #: pro/includes/fields/field-post-field.php:38
 msgid "Date"
 msgstr "Date"
 
-#: pro/includes/fields/field-payment.php:436
-#: pro/includes/fields/field-payment.php:1162
+#: pro/includes/fields/field-payment.php:406
+#: pro/includes/fields/field-payment.php:1211
 msgid "IP Address"
 msgstr "Adresse IP"
 
-#: pro/includes/fields/field-payment.php:440
-#: pro/includes/fields/field-payment.php:1164
+#: pro/includes/fields/field-payment.php:410
+#: pro/includes/fields/field-payment.php:1213
 msgid "Payment ID"
 msgstr "ID du Paiement"
 
-#: pro/includes/fields/field-payment.php:444
+#: pro/includes/fields/field-payment.php:414
 msgid "Payment Object"
 msgstr "Objet de Paiement"
 
-#: pro/includes/fields/field-payment.php:531
+#: pro/includes/fields/field-payment.php:501
 msgid "PayPal Checkout"
 msgstr "Paiement PayPal"
 
-#: pro/includes/fields/field-payment.php:639
+#: pro/includes/fields/field-payment.php:609
 msgid "Amount can't be null"
 msgstr "Le montant ne peut pas être nul"
 
-#: pro/includes/fields/field-payment.php:716
+#: pro/includes/fields/field-payment.php:686
 msgid "Payment failed"
 msgstr "Échec de paiement"
 
-#: pro/includes/fields/field-payment.php:957
+#: pro/includes/fields/field-payment.php:927
 msgid "Your card number is invalid"
 msgstr "Votre numéro de carte n’est pas valide"
 
@@ -3662,114 +3662,122 @@ msgid "No Preference"
 msgstr "Pas de préférence"
 
 #: pro/includes/fields/field-templates.php:13
-#: pro/includes/modules/templates.php:67 pro/includes/modules/templates.php:68
-#: pro/includes/modules/templates.php:70 pro/includes/modules/templates.php:72
+#: pro/includes/modules/templates.php:69 pro/includes/modules/templates.php:70
+#: pro/includes/modules/templates.php:72 pro/includes/modules/templates.php:74
 msgid "Templates"
 msgstr "Modèles"
 
-#: pro/includes/fields/field-templates.php:69
+#: pro/includes/fields/field-templates.php:66
 msgid "Allow Templates"
 msgstr "Autoriser les modèles"
 
-#: pro/includes/fields/field-templates.php:77
+#: pro/includes/fields/field-templates.php:74
 msgid "All templates"
 msgstr "Tous les modèles"
 
-#: pro/includes/fields/field-templates.php:109
+#: pro/includes/fields/field-templates.php:106
 msgid "Template ID"
 msgstr "ID du Template"
 
-#: pro/includes/fields/field-templates.php:110
+#: pro/includes/fields/field-templates.php:107
 msgid "Template name"
 msgstr "Nom du modèle"
 
 #: pro/includes/fields/field-wysiwyg.php:38
-#: pro/includes/fields/field-wysiwyg.php:58
-#: pro/includes/fields/field-wysiwyg.php:80
+msgid "Auto initialization"
+msgstr "Initialisation automatique"
+
+#: pro/includes/fields/field-wysiwyg.php:39
+msgid "Automatically initialize TinyMCE when shown"
+msgstr "Initialiser automatiquement de TinyMCE lorsqu’il est affiché"
+
+#: pro/includes/fields/field-wysiwyg.php:61
+#: pro/includes/fields/field-wysiwyg.php:81
+#: pro/includes/fields/field-wysiwyg.php:103
 msgid "Height"
 msgstr "Hauteur"
 
-#: pro/includes/fields/field-wysiwyg.php:103
+#: pro/includes/fields/field-wysiwyg.php:126
 msgid "Valid Elements"
 msgstr "Éléments valides"
 
-#: pro/includes/fields/field-wysiwyg.php:106
+#: pro/includes/fields/field-wysiwyg.php:129
 msgid "Set custom valid HTML tags"
 msgstr "Définir des balises HTML valides personnalisées"
 
-#: pro/includes/fields/field-wysiwyg.php:124
+#: pro/includes/fields/field-wysiwyg.php:147
 msgid "Custom Style"
 msgstr "Style personnalisé"
 
-#: pro/includes/fields/field-wysiwyg.php:127
+#: pro/includes/fields/field-wysiwyg.php:150
 msgid "Add multiple files separated with comma"
 msgstr "Ajouter plusieurs fichiers séparés par une virgule"
 
-#: pro/includes/fields/field-wysiwyg.php:138
+#: pro/includes/fields/field-wysiwyg.php:161
 msgid "Disable WP Style"
 msgstr "Désactiver le style WP"
 
-#: pro/includes/fields/field-wysiwyg.php:141
+#: pro/includes/fields/field-wysiwyg.php:164
 msgid "Remove TinyMCE builtin stylesheets"
 msgstr "Supprimer les feuilles de style intégrées TinyMCE"
 
-#: pro/includes/fields/field-wysiwyg.php:150
+#: pro/includes/fields/field-wysiwyg.php:173
 msgid "Autoresize"
 msgstr "Mise en forme automatique"
 
-#: pro/includes/fields/field-wysiwyg.php:153
+#: pro/includes/fields/field-wysiwyg.php:176
 msgid "Height will be based on the editor content"
 msgstr "La hauteur sera basée sur le contenu de l’éditeur"
 
-#: pro/includes/fields/field-wysiwyg.php:162
+#: pro/includes/fields/field-wysiwyg.php:185
 msgid "Disable Resize"
 msgstr "Désactiver le redimensionnement"
 
-#: pro/includes/fields/field-wysiwyg.php:165
+#: pro/includes/fields/field-wysiwyg.php:188
 msgid "Remove the editor resize functionality"
 msgstr "Supprimer la fonctionnalité de redimensionnement de l’éditeur"
 
-#: pro/includes/fields/field-wysiwyg.php:174
+#: pro/includes/fields/field-wysiwyg.php:197
 msgid "Disable Path"
 msgstr "Désactiver le chemin d’accès"
 
-#: pro/includes/fields/field-wysiwyg.php:177
+#: pro/includes/fields/field-wysiwyg.php:200
 msgid "Hide the editor path status bar"
 msgstr "Masquer la barre d’état du chemin d’accès de l’éditeur"
 
-#: pro/includes/fields/field-wysiwyg.php:186
+#: pro/includes/fields/field-wysiwyg.php:209
 msgid "Menu Bar"
 msgstr "Barre de menu"
 
-#: pro/includes/fields/field-wysiwyg.php:189
+#: pro/includes/fields/field-wysiwyg.php:212
 msgid "Show the menu bar on top of the editor"
 msgstr "Afficher la barre de menus en haut de l’éditeur"
 
-#: pro/includes/fields/field-wysiwyg.php:198
+#: pro/includes/fields/field-wysiwyg.php:221
 msgid "Transparent Editor"
 msgstr "Éditeur transparent"
 
-#: pro/includes/fields/field-wysiwyg.php:201
+#: pro/includes/fields/field-wysiwyg.php:224
 msgid "Set the editor's background as transparent"
 msgstr "Définir l’arrière-plan de l’éditeur comme transparent"
 
-#: pro/includes/fields/field-wysiwyg.php:210
+#: pro/includes/fields/field-wysiwyg.php:233
 msgid "Merge Toolbars"
 msgstr "Fusionner les barres d’outils"
 
-#: pro/includes/fields/field-wysiwyg.php:213
+#: pro/includes/fields/field-wysiwyg.php:236
 msgid "Glue editor toolbars together"
 msgstr "Coller les barres d’outils de l’éditeur ensemble"
 
-#: pro/includes/fields/field-wysiwyg.php:222
+#: pro/includes/fields/field-wysiwyg.php:245
 msgid "Customize Toolbar"
 msgstr "Personnaliser la barre d’outils"
 
-#: pro/includes/fields/field-wysiwyg.php:290
+#: pro/includes/fields/field-wysiwyg.php:313
 msgid "+ Add button"
 msgstr "+ Bouton Ajouter"
 
-#: pro/includes/fields/field-wysiwyg.php:386
+#: pro/includes/fields/field-wysiwyg.php:409
 msgid "Custom Toolbar Buttons"
 msgstr "Boutons de barre d’outils personnalisés"
 
@@ -4042,7 +4050,7 @@ msgstr "Objet de la taxonomie"
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: pro/includes/modules/global-field-condition.php:57
+#: pro/includes/modules/global-field-condition.php:59
 msgid "Set as Global Conditional Logic"
 msgstr "Définir comme logique conditionnelle globale"
 
@@ -4101,37 +4109,37 @@ msgstr "Script terminé."
 msgid "Locations"
 msgstr "Emplacements"
 
-#: pro/includes/modules/templates.php:71
+#: pro/includes/modules/templates.php:73
 msgid "Template"
 msgstr "Modèle"
 
-#: pro/includes/modules/templates.php:73
+#: pro/includes/modules/templates.php:75
 msgid "Edit Template"
 msgstr "Modifier le modèle"
 
-#: pro/includes/modules/templates.php:74
+#: pro/includes/modules/templates.php:76
 msgid "New Template"
 msgstr "Nouveau modèle"
 
-#: pro/includes/modules/templates.php:168
+#: pro/includes/modules/templates.php:172
 msgid "You are currently editing a Dynamic Template."
 msgstr "Vous modifiez actuellement un modèle dynamique."
 
-#: pro/includes/modules/templates.php:195
+#: pro/includes/modules/templates.php:198
 msgid "Instructions"
 msgstr "Instructions"
 
-#: pro/includes/modules/templates.php:660
+#: pro/includes/modules/templates.php:685
 msgid "Dynamic Template"
 msgstr "Modèle dynamique"
 
-#: pro/includes/modules/templates.php:672
+#: pro/includes/modules/templates.php:697
 msgid "is equal to"
 msgstr "est égal à"
 
-#: pro/includes/modules/templates.php:705
-msgid "No template pages found"
-msgstr "Aucune page de modèle trouvée"
+#: pro/includes/modules/templates.php:719
+msgid "No templates found"
+msgstr "Aucun modèle trouvé"
 
 #: pro/includes/updater.php:252
 #, php-format
@@ -4270,6 +4278,9 @@ msgstr "ACF Extended"
 #. Author URI of the plugin/theme
 msgid "https://www.acf-extended.com"
 msgstr "https://www.acf-extended.com"
+
+#~ msgid "Payment meta is invalid."
+#~ msgstr "Les données meta du paiement sont invalides."
 
 #~ msgid "Read more..."
 #~ msgstr "Lire la suite…"

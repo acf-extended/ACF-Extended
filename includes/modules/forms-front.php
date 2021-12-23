@@ -360,9 +360,12 @@ class acfe_form_front{
             acfe_setup_meta($_POST['acf'], 'acfe/form/load', true);
         }
         
-        // Args
-        $args = apply_filters("acfe/form/load",                     $args, $args['post_id']);
-        $args = apply_filters("acfe/form/load/form={$form_name}",   $args, $args['post_id']);
+        // post id
+        $post_id = $args['post_id'];
+        
+        // arguments
+        $args = apply_filters("acfe/form/load",                     $args, $post_id);
+        $args = apply_filters("acfe/form/load/form={$form_name}",   $args, $post_id);
         
         // Load
         if(have_rows('acfe_form_actions', $form_id)):
@@ -379,11 +382,11 @@ class acfe_form_front{
                     
                 }
                 
-                $args = apply_filters("acfe/form/load/{$action}",                       $args, $args['post_id'], $alias);
-                $args = apply_filters("acfe/form/load/{$action}/form={$form_name}",     $args, $args['post_id'], $alias);
+                $args = apply_filters("acfe/form/load/{$action}",                       $args, $post_id, $alias);
+                $args = apply_filters("acfe/form/load/{$action}/form={$form_name}",     $args, $post_id, $alias);
                 
                 if(!empty($alias)){
-                    $args = apply_filters("acfe/form/load/{$action}/action={$alias}",    $args, $args['post_id'], $alias);
+                    $args = apply_filters("acfe/form/load/{$action}/action={$alias}",   $args, $post_id, $alias);
                 }
                 
             endwhile;
