@@ -256,6 +256,11 @@ class acfe_field_flexible_content{
         foreach($field['layouts'] as $k => $layout){
             $layouts[$layout['name']] = $layout;
         }
+
+        // sort layouts alphabetically when settings enabled
+        if($field['acfe_flexible_modal']['acfe_flexible_modal_sort']){
+            ksort($layouts);
+        }
         
         // vars
         $div = array(

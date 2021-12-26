@@ -29,6 +29,7 @@ class acfe_field_flexible_content_select{
             'acfe_flexible_modal_size'          => 'full',
             'acfe_flexible_modal_col'           => '4',
             'acfe_flexible_modal_categories'    => false,
+            'acfe_flexible_modal_sort'          => false,
         );
         
         return $field;
@@ -81,7 +82,7 @@ class acfe_field_flexible_content_select{
                     'instructions'  => false,
                     'required'      => false,
                     'wrapper'       => array(
-                        'width' => '25',
+                        'width' => '35',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -169,7 +170,30 @@ class acfe_field_flexible_content_select{
                     'instructions'  => false,
                     'required'      => false,
                     'wrapper'       => array(
-                        'width' => '15',
+                        'width' => '20',
+                        'class' => '',
+                        'id'    => '',
+                    ),
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field'     => 'acfe_flexible_modal_enabled',
+                                'operator'  => '==',
+                                'value'     => '1',
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'label'         => '',
+                    'name'          => 'acfe_flexible_modal_sort',
+                    'key'           => 'acfe_flexible_modal_sort',
+                    'type'          => 'true_false',
+                    'message'       => __('Sort Layout Alphabetically', 'acfe'),
+                    'instructions'  => false,
+                    'required'      => false,
+                    'wrapper'       => array(
+                        'width' => '25',
                         'class' => '',
                         'id'    => '',
                     ),
