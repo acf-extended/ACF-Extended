@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_hide')):
 
 class acfe_field_flexible_content_hide{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -19,6 +23,14 @@ class acfe_field_flexible_content_hide{
         
     }
     
+    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_remove_button'] = array();
@@ -27,6 +39,12 @@ class acfe_field_flexible_content_hide{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
     
         $hide_choices = array(
@@ -63,6 +81,14 @@ class acfe_field_flexible_content_hide{
         
     }
     
+    
+    /**
+     * validate_hide
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function validate_hide($field){
         
         /*
@@ -105,28 +131,52 @@ class acfe_field_flexible_content_hide{
         
     }
     
+    
+    /**
+     * remove_actions
+     *
+     * @param $return
+     * @param $field
+     *
+     * @return bool|mixed
+     */
     function remove_actions($return, $field){
         
-        if(!in_array('add', $field['acfe_flexible_remove_button']))
+        if(!in_array('add', $field['acfe_flexible_remove_button'])){
             return $return;
+        }
         
         return true;
         
     }
     
+    
+    /**
+     * layout_icons
+     *
+     * @param $icons
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_icons($icons, $layout, $field){
     
-        if(in_array('add', $field['acfe_flexible_remove_button']))
+        if(in_array('add', $field['acfe_flexible_remove_button'])){
             acfe_unset($icons, 'add');
+        }
     
-        if(in_array('duplicate', $field['acfe_flexible_remove_button']))
+        if(in_array('duplicate', $field['acfe_flexible_remove_button'])){
             acfe_unset($icons, 'duplicate');
+        }
     
-        if(in_array('delete', $field['acfe_flexible_remove_button']))
+        if(in_array('delete', $field['acfe_flexible_remove_button'])){
             acfe_unset($icons, 'delete');
+        }
         
-        if(in_array('collapse', $field['acfe_flexible_remove_button']))
+        if(in_array('collapse', $field['acfe_flexible_remove_button'])){
             acfe_unset($icons, 'collapse');
+        }
         
         return $icons;
         

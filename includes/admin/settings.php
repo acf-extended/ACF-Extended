@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_admin_settings')):
 
@@ -31,7 +32,15 @@ class acfe_admin_settings{
      * Post Init
      */
     function acf_post_init(){
-        $this->updated = acf()->settings;
+        
+        $settings = acf_get_array(acf()->settings);
+        
+        foreach($settings as $name => $value){
+            
+            // pass thru acf/settings filter
+            $this->updated[ $name ] = acf_get_setting($name, $value);
+        }
+        
     }
     
     /*
@@ -69,7 +78,7 @@ class acfe_admin_settings{
                     'label'         => 'Strip slashes',
                     'name'          => 'stripslashes',
                     'type'          => 'true_false',
-                    'description'   => 'Runs the function stripslashes on all $_POST data. Some servers / WP instals may require this extra functioanlity. Defaults to false',
+                    'description'   => 'Runs the function stripslashes on all $_POST data. Some servers / WP instals may require this extra functionality. Defaults to false',
                     'category'      => 'acf',
                 ),
                 array(
@@ -463,8 +472,9 @@ class acfe_admin_settings_ui{
      */
     function admin_menu(){
         
-        if(!acf_get_setting('show_admin'))
+        if(!acf_get_setting('show_admin')){
             return;
+        }
     
         $page = add_submenu_page('edit.php?post_type=acf-field-group', __('Settings'), __('Settings'), acf_get_setting('capability'), 'acfe-settings', array($this, 'menu_html'));
         
@@ -500,6 +510,18 @@ class acfe_admin_settings_ui{
         // Enqueue
         acf_enqueue_scripts();
         
+        add_action('admin_footer', array($this, 'admin_footer'));
+        
+    }
+    
+    function admin_footer(){
+        ?>
+        <script type="text/javascript">
+        (function($) {
+            $('body').removeClass('post-type-acf-field-group');
+        })(jQuery);
+        </script>
+        <?php
     }
     
     /*
@@ -679,12 +701,15 @@ class acfe_admin_settings_ui{
                         <?php
                     }
                 ));
+                
+                $icon = acf_version_compare('wp', '>=', '5.5') ? 'dashicons-info-outline' : 'dashicons-info';
         
                 foreach($fields as $field){ ?>
 
                     <div class="acf-field">
                         <div class="acf-label">
-                            <label><span class="acf-js-tooltip dashicons dashicons-info" title="<?php echo $field['name']; ?>"></span><?php echo $field['label']; ?></label>
+                            <span class="acfe-field-tooltip acf-js-tooltip dashicons <?php echo $icon; ?>" title="<?php echo $field['name']; ?>"></span>
+                            <label><?php echo $field['label']; ?></label>
                             <?php if($field['description']){ ?>
                                 <p class="description"><?php echo $field['description']; ?></p>
                             <?php } ?>

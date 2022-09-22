@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_dynamic_taxonomies')):
 
@@ -12,6 +13,7 @@ class acfe_dynamic_taxonomies extends acfe_dynamic_module{
      */
     function initialize(){
     
+        $this->name = 'taxonomy';
         $this->active = acf_get_setting('acfe/modules/taxonomies');
         $this->settings = 'modules.taxonomies';
         $this->post_type = 'acfe-dt';
@@ -292,7 +294,7 @@ class acfe_dynamic_taxonomies extends acfe_dynamic_module{
     
         ?>
         <script type="text/html" id="tmpl-acfe-dt-title-config">
-            &nbsp;<a href="<?php echo admin_url('post.php?post=' . $acfe_dt_post_type->ID . '&action=edit'); ?>" class="page-title-action acfe-dt-admin-config"><span class="dashicons dashicons-admin-generic"></span></a>
+            &nbsp;<a href="<?php echo admin_url('post.php?post=' . $acfe_dt_post_type->ID . '&action=edit'); ?>" class="page-title-action acfe-edit-module-button"><span class="dashicons dashicons-admin-generic"></span></a>
         </script>
 
         <script type="text/javascript">

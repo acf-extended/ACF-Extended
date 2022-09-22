@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_dynamic_options_pages')):
 
@@ -12,6 +13,7 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
      */
     function initialize(){
     
+        $this->name = 'options_page';
         $this->active = acf_get_setting('acfe/modules/options_pages');
         $this->settings = 'modules.options_pages';
         $this->post_type = 'acfe-dop';
@@ -21,9 +23,10 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
         $this->tool = 'acfe_dynamic_options_pages_export';
         $this->tools = array('php', 'json');
         $this->columns = array(
-            'name'      => __('Menu slug', 'acf'),
-            'post_id'   => __('Post ID', 'acf'),
-            'autoload'  => __('Autoload', 'acf'),
+            'acfe-name'      => __('Menu slug', 'acf'),
+            'acfe-post-id'   => __('Post ID', 'acf'),
+            'acfe-autoload'  => __('Autoload', 'acf'),
+            'acfe-position'  => __('Position', 'acf'),
         );
         
     }
@@ -275,13 +278,13 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
         switch($column){
             
             // Name
-            case 'name':
+            case 'acfe-name':
                 
                 echo '<code style="font-size: 12px;">' . $this->get_name($post_id) . '</code>';
                 break;
             
             // Post ID
-            case 'post_id':
+            case 'acfe-post-id':
     
                 $p_id = get_field('post_id', $post_id);
     
@@ -292,15 +295,17 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
                 break;
             
             // Autoload
-            case 'autoload':
+            case 'acfe-autoload':
                 
-                $al = __('No');
                 $autoload = get_field('autoload', $post_id);
-    
-                if(!empty($autoload))
-                    $al = __('Yes');
+                echo $autoload ? __('Yes') : __('No');
+                break;
                 
-                echo $al;
+            // Position
+            case 'acfe-position':
+                
+                $position = get_field('position', $post_id);
+                echo !acf_is_empty($position) ? $position : '—';
                 break;
             
         }
@@ -348,7 +353,7 @@ class acfe_dynamic_options_pages extends acfe_dynamic_module{
     
         ?>
         <script type="text/html" id="tmpl-acfe-dop-title-config">
-            <a href="<?php echo admin_url('post.php?post=' . $acfe_dop_options_page->ID . '&action=edit'); ?>" class="page-title-action acfe-dop-admin-config"><span class="dashicons dashicons-admin-generic"></span></a>
+            <a href="<?php echo admin_url('post.php?post=' . $acfe_dop_options_page->ID . '&action=edit'); ?>" class="page-title-action acfe-edit-module-button"><span class="dashicons dashicons-admin-generic"></span></a>
         </script>
 
         <script type="text/javascript">

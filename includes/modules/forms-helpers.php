@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 acf_register_store('acfe/form')->prop('multisite', true);
 

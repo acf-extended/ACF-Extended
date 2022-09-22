@@ -1,7 +1,92 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
+
+/**
+ * acfe_array_get
+ *
+ * Search within array using dot mapping
+ *
+ * @param $array
+ * @param $key
+ * @param $default
+ *
+ * @return mixed|null
+ */
+function acfe_array_get($array, $key, $default = null){
+    
+    if(empty($key)){
+        return $array;
+    }
+    
+    if(!is_array($key)){
+        $key = explode('.', $key);
+    }
+    
+    $count = count($key);
+    $i=-1; foreach($key as $segment){ $i++;
+        
+        if(isset($array[ $segment ])){
+            
+            if($i+1 === $count){
+                return $array[ $segment ];
+            }
+            
+            unset($key[ $i ]);
+            
+            return acfe_array_get($array[ $segment ], $key, $default);
+            
+        }
+        
+    }
+    
+    return $default;
+    
+}
+
+/**
+ * acfe_array_set
+ *
+ * @param $array
+ * @param $key
+ * @param $value
+ *
+ * @return array|mixed
+ */
+function acfe_array_set(&$array, $key, $value){
+    
+    if (is_null($key)){
+        return $array = $value;
+    }
+    
+    $keys = explode('.', $key);
+    
+    foreach($keys as $i => $key){
+        
+        if(count($keys) === 1){
+            break;
+        }
+        
+        unset($keys[ $i ]);
+        
+        // If the key doesn't exist at this depth, we will just create an empty array
+        // to hold the next value, allowing us to create the arrays to hold final
+        // values at the correct depth. Then we'll keep digging into the array.
+        if (!isset($array[ $key ]) || !is_array($array[ $key ])) {
+            $array[$key] = array();
+        }
+        
+        $array = &$array[ $key ];
+        
+    }
+    
+    $array[ array_shift($keys) ] = $value;
+    
+    return $array;
+    
+}
 
 /**
  * acfe_maybe_get
@@ -35,9 +120,7 @@ function acfe_maybe_get($array = array(), $key = 0, $default = null){
  * @return mixed|null
  */
 function acfe_maybe_get_REQUEST($key = '', $default = null){
-    
-    return isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default;
-    
+    return isset($_REQUEST[ $key ]) ? $_REQUEST[ $key ] : $default;
 }
 
 /**
@@ -77,11 +160,9 @@ function acfe_array_keys_r($array){
     $keys = array_keys($array);
 
     foreach($array as $i){
-        
-        if(!is_array($i)) continue;
-        
-        $keys = array_merge($keys, acfe_array_keys_r($i));
-        
+        if(is_array($i)){
+            $keys = array_merge($keys, acfe_array_keys_r($i));
+        }
     }
 
     return $keys;
@@ -101,7 +182,7 @@ function acfe_array_keys_r($array){
 function acfe_starts_with($haystack, $needle){
         
     $length = strlen($needle);
-    return (substr($haystack, 0, $length) === $needle);
+    return substr($haystack, 0, $length) === $needle;
 
 }
 
@@ -119,9 +200,112 @@ function acfe_ends_with($haystack, $needle){
         
     $length = strlen($needle);
     
-    if($length == 0) return true;
+    if($length === 0){
+        return true;
+    }
 
-    return (substr($haystack, -$length) === $needle);
+    return substr($haystack, -$length) === $needle;
+    
+}
+
+/**
+ * acfe_prefix_array_keys
+ *
+ * Prefix array keys recursively ignoring numeric keys
+ *
+ * @param $array
+ * @param $prefix
+ * @param $ignore
+ *
+ * @return array
+ */
+function acfe_prefix_array_keys($array, $prefix, $ignore = array(), $recursive = true){
+    
+    // vars
+    $array2 = array();
+    
+    // loop
+    foreach($array as $k => $v){
+        
+        if(is_numeric($k)){
+            
+            $k2 = $k;
+            $array2[ $k2 ] = $v;
+            
+        }else{
+            
+            $k2 = $prefix . $k;
+            
+            // ignore
+            if($ignore && in_array($k, $ignore)){
+                $k2 = $k;
+            }
+            
+            $array2[ $k2 ] = $v;
+            
+        }
+        
+        // recursive sub array
+        if($recursive){
+            if(is_array($array2[ $k2 ])){
+                $array2[ $k2 ] = acfe_prefix_array_keys($array2[ $k2 ], $prefix, $ignore, $recursive);
+            }
+        }
+        
+    }
+    
+    // return
+    return $array2;
+    
+}
+
+/**
+ * acfe_unprefix_array_keys
+ *
+ * Prefix array keys recursively ignoring numeric keys
+ *
+ * @param $array
+ * @param $prefix
+ * @param $ignore
+ *
+ * @return array
+ */
+function acfe_unprefix_array_keys($array, $prefix, $ignore = array(), $recursive = true){
+    
+    // vars
+    $array2 = array();
+    
+    // loop
+    foreach($array as $k => $v){
+        
+        if(is_numeric($k)){
+            
+            $k2 = $k;
+            $array2[ $k2 ] = $v;
+            
+        }else{
+            
+            $k2 = acfe_starts_with($k, $prefix) ? substr($k, strlen($prefix)) : $k;
+    
+            if($ignore && in_array($k, $ignore)){
+                $k2 = $k;
+            }
+            
+            $array2[ $k2 ] = $v;
+            
+        }
+    
+        // recursive sub array
+        if($recursive){
+            if(is_array($array2[ $k2 ])){
+                $array2[ $k2 ] = acfe_unprefix_array_keys($array2[ $k2 ], $prefix, $ignore, $recursive);
+            }
+        }
+        
+    }
+    
+    // return
+    return $array2;
     
 }
 
@@ -137,25 +321,48 @@ function acfe_ends_with($haystack, $needle){
  *
  * @return array
  */
-function acfe_array_insert_before($key, array &$array, $new_key, $new_value){
+function acfe_array_insert_before($array, $key, $new_key, $new_value = null){
     
-    if(!array_key_exists($key, $array)){
+    if(!is_array($array) || !isset($array[ $key ])){
         return $array;
     }
     
-    $new = array();
+    $is_sequential = acf_is_sequential_array($array);
+    $new_array = array();
     
     foreach($array as $k => $value){
         
         if($k === $key){
-            $new[$new_key] = $new_value;
+            
+            if($is_sequential){
+                
+                $new_value = $new_value === null ? $new_key : $new_value;
+                $new_array[] = $new_value;
+                
+            }else{
+                
+                if($new_value === null && is_array($new_key)){
+                    reset($new_key);
+                    $new_value = current($new_key);
+                    $new_key = key($new_key);
+                }
+                
+                $new_array[ $new_key ] = $new_value;
+                
+            }
+            
         }
+    
+        if($is_sequential){
+            $new_array[] = $value;
         
-        $new[$k] = $value;
+        }else{
+            $new_array[ $k ] = $value;
+        }
         
     }
     
-    return $new;
+    return $new_array;
     
 }
 
@@ -171,25 +378,48 @@ function acfe_array_insert_before($key, array &$array, $new_key, $new_value){
  *
  * @return array
  */
-function acfe_array_insert_after($key, array &$array, $new_key, $new_value){
+function acfe_array_insert_after($array, $key, $new_key, $new_value = null){
     
-    if(!array_key_exists($key, $array)){
+    if(!is_array($array) || !isset($array[ $key ])){
         return $array;
     }
     
-    $new = array();
+    $is_sequential = acf_is_sequential_array($array);
+    $new_array = array();
     
     foreach($array as $k => $value){
+    
+        if($is_sequential){
+            $new_array[] = $value;
         
-        $new[$k] = $value;
+        }else{
+            $new_array[ $k ] = $value;
+        }
         
         if($k === $key){
-            $new[$new_key] = $new_value;
+            
+            if($is_sequential){
+                
+                $new_value = $new_value === null ? $new_key : $new_value;
+                $new_array[] = $new_value;
+                
+            }else{
+                
+                if($new_value === null && is_array($new_key)){
+                    reset($new_key);
+                    $new_value = current($new_key);
+                    $new_key = key($new_key);
+                }
+                
+                $new_array[ $new_key ] = $new_value;
+                
+            }
+            
         }
         
     }
     
-    return $new;
+    return $new_array;
     
 }
 
@@ -209,6 +439,37 @@ function acfe_array_move(&$array, $a, $b){
     
 }
 
+
+/**
+ * acfe_parse_args_r
+ *
+ * parse arguments recursively
+ *
+ * @param $a
+ * @param $b
+ *
+ * @return array
+ */
+function acfe_parse_args_r(&$a, $b){
+    
+    $a = (array) $a;
+    $b = (array) $b;
+    $r = $b;
+    
+    foreach($a as $k => &$v){
+        
+        if(is_array($v) && isset($r[ $k ])){
+            $r[$k] = acfe_parse_args_r($v, $r[ $k ]);
+        }else{
+            $r[$k] = $v;
+        }
+        
+    }
+    
+    return $r;
+    
+}
+
 /**
  * acfe_add_validation_error
  *
@@ -223,9 +484,7 @@ function acfe_add_validation_error($selector = '', $message = ''){
     
     // general error
     if(empty($selector)){
-        
         return acf_add_validation_error('', $message);
-        
     }
     
     // selector is a field key
@@ -241,6 +500,7 @@ function acfe_add_validation_error($selector = '', $message = ''){
     $field = acf_get_field($selector);
     
     // check form data
+    // todo: make it more clean
     if($form = acf_get_form_data('acfe/form')){
         
         // vars
@@ -255,7 +515,9 @@ function acfe_add_validation_error($selector = '', $message = ''){
         foreach($fields as $_field){
             
             // field name is different
-            if($_field['name'] !== $selector) continue;
+            if($_field['name'] !== $selector){
+                continue;
+            }
             
             // assign field
             $field = $_field;
@@ -278,9 +540,7 @@ function acfe_add_validation_error($selector = '', $message = ''){
     
     // field not found: add general error
     if(!$field){
-        
         return acf_add_validation_error('', $message);
-        
     }
     
     // add validation error
@@ -303,7 +563,7 @@ function acfe_add_validation_error($selector = '', $message = ''){
  */
 function acfe_number_suffix($num){
     
-    if(!in_array(($num % 100), array(11,12,13))){
+    if(!in_array(($num % 100), array(11, 12, 13))){
         
         switch($num % 10){
             case 1:  return $num . 'st';
@@ -328,37 +588,23 @@ function acfe_number_suffix($num){
  */
 function acfe_array_to_string($array = array()){
     
-    if(!is_array($array)){
-        return $array;
-    }
-    
-    if(empty($array)){
+    // check type
+    if(is_array($array)){
+        
+        // loop
+        foreach($array as $val){
+            if(is_string($val) || is_numeric($val) || is_bool($val)){
+                return $val;
+            }
+        }
+        
+        // no valid value
         return false;
-    }
-    
-    if(acf_is_sequential_array($array)){
-        
-        foreach($array as $k => $v){
-            
-            if(!is_string($v)) continue;
-            
-            return $v;
-            
-        }
-        
-    }elseif(acf_is_associative_array($array)){
-        
-        foreach($array as $k => $v){
-            
-            if(!is_string($v)) continue;
-            
-            return $v;
-            
-        }
         
     }
     
-    return false;
+    // default
+    return $array;
     
 }
 
@@ -375,7 +621,6 @@ function acfe_is_dev(){
     if(defined('ACFE_dev')){
     
         _deprecated_function('ACF Extended: "ACFE_dev" constant', '0.8.8.7', 'the constant "ACFE_DEV"');
-        
         return ACFE_dev;
         
     }
@@ -397,7 +642,6 @@ function acfe_is_super_dev(){
     if(defined('ACFE_super_dev')){
         
         _deprecated_function('ACF Extended: "ACFE_super_dev" constant', '0.8.8.7', 'the constant "ACFE_SUPER_DEV"');
-        
         return ACFE_super_dev;
         
     }
@@ -489,9 +733,7 @@ function acfe_is_taxonomy_reserved_dev($taxonomy){
  * @return bool|true
  */
 function acfe_update_setting($name, $value){
-    
     return acf_update_setting("acfe/{$name}", $value);
-    
 }
 
 /**
@@ -505,9 +747,7 @@ function acfe_update_setting($name, $value){
  * @return bool|true
  */
 function acfe_append_setting($name, $value){
-    
     return acf_append_setting("acfe/{$name}", $value);
-    
 }
 
 /**
@@ -521,9 +761,7 @@ function acfe_append_setting($name, $value){
  * @return mixed|void
  */
 function acfe_get_setting($name, $value = null){
-    
     return acf_get_setting("acfe/{$name}", $value);
-    
 }
 
 /**
@@ -536,8 +774,8 @@ function acfe_get_setting($name, $value = null){
  */
 function acfe_unset(&$array, $key){
 
-    if(isset($array[$key])){
-        unset($array[$key]);
+    if(isset($array[ $key ])){
+        unset($array[ $key ]);
     }
 
 }
@@ -574,13 +812,13 @@ function acfe_get_ip(){
         $ip = filter_var(wp_unslash($_SERVER['HTTP_CLIENT_IP']), FILTER_VALIDATE_IP);
         
     // proxy pass
-    }elseif(!empty( $_SERVER['HTTP_X_FORWARDED_FOR'])){
+    }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
         
         // can include more than 1 ip, first is the public one.
         $ips = explode(',', wp_unslash($_SERVER['HTTP_X_FORWARDED_FOR']));
         
-        if (is_array($ips)){
-            $ip = filter_var( $ips[0], FILTER_VALIDATE_IP );
+        if(is_array($ips)){
+            $ip = filter_var($ips[0], FILTER_VALIDATE_IP);
         }
         
     // remote addr
@@ -599,5 +837,158 @@ function acfe_get_ip(){
     
     // return
     return $ip_array[0];
+    
+}
+
+/**
+ * acfe_var_export
+ *
+ * export php code
+ *
+ * @param $code
+ * @param $esc
+ *
+ * @return array|string|string[]|null
+ */
+function acfe_var_export($code, $esc = true){
+    
+    $str_replace = array(
+        "  "            => "    ",
+        "'!!__(!!\'"    => "__('",
+        "!!\', !!\'"    => "', '",
+        "!!\')!!'"      => "')",
+        "array ("       => "array(",
+        " NULL,"        => " null,",
+    );
+    
+    $preg_replace = array(
+        '/([ \r\n]+?)array/'    => ' array',
+        '/array\(\n\)/'         => 'array()',
+        '/array\(\n([ ]+)\)/'   => 'array()',
+        '/[0-9]+ => /'          => '',
+        //'/[0-9]+ => array/'   => 'array',
+    );
+    
+    // code
+    $code = var_export($code, true);
+    
+    // change double spaces to tabs
+    $code = str_replace(array_keys($str_replace), array_values($str_replace), $code);
+    
+    // correctly formats "=> array("
+    $code = preg_replace(array_keys($preg_replace), array_values($preg_replace), $code);
+    
+    // esc_textarea
+    if($esc){
+        $code = esc_textarea($code);
+    }
+    
+    // return
+    return $code;
+    
+}
+
+/**
+ * acfe_parse_types
+ *
+ * cousin of acf_parse_type() but also handle 'false' | 'true' | 'null' values
+ *
+ * @param $v
+ * @param $filters
+ *
+ * @return array|bool|int|mixed|string|null
+ */
+function acfe_parse_types($v, $filters = array('trim', 'int', 'bool', 'null')){
+    
+    // validate filters
+    $filters = acf_get_array($filters);
+    
+    // check array
+    if(is_array($v) && !empty($v)){
+        
+        $v = array_map(function($v) use($filters){
+            return acfe_parse_types($v, $filters);
+        }, $v);
+    
+    // check if string
+    }elseif(is_string($v)){
+        
+        // trim ('word ' = 'word')
+        if(in_array('trim', $filters)){
+            $v = trim($v);
+        }
+        
+        // convert int strings to int ('123' = 123)
+        if(in_array('int', $filters) && is_numeric($v) && strval(intval($v)) === $v){
+            $v = intval($v);
+            
+        // convert ('false' = false)
+        }elseif(in_array('bool', $filters) && strtolower($v) === 'false'){
+            $v = false;
+    
+        // convert ('true' = true)
+        }elseif(in_array('bool', $filters) && strtolower($v) === 'true'){
+            $v = true;
+    
+        // convert ('null' = null)
+        }elseif(in_array('null', $filters) && strtolower($v) === 'null'){
+            $v = null;
+            
+        }
+        
+    }
+    
+    // return
+    return $v;
+    
+}
+
+/**
+ * acfe_unparse_types
+ *
+ * reverse of acfe_parse_types
+ *
+ * @param $v
+ * @param $filters
+ *
+ * @return array|mixed|string
+ */
+function acfe_unparse_types($v, $filters = array('int', 'bool', 'null')){
+    
+    // validate filters
+    $filters = acf_get_array($filters);
+    
+    // check array
+    if(is_array($v) && !empty($v)){
+        
+        $v = array_map(function($v) use($filters){
+            return acfe_unparse_types($v, $filters);
+        }, $v);
+        
+    // others
+    }else{
+    
+        // convert int strings to int (123 = '123')
+        if(in_array('int', $filters) && is_int($v)){
+            $v = strval($v);
+        
+        // convert (false = 'false')
+        }elseif(in_array('bool', $filters) && $v === false){
+            $v = 'false';
+        
+        // convert (true = 'true')
+        }elseif(in_array('bool', $filters) && $v === true){
+            $v = 'true';
+        
+        // convert (null = 'null')
+        }elseif(in_array('null', $filters) && $v === null){
+            $v = 'null';
+        
+        }
+        
+    }
+    
+    // return
+    return $v;
     
 }

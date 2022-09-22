@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_dynamic_block_types')):
 
@@ -12,6 +13,7 @@ class acfe_dynamic_block_types extends acfe_dynamic_module{
      */
     function initialize(){
     
+        $this->name = 'block_type';
         $this->active = acf_get_setting('acfe/modules/block_types');
         $this->settings = 'modules.block_types';
         $this->post_type = 'acfe-dbt';
@@ -1097,7 +1099,7 @@ Note: A block name can only contain lowercase alphanumeric characters and dashes
                     ),
                     'acfe_validate' => '',
                     'acfe_update' => array(
-                        '5cd2ca4caa18b' => array(
+                        array(
                             'acfe_update_function' => 'sanitize_title',
                         ),
                     ),

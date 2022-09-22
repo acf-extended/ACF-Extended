@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_state')):
 
 class acfe_field_flexible_content_state{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -22,6 +26,14 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_layouts_state'] = false;
@@ -30,6 +42,12 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
     
         // Layouts: Force State
@@ -66,10 +84,19 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * validate_state
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function validate_state($field){
         
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_remove_collapse'))
+        if(!acf_maybe_get($field, 'acfe_flexible_layouts_remove_collapse')){
             return $field;
+        }
         
         $field['acfe_flexible_layouts_state'] = 'force_open';
         
@@ -77,11 +104,21 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function wrapper_attributes($wrapper, $field){
         
         // Check setting
-        if(($field['acfe_flexible_layouts_state'] !== 'open' && $field['acfe_flexible_layouts_state'] !== 'force_open') || $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(($field['acfe_flexible_layouts_state'] !== 'open' && $field['acfe_flexible_layouts_state'] !== 'force_open') || $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $wrapper;
+        }
     
         $wrapper['data-acfe-flexible-open'] = 1;
         
@@ -89,14 +126,26 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * layout_div
+     *
+     * @param $div
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_div($div, $layout, $field){
         
-        if($field['acfe_flexible_layouts_state'] !== 'collapse')
+        if($field['acfe_flexible_layouts_state'] !== 'collapse'){
             return $div;
+        }
         
         // Already in class
-        if(in_array('-collapsed', explode(' ', $div['class'])))
+        if(in_array('-collapsed', explode(' ', $div['class']))){
             return $div;
+        }
         
         $div['class'] .= ' -collapsed';
         
@@ -104,14 +153,26 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * layout_placeholder
+     *
+     * @param $placeholder
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_placeholder($placeholder, $layout, $field){
     
-        if($field['acfe_flexible_layouts_state'] === 'collapse' || $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if($field['acfe_flexible_layouts_state'] === 'collapse' || $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $placeholder;
+        }
     
         // Already in class
-        if(in_array('acf-hidden', explode(' ', $placeholder['class'])))
+        if(in_array('acf-hidden', explode(' ', $placeholder['class']))){
             return $placeholder;
+        }
         
         $placeholder['class'] .= ' acf-hidden';
         
@@ -119,10 +180,21 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * layout_handle
+     *
+     * @param $handle
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_handle($handle, $layout, $field){
         
-        if($field['acfe_flexible_layouts_state'] !== 'force_open')
+        if($field['acfe_flexible_layouts_state'] !== 'force_open'){
             return $handle;
+        }
         
         acfe_unset($handle, 'data-name');
         
@@ -130,10 +202,21 @@ class acfe_field_flexible_content_state{
         
     }
     
+    
+    /**
+     * layout_icons
+     *
+     * @param $icons
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_icons($icons, $layout, $field){
     
-        if($field['acfe_flexible_layouts_state'] !== 'force_open')
+        if($field['acfe_flexible_layouts_state'] !== 'force_open'){
             return $icons;
+        }
         
         acfe_unset($icons, 'collapse');
         

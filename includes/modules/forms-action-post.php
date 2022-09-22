@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_form_post')):
 
@@ -108,110 +109,76 @@ class acfe_form_post{
         // Invalid Post ID
         if(!$_post_id)
             return $form;
-        
-        // Post type
-        if(acf_is_field_key($_post_type)){
-            
-            $key = array_search($_post_type, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
     
-            $form['map'][$_post_type]['value'] = get_post_field('post_type', $_post_id);
-         
-        }
+        $rules = array(
         
-        // Post status
-        if(acf_is_field_key($_post_status)){
-            
-            $key = array_search($_post_status, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
+            array(
+                'key'   => $_post_type,
+                'value' => get_post_field('post_type', $_post_id),
+            ),
     
-            $form['map'][$_post_status]['value'] = get_post_field('post_status', $_post_id);
-         
-        }
+            array(
+                'key'   => $_post_status,
+                'value' => get_post_field('post_status', $_post_id),
+            ),
+    
+            array(
+                'key'   => $_post_title,
+                'value' => get_post_field('post_title', $_post_id),
+            ),
+            
+            array(
+                'key'   => $_post_name,
+                'value' => get_post_field('post_name', $_post_id),
+            ),
+    
+            array(
+                'key'   => $_post_content,
+                'value' => get_post_field('post_content', $_post_id),
+            ),
+    
+            array(
+                'key'   => $_post_excerpt,
+                'value' => get_post_field('post_excerpt', $_post_id),
+            ),
+            
+            array(
+                'key'   => $_post_author,
+                'value' => get_post_field('post_author', $_post_id),
+            ),
+            
+            array(
+                'key'   => $_post_parent,
+                'value' => get_post_field('post_parent', $_post_id),
+            ),
+    
+        );
+    
+        foreach($rules as $rule){
         
-        // Post title
-        if(acf_is_field_key($_post_title)){
+            if(acf_is_field_key($rule['key'])){
             
-            $key = array_search($_post_title, $load_meta);
+                // disable loading from meta if checked
+                if(($key = array_search($rule['key'], $load_meta)) !== false){
+                    unset($load_meta[ $key ]);
+                }
             
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_post_title]['value'] = get_post_field('post_title', $_post_id);
-         
-        }
+                if(!isset($form['map'][ $rule['key'] ]) || $form['map'][ $rule['key'] ] !== false){
+                    if(!isset($form['map'][ $rule['key'] ]['value'])){
+                        $form['map'][ $rule['key'] ]['value'] = $rule['value'];
+                    }
+                }
+            
+            }
         
-        // Post name
-        if(acf_is_field_key($_post_name)){
-            
-            $key = array_search($_post_name, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_post_name]['value'] = get_post_field('post_name', $_post_id);
-         
-        }
-        
-        // Post content
-        if(acf_is_field_key($_post_content)){
-            
-            $key = array_search($_post_content, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_post_content]['value'] = get_post_field('post_content', $_post_id);
-         
-        }
-        
-        // Post excerpt
-        if(acf_is_field_key($_post_excerpt)){
-            
-            $key = array_search($_post_excerpt, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_post_excerpt]['value'] = get_post_field('post_excerpt', $_post_id);
-         
-        }
-        
-        // Post author
-        if(acf_is_field_key($_post_author)){
-            
-            $key = array_search($_post_author, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_post_author]['value'] = get_post_field('post_author', $_post_id);
-         
-        }
-        
-        // Post parent
-        if(acf_is_field_key($_post_parent)){
-            
-            $key = array_search($_post_parent, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_post_parent]['value'] = get_post_field('post_parent', $_post_id);
-         
         }
         
         // Post terms
         if(acf_is_field_key($_post_terms)){
             
-            $key = array_search($_post_terms, $load_meta);
-            
-            if($key !== false)
+            if(($key = array_search($_post_terms, $load_meta)) !== false){
                 unset($load_meta[$key]);
+            }
     
             $taxonomies = acf_get_taxonomies(array(
                 'post_type' => get_post_type($_post_id)
@@ -232,8 +199,10 @@ class acfe_form_post{
                 }
         
                 $return = wp_list_pluck($terms, 'term_id');
-        
-                $form['map'][$_post_terms]['value'] = $return;
+    
+                if(!isset($form['map'][ $_post_terms ]) || $form['map'][ $_post_terms ] !== false){
+                    $form['map'][ $_post_terms ]['value'] = $return;
+                }
         
             }
          
@@ -457,8 +426,8 @@ class acfe_form_post{
         // Post parent
         if(!empty($data['post_parent'])){
     
-            if(is_array($data['post_author']))
-                $data['post_author'] = acfe_array_to_string($data['post_author']);
+            if(is_array($data['post_parent']))
+                $data['post_parent'] = acfe_array_to_string($data['post_parent']);
             
             $args['post_parent'] = $data['post_parent'];
         
@@ -711,6 +680,15 @@ class acfe_form_post{
         
         set_query_var('acfe_form_actions', $actions);
         // ------------------------------------------------------------
+    
+        // globals
+        global $acfe_form_post_id;
+        $acfe_form_post_id = $form['post_id'];
+        
+        // update file/image/gallery attachment
+        add_filter('acf/update_value/type=file',    array($this, 'update_file_value'), 20, 3);
+        add_filter('acf/update_value/type=image',   array($this, 'update_file_value'), 20, 3);
+        add_filter('acf/update_value/type=gallery', array($this, 'update_file_value'), 20, 3);
         
         // Meta save
         $save_meta = get_sub_field('acfe_form_post_save_meta');
@@ -733,6 +711,61 @@ class acfe_form_post{
             }
             
         }
+    
+        remove_filter('acf/update_value/type=file',    array($this, 'update_file_value'), 20);
+        remove_filter('acf/update_value/type=image',   array($this, 'update_file_value'), 20);
+        remove_filter('acf/update_value/type=gallery', array($this, 'update_file_value'), 20);
+        
+    }
+    
+    function update_file_value($value, $post_id, $field){
+        
+        // globals
+        global $acfe_form_post_id;
+        
+        // validate post id
+        if(!$post_id || !is_numeric($post_id)){
+            return $value;
+        }
+        
+        // empty value
+        if(empty($value)){
+            return $value;
+        }
+        
+        // validate value
+        $attachments = acf_get_array($value);
+        $attachments = array_map('acf_idval', $attachments);
+        
+        foreach($attachments as $attachment_id){
+            
+            // validate attachment
+            if(!$attachment_id || !is_numeric($attachment_id)){
+                continue;
+            }
+            
+            // allow filter
+            if(!apply_filters( 'acf/connect_attachment_to_post', true, $attachment_id, $post_id)){
+                continue;
+            }
+            
+            // get attachment post
+            $post = get_post($attachment_id);
+            
+            // validate post and check if the attachment was uploaded on the "form" page
+            if($post && $post->post_type == 'attachment' && $post->post_parent === $acfe_form_post_id && $post_id !== $acfe_form_post_id){
+                
+                // update
+                wp_update_post(array(
+                    'ID'          => $post->ID,
+                    'post_parent' => $post_id,
+                ));
+                
+            }
+            
+        }
+        
+        return $value;
         
     }
     

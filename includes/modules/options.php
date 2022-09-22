@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 // Check setting
 if(!acf_get_setting('acfe/modules/options'))
@@ -43,7 +44,7 @@ class acfe_module_options{
         
         if(!acf_get_setting('show_admin')) return;
     
-        $page = add_submenu_page('options-general.php', __('Options'), __('Options'), acf_get_setting('capability'), 'acfe-options', array($this, 'admin_html'));
+        $page = add_submenu_page('options-general.php', __('Options', 'acfe'), __('Options', 'acfe'), acf_get_setting('capability'), 'acfe-options', array($this, 'admin_html'));
     
         add_action("load-{$page}", array($this, 'admin_load'));
         
@@ -61,19 +62,19 @@ class acfe_module_options{
             
             if($message === 'deleted'){
     
-                acf_add_admin_notice(__('Option has been deleted'), 'success');
+                acf_add_admin_notice(__('Option has been deleted', 'acfe'), 'success');
                 
             }elseif($message === 'bulk-deleted'){
     
-                acf_add_admin_notice(__('Options have been deleted'), 'success');
+                acf_add_admin_notice(__('Options have been deleted', 'acfe'), 'success');
             
             }elseif($message === 'updated'){
     
-                acf_add_admin_notice(__('Option has been updated'), 'success');
+                acf_add_admin_notice(__('Option has been updated', 'acfe'), 'success');
             
             }elseif($message === 'added'){
     
-                acf_add_admin_notice(__('Option has been added'), 'success');
+                acf_add_admin_notice(__('Option has been added', 'acfe'), 'success');
             
             }
             
@@ -328,7 +329,7 @@ class acfe_module_options{
         $fields = array();
         
         $fields[] = array(
-            'label'             => __('Name'),
+            'label'             => __('Name', 'acfe'),
             'key'               => 'field_acfe_options_edit_name',
             'name'              => 'field_acfe_options_edit_name',
             'type'              => 'text',
@@ -363,7 +364,7 @@ class acfe_module_options{
             }
             
             $fields[] = array(
-                'label'             => __('Value <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>'),
+                'label'             => __('Value', 'acfe') . ' <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>',
                 'key'               => 'field_acfe_options_edit_value',
                 'name'              => 'field_acfe_options_edit_value',
                 'type'              => 'textarea',
@@ -394,7 +395,7 @@ class acfe_module_options{
             $instructions = 'Use this <a href="http://solutions.weblite.ca/php2json/" target="_blank">online tool</a> to decode/encode json.';
             
             $fields[] = array(
-                'label'             => __('Value <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>'),
+                'label'             => __('Value', 'acfe') . ' <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>',
                 'key'               => 'field_acfe_options_edit_value',
                 'name'              => 'field_acfe_options_edit_value',
                 'type'              => 'textarea',
@@ -426,7 +427,7 @@ class acfe_module_options{
                 $type = '<code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">string</code>';
             
             $fields[] = array(
-                'label'             => __('Value ' . $type),
+                'label'             => __('Value', 'acfe') . ' ' . $type,
                 'key'               => 'field_acfe_options_edit_value',
                 'name'              => 'field_acfe_options_edit_value',
                 'type'              => 'textarea',
@@ -450,7 +451,7 @@ class acfe_module_options{
         }
         
         $fields[] = array(
-            'label'             => __('Autoload'),
+            'label'             => __('Autoload', 'acfe'),
             'key'               => 'field_acfe_options_edit_autoload',
             'name'              => 'field_acfe_options_edit_autoload',
             'type'              => 'select',
@@ -465,8 +466,8 @@ class acfe_module_options{
             'maxlength'         => '',
             'value'             => $option['autoload'],
             'choices'           => array(
-                'no'    => __('No'),
-                'yes'   => __('Yes'),
+                'no'    => __('No', 'acfe'),
+                'yes'   => __('Yes', 'acfe'),
             ),
             'wrapper'           => array(
                 'width' => '',
@@ -477,13 +478,13 @@ class acfe_module_options{
         
         $field_group['fields'] = $fields;
         
-        $metabox_submit_title = __('Submit','acf');
-        $metabox_main_title = __('Add Option');
+        $metabox_submit_title = __('Submit', 'acf');
+        $metabox_main_title = __('Add Option', 'acfe');
         
         if(!empty($option['option_id'])){
             
-            $metabox_submit_title = __('Edit','acf');
-            $metabox_main_title = __('Edit Option');
+            $metabox_submit_title = __('Edit', 'acf');
+            $metabox_main_title = __('Edit Option', 'acfe');
             
         }
         

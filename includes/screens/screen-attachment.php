@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_screen_attachment')):
 
@@ -10,23 +11,73 @@ class acfe_screen_attachment{
     // vars
     var $post_id;
     
-    /*
-     * Construct
+    /**
+     * __ construct
      */
     function __construct(){
     
-        /*
+        /**
+         * hooks:
+         *
          * acfe/load_attachments
-         * acfe/add_attachments_meta_boxes
+         * acfe/add_attachments_meta_boxes  $post_type
          */
         
+        // edit
+        add_action('load-post.php',     array($this, 'attachment_load'));
+        
         // list
-        add_action('load-upload.php',       array($this, 'attachments_load'));
+        add_action('load-upload.php', array($this, 'attachments_load'));
         
     }
-
-    /*
-     * Attachments: Load
+    
+    
+    /**
+     * attachment_load
+     *
+     * load-post.php
+     */
+    function attachment_load(){
+    
+        // global
+        global $typenow;
+    
+        // exclude attachment
+        if($typenow !== 'attachment'){
+            return;
+        }
+    
+        // vars
+        $post_id = (int) acfe_get_post_id();
+    
+        // actions
+        do_action("acfe/load_attachment", $post_id);
+    
+        // hooks
+        add_action('add_meta_boxes', array($this, 'add_attachment_meta_boxes'), 10, 2);
+        
+    }
+    
+    
+    /**
+     * add_attachment_meta_boxes
+     *
+     * add_meta_boxes
+     *
+     * @param $post_type
+     * @param $post
+     */
+    function add_attachment_meta_boxes($post_type, $post){
+        
+        do_action("acfe/add_attachment_meta_boxes", $post);
+        
+    }
+    
+    
+    /**
+     * attachments_load
+     *
+     * load-upload.php
      */
     function attachments_load(){
         
@@ -38,8 +89,11 @@ class acfe_screen_attachment{
         
     }
     
-    /*
-     * Attachments: Footer
+    
+    /**
+     * attachments_footer
+     *
+     * admin_footer
      */
     function attachments_footer(){
         
@@ -49,8 +103,9 @@ class acfe_screen_attachment{
         
     }
     
-    /*
-     * Attachments: Do Meta Boxes
+    
+    /**
+     * attachments_do_meta_boxes
      */
     function attachments_do_meta_boxes(){
         
@@ -130,8 +185,6 @@ class acfe_screen_attachment{
             
             <?php elseif($mode === 'grid'): ?>
             
-                
-                
                 // wait for media grid to load
                 acf.addAction('load', function(){
 

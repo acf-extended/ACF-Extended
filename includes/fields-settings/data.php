@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_data')):
 
@@ -18,8 +19,9 @@ class acfe_field_data{
     
         $id = acf_maybe_get($field, 'ID');
     
-        if(!$id || $id === 'acfcloneindex')
+        if(!$id || $id === 'acfcloneindex'){
             return;
+        }
         
         acf_render_field_setting($field, array(
             'label'         => false,
@@ -78,7 +80,7 @@ class acfe_field_data{
         }
     
         ?>
-        <a href="#" class="button acfe-data-button" data-acfe-modal="<?php echo $id; ?>" data-acfe-modal-title="<?php echo $title; ?>" data-acfe-modal-footer="<?php _e('Close', 'acf'); ?>" style="margin-left:5px;">
+        <a href="#" class="button acfe-data-button" data-acfe-modal="<?php echo $id; ?>" data-acfe-modal-title="<?php echo $title; ?>" data-acfe-modal-footer="<?php _e('Close', 'acfe'); ?>" style="margin-left:5px;">
             <?php _e('Data', 'acf'); ?>
         </a>
         <div class="acfe-modal" data-acfe-modal="<?php echo $id; ?>">

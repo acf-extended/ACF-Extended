@@ -1,48 +1,34 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_select')):
 
-class acfe_field_select{
+class acfe_field_select extends acfe_field_extend{
     
-    function __construct(){
-        
-        // Actions
-        add_action('acf/render_field_settings/type=select',         array($this, 'field_settings'));
-        
-        // Filters
-        add_filter('acf/prepare_field/type=select',                 array($this, 'prepare_field'));
-        add_filter('acfe/field_wrapper_attributes/type=select',     array($this, 'field_wrapper'), 10, 2);
-
-        add_action('current_screen', array($this, 'current_screen'));
+    /**
+     * initialize
+     */
+    function initialize(){
+    
+        $this->name = 'select';
+        $this->defaults = array(
+            'allow_custom'       => 0,
+            'placeholder'        => '',
+            'search_placeholder' => '',
+        );
         
     }
-
-    function current_screen(){
-
-        if(!acfe_is_admin_screen())
-            return;
-
-        add_filter('acf/prepare_field/name=choices', array($this, 'prepare_field_choices'), 5);
-
-    }
-
-    function prepare_field_choices($field){
-
-        $wrapper = $field['wrapper'];
-
-        if(acf_maybe_get($wrapper, 'data-setting') !== 'select')
-            return $field;
-
-        $field['instructions'] .= '<br/><br/>You may use "## Title" to create a group of options.';
-
-        return $field;
-
-    }
-
-    function field_settings($field){
+    
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
+    function render_field_settings($field){
 
         // allow custom
         acf_render_field_setting($field, array(
@@ -140,95 +126,108 @@ class acfe_field_select{
 
     }
     
+    
+    /**
+     * prepare_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function prepare_field($field){
         
-        // Allow Custom
-        if(acf_maybe_get($field, 'allow_custom')){
+        // vars
+        $allow_custom = acf_maybe_get($field, 'allow_custom');
+        $ajax = acf_maybe_get($field, 'ajax');
+    
+        // allow custom
+        if($allow_custom){
+        
+            $value = acf_maybe_get($field, 'value');
+            $value = acf_get_array($value);
+        
+            foreach($value as $v){
             
-            if($value = acf_maybe_get($field, 'value')){
-                
-                $value = acf_get_array($value);
-                
-                foreach($value as $v){
-                    
-                    if(isset($field['choices'][$v]))
-                        continue;
-                    
-                    $field['choices'][$v] = $v;
-                    
+                // append custom value to choices
+                if(!isset($field['choices'][ $v ])){
+                    $field['choices'][ $v ] = $v;
+                    $field['custom_choices'][ $v ] = $v;
                 }
+            }
+        
+        }
+        
+        // group choices using '## title'
+        if(!$ajax && is_array($field['choices'])){
+    
+            $found = false;
+            $choices = array();
+            
+            // loop choices
+            foreach($field['choices'] as $k => $choice){
+        
+                if(is_string($choice)){
+            
+                    $choice = trim($choice);
+            
+                    if(strpos($choice, '##') === 0){
                 
+                        $choice = substr($choice, 2);
+                        $choice = trim($choice);
+                
+                        $found = $choice;
+                        $choices[ $choice ] = array();
+                
+                    }elseif(!empty($found)){
+    
+                        $choices[ $found ][ $k ] = $choice;
+                
+                    }
+            
+                }
+        
             }
             
-        }
-
-        if(!acf_maybe_get($field, 'ajax')){
-
-            if(is_array($field['choices'])){
-
-                $found = false;
-                $found_array = array();
-
-                foreach($field['choices'] as $k => $choice){
-
-                    if(is_string($choice)){
-                    
-                        $choice = trim($choice);
-                        
-                        if(strpos($choice, '##') === 0){
-                        
-                            $choice = substr($choice, 2);
-                            $choice = trim($choice);
-                            
-                            $found = $choice;
-                            $found_array[$choice] = array();
-                        
-                        }elseif(!empty($found)){
-                        
-                            $found_array[$found][$k] = $choice;
-                        
-                        }
-                    
-                    }
-
-                }
-
-                if(!empty($found_array)){
-
-                    $field['choices'] = $found_array;
-
-                }
-
+            // assign found choices
+            if(!empty($choices)){
+                $field['choices'] = $choices;
             }
 
         }
         
+        // return
         return $field;
         
     }
     
-    function field_wrapper($wrapper, $field){
+    
+    /**
+     * field_wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
+    function field_wrapper_attributes($wrapper, $field){
         
-        // Search placeholder
-        if($search_placeholder = acf_maybe_get($field, 'search_placeholder')){
-            
-            $wrapper['data-acfe-search-placeholder'] = $search_placeholder;
-            
+        // search placeholder
+        if($field['search_placeholder']){
+            $wrapper['data-acfe-search-placeholder'] = $field['search_placeholder'];
         }
         
-        // Allow Custom
-        if(acf_maybe_get($field, 'allow_custom')){
-            
+        // allow custom
+        if($field['allow_custom']){
             $wrapper['data-acfe-allow-custom'] = 1;
-            
         }
         
+        // return
         return $wrapper;
         
     }
     
 }
 
-new acfe_field_select();
+acf_new_instance('acfe_field_select');
 
 endif;

@@ -741,3 +741,36 @@ body:not(.taxonomy-product_cat):not(.woocommerce-page) .wrap {
 .edit-tags-php #col-container #col-right .col-wrap {
     padding: 0
 }
+
+body.post-type-attachment .wrap #submitdiv #major-publishing-actions {
+    border-top: 1px solid #dcdcde
+}
+
+body.post-type-attachment .wrap>form:not(.search-form) {
+    margin-top: 0
+}
+
+body.post-type-attachment .wrap>form .wp_attachment_holder {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #c3c4c7;
+    -webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 4%)
+}
+
+body.post-type-attachment .wrap>form .wp_attachment_holder .wp_attachment_image>p:first-of-type {
+    margin-top: 0
+}
+
+body.post-type-attachment .wrap>form .wp_attachment_holder .image-editor .imgedit-settings .imgedit-group {
+    background: #f9f9f9
+}
+
+body.post-type-attachment .wrap>form .wp_attachment_details {
+    margin-bottom: 0;
+    margin-top: 20px
+}
+
+body.post-type-attachment .wrap>form .wp_attachment_details p.attachment-alt-text-description {
+    margin-bottom: 0
+}

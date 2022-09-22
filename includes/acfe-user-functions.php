@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_get_roles
@@ -18,13 +19,12 @@ function acfe_get_roles($filtered_user_roles = array()){
     
     global $wp_roles;
     
-    if(is_multisite())
+    if(is_multisite()){
         $list['super_admin'] = __('Super Admin');
+    }
     
     foreach($wp_roles->roles as $role => $settings){
-        
-        $list[$role] = $settings['name'];
-        
+        $list[ $role ] = $settings['name'];
     }
     
     $user_roles = $list;
@@ -34,12 +34,9 @@ function acfe_get_roles($filtered_user_roles = array()){
         $user_roles = array();
         
         foreach($list as $role => $role_label){
-            
-            if(!in_array($role, $filtered_user_roles))
-                continue;
-            
-            $user_roles[$role] = $role_label;
-            
+            if(in_array($role, $filtered_user_roles)){
+                $user_roles[$role] = $role_label;
+            }
         }
         
     }
@@ -59,13 +56,15 @@ function acfe_get_current_user_roles(){
     
     global $current_user;
     
-    if(!is_object($current_user) || !isset($current_user->roles))
+    if(!is_object($current_user) || !isset($current_user->roles)){
         return false;
+    }
     
     $roles = $current_user->roles;
     
-    if(is_multisite() && current_user_can('setup_network'))
+    if(is_multisite() && current_user_can('setup_network')){
         $roles[] = 'super_admin';
+    }
     
     return $roles;
     

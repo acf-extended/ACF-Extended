@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_get_post_type_objects
@@ -17,22 +18,21 @@ function acfe_get_post_type_objects($args = array()){
     // vars
     $return = array();
     
-    // Post Types
+    // get post types
     $posts_types = acf_get_post_types($args);
     
-    // Choices
-    if(!empty($posts_types)){
+    // loop
+    foreach($posts_types as $post_type){
         
-        foreach($posts_types as $post_type){
-            
-            $post_type_object = get_post_type_object($post_type);
-            
-            $return[ $post_type_object->name ] = $post_type_object;
-            
-        }
+        // get object
+        $object = get_post_type_object($post_type);
+        
+        // append
+        $return[ $object->name ] = $object;
         
     }
     
+    // return
     return $return;
     
 }
@@ -48,27 +48,48 @@ function acfe_get_post_type_objects($args = array()){
  */
 function acfe_get_pretty_post_statuses($posts_statuses = array()){
     
+    // get post statuses
     if(empty($posts_statuses)){
+        $posts_statuses = get_post_stati();
+    }
+    
+    // vars
+    $ref = array();
+    $return = array();
+    
+    // loop
+    foreach($posts_statuses as $post_status){
         
-        $posts_statuses = get_post_stati(array(), 'names');
+        // vars
+        $object = get_post_status_object($post_status);
+        $label = $object->label;
+        
+        // append to return
+        $return[ $object->name ] = $label;
+    
+        // increase counter
+        if(!isset($ref[ $label ])){
+            $ref[ $label ] = 0;
+        }
+        
+        $ref[ $label ]++;
         
     }
     
-    $return = array();
-    
-    // Choices
-    if(!empty($posts_statuses)){
+    // get slugs
+    foreach(array_keys($return) as $slug){
         
-        foreach($posts_statuses as $post_status){
-            
-            $post_status_object = get_post_status_object($post_status);
-            
-            $return[$post_status_object->name] = $post_status_object->label . ' (' . $post_status_object->name . ')';
-            
+        // vars
+        $label = $return[ $slug ];
+        
+        // append slug
+        if($ref[ $label ] > 1){
+            $return[ $slug ] .= " ({$slug})";
         }
         
     }
     
+    // return
     return $return;
     
 }

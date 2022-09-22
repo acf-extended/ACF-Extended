@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_get_registered_image_sizes
@@ -23,8 +24,9 @@ function acfe_get_registered_image_sizes($filter = false){
     
     foreach($wp_sizes as $size_name){
         
-        if($filter && $size_name !== $filter)
+        if($filter && $filter !== $size_name){
             continue;
+        }
         
         $size_data = array(
             'name'   => $size_name,
@@ -36,7 +38,7 @@ function acfe_get_registered_image_sizes($filter = false){
         // For sizes added by plugins and themes.
         if(isset( $additional_sizes[ $size_name ]['width'])){
             $size_data['width'] = (int) $additional_sizes[ $size_name ]['width'];
-            // For default sizes set in options.
+        // For default sizes set in options.
         }else{
             $size_data['width'] = (int) get_option("{$size_name}_size_w");
         }
@@ -61,12 +63,14 @@ function acfe_get_registered_image_sizes($filter = false){
         
     }
     
-    if($filter && isset($all_sizes[ $filter ]))
+    if($filter && isset($all_sizes[ $filter ])){
         return $all_sizes[ $filter ];
+    }
     
     return $all_sizes;
     
 }
+
 
 /**
  * acfe_remove_class_filter
@@ -74,20 +78,20 @@ function acfe_get_registered_image_sizes($filter = false){
  * Remove hook from inaccessible PHP class
  * https://gist.github.com/tripflex/c6518efc1753cf2392559866b4bd1a53
  *
- * @param        $tag
- * @param string $class_name
- * @param string $method_name
- * @param int    $priority
+ * @param $class_name
+ * @param $tag
+ * @param $method_name
+ * @param $priority
  *
  * @return bool
  */
-function acfe_remove_class_filter( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
+function acfe_remove_class_filter($class_name = '', $tag = '', $method_name = '', $priority = 10){
     
     global $wp_filter;
     
     // Check that filter actually exists first
-    if ( ! isset( $wp_filter[ $tag ] ) ) {
-        return FALSE;
+    if(!isset($wp_filter[ $tag ])){
+        return false;
     }
     
     /**
@@ -108,7 +112,7 @@ function acfe_remove_class_filter( $tag, $class_name = '', $method_name = '', $p
     
     // Exit if there aren't any callbacks for specified priority
     if ( ! isset( $callbacks[ $priority ] ) || empty( $callbacks[ $priority ] ) ) {
-        return FALSE;
+        return false;
     }
     
     // Loop through each filter for the specified priority, looking for our class & method
@@ -152,23 +156,24 @@ function acfe_remove_class_filter( $tag, $class_name = '', $method_name = '', $p
                 unset( $GLOBALS['merged_filters'][ $tag ] );
             }
             
-            return TRUE;
+            return true;
         }
     }
     
-    return FALSE;
+    return false;
 }
+
 
 /**
  * acfe_remove_class_action
  *
- * @param        $tag
- * @param string $class_name
- * @param string $method_name
- * @param int    $priority
+ * @param $class_name
+ * @param $tag
+ * @param $method_name
+ * @param $priority
  *
  * @return bool
  */
-function acfe_remove_class_action( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
-    return acfe_remove_class_filter( $tag, $class_name, $method_name, $priority );
+function acfe_remove_class_action($class_name = '', $tag = '', $method_name = '', $priority = 10){
+    return acfe_remove_class_filter($class_name, $tag, $method_name, $priority);
 }

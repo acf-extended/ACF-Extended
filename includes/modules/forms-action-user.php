@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_form_user')):
 
@@ -125,124 +126,105 @@ class acfe_form_user{
         if(!$user_data)
             return $form;
         
-        // Email
-        if(acf_is_field_key($_email)){
+        $rules = array(
             
-            $key = array_search($_email, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
+            array(
+                'key'        => $_email,
+                'attributes' => array(
+                    'value'  => $user_data->user_email,
+                ),
+            ),
     
-            $form['map'][$_email]['value'] = $user_data->user_email;
+            array(
+                'key'        => $_username,
+                'attributes' => array(
+                    'value'      => $user_data->user_login,
+                    'maxlength'  => 60,
+                ),
+            ),
             
-        }
+            /*
+            array(
+                'key'        => $_password,
+                'attributes' => array(
+                    'value'  => $user_data->user_pass,
+                ),
+            ),
+            */
+    
+            array(
+                'key'        => $_first_name,
+                'attributes' => array(
+                    'value'  => $user_data->first_name,
+                ),
+            ),
+    
+            array(
+                'key'        => $_last_name,
+                'attributes' => array(
+                    'value'  => $user_data->last_name,
+                ),
+            ),
+    
+            array(
+                'key'        => $_nickname,
+                'attributes' => array(
+                    'value'  => $user_data->nickname,
+                ),
+            ),
+            
+            array(
+                'key'        => $_display_name,
+                'attributes' => array(
+                    'value'  => $user_data->display_name,
+                ),
+            ),
+            
+            array(
+                'key'        => $_website,
+                'attributes' => array(
+                    'value'  => $user_data->website,
+                ),
+            ),
+            
+            array(
+                'key'        => $_description,
+                'attributes' => array(
+                    'value'  => $user_data->description,
+                ),
+            ),
+            
+            array(
+                'key'        => $_role,
+                'attributes' => array(
+                    'value'  => implode(', ', $user_data->roles),
+                ),
+            ),
+            
+        );
         
-        // Username
-        if(acf_is_field_key($_username)){
-            
-            $key = array_search($_username, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
+        foreach($rules as $rule){
     
-            $form['map'][$_username]['value'] = $user_data->user_login;
-            $form['map'][$_username]['maxlength'] = 60;
-            
-        }
+            if(acf_is_field_key($rule['key'])){
+                
+                // disable loading from meta if checked
+                if(($key = array_search($rule['key'], $load_meta)) !== false){
+                    unset($load_meta[ $key ]);
+                }
         
-        // Password
-        if(acf_is_field_key($_password)){
-            
-            $key = array_search($_password, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            //$form['map'][$_password]['value'] = $user_data->user_pass;
-            
-        }
+                if(!isset($form['map'][ $rule['key'] ]) || $form['map'][ $rule['key'] ] !== false){
+                    
+                    foreach($rule['attributes'] as $attribute_key => $attribute_value){
+                        
+                        if(!isset($form['map'][ $rule['key'] ][ $attribute_key ])){
+                            $form['map'][ $rule['key'] ][ $attribute_key ] = $attribute_value;
+                        }
+                        
+                    }
+                    
+                }
         
-        // First name
-        if(acf_is_field_key($_first_name)){
-            
-            $key = array_search($_first_name, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_first_name]['value'] = $user_data->first_name;
-            
-        }
-        
-        // Last name
-        if(acf_is_field_key($_last_name)){
-            
-            $key = array_search($_last_name, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_last_name]['value'] = $user_data->last_name;
-            
-        }
-        
-        // Nickname
-        if(acf_is_field_key($_nickname)){
-            
-            $key = array_search($_nickname, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_nickname]['value'] = $user_data->nickname;
-            
-        }
-        
-        // Display name
-        if(acf_is_field_key($_display_name)){
-            
-            $key = array_search($_display_name, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_display_name]['value'] = $user_data->display_name;
-            
-        }
-        
-        // Website
-        if(acf_is_field_key($_website)){
-            
-            $key = array_search($_website, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_website]['value'] = $user_data->website;
-            
-        }
-        
-        // Description
-        if(acf_is_field_key($_description)){
-            
-            $key = array_search($_description, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_description]['value'] = $user_data->description;
-            
-        }
-        
-        // Role
-        if(acf_is_field_key($_role)){
-            
-            $key = array_search($_role, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-    
-            $form['map'][$_role]['value'] = implode(', ', $user_data->roles);
+            }
             
         }
         
@@ -282,90 +264,153 @@ class acfe_form_user{
     
     function validation($form, $current_post_id, $action){
         
-        // Action
+        // action
         $user_action = get_sub_field('acfe_form_user_action');
         
-        if($user_action !== 'log_user')
-            return;
-        
-        // Form
-        $form_name = acf_maybe_get($form, 'name');
-        $form_id = acf_maybe_get($form, 'ID');
-
-        // Fields
-        $data = array(
-            'type'  => get_sub_field('acfe_form_user_log_type'),
-            'login' => get_sub_field('acfe_form_user_save_login_user'),
-            'pass'  => get_sub_field('acfe_form_user_save_login_pass'),
-        );
-    
-        $data['login'] = acfe_form_map_field_value($data['login'], $current_post_id, $form);
-        $data['pass'] = acfe_form_map_field_value($data['pass'], $current_post_id, $form);
-        
+        // errors
         $errors = array(
             'empty_user_pass'               => __('An error has occured. Please try again', 'acfe'),
             'invalid_email'                 => __('Invalid e-mail', 'acfe'),
             'invalid_email_password'        => __('Invalid e-mail or password', 'acfe'),
             'invalid_username'              => __('Invalid username', 'acfe'),
             'invalid_username_password'     => __('Invalid username or password', 'acfe'),
+            'used_email'                    => __('E-mail address is already used', 'acfe'),
+            'used_username'                 => __('Username is already used', 'acfe'),
+            'long_username'                 => __('Username may not be longer than 60 characters.'),
         );
+        
+        // filters
+        $errors = apply_filters_deprecated('acfe/form/validation/user/login_errors', array($errors), '0.8.8.8', 'acfe/form/validation/user_errors');
+        $errors = apply_filters('acfe/form/validation/user_errors', $errors);
     
-        $errors = apply_filters('acfe/form/validation/user/login_errors', $errors);
+        // switch type
+        switch($user_action){
     
-        $login = false;
-        $pass = false;
+            // insert user
+            case 'insert_user':{
+    
+                // fields
+                $user_email = get_sub_field('acfe_form_user_save_email');
+                $user_email = acfe_form_map_field_value($user_email, $current_post_id, $form);
         
-        // Email
-        if(!empty($data['login'])){
+                // empty email
+                if(empty($user_email) || !is_email($user_email)){
+                    return acfe_add_validation_error('', $errors['invalid_email']);
             
-            $login = $data['login'];
-            
-        }
+                // email exists
+                }elseif(email_exists($user_email)){
+                    return acfe_add_validation_error('', $errors['used_email']);
+                }
         
-        // Password
-        if(!empty($data['pass'])){
-            
-            $pass = $data['pass'];
-            
-        }
-        
-        $pass = wp_specialchars_decode($pass);
-        $pass = wp_slash($pass);
-        
-        if(empty($login) || empty($pass)){
-            
-            acfe_add_validation_error('', $errors['empty_user_pass']);
-            return;
-            
-        }
-        
-        // Email
-        if($data['type'] === 'email'){
-            
-            $this->validate_user_login('email', $login, $pass, $errors);
-            
-        }
-        
-        // Username
-        elseif($data['type'] === 'username'){
-            
-            $this->validate_user_login('username', $login, $pass, $errors);
-            
-        }
-        
-        // Email || Username
-        elseif($data['type'] === 'email_username'){
-            
-            // Email
-            if(is_email($login)){
+                break;
+            }
+    
+            // update user
+            case 'update_user':{
+    
+                // fields
+                $target = get_sub_field('acfe_form_user_save_target');
+                $target = acfe_form_map_field_value($target, $current_post_id, $form);
                 
-                $this->validate_user_login('email', $login, $pass, $errors);
+                $user_login = get_sub_field('acfe_form_user_save_username');
+                $user_login = acfe_form_map_field_value($user_login, $current_post_id, $form);
+    
+                $user_email = get_sub_field('acfe_form_user_save_email');
+                $user_email = acfe_form_map_field_value($user_email, $current_post_id, $form);
+        
+                // check user login exists
+                if(!empty($user_login)){
             
-            // Username
-            }else{
+                    // login too long
+                    if(mb_strlen($user_login) > 60){
+                        return acfe_add_validation_error('', $errors['long_username']);
                 
-                $this->validate_user_login('username', $login, $pass, $errors);
-                
+                    // login already exists
+                    }elseif(username_exists($user_login) && username_exists($user_login) !== (int) $target){
+                        return acfe_add_validation_error('', $errors['used_username']);
+                    }
+            
+                }
+    
+                // check user email exists
+                if(!empty($user_email)){
+                    
+                    $target_user = get_user_by('ID', $target);
+                    
+                    if($user_email !== $target_user->user_email){
+    
+                        // invalid email
+                        if(!is_email($user_email)){
+                            return acfe_add_validation_error('', $errors['invalid_email']);
+        
+                        // email exists
+                        }elseif(email_exists($user_email)){
+                            return acfe_add_validation_error('', $errors['used_email']);
+                        }
+                        
+                    }
+        
+                }
+        
+                break;
+            }
+        
+            // log user
+            case 'log_user':{
+    
+                // Fields
+                $data = array(
+                    'type'  => get_sub_field('acfe_form_user_log_type'),
+                    'login' => get_sub_field('acfe_form_user_save_login_user'),
+                    'pass'  => get_sub_field('acfe_form_user_save_login_pass'),
+                );
+    
+                $data['login'] = acfe_form_map_field_value($data['login'], $current_post_id, $form);
+                $data['pass'] = acfe_form_map_field_value($data['pass'], $current_post_id, $form);
+    
+                $login = false;
+                $pass = false;
+    
+                // Email
+                if(!empty($data['login'])){
+                    $login = $data['login'];
+                }
+    
+                // Password
+                if(!empty($data['pass'])){
+                    $pass = $data['pass'];
+                }
+    
+                $pass = wp_specialchars_decode($pass);
+                $pass = wp_slash($pass);
+    
+                if(empty($login) || empty($pass)){
+                    return acfe_add_validation_error('', $errors['empty_user_pass']);
+                }
+    
+                // Email
+                if($data['type'] === 'email'){
+                    $this->validate_user_login('email', $login, $pass, $errors);
+        
+                // Username
+                }elseif($data['type'] === 'username'){
+                    $this->validate_user_login('username', $login, $pass, $errors);
+        
+                // Email || Username
+                }elseif($data['type'] === 'email_username'){
+        
+                    // Email
+                    if(is_email($login)){
+                        $this->validate_user_login('email', $login, $pass, $errors);
+            
+                    // Username
+                    }else{
+                        $this->validate_user_login('username', $login, $pass, $errors);
+                    }
+        
+                }
+            
+                break;
             }
             
         }

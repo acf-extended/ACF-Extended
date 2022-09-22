@@ -1,19 +1,20 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('ACFE_Local_Meta')):
     
 class ACFE_Local_Meta{
     
-    // Vars
+    // vars
     var $meta = array();
     var $curr_id = array();
     var $main_id = array();
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
         
@@ -24,8 +25,15 @@ class ACFE_Local_Meta{
         
     }
     
-    /*
-     * Add
+    
+    /**
+     * add
+     *
+     * @param $meta
+     * @param $post_id
+     * @param $is_main
+     *
+     * @return array|mixed
      */
     function add($meta = array(), $post_id = 0, $is_main = false){
         
@@ -50,8 +58,9 @@ class ACFE_Local_Meta{
         
     }
     
-    /*
-     * Remove
+    
+    /**
+     * remove
      */
     function remove(){
         
@@ -71,8 +80,15 @@ class ACFE_Local_Meta{
         
     }
     
-    /*
-     * Preload Post ID
+    /**
+     * pre_load_post_id
+     *
+     * acf/pre_load_post_id:1
+     *
+     * @param $null
+     * @param $post_id
+     *
+     * @return false|mixed
      */
     function pre_load_post_id($null, $post_id){
         
@@ -84,15 +100,26 @@ class ACFE_Local_Meta{
         
     }
     
-    /*
-     * Is Request
+    
+    /**
+     * is_request
+     *
+     * @param $meta
+     *
+     * @return bool
      */
     function is_request($meta = array()){
         return acf_is_field_key(key($meta));
     }
     
-    /*
-     * Capture
+    
+    /**
+     * capture
+     *
+     * @param $values
+     * @param $post_id
+     *
+     * @return array
      */
     function capture($values = array(), $post_id = 0){
         
@@ -132,8 +159,19 @@ class ACFE_Local_Meta{
         
     }
     
-    /*
-     * Capture Update Metadata
+    
+    /**
+     * capture_update_metadata
+     *
+     * acf/pre_update_metadata:1
+     *
+     * @param $null
+     * @param $post_id
+     * @param $name
+     * @param $value
+     * @param $hidden
+     *
+     * @return bool
      */
     function capture_update_metadata($null, $post_id, $name, $value, $hidden){
         
@@ -145,8 +183,16 @@ class ACFE_Local_Meta{
         
     }
     
-    /*
-     * Preload Meta
+    
+    /**
+     * pre_load_meta
+     *
+     * acf/pre_load_meta:1
+     *
+     * @param $null
+     * @param $post_id
+     *
+     * @return mixed
      */
     function pre_load_meta($null, $post_id){
         
@@ -158,8 +204,18 @@ class ACFE_Local_Meta{
         
     }
     
-    /*
-     * Preload Metadata
+    
+    /**
+     * pre_load_metadata
+     *
+     * acf/pre_load_metadata:1
+     *
+     * @param $null
+     * @param $post_id
+     * @param $name
+     * @param $hidden
+     *
+     * @return mixed|string
      */
     function pre_load_metadata($null, $post_id, $name, $hidden){
         
@@ -182,32 +238,44 @@ class ACFE_Local_Meta{
 
 endif;
 
-/*
+
+/**
  * acfe_setup_meta
+ *
+ * @param $meta
+ * @param $post_id
+ * @param $is_main
+ *
+ * @return mixed
  */
 function acfe_setup_meta($meta = array(), $post_id = 0, $is_main = false){
     return acf_get_instance('ACFE_Local_Meta')->add($meta, $post_id, $is_main);
 }
 
-/*
+
+/**
  * acfe_reset_meta
+ *
+ * @return mixed
  */
-function acfe_reset_meta($post_id = null){
+function acfe_reset_meta(){
     return acf_get_instance('ACFE_Local_Meta')->remove();
 }
 
-/*
+
+/**
  * acfe_get_local_post_ids
+ * @return array
  */
 function acfe_get_local_post_ids(){
     
     $post_ids = array();
     
-    // ACF Local Meta
+    // ACF local meta
     $acf_meta = acf_get_instance('ACF_Local_Meta')->meta;
     $post_ids = array_merge($post_ids, array_keys($acf_meta));
     
-    // ACFE Local Meta
+    // ACFE local meta
     $acfe_meta = acf_get_instance('ACFE_Local_Meta')->meta;
     $post_ids = array_merge($post_ids, array_keys($acfe_meta));
     
@@ -215,33 +283,35 @@ function acfe_get_local_post_ids(){
     
 }
 
-/*
+
+/**
  * acfe_get_local_post_id
+ * @return false|mixed
  */
 function acfe_get_local_post_id(){
     
     $post_ids = acfe_get_local_post_ids();
-    
     return end($post_ids);
     
 }
 
-/*
+
+/**
  * acfe_is_local_post_id
+ *
+ * @param $post_id
+ *
+ * @return bool
  */
 function acfe_is_local_post_id($post_id){
-    
-    $local_post_ids = acfe_get_local_post_ids();
-    
-    return in_array($post_id, $local_post_ids);
-    
+    return in_array($post_id, acfe_get_local_post_ids());
 }
 
-/*
+
+/**
  * acfe_is_local_meta
+ * @return bool
  */
 function acfe_is_local_meta(){
-    
     return !empty(acfe_get_local_post_ids());
-    
 }

@@ -1,13 +1,17 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_button')):
 
 class acfe_field_button extends acf_field{
     
-    function __construct(){
+    /**
+     * initialize
+     */
+    function initialize(){
 
         $this->name = 'acfe_button';
         $this->label = __('Button', 'acfe');
@@ -22,13 +26,15 @@ class acfe_field_button extends acf_field{
             'button_ajax'   => 0,
         );
         
-        add_action('wp_ajax_acfe/fields/button',        array($this, 'ajax_request'), 99);
-        add_action('wp_ajax_nopriv_acfe/fields/button', array($this, 'ajax_request'), 99);
-
-        parent::__construct();
+        $this->add_action('wp_ajax_acfe/fields/button',        array($this, 'ajax_request'), 99);
+        $this->add_action('wp_ajax_nopriv_acfe/fields/button', array($this, 'ajax_request'), 99);
 
     }
     
+    
+    /**
+     * ajax_request
+     */
     function ajax_request(){
         
         // vars
@@ -58,7 +64,13 @@ class acfe_field_button extends acf_field{
         die;
         
     }
-      
+    
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
         
         // Value
@@ -84,7 +96,7 @@ class acfe_field_button extends acf_field{
         
         // class
         acf_render_field_setting($field, array(
-            'label'         => __('Button attributes','acf'),
+            'label'         => __('Button attributes', 'acfe'),
             'instructions'  => '',
             'type'          => 'text',
             'name'          => 'button_class',
@@ -130,6 +142,12 @@ class acfe_field_button extends acf_field{
         
     }
     
+    
+    /**
+     * render_field
+     *
+     * @param $field
+     */
     function render_field($field){
         
         // Before

@@ -1,48 +1,69 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_checkbox')):
 
 class acfe_field_checkbox{
     
+    /**
+     * construct
+     */
     function __construct(){
-    
-        // Field Group UI
-        add_filter('acf/prepare_field/name=choices',                array($this, 'prepare_field_group_choices'), 5);
+        
+        // instructions
+        add_filter('acf/prepare_field/name=choices',                array($this, 'prepare_instructions'), 20);
     
         // Filters
-        add_filter('acf/prepare_field/type=acfe_taxonomy_terms',    array($this, 'prepare_checkbox'), 20);
-        add_filter('acf/prepare_field/type=radio',                  array($this, 'prepare_checkbox'), 20);
-        add_filter('acf/prepare_field/type=checkbox',               array($this, 'prepare_checkbox'), 20);
+        add_filter('acf/prepare_field/type=acfe_taxonomy_terms',    array($this, 'prepare_choices'), 20);
+        add_filter('acf/prepare_field/type=radio',                  array($this, 'prepare_choices'), 20);
+        add_filter('acf/prepare_field/type=checkbox',               array($this, 'prepare_choices'), 20);
     
         add_filter('acf/prepare_field/type=radio',                  array($this, 'prepare_radio'), 20);
         add_filter('acf/prepare_field/type=acfe_taxonomy_terms',    array($this, 'prepare_radio'), 20);
-    
-        add_filter('acfe/field_wrapper_attributes/type=radio',      array($this, 'field_wrapper'), 10, 2);
-        add_filter('acfe/field_wrapper_attributes/type=checkbox',   array($this, 'field_wrapper'), 10, 2);
         
     }
     
-    function prepare_field_group_choices($field){
-        
-        $wrapper = acf_maybe_get($field, 'wrapper');
-        
-        if(!$wrapper) return $field;
-        
-        if(acf_maybe_get($wrapper, 'data-setting') !== 'radio' && acf_maybe_get($wrapper, 'data-setting') !== 'checkbox') return $field;
-        
-        $field['instructions'] .= '<br/><br/>You may use "## Title" to create a group of options.';
-        
+    
+    /**
+     * prepare_instructions
+     */
+    function prepare_instructions($field){
+    
+        // check setting
+        if(acf_maybe_get($field['wrapper'], 'data-setting') === 'radio' || acf_maybe_get($field['wrapper'], 'data-setting') === 'checkbox' || acf_maybe_get($field['wrapper'], 'data-setting') === 'select'){
+            
+            $text = "<br/><br/>" . __('You may use "## Title" to create a group of options.', 'acfe');
+            
+            if(acf_maybe_get($field, 'hint')){
+                $field['hint'] .= $text;
+            }else{
+                $field['instructions'] .= $text;
+            }
+            
+            
+        }
+    
         return $field;
         
     }
     
-    function prepare_checkbox($field){
+    
+    /**
+     * prepare_choices
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function prepare_choices($field){
         
         // bail early if no choices
-        if(empty($field['choices'])) return $field;
+        if(empty($field['choices'])){
+            return $field;
+        }
         
         // map '## group'
         if(is_array($field['choices'])){
@@ -75,30 +96,38 @@ class acfe_field_checkbox{
             }
         
             if(!empty($found_array)){
-            
                 $field['choices'] = $found_array;
-            
             }
         
         }
         
         // Labels
-        $labels = $this->walk($field['choices']);
+        $labels = $this->walk_choices($field['choices']);
     
         if(!empty($labels)){
-        
-            $field['acfe_labels'] = $labels;
-        
+            $field['wrapper']['data-acfe-labels'] = json_encode($labels);
         }
         
         return $field;
         
     }
     
-    function walk($choices = array(), $depth = 1, $labels = array()){
+    
+    /**
+     * walk_choices
+     *
+     * @param $choices
+     * @param $depth
+     * @param $labels
+     *
+     * @return array|mixed
+     */
+    function walk_choices($choices = array(), $depth = 1, $labels = array()){
         
         // bail early if no choices
-        if(empty($choices)) return $labels;
+        if(empty($choices)){
+            return $labels;
+        }
         
         foreach($choices as $value => $label){
             
@@ -112,7 +141,7 @@ class acfe_field_checkbox{
                 $labels = array_merge($labels, array($value => $key));
             }
             
-            $labels = $this->walk($label, $depth+1, $labels);
+            $labels = $this->walk_choices($label, $depth+1, $labels);
             
         }
         
@@ -120,11 +149,23 @@ class acfe_field_checkbox{
         
     }
     
+    
+    /**
+     * prepare_radio
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function prepare_radio($field){
         
-        if($field['type'] !== 'radio' && $field['field_type'] !== 'radio') return $field;
+        if($field['type'] !== 'radio' && $field['field_type'] !== 'radio'){
+            return $field;
+        }
     
-        if(empty($field['choices'])) return $field;
+        if(empty($field['choices'])){
+            return $field;
+        }
     
         $choices = array();
     
@@ -144,29 +185,25 @@ class acfe_field_checkbox{
         
     }
     
-    function field_wrapper($wrapper, $field){
-        
-        $labels = acf_maybe_get($field, 'acfe_labels');
-        
-        if(empty($labels)) return $wrapper;
-        
-        $wrapper['data-acfe-labels'] = $labels;
-        
-        return $wrapper;
-        
-    }
-    
 }
 
 acf_new_instance('acfe_field_checkbox');
 
 endif;
 
+
+/**
+ * acfe_prepare_checkbox_labels
+ *
+ * @param $field
+ *
+ * @return mixed
+ */
 function acfe_prepare_checkbox_labels($field){
     
     $instance = acf_get_instance('acfe_field_checkbox');
     
-    $field = $instance->prepare_checkbox($field);
+    $field = $instance->prepare_choices($field);
     $field = $instance->prepare_radio($field);
     
     return $field;

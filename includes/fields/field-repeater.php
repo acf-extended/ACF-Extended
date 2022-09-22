@@ -1,62 +1,94 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
-/**
- * Add Settings
- */
-add_action('acf/render_field_settings/type=repeater', 'acfe_repeater_settings', 0);
-function acfe_repeater_settings($field){
+if(!class_exists('acfe_field_repeater')):
+
+class acfe_field_repeater extends acfe_field_extend{
     
-    // Stylised button
-    acf_render_field_setting($field, array(
-        'label'         => __('Stylised Button'),
-        'name'          => 'acfe_repeater_stylised_button',
-        'key'           => 'acfe_repeater_stylised_button',
-        'instructions'  => __('Better row button integration'),
-        'type'          => 'true_false',
-        'message'       => '',
-        'default_value' => false,
-        'ui'            => true,
-    ));
+    /**
+     * initialize
+     */
+    function initialize(){
+    
+        $this->name = 'repeater';
+        $this->defaults = array(
+            'acfe_repeater_stylised_button' => 0,
+        );
+        
+        $this->add_field_action('acf/render_field_settings', array($this, '_render_field_settings'), 0);
+        
+    }
+    
+    
+    /**
+     * _render_field_settings
+     *
+     * acf/render_field_settings:0
+     *
+     * @param $field
+     */
+    function _render_field_settings($field){
+    
+        // stylised button
+        acf_render_field_setting($field, array(
+            'label'         => __('Stylised Button', 'acfe'),
+            'name'          => 'acfe_repeater_stylised_button',
+            'key'           => 'acfe_repeater_stylised_button',
+            'instructions'  => __('Better row button integration'),
+            'type'          => 'true_false',
+            'message'       => '',
+            'default_value' => false,
+            'ui'            => true,
+        ));
+        
+    }
+    
+    
+    /**
+     * field_wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
+    function field_wrapper_attributes($wrapper, $field){
+    
+        // stylised button
+        if($field['acfe_repeater_stylised_button']){
+            $wrapper['data-acfe-repeater-stylised-button'] = 1;
+        }
+    
+        // lock sortable
+        $lock = false;
+        $lock = apply_filters("acfe/repeater/lock",                        $lock, $field);
+        $lock = apply_filters("acfe/repeater/lock/name={$field['_name']}", $lock, $field);
+        $lock = apply_filters("acfe/repeater/lock/key={$field['key']}",    $lock, $field);
+    
+        if($lock){
+            $wrapper['data-acfe-repeater-lock'] = 1;
+        }
+    
+        // remove actions
+        $remove = false;
+        $remove = apply_filters("acfe/repeater/remove_actions",                        $remove, $field);
+        $remove = apply_filters("acfe/repeater/remove_actions/name={$field['_name']}", $remove, $field);
+        $remove = apply_filters("acfe/repeater/remove_actions/key={$field['key']}",    $remove, $field);
+    
+        if($remove){
+            $wrapper['data-acfe-repeater-remove-actions'] = 1;
+        }
+        
+        // return
+        return $wrapper;
+        
+    }
     
 }
 
-add_filter('acfe/field_wrapper_attributes/type=repeater', 'acfe_repeater_wrapper', 10, 2);
-function acfe_repeater_wrapper($wrapper, $field){
-    
-    // Stylised button
-    if(isset($field['acfe_repeater_stylised_button']) && !empty($field['acfe_repeater_stylised_button'])){
-        
-        $wrapper['data-acfe-repeater-stylised-button'] = 1;
-        
-    }
-    
-    // Lock sortable
-    $acfe_repeater_lock_sortable = false;
-    $acfe_repeater_lock_sortable = apply_filters('acfe/repeater/lock', $acfe_repeater_lock_sortable, $field);
-    $acfe_repeater_lock_sortable = apply_filters('acfe/repeater/lock/name=' . $field['_name'], $acfe_repeater_lock_sortable, $field);
-    $acfe_repeater_lock_sortable = apply_filters('acfe/repeater/lock/key=' . $field['key'], $acfe_repeater_lock_sortable, $field);
-    
-    if($acfe_repeater_lock_sortable){
-        
-        $wrapper['data-acfe-repeater-lock'] = 1;
-        
-    }
-    
-    // Remove actions
-    $acfe_repeater_remove_actions = false;
-    $acfe_repeater_remove_actions = apply_filters('acfe/repeater/remove_actions', $acfe_repeater_remove_actions, $field);
-    $acfe_repeater_remove_actions = apply_filters('acfe/repeater/remove_actions/name=' . $field['_name'], $acfe_repeater_remove_actions, $field);
-    $acfe_repeater_remove_actions = apply_filters('acfe/repeater/remove_actions/key=' . $field['key'], $acfe_repeater_remove_actions, $field);
-    
-    if($acfe_repeater_remove_actions){
-        
-        $wrapper['data-acfe-repeater-remove-actions'] = 1;
-        
-    }
-    
-    return $wrapper;
-    
-}
+acf_new_instance('acfe_field_repeater');
+
+endif;

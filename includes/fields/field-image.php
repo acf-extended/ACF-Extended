@@ -1,66 +1,93 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_image')):
 
-class acfe_field_image{
+class acfe_field_image extends acfe_field_extend{
     
-    function __construct(){
-        
-        add_filter('gettext',                               array($this, 'gettext'), 99, 3);
-        add_filter('acf/validate_field/type=image',         array($this, 'validate_field'), 20);
-        add_action('acf/render_field_settings/type=image',  array($this, 'render_field_settings'), 0);
-        add_filter('acf/prepare_field/type=image',          array($this, 'prepare_field'));
-        add_filter('acf/prepare_field/name=library',        array($this, 'prepare_library'));
+    /**
+     * initialize
+     */
+    function initialize(){
     
-        add_filter('acf/update_value/type=image',           array($this, 'update_value'), 10, 3);
-        add_filter('acf/load_value/type=image',             array($this, 'load_value'), 10, 3);
-        
-    }
-    
-    function prepare_library($field){
-        
-        if(acf_maybe_get($field['wrapper'], 'data-setting') !== 'image') return $field;
-        
-        $field['conditional_logic'] = array(
-            array(
-                array(
-                    'field'     => 'uploader',
-                    'operator'  => '==',
-                    'value'     => 'wp',
-                )
-            )
+        $this->name = 'image';
+        $this->defaults = array(
+            'uploader'       => '',
+            'acfe_thumbnail' => 0,
         );
         
-        return $field;
+        $this->add_filter('gettext',                         array($this, 'gettext'), 99, 3);
+        $this->add_filter('acf/prepare_field/name=library',  array($this, 'prepare_library'));
+        $this->add_field_action('acf/render_field_settings', array($this, '_render_field_settings'), 0);
         
     }
     
+    
+    /**
+     * gettext
+     *
+     * @param $translated_text
+     * @param $text
+     * @param $domain
+     *
+     * @return string
+     */
     function gettext($translated_text, $text, $domain){
         
-        if($domain !== 'acf') return $translated_text;
-    
-        if($text === 'No image selected') return '';
+        if($domain === 'acf'){
+            if($text === 'No image selected'){
+                return '';
+            }
+        }
         
         return $translated_text;
         
     }
     
-    function validate_field($field){
+    
+    /**
+     * prepare_library
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function prepare_library($field){
         
-        if(!acf_maybe_get($field, 'acfe_uploader')) return $field;
-        
-        $field['uploader'] = $field['acfe_uploader'];
-        unset($field['acfe_uploader']);
+        // check if field group ui setting
+        if(acf_maybe_get($field['wrapper'], 'data-setting') === 'image'){
+            
+            // add conditional logic
+            $field['conditional_logic'] = array(
+                array(
+                    array(
+                        'field'     => 'uploader',
+                        'operator'  => '==',
+                        'value'     => 'wp',
+                    )
+                )
+            );
+            
+        }
         
         return $field;
         
     }
     
-    function render_field_settings($field){
+    
+    /**
+     * _render_field_settings
+     *
+     * acf/render_field_settings:0
+     *
+     * @param $field
+     */
+    function _render_field_settings($field){
         
+        // uploader type
         acf_render_field_setting($field, array(
             'label'         => __('Uploader type'),
             'name'          => 'uploader',
@@ -76,7 +103,8 @@ class acfe_field_image{
             'layout'        => 'horizontal',
             'return_format' => 'value',
         ));
-    
+        
+        // featured thumbnail
         acf_render_field_setting($field, array(
             'label'         => __('Featured thumbnail'),
             'name'          => 'acfe_thumbnail',
@@ -92,81 +120,119 @@ class acfe_field_image{
         
     }
     
+    
+    /**
+     * prepare_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function prepare_field($field){
             
-        // ACFE Form force uploader type
+        // let acfe form force specific uploader
         if(acf_is_filter_enabled('acfe/form/uploader')){
             unset($field['uploader']);
         }
         
-        if(!acf_maybe_get($field, 'uploader')){
+        // default uploader in settings
+        // use global acf uploader
+        if(!$field['uploader']){
             $field['uploader'] = acf_get_setting('uploader');
         }
         
+        // current user can't upload files
+        // force basic
         if(!current_user_can('upload_files')){
             $field['uploader'] = 'basic';
         }
-    
+        
+        // update global uploader
         acf_update_setting('uploader', $field['uploader']);
         
+        // return
         return $field;
         
     }
     
+    
+    /**
+     * update_value
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return mixed
+     */
     function update_value($value, $post_id, $field){
         
-        // Bail early if no thumbnail setting
-        if(!acf_maybe_get($field, 'acfe_thumbnail')){
+        // bail early setting
+        if(!$field['acfe_thumbnail']){
             return $value;
         }
     
-        // Bail early if local meta
+        // bail early when local meta
         if(acfe_is_local_post_id($post_id)){
             return $value;
         }
         
-        // Bail early if wp preview
+        // bail early on wp preview
         if(acf_maybe_get_POST('wp-preview') == 'dopreview'){
             return $value;
         }
     
-        // Bail early if not post
+        // bail early if not post
         $data = acf_get_post_id_info($post_id);
         
         if($data['type'] !== 'post'){
             return $value;
         }
         
+        // update meta
         update_post_meta($post_id, '_thumbnail_id', $value);
         
+        // return
         return $value;
         
     }
     
+    
+    /**
+     * load_value
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return mixed
+     */
     function load_value($value, $post_id, $field){
-        
-        if(!acf_maybe_get($field, 'acfe_thumbnail')){
+    
+        // bail early setting
+        if(!$field['acfe_thumbnail']){
             return $value;
         }
     
+        // bail early on wp preview
         if(acf_maybe_get_GET('preview') && filter_var(acf_maybe_get_GET('preview'), FILTER_VALIDATE_BOOLEAN)){
             return $value;
         }
-        
+    
+        // bail early if not post
         $data = acf_get_post_id_info($post_id);
         
         if($data['type'] !== 'post'){
             return $value;
         }
         
-        $value = get_post_meta($post_id, '_thumbnail_id', true);
-        
-        return $value;
+        // return thumbnail
+        return get_post_meta($post_id, '_thumbnail_id', true);
         
     }
     
 }
 
-new acfe_field_image();
+acf_new_instance('acfe_field_image');
 
 endif;

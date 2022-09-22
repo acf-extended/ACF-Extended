@@ -1,14 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_edit')):
 
 class acfe_field_flexible_content_edit{
     
-    //
-    
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -29,6 +31,14 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_modal_edit'] = array(
@@ -40,6 +50,14 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * defaults_layout
+     *
+     * @param $layout
+     *
+     * @return mixed
+     */
     function defaults_layout($layout){
         
         $layout['acfe_flexible_modal_edit_size'] = false;
@@ -48,6 +66,12 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
     
         acf_render_field_setting($field, array(
@@ -125,10 +149,19 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * render_layout_settings
+     *
+     * @param $field
+     * @param $layout
+     * @param $prefix
+     */
     function render_layout_settings($field, $layout, $prefix){
         
-        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return;
+        }
         
         // Title
         echo '</li>';
@@ -171,10 +204,19 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * validate_edit
+     *
+     * @param $field
+     *
+     * @return array|mixed
+     */
     function validate_edit($field){
         
-        if(!isset($field['acfe_flexible_modal_edition']))
+        if(!isset($field['acfe_flexible_modal_edition'])){
             return $field;
+        }
         
         $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'] = $field['acfe_flexible_modal_edition'];
         
@@ -184,11 +226,21 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function wrapper_attributes($wrapper, $field){
         
         // Check setting
-        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $wrapper;
+        }
     
         $wrapper['data-acfe-flexible-modal-edition'] = 1;
         
@@ -196,10 +248,21 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * pre_render_layout
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     */
     function pre_render_layout($layout, $field, $i, $value, $prefix){
         
-        if(empty($layout['sub_fields']) || !$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(empty($layout['sub_fields']) || !$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return;
+        }
         
         // Field
         $size = $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_size'];
@@ -216,10 +279,21 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * render_layout
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     */
     function render_layout($layout, $field, $i, $value, $prefix){
         
-        if(empty($layout['sub_fields']) || !$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(empty($layout['sub_fields']) || !$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return;
+        }
         
         ?>
         </div>
@@ -229,14 +303,26 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * layout_div
+     *
+     * @param $div
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_div($div, $layout, $field){
         
-        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $div;
+        }
         
         // Already in class
-        if(in_array('-collapsed', explode(' ', $div['class'])))
+        if(in_array('-collapsed', explode(' ', $div['class']))){
             return $div;
+        }
         
         $div['class'] .= ' -collapsed';
         
@@ -244,10 +330,21 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * layout_icons
+     *
+     * @param $icons
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_icons($icons, $layout, $field){
         
-        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $icons;
+        }
         
         acfe_unset($icons, 'collapse');
         
@@ -255,10 +352,21 @@ class acfe_field_flexible_content_edit{
         
     }
     
+    
+    /**
+     * layout_handle
+     *
+     * @param $handle
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_handle($handle, $layout, $field){
     
-        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'])
+        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $handle;
+        }
     
         $handle['data-action'] = 'acfe-flexible-modal-edit';
         

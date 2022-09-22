@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('ACFE_Field_Groups')):
 
@@ -28,12 +29,14 @@ class ACFE_Field_Groups{
     function current_screen(){
         
         // Bail early if not Field Groups admin page.
-        if(!acf_is_screen('edit-acf-field-group'))
+        if(!acf_is_screen('edit-acf-field-group')){
             return;
+        }
         
         // Old Compatibility
-        if(acf_version_compare(acf_get_setting('version'),  '<', '5.9'))
+        if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
             $this->old_version = true;
+        }
         
         // ACF < 5.9
         if($this->old_version){
@@ -331,7 +334,7 @@ class ACFE_Field_Groups{
             $icons[] = '<span class="dashicons dashicons-warning"></span>';
         
         ?>
-        <span <?php echo acf_esc_atts($wrapper); ?>>
+        <span <?php echo acf_esc_attrs($wrapper); ?>>
             
             <?php if($return['wrapper_start']){ echo $return['wrapper_start']; } ?>
             
@@ -457,7 +460,7 @@ class ACFE_Field_Groups{
             $icons[] = '<span class="dashicons dashicons-warning"></span>';
     
         ?>
-        <span <?php echo acf_esc_atts($wrapper); ?>>
+        <span <?php echo acf_esc_attrs($wrapper); ?>>
             
             <?php if($return['wrapper_start']){ echo $return['wrapper_start']; } ?>
             
@@ -851,8 +854,9 @@ class ACFE_Field_Groups{
         
         $sync = array();
         
-        if(!acf_get_local_json_files())
+        if(!acf_get_local_json_files()){
             return $sync;
+        }
         
         $field_groups = acf_get_field_groups();
     
@@ -864,14 +868,13 @@ class ACFE_Field_Groups{
             $private = acf_maybe_get($field_group, 'private');
             
             // Bail early
-            if($private || $local !== 'json')
+            if($private || $local !== 'json'){
                 continue;
+            }
             
             // If field group doesn't exists in DB or modified file date more recent than DB
             if(!$field_group['ID'] || ($modified && $modified > get_post_modified_time('U', true, $field_group['ID']))){
-    
                 $sync[$field_group['key']] = $field_group;
-                
             }
         
         }

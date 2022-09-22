@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_dynamic_post_types')):
 
@@ -12,6 +13,7 @@ class acfe_dynamic_post_types extends acfe_dynamic_module{
      */
     function initialize(){
         
+        $this->name = 'post_type';
         $this->active = acf_get_setting('acfe/modules/post_types');
         $this->settings = 'modules.post_types';
         $this->post_type = 'acfe-dpt';
@@ -271,7 +273,7 @@ class acfe_dynamic_post_types extends acfe_dynamic_module{
         
         ?>
         <script type="text/html" id="tmpl-acfe-dpt-title-config">
-            <a href="<?php echo admin_url("post.php?post={$post->ID}&action=edit"); ?>" class="page-title-action acfe-dpt-admin-config"><span class="dashicons dashicons-admin-generic"></span></a>
+            <a href="<?php echo admin_url("post.php?post={$post->ID}&action=edit"); ?>" class="page-title-action acfe-edit-module-button"><span class="dashicons dashicons-admin-generic"></span></a>
         </script>
 
         <script type="text/javascript">

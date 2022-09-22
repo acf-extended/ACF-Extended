@@ -1,10 +1,8 @@
 (function($) {
 
-    if (typeof acf === 'undefined')
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined' || typeof window.wp.mce === 'undefined') {
         return;
-
-    if (typeof window.wp.mce === 'undefined')
-        return;
+    }
 
     tinymce.PluginManager.add('acfe_form', function(editor, url) {
 
@@ -54,6 +52,5 @@
         });
 
     });
-
 
 })(jQuery);

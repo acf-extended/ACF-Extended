@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_screen_options_page')):
 
@@ -10,14 +11,16 @@ class acfe_screen_options_page{
     // vars
     var $page;
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
         
-        /*
-         * acfe/load_option             $page
-         * acfe/add_option_meta_boxes   $page
+        /**
+         * hooks:
+         *
+         * acfe/load_option            $page
+         * acfe/add_option_meta_boxes  $page
          */
         
         // load
@@ -25,8 +28,11 @@ class acfe_screen_options_page{
         
     }
     
-    /*
-     * Load
+    
+    /**
+     * load
+     *
+     * admin_init
      */
     function load(){
         
@@ -43,16 +49,17 @@ class acfe_screen_options_page{
         }
         
         // actions
-        do_action("acfe/load_option",                                   $this->page);
-        do_action("acfe/load_option/page={$this->page['menu_slug']}",   $this->page);
+        do_action("acfe/load_option",                                 $this->page);
+        do_action("acfe/load_option/page={$this->page['menu_slug']}", $this->page);
         
         // hooks
         add_action('admin_head', array($this, 'admin_head'));
         
     }
     
-    /*
-     * Admin Head
+    
+    /**
+     * admin_head
      */
     function admin_head(){
         

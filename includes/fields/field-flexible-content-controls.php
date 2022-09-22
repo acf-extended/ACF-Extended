@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_controls')):
 
 class acfe_field_flexible_content_controls{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -18,41 +22,18 @@ class acfe_field_flexible_content_controls{
         add_filter('acfe/flexible/action_wrapper',                  array($this, 'action_wrapper'), 10, 2);
         add_filter('acfe/flexible/action_button',                   array($this, 'action_button'), 10, 2);
         add_filter('acfe/flexible/action_button_secondary',         array($this, 'action_button_secondary'), 10, 2);
-        
         add_filter('acf/fields/flexible_content/no_value_message',  array($this, 'no_value_message'), 1, 2);
         
     }
     
-    function action_wrapper($wrapper, $field){
     
-        if($field['acfe_flexible_stylised_button']){
-            $wrapper['class'] = ' acfe-flexible-stylised-button';
-        }
-        
-        return $wrapper;
-        
-    }
-    
-    function action_button($button, $field){
-    
-        if(!$field['acfe_flexible_stylised_button']){
-            $button['class'] .= ' button-primary';
-        }
-        
-        return $button;
-        
-    }
-    
-    function action_button_secondary($button, $field){
-    
-        if(!$field['acfe_flexible_stylised_button']){
-            $button['class'] .= ' button-primary';
-        }
-        
-        return $button;
-        
-    }
-    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_advanced'] = false;
@@ -64,6 +45,12 @@ class acfe_field_flexible_content_controls{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
     
         // Advanced settings
@@ -167,6 +154,15 @@ class acfe_field_flexible_content_controls{
         
     }
     
+    
+    /**
+     * wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function wrapper_attributes($wrapper, $field){
     
         // Stylised button
@@ -183,6 +179,18 @@ class acfe_field_flexible_content_controls{
         
     }
     
+    
+    /**
+     * prepare_layout
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     *
+     * @return mixed
+     */
     function prepare_layout($layout, $field, $i, $value, $prefix){
         
         // Vars
@@ -222,10 +230,77 @@ class acfe_field_flexible_content_controls{
         
     }
     
+    
+    /**
+     * action_wrapper
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
+    function action_wrapper($wrapper, $field){
+        
+        if($field['acfe_flexible_stylised_button']){
+            $wrapper['class'] = ' acfe-flexible-stylised-button';
+        }
+        
+        return $wrapper;
+        
+    }
+    
+    
+    /**
+     * action_button
+     *
+     * @param $button
+     * @param $field
+     *
+     * @return mixed
+     */
+    function action_button($button, $field){
+        
+        if(!$field['acfe_flexible_stylised_button']){
+            $button['class'] .= ' button-primary';
+        }
+        
+        return $button;
+        
+    }
+    
+    
+    /**
+     * action_button_secondary
+     *
+     * @param $button
+     * @param $field
+     *
+     * @return mixed
+     */
+    function action_button_secondary($button, $field){
+        
+        if(!$field['acfe_flexible_stylised_button']){
+            $button['class'] .= ' button-primary';
+        }
+        
+        return $button;
+        
+    }
+    
+    
+    /**
+     * no_value_message
+     *
+     * @param $message
+     * @param $field
+     *
+     * @return mixed
+     */
     function no_value_message($message, $field){
     
-        if(!empty($field['acfe_flexible_empty_message']))
+        if(!empty($field['acfe_flexible_empty_message'])){
             $message = $field['acfe_flexible_empty_message'];
+        }
         
         return $message;
         

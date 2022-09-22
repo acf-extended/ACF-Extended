@@ -1,37 +1,37 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_slug')):
 
 class acfe_field_slug extends acf_field{
     
-    function __construct(){
+    /**
+     * initialize
+     */
+    function initialize(){
         
         $this->name = 'acfe_slug';
         $this->label = __('Slug', 'acfe');
         $this->category = 'basic';
         $this->defaults = array(
             'default_value' => '',
-            'maxlength'     => '',
             'placeholder'   => '',
             'prepend'       => '',
-            'append'        => ''
+            'append'        => '',
+            'maxlength'     => '',
         );
         
-        parent::__construct();
-        
     }
     
-    function render_field($field){
-        
-        $field['type'] = 'text';
-        
-        acf_get_field_type('text')->render_field($field);
-        
-    }
     
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
         
         // default_value
@@ -76,21 +76,60 @@ class acfe_field_slug extends acf_field{
         
     }
     
+    
+    /**
+     * render_field
+     *
+     * @param $field
+     */
+    function render_field($field){
+        
+        // field type
+        $field['type'] = 'text';
+        
+        // render as text field
+        acf_get_field_type('text')->render_field($field);
+        
+    }
+    
+    
+    /**
+     * validate_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     *
+     * @return string
+     */
     function validate_value($valid, $value, $field, $input){
         
+        // sanitize
         $value = sanitize_title($value);
         
-        if($field['maxlength'] && mb_strlen(wp_unslash($value)) > $field['maxlength'])
+        // check max length
+        if($field['maxlength'] && mb_strlen(wp_unslash($value)) > $field['maxlength']){
             return sprintf(__('Value must not exceed %d characters', 'acf'), $field['maxlength']);
+        }
         
+        // return
         return $valid;
         
     }
     
+    
+    /**
+     * update_value
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
+     */
     function update_value($value, $post_id, $field){
-        
         return sanitize_title($value);
-        
     }
     
 }

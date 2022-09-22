@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_location_taxonomy_list')):
 
@@ -211,8 +212,7 @@ class acfe_location_taxonomy_list{
     function rule_types($choices){
         
         $name = __('Forms', 'acf');
-        
-        $choices[$name] = acfe_array_insert_after('taxonomy', $choices[$name], 'taxonomy_list', __('Taxonomy List'));
+        $choices[ $name ] = acfe_array_insert_after($choices[ $name ], 'taxonomy', 'taxonomy_list', __('Taxonomy List'));
 
         return $choices;
         

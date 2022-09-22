@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('ACFE_Field_Group')):
 
@@ -29,15 +30,15 @@ class ACFE_Field_Group{
         }
     
         if(isset($groups['E-Commerce'])){
-            $groups = acfe_array_insert_after('jQuery', $groups, 'E-Commerce', $groups['E-Commerce']);
+            $groups = acfe_array_insert_after($groups, 'jQuery', 'E-Commerce', $groups['E-Commerce']);
         }
         
         if(isset($groups['ACF'])){
-            $groups = acfe_array_insert_after('jQuery', $groups, 'ACF', $groups['ACF']);
+            $groups = acfe_array_insert_after($groups, 'jQuery', 'ACF', $groups['ACF']);
         }
     
         if(isset($groups['WordPress'])){
-            $groups = acfe_array_insert_after('jQuery', $groups, 'WordPress', $groups['WordPress']);
+            $groups = acfe_array_insert_after($groups, 'jQuery', 'WordPress', $groups['WordPress']);
         }
     
         return $groups;
@@ -109,7 +110,7 @@ class ACFE_Field_Group{
                 'placeholder'   => '',
                 'prepend'       => '',
                 'append'        => ''
-            ));
+            ), 'div', 'label', true);
             
         }
         
@@ -203,7 +204,7 @@ class ACFE_Field_Group{
          */
         $choices = array(
             'php' => 'PHP',
-            'json' => 'Json',
+            'json' => 'JSON',
         );
         
         global $pagenow;
@@ -230,7 +231,7 @@ class ACFE_Field_Group{
             
             ob_start();
             ?>
-            <span <?php echo acf_esc_atts($wrapper); ?>>
+            <span <?php echo acf_esc_attrs($wrapper); ?>>
                 
                 <?php echo $choices[$type]; ?>
 
@@ -270,17 +271,17 @@ class ACFE_Field_Group{
             if(acf_maybe_get($field_group, 'acfe_permissions') || acf_is_filter_enabled('acfe/field_group/advanced')){
     
                 acf_render_field_wrap(array(
-                    'label'         => __('Permissions'),
+                    'label'         => __('Permissions', 'acfe'),
                     'name'          => 'acfe_permissions',
                     'prefix'        => 'acf_field_group',
                     'type'          => 'checkbox',
-                    'instructions'  => __('Select user roles that are allowed to view and edit this field group in post edition'),
+                    'instructions'  => __('Select user roles that are allowed to view and edit this field group in post edition', 'acfe'),
                     'required'      => false,
                     'default_value' => false,
                     'choices'       => acfe_get_roles(),
                     'value'         => acf_maybe_get($field_group, 'acfe_permissions', array()),
                     'layout'        => 'vertical'
-                ));
+                ), 'div', 'label', true);
                 
             }
             

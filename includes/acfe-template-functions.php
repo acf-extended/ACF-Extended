@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * get_flexible
@@ -18,7 +19,9 @@ if(!function_exists('get_flexible')){
     function get_flexible($selector, $post_id = false){
         
         // Bail early
-        if(!have_rows($selector, $post_id)) return false;
+        if(!have_rows($selector, $post_id)){
+            return false;
+        }
         
         // Vars
         $flexible = acf_get_field_type('flexible_content');
@@ -32,8 +35,9 @@ if(!function_exists('get_flexible')){
             $field = $loop['field'];
             
             // Bail early if not Flexible Content
-            if($field['type'] !== 'flexible_content')
+            if($field['type'] !== 'flexible_content'){
                 break;
+            }
             
             $loop_i = acf_get_loop('active', 'i');
             $layout = $flexible->get_layout(get_row_layout(), $field);
@@ -45,8 +49,9 @@ if(!function_exists('get_flexible')){
                 global $is_preview;
                 
                 // Vars
-                if(!isset($is_preview))
+                if(!isset($is_preview)){
                     $is_preview = false;
+                }
                 
                 $name = $field['_name'];
                 $key = $field['key'];
@@ -86,9 +91,7 @@ if(!function_exists('get_flexible')){
 if(!function_exists('the_flexible')){
     
     function the_flexible($selector, $post_id = false){
-        
         echo get_flexible($selector, $post_id);
-        
     }
     
 }
@@ -106,9 +109,7 @@ if(!function_exists('the_flexible')){
 if(!function_exists('has_flexible')){
     
     function has_flexible($selector, $post_id = false){
-        
         return have_rows($selector, $post_id);
-        
     }
     
 }
@@ -174,7 +175,7 @@ function acfe_flexible_render_layout_template($layout, $field){
                 // Include
                 include($file_found);
                 
-                // Preview
+            // Preview
             }else{
                 
                 $path = pathinfo($file);
@@ -272,9 +273,7 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
         
         // URL starting with current domain
         if(stripos($style, home_url()) === 0){
-            
             $style = str_replace(home_url(), '', $style);
-            
         }
         
         // Locate
@@ -282,9 +281,7 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
         
         // Front-end
         if(!empty($style_file)){
-            
             wp_enqueue_style($handle, $style_file, array(), false, 'all');
-            
         }
         
         // Preview
@@ -300,9 +297,7 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
             
             // Enqueue
             if(!empty($style_preview)){
-                
                 wp_enqueue_style($handle . '-preview', $style_preview, array(), false, 'all');
-                
             }
             
         }
@@ -329,9 +324,7 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
         
         // URL starting with current domain
         if(stripos($script, home_url()) === 0){
-            
             $script = str_replace(home_url(), '', $script);
-            
         }
         
         // Locate
@@ -341,9 +334,7 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
         if(!$is_preview || (stripos($script, 'http://') === 0 || stripos($script, 'https://') === 0 || stripos($script, '//') === 0)){
             
             if(!empty($script_file)){
-                
                 wp_enqueue_script($handle, $script_file, array(), false, true);
-                
             }
             
         }else{
@@ -383,9 +374,7 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
 if(!function_exists('have_settings')){
     
     function have_settings(){
-        
         return have_rows('layout_settings');
-        
     }
     
 }
@@ -400,9 +389,7 @@ if(!function_exists('have_settings')){
 if(!function_exists('the_setting')){
     
     function the_setting(){
-        
         return the_row();
-        
     }
     
 }
@@ -418,7 +405,7 @@ if(!function_exists('the_setting')){
  */
 if(!function_exists('have_archive')){
     
-    function have_archive($_post_type = false){
+    function have_archive($post_type = false){
         
         global $acfe_archive_i, $acfe_archive_post_type;
         
@@ -428,21 +415,41 @@ if(!function_exists('have_archive')){
             
             $acfe_archive_i = 0;
             
-            $post_type = get_post_type();
+            if(!$post_type){
+                
+                // try get_post_type()
+                $post_type = get_post_type();
+                
+                if(!$post_type){
+                    
+                    // try get_queried_object()
+                    $object = get_queried_object();
+    
+                    if(is_a($object, 'WP_Post_Type') && property_exists($object, 'has_archive')){
+                        $post_type = $object->name;
+                    }
+                    
+                }
+                
+            }
             
-            if(!empty($_post_type))
-                $post_type = $_post_type;
-            
-            if(!post_type_exists($post_type))
+            if(!$post_type){
                 return false;
+            }
+            
+            if(!post_type_exists($post_type)){
+                return false;
+            }
             
             $post_type_object = get_post_type_object($post_type);
             
-            if(empty($post_type_object))
+            if(empty($post_type_object)){
                 return false;
+            }
             
-            if(!isset($post_type_object->acfe_admin_archive) || empty($post_type_object->acfe_admin_archive))
+            if(!acfe_maybe_get($post_type_object, 'acfe_admin_archive')){
                 return false;
+            }
             
             $acfe_archive_post_type = $post_type;
             
@@ -489,17 +496,17 @@ if(!function_exists('the_archive')){
  */
 function acfe_the_archive_post_id($null, $post_id){
     
-    if($post_id !== false)
+    if($post_id !== false){
         return $null;
+    }
     
     global $acfe_archive_post_type;
     
-    if(empty($acfe_archive_post_type))
+    if(empty($acfe_archive_post_type)){
         return $null;
+    }
     
-    $return = acf_get_valid_post_id($acfe_archive_post_type . '_archive');
-    
-    return $return;
+    return acf_get_valid_post_id("{$acfe_archive_post_type}_archive");
     
 }
 
@@ -518,31 +525,24 @@ function acfe_get_post_id($format = true){
     // Admin
     if(acfe_is_admin()){
         
-        // Legacy ACF method
+        // Legacy ACF method (get_the_ID(), get_queried_object() etc...)
         $post_id = acf_get_valid_post_id();
         
         // Exclude local meta post ids
-        if(function_exists('acfe_get_local_post_ids')){
-            
-            $exclude_post_ids = acfe_get_local_post_ids();
-            
-            if(in_array($post_id, $exclude_post_ids))
-                $post_id = false;
-            
+        if(function_exists('acfe_get_local_post_ids') && in_array($post_id, acfe_get_local_post_ids())){
+            $post_id = false;
         }
         
         if($post_id){
             return $post_id;
         }
         
-        global $pagenow;
-        
         // ACF Form Data
         $post_id = acf_get_form_data('post_id');
         
         // $_POST['_acf_post_id']
         if(!$post_id){
-            $post_id = acf_maybe_get_POST('_acf_post_id');
+            $post_id = acf_maybe_get_POST('_acf_post_id', 0);
         }
         
         // $_REQUEST['post']
@@ -550,7 +550,7 @@ function acfe_get_post_id($format = true){
             $post_id = isset($_REQUEST['post']) ? absint($_REQUEST['post']) : 0;
         }
         
-        // $_REQUEST['post_id'] - ACF Block Type
+        // $_REQUEST['post_id'] (ACF Block Type)
         if(!$post_id){
             $post_id = isset($_REQUEST['post_id']) ? absint($_REQUEST['post_id']) : 0;
         }
@@ -561,9 +561,8 @@ function acfe_get_post_id($format = true){
         }
         
         // global $user_ID
-        global $user_ID;
-        
         if(!$post_id){
+            global $pagenow, $user_ID;
             $post_id = $pagenow === 'profile.php' && $user_ID !== null ? 'user_' . absint($user_ID) : 0;
         }
         
@@ -579,38 +578,45 @@ function acfe_get_post_id($format = true){
         
     // Front
     }else{
+    
+        // ACF Form Data
+        $post_id = acf_get_form_data('post_id');
         
-        // vars
-        $object = get_queried_object();
-        $post_id = 0;
-        
-        if(is_object($object)){
+        if(!$post_id){
             
-            // Post
-            if(isset($object->post_type, $object->ID)){
+            // vars
+            $object = get_queried_object();
+            $post_id = 0;
+            
+            if(is_object($object)){
                 
-                $post_id = $object->ID;
-                
-            // Post Type Archive
-            }elseif(isset($object->hierarchical, $object->name, $object->acfe_admin_archive)){
-                
-                // Validate with ACF filter (for multilang)
-                $post_id = $object->name . '_archive';
-                
-            // User
-            }elseif(isset($object->roles, $object->ID)){
-                
-                $post_id = 'user_' . $object->ID;
-                
-            // Term
-            }elseif(isset($object->taxonomy, $object->term_id)){
-                
-                $post_id = 'term_' . $object->term_id;
-                
-            // Comment
-            }elseif(isset($object->comment_ID)){
-                
-                $post_id = 'comment_' . $object->comment_ID;
+                // Post
+                if(isset($object->post_type, $object->ID)){
+                    
+                    $post_id = $object->ID;
+                    
+                // Post Type Archive
+                }elseif(isset($object->hierarchical, $object->name, $object->acfe_admin_archive)){
+                    
+                    // Validate with ACF filter (for multilang)
+                    $post_id = $object->name . '_archive';
+                    
+                // User
+                }elseif(isset($object->roles, $object->ID)){
+                    
+                    $post_id = 'user_' . $object->ID;
+                    
+                // Term
+                }elseif(isset($object->taxonomy, $object->term_id)){
+                    
+                    $post_id = 'term_' . $object->term_id;
+                    
+                // Comment
+                }elseif(isset($object->comment_ID)){
+                    
+                    $post_id = 'comment_' . $object->comment_ID;
+                    
+                }
                 
             }
             
@@ -632,6 +638,7 @@ function acfe_get_post_id($format = true){
         
     }
     
+    // return
     return $post_id;
     
 }

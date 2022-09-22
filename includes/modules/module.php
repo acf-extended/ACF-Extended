@@ -1,14 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_dynamic_module')):
 
 class acfe_dynamic_module{
     
     // vars
-    public  $active = false,
+    public  $name = '',
+            $active = false,
             $settings = '',
             $post_type = '',
             $label = '',
@@ -80,12 +82,14 @@ class acfe_dynamic_module{
             remove_meta_box('slugdiv', $this->post_type, 'normal');
     
             add_action('admin_enqueue_scripts',                         array($this, '_post_head'));
+            add_filter('admin_body_class',                              array($this, 'post_body_class'));
             add_action('post_submitbox_misc_actions',                   array($this, '_post_submitbox_misc_actions'));
             add_filter('enter_title_here',                              array($this, 'post_enter_title_here'), 10, 2);
             add_action('admin_footer',                                  array($this, '_post_footer'));
             add_action('load-post.php',                                 array($this, 'post_load'));
             add_action('load-post-new.php',                             array($this, 'post_new_load'));
             add_filter('submenu_file',                                  array($this, 'submenu_file'));
+            add_filter('acfe/localize_data',                            array($this, 'post_localize_data'));
             
             $this->post_screen();
             
@@ -95,6 +99,8 @@ class acfe_dynamic_module{
             global $wp_post_statuses;
             $wp_post_statuses['publish']->label_count = _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'acf' );
     
+            add_action('admin_enqueue_scripts',                         array($this, '_edit_head'));
+            add_filter('admin_body_class',                              array($this, 'edit_body_class'));
             add_filter("manage_edit-{$this->post_type}_columns",        array($this, '_edit_columns'));
             add_action("manage_{$this->post_type}_posts_custom_column", array($this, 'edit_columns_html'), 10, 2);
             add_filter('display_post_states',                           array($this, 'display_post_states'), 10, 2);
@@ -104,10 +110,47 @@ class acfe_dynamic_module{
             add_action('load-edit.php',                                 array($this, 'edit_load'));
             add_filter("bulk_actions-edit-{$this->post_type}",          array($this, 'bulk_actions'));
             add_filter("handle_bulk_actions-edit-{$this->post_type}",   array($this, 'handle_bulk_actions'), 10, 3);
+            add_filter('acfe/localize_data',                            array($this, 'edit_localize_data'));
     
             $this->edit_screen();
             
         }
+        
+    }
+    
+    function post_body_class($classes){
+        
+        $classes .= " acfe-module acfe-module-post acfe-module-{$this->name}";
+        return $classes;
+        
+    }
+    
+    function edit_body_class($classes){
+        
+        $classes .= " acfe-module acfe-module-posts acfe-module-{$this->name}";
+        return $classes;
+        
+    }
+    
+    function post_localize_data($data){
+        
+        $data['module'] = array(
+            'name'   => $this->name,
+            'screen' => 'post',
+        );
+        
+        return $data;
+        
+    }
+    
+    function edit_localize_data($data){
+        
+        $data['module'] = array(
+            'name'   => $this->name,
+            'screen' => 'posts',
+        );
+        
+        return $data;
         
     }
     
@@ -285,6 +328,12 @@ class acfe_dynamic_module{
     
     function post_footer(){
         // ...
+    }
+    
+    function _edit_head(){
+        
+        // enqueue acf global js for tooltips
+        acf_enqueue_script('acf');
     }
     
     /*

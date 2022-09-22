@@ -1,53 +1,59 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content')):
 
-class acfe_field_flexible_content{
+class acfe_field_flexible_content extends acfe_field_extend{
     
-    var $instance;
+    /**
+     * initialize
+     */
+    function initialize(){
+        
+        $this->name = 'flexible_content';
+        $this->replace = array(
+            'render_field',
+        );
     
-    function __construct(){
+        $this->add_field_action('acf/render_field_settings',                             array($this, '_render_field_settings'), 0);
+        $this->add_action('acf/render_field',                                            array($this, 'render_layout_label'), 0);
+        $this->add_action('acf/render_field',                                            array($this, 'render_layout_settings'));
         
-        // Flexible Content Instance
-        $this->instance = acf_get_field_type('flexible_content');
-        
-        // Flexible Settings
-        add_action('acf/render_field_settings/type=flexible_content',       array($this, 'render_field_settings'), 0);
-        add_action('acf/render_field',                                      array($this, 'render_field_layouts_settings_label'), 0);
-        add_action('acf/render_field',                                      array($this, 'render_field_layouts_settings'), 10);
-        
-        add_filter('acf/validate_field/type=flexible_content',              array($this, 'validate_field'));
-        add_filter('acf/prepare_field/type=flexible_content',               array($this, 'prepare_field'));
-        add_filter('acfe/load_fields/type=flexible_content',                array($this, 'load_fields'), 10, 2);
-        add_filter('acfe/field_wrapper_attributes/type=flexible_content',   array($this, 'wrapper_attributes'), 10, 2);
-        
-        // Render Flexible
-        remove_action('acf/render_field/type=flexible_content',             array($this->instance, 'render_field'), 9);
-        add_action('acf/render_field/type=flexible_content',                array($this, 'render_field'), 9);
-        add_filter('acf/fields/flexible_content/layout_title',              array($this, 'prepare_layout_title'), 0, 4);
+        $this->replace_action('wp_ajax_acf/fields/flexible_content/layout_title',        array($this, 'ajax_layout_title'));
+        $this->replace_action('wp_ajax_nopriv_acf/fields/flexible_content/layout_title', array($this, 'ajax_layout_title'));
         
     }
     
-    /*
-     *  Field Settings
+    
+    /**
+     * _render_field_settings
+     *
+     * acf/render_field_settings/type=flexible_content:0
+     *
+     * @param $field
      */
-    function render_field_settings($field){
+    function _render_field_settings($field){
         
         // Action
         do_action("acfe/flexible/render_field_settings", $field);
         
     }
     
-    /*
-     *  Layout Settings Label
+    
+    /**
+     * render_layout_label
+     *
+     * @param $field
      */
-    function render_field_layouts_settings_label($field){
+    function render_layout_label($field){
         
-        if($field['_name'] !== 'label' || stripos($field['name'], '[layouts]') === false)
+        // validate setting
+        if($field['_name'] !== 'label' || stripos($field['name'], '[layouts]') === false){
             return;
+        }
         
         echo '</li>';
         
@@ -61,13 +67,18 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Layout Settings
+    
+    /**
+     * render_layout_settings
+     *
+     * @param $field
      */
-    function render_field_layouts_settings($field){
+    function render_layout_settings($field){
         
-        if($field['_name'] !== 'max' || stripos($field['name'], '[layouts]') === false)
+        // validate setting
+        if($field['_name'] !== 'max' || stripos($field['name'], '[layouts]') === false){
             return;
+        }
         
         // Prefix
         $prefix = $field['prefix'];
@@ -83,8 +94,9 @@ class acfe_field_flexible_content{
         // Profit!
         $flexible = acf_get_field($_field_id);
         
-        if(!acf_maybe_get($flexible, 'layouts'))
+        if(!acf_maybe_get($flexible, 'layouts')){
             return;
+        }
         
         $layout = $flexible['layouts'][$_layout_key];
         
@@ -103,8 +115,13 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Validate Field
+    
+    /**
+     * validate_field
+     *
+     * @param $field
+     *
+     * @return mixed|null
      */
     function validate_field($field){
         
@@ -160,8 +177,13 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Prepare Field
+    
+    /**
+     * prepare_field
+     *
+     * @param $field
+     *
+     * @return mixed
      */
     function prepare_field($field){
         
@@ -184,7 +206,7 @@ class acfe_field_flexible_content{
             $prepend = apply_filters("acfe/flexible/layouts/label_prepend/key={$key}&layout={$l_name}",     $prepend, $layout, $field);
             
             // Atts
-            $atts = array('class' => 'no-thumbnail');
+            $atts = array();
             $atts = apply_filters("acfe/flexible/layouts/label_atts",                               $atts, $layout, $field);
             $atts = apply_filters("acfe/flexible/layouts/label_atts/name={$name}",                  $atts, $layout, $field);
             $atts = apply_filters("acfe/flexible/layouts/label_atts/key={$key}",                    $atts, $layout, $field);
@@ -193,7 +215,7 @@ class acfe_field_flexible_content{
             $atts = apply_filters("acfe/flexible/layouts/label_atts/key={$key}&layout={$l_name}",   $atts, $layout, $field);
             
             // Label
-            $layout['label'] = $prepend . '<span ' . acf_esc_atts($atts) . '>' . $layout['label'] . '</span>';
+            $layout['label'] = $prepend . '<span ' . acf_esc_attrs($atts) . '>' . $layout['label'] . '</span>';
             
         }
         
@@ -201,17 +223,25 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Load Fields
+    
+    /**
+     * load_fields
+     *
+     * @param $fields
+     * @param $field
+     *
+     * @return mixed|null
      */
     function load_fields($fields, $field){
         
-        if(acfe_is_admin_screen())
+        if(acfe_is_admin_screen()){
             return $fields;
+        }
         
         // check layouts
-        if(empty($field['layouts']))
+        if(empty($field['layouts'])){
             return $fields;
+        }
         
         // vars
         $name = $field['name'];
@@ -225,10 +255,16 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Wrapper Attributes
+    
+    /**
+     * field_wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed|null
      */
-    function wrapper_attributes($wrapper, $field){
+    function field_wrapper_attributes($wrapper, $field){
     
         $wrapper = apply_filters('acfe/flexible/wrapper_attributes', $wrapper, $field);
         
@@ -236,8 +272,11 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Render Field
+    
+    /**
+     * render_field
+     *
+     * @param $field
      */
     function render_field($field){
         
@@ -426,8 +465,14 @@ class acfe_field_flexible_content{
     
     }
     
-    /*
-     *  Render Layout
+    
+    /**
+     * render_layout
+     *
+     * @param $field
+     * @param $layout
+     * @param $i
+     * @param $value
      */
     function render_layout($field, $layout, $i, $value){
         
@@ -481,7 +526,7 @@ class acfe_field_flexible_content{
             <?php acf_hidden_input(array('name' => $prefix.'[acf_fc_layout]', 'value' => $layout['name'])); ?>
             
             <div <?php echo acf_esc_attrs($handle); ?>>
-                <?php echo $this->instance->get_layout_title($field, $layout, $i, $value); ?>
+                <?php echo $this->get_layout_title($field, $layout, $i, $value); ?>
             </div>
             
             <?php
@@ -523,8 +568,127 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Render Layout Fields
+    
+    /**
+     * ajax_layout_title
+     *
+     * wp_ajax_acf/fields/flexible_content/layout_title
+     */
+    function ajax_layout_title(){
+        
+        // options
+        $options = acf_parse_args($_POST, array(
+            'post_id'   => 0,
+            'i'         => 0,
+            'field_key' => '',
+            'nonce'     => '',
+            'layout'    => '',
+            'value'     => array(),
+        ));
+        
+        // load field
+        $field = acf_get_field($options['field_key']);
+        
+        if(!$field){
+            die();
+        }
+        
+        // vars
+        $layout = $this->instance->get_layout($options['layout'], $field);
+        
+        if(!$layout){
+            die();
+        }
+        
+        // title
+        $title = $this->get_layout_title($field, $layout, $options['i'], $options['value']);
+        
+        // echo
+        echo $title;
+        die();
+        
+    }
+    
+    
+    /**
+     * get_layout_title
+     *
+     * @param $field
+     * @param $layout
+     * @param $i
+     * @param $value
+     *
+     * @return string
+     */
+    function get_layout_title($field, $layout, $i, $value){
+        
+        // vars
+        $rows       = array();
+        $rows[ $i ] = $value;
+        
+        // add loop
+        acf_add_loop(
+            array(
+                'selector' => $field['name'],
+                'name'     => $field['name'],
+                'value'    => $rows,
+                'field'    => $field,
+                'i'        => $i,
+                'post_id'  => 0,
+            )
+        );
+        
+        // vars
+        $_title = $layout['label'];
+        $title = $layout['label'];
+        
+        // filters
+        $title = apply_filters("acf/fields/flexible_content/layout_title",                        $title, $field, $layout, $i);
+        $title = apply_filters("acf/fields/flexible_content/layout_title/name={$field['_name']}", $title, $field, $layout, $i);
+        $title = apply_filters("acf/fields/flexible_content/layout_title/key={$field['key']}",    $title, $field, $layout, $i);
+    
+        if(in_array('title', $field['acfe_flexible_add_actions'])){
+    
+            // Get Layout Title
+            $value = get_sub_field('acfe_flexible_layout_title');
+        
+            if(!empty($value)){
+                $title = wp_unslash($value);
+            }
+        
+            $title = '<span class="acfe-layout-title-text">' . $title . '</span>';
+            
+        }
+        
+        $attrs = array(
+            'class' => 'acfe-layout-title'
+        );
+    
+        $attrs = apply_filters("acf/fields/flexible_content/layout_attrs",                        $attrs, $field, $layout, $i);
+        $attrs = apply_filters("acf/fields/flexible_content/layout_attrs/name={$field['_name']}", $attrs, $field, $layout, $i);
+        $attrs = apply_filters("acf/fields/flexible_content/layout_attrs/key={$field['key']}",    $attrs, $field, $layout, $i);
+        
+        // remove loop
+        acf_remove_loop();
+        
+        // prepend order
+        $order = is_numeric($i) ? $i + 1 : 0;
+        $title = '<span class="acf-fc-layout-order">' . $order . '</span> <span ' . acf_esc_attrs($attrs). '>' . acf_esc_html($title) . '</span>';
+        
+        // return
+        return $title;
+        
+    }
+    
+    
+    /**
+     * render_layout_fields
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
      */
     function render_layout_fields($layout, $field, $i, $value, $prefix){
         
@@ -532,8 +696,9 @@ class acfe_field_flexible_content{
         $sub_fields = $layout['sub_fields'];
         $el = $layout['display'] === 'table' ? 'td' : 'div';
         
-        if(empty($sub_fields))
+        if(empty($sub_fields)){
             return;
+        }
         
         if($layout['display'] == 'table'): ?>
             <table class="acf-table">
@@ -627,8 +792,13 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     *  Prepare Layout Editor
+    
+    /**
+     * prepare_layout_editor
+     *
+     * @param $field
+     *
+     * @return mixed
      */
     function prepare_layout_editor($field){
         
@@ -638,24 +808,13 @@ class acfe_field_flexible_content{
         
     }
     
-    /*
-     * Prepare Layout Title
-     */
-    function prepare_layout_title($title, $field, $layout, $i){
-        
-        return '<span class="acfe-layout-title-text">' . $title . '</span>';
-        
-    }
-    
 }
 
 acf_new_instance('acfe_field_flexible_content');
 
 endif;
 
-/*
- * Includes
- */
+// includes
 acfe_include('includes/fields/field-flexible-content-actions.php');
 acfe_include('includes/fields/field-flexible-content-async.php');
 acfe_include('includes/fields/field-flexible-content-controls.php');

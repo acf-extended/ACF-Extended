@@ -1,7 +1,8 @@
 (function($) {
 
-    if (typeof acf === 'undefined')
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
         return;
+    }
 
     acfe.enhancedEditUI = function(props) {
         return new enhancedEditUI(props);
@@ -375,6 +376,60 @@
             });
 
         }
+
+    });
+
+    acfe.enhancedAttachmentUI = function(props) {
+        return new enhancedAttachmentUI(props);
+    };
+
+    var enhancedAttachmentUI = acf.Model.extend({
+
+        data: {
+            title: 'Edit Media'
+        },
+
+        setup: function(props) {
+
+            // extend data
+            $.extend(this.data, props);
+
+            // set element
+            this.$el = $('.wrap');
+
+        },
+
+        initialize: function() {
+
+            // postbox
+            this.$('.wp_attachment_details').addClass('postbox acf-postbox');
+            this.$('.wp_attachment_details').wrapInner('<div class="inside acf-fields -left" />');
+            this.$('.wp_attachment_details').prepend('<div class="postbox-header"><h2 class="hndle">' + this.get('title') + '</h2></div>');
+
+            // acf fields
+            this.$('.wp_attachment_details').find('.attachment-alt-text-description ~ p').wrapAll('<div class="acf-field acfe-caption" />');
+            this.$('.wp_attachment_details').find('.attachment-alt-text, .attachment-alt-text-description').wrapAll('<div class="acf-field acfe-alt-text" />');
+            this.$('.wp_attachment_details').find('label.attachment-content-description, #wp-attachment_content-wrap').wrapAll('<div class="acf-field acfe-description" />');
+
+            // alt text
+            this.$('.acf-field.acfe-alt-text').find('label').wrapAll('<div class="acf-label" />');
+            this.$('.acf-field.acfe-alt-text').find('.acf-label').prependTo('.acf-field.acfe-alt-text');
+            this.$('.acf-field.acfe-alt-text').find('input, p.attachment-alt-text-description').wrapAll('<div class="acf-input" />');
+            this.$('.acf-field.acfe-alt-text').find('.acf-input').appendTo('.acf-field.acfe-alt-text');
+            this.$('.acf-field.acfe-alt-text').find('.attachment-alt-text').remove();
+
+            // caption
+            this.$('.acf-field.acfe-caption').find('label').wrapAll('<div class="acf-label" />');
+            this.$('.acf-field.acfe-caption').find('.acf-label').prependTo('.acf-field.acfe-caption');
+            this.$('.acf-field.acfe-caption').find('textarea').wrapAll('<div class="acf-input" />');
+            this.$('.acf-field.acfe-caption').find('.acf-input').appendTo('.acf-field.acfe-caption');
+            this.$('.acf-field.acfe-caption').find('> p').remove();
+
+            // description
+            this.$('.acf-field.acfe-description').find('label').wrapAll('<div class="acf-label" />');
+            this.$('.acf-field.acfe-description').find('#wp-attachment_content-wrap').wrapAll('<div class="acf-input" />');
+
+        },
 
     });
 

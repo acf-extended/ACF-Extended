@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_screen_taxonomy')):
 
@@ -10,17 +11,19 @@ class acfe_screen_taxonomy{
     // vars
     var $taxonomy;
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
     
-        /*
-         * acfe/load_term               $taxonomy, $term_id
-         * acfe/add_term_meta_boxes     $taxonomy, $term
+        /**
+         * hooks:
          *
-         * acfe/load_terms              $taxonomy
-         * acfe/add_terms_meta_boxes    $taxonomy
+         * acfe/load_term             $taxonomy, $term_id
+         * acfe/add_term_meta_boxes   $taxonomy, $term
+         *
+         * acfe/load_terms            $taxonomy
+         * acfe/add_terms_meta_boxes  $taxonomy
          */
     
         // edit
@@ -29,10 +32,16 @@ class acfe_screen_taxonomy{
         // list
         add_action('load-edit-tags.php',    array($this, 'terms_load'));
         
+        // location screen
+        add_filter('acf/location/screen',   array($this, 'location_screen'));
+        
     }
     
-    /*
-     * Term: Load
+    
+    /**
+     * term_load
+     *
+     * load-term.php
      */
     function term_load(){
         
@@ -47,17 +56,23 @@ class acfe_screen_taxonomy{
         $this->taxonomy = $taxonomy;
         
         // actions
-        do_action("acfe/load_term",                         $taxonomy, $term_id);
-        do_action("acfe/load_term/taxonomy={$taxonomy}",    $taxonomy, $term_id);
+        do_action("acfe/load_term",                      $taxonomy, $term_id);
+        do_action("acfe/load_term/taxonomy={$taxonomy}", $taxonomy, $term_id);
         
         // hooks
-        add_action("{$taxonomy}_term_edit_form_top",    array($this, 'add_term_meta_boxes'), 10, 2);
-        add_action("{$taxonomy}_edit_form",             array($this, 'do_term_meta_boxes'), 10, 2);
+        add_action("{$taxonomy}_term_edit_form_top", array($this, 'add_term_meta_boxes'), 10, 2);
+        add_action("{$taxonomy}_edit_form",          array($this, 'do_term_meta_boxes'), 10, 2);
         
     }
     
-    /*
-     * Term: Meta Boxes
+    
+    /**
+     * add_term_meta_boxes
+     *
+     * {$taxonomy}_term_edit_form_top
+     *
+     * @param $term
+     * @param $taxonomy
      */
     function add_term_meta_boxes($term, $taxonomy){
         
@@ -73,8 +88,14 @@ class acfe_screen_taxonomy{
         
     }
     
-    /*
-     * Term: Do Meta Boxes
+    
+    /**
+     * do_term_meta_boxes
+     *
+     * {$taxonomy}_edit_form
+     *
+     * @param $term
+     * @param $taxonomy
      */
     function do_term_meta_boxes($term, $taxonomy){
     
@@ -90,8 +111,11 @@ class acfe_screen_taxonomy{
         
     }
     
-    /*
-     * Terms: Load
+    
+    /**
+     * terms_load
+     *
+     * load-edit-tags.php
      */
     function terms_load(){
         
@@ -110,16 +134,19 @@ class acfe_screen_taxonomy{
         $this->taxonomy = $taxonomy;
         
         // actions
-        do_action("acfe/load_terms",                        $taxonomy);
-        do_action("acfe/load_terms/taxonomy={$taxonomy}",   $taxonomy);
+        do_action("acfe/load_terms",                      $taxonomy);
+        do_action("acfe/load_terms/taxonomy={$taxonomy}", $taxonomy);
     
         // hooks
         add_action('admin_footer', array($this, 'terms_footer'));
         
     }
     
-    /*
-     * Terms: Admin Footer
+    
+    /**
+     * terms_footer
+     *
+     * admin_footer
      */
     function terms_footer(){
         
@@ -129,8 +156,9 @@ class acfe_screen_taxonomy{
         
     }
     
-    /*
-     * Terms: Do Meta Boxes
+    
+    /**
+     * terms_do_meta_boxes
      */
     function terms_do_meta_boxes(){
         
@@ -197,6 +225,30 @@ class acfe_screen_taxonomy{
         })(jQuery);
         </script>
         <?php
+    }
+    
+    
+    /**
+     * location_screen
+     *
+     * acf/location/screen
+     *
+     * @param $screen
+     *
+     * @return mixed
+     */
+    function location_screen($screen){
+    
+        // add taxonomy term id and check term_id doesn't exist
+        if(acf_maybe_get($screen, 'taxonomy') && !acf_maybe_get($screen, 'term_id')){
+            
+            global $tag;
+            $screen['term_id'] = acfe_maybe_get($tag, 'term_id');
+        
+        }
+        
+        return $screen;
+        
     }
     
 }

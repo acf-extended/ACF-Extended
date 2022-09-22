@@ -6,6 +6,10 @@
     word-break: break-word
 }
 
+.acf-panel .acf-panel-title {
+    font-weight: 600
+}
+
 .acf-fields.-left>.acf-field>.acf-label,
 .acfe-postbox-left>.inside>.acf-field>.acf-label {
     min-height: 1px
@@ -28,6 +32,19 @@
 
 body .medium-editor-toolbar {
     z-index: 999999 !important
+}
+
+body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap:first-child .acf-tab-group {
+    border-top: none
+}
+
+body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap .acf-tab-group li.active a {
+    background: #fff
+}
+
+body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap .acf-tab-group li a {
+    background: #f1f1f1;
+    border-color: #ccd0d4
 }
 
 .acf-accordion {
@@ -169,6 +186,28 @@ tr.acf-field.acf-field-clone[data-acfe-clone-modal="1"]>.acf-input>.acfe-modal>.
 
 .acf-field-acfe-code-editor>td.acf-input {
     max-width: 1px
+}
+
+#acf-admin-tool-export>.CodeMirror-wrap {
+    height: auto
+}
+
+#acf-admin-tool-export>.CodeMirror-wrap.cm-s-default {
+    border: 1px solid #7e8993;
+    border-radius: 4px
+}
+
+#acf-admin-tool-export>.CodeMirror-wrap.cm-s-default .CodeMirror-gutters {
+    border-right: 1px solid #7e8993;
+    background: #f9f9f9
+}
+
+#acf-admin-tool-export>.CodeMirror-wrap.cm-s-default .CodeMirror-activeline-background {
+    background: #f9f9f9
+}
+
+#acf-admin-tool-export>.CodeMirror-wrap.cm-s-default .CodeMirror-selected {
+    background: #f0f0f0 !important
 }
 
 body .CodeMirror-wrap pre {
@@ -313,6 +352,14 @@ body:not(.acf-admin-5-3) .acf-field-acfe-code-editor>.acf-input>.acf-input-wrap>
 }
 
 .acf-fields.acfe-column-wrapper>.acfe-flexible-opened-actions {
+    width: 100%
+}
+
+.acf-repeater .acf-row.-collapsed>.acf-fields.acfe-column-wrapper {
+    display: table-cell
+}
+
+.acf-repeater .acf-row.-collapsed>.acf-fields.acfe-column-wrapper>.acf-field.acf-field-acfe-column.-collapsed-target {
     width: 100%
 }
 
@@ -663,22 +710,22 @@ input.acfe-flexible-control-title {
     background: 0 0
 }
 
-.layout>.acf-fc-layout-handle .acfe-layout-title {
-    cursor: text;
-    position: relative
-}
-
-.layout:not(.acfe-flexible-title-edition)>.acf-fc-layout-handle .acfe-layout-title:hover {
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout:not(.acfe-flexible-title-edition)>.acf-fc-layout-handle .acfe-layout-title:hover {
     background: #f4f4f4
 }
 
-.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title input.acfe-flexible-control-title {
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title input.acfe-flexible-control-title {
     display: inline-block;
     border-bottom: 1px solid #ddd !important
 }
 
-.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title .acfe-layout-title-text {
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title .acfe-layout-title-text {
     display: none
+}
+
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-handle .acfe-layout-title {
+    cursor: text;
+    position: relative
 }
 
 .layout.acfe-flexible-layout-hidden>.acf-fc-layout-controls,
@@ -1206,7 +1253,19 @@ body:not(.acf-admin-5-3) .acf-repeater.-row>table>tbody>tr>td:last-of-type {
 }
 
 .acf-field-repeater>.acf-input>.acf-repeater>.acfe-repeater-stylised-button>.acf-actions {
-    text-align: center
+    text-align: center;
+    position: relative
+}
+
+.acf-field-repeater>.acf-input>.acf-repeater>.acfe-repeater-stylised-button>.acf-actions .acf-button {
+    float: none
+}
+
+.acf-field-repeater>.acf-input>.acf-repeater>.acfe-repeater-stylised-button>.acf-actions .acf-tablenav {
+    float: none;
+    position: absolute;
+    top: 0;
+    right: 0
 }
 
 .acf-field-flexible-content>.acf-input>.acf-repeater .acf-actions .acf-button .dashicons {
@@ -1268,8 +1327,10 @@ form.acfe-form.is-invalid[data-errors-position=below] .acf-field .acf-notice {
 
 .acfe-field-tooltip {
     float: right;
-    font-size: 16px;
-    color: #999
+    font-size: 15px;
+    color: #999;
+    height: 16px;
+    line-height: 1.35
 }
 
 .acf-field[data-instruction-tooltip]:not([data-instruction-placement])>.acf-label>p.description {

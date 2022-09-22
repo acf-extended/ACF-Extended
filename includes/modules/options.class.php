@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('WP_List_Table')){
     
@@ -40,7 +41,8 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         
         if(!empty($search)){
             
-            $sql .= ' WHERE option_name LIKE \'%' . $search . '%\'';
+            $search = '%' . $wpdb->esc_like($search) . '%';
+            $sql .= $wpdb->prepare(" WHERE option_name LIKE %s", $search);
             
         }
 
@@ -87,8 +89,9 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         $sql = "SELECT COUNT(*) FROM {$wpdb->options}";
         
         if(!empty($search)){
-            
-            $sql .= ' WHERE option_name LIKE \'%' . $search . '%\'';
+    
+            $search = '%' . $wpdb->esc_like($search) . '%';
+            $sql .= $wpdb->prepare(" WHERE option_name LIKE %s", $search);
             
         }
 
@@ -103,6 +106,7 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         _e('No options avaliable.', 'acfe');
         
     }
+    
     
     /**
      * Render a column when no column specific method exist.
@@ -122,18 +126,36 @@ class ACFE_Admin_Options_List extends WP_List_Table{
         
         elseif($column_name === 'option_value'){
             
-            if(is_serialized($item['option_value']) || $item['option_value'] != strip_tags($item['option_value'])){
+            // raw
+            $raw = map_deep($item['option_value'], '_wp_specialchars');
+            
+            // serialized
+            if(is_serialized($item['option_value'])){
                 
-                return '<pre style="max-height:200px; overflow:auto; white-space: pre;">' . print_r(maybe_unserialize($item['option_value']), true) . '</pre>';
+                $value = maybe_unserialize($item['option_value']);
+                $value = @map_deep($value, '_wp_specialchars');
                 
+                return '<pre style="max-height:200px; overflow:auto; white-space: pre;">' . print_r($value, true) . '</pre><pre style="max-height:200px; overflow:auto; white-space: pre; margin-top:10px;">' . print_r($raw, true) . '</pre>';
+                
+            // html
+            }elseif($item['option_value'] != strip_tags($item['option_value'])){
+    
+                return '<pre style="max-height:200px; overflow:auto; white-space: pre;">' . print_r($raw, true) . '</pre>';
+                
+            // json
             }elseif(acfe_is_json($item['option_value'])){
                 
-                return '<pre style="max-height:200px; overflow:auto; white-space: pre;">' . print_r(json_decode($item['option_value']), true) . '</pre>';
+                $value = json_decode($item['option_value']);
+                $value = @map_deep($value, '_wp_specialchars');
+                
+                return '<pre style="max-height:200px; overflow:auto; white-space: pre;">' . print_r($value, true) . '</pre><pre style="max-height:200px; overflow:auto; white-space: pre; margin-top:10px;">' . print_r($raw, true) . '</pre>';
+                
+            // default
+            }else{
+    
+                return $raw;
                 
             }
-                
-            
-            return $item['option_value'];
             
         }
         

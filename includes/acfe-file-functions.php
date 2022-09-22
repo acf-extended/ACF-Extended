@@ -1,12 +1,13 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_get_abs_path_to_url
  *
- * Convert "/url" to "https://www.domain.com/url"
+ * Converts "/url" to "https://www.domain.com/url"
  *
  * @param string $path
  *
@@ -39,8 +40,9 @@ function acfe_locate_file_url($filenames){
     
     foreach((array) $filenames as $filename){
         
-        if(!$filename)
+        if(!$filename){
             continue;
+        }
         
         // Direct URL: https://www.domain.com/folder/file.js
         if(stripos($filename, 'http://') === 0 || stripos($filename, 'https://') === 0 || stripos($filename, '//') === 0){
@@ -117,8 +119,9 @@ function acfe_locate_file_path($filenames){
     
     foreach((array) $filenames as $filename){
         
-        if(!$filename)
+        if(!$filename){
             continue;
+        }
         
         $_filename = ltrim($filename, '/\\');
         $abspath = untrailingslashit(ABSPATH);
@@ -162,6 +165,93 @@ function acfe_locate_file_path($filenames){
             break;
             
         }
+        
+    }
+    
+    return $located;
+    
+}
+
+
+/**
+ * acfe_get_human_readable_location
+ *
+ * Returns "Located in theme: /acf-json/group_abcdef123456.json"
+ * Returns "Located in plugin: /my-plugin/group_abcdef123456.json"
+ * Returns "Located in: /group_abcdef123456.json"
+ *
+ * @param $path
+ * @param $prefix
+ * @param $new_line
+ *
+ * @return string
+ */
+function acfe_get_human_readable_location($path, $prefix = true, $new_line = true){
+    
+    // vars
+    $located = '';
+    $path = wp_normalize_path($path);
+    $file_exists = file_exists($path);
+    
+    // paths to check
+    $stylesheet_path = wp_normalize_path(get_stylesheet_directory());
+    $template_path = wp_normalize_path(get_template_directory());
+    $wp_plugin_dir = wp_normalize_path(WP_PLUGIN_DIR);
+    $abspath = wp_normalize_path(ABSPATH);
+    
+    // prefix labels
+    $prefix_label = array(
+        __('Located', 'acfe'),
+        __('Not found', 'acfe'),
+    );
+    
+    if(is_array($prefix)){
+        $prefix_label = $prefix;
+    }
+    
+    if(strpos($path, $stylesheet_path) !== false){
+    
+        $rel_path = str_replace($stylesheet_path, '', $path);
+    
+        if($prefix){
+            $located .= ($file_exists ? $prefix_label[0] : $prefix_label[1]) . ' ';
+        }
+        
+        $located .= __('in theme:', 'acfe') . ($new_line ? "<br/>" : ' ');
+        $located .= $rel_path;
+        
+    }elseif(strpos($path, $template_path) !== false){
+    
+        $rel_path = str_replace($template_path, '', $path);
+    
+        if($prefix){
+            $located .= ($file_exists ? $prefix_label[0] : $prefix_label[1]) . ' ';
+        }
+        
+        $located .= __('in theme:', 'acfe') . ($new_line ? "<br/>" : ' ');
+        $located .= $rel_path;
+        
+    }elseif(strpos($path, $wp_plugin_dir) !== false){
+    
+        $rel_path = str_replace($wp_plugin_dir, '', $path);
+    
+        if($prefix){
+            $located .= ($file_exists ? $prefix_label[0] : $prefix_label[1]) . ' ';
+        }
+        
+        $located .= __('in plugin:', 'acfe') . ($new_line ? "<br/>" : ' ');
+        $located .= $rel_path;
+        
+    }else{
+        
+        $rel_file = str_replace($abspath, '', $path);
+    
+        if($prefix){
+            $located .= ($file_exists ? $prefix_label[0] : $prefix_label[1]) . ' ';
+        }
+        
+        $located .= __('in:', 'acfe') . ($new_line ? "<br/>" : ' ');
+        $located .= $rel_file;
         
     }
     

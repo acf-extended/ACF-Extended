@@ -1,7 +1,8 @@
 <?php 
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_module_export')):
 
@@ -41,7 +42,19 @@ class acfe_module_export extends ACF_Admin_Tool{
         $choices = $this->instance->export_choices();
         
         ?>
-        <p><?php echo $this->description; ?></p>
+        
+        <?php if(acfe_is_acf_6()): ?>
+        
+            <div class="acf-postbox-header">
+                <h2 class="acf-postbox-title"><?php echo $this->description; ?></h2>
+            </div>
+            <div class="acf-postbox-inner">
+            
+        <?php else: ?>
+        
+            <p><?php echo $this->description; ?></p>
+        
+        <?php endif; ?>
         
         <div class="acf-fields">
             <?php 
@@ -57,6 +70,7 @@ class acfe_module_export extends ACF_Admin_Tool{
                     'value'     => false,
                     'toggle'    => true,
                     'choices'   => $choices,
+                    'class'     => 'acfe-module-export-choices'
                 ));
             
             }
@@ -85,6 +99,11 @@ class acfe_module_export extends ACF_Admin_Tool{
             <?php } ?>
             
         </p>
+        
+        <?php if(acfe_is_acf_6()): ?>
+            </div>
+        <?php endif; ?>
+        
         <?php
         
     }

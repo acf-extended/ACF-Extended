@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_is_admin
@@ -11,9 +12,7 @@ if(!defined('ABSPATH'))
  * @return bool
  */
 function acfe_is_admin(){
-    
     return !acfe_is_front();
-    
 }
 
 /**
@@ -27,8 +26,9 @@ function acfe_is_front(){
     
     // todo: use acf_get_form_data('screen')
     
-    if(!is_admin() || (is_admin() && wp_doing_ajax() && (acf_maybe_get_POST('_acf_screen') === 'acfe_form' || acf_maybe_get_POST('_acf_screen') === 'acf_form')))
+    if(!is_admin() || (is_admin() && wp_doing_ajax() && (acf_maybe_get_POST('_acf_screen') === 'acfe_form' || acf_maybe_get_POST('_acf_screen') === 'acf_form'))){
         return true;
+    }
     
     return false;
     
@@ -46,12 +46,13 @@ function acfe_is_front(){
  */
 function acfe_get_acf_screen_id($page = ''){
     
-    $prefix = sanitize_title( __("Custom Fields", 'acf') );
+    $prefix = sanitize_title(__("Custom Fields", 'acf'));
     
-    if(empty($page))
+    if(empty($page)){
         return $prefix;
+    }
     
-    return $prefix . '_page_' . $page;
+    return "{$prefix}_page_{$page}";
     
 }
 
@@ -67,20 +68,19 @@ function acfe_get_acf_screen_id($page = ''){
 function acfe_is_admin_screen($modules = false){
     
     // bail early if not defined
-    if(!function_exists('get_current_screen'))
+    if(!function_exists('get_current_screen')){
         return false;
+    }
     
     // vars
     $screen = get_current_screen();
     
     // no screen
-    if(!$screen)
+    if(!$screen){
         return false;
+    }
     
-    $post_types = array(
-        'acf-field-group',  // ACF
-    );
-    
+    $post_types = array('acf-field-group');
     $field_group_category = false;
     
     // include ACF Extended Modules?
@@ -94,8 +94,9 @@ function acfe_is_admin_screen($modules = false){
         
     }
     
-    if(in_array($screen->post_type, $post_types) || $field_group_category)
+    if(in_array($screen->post_type, $post_types) || $field_group_category){
         return true;
+    }
     
     return false;
     
@@ -117,7 +118,9 @@ function acfe_match_location_rules($location, $screen){
     foreach($location as $group){
         
         // ignore group if no rules.
-        if(empty($group)) continue;
+        if(empty($group)){
+            continue;
+        }
         
         // Loop over rules and determine if all rules match.
         $match_group = true;
@@ -132,7 +135,9 @@ function acfe_match_location_rules($location, $screen){
         }
         
         // Show the field group
-        if($match_group) return true;
+        if($match_group){
+            return true;
+        }
         
     }
     
@@ -206,7 +211,5 @@ function acfe_is_block_editor(){
  * @deprecated
  */
 function acfe_is_gutenberg(){
-    
     return acfe_is_block_editor();
-    
 }

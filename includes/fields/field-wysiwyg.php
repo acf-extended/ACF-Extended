@@ -1,28 +1,36 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
-if(!class_exists('acfe_free_field_wysiwyg')):
+if(!class_exists('acfe_field_wysiwyg')):
 
-class acfe_free_field_wysiwyg{
+class acfe_field_wysiwyg extends acfe_field_extend{
     
-    function __construct(){
-        
-        add_filter('acfe/field_wrapper_attributes/type=wysiwyg', array($this, 'field_wrapper'), 10, 2);
+    /**
+     * initialize
+     */
+    function initialize(){
+    
+        $this->name = 'wysiwyg';
         
     }
     
-    /*
-     * Field Wrapper
+    
+    /**
+     * field_wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
      */
-    function field_wrapper($wrapper, $field){
+    function field_wrapper_attributes($wrapper, $field){
     
         // auto init
         if(acf_maybe_get($field, 'acfe_wysiwyg_auto_init')){
-        
             $wrapper['data-acfe-wysiwyg-auto-init'] = $field['acfe_wysiwyg_auto_init'];
-        
         }
         
         return $wrapper;
@@ -31,6 +39,6 @@ class acfe_free_field_wysiwyg{
     
 }
 
-new acfe_free_field_wysiwyg();
+acf_new_instance('acfe_field_wysiwyg');
 
 endif;

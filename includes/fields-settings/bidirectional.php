@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_bidirectional')):
 
@@ -110,7 +111,7 @@ class acfe_bidirectional{
     function ajax_query(){
     
         // validate
-        if (!acf_verify_ajax()){
+        if(!acf_verify_ajax()){
             die();
         }
     

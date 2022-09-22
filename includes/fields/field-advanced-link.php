@@ -1,15 +1,20 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_advanced_link')):
 
 class acfe_field_advanced_link extends acf_field{
     
+    // vars
     public $post_object = '';
     
-    function __construct(){
+    /**
+     * initialize
+     */
+    function initialize(){
 
         $this->name = 'acfe_advanced_link';
         $this->label = __('Advanced Link', 'acfe');
@@ -19,18 +24,22 @@ class acfe_field_advanced_link extends acf_field{
             'taxonomy'  => array(),
         );
         
-        add_action('wp_ajax_acfe/fields/advanced_link/post_query',          array($this, 'ajax_query'));
-        add_action('wp_ajax_nopriv_acfe/fields/advanced_link/post_query',   array($this, 'ajax_query'));
+        $this->add_action('wp_ajax_acfe/fields/advanced_link/post_query',        array($this, 'ajax_query'));
+        $this->add_action('wp_ajax_nopriv_acfe/fields/advanced_link/post_query', array($this, 'ajax_query'));
         
         $this->post_object = acf_get_field_type('post_object');
         
         remove_action('acf/render_field/type=post_object',                  array($this->post_object, 'render_field'), 9);
         add_action('acf/render_field/type=post_object',                     array($this, 'post_object_render_field'), 9);
 
-        parent::__construct();
-
     }
     
+    
+    /**
+     * post_object_render_field
+     *
+     * @param $field
+     */
     function post_object_render_field($field){
         
         // Change Field into a select
@@ -70,6 +79,12 @@ class acfe_field_advanced_link extends acf_field{
         
     }
     
+    
+    /**
+     * ajax_query
+     *
+     * @return false|void
+     */
     function ajax_query(){
         
         // validate
@@ -163,6 +178,12 @@ class acfe_field_advanced_link extends acf_field{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
         
         // Filter Post Type
@@ -193,6 +214,14 @@ class acfe_field_advanced_link extends acf_field{
         
     }
     
+    
+    /**
+     * get_value
+     *
+     * @param $value
+     *
+     * @return array
+     */
     function get_value($value = array()){
         
         // vars
@@ -251,28 +280,30 @@ class acfe_field_advanced_link extends acf_field{
         
     }
     
+    
+    /**
+     * render_field
+     *
+     * @param $field
+     */
     function render_field($field){
         
         // vars
         $div = array(
             'id'    => $field['id'],
-            'class'    => $field['class'] . ' acf-link',
+            'class' => $field['class'] . ' acf-link',
         );
         
         // get link
         $value = $this->get_value($field['value']);
         
         // classes
-        if($value['url']){
-            
+        if($value['url'] || $value['title']){
             $div['class'] .= ' -value';
-            
         }
         
         if($value['target'] === '_blank'){
-            
             $div['class'] .= ' -external';
-            
         }
         
         $sub_fields = array(
@@ -397,7 +428,7 @@ class acfe_field_advanced_link extends acf_field{
         
         ?>
         
-        <div <?php acf_esc_attr_e($div); ?>>
+        <div <?php echo acf_esc_attrs($div); ?>>
         
             <div class="acfe-modal" data-modal-title="<?php echo $field['label']; ?>">
                 <div class="acfe-modal-wrapper">
@@ -428,6 +459,16 @@ class acfe_field_advanced_link extends acf_field{
         
     }
     
+    
+    /**
+     * format_value
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return array
+     */
     function format_value($value, $post_id, $field){
         
         // get value
@@ -443,18 +484,32 @@ class acfe_field_advanced_link extends acf_field{
         
     }
     
+    
+    /**
+     * validate_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     *
+     * @return false
+     */
     function validate_value($valid, $value, $field, $input){
         
         // bail early if not required
-        if(!$field['required'])
+        if(!$field['required']){
             return $valid;
+        }
         
         // URL is required
-        if(empty($value))
+        if(empty($value)){
             return false;
+        }
         
-        if((acf_maybe_get($value, 'type') === 'url' && !acf_maybe_get($value, 'url')) || (acf_maybe_get($value, 'type') === 'post' && !acf_maybe_get($value, 'post')) || (acf_maybe_get($value, 'type') === 'term' && !acf_maybe_get($value, 'term')))
+        if((acf_maybe_get($value, 'type') === 'url' && !acf_maybe_get($value, 'url')) || (acf_maybe_get($value, 'type') === 'post' && !acf_maybe_get($value, 'post')) || (acf_maybe_get($value, 'type') === 'term' && !acf_maybe_get($value, 'term'))){
             return false;
+        }
         
         // return
         return $valid;

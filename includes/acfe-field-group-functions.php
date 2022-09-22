@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_get_post_id_field_groups
@@ -31,6 +32,11 @@ function acfe_get_post_id_field_groups($post_id = 0){
     $field_groups = array();
     $post_type = '';
     $taxonomy = '';
+    
+    // check post id is attachment
+    if($type === 'post' && get_post_type($id) === 'attachment'){
+        $post_id = "attachment_{$id}";
+    }
     
     // override attachment
     if($type === 'post' && acfe_starts_with($post_id, 'attachment_')){
@@ -260,8 +266,9 @@ function acfe_get_locations_array($locations){
     $return = array();
     $types = acf_get_location_rule_types();
     
-    if(!$locations || !$types)
+    if(!$locations || !$types){
         return $return;
+    }
     
     $icon_default = 'admin-generic';
     
@@ -321,15 +328,16 @@ function acfe_get_locations_array($locations){
             
             foreach($icons as $_icon => $icon_slugs){
                 
-                if(!in_array($slug, $icon_slugs))
+                if(!in_array($slug, $icon_slugs)){
                     continue;
+                }
                 
                 $icon = $_icon;
                 break;
                 
             }
             
-            $rules[$slug] = array(
+            $rules[ $slug ] = array(
                 'name'  => $slug,
                 'label' => $name,
                 'icon'  => $icon
@@ -341,11 +349,12 @@ function acfe_get_locations_array($locations){
     
     foreach($locations as $group){
         
-        if(!acf_maybe_get($rules, $group['param']) || !acf_maybe_get($group, 'value'))
+        if(!acf_maybe_get($rules, $group['param']) || !acf_maybe_get($group, 'value')){
             continue;
+        }
         
         // init
-        $rule = $rules[$group['param']];
+        $rule = $rules[ $group['param'] ];
         
         // vars
         $icon = $rule['icon'];
@@ -368,15 +377,14 @@ function acfe_get_locations_array($locations){
                 
                 foreach($values as $value_slug => $value_name){
                     
-                    if($value != $value_slug)
+                    if($value != $value_slug){
                         continue;
+                    }
                     
                     $value = $value_name;
                     
                     if(is_array($value_name) && isset($value_name[$value_slug])){
-                        
                         $value = $value_name[$value_slug];
-                        
                     }
                     
                     break;
@@ -401,16 +409,16 @@ function acfe_get_locations_array($locations){
             
         }
         
-        $html = '<span ' . acf_esc_attr($atts) . '></span>';
+        $html = '<span ' . acf_esc_attrs($atts) . '></span>';
         
         $return[] = array(
-            'html'              => $html,
-            'icon'              => $icon,
-            'title'             => $title,
-            'name'              => $name,
-            'label'             => $label,
-            'operator'          => $operator,
-            'value'             => $value,
+            'html'      => $html,
+            'icon'      => $icon,
+            'title'     => $title,
+            'name'      => $name,
+            'label'     => $label,
+            'operator'  => $operator,
+            'value'     => $value,
         );
         
     }
@@ -437,9 +445,7 @@ function acfe_render_field_group_locations_html($field_group){
             $array = array();
             
             foreach($html as $location){
-                
                 $array[] = $location['html'];
-                
             }
             
             echo implode(' ', $array);
@@ -447,5 +453,100 @@ function acfe_render_field_group_locations_html($field_group){
         }
         
     }
+    
+}
+
+/**
+ * acfe_add_field_groups_metabox
+ *
+ * @param $field_groups
+ */
+function acfe_add_field_groups_metabox($args = array()){
+    
+    $args = wp_parse_args($args, array(
+        'id'            => 'acfe-field-groups',
+        'title'         => __('Field Groups', 'acfe'),
+        'screen'        => '',
+        'context'       => 'normal',
+        'priority'      => 'default',
+        'field_groups'  => array(),
+    ));
+    
+    add_meta_box($args['id'], $args['title'], function($object, $data) use($args){
+        
+        $data = $data['args'];
+    
+        foreach($data as $field_group){
+            
+            $fields = acf_get_fields($field_group);
+            $url = $field_group['ID'] ? admin_url("post.php?post={$field_group['ID']}&action=edit") : false;
+            $edit = $url ? '(<a href="' . $url . '">' .  __('edit'). '</a>)' : '';
+            ?>
+        
+            <div class="acf-field">
+            
+                <div class="acf-label">
+                    <label><?php echo $field_group['title']; ?> <?php echo $edit; ?></label>
+                    <p class="description"><code style="font-size:12px;"><?php echo $field_group['key']; ?></code></p>
+                </div>
+            
+                <div class="acf-input">
+                    <?php if(!empty($fields)){ ?>
+                        
+                        <?php $details = acfe_get_fields_details_recursive($fields); ?>
+                        
+                        <table class="acf-table">
+                            <thead>
+                                <th class="acf-th" width="25%"><strong>Label</strong></th>
+                                <th class="acf-th" width="25%"><strong>Name</strong></th>
+                                <th class="acf-th" width="25%"><strong>Key</strong></th>
+                                <th class="acf-th" width="25%"><strong>Type</strong></th>
+                            </thead>
+                        
+                            <tbody>
+                            <?php foreach($details as $field){ ?>
+                                
+                                <?php
+                                $field_name = $field['name'] ? '<code style="font-size:12px;">' . $field['name'] . '</code>' : '';
+                                $field_key = $field['key'] ? '<code style="font-size:12px;">' . $field['key'] . '</code>' : '';
+                                ?>
+                                
+                                <tr class="acf-row">
+                                    <td width="25%"><?php echo $field['label']; ?></td>
+                                    <td width="25%"><?php echo $field_name; ?></td>
+                                    <td width="25%"><?php echo $field_key; ?></td>
+                                    <td width="25%"><?php echo $field['type']; ?></td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                
+                    <?php } ?>
+                </div>
+        
+            </div>
+    
+        <?php } ?>
+    
+        <script type="text/javascript">
+        (function($){
+
+            if(typeof acf === 'undefined'){
+                return;
+            }
+    
+            acf.newPostbox(<?php echo wp_json_encode(array(
+                'id'    => $args['id'],
+                'key'   => '',
+                'style' => 'default',
+                'label' => 'left',
+                'edit'  => false
+            )); ?>);
+
+        })(jQuery);
+        </script>
+        <?php
+        
+    }, $args['screen'], $args['context'], $args['priority'], $args['field_groups']);
     
 }

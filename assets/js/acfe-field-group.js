@@ -1,9 +1,10 @@
 (function($) {
 
-    if (typeof acf === 'undefined')
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
         return;
+    }
 
-    /*
+    /**
      * Field: Code Editor
      */
     new acf.Model({
@@ -19,14 +20,21 @@
                 return;
             }
 
-            field.$setting('default_value').find('> .acf-input > .acf-input-wrap > .CodeMirror:last').remove();
-            field.$setting('placeholder').find('> .acf-input > .acf-input-wrap > .CodeMirror:last').remove();
+            var $defaultValue = field.$setting('default_value').find('> .acf-input > .acf-input-wrap > .CodeMirror');
+            if ($defaultValue.length > 1) {
+                $defaultValue.last().remove();
+            }
+
+            var $placeholder = field.$setting('placeholder').find('> .acf-input > .acf-input-wrap > .CodeMirror');
+            if ($placeholder.length > 1) {
+                $placeholder.last().remove();
+            }
 
         },
 
     });
 
-    /*
+    /**
      * Field: Column
      */
     new acf.Model({
@@ -74,7 +82,7 @@
 
     });
 
-    /*
+    /**
      * Field: Taxonomy Terms
      */
     new acf.Model({
@@ -107,7 +115,7 @@
 
     });
 
-    /*
+    /**
      * Field: Data
      */
     new acf.Model({
@@ -119,10 +127,10 @@
             $('.button.edit-field').each(function() {
 
                 var $this = $(this);
-                var tbody = $this.closest('tbody');
+                var tbody = $this.closest('tbody, .acf-field-settings'); // ACF 6.0 doesn't use tbody anymore
                 $(tbody).find('.acfe-data-button:first').insertAfter($this);
                 $(tbody).find('.acfe-modal:first').appendTo($('body'));
-                $(tbody).find('tr.acf-field-setting-acfe_field_data:first').remove();
+                $(tbody).find('.acf-field-setting-acfe_field_data:first').remove();
 
             });
 
@@ -130,7 +138,7 @@
 
     });
 
-    /*
+    /**
      * Field Attribute: Before/After
      */
     new acf.Model({
@@ -141,28 +149,52 @@
 
         onNewField: function(field) {
 
-            if (field.get('type') === 'tab') {
-                return;
-            }
+            // bail early if no before/after
+            if (field.has('before') || field.has('after')) {
 
-            var $sibling;
-
-            if (field.has('before')) {
-
-                // vars
-                $sibling = field.$el.siblings('[data-name="' + field.get('before') + '"]').first();
-
-                if ($sibling.length) {
-                    $sibling.before(field.$el);
+                // bail early
+                if (field.get('type') === 'tab') {
+                    return;
                 }
 
-            } else if (field.has('after')) {
-
                 // vars
-                $sibling = field.$el.siblings('[data-name="' + field.get('after') + '"]').first();
+                var type = field.has('before') ? 'before' : 'after';
+                var $fieldObject = field.$el.closest('.acf-field-object');
+                var fieldObject, fieldObjectKey;
 
-                if ($sibling.length) {
-                    $sibling.after(field.$el);
+                if ($fieldObject.length) {
+                    fieldObject = acf.getFieldObject($fieldObject);
+                    fieldObjectKey = fieldObject.get('key');
+                }
+
+                // get parent from acf-fields div
+                var $fields = field.$el.closest('.acf-fields');
+
+                // get parent from acf-table div
+                if (!$fields.length) {
+                    $fields = field.$el.closest('.acf-table');
+                }
+
+                // found parent
+                if ($fields.length) {
+
+                    var $sibling;
+
+                    // find within parent field
+                    if (fieldObjectKey) {
+                        $sibling = $fields.find('[data-name="' + field.get(type) + '"]').not('.acf-input-sub .acf-field-object[data-key!="' + fieldObjectKey + '"] [data-name="' + field.get(type) + '"]').first();
+
+                        // find within parent
+                    } else {
+                        $sibling = $fields.find('[data-name="' + field.get(type) + '"]').first();
+                    }
+
+                    if ($sibling.length) {
+
+                        // apply after/before
+                        $sibling[type](field.$el);
+                    }
+
                 }
 
             }
@@ -170,7 +202,7 @@
         }
     });
 
-    /*
+    /**
      * Tab Attribute: Before/After
      */
     var Tab = acf.models.TabField;
@@ -179,22 +211,47 @@
 
         initialize: function() {
 
-            if (this.has('before')) {
+            // bail early if no before/after
+            if (this.has('before') || this.has('after')) {
 
                 // vars
-                $sibling = this.$el.siblings('[data-name="' + this.get('before') + '"]').first();
+                var type = this.has('before') ? 'before' : 'after';
 
-                if ($sibling.length) {
-                    $sibling.before(this.$el);
+                // get parent from acf-fields div
+                var $fields = this.$el.closest('.acf-fields');
+                var $fieldObject = this.$el.closest('.acf-field-object');
+                var fieldObject, fieldObjectKey;
+
+                if ($fieldObject.length) {
+                    fieldObject = acf.getFieldObject($fieldObject);
+                    fieldObjectKey = fieldObject.get('key');
                 }
 
-            } else if (this.has('after')) {
+                // get parent from acf-table div
+                if (!$fields.length) {
+                    $fields = this.$el.closest('.acf-table');
+                }
 
-                // vars
-                $sibling = this.$el.siblings('[data-name="' + this.get('after') + '"]').first();
+                // found parent
+                if ($fields.length) {
 
-                if ($sibling.length) {
-                    $sibling.after(this.$el);
+                    var $sibling;
+
+                    // find within parent field
+                    if (fieldObjectKey) {
+                        $sibling = $fields.find('[data-name="' + this.get(type) + '"]').not('.acf-input-sub .acf-field-object[data-key!="' + fieldObjectKey + '"] [data-name="' + this.get(type) + '"]').first();
+
+                        // find within parent
+                    } else {
+                        $sibling = $fields.find('[data-name="' + this.get(type) + '"]').first();
+                    }
+
+                    if ($sibling.length) {
+
+                        // apply after/before
+                        $sibling[type](this.$el);
+                    }
+
                 }
 
             }
@@ -206,7 +263,7 @@
 
     });
 
-    /*
+    /**
      * Field Group: Locations - Date/Time Picker
      */
     new acf.Model({
@@ -219,7 +276,9 @@
         },
 
         initialize: function() {
-            this.$el = $('#acf-field-group-locations');
+
+            // ACF 6.0 changed #acf-field-group-locations to .field-group-locations
+            this.$el = $('#acf-field-group-locations, .field-group-locations');
         },
 
         onAppend: function($el) {
@@ -254,7 +313,7 @@
 
     });
 
-    /*
+    /**
      * Field Group: Meta
      */
     new acf.Model({
@@ -273,7 +332,7 @@
 
     });
 
-    /*
+    /**
      * Field Group Custom Slug
      */
     new acf.Model({

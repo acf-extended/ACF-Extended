@@ -1,28 +1,41 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_post_object')):
 
-class acfe_field_post_object{
+class acfe_field_post_object extends acfe_field_extend{
     
-    function __construct(){
+    /**
+     * initialize
+     */
+    function initialize(){
+    
+        $this->name = 'post_object';
+        $this->defaults = array(
+            'save_custom'      => 0,
+            'save_post_type'   => '',
+            'save_post_status' => '',
+        );
         
-        // Actions
-        add_action('acf/render_field_settings/type=post_object',        array($this, 'field_settings'));
-        
-        // Filters
-        add_filter('acfe/field_wrapper_attributes/type=post_object',    array($this, 'field_wrapper'), 10, 2);
-        add_filter('acf/update_value/type=post_object',                 array($this, 'update_value'), 5, 3);
+        // hooks
+        $this->add_field_filter('acf/update_value', array($this, '_update_value'), 5, 3);
         
     }
     
-    function field_settings($field){
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
+    function render_field_settings($field){
     
         // save custom value
         acf_render_field_setting($field, array(
-            'label'         => __('Allow & Save Custom value','acf'),
+            'label'         => __('Allow & Save Custom value', 'acf'),
             'instructions'  => '',
             'name'          => 'save_custom',
             'type'          => 'true_false',
@@ -32,8 +45,8 @@ class acfe_field_post_object{
     
         // save post_type
         acf_render_field_setting($field, array(
-            'label'             => __('New Post Arguments','acf'),
-            'instructions'      => 'See available hooks in the <a href="https://www.acf-extended.com/features/fields/post-object#custom-value-hooks" target="_blank">documentation</a>.',
+            'label'             => __('New Post Arguments', 'acf'),
+            'instructions'      => __('See available hooks in the <a href="https://www.acf-extended.com/features/fields/post-object#custom-value-hooks" target="_blank">documentation</a>.', 'acfe'),
             'name'              => 'save_post_type',
             'type'              => 'acfe_post_types',
             'field_type'        => 'select',
@@ -61,95 +74,127 @@ class acfe_field_post_object{
         
     }
     
-    function field_wrapper($wrapper, $field){
     
-        if(acf_maybe_get($field, 'save_custom')){
-        
+    /**
+     * field_wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
+    function field_wrapper_attributes($wrapper, $field){
+    
+        if($field['save_custom']){
             $wrapper['data-acfe-allow-custom'] = 1;
-        
         }
     
         return $wrapper;
         
     }
     
-    function update_value($value, $post_id, $field){
     
-        // Bail early if empty value
-        if(empty($value))
+    /**
+     * _update_value
+     *
+     * acf/update_value:5
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return array|false|mixed|string[]
+     */
+    function _update_value($value, $post_id, $field){
+    
+        // bail early if empty
+        if(empty($value)){
             return $value;
+        }
         
-        // Bail early if no save custom setting
-        if(!acf_maybe_get($field, 'save_custom'))
+        // bail early if no save custom setting
+        if(!$field['save_custom']){
             return $value;
-    
-        // Bail early if local meta
-        if(acfe_is_local_post_id($post_id))
-            return $value;
-    
-        // New Post Args
-        $post_type = acf_maybe_get($field, 'save_post_type', 'post');
-        $post_status = acf_maybe_get($field, 'save_post_status', 'publish');
-    
-        $is_array = is_array($value) ? true : false;
-    
-        $value = acf_get_array($value);
-    
-        foreach($value as $k => $v){
-        
-            if(is_numeric($v))
-                continue;
-        
-            $title = $v;
-        
-            // Create new post
-            $args = array(
-                'post_title'    => $title,
-                'post_type'     => $post_type,
-                'post_status'   => $post_status,
-            );
-        
-            // Allow filters
-            $args = apply_filters('acfe/fields/post_object/custom_save_args',                           $args, $title, $post_id, $field);
-            $args = apply_filters('acfe/fields/post_object/custom_save_args/name=' . $field['name'],    $args, $title, $post_id, $field);
-            $args = apply_filters('acfe/fields/post_object/custom_save_args/key=' . $field['key'],      $args, $title, $post_id, $field);
-        
-            if($args === false){
-            
-                unset($value[$k]);
-                continue;
-            
-            }
-        
-            // Insert post
-            $_post_id = wp_insert_post($args);
-        
-            if(empty($_post_id) || is_wp_error($_post_id)){
-            
-                unset($value[$k]);
-                continue;
-            
-            }
-        
-            // Allow actions after insert
-            do_action('acfe/fields/post_object/custom_save',                           $_post_id, $title, $post_id, $field);
-            do_action('acfe/fields/post_object/custom_save/name=' . $field['name'],    $_post_id, $title, $post_id, $field);
-            do_action('acfe/fields/post_object/custom_save/key=' . $field['key'],      $_post_id, $title, $post_id, $field);
-        
-            $value[$k] = $_post_id;
-        
         }
     
+        // bail early when local meta
+        if(acfe_is_local_post_id($post_id)){
+            return $value;
+        }
+    
+        // new post args
+        $post_type = acf_maybe_get($field, 'save_post_type', 'post');
+        $post_status = acf_maybe_get($field, 'save_post_status', 'publish');
+        
+        // vars
+        $is_array = is_array($value);
+        $value = acf_get_array($value);
+        
+        // loop
+        foreach($value as $k => $v){
+            
+            // has to be words
+            // (post id are selected posts)
+            if(is_numeric($v)){
+                continue;
+            }
+            
+            // vars
+            $title = $v;
+        
+            // args
+            $args = array(
+                'post_title'  => $title,
+                'post_type'   => $post_type,
+                'post_status' => $post_status,
+            );
+        
+            // filters
+            $args = apply_filters("acfe/fields/post_object/custom_save_args",                       $args, $title, $post_id, $field);
+            $args = apply_filters("acfe/fields/post_object/custom_save_args/name={$field['name']}", $args, $title, $post_id, $field);
+            $args = apply_filters("acfe/fields/post_object/custom_save_args/key={$field['key']}",   $args, $title, $post_id, $field);
+            
+            // do not create post
+            if($args === false){
+            
+                unset($value[ $k ]);
+                continue;
+            
+            }
+        
+            // insert post
+            $_post_id = wp_insert_post($args);
+            
+            // error during creation
+            if(empty($_post_id) || is_wp_error($_post_id)){
+            
+                unset($value[ $k ]);
+                continue;
+            
+            }
+        
+            // actions after create
+            do_action("acfe/fields/post_object/custom_save",                       $_post_id, $title, $post_id, $field);
+            do_action("acfe/fields/post_object/custom_save/name={$field['name']}", $_post_id, $title, $post_id, $field);
+            do_action("acfe/fields/post_object/custom_save/key={$field['key']}",   $_post_id, $title, $post_id, $field);
+            
+            // assign new post id as selected
+            $value[ $k ] = $_post_id;
+        
+        }
+        
+        // check array
         if(!$is_array){
             $value = acfe_unarray($value);
         }
-    
+        
+        // return
         return $value;
         
     }
     
 }
 
-new acfe_field_post_object();
+acf_new_instance('acfe_field_post_object');
 
 endif;

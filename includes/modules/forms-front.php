@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_form_front')):
 
@@ -410,12 +411,12 @@ class acfe_form_front{
         if(!$args = $this->validate_form($args)){
             return;
         }
-        
-        // enqueue acf
-        acf_enqueue_scripts();
     
         // success message
         $this->form_success($args);
+        
+        // enqueue acf
+        acf_enqueue_scripts();
     
         // hide form on success
         if($this->form_success_hide($args)){
@@ -458,41 +459,46 @@ class acfe_form_front{
     
     function form_success($args){
         
-        // filter for success script
-        acf_enable_filter('acfe/form/is_success');
-        
         // validate
         if(!acfe_is_form_success($args['name'])) return;
-        
-        // JS div atts
-        $atts = acf_esc_attrs(array(
-            'class'          => 'acfe-form-success',
-            'data-form-name' => $args['name'],
-            'data-form-id'   => $args['ID'],
-        ));
     
-        // <div class="acfe-form-success"></div>
-        echo "<div {$atts}></div>";
+        // hooks
+        do_action("acfe/form/success",                      $args);
+        do_action("acfe/form/success/id={$args['ID']}",     $args);
+        do_action("acfe/form/success/name={$args['name']}", $args);
+    
+        // add javascript success
+        add_filter('acfe/localize_data', function($data) use($args){
         
-        // assign message
+            $data['acfe_form_success'][] = array(
+                'name' => $args['name'],
+                'id'   => $args['ID'],
+            );
+        
+            return $data;
+        
+        });
+        
+        // get updated message
         $message = $args['updated_message'];
     
-        // no success message
-        if(!$message){
-            return;
-        }
+        // on success message
+        if($message){
     
-        // map message with values in $_POST
-        if(acf_maybe_get_POST('acf')){
-            $message = acfe_form_map_field_value($message, $args['post_id'], $args);
-        }
-        
-        // html message
-        if($args['html_updated_message']){
-            $message = sprintf($args['html_updated_message'], wp_unslash($message));
-        }
+            // map message with values in $_POST
+            if(acf_maybe_get_POST('acf')){
+                $message = acfe_form_map_field_value($message, $args['post_id'], $args);
+            }
     
-        echo $message;
+            // html
+            if($args['html_updated_message']){
+                $message = sprintf($args['html_updated_message'], wp_unslash($message));
+            }
+            
+            // echo
+            echo $message;
+            
+        }
         
     }
     
@@ -554,9 +560,10 @@ class acfe_form_front{
         foreach($args['map'] as $key => $_field){
         
             add_filter("acf/prepare_field/key={$key}", function($field) use($_field){
-            
-                if(!$field){
-                    return $field;
+    
+                // hide field
+                if(!$field || !$_field){
+                    return false;
                 }
             
                 return array_merge($field, $_field);
@@ -674,9 +681,9 @@ class acfe_form_front{
     
         // render form data
         acf_form_data(array(
-            'screen'    => 'acfe_form',
-            'post_id'    => $args['post_id'],
-            'form'        => acf_encrypt(json_encode($args))
+            'screen'  => 'acfe_form',
+            'post_id' => $args['post_id'],
+            'form'    => acf_encrypt(json_encode($args))
         ));
     
     }

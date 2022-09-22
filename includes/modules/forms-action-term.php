@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_form_term')):
 
@@ -90,65 +91,53 @@ class acfe_form_term{
         // Invalid Term ID
         if(!$_term_id)
             return $form;
-        
-        // Name
-        if(acf_is_field_key($_name)){
-            
-            $key = array_search($_name, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
     
-            $form['map'][$_name]['value'] = get_term_field('name', $_term_id);
-            
-        }
+        $rules = array(
         
-        // Slug
-        if(acf_is_field_key($_slug)){
-            
-            $key = array_search($_slug, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
+            array(
+                'key'   => $_name,
+                'value' => get_term_field('name', $_term_id),
+            ),
     
-            $form['map'][$_slug]['value'] = get_term_field('slug', $_term_id);
-            
-        }
-        
-        // Taxonomy
-        if(acf_is_field_key($_taxonomy)){
-            
-            $key = array_search($_taxonomy, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
+            array(
+                'key'   => $_slug,
+                'value' => get_term_field('slug', $_term_id),
+            ),
     
-            $form['map'][$_taxonomy]['value'] = get_term_field('taxonomy', $_term_id);
-            
-        }
-        
-        // Parent
-        if(acf_is_field_key($_parent)){
-            
-            $key = array_search($_parent, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
-            
-            $form['map'][$_parent]['value'] = get_term_field('parent', $_term_id);
-            
-        }
-        
-        // Description
-        if(acf_is_field_key($_description)){
-            
-            $key = array_search($_description, $load_meta);
-            
-            if($key !== false)
-                unset($load_meta[$key]);
+            array(
+                'key'   => $_taxonomy,
+                'value' => get_term_field('taxonomy', $_term_id),
+            ),
     
-            $form['map'][$_description]['value'] = get_term_field('description', $_term_id);
+            array(
+                'key'   => $_parent,
+                'value' => get_term_field('parent', $_term_id),
+            ),
+    
+            array(
+                'key'   => $_description,
+                'value' => get_term_field('description', $_term_id),
+            ),
+    
+        );
+    
+        foreach($rules as $rule){
+        
+            if(acf_is_field_key($rule['key'])){
             
+                // disable loading from meta if checked
+                if(($key = array_search($rule['key'], $load_meta)) !== false){
+                    unset($load_meta[ $key ]);
+                }
+            
+                if(!isset($form['map'][ $rule['key'] ]) || $form['map'][ $rule['key'] ] !== false){
+                    if(!isset($form['map'][ $rule['key'] ]['value'])){
+                        $form['map'][ $rule['key'] ]['value'] = $rule['value'];
+                    }
+                }
+            
+            }
+        
         }
         
         // Load others values

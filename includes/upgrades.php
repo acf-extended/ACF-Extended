@@ -1,5 +1,9 @@
 <?php
 
+if(!defined('ABSPATH')){
+    exit;
+}
+
 if(!class_exists('acfe_upgrades')):
 
 class acfe_upgrades{

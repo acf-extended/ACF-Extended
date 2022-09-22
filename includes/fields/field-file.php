@@ -1,99 +1,133 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_file')):
 
-class acfe_field_file{
+class acfe_field_file extends acfe_field_extend{
     
-    function __construct(){
-        
-        add_filter('gettext',                               array($this, 'gettext'), 99, 3);
-        add_action('acf/include_admin_tools',               array($this, 'acf_admin_tools'));
-        add_filter('acf/validate_field/type=file',          array($this, 'validate_field'), 20);
-        add_action('acf/render_field_settings/type=file',   array($this, 'render_field_settings'), 0);
-        add_filter('acf/prepare_field/type=file',           array($this, 'prepare_field'));
+    /**
+     * initialize
+     */
+    function initialize(){
     
-        add_filter('acf/prepare_field/name=min_size',       array($this, 'prepare_min_max_size'));
-        add_filter('acf/prepare_field/name=max_size',       array($this, 'prepare_min_max_size'));
-        add_filter('acf/prepare_field/name=library',        array($this, 'prepare_library'));
+        $this->name = 'file';
+        $this->defaults = array(
+            'uploader' => '',
+        );
+    
+        $this->add_filter('gettext',                         array($this, 'gettext'), 99, 3);
+        $this->add_filter('acf/prepare_field/name=min_size', array($this, 'prepare_size'));
+        $this->add_filter('acf/prepare_field/name=max_size', array($this, 'prepare_size'));
+        $this->add_filter('acf/prepare_field/name=library',  array($this, 'prepare_library'));
+    
+        $this->add_field_action('acf/render_field_settings', array($this, '_render_field_settings'), 0);
         
     }
     
-    function prepare_min_max_size($field){
-        
-        if(acf_maybe_get($field['wrapper'], 'data-setting') !== 'file')
-            return $field;
-        
-        if($field['_name'] === 'min_size'){
     
-            $field['label'] = __('File size', 'acf');
-            $field['prepend'] = 'Min size';
-            
-        }elseif($field['_name'] === 'max_size'){
+    /**
+     * gettext
+     *
+     * @param $translated_text
+     * @param $text
+     * @param $domain
+     *
+     * @return string
+     */
+    function gettext($translated_text, $text, $domain){
+        
+        if($domain === 'acf'){
+            if($text === 'No file selected'){
+                return '';
+            }
+        }
+        
+        return $translated_text;
+        
+    }
     
-            $field['prepend'] = 'Max size';
-            $field['wrapper']['data-append'] = 'min_size';
+    
+    /**
+     * prepare_size
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function prepare_size($field){
+        
+        if(acf_maybe_get($field['wrapper'], 'data-setting') === 'file'){
             
+            switch($field['_name']){
+                
+                case 'min_size': {
+    
+                    $field['label'] = __('File size', 'acf');
+                    $field['prepend'] = __('Min size', 'acfe');
+                    break;
+                    
+                }
+    
+                case 'max_size': {
+    
+                    $field['prepend'] = __('Max size', 'acfe');
+                    $field['wrapper']['data-append'] = 'min_size';
+                    break;
+        
+                }
+                
+            }
+        
         }
         
         return $field;
         
     }
     
+    
+    /**
+     * prepare_library
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function prepare_library($field){
+    
+        // check if field group ui setting
+        if(acf_maybe_get($field['wrapper'], 'data-setting') === 'file'){
         
-        if(acf_maybe_get($field['wrapper'], 'data-setting') !== 'file')
-            return $field;
-        
-        $field['conditional_logic'] = array(
-            array(
+            // add conditional logic
+            $field['conditional_logic'] = array(
                 array(
-                    'field'     => 'uploader',
-                    'operator'  => '==',
-                    'value'     => 'wp',
+                    array(
+                        'field'     => 'uploader',
+                        'operator'  => '==',
+                        'value'     => 'wp',
+                    )
                 )
-            )
-        );
+            );
+        
+        }
         
         return $field;
         
     }
     
-    function acf_admin_tools(){
-        
-        // Do not remove "No file selected" in the ACF Admin Tool
-        remove_filter('gettext', array($this, 'gettext'), 99);
-        
-    }
     
-    function gettext($translated_text, $text, $domain){
+    /**
+     * _render_field_settings
+     *
+     * acf/render_field_settings:0
+     *
+     * @param $field
+     */
+    function _render_field_settings($field){
         
-        if($domain !== 'acf')
-            return $translated_text;
-        
-        if($text === 'No file selected')
-            return '';
-        
-        return $translated_text;
-        
-    }
-    
-    function validate_field($field){
-        
-        if(!acf_maybe_get($field, 'acfe_uploader'))
-            return $field;
-        
-        $field['uploader'] = $field['acfe_uploader'];
-        unset($field['acfe_uploader']);
-        
-        return $field;
-        
-    }
-    
-    function render_field_settings($field){
-        
+        // uploader
         acf_render_field_setting($field, array(
             'label'         => __('Uploader type'),
             'name'          => 'uploader',
@@ -112,26 +146,43 @@ class acfe_field_file{
         
     }
     
+    
+    /**
+     * prepare_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function prepare_field($field){
         
-        // ACFE Form force uploader type
-        if(acf_is_filter_enabled('acfe/form/uploader'))
-            acfe_unset($field, 'uploader');
-        
-        if(!acf_maybe_get($field, 'uploader'))
-            $field['uploader'] = acf_get_setting('uploader');
+        // let acfe form force specific uploader
+        if(acf_is_filter_enabled('acfe/form/uploader')){
+            unset($field['uploader']);
+        }
     
-        if(!current_user_can('upload_files'))
+        // default uploader in settings
+        // use global acf uploader
+        if(!$field['uploader']){
+            $field['uploader'] = acf_get_setting('uploader');
+        }
+    
+        // current user can't upload files
+        // force basic
+        if(!current_user_can('upload_files')){
             $field['uploader'] = 'basic';
-        
+        }
+    
+        // update global uploader
         acf_update_setting('uploader', $field['uploader']);
-        
+    
+        // return
         return $field;
         
     }
 
 }
 
-new acfe_field_file();
+acf_new_instance('acfe_field_file');
 
 endif;

@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_dynamic_forms')):
 
@@ -14,7 +15,8 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
      * Initialize
      */
     function initialize(){
-        
+    
+        $this->name = 'form';
         $this->active = acf_get_setting('acfe/modules/forms');
         $this->post_type = 'acfe-form';
         $this->label = 'Form Title';
@@ -52,6 +54,7 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         acfe_include('includes/modules/forms-front.php');
         acfe_include('includes/modules/forms-helpers.php');
         acfe_include('includes/modules/forms-hooks.php');
+        acfe_include('includes/modules/forms-shortcode.php');
         
         acfe_include('includes/modules/forms-action-custom.php');
         acfe_include('includes/modules/forms-action-email.php');

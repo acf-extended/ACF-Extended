@@ -1,16 +1,17 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_multilang')):
     
 class acfe_multilang{
     
-    var $is_wpml = false;
-    var $is_polylang = false;
-    var $is_multilang = false;
-    var $options_pages = false;
+    var $is_wpml       = false;
+    var $is_polylang   = false;
+    var $is_multilang  = false;
+    var $options_pages = array();
     
     function __construct(){
         
@@ -41,8 +42,9 @@ class acfe_multilang{
     function init(){
     
         // Check setting
-        if(!acf_get_setting('acfe/modules/multilang'))
+        if(!acf_get_setting('acfe/modules/multilang')){
             return;
+        }
         
         // Polylang specific
         if($this->is_polylang){
@@ -73,13 +75,15 @@ class acfe_multilang{
         // Validate post id
         $original_post_id = $this->polylang_validate_preload_post_id($post_id);
     
-        if(!$original_post_id)
+        if(!$original_post_id){
             return $null;
+        }
     
         $reference = acf_get_metadata($post_id, $field_name, true);
     
-        if($reference !== null)
+        if($reference !== null){
             return $null;
+        }
         
         return acf_get_metadata($original_post_id, $field_name, true);
     
@@ -90,8 +94,9 @@ class acfe_multilang{
         // Validate post id
         $original_post_id = $this->polylang_validate_preload_post_id($post_id);
         
-        if(!$original_post_id)
+        if(!$original_post_id){
             return $null;
+        }
     
         // Get field name.
         $field_name = $field['name'];
@@ -99,15 +104,17 @@ class acfe_multilang{
         // Check store.
         $store = acf_get_store('values');
         
-        if($store->has("$post_id:$field_name"))
+        if($store->has("$post_id:$field_name")){
             return $null;
+        }
     
         // Load value from database.
         $value = acf_get_metadata($post_id, $field_name);
     
         // Use field's default_value if no meta was found.
-        if($value !== null)
+        if($value !== null){
             return $null;
+        }
 
         return acf_get_value($original_post_id, $field);
         
@@ -116,29 +123,34 @@ class acfe_multilang{
     function polylang_validate_preload_post_id($post_id){
     
         // Bail early if admin screen
-        if(is_admin() || !is_string($post_id))
+        if(is_admin() || !is_string($post_id)){
             return false;
+        }
     
         // Get post id info
         $data = acf_get_post_id_info($post_id);
     
         // Bail early if post id isn't an option type
-        if($data['type'] !== 'option')
+        if($data['type'] !== 'option'){
             return false;
+        }
     
         // Bail early if not localized
-        if(!$this->is_localized($post_id))
+        if(!$this->is_localized($post_id)){
             return false;
+        }
     
         $original_post_id = preg_replace( '/([_\-][A-Za-z]{2}_[A-Za-z]{2})$/', '', $post_id);
     
         // Check the regex
-        if($original_post_id === $post_id)
+        if($original_post_id === $post_id){
             return false;
+        }
     
         // Bail early if no Options Page found with that post id
-        if(!$this->is_options_page($original_post_id))
+        if(!$this->is_options_page($original_post_id)){
             return false;
+        }
         
         return $original_post_id;
         
@@ -170,8 +182,9 @@ class acfe_multilang{
                     $languages[ $lang['default_locale'] ] = $lang;
                 }
                 
-                if($pluck)
+                if($pluck){
                     $languages = wp_list_pluck($languages, $pluck, true);
+                }
                 
                 return $languages;
                 
@@ -194,8 +207,9 @@ class acfe_multilang{
         
                 }
     
-                if($pluck)
+                if($pluck){
                     $languages = $pluck === 'code' ? array_values($_languages) : array_keys($_languages);
+                }
                 
                 return $languages;
                 
@@ -240,8 +254,9 @@ class acfe_multilang{
                 
                 $languages = PLL_Settings::get_predefined_languages();
                 
-                if($pluck)
+                if($pluck){
                     $languages = wp_list_pluck($languages, $pluck, true);
+                }
         
                 return $languages;
                 
@@ -257,14 +272,16 @@ class acfe_multilang{
     function set_options_post_id($post_id, $original_post_id){
         
         // Bail early if original post id is 'options' ||'option'
-        if(!is_string($post_id))
+        if(!is_string($post_id)){
             return $post_id;
+        }
         
         $data = acf_get_post_id_info($post_id);
         
         // Bail early if post id isn't an option type
-        if($data['type'] !== 'option')
+        if($data['type'] !== 'option'){
             return $post_id;
+        }
         
         // Options Exception
         // $post_id already translated during the native acf/validate_post_id
@@ -286,8 +303,9 @@ class acfe_multilang{
             return $post_id;
         
         // Bail early if already localized: 'my-options_en_US'
-        if($this->is_localized($post_id))
+        if($this->is_localized($post_id)){
             return $post_id;
+        }
 
         // Append current language to post id
         $dl = acf_get_setting('default_language');
@@ -295,9 +313,7 @@ class acfe_multilang{
 
         // Add Language
         if($cl && $cl !== $dl){
-
             $post_id .= '_' . $cl;
-
         }
 
         return $post_id;
@@ -310,16 +326,18 @@ class acfe_multilang{
         // https://regex101.com/r/oMsyeL/4
         preg_match('/(?P<locale>[_\-][A-Za-z]{2}_[A-Za-z]{2})$|(?P<code>[_\-][A-Za-z]{2})$/', $post_id, $matches);
         
-        if(empty($matches))
+        if(empty($matches)){
             return false;
+        }
 
         // Cleanup matches
         $lang = array();
         
         foreach($matches as $key => $val){
             
-            if(is_int($key) || empty($val))
+            if(is_int($key) || empty($val)){
                 continue;
+            }
             
             $lang = array(
                 'type' => $key,
@@ -328,8 +346,9 @@ class acfe_multilang{
             
         }
         
-        if(empty($lang))
+        if(empty($lang)){
             return false;
+        }
 
         // Get WPML/Polylang Languages List
         $languages = $this->get_languages($lang['type']);
@@ -342,77 +361,56 @@ class acfe_multilang{
     
     function is_options_page($post_id){
     
-        // Get Options Pages
-        if($this->options_pages === false){
-            
-            // Get ACF Options Pages
-            $options_pages = acf_get_array(acf_get_options_pages());
-            $list = wp_list_pluck($options_pages, 'post_id', true);
-            
-            // Add 'Post Types List' location
-            $post_types = acf_get_post_types(array(
-                'show_ui' => 1,
-                'exclude' => array('attachment')
-            ));
-    
-            if(!empty($post_types)){
-                
-                foreach($post_types as $post_type){
-    
-                    $list[] = $post_type . '_options';
-                    
-                }
-        
-            }
-            
-            // Add 'Taxonomy List' location
-            $taxonomies = acf_get_taxonomies();
-    
-            if(!empty($taxonomies)){
-                
-                foreach($taxonomies as $taxonomy){
-    
-                    $list[] = 'tax_' . $taxonomy . '_options';
-                    
-                }
-        
-            }
-            
-            // Depreacted filter
-            $list = apply_filters_deprecated('acfe/modules/multilang/options', array($list), '0.8.8.2', 'acfe/modules/multilang/exclude_options');
-            
-            // Include filter
-            $list = apply_filters('acfe/modules/multilang/include_options', $list);
-            
-            // Exclude filter
-            $exclude = apply_filters('acfe/modules/multilang/exclude_options', array());
-            
-            if(is_array($exclude) && !empty($exclude)){
-                
-                foreach($list as $i => $option){
-                    
-                    if(!in_array($option, $exclude))
-                        continue;
-                    
-                    unset($list[$i]);
-                    
-                }
-                
-                $list = array_values($list);
-                
-            }
-            
-            $this->options_pages = $list;
-            
+        // check if post id already in options pages
+        if(in_array($post_id, $this->options_pages)){
+            return true;
         }
-        
-        if(is_array($this->options_pages) && !empty($this->options_pages)){
     
-            return in_array($post_id, $this->options_pages);
-            
+        // Get ACF Options Pages
+        $options_pages = acf_get_array(acf_get_options_pages());
+        $list = wp_list_pluck($options_pages, 'post_id', true);
+    
+        // Add 'Post Types List' location
+        $post_types = acf_get_post_types(array(
+            'show_ui' => 1,
+            'exclude' => array('attachment')
+        ));
+    
+        foreach($post_types as $post_type){
+            $list[] = "{$post_type}_options";
         }
+    
+        // Add 'Taxonomy List' location
+        $taxonomies = acf_get_taxonomies();
+    
+        foreach($taxonomies as $taxonomy){
+            $list[] = "tax_{$taxonomy}_options";
+        }
+    
+        // deprecated filter
+        $list = apply_filters_deprecated('acfe/modules/multilang/options', array($list), '0.8.8.2', 'acfe/modules/multilang/exclude_options');
+    
+        // include filter
+        $list = apply_filters('acfe/modules/multilang/include_options', $list);
+    
+        // exclude filter
+        $exclude = apply_filters('acfe/modules/multilang/exclude_options', array());
+    
+        if(is_array($exclude) && !empty($exclude)){
         
-        return false;
+            foreach($list as $i => $option){
+                if(in_array($option, $exclude)){
+                    unset($list[ $i ]);
+                }
+            }
+        
+            $list = array_values($list);
+        
+        }
+    
+        $this->options_pages = $list;
+    
+        return in_array($post_id, $this->options_pages);
         
     }
     
@@ -420,14 +418,11 @@ class acfe_multilang{
         
         // Polylang
         if($this->is_polylang || $plugin === 'polylang'){
-            
             return $this->polylang_get_languages($pluck, $type);
             
-            // WPML
+        // WPML
         }elseif($this->is_wpml || $plugin === 'wpml'){
-            
             return $this->wpml_get_languages($pluck, $type);
-            
         }
         
         return array();
@@ -444,8 +439,9 @@ class acfe_multilang{
         // Polylang
         if($this->is_polylang){
     
-            if(!$current_language)
+            if(!$current_language){
                 $current_language = $default_language;
+            }
     
             $message = "Language: {$current_language}";
     
@@ -461,8 +457,9 @@ class acfe_multilang{
     
                 foreach($languages as $language){
         
-                    if($language->locale !== $current_language)
+                    if($language->locale !== $current_language){
                         continue;
+                    }
     
                     $nice_language = $language->name;
                     $nice_flag = $language->flag_url;
@@ -473,15 +470,11 @@ class acfe_multilang{
             }
     
             if($nice_language){
-        
                 $message = "<img src='{$nice_flag}' style='margin-right:5px;vertical-align:-1px;' /> Language: {$nice_language}";
-        
             }
             
             if($default_language === $current_language){
-                
                 $message .= ' (Default)';
-                
             }
             
         }
@@ -489,8 +482,9 @@ class acfe_multilang{
         // WPML
         elseif($this->is_wpml){
             
-            if($current_language === 'all')
+            if($current_language === 'all'){
                 $current_language = 'All';
+            }
     
             $message = "Language: {$current_language}";
             
@@ -505,8 +499,9 @@ class acfe_multilang{
                     
                     foreach($languages as $language){
             
-                        if($language['language_code'] !== $current_language)
+                        if($language['language_code'] !== $current_language){
                             continue;
+                        }
         
                         $nice_language = $language['native_name'];
                         $nice_flag = $language['country_flag_url'];
@@ -526,8 +521,9 @@ class acfe_multilang{
             
         }
         
-        if(empty($message))
+        if(empty($message)){
             return;
+        }
         
         echo "<div class='misc-pub-section' style='padding-top:15px; padding-bottom:15px;'>{$message}</div>";
         
@@ -544,9 +540,7 @@ endif;
  * Is Multilang Enabled
  */
 function acfe_is_multilang(){
-    
     return acf_get_instance('acfe_multilang')->is_multilang;
-    
 }
 
 /*
@@ -572,27 +566,21 @@ function acfe_get_multilang(){
  * Get Languages
  */
 function acfe_get_multilang_languages($pluck = '', $type = '', $plugin = ''){
-    
     return acf_get_instance('acfe_multilang')->get_languages($pluck, $type, $plugin);
-    
 }
 
 /*
  * Is Polylang
  */
 function acfe_is_polylang(){
-    
     return acf_get_instance('acfe_multilang')->is_polylang;
-    
 }
 
 /*
  * Is WPML
  */
 function acfe_is_wpml(){
-    
     return acf_get_instance('acfe_multilang')->is_wpml;
-    
 }
 
 /*
@@ -601,39 +589,38 @@ function acfe_is_wpml(){
 function acfe_get_post_lang($post_id, $field = false){
     
     // Bail early if not multilang
-    if(!acfe_is_multilang())
+    if(!acfe_is_multilang()){
         return false;
+    }
     
     // Polylang
     if(acfe_is_polylang()){
         
         // Default field
-        if(!$field)
+        if(!$field){
             $field = 'locale';
+        }
         
         return pll_get_post_language($post_id, $field);
         
-        // WPML
+    // WPML
     }elseif(acfe_is_wpml()){
         
         $post_lang = apply_filters('wpml_post_language_details', NULL, $post_id);
         
         // Default field
-        if(!$field)
+        if(!$field){
             $field = 'slug';
+        }
         
         if($field === 'locale'){
-            
             return $post_lang['locale'];
             
         }elseif($field === 'slug'){
-            
             return $post_lang['language_code'];
             
         }elseif($field === 'name'){
-            
             return $post_lang['display_name'];
-            
         }
         
         return false;
@@ -650,22 +637,20 @@ function acfe_get_post_lang($post_id, $field = false){
 function acfe_get_post_translated($post_id, $lang = false){
     
     // Bail early if not multilang
-    if(!acfe_is_multilang())
+    if(!acfe_is_multilang()){
         return $post_id;
+    }
     
     // Default
     $translated_post_id = $post_id;
     
     // Polylang
     if(acfe_is_polylang()){
-    
         $translated_post_id = pll_get_post($post_id, $lang);
         
     // WPML
     }elseif(acfe_is_wpml()){
-    
         $translated_post_id = apply_filters('wpml_object_id', $post_id, 'post', false, $lang);
-        
     }
     
     /*
@@ -686,8 +671,9 @@ function acfe_get_post_translated_default($post_id){
     $translated_post_id = acfe_get_post_translated($post_id, acf_get_setting('default_language'));
     
     // Fallback to current
-    if(empty($translated_post_id))
+    if(empty($translated_post_id)){
         return $post_id;
+    }
     
     return $translated_post_id;
     
@@ -699,12 +685,14 @@ function acfe_get_post_translated_default($post_id){
 function acfe_translate($string, $name = false, $textdomain = 'acfe'){
     
     // Bail early
-    if(!acfe_is_multilang() || empty($string))
+    if(!acfe_is_multilang() || empty($string)){
         return __($string, $textdomain);
+    }
     
     // Name compatibility
-    if(empty($name))
+    if(empty($name)){
         $name = $string;
+    }
     
     // WPML
     if(acfe_is_wpml()){
@@ -734,16 +722,12 @@ function acfe_translate($string, $name = false, $textdomain = 'acfe'){
  * Deprecated Translate String
  */
 function acfe__($string, $name = false, $textdomain = 'acfe'){
-    
     return acfe_translate($string, $name, $textdomain);
-    
 }
 
 /*
  * Deprecated Translate String (echo)
  */
 function acfe__e($string, $name = false, $textdomain = 'acfe'){
-    
     echo acfe_translate($string, $name, $textdomain);
-    
 }

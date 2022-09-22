@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_thumbnail')):
 
 class acfe_field_flexible_content_thumbnail{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -18,12 +22,19 @@ class acfe_field_flexible_content_thumbnail{
         add_filter('acfe/flexible/validate_field',              array($this, 'validate_thumbnail'));
         add_filter('acfe/flexible/wrapper_attributes',          array($this, 'wrapper_attributes'), 10, 2);
         add_filter('acfe/flexible/layouts/label_prepend',       array($this, 'label_prepend'), 10, 3);
-        add_filter('acfe/flexible/layouts/label_atts',          array($this, 'label_atts'), 20, 3);
         
         add_filter('acf/fields/flexible_content/layout_title',  array($this, 'layout_title'), 0, 4);
         
     }
     
+    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_layouts_thumbnails'] = false;
@@ -32,6 +43,14 @@ class acfe_field_flexible_content_thumbnail{
         
     }
     
+    
+    /**
+     * defaults_layout
+     *
+     * @param $layout
+     *
+     * @return mixed
+     */
     function defaults_layout($layout){
     
         $layout['acfe_flexible_thumbnail'] = false;
@@ -40,6 +59,12 @@ class acfe_field_flexible_content_thumbnail{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
     
         acf_render_field_setting($field, array(
@@ -66,10 +91,19 @@ class acfe_field_flexible_content_thumbnail{
         
     }
     
+    
+    /**
+     * render_layout_settings
+     *
+     * @param $flexible
+     * @param $layout
+     * @param $prefix
+     */
     function render_layout_settings($flexible, $layout, $prefix){
         
-        if(!acf_maybe_get($flexible, 'acfe_flexible_layouts_thumbnails'))
+        if(!acf_maybe_get($flexible, 'acfe_flexible_layouts_thumbnails')){
             return;
+        }
         
         // Title
         echo '</li>';
@@ -98,10 +132,19 @@ class acfe_field_flexible_content_thumbnail{
         
     }
     
+    
+    /**
+     * validate_thumbnail
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function validate_thumbnail($field){
         
-        if(acfe_is_admin_screen())
+        if(acfe_is_admin_screen()){
             return $field;
+        }
         
         // Vars
         $name = $field['name'];
@@ -134,11 +177,21 @@ class acfe_field_flexible_content_thumbnail{
         
     }
     
+    
+    /**
+     * wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function wrapper_attributes($wrapper, $field){
         
         // Check setting
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails'))
+        if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails')){
             return $wrapper;
+        }
     
         $wrapper['data-acfe-flexible-thumbnails'] = 1;
         
@@ -146,10 +199,21 @@ class acfe_field_flexible_content_thumbnail{
         
     }
     
+    
+    /**
+     * label_prepend
+     *
+     * @param $prepend
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed|string
+     */
     function label_prepend($prepend, $layout, $field){
     
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails'))
+        if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails')){
             return $prepend;
+        }
 
         $prepend = array(
             'class' => 'acfe-flexible-layout-thumbnail',
@@ -188,23 +252,23 @@ class acfe_field_flexible_content_thumbnail{
             $prepend['class'] .= ' acfe-flexible-layout-thumbnail-not-found';
         }
 
-        $prepend = '<div ' . acf_esc_atts($prepend) . '></div>';
+        $prepend = '<div ' . acf_esc_attrs($prepend) . '></div>';
         
         return $prepend;
         
     }
     
-    function label_atts($atts, $layout, $field){
     
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails'))
-            return $atts;
-        
-        acfe_unset($atts, 'class');
-        
-        return $atts;
-        
-    }
-    
+    /**
+     * layout_title
+     *
+     * @param $title
+     * @param $field
+     * @param $layout
+     * @param $i
+     *
+     * @return array|string|string[]|null
+     */
     function layout_title($title, $field, $layout, $i){
         
         $title = preg_replace('#<div class="acfe-flexible-layout-thumbnail(.*?)</div>#', '', $title);

@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_screen_user')):
 
@@ -10,17 +11,19 @@ class acfe_screen_user{
     // vars
     var $user_id;
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
         
-        /*
+        /**
+         * hooks:
+         *
          * acfe/load_user_new
          * acfe/add_user_new_meta_boxes
          *
-         * acfe/load_user                   $user_id
-         * acfe/add_user_meta_boxes         $user
+         * acfe/load_user                 $user_id
+         * acfe/add_user_meta_boxes       $user
          *
          * acfe/load_users
          * acfe/add_users_meta_boxes
@@ -38,8 +41,11 @@ class acfe_screen_user{
         
     }
     
-    /*
-     * User New: Load
+    
+    /**
+     * user_new_load
+     *
+     * load-user-new.php
      */
     function user_new_load(){
         
@@ -56,8 +62,13 @@ class acfe_screen_user{
         
     }
     
-    /*
-     * User New: Meta Boxes
+    
+    /**
+     * user_new_meta_boxes
+     *
+     * user_new_form
+     *
+     * @param $user
      */
     function user_new_meta_boxes($user){
     
@@ -79,9 +90,10 @@ class acfe_screen_user{
     }
     
     
-    
-    /*
-     * User: Load
+    /**
+     * user_load
+     *
+     * load-profile.php
      */
     function user_load(){
         
@@ -102,8 +114,13 @@ class acfe_screen_user{
         
     }
     
-    /*
-     * User: Meta Boxes
+    
+    /**
+     * user_meta_boxes
+     *
+     * show_user_profile
+     *
+     * @param $user
      */
     function user_meta_boxes($user){
         
@@ -125,9 +142,10 @@ class acfe_screen_user{
     }
     
     
-    
-    /*
-     * Users: Load
+    /**
+     * users_load
+     *
+     * load-users.php
      */
     function users_load(){
     
@@ -144,8 +162,11 @@ class acfe_screen_user{
         
     }
     
-    /*
-     * Users: Footer
+    
+    /**
+     * users_footer
+     *
+     * admin_footer
      */
     function users_footer(){
         
@@ -155,8 +176,9 @@ class acfe_screen_user{
         
     }
     
-    /*
-     * Users: Do Meta Boxes
+    
+    /**
+     * users_do_meta_boxes
      */
     function users_do_meta_boxes(){
         

@@ -368,7 +368,8 @@ body:not(.acf-admin-5-3) .acfe-modal.-open .acfe-modal-content .acfe-flex-contai
     font-weight: 400;
     margin-left: 2px;
     line-height: 1.2;
-    font-size: 0
+    font-size: 0;
+    float: right
 }
 
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a span.badge.acf-js-tooltip::before {

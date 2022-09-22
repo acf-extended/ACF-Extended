@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 // Check setting
 if(acfe_get_setting('modules/field_group_ui'))

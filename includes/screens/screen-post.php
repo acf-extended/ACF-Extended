@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_screen_post')):
 
@@ -11,17 +12,19 @@ class acfe_screen_post{
     var $post_type;
     var $post_id;
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
     
-        /*
-         * acfe/load_post               $post_type, $post_id
-         * acfe/add_post_meta_boxes     $post_type, $post
+        /**
+         * hooks:
          *
-         * acfe/load_posts              $post_type
-         * acfe/add_posts_meta_boxes    $post_type
+         * acfe/load_post              $post_type, $post_id
+         * acfe/add_post_meta_boxes    $post_type, $post
+         *
+         * acfe/load_posts             $post_type
+         * acfe/add_posts_meta_boxes   $post_type
          */
         
         // edit
@@ -33,8 +36,11 @@ class acfe_screen_post{
         
     }
     
-    /*
-     * Post: Load
+    
+    /**
+     * post_load
+     *
+     * load-post.php
      */
     function post_load(){
     
@@ -45,36 +51,41 @@ class acfe_screen_post{
         if($typenow === 'attachment'){
             return;
         }
-        
+    
         // vars
         $post_type = $typenow;
-        $post_id = (int) acfe_get_post_id(false);
-        
-        // set vars
-        $this->post_type = $post_type;
-        $this->post_id = $post_id;
+        $post_id = (int) acfe_get_post_id();
         
         // actions
-        do_action("acfe/load_post",                         $post_type, $post_id);
-        do_action("acfe/load_post/post_type={$post_type}",  $post_type, $post_id);
+        do_action("acfe/load_post",                        $post_type, $post_id);
+        do_action("acfe/load_post/post_type={$post_type}", $post_type, $post_id);
         
         // hooks
         add_action('add_meta_boxes', array($this, 'add_post_meta_boxes'), 10, 2);
         
     }
     
-    /*
-     * Post: Meta Boxes
+    
+    /**
+     * add_post_meta_boxes
+     *
+     * add_meta_boxes
+     *
+     * @param $post_type
+     * @param $post
      */
     function add_post_meta_boxes($post_type, $post){
         
-        do_action("acfe/add_post_meta_boxes",                           $post_type, $post);
-        do_action("acfe/add_post_meta_boxes/post_type={$post_type}",    $post_type, $post);
+        do_action("acfe/add_post_meta_boxes",                        $post_type, $post);
+        do_action("acfe/add_post_meta_boxes/post_type={$post_type}", $post_type, $post);
         
     }
     
-    /*
-     * Posts: Load
+    
+    /**
+     * posts_load
+     *
+     * load-edit.php
      */
     function posts_load(){
         
@@ -96,8 +107,11 @@ class acfe_screen_post{
         
     }
     
-    /*
-     * Posts: Admin Footer
+    
+    /**
+     * posts_footer
+     *
+     * admin_footer
      */
     function posts_footer(){
         
@@ -107,8 +121,9 @@ class acfe_screen_post{
         
     }
     
-    /*
-     * Posts: Do Meta Boxes
+    
+    /**
+     * posts_do_meta_boxes
      */
     function posts_do_meta_boxes(){
         

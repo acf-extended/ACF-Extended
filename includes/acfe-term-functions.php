@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_get_taxonomy_objects
@@ -27,7 +28,7 @@ function acfe_get_taxonomy_objects($args = array()){
             
             $taxonomy_object = get_taxonomy($taxonomy);
             
-            $return[$taxonomy_object->name] = $taxonomy_object;
+            $return[ $taxonomy_object->name ] = $taxonomy_object;
             
         }
         
@@ -62,7 +63,7 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
     foreach(array_keys($taxonomies) as $taxonomy){
         
         // vars
-        $label = $taxonomies[$taxonomy];
+        $label = $taxonomies[ $taxonomy ];
         $is_hierarchical = is_taxonomy_hierarchical($taxonomy);
         
         $terms = acf_get_terms(array(
@@ -71,14 +72,13 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
         ));
         
         // bail early if no terms
-        if(empty($terms))
+        if(empty($terms)){
             continue;
+        }
         
         // sort into hierachial order!
         if($is_hierarchical){
-            
             $terms = _get_term_children(0, $terms, $taxonomy);
-            
         }
         
         // add placeholder
@@ -86,10 +86,7 @@ function acfe_get_taxonomy_terms_ids($taxonomies = array()){
         
         // add choices
         foreach($terms as $term){
-            
-            $k = "{$term->term_id}";
-            $r[$label][$k] = acf_get_term_title($term);
-            
+            $r[ $label ][ $term->term_id ] = acf_get_term_title($term);
         }
         
     }

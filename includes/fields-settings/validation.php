@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_validation')):
 
@@ -541,11 +542,11 @@ class acfe_field_validation{
                     $rule_match = true;
                 }
                 
-                elseif($operator === 'regex' && preg_match('/' . $match . '/', $result)){
+                elseif($operator === 'regex' && preg_match('/' . $match . '/u', $result)){
                     $rule_match = true;
                 }
 
-                elseif($operator === '!regex' && !preg_match('/' . $match . '/', $result)){
+                elseif($operator === '!regex' && !preg_match('/' . $match . '/u', $result)){
                     $rule_match = true;
                 }
                 

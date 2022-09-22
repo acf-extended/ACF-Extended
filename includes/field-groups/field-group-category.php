@@ -1,11 +1,13 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 // Check setting
-if(!acf_get_setting('acfe/modules/categories'))
+if(!acf_get_setting('acfe/modules/categories')){
     return;
+}
 
 if(!class_exists('acfe_field_group_category')):
 
@@ -16,18 +18,23 @@ class acfe_field_group_category{
         add_action('init',                                          array($this, 'init'), 9);
         add_action('admin_menu',                                    array($this, 'admin_menu'));
         add_filter('parent_file',                                   array($this, 'parent_file'));
+        add_action('acf/field_group/admin_head',                    array($this, 'admin_head'));
         add_filter('manage_edit-acf-field-group_columns',           array($this, 'columns'), 11);
         add_action('manage_acf-field-group_posts_custom_column' ,   array($this, 'column_html'), 10, 2);
         add_filter('views_edit-acf-field-group',                    array($this, 'views'), 9);
         add_filter('acf/get_taxonomies',                            array($this, 'acf_get_taxonomies'), 10, 2);
     
-        add_filter('acf/prepare_field_group_for_export',            array($this, 'prepare_for_export'));
-        add_action('acf/import_field_group',                        array($this, 'prepare_for_import'));
+        add_filter('acf/prepare_field_group_for_export',            array($this, 'prepare_field_group_for_export'));
+        add_action('acf/import_field_group',                        array($this, 'import_field_group'));
         
     }
     
-    /*
-     * Register Taxonomy
+    /**
+     * init
+     *
+     * init:9
+     *
+     * Register taxonomy
      */
     function init(){
         
@@ -57,51 +64,101 @@ class acfe_field_group_category{
         
     }
     
-    /*
-     * Admin Menu
+    
+    /**
+     * admin_menu
+     *
+     * Add submenu page manually
      */
     function admin_menu(){
         
-        if(!acf_get_setting('show_admin'))
-            return;
-        
-        add_submenu_page('edit.php?post_type=acf-field-group', __('Categories'), __('Categories'), acf_get_setting('capability'), 'edit-tags.php?taxonomy=acf-field-group-category');
+        if(acf_get_setting('show_admin')){
+            add_submenu_page('edit.php?post_type=acf-field-group', __('Categories'), __('Categories'), acf_get_setting('capability'), 'edit-tags.php?taxonomy=acf-field-group-category');
+        }
         
     }
     
-    /*
-     * Menu Parent File
+    
+    /**
+     * parent_file
+     *
+     * set current submenu class
+     *
+     * @param $parent_file
+     *
+     * @return mixed|string
      */
     function parent_file($parent_file){
         
-        global $submenu_file, $current_screen, $pagenow;
+        global $current_screen, $pagenow;
         
-        if($current_screen->taxonomy === 'acf-field-group-category' && ($pagenow === 'edit-tags.php' || $pagenow === 'term.php'))
+        if($current_screen->taxonomy === 'acf-field-group-category' && ($pagenow === 'edit-tags.php' || $pagenow === 'term.php')){
             $parent_file = 'edit.php?post_type=acf-field-group';
+        }
         
         return $parent_file;
         
     }
     
-    /*
-     * ACF Field Group: Columns
+    
+    /**
+     * admin_head
+     *
+     * acf/field_group/admin_head
+     *
+     * Hide metabox if no term has been added yet
+     */
+    function admin_head(){
+        
+        $count = get_terms(array(
+            'taxonomy'   => 'acf-field-group-category',
+            'hide_empty' => false,
+            'fields'     => 'count',
+        ));
+        
+        $count = intval($count);
+        
+        if($count === 0){
+            remove_meta_box('acf-field-group-categorydiv', 'acf-field-group', 'side');
+        }
+    
+    }
+    
+    
+    /**
+     * columns
+     *
+     * manage_edit-acf-field-group_columns:11
+     *
+     * @param $columns
+     *
+     * @return array
      */
     function columns($columns){
         
         $new_columns = array();
-        foreach($columns as $key => $value) {
-            if($key === 'title')
+        foreach($columns as $key => $value){
+            
+            if($key === 'title'){
                 $new_columns['acf-field-group-category'] = __('Categories');
+            }
             
             $new_columns[$key] = $value;
+            
         }
         
         return $new_columns;
         
     }
     
-    /*
-     * ACF Field Group: Column HTML
+    
+    /**
+     * column_html
+     *
+     * manage_acf-field-group_posts_custom_column
+     *
+     * @param $column
+     * @param $post_id
      */
     function column_html($column, $post_id){
         
@@ -121,13 +178,21 @@ class acfe_field_group_category{
         
     }
     
-    /*
-     * ACF Field Group: Views
+    
+    /**
+     * views
+     *
+     * views_edit-acf-field-group:9
+     *
+     * @param $views
+     *
+     * @return mixed
      */
     function views($views){
         
-        if(!$terms = get_terms('acf-field-group-category', array('hide_empty' => false)))
+        if(!$terms = get_terms('acf-field-group-category', array('hide_empty' => false))){
             return $views;
+        }
         
         foreach($terms as $term){
             
@@ -144,13 +209,15 @@ class acfe_field_group_category{
             $count = count($groups);
             
             $html = '';
-            if($count > 0)
+            if($count > 0){
                 $html = ' <span class="count">(' . $count . ')</span>';
+            }
             
             global $wp_query;
             $class = '';
-            if(isset($wp_query->query_vars['acf-field-group-category']) && $wp_query->query_vars['acf-field-group-category'] === $term->slug)
+            if(isset($wp_query->query_vars['acf-field-group-category']) && $wp_query->query_vars['acf-field-group-category'] === $term->slug){
                 $class = ' class="current"';
+            }
             
             $views['category-' . $term->slug] = '<a href="' . admin_url('edit.php?acf-field-group-category=' . $term->slug . '&post_type=acf-field-group') . '"' . $class . '>' . $term->name . $html . '</a>';
         }
@@ -159,64 +226,86 @@ class acfe_field_group_category{
         
     }
     
-    /*
-     * ACF Exclude Field Group Category from available taxonomies
+    
+    /**
+     * acf_get_taxonomies
+     *
+     * acf/get_taxonomies
+     *
+     * Exclude taxonomy from available field group locations
+     *
+     * @param $taxonomies
+     * @param $args
+     *
+     * @return mixed
      */
     function acf_get_taxonomies($taxonomies, $args){
         
-        if(empty($taxonomies))
-            return $taxonomies;
-        
         foreach($taxonomies as $k => $taxonomy){
-            
-            if($taxonomy != 'acf-field-group-category')
-                continue;
-            
-            unset($taxonomies[$k]);
-            
+            if($taxonomy === 'acf-field-group-category'){
+                unset($taxonomies[$k]);
+            }
         }
         
         return $taxonomies;
         
     }
     
-    /*
-     * Prepare Export
+    
+    /**
+     * prepare_field_group_for_export
+     *
+     * acf/prepare_field_group_for_export
+     *
+     * append categories slugs during export
+     *
+     * @param $field_group
+     *
+     * @return mixed
      */
-    function prepare_for_export($field_group){
+    function prepare_field_group_for_export($field_group){
         
         $_field_group = acf_get_field_group($field_group['key']);
         
-        if(empty($_field_group))
+        if(empty($_field_group)){
             return $field_group;
+        }
         
-        if(!acf_maybe_get($_field_group, 'ID'))
+        if(!acf_maybe_get($_field_group, 'ID')){
             return $field_group;
+        }
         
         $categories = get_the_terms($_field_group['ID'], 'acf-field-group-category');
         
-        if(empty($categories) || is_wp_error($categories))
+        if(empty($categories) || is_wp_error($categories)){
             return $field_group;
+        }
         
         $field_group['acfe_categories'] = array();
         
         foreach($categories as $term){
-            
             $field_group['acfe_categories'][$term->slug] = $term->name;
-            
         }
         
         return $field_group;
         
     }
     
-    /*
-     * Prepare Import
+    
+    /**
+     * import_field_group
+     *
+     * acf/import_field_group
+     *
+     * Create term if doesn't exist during import
+     *
+     * @param $field_group
      */
-    function prepare_for_import($field_group){
+    function import_field_group($field_group){
         
-        if(!$categories = acf_maybe_get($field_group, 'acfe_categories'))
+        if(!$categories = acf_maybe_get($field_group, 'acfe_categories')){
             return;
+        }
         
         foreach($categories as $term_slug => $term_name){
             
@@ -231,22 +320,16 @@ class acfe_field_group_category{
                 ));
                 
                 if(!is_wp_error($new_term)){
-                    
                     $new_term_id = $new_term['term_id'];
-                    
                 }
                 
-                // Term already exists
+            // Term already exists
             }else{
-                
                 $new_term_id = $get_term->term_id;
-                
             }
             
             if($new_term_id){
-                
                 wp_set_post_terms($field_group['ID'], array($new_term_id), 'acf-field-group-category', true);
-                
             }
             
         }

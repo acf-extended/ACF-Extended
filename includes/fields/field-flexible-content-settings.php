@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_settings')):
 
 class acfe_field_flexible_content_settings{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -22,6 +26,14 @@ class acfe_field_flexible_content_settings{
         
     }
     
+    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_layouts_settings'] = false;
@@ -30,6 +42,14 @@ class acfe_field_flexible_content_settings{
         
     }
     
+    
+    /**
+     * defaults_layout
+     *
+     * @param $layout
+     *
+     * @return mixed
+     */
     function defaults_layout($layout){
     
         $layout['acfe_flexible_settings'] = false;
@@ -39,6 +59,12 @@ class acfe_field_flexible_content_settings{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
         
         acf_render_field_setting($field, array(
@@ -65,10 +91,19 @@ class acfe_field_flexible_content_settings{
         
     }
     
+    
+    /**
+     * render_layout_settings
+     *
+     * @param $flexible
+     * @param $layout
+     * @param $prefix
+     */
     function render_layout_settings($flexible, $layout, $prefix){
         
-        if(!acf_maybe_get($flexible, 'acfe_flexible_layouts_settings'))
+        if(!acf_maybe_get($flexible, 'acfe_flexible_layouts_settings')){
             return;
+        }
         
         acf_disable_filters();
         
@@ -143,11 +178,21 @@ class acfe_field_flexible_content_settings{
         
     }
     
+    
+    /**
+     * load_fields
+     *
+     * @param $fields
+     * @param $field
+     *
+     * @return mixed
+     */
     function load_fields($fields, $field){
         
         // Check setting
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_settings'))
+        if(!acf_maybe_get($field, 'acfe_flexible_layouts_settings')){
             return $fields;
+        }
         
         // Loop
         foreach($field['layouts'] as $i => $layout){
@@ -156,8 +201,9 @@ class acfe_field_flexible_content_settings{
             $field_groups = acf_get_array($field_groups);
             
             // Check
-            if(empty($field_groups))
+            if(empty($field_groups)){
                 continue;
+            }
             
             // Vars
             $key = "field_{$layout['key']}_settings";
@@ -194,6 +240,18 @@ class acfe_field_flexible_content_settings{
         
     }
     
+    
+    /**
+     * prepare_layout
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     *
+     * @return mixed
+     */
     function prepare_layout($layout, $field, $i, $value, $prefix){
         
         if(empty($layout['sub_fields']) || !$field['acfe_flexible_layouts_settings'])
@@ -229,10 +287,21 @@ class acfe_field_flexible_content_settings{
         
     }
     
+    
+    /**
+     * layout_icons
+     *
+     * @param $icons
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_icons($icons, $layout, $field){
         
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_settings') || !acf_maybe_get($layout, 'acfe_flexible_settings'))
+        if(!acf_maybe_get($field, 'acfe_flexible_layouts_settings') || !acf_maybe_get($layout, 'acfe_flexible_settings')){
             return $icons;
+        }
         
         $icons = array_merge($icons, array(
             'settings' => '<a class="acf-icon small acf-js-tooltip acfe-flexible-icon dashicons dashicons-admin-generic" href="#" title="Settings" data-acfe-flexible-settings="' . $layout['name'] . '"></a>'

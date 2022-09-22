@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 /**
  * acfe_get_pretty_forms
@@ -35,7 +36,8 @@ function acfe_get_pretty_forms($forms = array()){
             
             $form_name = get_the_title($form_id);
             
-            $return[$form_id] = $form_name;
+            // todo: use form name instead of ID
+            $return[ $form_id ] = $form_name;
             
         }
         
@@ -54,13 +56,15 @@ function acfe_get_pretty_forms($forms = array()){
  */
 function acfe_form_decrypt_args(){
     
-    if(!acf_maybe_get_POST('_acf_form'))
+    if(!acf_maybe_get_POST('_acf_form')){
         return false;
+    }
     
     $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
     
-    if(empty($form))
+    if(empty($form)){
         return false;
+    }
     
     return $form;
     
@@ -98,12 +102,12 @@ function acfe_is_form_success($form_name = false){
         if(!acf_is_filter_enabled('acfe/form/is_success')){
             ?>
             <script>
-            if(window.history.replaceState){
-                window.history.replaceState(null, null, window.location.href);
-            }
+                if(window.history.replaceState){
+                    window.history.replaceState(null, null, window.location.href);
+                }
             </script>
             <?php
-    
+            
             // only once
             acf_enable_filter('acfe/form/is_success');
         }
@@ -174,9 +178,7 @@ function acfe_form_unique_action_id($form, $type){
  * @return mixed
  */
 function acfe_form_get_actions(){
-    
     return get_query_var('acfe_form_actions', array());
-    
 }
 
 /**
@@ -194,8 +196,9 @@ function acfe_form_get_action($name = false, $key = false){
     $actions = acfe_form_get_actions();
     
     // No action
-    if(empty($actions))
+    if(empty($actions)){
         return false;
+    }
     
     // Action name
     if(!empty($name)){
@@ -204,8 +207,9 @@ function acfe_form_get_action($name = false, $key = false){
         $return = end($actions);
     }
     
-    if($key !== false || is_numeric($key))
+    if($key !== false || is_numeric($key)){
         $return = acf_maybe_get($return, $key, false);
+    }
     
     return $return;
     

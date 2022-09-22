@@ -1,16 +1,21 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
-// Check setting
-if(!acf_get_setting('acfe/modules/ui'))
+// check setting
+if(!acf_get_setting('acfe/modules/ui')){
     return;
+}
 
 if(!class_exists('acfe_enhanced_ui_settings')):
     
 class acfe_enhanced_ui_settings extends acfe_enhanced_ui{
     
+    /**
+     * initialize
+     */
     function initialize(){
         
         // hooks
@@ -19,8 +24,9 @@ class acfe_enhanced_ui_settings extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Load
+    
+    /**
+     * load_settings
      */
     function load_settings(){
     
@@ -32,8 +38,9 @@ class acfe_enhanced_ui_settings extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Add Meta Boxes
+    
+    /**
+     * add_settings_meta_boxes
      */
     function add_settings_meta_boxes(){
         
@@ -64,8 +71,9 @@ class acfe_enhanced_ui_settings extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Settings: Footer
+    
+    /**
+     * settings_footer
      */
     function settings_footer(){
         

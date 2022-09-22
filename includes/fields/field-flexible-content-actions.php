@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_actions')):
 
 class acfe_field_flexible_content_actions{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -18,13 +22,22 @@ class acfe_field_flexible_content_actions{
         add_filter('acfe/flexible/load_fields',                 array($this, 'load_fields'), 10, 2);
         add_filter('acfe/flexible/prepare_layout',              array($this, 'prepare_layout'), 10, 5);
         add_filter('acfe/flexible/layouts/icons',               array($this, 'layout_icons'), 11, 3);
-        add_filter("acfe/flexible/secondary_actions",           array($this, 'secondary_actions'), 10, 2);
-    
-        add_filter('acf/fields/flexible_content/layout_title',  array($this, 'layout_title'), 5, 4);
+        add_filter('acfe/flexible/secondary_actions',           array($this, 'secondary_actions'), 10, 2);
+        
+        add_filter('acf/fields/flexible_content/layout_attrs',  array($this, 'layout_attrs'), 5, 4);
         add_filter('acf/load_value/type=flexible_content',      array($this, 'load_value'), 10, 3);
         
     }
     
+    /**
+     * defaults_field
+     *
+     * acfe/flexible/defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_add_actions'] = array();
@@ -33,6 +46,13 @@ class acfe_field_flexible_content_actions{
         
     }
     
+    /**
+     * render_field_settings
+     *
+     * acfe/flexible/render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
         
         /*
@@ -81,6 +101,15 @@ class acfe_field_flexible_content_actions{
         
     }
     
+    /**
+     * validate_actions
+     *
+     * acfe/flexible/validate_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function validate_actions($field){
         
         $actions = acf_get_array($field['acfe_flexible_add_actions']);
@@ -139,21 +168,34 @@ class acfe_field_flexible_content_actions{
         
     }
     
+    /**
+     * wrapper_attributes
+     *
+     * acfe/flexible/wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function wrapper_attributes($wrapper, $field){
         
         $actions = $field['acfe_flexible_add_actions'];
         
         // Title
-        if(in_array('title', $actions))
+        if(in_array('title', $actions)){
             $wrapper['data-acfe-flexible-title-edition'] = 1;
+        }
         
         // Toggle
-        if(in_array('toggle', $actions))
+        if(in_array('toggle', $actions)){
             $wrapper['data-acfe-flexible-toggle'] = 1;
+        }
         
         // Copy
-        if(in_array('copy', $actions))
+        if(in_array('copy', $actions)){
             $wrapper['data-acfe-flexible-copy-paste'] = 1;
+        }
         
         // Lock
         $lock = in_array('lock', $actions);
@@ -161,17 +203,29 @@ class acfe_field_flexible_content_actions{
         $lock = apply_filters("acfe/flexible/lock/name={$field['_name']}", $lock, $field);
         $lock = apply_filters("acfe/flexible/lock/key={$field['key']}",    $lock, $field);
         
-        if($lock)
+        if($lock){
             $wrapper['data-acfe-flexible-lock'] = 1;
+        }
         
         // Clone
-        if(in_array('close', $actions))
+        if(in_array('close', $actions)){
             $wrapper['data-acfe-flexible-close-button'] = 1;
+        }
         
         return $wrapper;
         
     }
     
+    /**
+     * load_fields
+     *
+     * acfe/flexible/load_fields
+     *
+     * @param $fields
+     * @param $field
+     *
+     * @return mixed
+     */
     function load_fields($fields, $field){
         
         // Actions
@@ -236,10 +290,24 @@ class acfe_field_flexible_content_actions{
         
     }
     
+    /**
+     * prepare_layout
+     *
+     * acfe/flexible/prepare_layout
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     *
+     * @return mixed
+     */
     function prepare_layout($layout, $field, $i, $value, $prefix){
         
-        if(empty($layout['sub_fields']))
+        if(empty($layout['sub_fields'])){
             return $layout;
+        }
     
         // Actions
         $actions = $field['acfe_flexible_add_actions'];
@@ -309,6 +377,17 @@ class acfe_field_flexible_content_actions{
         
     }
     
+    /**
+     * layout_icons
+     *
+     * acfe/flexible/layouts/icons
+     *
+     * @param $icons
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function layout_icons($icons, $layout, $field){
     
         $actions = $field['acfe_flexible_add_actions'];
@@ -344,10 +423,21 @@ class acfe_field_flexible_content_actions{
         
     }
     
+    /**
+     * secondary_actions
+     *
+     * acfe/flexible/secondary_actions
+     *
+     * @param $actions
+     * @param $field
+     *
+     * @return mixed
+     */
     function secondary_actions($actions, $field){
         
-        if(!in_array('copy', $field['acfe_flexible_add_actions']))
+        if(!in_array('copy', $field['acfe_flexible_add_actions'])){
             return $actions;
+        }
         
         $actions['copy'] = '<a href="#" data-acfe-flexible-control-action="copy">' . __('Copy layouts', 'acfe') . '</a>';
         $actions['paste'] = '<a href="#" data-acfe-flexible-control-action="paste">' . __('Paste layouts', 'acfe') . '</a>';
@@ -356,37 +446,63 @@ class acfe_field_flexible_content_actions{
         
     }
     
-    function layout_title($title, $field, $layout, $i){
+    
+    /**
+     * layout_attrs
+     *
+     * acf/fields/flexible_content/layout_attrs
+     *
+     * @param $attrs
+     * @param $field
+     * @param $layout
+     * @param $i
+     *
+     * @return mixed
+     */
+    function layout_attrs($attrs, $field, $layout, $i){
         
-        if(!in_array('title', $field['acfe_flexible_add_actions']))
-            return $title;
-        
-        // Get Layout Title
-        $value = get_sub_field('acfe_flexible_layout_title');
-        
-        if(!empty($value)){
-            $title = wp_unslash($value);
+        if(!in_array('title', $field['acfe_flexible_add_actions'])){
+            return $attrs;
         }
+    
+        $attrs['class'] .= ' acf-js-tooltip';
+        $attrs['title'] = __('Layout', 'acfe') . ': ' . esc_attr(strip_tags($layout['label']));
         
-        return '<span class="acfe-layout-title acf-js-tooltip" title="' . __('Layout', 'acfe') . ': ' . esc_attr(strip_tags($layout['label'])) . '"><span class="acfe-layout-title-text">' . $title . '</span></span>';
+        return $attrs;
         
     }
     
+    
+    /**
+     * load_value
+     *
+     * acf/load_value/type=flexible_content
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return array|mixed
+     */
     function load_value($value, $post_id, $field){
         
         // Bail early if admin
-        if(is_admin() && !wp_doing_ajax())
+        if(is_admin() && !wp_doing_ajax()){
             return $value;
+        }
         
         // Bail early if preview
-        if(acf_maybe_get_POST('action') === 'acfe/flexible/layout_preview')
+        if(acf_maybe_get_POST('action') === 'acfe/flexible/layout_preview'){
             return $value;
+        }
     
-        if(empty($field['layouts']))
+        if(empty($field['layouts'])){
             return $value;
+        }
         
-        if(!in_array('toggle', $field['acfe_flexible_add_actions']))
+        if(!in_array('toggle', $field['acfe_flexible_add_actions'])){
             return $value;
+        }
         
         $models = array();
         
@@ -404,11 +520,13 @@ class acfe_field_flexible_content_actions{
         
         foreach($value as $k => $layout){
             
-            if(!isset($models[$layout['acf_fc_layout']]))
+            if(!isset($models[$layout['acf_fc_layout']])){
                 continue;
+            }
             
-            if(!acf_maybe_get($layout, $models[$layout['acf_fc_layout']]['toggle']))
+            if(!acf_maybe_get($layout, $models[$layout['acf_fc_layout']]['toggle'])){
                 continue;
+            }
             
             unset($value[$k]);
             

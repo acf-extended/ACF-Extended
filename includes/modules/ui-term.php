@@ -1,19 +1,24 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
-// Check setting
-if(!acf_get_setting('acfe/modules/ui'))
+// check setting
+if(!acf_get_setting('acfe/modules/ui')){
     return;
+}
 
 if(!class_exists('acfe_enhanced_ui_term')):
     
 class acfe_enhanced_ui_term extends acfe_enhanced_ui{
     
+    // vars
     var $taxonomy;
-    var $term_id;
     
+    /**
+     * initialize
+     */
     function initialize(){
         
         // load
@@ -25,8 +30,11 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Term: Load
+    
+    /**
+     * load_term
+     *
+     * @param $taxonomy
      */
     function load_term($taxonomy){
     
@@ -37,13 +45,16 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         $this->taxonomy = $taxonomy;
         
         // hooks
-        add_action('admin_enqueue_scripts', array($this, 'term_enqueue_scripts'), 15);
+        add_action('admin_enqueue_scripts', array($this, 'term_enqueue_scripts'), 15); // must be priority 15
         add_action('admin_footer',          array($this, 'term_footer'));
         
     }
     
-    /*
-     * Terms: Load
+    
+    /**
+     * load_terms
+     *
+     * @param $taxonomy
      */
     function load_terms($taxonomy){
     
@@ -55,8 +66,12 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Term: Add Metaboxes
+    
+    /**
+     * add_term_meta_boxes
+     *
+     * @param $taxonomy
+     * @param $term
      */
     function add_term_meta_boxes($taxonomy, $term){
         
@@ -88,19 +103,21 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Term: Enqueue Scripts
+    
+    /**
+     * term_enqueue_scripts
      */
     function term_enqueue_scripts(){
         
-        // remove acf render (must be priority 15 to remove it correctly)
+        // remove acf render
         // advanced-custom-fields-pro/includes/forms/form-taxonomy.php
-        acfe_remove_class_action("{$this->taxonomy}_edit_form", 'acf_form_taxonomy', 'edit_term');
+        acfe_remove_class_action('acf_form_taxonomy', "{$this->taxonomy}_edit_form", 'edit_term');
         
     }
     
-    /*
-     * Term: Footer
+    
+    /**
+     * term_footer
      */
     function term_footer(){
         
@@ -130,8 +147,9 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Terms: Footer
+    
+    /**
+     * terms_footer
      */
     function terms_footer(){
     

@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_select')):
 
 class acfe_field_flexible_content_select{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -21,6 +25,14 @@ class acfe_field_flexible_content_select{
         
     }
     
+    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_modal'] = array(
@@ -35,6 +47,14 @@ class acfe_field_flexible_content_select{
         
     }
     
+    
+    /**
+     * defaults_layout
+     *
+     * @param $layout
+     *
+     * @return mixed
+     */
     function defaults_layout($layout){
         
         $layout['acfe_flexible_category'] = false;
@@ -43,6 +63,12 @@ class acfe_field_flexible_content_select{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
     
         acf_render_field_setting($field, array(
@@ -200,11 +226,23 @@ class acfe_field_flexible_content_select{
         
     }
     
+    
+    /**
+     * render_layout_settings
+     *
+     * @param $field
+     * @param $layout
+     * @param $prefix
+     */
     function render_layout_settings($field, $layout, $prefix){
         
-        if(!$field['acfe_flexible_modal']['acfe_flexible_modal_categories'])
+        if(!$field['acfe_flexible_modal']['acfe_flexible_modal_categories']){
             return;
-        
+        }
+    
+        echo '</li>';
+    
+        echo '<li>';
         acf_render_field_wrap(array(
             'prepend'       => __('Category', 'acfe'),
             'name'          => 'acfe_flexible_category',
@@ -223,38 +261,60 @@ class acfe_field_flexible_content_select{
         
     }
     
+    
+    /**
+     * wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function wrapper_attributes($wrapper, $field){
         
-        if(!$field['acfe_flexible_modal']['acfe_flexible_modal_enabled'])
+        if(!$field['acfe_flexible_modal']['acfe_flexible_modal_enabled']){
             return $wrapper;
+        }
         
         $wrapper['data-acfe-flexible-modal'] = 1;
         $wrapper['data-acfe-flexible-modal-col'] = $field['acfe_flexible_modal']['acfe_flexible_modal_col'];
         $wrapper['data-acfe-flexible-modal-size'] = $field['acfe_flexible_modal']['acfe_flexible_modal_size'];
     
         // Title
-        if(!empty($field['acfe_flexible_modal']['acfe_flexible_modal_title']))
+        if(!empty($field['acfe_flexible_modal']['acfe_flexible_modal_title'])){
             $wrapper['data-acfe-flexible-modal-title'] = $field['acfe_flexible_modal']['acfe_flexible_modal_title'];
+        }
         
         return $wrapper;
         
     }
     
+    
+    /**
+     * label_atts
+     *
+     * @param $atts
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
     function label_atts($atts, $layout, $field){
         
         // Category
-        if(!$field['acfe_flexible_modal']['acfe_flexible_modal_categories'] || !$layout['acfe_flexible_category'])
+        if(!$field['acfe_flexible_modal']['acfe_flexible_modal_categories']){
             return $atts;
+        }
         
         $categories = $layout['acfe_flexible_category'];
         
         // Compatibility
-        if(is_string($categories)){
+        if(is_string($categories) && !empty($categories)){
             $categories = explode('|', $categories);
             $categories = array_map('trim', $categories);
         }
         
-        $atts['data-acfe-flexible-category'] = $categories;
+        $atts['data-acfe-flexible-category'] = acf_get_array($categories);
         
         return $atts;
         

@@ -1,35 +1,36 @@
 (function($) {
 
-    if (typeof acf === 'undefined')
+    if (typeof acf === 'undefined') {
         return;
+    }
 
-    /*
+    /**
      * ACF Data
      */
     acf.data.acfe = {};
 
-    /*
+    /**
      * ACFE
      */
     var acfe = {};
 
     window.acfe = acfe;
 
-    /*
+    /**
      * Get
      */
     acfe.get = function(name) {
         return acf.data.acfe[name] || null;
     };
 
-    /*
+    /**
      * Has
      */
     acfe.has = function(name) {
         return this.get(name) !== null;
     };
 
-    /*
+    /**
      * Set
      */
     acfe.set = function(name, value) {
@@ -37,14 +38,14 @@
         return this;
     };
 
-    /*
+    /**
      * Parse String
      */
     acfe.parseString = function(val) {
         return val ? '' + val : '';
     };
 
-    /*
+    /**
      * In Array
      */
     acfe.inArray = function(v1, array) {
@@ -57,7 +58,14 @@
 
     }
 
-    /*
+    /**
+     * Get Array
+     */
+    acfe.getArray = function(val) {
+        return [].concat(val || []);
+    }
+
+    /**
      * Parse URL
      */
     acfe.parseURL = function(url) {
@@ -65,11 +73,11 @@
         url = url || acfe.currentURL();
 
         var params = {};
-
         var queryString = url.replace(/^[^\?]+\??/, '');
 
-        if (!queryString)
+        if (!queryString) {
             return params;
+        }
 
         var Pairs = queryString.split(/[;&]/);
 
@@ -77,8 +85,9 @@
 
             var KeyVal = Pairs[i].split('=');
 
-            if (!KeyVal || KeyVal.length !== 2)
+            if (!KeyVal || KeyVal.length !== 2) {
                 continue;
+            }
 
             var key = decodeURI(KeyVal[0]);
             var val = decodeURI(KeyVal[1]);
@@ -93,43 +102,35 @@
 
     };
 
-    /*
+    /**
      * Current URL
      */
     acfe.currentURL = function() {
-
         return self.location.href;
-
     };
 
-    /*
+    /**
      * Current Path
      */
     acfe.currentPath = function() {
-
         return self.location.pathname;
-
     };
 
-    /*
+    /**
      * Current Filename
      */
     acfe.currentFilename = function() {
-
         return acfe.currentPath().split('/').pop();
-
     };
 
-    /*
+    /**
      * Parent Object
      */
     acfe.parentObject = function(obj) {
-
         return Object.getPrototypeOf(obj);
-
     }
 
-    /*
+    /**
      * Get Text Node
      */
     acfe.getTextNode = function($selector) {
@@ -150,7 +151,14 @@
 
     }
 
-    /*
+    /**
+     * UC First
+     */
+    acfe.ucFirst = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    /**
      * Find Submit Wrap
      */
     acfe.findSubmitWrap = function($form) {
@@ -186,29 +194,27 @@
 
     };
 
-    /*
+    /**
      * Find Submit
      */
     acfe.findSubmit = function($form) {
 
         $form = $form || $('form');
-
         return this.findSubmitWrap($form).find('.button, [type="submit"]');
 
     }
 
-    /*
+    /**
      * Find Spinner
      */
     acfe.findSpinner = function($form) {
 
         $form = $form || $('form');
-
         return this.findSubmitWrap($form).find('.spinner, .acf-spinner');
 
     }
 
-    /*
+    /**
      * Filters
      */
     var filters = [];
@@ -227,25 +233,23 @@
 
     acfe.enableFilter = function(name) {
 
-        if (filters.indexOf(name) === -1)
+        if (filters.indexOf(name) === -1) {
             filters.push(name);
+        }
 
     };
 
     acfe.disableFilter = function(name) {
 
         for (var i = filters.length; i--;) {
-
-            if (filters[i] !== name)
-                continue;
-
-            filters.splice(i, 1);
-
+            if (filters[i] === name) {
+                filters.splice(i, 1);
+            }
         }
 
     };
 
-    /*
+    /**
      * Field Extend
      */
     acfe.fieldExtend = function(fieldType, props) {
@@ -286,38 +290,35 @@
 
     }
 
-    /*
+    /**
+     * isFieldKey
+     *
+     * @param name
+     * @returns {boolean}
+     */
+    acfe.isFieldKey = function(name) {
+        return typeof name === 'string' && name.substr(0, 6) === 'field_';
+    }
+
+    /**
+     * isGroupKey
+     *
+     * @param name
+     * @returns {boolean}
+     */
+    acfe.isGroupKey = function(name) {
+        return typeof name === 'string' && name.substr(0, 6) === 'group_';
+    }
+
+    /**
      * Version Compare
      * https://locutus.io/php/info/version_compare/
      */
     acfe.versionCompare = function(v1, operator, v2) {
-        // eslint-disable-line camelcase
-        //       discuss at: https://locutus.io/php/version_compare/
-        //      original by: Philippe Jausions (https://pear.php.net/user/jausions)
-        //      original by: Aidan Lister (https://aidanlister.com/)
-        // reimplemented by: Kankrelune (https://www.webfaktory.info/)
-        //      improved by: Brett Zamir (https://brett-zamir.me)
-        //      improved by: Scott Baker
-        //      improved by: Theriault (https://github.com/Theriault)
-        //        example 1: version_compare('8.2.5rc', '8.2.5a')
-        //        returns 1: 1
-        //        example 2: version_compare('8.2.50', '8.2.52', '<')
-        //        returns 2: true
-        //        example 3: version_compare('5.3.0-dev', '5.3.0')
-        //        returns 3: -1
-        //        example 4: version_compare('4.1.0.52','4.01.0.51')
-        //        returns 4: 1
-        // Important: compare must be initialized at 0.
         let i
         let x
         let compare = 0
-        // vm maps textual PHP versions to negatives so they're less than 0.
-        // PHP currently defines these as CASE-SENSITIVE. It is important to
-        // leave these as negatives so that they can come before numerical versions
-        // and as if no letters were there to begin with.
-        // (1alpha is < 1 and < 1.1 but > 1dev1)
-        // If a non-numerical value can't be mapped to this table, it receives
-        // -7 as its value.
+
         const vm = {
             dev: -6,
             alpha: -5,
@@ -330,24 +331,13 @@
             p: 1,
             pl: 1
         }
-        // This function will be called to prepare each version argument.
-        // It replaces every _, -, and + with a dot.
-        // It surrounds any nonsequence of numbers/dots with dots.
-        // It replaces sequences of dots with a single dot.
-        //    version_compare('4..0', '4.0') === 0
-        // Important: A string of 0 length needs to be converted into a value
-        // even less than an unexisting value in vm (-7), hence [-8].
-        // It's also important to not strip spaces because of this.
-        //   version_compare('', ' ') === 1
+
         const _prepVersion = function(v) {
             v = ('' + v).replace(/[_\-+]/g, '.')
             v = v.replace(/([^.\d]+)/g, '.$1.').replace(/\.{2,}/g, '.')
             return (!v.length ? [-8] : v.split('.'))
         }
-        // This converts a version component to a number.
-        // Empty component becomes 0.
-        // Non-numerical component becomes a negative number.
-        // Numerical component becomes itself as an integer.
+
         const _numVersion = function(v) {
             return !v ? 0 : (isNaN(v) ? vm[v] || -7 : parseInt(v, 10))
         }
@@ -371,9 +361,7 @@
         if (!operator) {
             return compare
         }
-        // Important: operator is CASE-SENSITIVE.
-        // "No operator" seems to be treated as "<."
-        // Any other values seem to make the function return null.
+
         switch (operator) {
             case '>':
             case 'gt':
@@ -405,10 +393,11 @@
 })(jQuery);
 (function($) {
 
-    if (typeof acf === 'undefined')
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
         return;
+    }
 
-    /*
+    /**
      * Popup
      */
     var popups = [];
@@ -557,7 +546,7 @@
 
     });
 
-    /*
+    /**
      * Popup: Close
      */
     acfe.closePopup = function() {
@@ -570,7 +559,7 @@
 
     };
 
-    /*
+    /**
      * Popup: Sync
      */
     acfe.syncPopup = function() {
@@ -693,49 +682,68 @@
 })(jQuery);
 (function($) {
 
-    if (typeof acf === 'undefined')
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
         return;
+    }
 
-    /*
+    /**
      * Tooltip
      */
-    new acf.Model({
+    var tooltip = new acf.Model({
 
-        tooltip: false,
+        tooltips: {},
 
         events: {
-            'click .acfe-field-tooltip': 'showTitle',
+            'click .acfe-field-tooltip': 'clickTooltip',
         },
 
-        showTitle: function(e, $el) {
+        clickTooltip: function(e, $el) {
 
-            // vars
+            // title
             var title = $el.attr('title');
-
-            // bail ealry if no title
             if (!title) {
+                return;
+            }
+
+            // get field
+            var field = acf.getClosestField($el);
+            if (!field) {
                 return;
             }
 
             // clear title to avoid default browser tooltip
             $el.attr('title', '');
 
-            // create
-            if (!this.tooltip) {
-                this.tooltip = acf.newTooltip({
+            // open
+            if (!this.tooltips[field.cid]) {
+
+                this.tooltips[field.cid] = acf.newTooltip({
                     text: title,
                     target: $el
                 });
 
-                // update
+                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+                    $el.removeClass('dashicons-info-outline').addClass('dashicons-remove');
+                }
+
+                // close
             } else {
-                this.tooltip.update({
-                    text: title,
-                    target: $el
-                });
+
+                // hide tooltip
+                this.tooltips[field.cid].hide();
+
+                // restore title
+                $el.attr('title', this.tooltips[field.cid].get('text'));
+
+                this.tooltips[field.cid] = false;
+
+                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+                    $el.removeClass('dashicons-remove').addClass('dashicons-info-outline');
+                }
+
             }
 
-        }
+        },
 
     });
 

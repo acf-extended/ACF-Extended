@@ -1,12 +1,16 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_flexible_content_async')):
 
 class acfe_field_flexible_content_async{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // Hooks
@@ -23,6 +27,14 @@ class acfe_field_flexible_content_async{
         
     }
     
+    
+    /**
+     * defaults_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function defaults_field($field){
         
         $field['acfe_flexible_async'] = array();
@@ -31,6 +43,12 @@ class acfe_field_flexible_content_async{
         
     }
     
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
     function render_field_settings($field){
     
         /*
@@ -65,6 +83,14 @@ class acfe_field_flexible_content_async{
         
     }
     
+    
+    /**
+     * validate_async
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
     function validate_async($field){
         
         $async = acf_get_array($field['acfe_flexible_async']);
@@ -91,13 +117,23 @@ class acfe_field_flexible_content_async{
         
     }
     
+    
+    /**
+     * wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function wrapper_attributes($wrapper, $field){
     
         $async = $field['acfe_flexible_async'];
     
         // Ajax Layout
-        if(in_array('layout', $async))
+        if(in_array('layout', $async)){
             $wrapper['data-acfe-flexible-ajax'] = 1;
+        }
     
         // Remove ajax 'layout_title' call
         $disable = in_array('title', $async);
@@ -105,17 +141,29 @@ class acfe_field_flexible_content_async{
         $disable = apply_filters("acfe/flexible/remove_ajax_title/name={$field['_name']}",  $disable, $field);
         $disable = apply_filters("acfe/flexible/remove_ajax_title/key={$field['key']}",     $disable, $field);
     
-        if($disable)
+        if($disable){
             $wrapper['data-acfe-flexible-remove-ajax-title'] = 1;
+        }
         
         return $wrapper;
         
     }
     
+    
+    /**
+     * layout_model
+     *
+     * @param $return
+     * @param $field
+     * @param $layout
+     *
+     * @return bool|mixed
+     */
     function layout_model($return, $field, $layout){
     
-        if(!in_array('layout', $field['acfe_flexible_async']))
+        if(!in_array('layout', $field['acfe_flexible_async'])){
             return $return;
+        }
     
         $i = 'acfcloneindex';
         $id = 'acfcloneindex';
@@ -144,6 +192,10 @@ class acfe_field_flexible_content_async{
         
     }
     
+    
+    /**
+     * ajax_layout_model
+     */
     function ajax_layout_model(){
         
         // options
@@ -153,16 +205,18 @@ class acfe_field_flexible_content_async{
         ));
         
         $field = acf_get_field($options['field_key']);
-        if(!$field)
+        if(!$field){
             die;
+        }
     
         $acfe_instance = acf_get_instance('acfe_field_flexible_content');
         $field = acf_prepare_field($field);
         
         foreach($field['layouts'] as $k => $layout){
             
-            if($layout['name'] !== $options['layout'])
+            if($layout['name'] !== $options['layout']){
                 continue;
+            }
     
             $acfe_instance->render_layout($field, $layout, 'acfcloneindex', array());
             die;

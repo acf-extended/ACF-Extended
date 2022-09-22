@@ -1,7 +1,8 @@
 <?php 
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_field_groups_local_export')):
 

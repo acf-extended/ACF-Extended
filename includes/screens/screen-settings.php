@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
 if(!class_exists('acfe_screen_settings')):
 
@@ -10,14 +11,16 @@ class acfe_screen_settings{
     // vars
     var $page;
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
         
-        /*
-         * acfe/load_settings               $page
-         * acfe/add_settings_meta_boxes     $page
+        /**
+         * hooks:
+         *
+         * acfe/load_settings            $page
+         * acfe/add_settings_meta_boxes  $page
          */
         
         // load
@@ -30,8 +33,11 @@ class acfe_screen_settings{
         
     }
     
-    /*
-     * Load
+    
+    /**
+     * load
+     *
+     * load-options-general.php
      */
     function load(){
         
@@ -42,16 +48,17 @@ class acfe_screen_settings{
         $this->page = $page;
         
         // actions
-        do_action("acfe/load_settings",                 $page);
-        do_action("acfe/load_settings/page={$page}",    $page);
+        do_action("acfe/load_settings",              $page);
+        do_action("acfe/load_settings/page={$page}", $page);
         
         // hooks
         add_action('admin_footer', array($this, 'admin_footer'));
         
     }
     
-    /*
-     * Admin Footer
+    
+    /**
+     * admin_footer
      */
     function admin_footer(){
         

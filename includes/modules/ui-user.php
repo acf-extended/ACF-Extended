@@ -1,16 +1,21 @@
 <?php
 
-if(!defined('ABSPATH'))
+if(!defined('ABSPATH')){
     exit;
+}
 
-// Check setting
-if(!acf_get_setting('acfe/modules/ui'))
+// check setting
+if(!acf_get_setting('acfe/modules/ui')){
     return;
+}
 
 if(!class_exists('acfe_enhanced_ui_user')):
     
 class acfe_enhanced_ui_user extends acfe_enhanced_ui{
     
+    /**
+     * initialize
+     */
     function initialize(){
         
         // load
@@ -21,12 +26,11 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         add_action('acfe/add_user_meta_boxes',      array($this, 'add_user_meta_boxes'));
         add_action('acfe/add_user_new_meta_boxes',  array($this, 'add_user_new_meta_boxes'));
         
-        //add_action('acfe/load_users',             array($this, 'load_users'));
-        
     }
     
-    /*
-     * Load User
+    
+    /**
+     * load_user
      */
     function load_user(){
     
@@ -46,8 +50,9 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * Load User New
+    
+    /**
+     * load_user_new
      */
     function load_user_new(){
     
@@ -66,8 +71,11 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * User: Screen
+    
+    /**
+     * add_user_meta_boxes
+     *
+     * @param $user
      */
     function add_user_meta_boxes($user){
         
@@ -84,8 +92,9 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * User New: Screen
+    
+    /**
+     * add_user_new_meta_boxes
      */
     function add_user_new_meta_boxes(){
         
@@ -97,8 +106,11 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * User: Add Metaboxes
+    
+    /**
+     * user_add_metaboxes
+     *
+     * @param $args
      */
     function user_add_metaboxes($args = array()){
         
@@ -155,16 +167,17 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * User: Footer
+    
+    /**
+     * user_footer
      */
     function user_footer(){
         
-        global $profileuser;
+        global $user_id;
         
         ?>
         <div id="edit-slug-box">
-            <strong>Permalink:</strong> <a href="<?php echo get_author_posts_url($profileuser->ID); ?>"><?php echo get_author_posts_url($profileuser->ID); ?></a>
+            <strong>Permalink:</strong> <a href="<?php echo get_author_posts_url($user_id); ?>"><?php echo get_author_posts_url($user_id); ?></a>
         </div>
         <script type="text/javascript">
             (function($){
@@ -179,8 +192,9 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         
     }
     
-    /*
-     * User New: Footer
+    
+    /**
+     * user_new_footer
      */
     function user_new_footer(){
         ?>
