@@ -544,6 +544,35 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.8.8.9
+
+**ACF Extended Pro 0.8.8.9:**
+
+* Field: Code Editor - Fixed ACF 6.0 UI field setting width
+* Field: Google Map - Fixed potential undefined `zoom` key in some edge case
+* Field: Post Object - Fixed an issue with the Inline Post Edit modal which would not work correctly in some edge case
+* Field: Relationship - Reworked & Enhanced Post Creation/Edit code logic
+
+**ACF Extended Basic 0.8.8.9:**
+
+* Field: Dynamic Render - Fixed potential undefined `render` key when using the old `acfe_dynamic_message` field type
+* Field: Flexible Content - Fixed duplicated Modal Select Categories
+* Field: Flexible Content - Fixed Sortable ui helper css margin
+* Field: Post Object - Fixed ACF 6.0 UI wrong border color
+* Field: Post Object - Fixed sortable items when Inline Post Edit is enabled with "Allow Multiple values"
+* Field: Select - Fixed potential JS issue while searching a value when using "Allow custom value"
+* Field: Tab - Fixed ACF 6.0 UI missing colors
+* Field: Taxonomy - Fixed JS error on initialization
+* Module: Advanced Validation/Settings - Fixed ACF 6.0 UI settings css
+* Module: Forms - Bail early in the Block Editor in the `[acfe_form]` shortcode to avoid conflict with Media Modal (ACF core logic)
+* Module: Dev - Enhanced module logic
+* General: Added several ACF 6.0 & ACF 6.0.1 UI compatibility fixes
+* General: Added several JS helpers
+* General: Enhanced ACFE Modal logic
+* General: Enhanced Readme
+* General: Enhanced Build Tools
+* General: Introduced `acfe.fieldExtend`
+
 ### 0.8.8.8
 
 **ACF Extended Pro 0.8.8.8:**
@@ -553,8 +582,8 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 * Module: Global Conditional Logic - Fixed postbox being hidden when user interacted with Screen Options
 * Module: Scripts - Fixed Attachments post type in Orphan Meta Cleaner
 * Module: Rewrite Rules - Fixed non-registered rewrite tag php notice
-* Field: Color Picker - add `theme.json` compatibility for color palette
-* Field: Color Picker: Added Return Format "Label" and "Color + Label Array"
+* Field: Color Picker - Added `theme.json` compatibility for color palette
+* Field: Color Picker - Added Return Format "Label" and "Color + Label Array"
 * Field: Countries / Languages / Currencies - Removed potential notice in some edge cases
 * Field: Date Range Picker - The `end_date` sub field is now correctly cleared upon save
 * Field: Date Range Picker - Displaying only one date when the user select the same start/end date
@@ -568,7 +597,7 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 * Field: Payment Cart - Field is now compatible with Repeater/Flexible Content
 * Field: Payment Cart - Cart items are now automatically passed to js in `acf.data.acfe.carts`
 * Field: Phone Number - Added National & International return format when libphonenumber is installed
-* Field: Phone Number - Added Geolocation Token setting to add [ipinfo.io](http://ipinfo.io) API token
+* Field: Phone Number - Added Geolocation API Token setting for ipinfo.io
 * Field: Phone Number - Field value now only save the phone number instead of an array for data accessibility
 * Field: Phone Number - Server Validation now also take care of Allowed Countries setting
 * Field: Post Field - Fixed Content reinit JS undefined variable
@@ -598,11 +627,11 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 * Field: Advanced Link - Display preview when URL or Title is entered
 * Field: Code Editor - Fixed value update when used inside an ACF Block Type
 * Field: Code Editor - Fixed missing Field Object Settings in the Field Group UI on duplicate
-* Field: Columns - Fixed CSS when inside a collapsed Repeater (See ticket)
+* Field: Columns - Fixed CSS when inside a collapsed Repeater
 * Field: Columns - Added field to GraphQL
 * Field: Clone - Fixed Modal Edit title when in repeater table
 * Field: Flexible Content - Select Modal - Fixed Layout Category showing in all categories when there is no category set
-* Field: Flexible Content - Edit Modal - Fix usage with `acf/fields/flexible_content/layout_title`
+* Field: Flexible Content - Edit Modal - Fixed usage with `acf/fields/flexible_content/layout_title`
 * Field: Group - Fixed Modal Edit title when in repeater table
 * Field: Post Statuses - slugs are only shown when duplicated labels
 * Field: Select - Enhanced Select2 "on clear" logic by closing selection
@@ -610,7 +639,7 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 * Field Settings: Validation - Added regex unicode compatibility
 * Locations: Post Type Archive - Enhanced `have_archive()` to find post type when there is no posts
 * Locations: Post Type Archive - Fixed native `post`, `page` & `attachment` post types archive location matching field groups
-* General: Compatibility - Enhanced Elementor Dynamic Tags detection (See WP forum)
+* General: Compatibility - Enhanced Elementor Dynamic Tags detection
 * General: Compatibility - Added ACF 6.0 new UI compatibility fixes
 * General: Core - Fixed editable `<code>` tag for facetwp
 * General: Core - Enhanced localize data

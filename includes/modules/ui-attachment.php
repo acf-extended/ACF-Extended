@@ -36,7 +36,7 @@ class acfe_enhanced_ui_attachment extends acfe_enhanced_ui{
     
         // remove acf edit fields
         // advanced-custom-fields-pro/includes/forms/form-attachment.php
-        acfe_remove_class_action('acf_form_attachment', 'attachment_fields_to_edit', 'edit_attachment');
+        acfe_remove_action('attachment_fields_to_edit', array('acf_form_attachment', 'edit_attachment'));
     
         // acf form data + acf_after_title metabox
         add_action('edit_form_after_title', array($this, 'edit_form_after_title'));

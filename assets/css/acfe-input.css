@@ -34,19 +34,6 @@ body .medium-editor-toolbar {
     z-index: 999999 !important
 }
 
-body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap:first-child .acf-tab-group {
-    border-top: none
-}
-
-body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap .acf-tab-group li.active a {
-    background: #fff
-}
-
-body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap .acf-tab-group li a {
-    background: #f1f1f1;
-    border-color: #ccd0d4
-}
-
 .acf-accordion {
     z-index: initial
 }
@@ -641,104 +628,6 @@ body:not(.acf-admin-5-3) .acf-field-acfe-code-editor>.acf-input>.acf-input-wrap>
     color: #016087 !important
 }
 
-.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons:before {
-    font-family: dashicons
-}
-
-.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons {
-    visibility: hidden
-}
-
-.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.acfe-flexible-icon.dashicons {
-    visibility: visible
-}
-
-.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons.dashicons-admin-generic {
-    visibility: visible
-}
-
-.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons.dashicons-admin-generic:before {
-    margin-left: 1px;
-    line-height: .9
-}
-
-.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-duplicate,
-.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-minus,
-.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-plus,
-.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-duplicate,
-.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-minus,
-.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-plus {
-    visibility: hidden
-}
-
-.acf-flexible-content .layout.-hover>.acf-fc-layout-controls .acf-icon.-duplicate,
-.acf-flexible-content .layout.-hover>.acf-fc-layout-controls .acf-icon.-minus,
-.acf-flexible-content .layout.-hover>.acf-fc-layout-controls .acf-icon.-plus,
-.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.-duplicate,
-.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.-minus,
-.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.-plus {
-    visibility: visible
-}
-
-.acf-flexible-content .layout>.acf-fc-layout-controls .acf-icon.disabled {
-    color: #ccc;
-    cursor: initial
-}
-
-.acf-flexible-content .layout>.acf-fc-layout-controls .acf-icon.disabled:hover {
-    color: #ccc;
-    background: #f5f5f5
-}
-
-.acf-field-acfe-flexible-layout-title {
-    display: none
-}
-
-input.acfe-flexible-control-title {
-    border: none;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    outline: 0 !important;
-    border-radius: 0;
-    border-bottom: 1px solid transparent !important;
-    font-weight: 600;
-    width: auto !important;
-    padding: 0 !important;
-    display: none;
-    min-height: 20px;
-    vertical-align: unset;
-    background: 0 0
-}
-
-.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout:not(.acfe-flexible-title-edition)>.acf-fc-layout-handle .acfe-layout-title:hover {
-    background: #f4f4f4
-}
-
-.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title input.acfe-flexible-control-title {
-    display: inline-block;
-    border-bottom: 1px solid #ddd !important
-}
-
-.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title .acfe-layout-title-text {
-    display: none
-}
-
-.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-handle .acfe-layout-title {
-    cursor: text;
-    position: relative
-}
-
-.layout.acfe-flexible-layout-hidden>.acf-fc-layout-controls,
-.layout.acfe-flexible-layout-hidden>.acf-fc-layout-handle,
-.layout.acfe-flexible-layout-hidden>.acf-fields,
-.layout.acfe-flexible-layout-hidden>.acfe-fc-placeholder {
-    opacity: .5
-}
-
-.acf-field-flexible-content[data-acfe-flexible-modal-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-controls>a.-collapse {
-    display: none
-}
-
 body.-loading * {
     cursor: wait !important
 }
@@ -1053,6 +942,104 @@ body:not(.acf-admin-5-3) .layout>.acfe-fc-placeholder>a span {
 
 .acf-field.acf-field-flexible-content[data-acfe-flexible-hide-empty-message="1"]>.acf-input>.acf-flexible-content.-empty>.values {
     margin-bottom: 0
+}
+
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons:before {
+    font-family: dashicons
+}
+
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons {
+    visibility: hidden
+}
+
+.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.acfe-flexible-icon.dashicons {
+    visibility: visible
+}
+
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons.dashicons-admin-generic {
+    visibility: visible
+}
+
+.acf-flexible-content .layout .acf-icon.acfe-flexible-icon.dashicons.dashicons-admin-generic:before {
+    margin-left: 1px;
+    line-height: .9
+}
+
+.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-duplicate,
+.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-minus,
+.acf-flexible-content .layout.-hover .acf-fc-layout-controls .acf-icon.-plus,
+.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-duplicate,
+.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-minus,
+.acf-flexible-content .layout:hover .acf-fc-layout-controls .acf-icon.-plus {
+    visibility: hidden
+}
+
+.acf-flexible-content .layout.-hover>.acf-fc-layout-controls .acf-icon.-duplicate,
+.acf-flexible-content .layout.-hover>.acf-fc-layout-controls .acf-icon.-minus,
+.acf-flexible-content .layout.-hover>.acf-fc-layout-controls .acf-icon.-plus,
+.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.-duplicate,
+.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.-minus,
+.acf-flexible-content .layout:hover>.acf-fc-layout-controls .acf-icon.-plus {
+    visibility: visible
+}
+
+.acf-flexible-content .layout>.acf-fc-layout-controls .acf-icon.disabled {
+    color: #ccc;
+    cursor: initial
+}
+
+.acf-flexible-content .layout>.acf-fc-layout-controls .acf-icon.disabled:hover {
+    color: #ccc;
+    background: #f5f5f5
+}
+
+.acf-field-acfe-flexible-layout-title {
+    display: none
+}
+
+input.acfe-flexible-control-title {
+    border: none;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-radius: 0;
+    border-bottom: 1px solid transparent !important;
+    font-weight: 600;
+    width: auto !important;
+    padding: 0 !important;
+    display: none;
+    min-height: 20px;
+    vertical-align: unset;
+    background: 0 0
+}
+
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout:not(.acfe-flexible-title-edition)>.acf-fc-layout-handle .acfe-layout-title:hover {
+    background: #f4f4f4
+}
+
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title input.acfe-flexible-control-title {
+    display: inline-block;
+    border-bottom: 1px solid #ddd !important
+}
+
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout.acfe-flexible-title-edition>.acf-fc-layout-handle .acfe-layout-title .acfe-layout-title-text {
+    display: none
+}
+
+.acf-field-flexible-content[data-acfe-flexible-title-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-handle .acfe-layout-title {
+    cursor: text;
+    position: relative
+}
+
+.layout.acfe-flexible-layout-hidden>.acf-fc-layout-controls,
+.layout.acfe-flexible-layout-hidden>.acf-fc-layout-handle,
+.layout.acfe-flexible-layout-hidden>.acf-fields,
+.layout.acfe-flexible-layout-hidden>.acfe-fc-placeholder {
+    opacity: .5
+}
+
+.acf-field-flexible-content[data-acfe-flexible-modal-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-controls>a.-collapse {
+    display: none
 }
 
 .acf-range-wrap input[type=number] {

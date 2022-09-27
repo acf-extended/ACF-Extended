@@ -187,17 +187,8 @@ function acfe_is_dynamic_preview(){
  */
 function acfe_is_block_editor(){
     
-    // check block editor screen
-    if(acf_is_block_editor()){
-        return true;
-    }
-    
-    // check if a block is currently fetched (edit mode)
-    if(acf_maybe_get_POST('action') === 'acf/ajax/fetch-block'){
-        return true;
-    }
-    
-    return false;
+    // check block editor screen or ajax fetch (block edit mode)
+    return acf_is_block_editor() || acf_maybe_get_POST('action') === 'acf/ajax/fetch-block';
     
 }
 

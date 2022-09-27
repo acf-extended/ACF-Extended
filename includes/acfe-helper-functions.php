@@ -140,11 +140,29 @@ function acfe_is_json($string){
         return false;
     }
     
+    // decode
     json_decode($string);
     
+    // check if decode has errors
     return json_last_error() == JSON_ERROR_NONE;
     
 }
+
+
+/**
+ * acfe_is_html
+ *
+ * Check if string is html
+ * https://subinsb.com/php-check-if-string-is-html/
+ *
+ * @param $string
+ *
+ * @return bool
+ */
+function acfe_is_html($string){
+    return $string !== strip_tags($string);
+}
+
 
 /**
  * acfe_array_keys_r

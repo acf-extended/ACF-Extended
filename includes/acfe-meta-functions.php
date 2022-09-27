@@ -417,7 +417,7 @@ function acfe_get_orphan_meta($post_id = 0){
         $field = $row['field'];
         $field_group = $row['field_group'];
         
-        // field doesn't exists
+        // field doesn't exist
         if(!$field){
             
             $delete[] = $row;
@@ -425,7 +425,7 @@ function acfe_get_orphan_meta($post_id = 0){
             
         }
         
-        // field group doesn't exists
+        // field group doesn't exist
         if(!$field_group){
             
             $delete[] = $row;

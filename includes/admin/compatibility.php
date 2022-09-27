@@ -23,10 +23,10 @@ class acfe_admin_compatibility{
         // hooks
         add_action('acfe/load_posts/post_type=acf-field-group', array($this, 'load_posts'));
         add_action('acfe/load_post/post_type=acf-field-group',  array($this, 'load_post'));
-        
-        // acf load post
-        add_action('load-post.php',                             array($this, 'acf_load_post'), 9);
-        add_action('load-post-new.php',                         array($this, 'acf_load_post'), 9);
+    
+        // replace class action
+        acfe_replace_action('load-post.php',     array('ACF_Form_Post', 'initialize'), array($this, 'acf_load_post'));
+        acfe_replace_action('load-post-new.php', array('ACF_Form_Post', 'initialize'), array($this, 'acf_load_post'));
         
         // current screen
         add_action('current_screen',                            array($this, 'current_screen'));
@@ -78,16 +78,11 @@ class acfe_admin_compatibility{
     /**
      * acf_load_post
      *
-     * Rewrite the ACF_Form_Post initialize which remove the submitdiv metabox
+     * Rewrites the ACF_Form_Post initialize which remove the submitdiv metabox
+     *
+     * advanced-custom-fields-pro/includes/forms/form-post.php:48
      */
     function acf_load_post(){
-        
-        // remove class action
-        acfe_remove_class_action('ACF_Form_Post', 'load-post.php', 'initialize');
-        acfe_remove_class_action('ACF_Form_Post', 'load-post-new.php', 'initialize');
-        
-        // rewrite load post
-        // /advanced-custom-fields-pro/includes/forms/form-post.php:48
         
         // globals
         global $typenow;
@@ -127,7 +122,7 @@ class acfe_admin_compatibility{
     function admin_head(){
         
         // remove forced 1 column on screen_layout options
-        acfe_remove_class_action('acf_admin_field_group', 'get_user_option_screen_layout_acf-field-group', 'screen_layout');
+        acfe_remove_action('get_user_option_screen_layout_acf-field-group', array('acf_admin_field_group', 'screen_layout'));
     
         // base url
         $default_icon = acf_get_url('assets/images/icons/icon-fields.svg');
@@ -155,8 +150,6 @@ class acfe_admin_compatibility{
         // allowed screens
         $allowed = array(
             'edit-acf-field-group-category',
-            'edit-acf-field-group',
-            'acf-field-group',
             'edit-acfe-dbt',
             'acfe-dbt',
             'edit-acfe-dop',
@@ -169,7 +162,14 @@ class acfe_admin_compatibility{
         
         // check screen
         if(acfe_maybe_get($screen, 'post_type') === 'acf-field-group' || acf_is_screen($allowed)){
+            
             add_action('admin_head', array($this, 'admin_head_navigation'));
+            
+            if(acf_is_screen($allowed)){
+                global $acf_page_title;
+                $acf_page_title = '';
+            }
+            
         }
         
     }
@@ -185,12 +185,18 @@ class acfe_admin_compatibility{
         
         // pages rules
         $pages = array(
-            'categories'    => 'field-type-icons/icon-field-taxonomy.svg',
-            'block-types'   => 'icons/icon-fields.svg',
-            'forms'         => 'field-type-icons/icon-field-post-object.svg',
-            'options-pages' => 'field-type-icons/icon-field-group.svg',
-            'settings'      => 'icons/icon-settings.svg',
-            'templates'     => 'field-type-icons/icon-field-wysiwyg.svg',
+            'categories'                                   => 'field-type-icons/icon-field-taxonomy.svg',
+            'edit-tagsphptaxonomyacf-field-group-category' => 'field-type-icons/icon-field-taxonomy.svg',
+            'block-types'                                  => 'icons/icon-fields.svg',
+            'acfe-dbt'                                     => 'icons/icon-fields.svg',
+            'forms'                                        => 'field-type-icons/icon-field-post-object.svg',
+            'acfe-form'                                    => 'field-type-icons/icon-field-post-object.svg',
+            'options-pages'                                => 'field-type-icons/icon-field-group.svg',
+            'acfe-dop'                                     => 'field-type-icons/icon-field-group.svg',
+            'settings'                                     => 'icons/icon-settings.svg',
+            'acfe-settings'                                => 'icons/icon-settings.svg',
+            'templates'                                    => 'field-type-icons/icon-field-wysiwyg.svg',
+            'acfe-template'                                => 'field-type-icons/icon-field-wysiwyg.svg',
         );
         
         // generate css
@@ -203,6 +209,11 @@ class acfe_admin_compatibility{
                 mask-image: url(<?php echo $base_url . $icon; ?>);
             }
             <?php endforeach; ?>
+            
+            .acf-icon.acf-icon-plus{
+                -webkit-mask-image: url(<?php echo $base_url; ?>icons/icon-add.svg);
+                mask-image: url(<?php echo $base_url; ?>icons/icon-add.svg);
+            }
         </style>
         <?php
         

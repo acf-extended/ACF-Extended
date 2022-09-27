@@ -21,7 +21,7 @@ class acfe_field_flexible_content_select{
         add_action('acfe/flexible/render_layout_settings',  array($this, 'render_layout_settings'), 10, 3);
         
         add_filter('acfe/flexible/wrapper_attributes',      array($this, 'wrapper_attributes'), 10, 2);
-        add_filter("acfe/flexible/layouts/label_atts",      array($this, 'label_atts'), 10, 3);
+        add_filter('acfe/flexible/layouts/label_atts',      array($this, 'label_atts'), 10, 3);
         
     }
     

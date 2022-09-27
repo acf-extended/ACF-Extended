@@ -111,7 +111,7 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         
         // remove acf render
         // advanced-custom-fields-pro/includes/forms/form-taxonomy.php
-        acfe_remove_class_action('acf_form_taxonomy', "{$this->taxonomy}_edit_form", 'edit_term');
+        acfe_remove_action("{$this->taxonomy}_edit_form", array('acf_form_taxonomy', 'edit_term'));
         
     }
     

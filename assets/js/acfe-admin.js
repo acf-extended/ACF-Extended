@@ -20,90 +20,73 @@
         return;
     }
 
-    /**
-     * Dev Mode
-     */
     new acf.Model({
 
         wait: 'prepare',
 
         events: {
-            'click .acfe_delete_meta': 'onClickSingle',
-            'click #acfe_bulk_delete_meta_submit': 'onSubmitBulk',
-            'click.postboxes .hide-postbox-tog': 'onClickPostbox',
+            'click .acfe-dev-delete-meta': 'onDeleteSingle',
+            'click .acfe-dev-bulk [type="submit"]': 'onDeleteBulk',
+            'change #acfe-wp-custom-fields-hide': 'onCheckPostbox',
+            'change #acfe-acf-custom-fields-hide': 'onCheckPostbox',
         },
 
-        $acfWrap: function() {
+        $acf: function() {
             return $('#acfe-acf-custom-fields');
         },
 
-        $wpWrap: function() {
+        $wp: function() {
             return $('#acfe-wp-custom-fields');
         },
 
-        acfCount: function() {
-            return $('#acfe-acf-custom-fields tbody tr').length;
+        $bulk: function() {
+            return $('.acfe-dev-bulk');
         },
 
-        wpCount: function() {
-            return $('#acfe-wp-custom-fields tbody tr').length;
+        count: function(metabox) {
+            return this['$' + metabox]().find('tbody tr').length;
         },
 
-        $bulkActions: function() {
-            return $('.acfe_dev_bulk_actions');
+        hideBulk: function() {
+            this.$bulk().hide();
+        },
+
+        showBulk: function() {
+            this.$bulk().show();
         },
 
         initialize: function() {
 
-            var $acfWrap = this.$acfWrap();
-            var $wpWrap = this.$wpWrap();
-            var $bulkActions = this.$bulkActions();
+            this.$bulk().insertAfter(this.$bulk().closest('.postbox'));
 
-            // bail early
-            if (!$acfWrap && !$wpWrap) {
-                return;
+            if (!this.$acf().is(':visible') && !this.$wp().is(':visible')) {
+                this.hideBulk();
             }
 
-            // move bulk selects
-            $acfWrap.find('.tablenav.bottom').insertAfter($acfWrap);
-            $wpWrap.find('.tablenav.bottom').insertAfter($wpWrap);
+            $('.metabox-prefs .acfe-dev-meta-count').remove();
 
-            if (!$acfWrap.is(':visible') && !$wpWrap.is(':visible')) {
-                $bulkActions.hide();
+        },
+
+        syncMetaboxes: function() {
+
+            this.$acf().find('.acfe-dev-meta-count').text(this.count('acf'));
+            this.$wp().find('.acfe-dev-meta-count').text(this.count('wp'));
+
+            if (!this.count('acf')) {
+                this.$acf().remove();
+            }
+
+            if (!this.count('wp')) {
+                this.$wp().remove();
+            }
+
+            if (!this.count('acf') && !this.count('wp')) {
+                this.hideBulk();
             }
 
         },
 
-        sync: function() {
-
-            var self = this;
-
-            var acfCount = self.acfCount();
-            var wpCount = self.wpCount();
-
-            var $acfWrap = self.$acfWrap();
-            var $wpWrap = self.$wpWrap();
-
-            var $bulkActions = self.$bulkActions();
-
-            $acfWrap.find('.acfe_dev_meta_count').text(acfCount);
-            $wpWrap.find('.acfe_dev_meta_count').text(wpCount);
-
-            if (!acfCount) {
-                $acfWrap.remove();
-            }
-
-            if (!wpCount) {
-                $wpWrap.remove();
-            }
-
-            if (!acfCount && !wpCount) {
-                $bulkActions.remove();
-            }
-
-        },
-
-        onClickSingle: function(e, $el) {
+        onDeleteSingle: function(e, $el) {
 
             e.preventDefault();
 
@@ -114,10 +97,10 @@
                 url: acf.get('ajaxurl'),
                 type: 'post',
                 data: {
-                    action: 'acfe/delete_meta',
+                    action: 'acfe/dev/single_delete_meta',
                     id: $el.attr('data-meta-id'),
                     key: $el.attr('data-meta-key'),
-                    type: $el.attr('data-type'),
+                    type: $el.attr('data-meta-type'),
                     _wpnonce: $el.attr('data-nonce'),
                 },
                 beforeSend: function() {
@@ -126,7 +109,7 @@
                         backgroundColor: '#faafaa'
                     }).fadeOut(350, function() {
                         $tr.remove();
-                        self.sync();
+                        self.syncMetaboxes();
                     });
 
                 },
@@ -144,81 +127,69 @@
 
         },
 
-        onSubmitBulk: function(e, $el) {
+        onDeleteBulk: function(e, $el) {
 
             e.preventDefault();
 
             var self = this;
-            var action = $el.prevAll('.acfe_bulk_delete_meta_action').val();
-            var type = $el.prevAll('.acfe_bulk_delete_meta_type').val();
-            var nonce = $el.prevAll('.acfe_bulk_delete_meta_nonce').val();
+            var action = $el.prevAll('.acfe-dev-bulk-action').val();
+            var type = $el.prevAll('.acfe-dev-bulk-meta-type').val();
+            var nonce = $el.prevAll('.acfe-dev-bulk-nonce').val();
 
-            if (action === 'delete') {
+            if (action !== 'delete') {
+                return;
+            }
 
-                var ids = [];
-                var trs = [];
+            var ids = [];
+            var trs = [];
 
-                $('input.acfe_bulk_delete_meta:checked').each(function() {
-                    ids.push($(this).val());
-                    trs.push($(this).closest('tr'));
-                });
+            $('input.acfe-dev-bulk-checkbox:checked').each(function() {
+                ids.push($(this).val());
+                trs.push($(this).closest('tr'));
+            });
 
-                if (ids.length) {
+            if (!ids.length) {
+                return;
+            }
 
-                    $.ajax({
-                        url: acf.get('ajaxurl'),
-                        type: 'post',
-                        data: {
-                            action: 'acfe/bulk_delete_meta',
-                            ids: ids,
-                            type: type,
-                            _wpnonce: nonce,
-                        },
-                        beforeSend: function() {
+            $.ajax({
+                url: acf.get('ajaxurl'),
+                type: 'post',
+                data: {
+                    action: 'acfe/dev/bulk_delete_meta',
+                    ids: ids,
+                    type: type,
+                    _wpnonce: nonce,
+                },
+                beforeSend: function() {
 
-                            trs.map(function(tr) {
-                                $(tr).css({
-                                    backgroundColor: '#faafaa'
-                                }).fadeOut(350, function() {
-                                    $(tr).remove();
-                                    self.sync();
-                                });
-                            });
-
-                        }
+                    trs.map(function(tr) {
+                        $(tr).css({
+                            backgroundColor: '#faafaa'
+                        }).fadeOut(350, function() {
+                            $(tr).remove();
+                            self.syncMetaboxes();
+                        });
                     });
 
                 }
+            });
+
+        },
+
+        onCheckPostbox: function(e, $el) {
+
+            var val = $el.val();
+
+            if ($el.prop('checked')) {
+                this.showBulk();
+
+            } else if ((val === 'acfe-wp-custom-fields' && !this.$acf().is(':visible')) || (val === 'acfe-acf-custom-fields' && !this.$wp().is(':visible'))) {
+                this.hideBulk();
 
             }
 
         },
-
-        onClickPostbox: function(e, $el) {
-
-            var val = $el.val();
-
-            if (!acfe.inArray(val, ['acfe-wp-custom-fields', 'acfe-acf-custom-fields'])) {
-                return;
-            }
-
-            var $acfWrap = this.$acfWrap();
-            var $wpWrap = this.$wpWrap();
-            var $bulkActions = this.$bulkActions();
-
-            if ($el.prop('checked')) {
-
-                if (!$bulkActions.is(':visible')) {
-                    $bulkActions.show();
-                }
-
-            } else if ((val === 'acfe-wp-custom-fields' && !$acfWrap.is(':visible')) || (val === 'acfe-acf-custom-fields' && !$wpWrap.is(':visible'))) {
-
-                $bulkActions.hide();
-
-            }
-
-        }
 
     });
 
@@ -366,10 +337,11 @@
 })(jQuery);
 (function($) {
 
-    if (typeof acf === 'undefined')
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
         return;
+    }
 
-    /*
+    /**
      * ACFE Form
      */
     new acf.Model({
@@ -414,7 +386,8 @@
         },
 
         filters: {
-            'select2_args': 'select2Args'
+            'select2_template_selection': 'select2TemplateSelection',
+            'select2_template_result': 'select2TemplateSelection',
         },
 
         actionsButton: function(field) {
@@ -455,35 +428,13 @@
 
         },
 
-        select2Args: function(options, $select, fieldData, field, instance) {
+        select2TemplateSelection: function(text, selection, $select, fieldData, field, instance) {
 
             if (field.get('acfeAllowCustom')) {
-
-                var self = this;
-
-                options.templateSelection = function(state) {
-
-                    if (!state.id) {
-                        return state.text;
-                    }
-
-                    return self.replaceCode(state.text);
-
-                };
-
-                options.templateResult = function(state) {
-
-                    if (!state.id) {
-                        return state.text;
-                    }
-
-                    return self.replaceCode(state.text);
-
-                };
-
+                return this.replaceCode(text);
             }
 
-            return options;
+            return text;
 
         },
 

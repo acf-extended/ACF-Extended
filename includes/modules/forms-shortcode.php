@@ -21,6 +21,12 @@ class acfe_form_shortcode{
     
     function render_shortcode($atts){
         
+        // bail early on gutenberg screen
+        // avoid bug  with media modal css in wp back-end
+        if(acfe_is_block_editor()){
+            return false;
+        }
+        
         // attributes array
         $atts = acf_get_array($atts);
         

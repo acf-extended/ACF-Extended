@@ -31,7 +31,8 @@ class acfe_field_dynamic_render extends acf_field{
     function render_field($field){
         
         // check callback
-        if(is_callable($field['render'])){
+        // check isset() for backward compatibility with the old acfe_dynamic_message field type
+        if(isset($field['render']) && is_callable($field['render'])){
             call_user_func_array($field['render'], array($field));
         }
     

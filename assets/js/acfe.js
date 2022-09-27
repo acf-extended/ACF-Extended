@@ -5,289 +5,157 @@
     }
 
     /**
-     * ACF Data
+     * acfe
+     *
+     * @type {{}}
+     */
+    window.acfe = {};
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acf helpers
+     *
+     * acf.isget()
+     * acf.acf.isset()
+     */
+
+
+    /**
+     * acfe.getArray
+     *
+     * Forces val as an array, also allows integer 0
+     *
+     * @param val
+     * @returns {*[]}
+     */
+    acfe.getArray = function(val) {
+        val = val !== 0 ? val : '0';
+        return [].concat(val || []);
+    };
+
+
+    /**
+     * acfe.inArray
+     *
+     * @param v1
+     * @param array
+     * @param strict
+     * @returns {boolean}
+     */
+    acfe.inArray = function(v1, array, strict = false) {
+
+        if (!strict) {
+
+            v1 = acfe.getString(v1);
+            array = array.map(function(v2) {
+                return acfe.getString(v2);
+            });
+
+        }
+
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] === v1) {
+                return true;
+            }
+        }
+
+        return false;
+
+    };
+
+
+    /**
+     * acfe.arrayGet
+     *
+     * Get array/object value using dot notation
+     *
+     * @param obj
+     * @param path
+     * @param def
+     * @returns {null|*}
+     */
+    acfe.arrayGet = function(obj, path = '', def = null) {
+
+        // convert to string if empty
+        path = !acfe.isEmpty(path) ? path : '';
+
+        // check integer, otherwise split '.' notation
+        path = Number.isInteger(path) ? acfe.getArray(path) : path.split('.');
+
+        for (var i = 0; i < path.length; i++) {
+
+            if (!obj || !obj.hasOwnProperty(path[i])) {
+                return def;
+            }
+
+            obj = obj[path[i]];
+        }
+
+        return obj;
+
+    };
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acf.data.acfe
+     *
+     * @type {{}}
      */
     acf.data.acfe = {};
 
-    /**
-     * ACFE
-     */
-    var acfe = {};
-
-    window.acfe = acfe;
 
     /**
-     * Get
+     * acfe.get
+     *
+     * @param name
+     * @param def
+     * @returns {*|null}
      */
-    acfe.get = function(name) {
-        return acf.data.acfe[name] || null;
+    acfe.get = function(name, def = null) {
+        return acf.data.acfe[name] || def;
     };
 
+
     /**
-     * Has
+     * acfe.has
+     *
+     * @param name
+     * @returns {boolean}
      */
     acfe.has = function(name) {
-        return this.get(name) !== null;
+        return this.get(name) != null;
     };
 
+
     /**
-     * Set
+     * acfe.set
+     *
+     * @param name
+     * @param value
+     * @returns {acfe}
      */
     acfe.set = function(name, value) {
         acf.data.acfe[name] = value;
         return this;
     };
 
-    /**
-     * Parse String
-     */
-    acfe.parseString = function(val) {
-        return val ? '' + val : '';
-    };
-
-    /**
-     * In Array
-     */
-    acfe.inArray = function(v1, array) {
-
-        array = array.map(function(v2) {
-            return acfe.parseString(v2);
-        });
-
-        return (array.indexOf(v1) > -1);
-
-    }
-
-    /**
-     * Get Array
-     */
-    acfe.getArray = function(val) {
-        return [].concat(val || []);
-    }
-
-    /**
-     * Parse URL
-     */
-    acfe.parseURL = function(url) {
-
-        url = url || acfe.currentURL();
-
-        var params = {};
-        var queryString = url.replace(/^[^\?]+\??/, '');
-
-        if (!queryString) {
-            return params;
-        }
-
-        var Pairs = queryString.split(/[;&]/);
-
-        for (var i = 0; i < Pairs.length; i++) {
-
-            var KeyVal = Pairs[i].split('=');
-
-            if (!KeyVal || KeyVal.length !== 2) {
-                continue;
-            }
-
-            var key = decodeURI(KeyVal[0]);
-            var val = decodeURI(KeyVal[1]);
-
-            val = val.replace(/\+/g, ' ');
-
-            params[key] = val;
-
-        }
-
-        return params;
-
-    };
-
-    /**
-     * Current URL
-     */
-    acfe.currentURL = function() {
-        return self.location.href;
-    };
-
-    /**
-     * Current Path
-     */
-    acfe.currentPath = function() {
-        return self.location.pathname;
-    };
-
-    /**
-     * Current Filename
-     */
-    acfe.currentFilename = function() {
-        return acfe.currentPath().split('/').pop();
-    };
-
-    /**
-     * Parent Object
-     */
-    acfe.parentObject = function(obj) {
-        return Object.getPrototypeOf(obj);
-    }
-
-    /**
-     * Get Text Node
-     */
-    acfe.getTextNode = function($selector) {
-
-        var result;
-
-        $selector.contents().each(function() {
-            var text = $.trim($(this).text());
-
-            if (text) {
-                result = text;
-                return false;
-            }
-
-        });
-
-        return result;
-
-    }
-
-    /**
-     * UC First
-     */
-    acfe.ucFirst = function(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    /**
-     * Find Submit Wrap
-     */
-    acfe.findSubmitWrap = function($form) {
-
-        $form = $form || $('form');
-
-        // default post submit div
-        var $wrap = $form.find('#submitdiv');
-        if ($wrap.length) {
-            return $wrap;
-        }
-
-        // 3rd party publish box
-        var $wrap = $form.find('#submitpost');
-        if ($wrap.length) {
-            return $wrap;
-        }
-
-        // term, user
-        var $wrap = $form.find('p.submit').last();
-        if ($wrap.length) {
-            return $wrap;
-        }
-
-        // front end form
-        var $wrap = $form.find('.acf-form-submit');
-        if ($wrap.length) {
-            return $wrap;
-        }
-
-        // default
-        return $form;
-
-    };
-
-    /**
-     * Find Submit
-     */
-    acfe.findSubmit = function($form) {
-
-        $form = $form || $('form');
-        return this.findSubmitWrap($form).find('.button, [type="submit"]');
-
-    }
-
-    /**
-     * Find Spinner
-     */
-    acfe.findSpinner = function($form) {
-
-        $form = $form || $('form');
-        return this.findSubmitWrap($form).find('.spinner, .acf-spinner');
-
-    }
-
-    /**
-     * Filters
-     */
-    var filters = [];
-
-    acfe.disableFilters = function() {
-        filters = [];
-    };
-
-    acfe.getFilters = function() {
-        return filters;
-    };
-
-    acfe.isFilterEnabled = function(name) {
-        return filters.indexOf(name) > -1;
-    };
-
-    acfe.enableFilter = function(name) {
-
-        if (filters.indexOf(name) === -1) {
-            filters.push(name);
-        }
-
-    };
-
-    acfe.disableFilter = function(name) {
-
-        for (var i = filters.length; i--;) {
-            if (filters[i] === name) {
-                filters.splice(i, 1);
-            }
-        }
-
-    };
-
-    /**
-     * Field Extend
-     */
-    acfe.fieldExtend = function(fieldType, props) {
-
-        var field = acf.getFieldType(fieldType);
-
-        props.parent = function() {
-            return field.prototype;
-        }
-
-        if (!props.initialize) {
-
-            props.initialize = function() {
-
-                field.prototype.initialize.apply(this, arguments);
-
-                if (props.init) {
-                    props.init.apply(this, arguments);
-                }
-
-                if (props._events) {
-                    field.prototype.addEvents.apply(this, [props._events]);
-                }
-
-                if (props._actions) {
-                    field.prototype.addActions.apply(this, [props._actions]);
-                }
-
-                if (props._filters) {
-                    field.prototype.addFilters.apply(this, [props._filters]);
-                }
-
-            }
-
-        }
-
-        return field.extend(props);
-
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
     }
 
     /**
@@ -297,8 +165,20 @@
      * @returns {boolean}
      */
     acfe.isFieldKey = function(name) {
-        return typeof name === 'string' && name.substr(0, 6) === 'field_';
+        return acfe.isString(name) && name.startsWith('field_');
     }
+
+
+    /**
+     * acfe.isFieldName
+     *
+     * @param name
+     * @returns {boolean}
+     */
+    acfe.isFieldName = function(name) {
+        return acfe.isString(name) && !acfe.isFieldKey(name);
+    }
+
 
     /**
      * isGroupKey
@@ -307,12 +187,1258 @@
      * @returns {boolean}
      */
     acfe.isGroupKey = function(name) {
-        return typeof name === 'string' && name.substr(0, 6) === 'group_';
+        return acfe.isString(name) && name.startsWith('group_');
+    }
+
+
+    /**
+     * acfe.getField
+     *
+     * @param name
+     * @returns {[]|*}
+     */
+    acfe.getField = function(name) {
+
+        // field name
+        if (acfe.isFieldName(name)) {
+
+            return acf.getFields({
+                name: name,
+                limit: 1,
+                suppressFilters: true
+            }).shift();
+
+            // arguments
+        } else if (acf.isObject(name)) {
+
+            name = acf.parseArgs(name, {
+                limit: 1,
+                suppressFilters: true
+            });
+
+            return acf.getFields(name).shift();
+
+        }
+
+        // default getField
+        return acf.getField(name);
+
+    };
+
+
+    /**
+     * find_fields_selector
+     *
+     * Since ACF 6.0. Allow types as array
+     */
+    acf.addFilter('find_fields_selector', function(selector, args) {
+
+        // args.types
+        // allow types array
+        if (args.types && args.types.length && acf.isArray(args.types)) {
+
+            // vars
+            var array = [];
+
+            // loop
+            for (var type of args.types) {
+                array.push(selector + '[data-type="' + type + '"]');
+            }
+
+            selector = array.join(',');
+
+        }
+
+        // return
+        return selector;
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
     }
 
     /**
-     * Version Compare
+     * storage
+     *
+     * @type {*[]}
+     */
+    var filters = [];
+
+
+    /**
+     * acfe.disableFilters
+     */
+    acfe.disableFilters = function() {
+        filters = [];
+    };
+
+
+    /**
+     * acfe.getFilters
+     *
+     * @returns {*[]}
+     */
+    acfe.getFilters = function() {
+        return filters;
+    };
+
+
+    /**
+     * acfe.isFilterEnabled
+     *
+     * @param name
+     * @returns {boolean}
+     */
+    acfe.isFilterEnabled = function(name) {
+        return filters.indexOf(name) > -1;
+    };
+
+
+    /**
+     * acfe.enableFilter
+     *
+     * @param name
+     */
+    acfe.enableFilter = function(name) {
+        if (filters.indexOf(name) === -1) {
+            filters.push(name);
+        }
+    };
+
+
+    /**
+     * acfe.disableFilter
+     *
+     * @param name
+     */
+    acfe.disableFilter = function(name) {
+        for (var i = filters.length; i--;) {
+            if (filters[i] === name) {
+                filters.splice(i, 1);
+            }
+        }
+    };
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acfe.findSubmitWrap
+     *
+     * @param $form
+     * @returns {{length}|*|jQuery|HTMLElement}
+     */
+    acfe.findSubmitWrap = function($form) {
+
+        var $wrap;
+        $form = $form || $('form');
+
+        // default post submit div
+        $wrap = $form.find('#submitdiv');
+        if ($wrap.length) {
+            return $wrap;
+        }
+
+        // 3rd party publish box
+        $wrap = $form.find('#submitpost');
+        if ($wrap.length) {
+            return $wrap;
+        }
+
+        // term, user
+        $wrap = $form.find('p.submit').last();
+        if ($wrap.length) {
+            return $wrap;
+        }
+
+        // front end form
+        $wrap = $form.find('.acf-form-submit');
+        if ($wrap.length) {
+            return $wrap;
+        }
+
+        // default
+        return $form;
+
+    };
+
+
+    /**
+     * acfe.findSubmit
+     *
+     * @param $form
+     * @returns {*|jQuery}
+     */
+    acfe.findSubmit = function($form) {
+
+        $form = $form || $('form');
+        return this.findSubmitWrap($form).find('.button, [type="submit"]');
+
+    }
+
+
+    /**
+     * acfe.findSpinner
+     *
+     * @param $form
+     * @returns {*|jQuery}
+     */
+    acfe.findSpinner = function($form) {
+
+        $form = $form || $('form');
+        return this.findSubmitWrap($form).find('.spinner, .acf-spinner');
+
+    }
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * Popup
+     */
+    acfe.getPopup = function($el) {
+        return acf.getInstance($el);
+    };
+
+    acfe.getPopups = function() {
+        return acf.getInstances($('.acfe-modal'));
+    };
+
+    acfe.newPopup = function($el, args) {
+        return new acfe.Popup($el, args);
+    };
+
+    acfe.Popup = acf.Model.extend({
+
+        data: {
+            title: '',
+            content: '',
+            footer: '',
+            class: '',
+            size: '',
+            autoOpen: true,
+            destroy: false,
+            events: {},
+            onOpen: function() {},
+            onClose: function() {},
+        },
+
+        events: {
+            'click >.acfe-modal-wrapper>.acfe-modal-title>.close': 'onClickClose',
+            'click >.acfe-modal-wrapper>.acfe-modal-footer>.close': 'onClickClose',
+        },
+
+        setup: function($el, args) {
+
+            // content + args
+            if (args) {
+
+                if ($el instanceof jQuery) {
+                    // ...
+                } else {
+                    $el = $($el);
+                }
+
+                // set el
+                this.$el = $el;
+
+                // only args
+            } else {
+
+                // set args
+                args = $el;
+
+                // set el
+                this.$el = $('<div class="acfe-modal"><div class="acfe-modal-wrapper"><div class="acfe-modal-content"></div></div></div>').appendTo('body');
+
+            }
+
+            // extend data
+            $.extend(this.data, args);
+
+            // render
+            this.render();
+
+        },
+
+        initialize: function() {
+
+            this.addUnscopedEvents();
+
+            if (this.get('autoOpen')) {
+                this.open();
+            }
+
+        },
+
+        addUnscopedEvents: function() {
+
+            if (!this.get('events')) {
+                return;
+            }
+
+            // vars
+            var events = this.get('events');
+            var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
+            for (var key in events) {
+
+                // match
+                var match = key.match(delegateEventSplitter);
+
+                // vars
+                var $el, args, event, selector, callback;
+
+                if (match[2]) {
+                    event = match[1];
+                    selector = match[2];
+                    callback = events[key];
+                } else {
+                    event = match[1];
+                    selector = '';
+                    callback = events[key];
+                }
+
+                // event
+                event = event + '.' + this.cid;
+
+                // callback
+                callback = this.proxyEvent(this.get(callback));
+
+                if (selector) {
+                    args = [event, selector, callback];
+                } else {
+                    args = [event, callback];
+                }
+
+                $el = this.$el;
+                $el.on.apply($el, args);
+
+            }
+
+        },
+
+        $wrapper: function() {
+            return this.$('> .acfe-modal-wrapper');
+        },
+
+        $title: function(val) {
+
+            // set title
+            if (val !== undefined) {
+                return this.$wrapper().find('> .acfe-modal-title > .title').html(val);
+            }
+
+            return this.$wrapper().find('> .acfe-modal-title');
+        },
+
+        $content: function(val) {
+
+            // set content
+            if (val !== undefined) {
+                return this.$('.acfe-modal-content').html(val);
+            }
+
+            return this.$wrapper().find('> .acfe-modal-content');
+        },
+
+        $footer: function(val) {
+
+            // set footer
+            if (val !== undefined) {
+                return this.$wrapper().find('> .acfe-modal-footer').html(val);
+            }
+
+            return this.$wrapper().find('> .acfe-modal-footer');
+        },
+
+        $overlay: function() {
+            return this.$wrapper().find('> .acfe-modal-wrapper-overlay');
+        },
+
+        setupClass: function() {
+
+            if (this.get('size')) {
+                this.$el.addClass('-' + this.get('size'));
+            }
+
+            if (this.get('class')) {
+                this.$el.addClass(this.get('class'));
+            }
+
+        },
+
+        setupWrapper: function() {
+            if (!this.$wrapper().length) {
+                this.$el.wrapInner('<div class="acfe-modal-wrapper" />');
+            }
+        },
+
+        setupTitle: function() {
+            if (this.get('title')) {
+
+                if (!this.$title().length) {
+                    this.$wrapper().prepend('<div class="acfe-modal-title"><span class="title"></span><button class="close"></button></div>');
+                }
+
+                if (typeof this.get('title') === 'function') {
+                    this.$title(this.get('title').apply(this));
+                } else {
+                    this.$title(this.get('title'));
+                }
+            }
+        },
+
+        setupContent: function() {
+            if (!this.$content().length) {
+                this.$wrapper().wrapInner('<div class="acfe-modal-content" />');
+            }
+
+            if (this.get('content')) {
+
+                if (typeof this.get('content') === 'function') {
+                    this.$content(this.get('content').apply(this));
+                } else {
+                    this.$content(this.get('content'));
+                }
+            }
+        },
+
+        setupFooter: function() {
+
+            if (this.get('footer')) {
+
+                if (!this.$footer().length) {
+                    this.$wrapper().append('<div class="acfe-modal-footer" />');
+                }
+
+                if (typeof this.get('footer') === 'function') {
+                    this.$footer(this.get('footer').apply(this));
+                } else {
+                    this.$footer('<button class="button button-primary close">' + this.get('footer') + '</button>');
+                }
+
+            }
+
+        },
+
+        setupOverlay: function() {
+            if (!this.$overlay().length) {
+                this.$wrapper().prepend('<div class="acfe-modal-wrapper-overlay" />');
+            }
+        },
+
+        setupTinymce: function() {
+
+            // hide TinyMCE dropdown when scroll modal (fix position issues)
+            if (typeof tinymce !== 'undefined' && acf.isset(tinymce, 'ui', 'FloatPanel')) {
+                this.$content().off('scroll.tinymcePanel').on('scroll.tinymcePanel', function(e) {
+                    tinymce.ui.FloatPanel.hideAll();
+                });
+            }
+
+        },
+
+        setupFields: function() {
+
+            // get subfields
+            var getSubFields = acf.getFields({
+                parent: this.$el,
+                visible: true,
+            });
+
+            // show subfields
+            getSubFields.map(function(field) {
+                acf.doAction('show_field', field, 'group');
+            }, this);
+
+        },
+
+        render: function() {
+
+            // setup
+            this.setupClass();
+            this.setupWrapper();
+            this.setupContent();
+            this.setupTitle();
+            this.setupFooter();
+            this.setupOverlay();
+            this.setupTinymce();
+
+        },
+
+        open: function() {
+
+            // add class
+            this.$el.addClass('-open');
+
+            // push to popus storage
+            modalManager.addPopup(this);
+
+            // action
+            acf.doAction('acfe/modal/open', this);
+
+            // function
+            this.get('onOpen').apply(this);
+
+            // event
+            this.trigger('open');
+
+            // setup fields
+            this.setupFields();
+
+        },
+
+        close: function() {
+
+            // remove style & class
+            this.$el.removeAttr('style');
+            this.$el.removeClass('-open');
+
+            modalManager.removePopup(this);
+
+            // action
+            acf.doAction('acfe/modal/close', this);
+
+            // function
+            this.get('onClose').apply(this);
+
+            // event
+            this.trigger('close');
+
+            // destroy
+            if (this.get('destroy')) {
+                this.remove();
+            }
+
+        },
+
+        onClickClose: function(e, $el) {
+
+            e.preventDefault();
+            this.close();
+
+        }
+
+    });
+
+    /**
+     * Popup: Close
+     */
+    acfe.closePopup = function(instance) {
+
+        // close last popup
+        if (instance === undefined) {
+            return modalManager.closeLastPopup();
+        }
+
+        var popup;
+
+        // jQuery element
+        if (instance instanceof jQuery) {
+
+            popup = acfe.getPopup(instance);
+            if (popup) {
+                popup.close();
+            }
+
+            // jQuery selector
+        } else if (typeof instance === 'string') {
+
+            instance = $(instance);
+            popup = acfe.getPopup(instance);
+            if (popup) {
+                popup.close();
+            }
+
+            // ACF instance
+        } else {
+
+            if (typeof instance.close === 'function') {
+                instance.close();
+            }
+
+        }
+
+    };
+
+    var modalManager = new acf.Model({
+
+        popups: [],
+
+        events: {
+            'click .acfe-modal-overlay': 'onClick',
+            'keydown': 'onKeydown',
+        },
+
+        onClick: function(e) {
+
+            e.preventDefault();
+            this.closeLastPopup();
+
+        },
+
+        onKeydown: function(e) {
+            if (e.keyCode === 27 && $('body').hasClass('acfe-modal-opened')) {
+                e.preventDefault();
+                this.closeLastPopup();
+            }
+        },
+
+        addPopup: function(instance) {
+
+            this.popups.push(instance);
+            this.syncPopups();
+
+            if (!$('body').hasClass('acfe-modal-opened')) {
+                $('body').addClass('acfe-modal-opened').append($('<div class="acfe-modal-overlay" />'));
+            }
+
+        },
+
+        removePopup: function(instance) {
+
+            this.popups = this.popups.filter(function(popup) {
+                return popup.cid !== instance.cid;
+            }, this);
+
+            this.syncPopups();
+
+            if (!this.popups.length) {
+                $('.acfe-modal-overlay').remove();
+                $('body').removeClass('acfe-modal-opened');
+            }
+
+        },
+
+        closeLastPopup: function() {
+            if (this.popups.length) {
+                this.popups[this.popups.length - 1].close();
+            }
+        },
+
+        syncPopups: function() {
+
+            // multiple popups: add css margin
+            this.popups.map(function(popup, i) {
+
+                // last popup
+                if (i === this.popups.length - 1) {
+                    return popup.$el.removeClass('acfe-modal-sub').css('margin-left', '');
+                }
+
+                // other popups
+                popup.$el.addClass('acfe-modal-sub').css('margin-left', -(500 / (i + 1)));
+
+            }, this);
+
+        },
+
+    });
+
+    // Allow open modal in HTML
+    new acf.Model({
+
+        events: {
+            'click a[data-acfe-modal]': 'onClick',
+            'click button[data-acfe-modal]': 'onClick',
+            'click input[data-acfe-modal]': 'onClick',
+        },
+
+        onClick: function(e, $el) {
+
+            // prevent default
+            e.preventDefault();
+
+            // vars
+            var target = $el.attr('data-acfe-modal') || false;
+            var size = $el.attr('data-acfe-modal-size') || 'medium';
+            var title = $el.attr('data-acfe-modal-title') || '';
+            var footer = $el.attr('data-acfe-modal-footer') || '';
+
+            // find next modal div
+            if (!target) {
+                target = $el.parent().find('.acfe-modal').first();
+            }
+
+            if (target instanceof jQuery) {
+                // do nothing
+            } else {
+                target = $('.acfe-modal[data-acfe-modal=' + target + ']');
+            }
+
+            if (target.length) {
+
+                new acfe.Popup(target, {
+                    size: size,
+                    title: title,
+                    footer: footer,
+                });
+
+            }
+
+        },
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acf.Model.get()
+     *
+     * @param name
+     * @param def
+     * @returns {*|null}
+     */
+    acf.Model.prototype.get = function(name, def = null) {
+        return this.data[name] || def;
+    };
+
+    /**
+     * acf.get()
+     *
+     * @param name
+     * @param def
+     * @returns {*|null}
+     */
+    acf.get = function(name, def = null) {
+        return this.data[name] || def;
+    };
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acf helpers
+     *
+     * acf.strReplace()
+     * acf.strCamelCase()
+     * acf.strPascalCase()
+     * acf.strSlugify()
+     * acf.strSanitize()
+     * acf.strMatch()
+     */
+
+
+    /**
+     * acfe.getString
+     *
+     * Parse value as string, also allows integer 0
+     *
+     * @param val
+     * @returns {string|string}
+     */
+    acfe.getString = function(val) {
+
+        if (acf.isObject(val)) {
+            return JSON.stringify(val);
+        }
+
+        return !acfe.isEmpty(val) ? '' + val : '';
+    };
+
+
+    /**
+     * acfe.getTextNode
+     *
+     * @param $selector
+     * @returns {*}
+     */
+    acfe.getTextNode = function($selector) {
+
+        if ($selector.exists()) {
+            for (row of $selector.contents()) {
+
+                var text = $.trim($(row).text());
+                if (text) {
+                    return text;
+                }
+
+            }
+        }
+
+        return '';
+
+    };
+
+
+    /**
+     *
+     * @param string
+     * @returns {string}
+     */
+    acfe.ucFirst = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * Tooltip
+     */
+    var tooltip = new acf.Model({
+
+        tooltips: {},
+
+        events: {
+            'click .acfe-field-tooltip': 'clickTooltip',
+        },
+
+        clickTooltip: function(e, $el) {
+
+            // title
+            var title = $el.attr('title');
+            if (!title) {
+                return;
+            }
+
+            // get field
+            var field = acf.getClosestField($el);
+            if (!field) {
+                return;
+            }
+
+            // clear title to avoid default browser tooltip
+            $el.attr('title', '');
+
+            // open
+            if (!this.tooltips[field.cid]) {
+
+                this.tooltips[field.cid] = acf.newTooltip({
+                    text: title,
+                    target: $el
+                });
+
+                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+                    $el.removeClass('dashicons-info-outline').addClass('dashicons-remove');
+                }
+
+                // close
+            } else {
+
+                // hide tooltip
+                this.tooltips[field.cid].hide();
+
+                // restore title
+                $el.attr('title', this.tooltips[field.cid].get('text'));
+
+                this.tooltips[field.cid] = false;
+
+                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+                    $el.removeClass('dashicons-remove').addClass('dashicons-info-outline');
+                }
+
+            }
+
+        },
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acf helpers
+     *
+     * acf.isNumeric()
+     * acf.isArray()
+     * acf.isObject()
+     */
+
+
+    /**
+     * acfe.isString
+     *
+     * @param a
+     * @returns {boolean}
+     */
+    acfe.isString = function(a) {
+        return typeof a === 'string';
+    }
+
+
+    /**
+     * acfe.isUndefined
+     *
+     * @param a
+     * @returns {boolean}
+     */
+    acfe.isUndefined = function(a) {
+        return typeof a === 'undefined';
+    }
+
+
+    /**
+     * acfe.isFunction
+     *
+     * @param a
+     * @returns {boolean}
+     */
+    acfe.isFunction = function(a) {
+        return typeof a === 'function';
+    }
+
+
+    /**
+     * acfe.isBool
+     *
+     * @param a
+     * @returns {boolean}
+     */
+    acfe.isBool = function(a) {
+        return typeof a === 'boolean';
+    }
+
+
+    /**
+     * acfe.isInt
+     *
+     * @param a
+     * @returns {boolean}
+     */
+    acfe.isInt = function(a) {
+        return Number.isInteger(a);
+    }
+
+
+    /**
+     * acfe.isJquery
+     *
+     * @param $a
+     * @returns {boolean}
+     */
+    acfe.isJquery = function($a) {
+        return $a instanceof jQuery
+    }
+
+
+    /**
+     * acfe.isEmpty
+     *
+     * Allows integer 0 to be used
+     *
+     * @param val
+     * @returns {boolean}
+     */
+    acfe.isEmpty = function(val) {
+
+        // array
+        if (acf.isArray(val)) {
+            return !val.length;
+
+            // object
+        } else if (acf.isObject(val)) {
+            return val && Object.keys(val).length === 0 && Object.getPrototypeOf(val) === Object.prototype
+
+            // string
+        } else if (acfe.isString(val)) {
+            return !val.length;
+
+        }
+
+        // integer 0
+        return !val && !acf.isNumeric(val);
+
+    };
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acfe.slugify
+     *
+     * @param str
+     * @returns {string}
+     */
+    acfe.slugify = function(str) {
+        return str.replace(/[\s\./]+/g, '-').replace(/[^\p{L}\p{N}_-]+/gu, '').replace(/-+$/, '').toLowerCase();
+    }
+
+    /**
+     * acfe.addQueryArgs
+     *
+     * @returns {string|any|string}
+     */
+    acfe.addQueryArgs = function() {
+
+        let url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+        let args = arguments.length > 1 ? arguments[1] : undefined;
+
+        // If no arguments are to be appended, return original URL.
+        if (!args || !Object.keys(args).length) {
+            return url;
+        }
+
+        let baseUrl = url; // Determine whether URL already had query arguments.
+
+        const queryStringIndex = url.indexOf('?');
+
+        if (queryStringIndex !== -1) {
+            // Merge into existing query arguments.
+            args = Object.assign(acfe.getQueryArgs(url), args); // Change working base URL to omit previous query arguments.
+
+            baseUrl = baseUrl.substr(0, queryStringIndex);
+        }
+
+        return baseUrl + '?' + buildQueryString(args);
+
+    };
+
+
+    /**
+     * acfe.getQueryArgs
+     *
+     * @param url
+     * @returns {string}
+     */
+    acfe.getQueryArgs = function(url) {
+
+        return (getQueryString(url) || '' // Normalize space encoding, accounting for PHP URL encoding
+            // corresponding to `application/x-www-form-urlencoded`.
+            //
+            // See: https://tools.ietf.org/html/rfc1866#section-8.2.1
+        ).replace(/\+/g, '%20').split('&').reduce((accumulator, keyValue) => {
+            const [key, value = ''] = keyValue.split('=') // Filtering avoids decoding as `undefined` for value, where
+                // default is restored in destructuring assignment.
+                .filter(Boolean).map(decodeURIComponent);
+
+            if (key) {
+                const segments = key.replace(/\]/g, '').split('[');
+                setPath(accumulator, segments, value);
+            }
+
+            return accumulator;
+        }, Object.create(null));
+
+    };
+
+
+    /**
+     * acfe.getFragment
+     *
+     * getFragment('http://localhost:8080/this/is/a/test?query=true#fragment'); // '#fragment'
+     * getFragment('https://wordpress.org#another-fragment?query=true');        // '#another-fragment'
+     *
+     * @param url
+     * @returns {string}
+     */
+    acfe.getFragment = function(url) {
+
+        const matches = /^\S+?(#[^\s\?]*)/.exec(url);
+
+        if (matches) {
+            return matches[1];
+        }
+
+        return '';
+
+    };
+
+
+    /**
+     * acfe.getCurrentUrl
+     *
+     * @returns {*}
+     */
+    acfe.getCurrentUrl = function() {
+        return self.location.href;
+    };
+
+
+    /**
+     * acfe.getCurrentPath
+     *
+     * @returns {string|string|string|*}
+     */
+    acfe.getCurrentPath = function() {
+        return self.location.pathname;
+    };
+
+
+    /**
+     * acfe.getCurrentFilename
+     *
+     * @returns {string}
+     */
+    acfe.getCurrentFilename = function() {
+        return acfe.getFilename(acfe.getCurrentPath());
+    };
+
+
+    /**
+     * acfe.getFilename
+     *
+     * @param path
+     * @returns {*}
+     */
+    acfe.getFilename = function(path) {
+        return path.split('/').pop();
+    };
+
+
+    /**
+     * buildQueryString
+     *
+     * wp-includes/js/dist/url.js
+     *
+     * @param data
+     * @returns {string}
+     */
+    var buildQueryString = function(data) {
+
+        let string = '';
+        const stack = Object.entries(data);
+        let pair;
+
+        while (pair = stack.shift()) {
+            let [key, value] = pair; // Support building deeply nested data, from array or object values.
+
+            const hasNestedData = Array.isArray(value) || value && value.constructor === Object;
+
+            if (hasNestedData) {
+                // Push array or object values onto the stack as composed of their
+                // original key and nested index or key, retaining order by a
+                // combination of Array#reverse and Array#unshift onto the stack.
+                const valuePairs = Object.entries(value).reverse();
+
+                for (const [member, memberValue] of valuePairs) {
+                    stack.unshift([`${key}[${member}]`, memberValue]);
+                }
+            } else if (value !== undefined) {
+                // Null is treated as special case, equivalent to empty string.
+                if (value === null) {
+                    value = '';
+                }
+
+                string += '&' + [key, value].map(encodeURIComponent).join('=');
+            }
+        } // Loop will concatenate with leading `&`, but it's only expected for all
+        // but the first query parameter. This strips the leading `&`, while still
+        // accounting for the case that the string may in-fact be empty.
+
+
+        return string.substr(1);
+
+    };
+
+
+    /**
+     * getQueryString
+     *
+     * wp-includes/js/dist/url.js
+     *
+     * @param url
+     * @returns {string}
+     */
+    var getQueryString = function(url) {
+        let query;
+
+        try {
+            query = new URL(url, 'http://example.com').search.substring(1);
+        } catch (error) {}
+
+        if (query) {
+            return query;
+        }
+    };
+
+
+    /**
+     * setPath
+     *
+     * wp-includes/js/dist/url.js
+     *
+     * @param object
+     * @param path
+     * @param value
+     */
+    var setPath = function(object, path, value) {
+
+        const length = path.length;
+        const lastIndex = length - 1;
+
+        for (let i = 0; i < length; i++) {
+            let key = path[i];
+
+            if (!key && Array.isArray(object)) {
+                // If key is empty string and next value is array, derive key from
+                // the current length of the array.
+                key = object.length.toString();
+            }
+
+            key = ['__proto__', 'constructor', 'prototype'].includes(key) ? key.toUpperCase() : key; // If the next key in the path is numeric (or empty string), it will be
+            // created as an array. Otherwise, it will be created as an object.
+
+            const isNextKeyArrayIndex = !isNaN(Number(path[i + 1]));
+            object[key] = i === lastIndex ? // If at end of path, assign the intended value.
+                value : // Otherwise, advance to the next object in the path, creating
+                // it if it does not yet exist.
+                object[key] || (isNextKeyArrayIndex ? [] : {});
+
+            if (Array.isArray(object[key]) && !isNextKeyArrayIndex) {
+                // If we current key is non-numeric, but the next value is an
+                // array, coerce the value to an object.
+                object[key] = {
+                    ...object[key]
+                };
+            } // Update working reference object to the next in the path.
+
+
+            object = object[key];
+        }
+
+    };
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * acfe.versionCompare
+     *
      * https://locutus.io/php/info/version_compare/
+     *
+     * @param v1
+     * @param operator
+     * @param v2
+     * @returns {null|boolean|number}
      */
     acfe.versionCompare = function(v1, operator, v2) {
         let i
@@ -388,363 +1514,6 @@
                 return null
         }
 
-    }
-
-})(jQuery);
-(function($) {
-
-    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
-        return;
-    }
-
-    /**
-     * Popup
-     */
-    var popups = [];
-
-    acfe.Popup = acf.Model.extend({
-
-        data: {
-            title: false,
-            footer: false,
-            size: false,
-            destroy: false,
-            onOpen: function() {},
-            onClose: function() {},
-        },
-
-        events: {
-            'click .acfe-modal-title>.close': 'onClickClose',
-            'click .acfe-modal-footer>button': 'onClickClose',
-        },
-
-        setup: function($content, args) {
-
-            $.extend(this.data, args);
-
-            this.$el = $content;
-            this.render();
-
-        },
-
-        initialize: function() {
-
-            this.open();
-
-        },
-
-        render: function() {
-
-            // Size
-            if (this.get('size')) {
-                this.$el.addClass('-' + this.get('size'));
-            }
-
-            // Wrapper
-            if (!this.$('> .acfe-modal-wrapper').length) {
-                this.$el.wrapInner('<div class="acfe-modal-wrapper" />');
-            }
-
-            var $wrapper = this.$('> .acfe-modal-wrapper');
-
-            // Content
-            if (!$wrapper.find('> .acfe-modal-content').length) {
-                $wrapper.wrapInner('<div class="acfe-modal-content" />');
-            }
-
-            // Title
-            if (this.get('title')) {
-                $wrapper.prepend('<div class="acfe-modal-title"><span class="title">' + this.get('title') + '</span><button class="close"></button></div>');
-            }
-
-            // Overlay
-            $wrapper.prepend('<div class="acfe-modal-wrapper-overlay"></div>');
-
-            // Footer
-            if (this.get('footer')) {
-                $wrapper.append('<div class="acfe-modal-footer"><button class="button button-primary">' + this.get('footer') + '</button></div>');
-            }
-
-            // Hide TinyMCE dropdown when scroll modal (fix position issues)
-            if (typeof tinymce !== 'undefined' && acf.isset(tinymce, 'ui', 'FloatPanel')) {
-
-                $wrapper.find('.acfe-modal-content').off('scroll.tinymcePanel').on('scroll.tinymcePanel', function(e) {
-                    tinymce.ui.FloatPanel.hideAll();
-                });
-
-            }
-
-        },
-
-        open: function() {
-
-            this.$el.addClass('-open');
-
-            popups.push(this);
-
-            acfe.syncPopup();
-
-            // Get sub fields
-            var getSubFields = acf.getFields({
-                parent: this.$el,
-                visible: true,
-            });
-
-            // Show sub fields
-            getSubFields.map(function(field) {
-                acf.doAction('show_field', field, 'group');
-            }, this);
-
-            acf.doAction('acfe/modal/open', this.$el, this.data);
-
-            this.get('onOpen').apply(this.$el);
-
-        },
-
-        close: function() {
-
-            this.$('.acfe-modal-wrapper-overlay').remove();
-            this.$('.acfe-modal-title').remove();
-            this.$('.acfe-modal-footer').remove();
-
-            this.$el.removeAttr('style');
-            this.$el.removeClass('-open');
-
-            acfe.syncPopup();
-
-            acf.doAction('acfe/modal/close', this.$el, this.data);
-
-            this.get('onClose').apply(this.$el);
-
-            this.remove();
-
-            if (this.get('destroy')) {
-                this.$el.remove();
-            }
-
-        },
-
-        remove: function() {
-
-            this.removeEvents();
-            this.removeActions();
-            this.removeFilters();
-
-        },
-
-        onClickClose: function(e) {
-
-            e.preventDefault();
-
-            if (!popups.length) {
-                return false;
-            }
-
-            popups.pop().close();
-
-        }
-
-    });
-
-    /**
-     * Popup: Close
-     */
-    acfe.closePopup = function() {
-
-        if (!popups.length) {
-            return false;
-        }
-
-        popups.pop().close();
-
     };
-
-    /**
-     * Popup: Sync
-     */
-    acfe.syncPopup = function() {
-
-        var $body = $('body');
-
-        if (popups.length) {
-
-            // Prepare Body
-            if (!$body.hasClass('acfe-modal-opened')) {
-
-                $body.addClass('acfe-modal-opened').append($('<div class="acfe-modal-overlay" />'));
-
-                $('.acfe-modal-overlay').on('click', function(e) {
-
-                    e.preventDefault();
-                    acfe.closePopup();
-
-                });
-
-            }
-
-            // Prepare Multiple
-            popups.map(function(self, i) {
-
-                if (i === popups.length - 1) {
-                    return self.$el.removeClass('acfe-modal-sub').css('margin-left', '');
-                }
-
-                self.$el.addClass('acfe-modal-sub').css('margin-left', -(500 / (i + 1)));
-
-            });
-
-        } else {
-
-            $('.acfe-modal-overlay').remove();
-            $body.removeClass('acfe-modal-opened');
-
-        }
-
-    };
-
-    $(window).on('keydown', function(e) {
-
-        if (e.keyCode !== 27 || !$('body').hasClass('acfe-modal-opened')) {
-            return;
-        }
-
-        e.preventDefault();
-        acfe.closePopup();
-
-    });
-
-    // Compatibility
-    acfe.modal = {
-
-        open: function($modal, args) {
-            new acfe.Popup($modal, args);
-        },
-
-        close: function() {
-            acfe.closePopup();
-        }
-
-    };
-
-    // Allow open modal in HTML
-    new acf.Model({
-
-        events: {
-            'click a[data-acfe-modal]': 'onClick',
-            'click button[data-acfe-modal]': 'onClick',
-            'click input[data-acfe-modal]': 'onClick',
-        },
-
-        onClick: function(e, $el) {
-
-            // prevent default
-            e.preventDefault();
-
-            // vars
-            var target = $el.attr('data-acfe-modal') || false;
-            var size = $el.attr('data-acfe-modal-size') || 'medium';
-            var title = $el.attr('data-acfe-modal-title') || false;
-            var footer = $el.attr('data-acfe-modal-footer') || false;
-
-            // find next modal div
-            if (!target) {
-                target = $el.parent().find('.acfe-modal').first();
-            }
-
-            if (target instanceof jQuery) {
-                // do nothing
-            } else {
-                target = $('.acfe-modal[data-acfe-modal=' + target + ']');
-            }
-
-            if (!target.length) {
-                return;
-            }
-
-            var args = {
-                size: size
-            }
-
-            if (title) {
-                args.title = title;
-            }
-
-            if (footer) {
-                args.footer = footer;
-            }
-
-            new acfe.Popup(target, args);
-
-        },
-
-    });
-
-})(jQuery);
-(function($) {
-
-    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
-        return;
-    }
-
-    /**
-     * Tooltip
-     */
-    var tooltip = new acf.Model({
-
-        tooltips: {},
-
-        events: {
-            'click .acfe-field-tooltip': 'clickTooltip',
-        },
-
-        clickTooltip: function(e, $el) {
-
-            // title
-            var title = $el.attr('title');
-            if (!title) {
-                return;
-            }
-
-            // get field
-            var field = acf.getClosestField($el);
-            if (!field) {
-                return;
-            }
-
-            // clear title to avoid default browser tooltip
-            $el.attr('title', '');
-
-            // open
-            if (!this.tooltips[field.cid]) {
-
-                this.tooltips[field.cid] = acf.newTooltip({
-                    text: title,
-                    target: $el
-                });
-
-                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
-                    $el.removeClass('dashicons-info-outline').addClass('dashicons-remove');
-                }
-
-                // close
-            } else {
-
-                // hide tooltip
-                this.tooltips[field.cid].hide();
-
-                // restore title
-                $el.attr('title', this.tooltips[field.cid].get('text'));
-
-                this.tooltips[field.cid] = false;
-
-                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
-                    $el.removeClass('dashicons-remove').addClass('dashicons-info-outline');
-                }
-
-            }
-
-        },
-
-    });
 
 })(jQuery);

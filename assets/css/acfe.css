@@ -481,11 +481,9 @@ body:not(.acf-admin-5-3) .acfe-modal.-open .acfe-modal-content .acfe-flex-contai
 
 .acfe-modal.-open .acfe-modal-footer {
     display: block;
-    height: 50px;
-    line-height: 50px;
     color: #23282d;
     background: #fcfcfc;
-    padding: 0 16px;
+    padding: 10px 16px;
     position: relative;
     text-align: right;
     border-top: 1px solid #ddd;
@@ -494,10 +492,6 @@ body:not(.acf-admin-5-3) .acfe-modal.-open .acfe-modal-content .acfe-flex-contai
 
 .acfe-modal.-open.acfe-modal-sub>.acfe-modal-wrapper>.acfe-modal-footer {
     pointer-events: none
-}
-
-.acfe-modal.-open .acfe-modal-footer>button {
-    vertical-align: baseline
 }
 
 body.block-editor-page .edit-post-layout .acfe-modal.-open {

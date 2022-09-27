@@ -129,11 +129,9 @@ class acfe_compatibility{
      */
     function field_acfe_update($field){
         
-        if(!acf_maybe_get($field, 'acfe_update')){
-            return $field;
+        if(isset($field['acfe_update'])){
+            unset($field['acfe_update']);
         }
-        
-        unset($field['acfe_update']);
         
         return $field;
         
