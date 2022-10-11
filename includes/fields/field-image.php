@@ -132,12 +132,12 @@ class acfe_field_image extends acfe_field_extend{
             
         // let acfe form force specific uploader
         if(acf_is_filter_enabled('acfe/form/uploader')){
-            unset($field['uploader']);
+            $field['uploader'] = '';
         }
         
         // default uploader in settings
         // use global acf uploader
-        if(!$field['uploader']){
+        if(empty($field['uploader'])){
             $field['uploader'] = acf_get_setting('uploader');
         }
         

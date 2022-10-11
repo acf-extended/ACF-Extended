@@ -360,3 +360,40 @@
     });
 
 })(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * Field: Repeater
+     *
+     * Fix ACF 6.0 repeater settings such as Advanced Settings/Validation not working correctly
+     */
+    new acf.Model({
+
+        actions: {
+            'duplicate': 'onAppend',
+        },
+
+        onAppend: function($el, $el2) {
+
+            if (acfe.versionCompare(acf.get('acf_version'), '>=', '6.0')) {
+
+                var field = acf.getClosestField($el2);
+
+                // field.render() should have been in the repeater "add" method, at the end of acf.duplicate()
+                // but it was removed in acf 6.0
+                if (field.get('type') === 'repeater') {
+                    field.render();
+                }
+
+            }
+
+        }
+
+
+    });
+
+})(jQuery);

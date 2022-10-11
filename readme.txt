@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 0.8.8.9
+Stable tag: 0.8.8.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -178,7 +178,7 @@ Enable Global Conditional Logic for a specific field, which can then be used in 
 Override a specific field instruction placement to any position: Below labels, below fields, above fields or tooltip.
 
 **[Instruction Read More](https://www.acf-extended.com/features/field-settings/instruction-read-more)** **(PRO)**
-Allow to expand instructions text with a “Read More” link. This feature is useful for lengthy instructions text.
+Allow to expand instructions text with a "Read More" link. This feature is useful for lengthy instructions text.
 
 **[Min/Max](https://www.acf-extended.com/features/field-settings/min-max)** **(PRO)**
 Minimum & maximum items is a global field setting that let you define a specific number of items that can or should be added by the user.
@@ -362,7 +362,7 @@ ACF Extended is bundled with a custom merged version of the Classic Editor & Dis
 The Developer Mode allow you to view all Posts, Terms, Users & Options custom metadata in a readable format. This feature is very useful to check what is actually saved in any WordPress Object.
 
 **[Forms](https://www.acf-extended.com/features/modules/dynamic-forms)** **(FREE / PRO)**
-Manage Advanced ACF Forms from the WordPress administration. This module is an enhanced version of the native ACF Form feature. While all native settings can be used, Dynamic Forms adds many new settings and introduce “Actions” for a complete control over the form behavior.
+Manage Advanced ACF Forms from the WordPress administration. This module is an enhanced version of the native ACF Form feature. While all native settings can be used, Dynamic Forms adds many new settings and introduce "Actions" for a complete control over the form behavior.
 
 **[Options Pages UI](https://www.acf-extended.com/features/modules/dynamic-options-pages)**
 The Dynamic Options Pages module allows you to register and manage ACF Options Pages from your WordPress admin, in ACF > Options Pages menu. All ACF settings can be set within the UI.
@@ -483,6 +483,30 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.8.10 =
+
+**ACF Extended Pro 0.8.8.10:**
+
+* Field: File - Improved default values implementation
+* Field: File - Fixed Preview Style "Select2" setting render styling
+* Field: WYSIWYG - Fixed "Custom Toolbar" setting not working correctly in ACF 6.0 UI
+* Field Settings: Min/Max - Added settings as default values in related fields
+* Module: Scripts - Improved validation process to only trigger inside page wrapper
+* General: Fixed ACF 6.0 CSS on ACF "Updates" page
+
+**ACF Extended Basic 0.8.8.10:**
+
+* Field: Image/File - Fixed undefined index notice when ACFE Form forced specific uploader type
+* Field: Flexible Content - Clear fields storage in Field Group UI to avoid third party plugins messing with it
+* Module: Forms - Reverted logic for the Image/File/Gallery media modal
+* Field Groups: Fixed Advanced Settings/Validation settings not working correctly in ACF 6.0 UI
+* General: Added several ACF 6.0 Field Groups CSS fixes
+* General: Hooks - Added `acf_add_filter_variations()` to general hooks
+* General: Enhanced `acfe_is_admin_screen()` helper
+* General: Enhanced `ftype` js logic to avoid overriding prototype
+* General: Enhanced `acfe.fieldExtend` js logic & added dependencies
+* General: Enhanced js helpers
 
 = 0.8.8.9 =
 

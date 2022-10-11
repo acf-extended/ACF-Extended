@@ -342,122 +342,329 @@
     }
 
     /**
-     * Field Extend
+     * acfe.registerFieldExtend
+     *
+     * @type {*[]}
      */
-    var storage = [];
+    var models = {};
 
-    acfe.registerFieldExtend = function(model) {
-        storage.push(model);
+    var modelId = function(model) {
+        return !acfe.isEmpty(model.prototype.id) ? model.prototype.id : acf.uniqueId('Extend');
     };
 
-    acfe.getFieldsExtend = function() {
-        return storage;
+    acfe.registerFieldExtend = function(model) {
+        var mid = modelId(model);
+        models[mid] = model;
+    };
+
+
+    /**
+     * acfe.getExtendModels
+     *
+     * todo: Added sorted by priority too
+     *
+     * @returns {*[]}
+     */
+    acfe.getExtendModels = function() {
+
+        var midsNoDeps = [];
+
+        for (var [mid, model] of acfe.getEntries(models)) {
+
+            if (acfe.isEmpty(model.prototype.dependencies)) {
+
+                var found = false;
+
+                for (var [cmid, cmodel] of acfe.getEntries(models)) {
+                    if (acfe.inArray(mid, cmodel.prototype.dependencies)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    midsNoDeps.push(mid);
+                }
+
+            }
+        }
+
+        var sortRules = {};
+
+        for (var [mid, model] of acfe.getEntries(models)) {
+            if (!acfe.inArray(mid, midsNoDeps)) {
+                sortRules[mid] = model.prototype.dependencies;
+            }
+        }
+
+
+        var sortedArr = sortbyDeps(sortRules).concat(midsNoDeps);
+        var final = {};
+
+        for (var mid of sortedArr) {
+            final[mid] = models[mid];
+        }
+
+        return final;
     }
 
-    var fieldExtendManager = new acf.Model({
-        wait: 'prepare',
-        priority: 1,
-        initialize: function() {
 
-            storage.map(function(model) {
-
-                var proto = model.prototype;
-                acf.addAction('new_field/type=' + proto.type, function(field) {
-
-                    var conditions = proto.conditions.apply(field);
-                    if (conditions) {
-                        new model(field);
-                    }
-
-                }, 9); // use low priority to allow third party actions
-
-            });
-
-        },
-    });
-
+    /**
+     * Field Extend
+     */
     acfe.FieldExtend = acf.Model.extend({
 
+        /**
+         * id
+         *
+         * define specific id allowing query and dependencies
+         * cid will be used for storage if not set
+         */
+        id: '',
+
+        /**
+         * type
+         *
+         * relationship                   : single field type
+         * [relationship, post_object...] : multiple field types
+         */
         type: '',
 
-        field: false,
+        /**
+         * dependencies
+         *
+         * define dependent extenders before hooking
+         */
+        dependencies: [],
 
+        /**
+         * conditions
+         *
+         * validate specific conditions before hooking
+         *
+         * @returns {boolean}
+         */
         conditions: function() {
             return true;
         },
 
-        eventScope: '.acf-field',
+        /**
+         * methods
+         *
+         * append methods to the targeted field
+         *
+         * false                 : no append
+         * []                    : append all (default)
+         * [method1, method2...] : append specific methods
+         */
+        methods: [],
 
-        replace: [],
+        /**
+         * replace
+         *
+         * select the replacement type for objects (events, data...)
+         *
+         * append                                    : append if doesn't exist
+         * replace                                   : append & replace if exists (default)
+         * rewrite                                   : rewrite completely
+         * {object: 'append', object2: 'replace'...} : specific rule by object key
+         */
+        replace: 'replace',
 
-        setup: function(field) {
+        /**
+         * getMethods
+         *
+         * retrieve available methods for internal use
+         *
+         * @returns {*[]}
+         */
+        getMethods: function() {
 
-            $.extend(this.data, field.data);
+            // bail early
+            if (this.methods === false) {
+                return [];
+            }
 
-            this.$el = field.$el;
-            this.field = field;
+            // get methods
+            var methods = acfe.isEmpty(this.methods) ? Object.keys(this) : this.methods;
 
-            this.replace.map(function(func) {
+            // get reserved methods
+            var internalMethods = ['constructor', 'id', 'type', 'dependencies', 'conditions', 'methods', 'replace', 'getMethods', 'getObjReplace'];
 
-                if (typeof this[func] === 'function') {
+            // remove reserved methods & check method exists
+            return methods.filter(function(method) {
+                return !acfe.inArray(method, internalMethods) && this.hasOwnProperty(method);
+            }, this);
 
-                    // rewrite initialize
-                    // we must unset the function because the fieldExtend.initialize will be executed anyway
-                    if (func === 'initialize') {
-                        this.field[func] = function() {};
+        },
 
-                        // rewrite functions
-                    } else {
+        /**
+         * getObjReplace
+         *
+         * retrieve replacement type for objects. Internal use
+         *
+         * @param method
+         * @returns {string|*}
+         */
+        getObjReplace: function(method = false) {
 
-                        // rewrite function
-                        this.field[func] = this.proxy(this[func]);
+            // awllowed replacements
+            var allowed = ['append', 'replace', 'rewrite'];
 
-                        // loop events
-                        for (var ev in this.field.events) {
+            // string
+            if (acfe.isString(this.replace) && acfe.inArray(this.replace, allowed)) {
+                return this.replace;
 
-                            // var
-                            var evFunc = this.field.events[ev];
+                // object
+            } else if (acfe.isObject(this.replace)) {
 
-                            // event exists with same function
-                            if (evFunc === func) {
+                for (var [objName, replace] of acfe.getEntries(this.replace)) {
+                    if (objName === method && acfe.inArray(replace, allowed)) {
+                        return replace;
+                    }
+                }
 
-                                // replace event
-                                var event = {};
-                                event[ev] = evFunc;
+            }
 
-                                this.field.removeEvents(event);
-                                this.addEvents(event);
+            // default
+            return 'replace';
 
+        }
+
+    });
+
+    /**
+     * extendManager
+     *
+     * @type {acf.Model}
+     */
+    var extendManager = new acf.Model({
+        wait: 'prepare',
+        priority: 5,
+
+        initialize: function() {
+
+            // loop extends
+            for (var [key, extend] of acfe.getEntries(acfe.getExtendModels())) {
+
+                // vars
+                var extendProto = extend.prototype;
+                var types = acfe.getArray(extendProto.type);
+
+
+                // loop types
+                for (var type of types) {
+
+                    var model = acf.getFieldType(type);
+
+                    if (model) {
+                        this.extendModel(model, extendProto);
+                    }
+
+                }
+
+            }
+
+        },
+
+        extendModel: function(model, extendProto) {
+
+            // backup setup
+            var setup = model.prototype.setup;
+
+            // extend setup
+            model.prototype.setup = function($field) {
+
+                // parent setup
+                setup.apply(this, arguments);
+
+                // validate conditions
+                if (!extendProto.conditions.apply(this)) {
+                    return;
+                }
+
+                // loop methods
+                for (var method of extendProto.getMethods()) {
+
+                    // setup
+                    if (method === 'setup') {
+                        extendProto[method].apply(this, arguments);
+
+                        // object (events, data...)
+                    } else if (acfe.isObject(extendProto[method])) {
+
+                        // check replacement type
+                        switch (extendProto.getObjReplace(method)) {
+
+                            // append if doesn't exist
+                            case 'append': {
+                                this[method] = $.extend(true, extendProto[method], this[method]);
+                                break;
+                            }
+
+                            // append & replace if exists (default)
+                            case 'replace': {
+                                this[method] = $.extend(true, {}, this[method], extendProto[method]);
+                                break;
+                            }
+
+                            // rewrite completely the object
+                            case 'rewrite': {
+                                this[method] = $.extend(true, {}, extendProto[method]);
+                                break;
                             }
 
                         }
+
+                        // functions, strings...
+                    } else {
+                        this[method] = extendProto[method];
 
                     }
 
                 }
 
-            }, this);
+            };
 
-        },
-
-        getParentPrototype: function() {
-            return acf.getFieldType(this.get('type')).prototype;
-        },
-
-        apply: function() {
-
-            var func, args;
-            var array = acf.arrayArgs(arguments)
-
-            // get function name
-            func = array.shift();
-            args = array.shift();
-
-            return this.getParentPrototype()[func].apply(this.field, args);
-
-        },
-
+        }
     });
+
+    /**
+     * sortByDeps
+     *
+     * https://stackoverflow.com/a/54347328
+     *
+     * @param names
+     * @param obj
+     * @param start
+     * @param depth
+     * @returns {*|*[]}
+     */
+    var sortbyDeps = function(names, obj = names, start = [], depth = 0) {
+
+        if (typeof names === 'object' && !Array.isArray(names)) {
+            names = Object.keys(names)
+        }
+
+        const processed = names.reduce(function(a, b, i) {
+
+            if (obj[b].every(Array.prototype.includes, a)) {
+                a.push(b)
+            }
+
+            return a;
+
+        }, start);
+
+        const nextNames = names.filter(function(n) {
+            return !processed.includes(n)
+        });
+
+        const goAgain = nextNames.length && depth <= names.length;
+
+        return goAgain ? sortbyDeps(nextNames, obj, processed, depth + 1) : processed;
+
+    }
 
 })(jQuery);
 (function($) {
@@ -471,15 +678,21 @@
             'new_field': 'newField'
         },
         priority: 1,
-        newField: function(field) {
+        validateField: function(field) {
 
-            // check data
+            // check data correctly set
             if (!field.has('ftype')) {
-                return;
+                return false;
             }
 
-            // taxonomy field already has a ftype data
-            if (field.get('type') === 'taxonomy') {
+            // check if prototype already doesn't have a ftype (taxonomy field)
+            return !acf.getFieldType(field.get('type')).prototype.get('ftype');
+
+        },
+        newField: function(field) {
+
+            // validate
+            if (!this.validateField(field)) {
                 return;
             }
 
@@ -2670,12 +2883,10 @@
             return this.has('acfeFlexibleModal') && this.$clones().length > 1;
         },
 
-        replace: ['onClickAdd'],
-
         onClickAdd: function(e, $el) {
 
             // get flexible
-            var flexible = this.field;
+            var flexible = this;
 
             // validate
             if (!flexible.validateAdd()) {
@@ -2798,7 +3009,7 @@
         getLayoutsCategories: function() {
 
             // get layouts selection html
-            var $layouts = $(this.field.getPopupHTML());
+            var $layouts = $(this.getPopupHTML());
 
             // categories vars
             var categoriesHtml = '';
@@ -3764,6 +3975,13 @@
         },
 
         initialize: function() {
+
+            // fix image/file/gallery media upload
+            // avoid acf to use current post to determine if the user can upload a file
+            // todo: enhance the logic
+            if (acf.isset(window, 'wp', 'media', 'view', 'settings', 'post')) {
+                wp.media.view.settings.post = false;
+            }
 
             this.setupUnload();
             this.setupSuccess();

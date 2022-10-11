@@ -6,6 +6,10 @@
     word-break: break-word
 }
 
+.acf-fields>.acf-field {
+    padding: 15px 12px
+}
+
 .acf-panel .acf-panel-title {
     font-weight: 600
 }

@@ -11,35 +11,45 @@ class acfe_hooks{
     public $field_group;
     public $upload_field = false;
     
-    
     /**
      * construct
      */
     function __construct(){
         
-        // Hooks
-        add_action('acf/save_post',                                 array($this, 'pre_save_post'), 9);
-        add_action('acf/save_post',                                 array($this, 'save_post'), 15);
-        add_action('acf/validate_save_post',                        array($this, 'validate_save_post'), 4); // must be 4 as ACF process acf/validate_value on 5
+        // save/validate hooks
+        add_action('acf/save_post',                                array($this, 'pre_save_post'), 9);
+        add_action('acf/save_post',                                array($this, 'save_post'), 15);
+        add_action('acf/validate_save_post',                       array($this, 'validate_save_post'), 4); // must be 4 as acf process acf/validate_value on 5
         
-        // Field Groups
-        add_filter('acf/load_field_groups',                         array($this, 'load_field_groups'), 100);
-        add_filter('acf/pre_render_fields',                         array($this, 'pre_render_fields'), 10, 2);
-        add_action('acf/render_fields',                             array($this, 'render_fields'), 10, 2);
+        // field groups
+        add_filter('acf/load_field_groups',                        array($this, 'load_field_groups'), 100);
+        add_filter('acf/pre_render_fields',                        array($this, 'pre_render_fields'), 10, 2);
+        add_action('acf/render_fields',                            array($this, 'render_fields'), 10, 2);
         
-        // Fields
-        add_filter('acf/field_wrapper_attributes',                  array($this, 'field_wrapper_attributes'), 10, 2);
-        add_filter('acf/load_fields',                               array($this, 'load_fields'), 10, 2);
-        add_filter('acf/load_field',                                array($this, 'load_field'));
+        // fields
+        add_filter('acf/field_wrapper_attributes',                 array($this, 'field_wrapper_attributes'), 10, 2);
+        add_filter('acf/load_fields',                              array($this, 'load_fields'), 10, 2);
+        add_filter('acf/load_field',                               array($this, 'load_field'));
         
-        // Form Data
-        add_filter('acf/location/screen',                           array($this, 'acf_location_screen'), 99);
-        add_action('acf/input/form_data',                           array($this, 'acf_form_data'));
-        add_action('acf/validate_save_post',                        array($this, 'acf_save_post_form_data'), 0);
-        add_action('acf/save_post',                                 array($this, 'acf_save_post_form_data'), 0);
+        // form data
+        add_filter('acf/location/screen',                          array($this, 'acf_location_screen'), 99);
+        add_action('acf/input/form_data',                          array($this, 'acf_form_data'));
+        add_action('acf/validate_save_post',                       array($this, 'acf_save_post_form_data'), 0);
+        add_action('acf/save_post',                                array($this, 'acf_save_post_form_data'), 0);
         
-        // Upload
-        add_filter('acf/upload_prefilter',                          array($this, 'attachment_upload'), 10, 3);
+        // upload
+        add_filter('acf/upload_prefilter',                         array($this, 'attachment_upload'), 10, 3);
+        
+        // hooks variations
+        acf_add_filter_variations('acfe/prepare_field_group',      array('ID', 'key'), 0);
+        acf_add_action_variations('acfe/pre_render_field_group',   array('ID', 'key'), 0);
+        acf_add_action_variations('acfe/render_field_group',       array('ID', 'key'), 0);
+        acf_add_filter_variations('acf/field_wrapper_attributes',  array('type', 'name', 'key'), 1);
+        acf_add_filter_variations('acfe/field_wrapper_attributes', array('type', 'name', 'key'), 1);
+        acf_add_filter_variations('acfe/load_fields',              array('type', 'name', 'key'), 1);
+        acf_add_filter_variations('acfe/load_field',               array('type', 'name', 'key'), 0);
+        acf_add_filter_variations('acfe/upload_dir',               array('type', 'name', 'key'), 1);
+        acf_add_filter_variations('acfe/upload_file',              array('type', 'name', 'key'), 1);
         
     }
     
@@ -230,14 +240,12 @@ class acfe_hooks{
      */
     function decode_object($post_id){
     
-        //vars
-        $id = false;
-        $type = false;
+        //data
         $data = array(
-            'id'        => false,
-            'type'      => false,
-            'object'    => false,
-            'hooks'     => array(),
+            'id'     => false,
+            'type'   => false,
+            'object' => false,
+            'hooks'  => array(),
         );
     
         /*
@@ -245,111 +253,133 @@ class acfe_hooks{
          * @string  $id       12   | 46      | 22      | my-option | 89         | widget_56 | 74      | 96           | block_my-block | 55      | 36      | 24
          * @string  $type     post | term    | user    | option    | comment    | option    | term    | post         | block          | blog    | blog    | post
          */
-        extract(acf_decode_post_id($post_id));
     
-        // validate ID
+        /**
+         * @var $type
+         * @var $id
+         */
+        extract(acf_decode_post_id($post_id));
+        
+        // validate id
         if(!$id){
             return false;
         }
         
+        // assign default
         $data['id'] = $id;
         $data['type'] = $type;
         
-        // post
-        if($type === 'post'){
-        
-            $post = get_post($id);
-        
-            if($post && !is_wp_error($post)){
+        switch($type){
+            
+            // post
+            case 'post': {
     
-                $data['object'] = $post;
-            
-                if(isset($post->post_type) && post_type_exists($post->post_type)){
-                    $data['hooks'][] = "post_type={$post->post_type}";
-                }
-            
-            }
+                $post = get_post($id);
+                if($post && !is_wp_error($post)){
         
-        // term
-        }elseif($type === 'term'){
+                    $data['object'] = $post;
         
-            $term = get_term($id);
-        
-            if($term && !is_wp_error($term)){
-    
-                $data['object'] = $term;
-            
-                if(isset($term->taxonomy) && taxonomy_exists($term->taxonomy)){
-                    $data['hooks'][] = "taxonomy={$term->taxonomy}";
-                }
-            
-            }
-        
-        // user
-        }elseif($type === 'user'){
-        
-            $user = get_user_by('id', $id);
-        
-            if($user && !is_wp_error($user)){
-    
-                $data['object'] = $user;
-            
-                if(isset($user->roles) && !empty($user->roles)){
-                
-                    foreach($user->roles as $role){
-                        $data['hooks'][] = "role={$role}";
+                    if(isset($post->post_type) && post_type_exists($post->post_type)){
+                        $data['hooks'][] = "post_type={$post->post_type}";
                     }
-                
+        
                 }
-            
-            }
-    
-        // option
-        }elseif($type === 'option'){
-            
-            $location = acf_get_form_data('location');
-            $options_page = acf_maybe_get($location, 'options_page');
-            
-            if($options_page){
-    
-                $data['object'] = acf_get_options_page($options_page);
-                $data['hooks'][] = "slug={$options_page}";
                 
+                break;
             }
+            
+            // term
+            case 'term': {
     
-        // comment
-        }elseif($type === 'comment'){
+                $term = get_term($id);
+                if($term && !is_wp_error($term)){
         
-            $comment = get_comment($id);
+                    $data['object'] = $term;
         
-            if($comment && !is_wp_error($comment)){
-                $data['object'] = $comment;
-            }
+                    if(isset($term->taxonomy) && taxonomy_exists($term->taxonomy)){
+                        $data['hooks'][] = "taxonomy={$term->taxonomy}";
+                    }
         
-        // block
-        }elseif($type === 'block'){
-        
-            $block = acf_get_block_type("acf/$id");
-        
-            if($block){
-                $data['object'] = $block;
-            }
-        
-        // blog
-        }elseif($type === 'blog'){
-        
-            if(function_exists('get_blog_details')){
-            
-                $blog = get_blog_details($id);
-            
-                if($blog){
-                    $data['object'] = $blog;
                 }
-            
-            }
         
+                break;
+            }
+            
+            // user
+            case 'user': {
+    
+                $user = get_user_by('id', $id);
+                if($user && !is_wp_error($user)){
+        
+                    $data['object'] = $user;
+        
+                    if(isset($user->roles) && !empty($user->roles)){
+                        foreach($user->roles as $role){
+                            $data['hooks'][] = "role={$role}";
+                        }
+                    }
+        
+                }
+        
+                break;
+            }
+            
+            // option
+            case 'option': {
+    
+                $location = acf_get_form_data('location');
+                $options_page = acf_maybe_get($location, 'options_page');
+    
+                if($options_page){
+        
+                    $data['object'] = acf_get_options_page($options_page);
+                    $data['hooks'][] = "slug={$options_page}";
+        
+                }
+        
+                break;
+            }
+            
+            // comment
+            case 'comment': {
+    
+                $comment = get_comment($id);
+                if($comment && !is_wp_error($comment)){
+                    $data['object'] = $comment;
+                }
+        
+                break;
+            }
+            
+            // block
+            case 'block': {
+    
+                $block = acf_get_block_type("acf/$id");
+                if($block){
+                    $data['object'] = $block;
+                }
+        
+                break;
+            }
+            
+            // blog
+            case 'blog': {
+    
+                if(function_exists('get_blog_details')){
+        
+                    $blog = get_blog_details($id);
+                    if($blog){
+                        $data['object'] = $blog;
+                    }
+        
+                }
+        
+                break;
+            }
+            
         }
         
+        // return
         return $data;
         
     }
@@ -366,27 +396,27 @@ class acfe_hooks{
      */
     function load_field_groups($field_groups){
         
-        // do not execute in ACF UI
+        // bail early
         if(acfe_is_admin_screen()){
             return $field_groups;
         }
         
         // loop
-        foreach($field_groups as $i => &$field_group){
-    
-            $field_group = apply_filters("acfe/prepare_field_group", $field_group);
+        foreach(array_keys($field_groups) as $i){
             
-            if(isset($field_group['ID'])){
-                $field_group = apply_filters("acfe/prepare_field_group/ID={$field_group['ID']}", $field_group);
-            }
-    
-            if(isset($field_group['key'])){
-                $field_group = apply_filters("acfe/prepare_field_group/key={$field_group['key']}", $field_group);
-            }
+            // get field group
+            $field_group = $field_groups[ $i ];
             
-            // Do not render if false
+            // apply filters
+            $field_group = apply_filters('acfe/prepare_field_group', $field_group);
+            
+            // hide field group
             if($field_group === false){
-                unset($field_groups[$i]);
+                unset($field_groups[ $i ]);
+                
+            // assign
+            }else{
+                $field_groups[ $i ] = $field_group;
             }
         
         }
@@ -426,9 +456,8 @@ class acfe_hooks{
         
         $this->field_group = $field_group;
         
-        do_action("acfe/pre_render_field_group",                            $field_group, $fields, $post_id);
-        do_action("acfe/pre_render_field_group/ID={$field_group['ID']}",    $field_group, $fields, $post_id);
-        do_action("acfe/pre_render_field_group/key={$field_group['key']}",  $field_group, $fields, $post_id);
+        // action
+        do_action('acfe/pre_render_field_group', $field_group, $fields, $post_id);
         
         return $fields;
         
@@ -451,9 +480,8 @@ class acfe_hooks{
         
         $field_group = $this->field_group;
         
-        do_action("acfe/render_field_group",                            $field_group, $fields, $post_id);
-        do_action("acfe/render_field_group/ID={$field_group['ID']}",    $field_group, $fields, $post_id);
-        do_action("acfe/render_field_group/key={$field_group['key']}",  $field_group, $fields, $post_id);
+        // action
+        do_action('acfe/render_field_group', $field_group, $fields, $post_id);
         
     }
     
@@ -469,13 +497,8 @@ class acfe_hooks{
      * @return mixed|void
      */
     function field_wrapper_attributes($wrapper, $field){
-        
-        $wrapper = apply_filters("acfe/field_wrapper_attributes",                       $wrapper, $field);
-        $wrapper = apply_filters("acfe/field_wrapper_attributes/type={$field['type']}", $wrapper, $field);
-        $wrapper = apply_filters("acfe/field_wrapper_attributes/name={$field['name']}", $wrapper, $field);
-        $wrapper = apply_filters("acfe/field_wrapper_attributes/key={$field['key']}",   $wrapper, $field);
-        
-        return $wrapper;
+    
+        return apply_filters('acfe/field_wrapper_attributes', $wrapper, $field);
         
     }
     
@@ -492,15 +515,13 @@ class acfe_hooks{
      */
     function load_fields($fields, $parent){
         
-        // check if field (fitler is also called on field groups)
-        if(!acf_maybe_get($parent, 'type')){
+        // validate field
+        // this fitler is also applied on field groups
+        if(!isset($parent['type'])){
             return $fields;
         }
         
-        $fields = apply_filters("acfe/load_fields",                         $fields, $parent);
-        $fields = apply_filters("acfe/load_fields/type={$parent['type']}",  $fields, $parent);
-        $fields = apply_filters("acfe/load_fields/name={$parent['name']}",  $fields, $parent);
-        $fields = apply_filters("acfe/load_fields/key={$parent['key']}",    $fields, $parent);
+        $fields = apply_filters('acfe/load_fields', $fields, $parent);
         
         return $fields;
         
@@ -518,18 +539,15 @@ class acfe_hooks{
      */
     function load_field($field){
     
-        // do not execute in ACF UI
+        // bail early
         if(acfe_is_admin_screen()){
             return $field;
         }
         
         // hooks
-        $field = apply_filters("acfe/load_field",                       $field);
-        $field = apply_filters("acfe/load_field/type={$field['type']}", $field);
-        $field = apply_filters("acfe/load_field/name={$field['name']}", $field);
-        $field = apply_filters("acfe/load_field/key={$field['key']}",   $field);
+        $field = apply_filters('acfe/load_field', $field);
         
-        
+        // todo: find a solution to add filter variations with deprecated notice
         // deprecated: admin
         if(acfe_is_admin()){
     
@@ -645,8 +663,8 @@ class acfe_hooks{
         $this->upload_field = $field;
         
         // filters
-        add_filter('upload_dir',                    array($this, 'handle_upload_dir'), 20);
-        add_filter('wp_handle_upload_prefilter',    array($this, 'handle_upload_file'), 20);
+        add_filter('upload_dir',                 array($this, 'handle_upload_dir'), 20);
+        add_filter('wp_handle_upload_prefilter', array($this, 'handle_upload_file'), 20);
         
         // return
         return $errors;
@@ -668,14 +686,8 @@ class acfe_hooks{
         // vars
         $field = $this->upload_field;
         
-        // filters
-        $uploads = apply_filters("acfe/upload_dir",                         $uploads, $field);
-        $uploads = apply_filters("acfe/upload_dir/type={$field['type']}",   $uploads, $field);
-        $uploads = apply_filters("acfe/upload_dir/name={$field['name']}",   $uploads, $field);
-        $uploads = apply_filters("acfe/upload_dir/key={$field['key']}",     $uploads, $field);
-        
         // return
-        return $uploads;
+        return apply_filters('acfe/upload_dir', $uploads, $field);
         
     }
     
@@ -694,14 +706,8 @@ class acfe_hooks{
         // vars
         $field = $this->upload_field;
         
-        // filters
-        $file = apply_filters("acfe/upload_file",                           $file, $field);
-        $file = apply_filters("acfe/upload_file/type={$field['type']}",     $file, $field);
-        $file = apply_filters("acfe/upload_file/name={$field['name']}",     $file, $field);
-        $file = apply_filters("acfe/upload_file/key={$field['key']}",       $file, $field);
-        
         // return
-        return $file;
+        return apply_filters('acfe/upload_file', $file, $field);
         
     }
     

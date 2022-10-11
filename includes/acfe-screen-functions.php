@@ -67,35 +67,41 @@ function acfe_get_acf_screen_id($page = ''){
  */
 function acfe_is_admin_screen($modules = false){
     
-    // bail early if not defined
-    if(!function_exists('get_current_screen')){
-        return false;
-    }
+    // global
+    global $field_group;
     
-    // vars
-    $screen = get_current_screen();
-    
-    // no screen
-    if(!$screen){
-        return false;
-    }
-    
-    $post_types = array('acf-field-group');
-    $field_group_category = false;
-    
-    // include ACF Extended Modules?
-    if($modules){
-        
-        // Reserved
-        $post_types = array_merge($post_types, acfe_get_setting('reserved_post_types', array()));
-        
-        // Field Group Category
-        $field_group_category = $screen->post_type === 'post' && $screen->taxonomy === 'acf-field-group-category';
-        
-    }
-    
-    if(in_array($screen->post_type, $post_types) || $field_group_category){
+    // global field group exists
+    if($field_group !== null){
         return true;
+    }
+    
+    // get current_screen
+    if(function_exists('get_current_screen')){
+    
+        $screen = get_current_screen();
+        
+        if($screen){
+    
+            $post_types = array('acf-field-group');
+            $is_category = false;
+    
+            // include acfe modules
+            if($modules){
+        
+                // reserved post types
+                $post_types = array_merge($post_types, acfe_get_setting('reserved_post_types', array()));
+        
+                // field group category
+                $is_category = $screen->post_type === 'post' && $screen->taxonomy === 'acf-field-group-category';
+        
+            }
+    
+            if(in_array($screen->post_type, $post_types) || $is_category){
+                return true;
+            }
+            
+        }
+        
     }
     
     return false;

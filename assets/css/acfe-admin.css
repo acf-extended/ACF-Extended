@@ -63,25 +63,14 @@
     overflow: hidden
 }
 
-body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap .acf-tab-group li a {
-    background: #f1f1f1;
-    border-color: #ccd0d4
-}
-
-body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap .acf-tab-group li a:hover {
-    background: #fff
-}
-
-body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap .acf-tab-group li.active a {
-    background: #fff
-}
-
-body:not(.acf-admin-single-field-group) .acf-fields>.acf-tab-wrap:first-child .acf-tab-group {
-    border-top: none
-}
-
 body:not(.acf-admin-single-field-group) .acf-tooltip {
     font-size: 13px
+}
+
+@media only screen and (max-width:1300px) {
+    .acf-admin-toolbar i.acf-icon {
+        display: none !important
+    }
 }
 
 code,
@@ -1021,47 +1010,47 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     border-bottom: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--single {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single {
     border-radius: 3px;
     height: 30px;
     outline: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--single .select2-selection__rendered {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single .select2-selection__rendered {
     font-size: 14px;
     height: 28px;
     line-height: 27px;
     padding-right: 23px
 }
 
-.acf-field .select2-container.-acf .select2-selection--single .select2-selection__clear {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single .select2-selection__clear {
     line-height: 26px;
     height: 28px;
     font-size: 16px;
     margin-right: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--single button.select2-selection__clear {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single button.select2-selection__clear {
     position: absolute;
     right: 24px;
     padding: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--single button.select2-selection__clear span {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single button.select2-selection__clear span {
     line-height: 26px;
     height: 28px;
     display: inline-block
 }
 
-.acf-field .select2-container.-acf .select2-selection--single .select2-selection__placeholder {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single .select2-selection__placeholder {
     color: #444
 }
 
-.acf-field .select2-container.-acf .select2-selection--single .select2-selection__arrow {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single .select2-selection__arrow {
     height: 28px
 }
 
-.acf-field .select2-container.-acf .select2-selection--single .select2-selection__arrow b {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--single .select2-selection__arrow b {
     background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat;
     background-size: 16px 16px;
     border: 0;
@@ -1071,20 +1060,20 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     margin-top: -7px
 }
 
-.acf-field .select2-container.-acf.select2-container--open .select2-selection--single,
-.acf-field .select2-container.-acf:focus .select2-selection--single {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf.select2-container--open .select2-selection--single,
+body:not(.acf-admin-6) .acf-field .select2-container.-acf:focus .select2-selection--single {
     border-color: #007cba;
     color: #016087;
     -webkit-box-shadow: 0 0 0 1px #007cba;
     box-shadow: 0 0 0 1px #007cba
 }
 
-.select2-container .select2-dropdown {
+body:not(.acf-admin-6) .select2-container .select2-dropdown {
     margin-top: 0;
     border-color: #aaa !important
 }
 
-.select2-container .select2-dropdown .select2-search--dropdown .select2-search__field {
+body:not(.acf-admin-6) .select2-container .select2-dropdown .select2-search--dropdown .select2-search__field {
     min-height: 30px;
     border: 0;
     -webkit-box-shadow: none;
@@ -1092,44 +1081,44 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     padding: 0 2px
 }
 
-.select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::-webkit-input-placeholder {
+body:not(.acf-admin-6) .select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::-webkit-input-placeholder {
     color: #777
 }
 
-.select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::-moz-placeholder {
+body:not(.acf-admin-6) .select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::-moz-placeholder {
     color: #777
 }
 
-.select2-container .select2-dropdown .select2-search--dropdown .select2-search__field:-ms-input-placeholder {
+body:not(.acf-admin-6) .select2-container .select2-dropdown .select2-search--dropdown .select2-search__field:-ms-input-placeholder {
     color: #777
 }
 
-.select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::-ms-input-placeholder {
+body:not(.acf-admin-6) .select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::-ms-input-placeholder {
     color: #777
 }
 
-.select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::placeholder {
+body:not(.acf-admin-6) .select2-container .select2-dropdown .select2-search--dropdown .select2-search__field::placeholder {
     color: #777
 }
 
-.select2-container .select2-dropdown .select2-results__option {
+body:not(.acf-admin-6) .select2-container .select2-dropdown .select2-results__option {
     margin-bottom: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple {
     min-height: 30px;
     line-height: 1;
     border-radius: 3px;
     padding: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__rendered {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__rendered {
     padding: 0 2px;
     display: inline-block;
     margin: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice {
     margin-right: 2px;
     margin-top: 2px;
     line-height: 1.6;
@@ -1141,11 +1130,11 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     padding: 0 5px
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice .select2-selection__choice__display {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice .select2-selection__choice__display {
     padding: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
     float: right;
     margin-left: 3px;
     margin-right: 0;
@@ -1158,11 +1147,11 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     margin-top: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove:hover {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove:hover {
     background: 0 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__clear {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__clear {
     margin-top: 0;
     margin-right: 6px;
     font-size: 16px;
@@ -1172,53 +1161,53 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     position: relative
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple button.select2-selection__clear {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple button.select2-selection__clear {
     float: right
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline {
     float: left;
     width: auto
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field {
     margin-top: 4px;
     font-size: 14px;
     padding-left: 2px;
     margin-left: 0
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::-webkit-input-placeholder {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::-webkit-input-placeholder {
     color: #444
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::-moz-placeholder {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::-moz-placeholder {
     color: #444
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field:-ms-input-placeholder {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field:-ms-input-placeholder {
     color: #444
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::-ms-input-placeholder {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::-ms-input-placeholder {
     color: #444
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::placeholder {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline .select2-search__field::placeholder {
     color: #444
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline:first-child:last-child .select2-search__field {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-search--inline:first-child:last-child .select2-search__field {
     padding-left: 6px
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__rendered+.select2-search--inline {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__rendered+.select2-search--inline {
     float: none;
     display: inline-block;
     vertical-align: top
 }
 
-.acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__rendered+.select2-search--inline .select2-search__field {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf .select2-selection--multiple .select2-selection__rendered+.select2-search--inline .select2-search__field {
     height: 22px;
     line-height: 1.4;
     padding-left: 0;
@@ -1227,32 +1216,32 @@ body.is-dragging-metaboxes #acf_after_title-sortables {
     margin-top: 4px !important
 }
 
-.acf-field .select2-container.-acf.select2-container--focus .select2-selection--multiple,
-.acf-field .select2-container.-acf.select2-container--open .select2-selection--multiple {
+body:not(.acf-admin-6) .acf-field .select2-container.-acf.select2-container--focus .select2-selection--multiple,
+body:not(.acf-admin-6) .acf-field .select2-container.-acf.select2-container--open .select2-selection--multiple {
     border-color: #7e8993
 }
 
-.select2-selection__choice>code,
-.select2-selection__rendered>code {
+body:not(.acf-admin-6) .select2-selection__choice>code,
+body:not(.acf-admin-6) .select2-selection__rendered>code {
     font-size: 12px;
     padding: 3px;
     vertical-align: 1px;
     line-height: 12px
 }
 
-.select2-results__option>code {
+body:not(.acf-admin-6) .select2-results__option>code {
     font-size: 12px
 }
 
-.acf-input-wrap .acf-is-prepended+.select2>.selection>.select2-selection {
+body:not(.acf-admin-6) .acf-input-wrap .acf-is-prepended+.select2>.selection>.select2-selection {
     border-radius: 0 3px 3px 0 !important
 }
 
-.acf-input-wrap .acf-is-appended+.select2>.selection>.select2-selection {
+body:not(.acf-admin-6) .acf-input-wrap .acf-is-appended+.select2>.selection>.select2-selection {
     border-radius: 3px 0 0 3px !important
 }
 
-.acf-input-wrap .acf-is-prepended.acf-is-appended+.select2>.selection>.select2-selection {
+body:not(.acf-admin-6) .acf-input-wrap .acf-is-prepended.acf-is-appended+.select2>.selection>.select2-selection {
     border-radius: 0 !important
 }
 

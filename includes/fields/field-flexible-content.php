@@ -29,6 +29,19 @@ class acfe_field_flexible_content extends acfe_field_extend{
     
     
     /**
+     * field_group_admin_head
+     */
+    function field_group_admin_head(){
+        
+        // clear fields cache
+        // this fix an issue where plugins could query acf fields using acf_get_fields() very early
+        // and push unwanted settings such as "inline title" on the Field Group UI
+        acf_get_store('fields')->reset();
+        
+    }
+    
+    
+    /**
      * _render_field_settings
      *
      * acf/render_field_settings/type=flexible_content:0

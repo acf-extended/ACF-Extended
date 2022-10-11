@@ -19,14 +19,6 @@
     }
 
     /**
-     * acf helpers
-     *
-     * acf.isget()
-     * acf.acf.isset()
-     */
-
-
-    /**
      * acfe.getArray
      *
      * Forces val as an array, also allows integer 0
@@ -35,9 +27,22 @@
      * @returns {*[]}
      */
     acfe.getArray = function(val) {
-        val = val !== 0 ? val : '0';
+        val = val === 0 ? '0' : val;
         return [].concat(val || []);
     };
+
+
+    /**
+     * acfe.getEntries
+     *
+     * Get object entries to use in for(var [x, y] of obj){}
+     *
+     * @param obj
+     * @returns {[string, unknown][]}
+     */
+    acfe.getEntries = function(obj) {
+        return Object.entries(obj);
+    }
 
 
     /**
@@ -75,31 +80,265 @@
      *
      * Get array/object value using dot notation
      *
+     * https://github.com/callmecavs/dotnot/blob/master/src/dotnot.js
+     *
      * @param obj
      * @param path
      * @param def
      * @returns {null|*}
      */
-    acfe.arrayGet = function(obj, path = '', def = null) {
+    acfe.arrayGet = function(obj, path, def = null) {
 
-        // convert to string if empty
-        path = !acfe.isEmpty(path) ? path : '';
+        // get path array
+        path = acfe.normalizePath(path);
 
-        // check integer, otherwise split '.' notation
-        path = Number.isInteger(path) ? acfe.getArray(path) : path.split('.');
+        // length of path array
+        var len = path.length;
 
-        for (var i = 0; i < path.length; i++) {
+        // loop through path updating the reference to child objects
+        var current = obj;
+        var name;
 
-            if (!obj || !obj.hasOwnProperty(path[i])) {
+        for (var index = 0; index < len; index++) {
+
+            // current key name
+            name = path[index];
+
+            // stop searching if a child object is missing
+            if (acfe.isUndefined(current[name])) {
                 return def;
             }
 
-            obj = obj[path[i]];
+            current = current[name];
         }
 
+        return current;
+
+    }
+
+
+    /**
+     * acfe.arrayHas
+     *
+     * Check array/object has key using dot notation
+     * '!!default!!' is workaround allowing 'null' to be considered as set
+     *
+     * @param obj
+     * @param path
+     * @returns {*}
+     */
+    acfe.arrayHas = function(obj, path) {
+        return acfe.arrayGet(obj, path, '!!default!!') !== '!!default!!';
+    }
+
+
+    /**
+     * acfe.arraySet
+     *
+     * Set array/object value using dot notation
+     *
+     * https://github.com/callmecavs/dotnot/blob/master/src/dotnot.js
+     *
+     * @param obj
+     * @param path
+     * @param val
+     */
+    acfe.arraySet = function(obj, path, val) {
+
+        // get path array
+        path = acfe.normalizePath(path);
+
+        // length of path array
+        var len = path.length;
+
+        // loop through path updating the reference to child objects
+        var current = obj;
+        var name;
+
+        for (var index = 0; index < len; index++) {
+
+            // current key name
+            name = path[index];
+
+            // set value on last key
+            if (index === len - 1) {
+                current[name] = val;
+
+            } else if (current[name]) {
+
+                if (!acfe.isObject(current[name])) {
+                    current[name] = {};
+                }
+
+                current = current[name];
+
+            } else {
+                current[name] = {};
+                current = current[name];
+
+            }
+
+        }
+
+        // re-index array
+        obj = acfe.arrayReindex(obj);
+
+        // return
         return obj;
 
-    };
+    }
+
+
+    /**
+     * acfe.arrayDelete
+     *
+     * Delete array/object key via dot notation
+     *
+     * https://github.com/callmecavs/dotnot/blob/master/src/dotnot.js
+     *
+     * @param obj
+     * @param path
+     * @returns {*}
+     */
+    acfe.arrayDelete = function(obj, path) {
+
+        // get path array
+        path = acfe.normalizePath(path);
+
+        // length of path array
+        var len = path.length;
+
+        // loop through path updating the reference to child objects
+        var current = obj;
+        var name;
+
+        for (var index = 0; index < len; index++) {
+
+            // current key name
+            name = path[index];
+
+            // set value on last key
+            if (index === len - 1) {
+                delete current[name];
+            } else {
+                current = current[name] || {};
+            }
+
+        }
+
+        // re-index array
+        obj = acfe.arrayReindex(obj);
+
+        // return
+        return obj;
+
+    }
+
+
+    /**
+     * acfe.arrayPluck
+     *
+     * '!!default!!' is workaround allowing 'null' to be considered as set
+     *
+     * @param obj
+     * @param path
+     * @param id
+     * @returns {*[]}
+     */
+    acfe.arrayPluck = function(obj, path, id = false) {
+
+        // vars
+        var idPath;
+        var idObj = {};
+        var collect = [];
+
+        // prepare id
+        if (id) {
+
+            idPath = path.split('.');
+            idPath.pop();
+            idPath.push(id);
+            idPath = idPath.join('.');
+
+        }
+
+        // loop
+        for (var row of obj) {
+
+            var result = acfe.arrayGet(row, path, '!!default!!');
+
+            // bail early
+            if (result === '!!default!!') {
+                continue;
+            }
+
+            // push to collection
+            collect.push(result);
+
+            if (id) {
+                var key = acfe.arrayGet(row, idPath, '!!default!!');
+
+                if (key !== '!!default!!') {
+                    idObj[key] = result;
+                }
+            }
+
+        }
+
+        // collect id
+        if (id) {
+            collect = idObj;
+        }
+
+        // return
+        return collect;
+
+    }
+
+
+    /**
+     * acfe.normalizePath
+     *
+     * Converts a dot notation path as array
+     *
+     * @param path
+     * @returns {*[]|string[]}
+     */
+    acfe.normalizePath = function(path) {
+
+        // convert to string
+        path = acfe.getString(path);
+
+        // split dot notation
+        path = path.split('.');
+
+        // return
+        return path;
+
+    }
+
+
+    /**
+     * acfe.arrayReindex
+     *
+     * Re-index array after delete usage
+     *
+     * @param obj
+     * @returns {*}
+     */
+    acfe.arrayReindex = function(obj) {
+
+        // filter
+        if (acfe.isArray(obj)) {
+            obj = obj.filter(function(val) {
+                return !acfe.isUndefined(val);
+            });
+        }
+
+        // return
+        return obj;
+
+    }
 
 })(jQuery);
 (function($) {
@@ -194,6 +433,8 @@
     /**
      * acfe.getField
      *
+     * Allow to query a single field with name, or arguments
+     *
      * @param name
      * @returns {[]|*}
      */
@@ -209,7 +450,7 @@
             }).shift();
 
             // arguments
-        } else if (acf.isObject(name)) {
+        } else if (acfe.isObject(name)) {
 
             name = acf.parseArgs(name, {
                 limit: 1,
@@ -235,7 +476,7 @@
 
         // args.types
         // allow types array
-        if (args.types && args.types.length && acf.isArray(args.types)) {
+        if (args.types && args.types.length && acfe.isArray(args.types)) {
 
             // vars
             var array = [];
@@ -903,6 +1144,8 @@
     /**
      * acf.Model.get()
      *
+     * Extends acf.Model.get() to allow default value
+     *
      * @param name
      * @param def
      * @returns {*|null}
@@ -913,6 +1156,8 @@
 
     /**
      * acf.get()
+     *
+     * Extends acf.get() to allow default value
      *
      * @param name
      * @param def
@@ -951,7 +1196,7 @@
      */
     acfe.getString = function(val) {
 
-        if (acf.isObject(val)) {
+        if (acfe.isObject(val)) {
             return JSON.stringify(val);
         }
 
@@ -1068,12 +1313,42 @@
     }
 
     /**
-     * acf helpers
+     * acfe.isArray
      *
-     * acf.isNumeric()
-     * acf.isArray()
-     * acf.isObject()
+     * Copy acf.isArray
+     *
+     * @param a
+     * @returns {*}
      */
+    acfe.isArray = function(a) {
+        return Array.isArray(a);
+    }
+
+
+    /**
+     * acfe.isObject
+     *
+     * Copy acf.isObject enhanced
+     *
+     * @param a
+     * @returns {*}
+     */
+    acfe.isObject = function(a) {
+        return typeof a === 'object' && !acfe.isArray(a);
+    }
+
+
+    /**
+     * acfe.isNumeric
+     *
+     * Copy acf.isNumeric
+     *
+     * @param a
+     * @returns {*}
+     */
+    acfe.isNumeric = function(a) {
+        return !isNaN(parseFloat(a)) && isFinite(a);
+    }
 
 
     /**
@@ -1153,11 +1428,11 @@
     acfe.isEmpty = function(val) {
 
         // array
-        if (acf.isArray(val)) {
+        if (acfe.isArray(val)) {
             return !val.length;
 
             // object
-        } else if (acf.isObject(val)) {
+        } else if (acfe.isObject(val)) {
             return val && Object.keys(val).length === 0 && Object.getPrototypeOf(val) === Object.prototype
 
             // string
@@ -1167,7 +1442,7 @@
         }
 
         // integer 0
-        return !val && !acf.isNumeric(val);
+        return !val && !acfe.isNumeric(val);
 
     };
 
