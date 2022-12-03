@@ -821,6 +821,36 @@ class acfe_field_flexible_content extends acfe_field_extend{
         
     }
     
+    
+    /**
+     * translate_field
+     *
+     * @param $field
+     */
+    function translate_field($field){
+        
+        if(isset($field['acfe_flexible_modal']['acfe_flexible_modal_title'])){
+            $field['acfe_flexible_modal']['acfe_flexible_modal_title'] = acf_translate($field['acfe_flexible_modal']['acfe_flexible_modal_title']);
+        }
+    
+        // loop
+        if(!empty($field['layouts'])){
+        
+            foreach($field['layouts'] as &$layout){
+            
+                if(isset($layout['acfe_flexible_category'])){
+                    $layout['acfe_flexible_category'] = acf_translate($layout['acfe_flexible_category']);
+                }
+            
+            }
+            
+        }
+    
+        // return
+        return $field;
+        
+    }
+    
 }
 
 acf_new_instance('acfe_field_flexible_content');

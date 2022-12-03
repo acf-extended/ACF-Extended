@@ -189,7 +189,7 @@ class acfe_field_flexible_content_settings{
      */
     function load_fields($fields, $field){
         
-        // Check setting
+        // check setting
         if(!acf_maybe_get($field, 'acfe_flexible_layouts_settings')){
             return $fields;
         }
@@ -254,29 +254,33 @@ class acfe_field_flexible_content_settings{
      */
     function prepare_layout($layout, $field, $i, $value, $prefix){
         
-        if(empty($layout['sub_fields']) || !$field['acfe_flexible_layouts_settings'])
+        if(empty($layout['sub_fields']) || !$field['acfe_flexible_layouts_settings']){
             return $layout;
+        }
     
-        // Sub field
+        // subfield
         $sub_field = acfe_extract_sub_field($layout, 'layout_settings', $value);
     
-        if(!$sub_field)
+        if(!$sub_field){
             return $layout;
+        }
         
         // update prefix to allow for nested values
-        $size = acf_maybe_get($layout, 'acfe_flexible_settings_size', 'medium');
         $sub_field['prefix'] = $prefix;
         
+        // modal
+        $modal = array(
+            'class'       => 'acfe-modal -settings',
+            'data-size'   => acf_maybe_get($layout, 'acfe_flexible_settings_size', 'medium'),
+            'data-footer' => __('Close', 'acfe'),
+        );
+        
         ?>
-        <div class="acfe-modal -settings -<?php echo $size; ?>">
+        <div <?php echo acf_esc_attrs($modal); ?>>
             <div class="acfe-modal-wrapper">
                 <div class="acfe-modal-content">
                     <div class="acf-fields -top">
-                        <?php
-                        
-                        acf_render_field_wrap($sub_field);
-                        
-                        ?>
+                        <?php acf_render_field_wrap($sub_field); ?>
                     </div>
                 </div>
             </div>

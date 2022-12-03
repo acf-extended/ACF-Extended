@@ -4,7 +4,7 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// Check setting
+// check setting
 if(!acf_get_setting('acfe/modules/categories')){
     return;
 }
@@ -13,6 +13,9 @@ if(!class_exists('acfe_field_group_category')):
 
 class acfe_field_group_category{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         add_action('init',                                          array($this, 'init'), 9);
@@ -28,6 +31,7 @@ class acfe_field_group_category{
         add_action('acf/import_field_group',                        array($this, 'import_field_group'));
         
     }
+    
     
     /**
      * init

@@ -8,9 +8,13 @@ if(!class_exists('ACFE_AutoSync')):
 
 class ACFE_AutoSync{
     
+    // vars
     private $php_files = array();
     private $json_files = array();
     
+    /**
+     * construct
+     */
     function __construct(){
         
         // PHP Save
@@ -40,48 +44,69 @@ class ACFE_AutoSync{
         
     }
     
-    /*
-     * Override: Json
+    
+    /**
+     * override_json
+     *
+     * @param $value
+     *
+     * @return mixed|null
      */
     function override_json($value){
         return apply_filters('acfe/settings/json', $value);
     }
     
-    /*
-     * Override: Json Save
+    
+    /**
+     * override_json_save
+     *
+     * @param $path
+     *
+     * @return mixed|null
      */
     function override_json_save($path){
         return apply_filters('acfe/settings/json_save', $path);
     }
     
-    /*
-     * Override: Json Load
+    
+    /**
+     * override_json_load
+     *
+     * @param $paths
+     *
+     * @return array
      */
     function override_json_load($paths){
         return (array) apply_filters('acfe/settings/json_load', $paths);
     }
     
-    /*
-     * Json Enabled
+    
+    /**
+     * is_json_enabled
+     *
+     * @return bool
      */
     function is_json_enabled(){
         return (bool) acf_get_setting('json');
     }
     
-    /*
-     * Json: Setup
+    
+    /**
+     * setup_json
      */
     function setup_json(){
         
-        if(!$this->is_json_enabled())
+        if(!$this->is_json_enabled()){
             return;
+        }
         
         $this->scan_json_folders();
         
     }
     
-    /*
-     * Json: Scan
+    
+    /**
+     * scan_json_folders
      */
     function scan_json_folders(){
         
@@ -89,8 +114,9 @@ class ACFE_AutoSync{
         
         foreach($paths as $path){
             
-            if(!is_dir($path))
+            if(!is_dir($path)){
                 continue;
+            }
             
             acf_update_setting('acfe/json_found', true);
             break;
@@ -98,106 +124,125 @@ class ACFE_AutoSync{
         }
     
         if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
-        
             $this->scan_json_folders_compatibility();
-        
         }
         
     }
     
-    /*
-     * Json: Scan - Compatibility (ACF < 5.9)
+    
+    /**
+     * scan_json_folders_compatibility
+     *
+     * ACF < 5.9 compatibility
+     *
+     * @return array
      */
     function scan_json_folders_compatibility(){
         
         $json_files = array();
         
-        // Get paths
+        // get paths
         $paths = (array) acf_get_setting('load_json');
         
         foreach($paths as $path){
             
-            if(!is_dir($path))
+            if(!is_dir($path)){
                 continue;
+            }
             
             $files = scandir($path);
-            if(!$files)
+            if(!$files){
                 continue;
+            }
             
             foreach($files as $filename){
                 
-                // Ignore hidden files.
-                if($filename[0] === '.')
+                // ignore hidden files
+                if($filename[0] === '.'){
                     continue;
+                }
                 
-                // Ignore sub directories.
+                // ignore sub directories
                 $file = untrailingslashit( $path ) . '/' . $filename;
-                if(is_dir($file))
+                if(is_dir($file)){
                     continue;
+                }
                 
-                // Ignore non JSON files.
+                // ignore non json files
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                if($ext !== 'json')
+                if($ext !== 'json'){
                     continue;
+                }
                 
-                // Read JSON data.
+                // read json data
                 $json = json_decode(file_get_contents($file), true);
-                if(!is_array($json) || !isset($json['key']))
+                if(!is_array($json) || !isset($json['key'])){
                     continue;
+                }
                 
-                // Append data.
-                $json_files[$json['key']] = $file;
+                // append data
+                $json_files[ $json['key'] ] = $file;
                 
             }
             
         }
         
-        // Store data and return.
+        // store data and return
         $this->json_files = $json_files;
         
         return $json_files;
         
     }
     
-    /*
-     * Json: Get Files
+    
+    /**
+     * get_json_files
+     *
+     * @return array
      */
     function get_json_files(){
         return $this->json_files;
     }
     
-    /*
-     * PHP Enabled
+    
+    /**
+     * is_php_enabled
+     *
+     * @return bool
      */
     function is_php_enabled(){
         return (bool) acf_get_setting('acfe/php');
     }
     
-    /*
-     * PHP: Setup
+    
+    /**
+     * setup_php
      */
     function setup_php(){
         
-        if(!$this->is_php_enabled())
+        if(!$this->is_php_enabled()){
             return;
+        }
     
         global $pagenow;
         $files = $this->scan_php_folders();
         
-        // Do not include PHP files in ACF Admin
-        if(($pagenow === 'edit.php' && acf_maybe_get_GET('post_type') === 'acf-field-group' && !acf_maybe_get_GET('page')) || ($pagenow === 'post.php' && get_post_type(acf_maybe_get_GET('post')) === 'acf-field-group'))
+        // do not include php files in acf Admin
+        if(($pagenow === 'edit.php' && acf_maybe_get_GET('post_type') === 'acf-field-group' && !acf_maybe_get_GET('page')) || ($pagenow === 'post.php' && get_post_type(acf_maybe_get_GET('post')) === 'acf-field-group')){
             return;
+        }
     
         foreach($files as $key => $file){
-        
             require_once($file);
-        
         }
         
     }
     
-    /*
-     * PHP: Scan
+    
+    /**
+     * scan_php_folders
+     *
+     * @return array
      */
     function scan_php_folders(){
     
@@ -208,120 +253,143 @@ class ACFE_AutoSync{
             
             $path = untrailingslashit($path);
             
-            if(!is_dir($path))
+            if(!is_dir($path)){
                 continue;
+            }
     
             acf_update_setting('acfe/php_found', true);
     
             $files = glob($path . '/group_*.php');
     
-            if(!$files)
+            if(!$files){
                 continue;
+            }
     
             foreach($files as $file){
     
                 $key = pathinfo($file, PATHINFO_FILENAME);
         
-                // Append data.
+                // append data
                 $php_files[$key] = $file;
                 
             }
             
         }
     
-        // Store data and return.
+        // store data and return
         $this->php_files = $php_files;
     
         return $php_files;
         
     }
     
-    /*
-     * PHP: Get Files
+    
+    /**
+     * get_php_files
+     *
+     * @return array
      */
     public function get_php_files(){
         return $this->php_files;
     }
     
-    /*
-     * PHP: Update Field Group
+    
+    /**
+     * update_field_group
+     *
+     * @param $field_group
      */
     function update_field_group($field_group){
         
-        // Bail early
-        if(!$this->is_php_enabled())
+        // bail early
+        if(!$this->is_php_enabled()){
             return;
+        }
     
-        // Bail early
-        if(!acfe_has_php_sync($field_group))
+        // bail early
+        if(!acfe_has_php_sync($field_group)){
             return;
+        }
         
-        // Vars
+        // vars
         $id = $field_group['ID'];
         $key = $field_group['key'];
         $path = untrailingslashit(acf_get_setting('acfe/php_save'));
         
-        // Backup path
+        // backup path
         $new_path = $path;
         
-        // Filters
+        // filters
         $new_path = apply_filters("acfe/settings/php_save/all",        $new_path, $field_group);
         $new_path = apply_filters("acfe/settings/php_save/ID={$id}",   $new_path, $field_group);
         $new_path = apply_filters("acfe/settings/php_save/key={$key}", $new_path, $field_group);
         
         $diff = $path !== $new_path;
         
-        // Custom path
-        if($diff)
+        // custom path
+        if($diff){
             acf_update_setting('acfe/php_save', $new_path);
+        }
         
-        // Save File
+        // save file
         $this->save_file($key, $field_group);
         
-        // Restore
-        if($diff)
+        // restore
+        if($diff){
             acf_update_setting('acfe/php_save', $path);
+        }
         
     }
     
-    /*
-     * PHP: Delete Field Group
+    
+    /**
+     * delete_field_group
+     *
+     * @param $field_group
      */
     function delete_field_group($field_group){
     
-        // Bail early
-        if(!$this->is_php_enabled())
+        // bail early
+        if(!$this->is_php_enabled()){
             return;
+        }
     
-        // Bail early
-        if(!acfe_has_php_sync($field_group))
+        // bail early
+        if(!acfe_has_php_sync($field_group)){
             return;
+        }
         
-        // WP appends '__trashed' to end of 'key' (post_name).
+        // wp appends '__trashed' to end of 'key' (post_name)
         $key = str_replace('__trashed', '', $field_group['key']);
         
-        // Delete file.
+        // delete file
         $this->delete_file($key);
         
     }
     
-    /*
-     * PHP: Save File
+    
+    /**
+     * save_file
+     *
+     * @param $key
+     * @param $field_group
+     *
+     * @return bool
      */
     function save_file($key, $field_group){
     
         $path = acf_get_setting('acfe/php_save');
         $file = untrailingslashit($path) . '/' . $key . '.php';
     
-        if(!is_writable($path))
+        if(!is_writable($path)){
             return false;
+        }
     
-        // Translation
+        // translation
         $l10n = acf_get_setting('l10n');
         $l10n_textdomain = acf_get_setting('l10n_textdomain');
     
         if(!$l10n || !$l10n_textdomain){
-        
             $field_group['fields'] = acf_get_fields($field_group);
         
         }else{
@@ -330,7 +398,7 @@ class ACFE_AutoSync{
         
             $field_group = acf_translate_field_group($field_group);
         
-            // Reset store to allow fields translation
+            // reset store to allow fields translation
             $store = acf_get_store('fields');
             $store->reset();
         
@@ -347,7 +415,7 @@ class ACFE_AutoSync{
         // add modified time
         $field_group['modified'] = get_post_modified_time('U', true, $id, true);
     
-        // Prepare
+        // prepare
         $str_replace = array(
             "  "            => "\t",
             "'!!__(!!\'"    => "__('",
@@ -382,15 +450,20 @@ class ACFE_AutoSync{
     
         $output = ob_get_clean();
     
-        // Save and return true if bytes were written.
+        // save and return true if bytes were written.
         $result = file_put_contents($file, $output);
     
         return is_int($result);
         
     }
     
-    /*
-     * PHP: Delete File
+    
+    /**
+     * delete_file
+     *
+     * @param $key
+     *
+     * @return bool
      */
     function delete_file($key){
     
@@ -398,67 +471,73 @@ class ACFE_AutoSync{
         $file = untrailingslashit($path) . '/' . $key . '.php';
     
         if(is_readable($file)){
-        
             unlink($file);
             return true;
-        
         }
     
         return false;
         
     }
     
-    /*
-     * Json: Pre update Field Group
+    
+    /**
+     * pre_update_field_group_json
+     *
+     * @param $field_group
      */
     function pre_update_field_group_json($field_group){
         
-        if(!$this->is_json_enabled())
+        if(!$this->is_json_enabled()){
             return;
-        
+        }
+    
+        // do not save json
         if(!acfe_has_json_sync($field_group)){
             
-            // Do not save json
             add_filter('acf/settings/json', array($this, '__return_false'));
             return;
             
         }
         
-        // Vars
+        // vars
         $id = $field_group['ID'];
         $key = $field_group['key'];
         $path = untrailingslashit(acf_get_setting('save_json'));
         
-        // Backup
+        // backup
         $new_path = $path;
         
-        // Filters
+        // filters
         $new_path = apply_filters("acfe/settings/json_save/all",           $new_path, $field_group);
         $new_path = apply_filters("acfe/settings/json_save/ID={$id}",      $new_path, $field_group);
         $new_path = apply_filters("acfe/settings/json_save/key={$key}",    $new_path, $field_group);
     
-        // Set custom saving point
+        // set custom saving point
         if($path !== $new_path){
             
-            // Backup original path
+            // backup original path
             $GLOBALS['acfe_json_original_path'] = $path;
             
-            // Set custom path
+            // set custom path
             acf_update_setting('save_json', $new_path);
         
         }
         
     }
     
-    /*
-     * Json: Post Update Field Group
+    
+    /**
+     * post_update_field_group_json
+     *
+     * @param $field_group
      */
     function post_update_field_group_json($field_group){
         
-        if(!$this->is_json_enabled())
+        if(!$this->is_json_enabled()){
             return;
+        }
     
-        // Json
+        // json
         if(!acfe_has_json_sync($field_group)){
             
             // Original json setting
@@ -469,18 +548,21 @@ class ACFE_AutoSync{
         
         if(isset($GLOBALS['acfe_json_original_path']) && !empty($GLOBALS['acfe_json_original_path'])){
 
-            // Restore original path
+            // restore original path
             acf_update_setting('save_json', $GLOBALS['acfe_json_original_path']);
 
-            // Remove backup
+            // remove backup
             unset($GLOBALS['acfe_json_original_path']);
             
         }
         
     }
     
-    /*
-     * Custom Return False
+    
+    /**
+     * __return_false
+     *
+     * @return false
      */
     function __return_false(){
         return false;
@@ -492,15 +574,21 @@ acf_new_instance('ACFE_AutoSync');
 
 endif;
 
-/*
- * Helper: Get PHP Files
+
+/**
+ * acfe_get_local_php_files
+ *
+ * @return mixed
  */
 function acfe_get_local_php_files(){
     return acf_get_instance('ACFE_AutoSync')->get_php_files();
 }
 
-/*
- * Helper: Get Json Files
+
+/**
+ * acf_get_local_json_files
+ *
+ * @return mixed
  */
 if(!function_exists('acf_get_local_json_files') && acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
 
@@ -510,8 +598,13 @@ function acf_get_local_json_files(){
 
 }
 
+
 /**
- * Helper: Sync available
+ * acfe_is_sync_available
+ *
+ * @param $field_group
+ *
+ * @return bool
  */
 function acfe_is_sync_available($field_group){
     
@@ -545,46 +638,76 @@ function acfe_is_sync_available($field_group){
     
 }
 
+
+/**
+ * acfe_has_json_sync
+ *
+ * @param $field_group
+ *
+ * @return bool
+ */
 function acfe_has_json_sync($field_group){
     return in_array('json', (array) acf_maybe_get($field_group, 'acfe_autosync', array()));
 }
 
+
+/**
+ * acfe_has_php_sync
+ *
+ * @param $field_group
+ *
+ * @return bool
+ */
 function acfe_has_php_sync($field_group){
     return in_array('php', (array) acf_maybe_get($field_group, 'acfe_autosync', array()));
 }
 
+
+/**
+ * acfe_get_local_php_file
+ *
+ * @param $field_group
+ *
+ * @return false|mixed
+ */
 function acfe_get_local_php_file($field_group){
     
     $key = $field_group;
     
-    if(is_array($field_group) && isset($field_group['key']))
+    if(is_array($field_group) && isset($field_group['key'])){
         $key = $field_group['key'];
+    }
     
     $php_files = acfe_get_local_php_files();
     
     if(isset($php_files[$key])){
-        
         return $php_files[$key];
-        
     }
     
     return false;
     
 }
 
+
+/**
+ * acfe_get_local_json_file
+ *
+ * @param $field_group
+ *
+ * @return false
+ */
 function acfe_get_local_json_file($field_group){
     
     $key = $field_group;
     
-    if(is_array($field_group) && isset($field_group['key']))
+    if(is_array($field_group) && isset($field_group['key'])){
         $key = $field_group['key'];
+    }
     
     $json_files = acf_get_local_json_files();
     
     if(isset($json_files[$key])){
-        
         return $json_files[$key];
-        
     }
     
     return false;

@@ -8,9 +8,6 @@ if(!class_exists('acfe_field_advanced_link')):
 
 class acfe_field_advanced_link extends acf_field{
     
-    // vars
-    public $post_object = '';
-    
     /**
      * initialize
      */
@@ -26,156 +23,7 @@ class acfe_field_advanced_link extends acf_field{
         
         $this->add_action('wp_ajax_acfe/fields/advanced_link/post_query',        array($this, 'ajax_query'));
         $this->add_action('wp_ajax_nopriv_acfe/fields/advanced_link/post_query', array($this, 'ajax_query'));
-        
-        $this->post_object = acf_get_field_type('post_object');
-        
-        remove_action('acf/render_field/type=post_object',                  array($this->post_object, 'render_field'), 9);
-        add_action('acf/render_field/type=post_object',                     array($this, 'post_object_render_field'), 9);
 
-    }
-    
-    
-    /**
-     * post_object_render_field
-     *
-     * @param $field
-     */
-    function post_object_render_field($field){
-        
-        // Change Field into a select
-        $field['type'] = 'select';
-        $field['ui'] = 1;
-        $field['ajax'] = 1;
-        $field['choices'] = array();
-        
-        // load posts
-        $posts = $this->post_object->get_posts($field['value'], $field);
-        
-        if($posts){
-                
-            foreach(array_keys($posts) as $i){
-                
-                // vars
-                $post = acf_extract_var($posts, $i);
-                
-                // append to choices
-                $field['choices'][ $post->ID ] = $this->post_object->get_post_title($post, $field);
-                
-            }
-            
-        }
-        
-        if(acf_maybe_get($field, '_name') === 'post' && !empty($field['value']) && !is_array($field['value']) && !is_numeric($field['value'])){
-            
-            $post_type = $field['value'];
-            $post_type_label = acf_get_post_type_label($post_type);
-            
-            $field['choices'][$field['value']] = $post_type_label . ' Archive';
-            
-        }
-        
-        // render
-        acf_render_field( $field );
-        
-    }
-    
-    
-    /**
-     * ajax_query
-     *
-     * @return false|void
-     */
-    function ajax_query(){
-        
-        // validate
-        if(!acf_verify_ajax())
-            die();
-        
-        // get choices
-        $response = $this->post_object->get_ajax_query($_POST);
-        
-        $options = acf_parse_args($_POST, array(
-            'post_id'   => 0,
-            's'         => '',
-            'field_key' => '',
-            'paged'     => 1
-        ));
-        
-        $field = acf_get_field($options['field_key']);
-        if(!$field)
-            return false;
-        
-        if($options['paged'] > 1)
-            acf_send_ajax_results($response);
-        
-        // init archives
-        $s = false;
-        $is_search = false;
-        
-        if($options['s'] !== ''){
-            
-            $s = wp_unslash(strval($options['s']));
-            $is_search = true;
-            
-        }
-        
-        if(!empty($field['post_type'])){
-        
-            $post_types = acf_get_array($field['post_type']);
-            
-        }else{
-            
-            $post_types = acf_get_post_types();
-            
-        }
-        
-        $post_types_archives = array();
-        
-        foreach($post_types as $post_type){
-            
-            $post_type_obj = get_post_type_object($post_type);
-            
-            $has_archive = false;
-            
-            if($post_type === 'post' || $post_type_obj->has_archive){
-                
-                $has_archive = true;
-                
-            }
-            
-            if(!$has_archive)
-                continue;
-            
-            $post_type_label = acf_get_post_type_label($post_type);
-            
-            if($is_search && stripos($post_type_label, $s) === false)
-                continue;
-            
-            $post_types_archives[] = array(
-                'id' => $post_type,
-                'text' => $post_type_label . ' Archive'
-            );
-            
-        }
-        
-        if(!empty($post_types_archives)){
-            
-            if(!isset($response['results'])){
-                
-                $response['results'] = array();
-                
-            }
-        
-            array_unshift($response['results'], array(
-                'text' => 'Archives',
-                'children' => $post_types_archives
-            ));
-        
-        }
-        
-        // return
-        acf_send_ajax_results($response);
-        
     }
     
     
@@ -186,9 +34,9 @@ class acfe_field_advanced_link extends acf_field{
      */
     function render_field_settings($field){
         
-        // Filter Post Type
+        // filter post types
         acf_render_field_setting($field, array(
-            'label'         => __('Filter by Post Type','acf'),
+            'label'         => __('Filter by Post Type', 'acf'),
             'instructions'  => '',
             'type'          => 'select',
             'name'          => 'post_type',
@@ -196,12 +44,12 @@ class acfe_field_advanced_link extends acf_field{
             'multiple'      => 1,
             'ui'            => 1,
             'allow_null'    => 1,
-            'placeholder'   => __("All post types",'acf'),
+            'placeholder'   => __('All post types', 'acf'),
         ));
         
-        // Filter Taxonomy
+        // filter taxonomies
         acf_render_field_setting($field, array(
-            'label'         => __('Filter by Taxonomy','acf'),
+            'label'         => __('Filter by Taxonomy', 'acf'),
             'instructions'  => '',
             'type'          => 'select',
             'name'          => 'taxonomy',
@@ -209,74 +57,8 @@ class acfe_field_advanced_link extends acf_field{
             'multiple'      => 1,
             'ui'            => 1,
             'allow_null'    => 1,
-            'placeholder'   => __("All taxonomies",'acf'),
+            'placeholder'   => __('All taxonomies', 'acf'),
         ));
-        
-    }
-    
-    
-    /**
-     * get_value
-     *
-     * @param $value
-     *
-     * @return array
-     */
-    function get_value($value = array()){
-        
-        // vars
-        $value = wp_parse_args($value, array(
-            'type'      => 'url',
-            'post'      => '',
-            'term'      => '',
-            'title'     => '',
-            'url'       => false,
-            'url_title' => '',
-            'target'    => false,
-        ));
-        
-        $value['url_title'] = $value['url'];
-        
-        // Post
-        if($value['type'] === 'post' && !empty($value['post'])){
-            
-            if(is_numeric($value['post'])){
-                
-                $value['url'] = get_permalink($value['post']);
-                $value['url_title'] = get_the_title($value['post']);
-                
-            }else{
-                
-                $post_type = $value['post'];
-                
-                $value['url'] = get_post_type_archive_link($post_type);
-                $value['url_title'] = acf_get_post_type_label($post_type) . ' Archive';
-                
-            }
-        
-        // Term
-        }elseif($value['type'] === 'term' && !empty($value['term'])){
-            
-            $term = get_term(intval($value['term']));
-            
-            if(!empty($term) && !is_wp_error($term)){
-                
-                $value['url'] = get_term_link($term);
-                $value['url_title'] = $term->name;
-                
-            }
-            
-        }
-        
-        // Target
-        if(!empty($value['target'])){
-            
-            $value['target'] = '_blank';
-            
-        }
-        
-        // return
-        return $value;
         
     }
     
@@ -294,149 +76,40 @@ class acfe_field_advanced_link extends acf_field{
             'class' => $field['class'] . ' acf-link',
         );
         
-        // get link
-        $value = $this->get_value($field['value']);
+        // get value render
+        $value = $field['value'];
+        $value = $this->load_value($value, false, $field);
+        $value = $this->format_value($value, false, $field);
+    
+        // get sub fields
+        $sub_fields = $this->get_sub_fields($field);
         
         // classes
         if($value['url'] || $value['title']){
             $div['class'] .= ' -value';
         }
         
-        if($value['target'] === '_blank'){
+        if($value['target']){
             $div['class'] .= ' -external';
-        }
-        
-        $sub_fields = array(
-        
-            array(
-                'name'      => 'type',
-                'key'       => 'type',
-                'label'     => __('Type', 'acf'),
-                'type'      => 'radio',
-                'required'  => false,
-                'class'     => 'input-type',
-                'choices'   => array(
-                    'url'       => __('URL', 'acf'),
-                    'post'      => __('Post', 'acf'),
-                    'term'      => __('Term', 'acf'),
-                ),
-            ),
-            
-            array(
-                'name'              => 'url',
-                'key'               => 'url',
-                'label'             => __('URL', 'acf'),
-                'type'              => 'text',
-                'required'          => false,
-                'class'             => 'input-url',
-                'conditional_logic' => array(
-                    array(
-                        array(
-                            'field'     => 'type',
-                            'operator'  => '==',
-                            'value'     => 'url',
-                        )
-                    )
-                )
-                
-            ),
-            
-            array(
-                'name'              => 'post',
-                'key'               => 'post',
-                'label'             => __('Post', 'acf'),
-                'type'              => 'post_object',
-                'required'          => false,
-                'class'             => 'input-post',
-                'allow_null'        => 0,
-                'ajax_action'       => 'acfe/fields/advanced_link/post_query',
-                'conditional_logic' => array(
-                    array(
-                        array(
-                            'field'     => 'type',
-                            'operator'  => '==',
-                            'value'     => 'post',
-                        )
-                    )
-                )
-            ),
-            
-            array(
-                'name'              => 'term',
-                'key'               => 'term',
-                'label'             => __('Term', 'acf'),
-                'type'              => 'acfe_taxonomy_terms',
-                'required'          => false,
-                'class'             => 'input-term',
-                'field_type'        => 'select',
-                'return_format'     => 'id',
-                'ui'                => 1,
-                'allow_null'        => 0,
-                'conditional_logic' => array(
-                    array(
-                        array(
-                            'field'     => 'type',
-                            'operator'  => '==',
-                            'value'     => 'term',
-                        )
-                    )
-                )
-            ),
-            
-            array(
-                'name'      => 'title',
-                'key'       => 'title',
-                'label'     => __('Link text', 'acf'),
-                'type'      => 'text',
-                'required'  => false,
-                'class'     => 'input-title',
-            ),
-            
-            array(
-                'name'      => 'target',
-                'key'       => 'target',
-                'label'     => __('Target', 'acf'),
-                'type'      => 'true_false',
-                'message'   => __('Open in a new window', 'acf'),
-                'required'  => false,
-                'class'     => 'input-target',
-            ),
-            
-        );
-        
-        // Deprecated
-        $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields',                         array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields');
-        $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields/name=' . $field['_name'], array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields/name=' . $field['_name']);
-        $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields/key=' . $field['key'],    array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields/key=' . $field['key']);
-        
-        // Sub Fields Fitlers
-        $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields',                         $sub_fields, $field, $value);
-        $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields/name=' . $field['_name'], $sub_fields, $field, $value);
-        $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields/key=' . $field['key'],    $sub_fields, $field, $value);
-        
-        foreach($sub_fields as &$sub_field){
-            
-            $sub_field['prefix'] = $field['name'];
-            
-            $sub_field['value'] = isset($value[$sub_field['name']]) ? $value[$sub_field['name']] : '';
-            
-            $sub_field = acf_validate_field($sub_field);
-            
-            $sub_field = acf_prepare_field($sub_field);
-            
         }
         
         ?>
         
         <div <?php echo acf_esc_attrs($div); ?>>
+    
+            <?php acf_hidden_input(array('name' => $field['name'])); ?>
         
-            <div class="acfe-modal" data-modal-title="<?php echo $field['label']; ?>">
+            <div class="acfe-modal" data-title="<?php echo $field['label']; ?>" data-size="medium" data-footer="<?php _e('Close', 'acfe'); ?>">
                 <div class="acfe-modal-wrapper">
                     <div class="acfe-modal-content">
                     
-                    <div class="acf-fields acf-form-fields -left">
-                    
-                        <?php acf_render_fields($sub_fields, false, 'div', 'label'); ?>
+                    <div class="acf-fields -left">
+                        
+                        <?php foreach($sub_fields as $sub_field): ?>
+                        
+                            <?php acf_render_field_wrap($sub_field); ?>
+        
+                        <?php endforeach; ?>
                         
                     </div>
                         
@@ -448,7 +121,7 @@ class acfe_field_advanced_link extends acf_field{
             
             <div class="link-wrap">
                 <span class="link-title"><?php echo esc_html($value['title']); ?></span>
-                <a class="link-url" href="<?php echo esc_url($value['url']); ?>" target="_blank"><?php echo esc_html($value['url_title']); ?></a>
+                <a class="link-url" href="<?php echo esc_url($value['url']); ?>" target="_blank"><?php echo esc_html($value['name']); ?></a>
                 <i class="acf-icon -link-ext acf-js-tooltip" title="<?php _e('Opens in a new window/tab', 'acf'); ?>"></i><?php
                 ?><a class="acf-icon -pencil -clear acf-js-tooltip" data-name="edit" href="#" title="<?php _e('Edit', 'acf'); ?>"></a><?php
                 ?><a class="acf-icon -cancel -clear acf-js-tooltip" data-name="remove" href="#" title="<?php _e('Remove', 'acf'); ?>"></a>
@@ -456,6 +129,237 @@ class acfe_field_advanced_link extends acf_field{
             
         </div>
         <?php
+        
+    }
+    
+    
+    /**
+     * get_sub_fields
+     *
+     * @param $field
+     *
+     * @return mixed|null
+     */
+    function get_sub_fields($field){
+        
+        // get value
+        $value = $field['value'];
+        
+        // storage
+        $sub_fields = array();
+        
+        // type
+        $sub_fields[] = array(
+            'name'      => 'type',
+            'key'       => 'type',
+            'label'     => __('Type', 'acf'),
+            'type'      => 'radio',
+            'required'  => false,
+            'class'     => 'input-type',
+            'choices'   => array(
+                'url'       => __('URL', 'acf'),
+                'post'      => __('Post', 'acf'),
+                'term'      => __('Term', 'acf'),
+            ),
+        );
+        
+        // value
+        $sub_fields[] = array(
+            'name'              => 'value',
+            'key'               => 'value',
+            'label'             => '',
+            'type'              => 'acfe_hidden',
+            'required'          => false,
+        );
+        
+        // url
+        $sub_fields[] = array(
+            'name'              => 'url',
+            'key'               => 'url',
+            'label'             => __('URL', 'acf'),
+            'type'              => 'text',
+            'required'          => false,
+            'class'             => 'input-url',
+            'value'             => isset($value['type']) && $value['type'] === 'url' ? $value['value'] : '', // inject value based on type
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'     => 'type',
+                        'operator'  => '==',
+                        'value'     => 'url',
+                    )
+                )
+            )
+        );
+        
+        // post
+        $sub_fields[] = array(
+            'name'              => 'post',
+            'key'               => 'post',
+            'label'             => __('Post', 'acf'),
+            'type'              => 'select',
+            'required'          => false,
+            'class'             => 'input-post',
+            'allow_null'        => 0,
+            'ui'                => 1,
+            'ajax'              => 1,
+            'ajax_action'       => 'acfe/fields/advanced_link/post_query',
+            'choices'           => $this->get_post_choices($field),
+            'value'             => isset($value['type']) && $value['type'] === 'post' ? $value['value'] : '', // inject value based on type
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'     => 'type',
+                        'operator'  => '==',
+                        'value'     => 'post',
+                    )
+                )
+            )
+        );
+        
+        // term
+        $sub_fields[] = array(
+            'name'              => 'term',
+            'key'               => 'term',
+            'label'             => __('Term', 'acf'),
+            'type'              => 'acfe_taxonomy_terms',
+            'required'          => false,
+            'class'             => 'input-term',
+            'field_type'        => 'select',
+            'return_format'     => 'id',
+            'ui'                => 1,
+            'allow_null'        => 0,
+            'value'             => isset($value['type']) && $value['type'] === 'term' ? $value['value'] : '', // inject value based on type
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'     => 'type',
+                        'operator'  => '==',
+                        'value'     => 'term',
+                    )
+                )
+            )
+        );
+        
+        // title
+        $sub_fields[] = array(
+            'name'      => 'title',
+            'key'       => 'title',
+            'label'     => __('Link text', 'acf'),
+            'type'      => 'text',
+            'required'  => false,
+            'class'     => 'input-title',
+        );
+        
+        // target
+        $sub_fields[] = array(
+            'name'      => 'target',
+            'key'       => 'target',
+            'label'     => __('Target', 'acf'),
+            'type'      => 'true_false',
+            'message'   => __('Open in a new window', 'acf'),
+            'required'  => false,
+            'class'     => 'input-target',
+        );
+        
+        // deprecated
+        $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields',                         array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields');
+        $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields/name=' . $field['_name'], array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields/name=' . $field['_name']);
+        $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields/key=' . $field['key'],    array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields/key=' . $field['key']);
+        
+        // Sub Fields Fitlers
+        $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields',                         $sub_fields, $field, $value);
+        $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields/name=' . $field['_name'], $sub_fields, $field, $value);
+        $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields/key=' . $field['key'],    $sub_fields, $field, $value);
+        
+        foreach($sub_fields as &$sub_field){
+            
+            // add value
+            if(isset($value[ $sub_field['key'] ])){
+                
+                // this is a normal value
+                $sub_field['value'] = $value[ $sub_field['key'] ];
+                
+            }elseif(isset($sub_field['default_value'])){
+                
+                // no value, but this subfield has a default value
+                $sub_field['value'] = $sub_field['default_value'];
+                
+            }
+            
+            // update prefix to allow for nested values
+            $sub_field['prefix'] = $field['name'];
+            
+            // validate sub field
+            $sub_field = acf_validate_field($sub_field);
+            
+        }
+        
+        return $sub_fields;
+        
+    }
+    
+    
+    /**
+     * load_value
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return array
+     */
+    function load_value($value, $post_id, $field){
+    
+        // if value is string then set as value
+        if(is_string($value)){
+            $value = array('value' => $value);
+        }
+        
+        // defaults
+        $value = wp_parse_args($value, array(
+            'type'      => 'url',
+            'value'     => '',
+            'title'     => '',
+            'target'    => false,
+        ));
+        
+        // handle old args
+        foreach(array('post', 'term') as $arg){
+            
+            if(isset($value[ $arg ])){
+        
+                $value['value'] = $value[ $arg ];
+                unset($value[ $arg ]);
+        
+            }
+            
+        }
+    
+        // sanitize value
+        if(!empty($value['value'])){
+            
+            switch($value['type']){
+        
+                case 'post': {
+                    $value['value'] = is_numeric($value['value']) ? absint($value['value']) : $value['value'];
+                    break;
+                }
+        
+                case 'term': {
+                    $value['value'] = absint($value['value']);
+                    break;
+                }
+        
+            }
+            
+        }
+        
+        // sanitize target
+        $value['target'] = (bool) $value['target'];
+        
+        // return value
+        return $value;
         
     }
     
@@ -471,15 +375,60 @@ class acfe_field_advanced_link extends acf_field{
      */
     function format_value($value, $post_id, $field){
         
-        // get value
-        $value = $this->get_value($value);
+        // if value is string then set as value
+        if(is_string($value)){
+            $value = array('value' => $value);
+        }
+    
+        // defaults
+        $value = wp_parse_args($value, array(
+            'type'   => 'url',
+            'value'  => '',
+            'url'    => '',
+            'name'   => '',
+            'title'  => '',
+            'target' => '',
+        ));
         
-        // clean
-        acfe_unset($value, 'type');
-        acfe_unset($value, 'post');
-        acfe_unset($value, 'term');
-        acfe_unset($value, 'url_title');
-
+        if(!empty($value['value'])){
+    
+            switch($value['type']){
+        
+                case 'url': {
+    
+                    $value['url'] = $value['value'];
+                    $value['name'] = $value['value'];
+                    break;
+                }
+        
+                case 'post': {
+    
+                    $value['url'] = is_numeric($value['value']) ? get_permalink($value['value']) : get_post_type_archive_link($value['value']);
+                    $value['name'] = is_numeric($value['value']) ? get_the_title($value['value']) : acf_get_post_type_label($value['value']) . ' Archive';
+                    break;
+                }
+        
+                case 'term': {
+            
+                    $term = get_term($value['value']);
+                    if(!empty($term) && !is_wp_error($term)){
+    
+                        $value['url'] = get_term_link($term);
+                        $value['name'] = $term->name;
+                
+                    }
+            
+                    break;
+                }
+        
+            }
+            
+        }
+        
+        // format target
+        $value['target'] = $value['target'] ? '_blank' : '';
+        
+        // return
         return $value;
         
     }
@@ -502,17 +451,292 @@ class acfe_field_advanced_link extends acf_field{
             return $valid;
         }
         
-        // URL is required
-        if(empty($value)){
-            return false;
-        }
-        
-        if((acf_maybe_get($value, 'type') === 'url' && !acf_maybe_get($value, 'url')) || (acf_maybe_get($value, 'type') === 'post' && !acf_maybe_get($value, 'post')) || (acf_maybe_get($value, 'type') === 'term' && !acf_maybe_get($value, 'term'))){
-            return false;
+        // loop over fields
+        foreach(array('url', 'post', 'term') as $type){
+            
+            if($value['type'] === $type && empty($value[ $type ])){
+                return false;
+            }
+            
         }
         
         // return
         return $valid;
+        
+    }
+    
+    
+    /**
+     * update_value
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return mixed
+     */
+    function update_value($value, $post_id, $field){
+    
+        // loop over fields
+        foreach(array('url', 'post', 'term') as $type){
+        
+            if($value['type'] === $type && isset($value[ $type ])){
+                $value['value'] = $value[ $type ];
+                break;
+            }
+        
+        }
+        
+        // remove unecessary arguments
+        unset($value['url'], $value['post'], $value['term']);
+        
+        // sanitize target
+        $value['target'] = (bool) $value['target'];
+        
+        return $value;
+        
+    }
+    
+    
+    /**
+     * get_post_choices
+     *
+     * @param $field
+     *
+     * @return array
+     */
+    function get_post_choices($field){
+        
+        // vars
+        $value = $field['value'];
+        $choices = array();
+        
+        if(empty($value)){
+            return $choices;
+        }
+        
+        $post_object = acf_get_field_type('post_object');
+        
+        // load posts
+        $posts = $post_object->get_posts($value['value'], $field);
+        
+        if($posts){
+            
+            foreach(array_keys($posts) as $i){
+                
+                // append choice
+                $post = acf_extract_var($posts, $i);
+                $choices[ $post->ID ] = $post_object->get_post_title($post, $field);
+                
+            }
+            
+        }
+        
+        // string value
+        // post type archive
+        if(!empty($value['value']) && is_string($value['value'])){
+            
+            // get post type
+            $post_type = $value['value'];
+            
+            // check post type exists
+            if(post_type_exists($post_type)){
+                
+                $label = acf_get_post_type_label($post_type);
+                $choices[ $post_type ] = "{$label} Archive";
+                
+            }
+            
+        }
+        
+        return $choices;
+        
+    }
+    
+    
+    /**
+     * ajax_query
+     */
+    function ajax_query(){
+        
+        // validate
+        if(!acf_verify_ajax()){
+            die();
+        }
+        
+        // get choices
+        $response = $this->get_ajax_query($_POST);
+        
+        // return
+        acf_send_ajax_results($response);
+        
+    }
+    
+    
+    /**
+     * get_ajax_query
+     *
+     * Based on the post_object get_ajax_query() function
+     *
+     * @param $options
+     *
+     * @return array|false
+     */
+    function get_ajax_query($options = array()){
+        
+        // defaults
+        $options = acf_parse_args($options, array(
+            'post_id'   => 0,
+            's'         => '',
+            'field_key' => '',
+            'paged'     => 1,
+        ));
+        
+        // post object
+        $post_object = acf_get_field_type('post_object');
+        
+        // load field
+        $field = acf_get_field($options['field_key']);
+        if(!$field){
+            return false;
+        }
+        
+        // vars
+        $results   = array();
+        $args      = array();
+        $is_search = false;
+        
+        // paged
+        $args['posts_per_page'] = 20;
+        $args['paged']          = $options['paged'];
+        
+        // search
+        if($options['s'] !== ''){
+            
+            // strip slashes (search may be integer)
+            $s = wp_unslash(strval($options['s']));
+            
+            // update vars
+            $args['s'] = $s;
+            $is_search = true;
+            
+        }
+        
+        // post_type
+        $args['post_type'] = acf_get_post_types();
+        
+        if(!empty($field['post_type'])){
+            $args['post_type'] = acf_get_array($field['post_type']);
+        }
+        
+        // taxonomy
+        if(!empty($field['taxonomy'])){
+            
+            // vars
+            $terms = acf_decode_taxonomy_terms($field['taxonomy']);
+            
+            // append to $args
+            $args['tax_query'] = array();
+            
+            // now create the tax queries
+            foreach($terms as $k => $v){
+                
+                $args['tax_query'][] = array(
+                    'taxonomy' => $k,
+                    'field'    => 'slug',
+                    'terms'    => $v,
+                );
+                
+            }
+        }
+        
+        // filters
+        $args = apply_filters('acf/fields/post_object/query',                        $args, $field, $options['post_id']);
+        $args = apply_filters('acf/fields/post_object/query/name=' . $field['name'], $args, $field, $options['post_id']);
+        $args = apply_filters('acf/fields/post_object/query/key=' . $field['key'],   $args, $field, $options['post_id']);
+        
+        // get posts grouped by post type
+        $groups = acf_get_grouped_posts($args);
+    
+        $archives = array();
+        $post_types_archives = acfe_get_post_types(array(
+            'include'     => $field['post_type'],
+            'has_archive' => true,
+        ));
+    
+        foreach($post_types_archives as $post_type){
+        
+            $label = acf_get_post_type_label($post_type);
+            $label = "{$label} Archive";
+        
+            if($is_search && stripos($label, $s) === false){
+                continue;
+            }
+        
+            $archives[] = array(
+                'id'   => $post_type,
+                'text' => $label,
+            );
+        
+        }
+    
+    
+        if(!empty($archives)){
+        
+            // data
+            $results[] = array(
+                'text'     => __('Archives', 'acfe'),
+                'children' => $archives,
+            );
+        
+        }
+        
+        // loop
+        foreach(array_keys($groups) as $group_title){
+            
+            // vars
+            $posts = acf_extract_var($groups, $group_title);
+            
+            // data
+            $data = array(
+                'text'     => $group_title,
+                'children' => array(),
+            );
+            
+            // convert post objects to post titles
+            foreach(array_keys($posts) as $post_id){
+                $posts[ $post_id ] = $post_object->get_post_title($posts[ $post_id ], $field, $options['post_id'], $is_search);
+            }
+            
+            // order posts by search
+            if($is_search && empty($args['orderby']) && isset($args['s'])){
+                $posts = acf_order_by_search($posts, $args['s']);
+            }
+            
+            // append to $data
+            foreach(array_keys($posts) as $post_id){
+                $data['children'][] = $post_object->get_post_result($post_id, $posts[ $post_id ]);
+            }
+            
+            // append to $results
+            $results[] = $data;
+            
+        }
+        
+        // optgroup or single
+        $post_type = acf_get_array($args['post_type']);
+        if(count($post_type) === 1 && empty($post_types_archives)){
+            $results = $results[0]['children'];
+        }
+        
+        // vars
+        $response = array(
+            'results' => $results,
+            'limit'   => $args['posts_per_page'],
+        );
+        
+        // return
+        return $response;
         
     }
     

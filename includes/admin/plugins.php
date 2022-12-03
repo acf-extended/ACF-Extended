@@ -8,8 +8,8 @@ if(!class_exists('acfe_admin_plugins')):
 
 class acfe_admin_plugins{
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
     
@@ -19,8 +19,13 @@ class acfe_admin_plugins{
         
     }
     
-    /*
-     * Install Plugins Tabs
+    
+    /**
+     * install_plugins_tabs
+     *
+     * @param $tabs
+     *
+     * @return mixed
      */
     function install_plugins_tabs($tabs){
         
@@ -30,8 +35,13 @@ class acfe_admin_plugins{
         
     }
     
-    /*
-     * Install Plugins Table API Args
+    
+    /**
+     * install_plugins_table_api_args
+     *
+     * @param $args
+     *
+     * @return mixed
      */
     function install_plugins_table_api_args($args){
         
@@ -45,13 +55,11 @@ class acfe_admin_plugins{
         
     }
     
-    /*
-     * Install Plugins
+    /**
+     * install_plugins
      */
     function install_plugins(){
-        
         display_plugins_table();
-        
     }
     
 }

@@ -8,14 +8,15 @@ if(!class_exists('ACFE_Field_Groups_Local')):
 
 class ACFE_Field_Groups_Local{
     
+    // vars
     var $view = '';
     var $local_field_groups = array();
     var $autosync_field_groups = array();
     var $old_version = false;
     var $acfe_admin_field_groups = '';
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
         
@@ -24,47 +25,56 @@ class ACFE_Field_Groups_Local{
         
     }
     
-    /*
-     * Current Screen
+    
+    /**
+     * current_screen
      */
     function current_screen(){
         
-        // Bail early if not Field Groups admin page.
-        if(!acf_is_screen('edit-acf-field-group'))
+        // bail early if not field groups admin page.
+        if(!acf_is_screen('edit-acf-field-group')){
             return;
+        }
     
-        // Old Compatibility
-        if(acf_version_compare(acf_get_setting('version'),  '<', '5.9'))
+        // old Compatibility
+        if(acf_version_compare(acf_get_setting('version'),  '<', '5.9')){
             $this->old_version = true;
+        }
         
-        // Get ACF instance
+        // get acf instance
         $this->acfe_admin_field_groups = acf_get_instance('ACFE_Field_Groups');
         $this->view = $this->acfe_admin_field_groups->view;
         
-        // Hooks
+        // hooks
         add_filter('views_edit-acf-field-group', array($this, 'views'), 20);
         
         if($this->view === 'acfe-local'){
             
-            add_filter('admin_footer',                              array($this, 'admin_footer'));
-            add_filter('bulk_actions-edit-acf-field-group',         array($this, 'bulk_actions'));
-            add_filter('handle_bulk_actions-edit-acf-field-group',  array($this, 'handle_bulk_actions'), 10, 3);
+            add_filter('admin_footer',                             array($this, 'admin_footer'));
+            add_filter('bulk_actions-edit-acf-field-group',        array($this, 'bulk_actions'));
+            add_filter('handle_bulk_actions-edit-acf-field-group', array($this, 'handle_bulk_actions'), 10, 3);
             
         }
         
     }
     
-    /*
-     * Views
+    
+    /**
+     * views
+     *
+     * @param $views
+     *
+     * @return mixed
      */
     function views($views){
         
-        // Total
+        // total
         $count = count($this->get_local_field_groups());
         
-        // Bail early
-        if($count === 0)
+        // bail early
+        if($count === 0){
             return $views;
+        }
             
         $views['acfe-local'] = sprintf(
             '<a %s href="%s">%s <span class="count">(%s)</span></a>',
@@ -90,8 +100,9 @@ class ACFE_Field_Groups_Local{
         
     }
     
-    /*
-     * Admin Footer
+    
+    /**
+     * admin_footer
      */
     function admin_footer(){
     
@@ -116,11 +127,13 @@ class ACFE_Field_Groups_Local{
             
         }
     
-        if(acf_get_setting('acfe/php'))
+        if(acf_get_setting('acfe/php')){
             $columns[] = 'acfe-autosync-php';
+        }
     
-        if(acf_get_setting('json'))
+        if(acf_get_setting('json')){
             $columns[] = 'acfe-autosync-json';
+        }
     
         ?>
         <script type="text/html" id="tmpl-acfe-local-tbody">
@@ -215,8 +228,13 @@ class ACFE_Field_Groups_Local{
         
     }
     
-    /*
-     * Bulk Actions
+    
+    /**
+     * bulk_actions
+     *
+     * @param $actions
+     *
+     * @return array
      */
     function bulk_actions($actions){
         
@@ -230,13 +248,21 @@ class ACFE_Field_Groups_Local{
         
     }
     
-    /*
-     * Handle Bulk Actions
+    
+    /**
+     * handle_bulk_actions
+     *
+     * @param $redirect
+     * @param $action
+     * @param $post_ids
+     *
+     * @return mixed|void
      */
     function handle_bulk_actions($redirect, $action, $post_ids){
     
-        if(!isset($_REQUEST['post']) || empty($_REQUEST['post']))
+        if(!isset($_REQUEST['post']) || empty($_REQUEST['post'])){
             return $redirect;
+        }
         
         // PHP
         if($action === 'acfe_local_php'){
@@ -275,30 +301,39 @@ class ACFE_Field_Groups_Local{
         
     }
     
+    
+    /**
+     * get_local_field_groups
+     *
+     * @return array
+     */
     function get_local_field_groups(){
         
         $local_field_groups = acf_get_local_field_groups();
         
-        if(empty($local_field_groups))
+        if(empty($local_field_groups)){
             return array();
+        }
         
         $locals = array();
         
         foreach($local_field_groups as $field_group){
             
             // local PHP
-            if(acf_maybe_get($field_group, 'local') !== 'php')
+            if(acf_maybe_get($field_group, 'local') !== 'php'){
                 continue;
+            }
             
-            // Exclude ACFE Field Groups
-            if(!acfe_is_super_dev() && in_array($field_group['key'], acfe_get_setting('reserved_field_groups', array())))
+            // exclude acfe field groups
+            if(!acfe_is_super_dev() && in_array($field_group['key'], acfe_get_setting('reserved_field_groups', array()))){
                 continue;
+            }
             
             $locals[] = $field_group;
             
         }
         
-        // Get desync PHP Field Groups
+        // get desync php field groups
         $desync_php_field_groups = acfe_get_desync_php_field_groups();
         
         foreach($desync_php_field_groups as $file_key => $file_path){
@@ -311,8 +346,9 @@ class ACFE_Field_Groups_Local{
         }
         
         $order = 'ASC';
-        if(isset($_REQUEST['orderby']) && $_REQUEST['orderby'] === 'title' && isset($_REQUEST['order']) && $_REQUEST['order'] === 'desc')
+        if(isset($_REQUEST['orderby']) && $_REQUEST['orderby'] === 'title' && isset($_REQUEST['order']) && $_REQUEST['order'] === 'desc'){
             $order = 'DESC';
+        }
         
         // Sort Title ASC
         if($order === 'ASC'){
@@ -341,6 +377,12 @@ acf_new_instance('ACFE_Field_Groups_Local');
 
 endif;
 
+
+/**
+ * acfe_get_desync_php_field_groups
+ *
+ * @return array
+ */
 function acfe_get_desync_php_field_groups(){
     
     $file_field_groups = acfe_get_local_php_files();

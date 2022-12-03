@@ -4,78 +4,98 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// Check setting
-if(!acf_get_setting('acfe/modules/options'))
+// check setting
+if(!acf_get_setting('acfe/modules/options')){
     return;
+}
 
 if(!class_exists('acfe_module_options')):
 
 class acfe_module_options{
     
+    // vars
     var $action = 'list';
     
-    /*
+    /**
      * Construct
      */
     function __construct(){
         
-        // WP List Table
         acfe_include('includes/modules/options.class.php');
         
-        // Actions
-        add_filter('set-screen-option', array($this, 'acfe_options_screen'), 10, 3);
+        add_filter('set-screen-option', array($this, 'set_screen_option'), 10, 3);
         add_action('admin_menu',        array($this, 'admin_menu'));
         add_action('acf/save_post',     array($this, 'save_post'), 5);
         
     }
     
-    function acfe_options_screen($status, $option, $value){
+    
+    /**
+     * set_screen_option
+     *
+     * @param $status
+     * @param $option
+     * @param $value
+     *
+     * @return mixed
+     */
+    function set_screen_option($status, $option, $value){
         
-        if($option !== 'options_per_page') return $status;
+        if($option === 'options_per_page'){
+            return $value;
+        }
         
-        return $value;
+        return $status;
         
     }
     
-    /*
-     * Admin menu
+    
+    /**
+     * admin_menu
      */
     function admin_menu(){
         
-        if(!acf_get_setting('show_admin')) return;
+        if(acf_get_setting('show_admin')){
+            
+            $page = add_submenu_page('options-general.php', __('Options', 'acfe'), __('Options', 'acfe'), acf_get_setting('capability'), 'acfe-options', array($this, 'admin_html'));
     
-        $page = add_submenu_page('options-general.php', __('Options', 'acfe'), __('Options', 'acfe'), acf_get_setting('capability'), 'acfe-options', array($this, 'admin_html'));
-    
-        add_action("load-{$page}", array($this, 'admin_load'));
+            add_action("load-{$page}", array($this, 'admin_load'));
+            
+        }
         
     }
     
-    /*
-     * Admin load
+    
+    /**
+     * admin_load
      */
     function admin_load(){
     
-        // Messages
+        // messages
         if($message = acf_maybe_get_GET('message')){
             
-            // deleted bulk-deleted updated added
-            
-            if($message === 'deleted'){
-    
-                acf_add_admin_notice(__('Option has been deleted', 'acfe'), 'success');
+            switch($message){
                 
-            }elseif($message === 'bulk-deleted'){
+                case 'deleted': {
+                    acf_add_admin_notice(__('Option has been deleted', 'acfe'), 'success');
+                    break;
+                }
+                
+                case 'bulk-deleted': {
+                    acf_add_admin_notice(__('Options have been deleted', 'acfe'), 'success');
+                    break;
+                }
     
-                acf_add_admin_notice(__('Options have been deleted', 'acfe'), 'success');
-            
-            }elseif($message === 'updated'){
+                case 'updated': {
+                    acf_add_admin_notice(__('Option has been updated', 'acfe'), 'success');
+                    break;
+                }
     
-                acf_add_admin_notice(__('Option has been updated', 'acfe'), 'success');
-            
-            }elseif($message === 'added'){
-    
-                acf_add_admin_notice(__('Option has been added', 'acfe'), 'success');
-            
+                case 'added': {
+                    acf_add_admin_notice(__('Option has been added', 'acfe'), 'success');
+                    break;
+                }
+                
             }
             
         }
@@ -85,78 +105,83 @@ class acfe_module_options{
     
         // edit or delete
         if(acfe_maybe_get_REQUEST('action', '-1') !== '-1'){
-    
             $this->action = $_REQUEST['action'];
             
         // bulk-delete
         }elseif(acfe_maybe_get_REQUEST('action2', '-1') !== '-1'){
-    
             $this->action = $_REQUEST['action2'];
-            
         }
         
-        if($this->action === 'list'){
+        // load
+        switch($this->action){
             
-            $this->load_list();
+            case 'list': {
+                $this->load_list();
+                break;
+            }
             
-        }elseif($this->action === 'edit' || $this->action === 'add'){
-    
-            $this->load_edit();
+            case 'edit':
+            case 'add': {
+                $this->load_edit();
+                break;
+            }
             
-        }elseif($this->action === 'delete'){
-    
-            $this->load_delete();
+            case 'delete': {
+                $this->load_delete();
+                break;
+            }
             
-        }elseif($this->action === 'bulk-delete'){
-    
-            $this->load_bulk_delete();
+            case 'bulk-delete': {
+                $this->load_bulk_delete();
+                break;
+            }
             
         }
     
-        // Enqueue
+        // enqueue
         acf_enqueue_scripts();
         
     }
     
-    /*
-     * Admin html
+    
+    /**
+     * admin_html
      */
     function admin_html(){
         
         if($this->action === 'list'){
-        
             $this->html_list();
         
         }elseif($this->action === 'edit' || $this->action === 'add'){
-        
             $this->html_edit();
-        
         }
         
     }
     
-    /*
-     * Load: List
+    
+    /**
+     * load_list
      */
     function load_list(){
     
         add_screen_option('per_page', array(
-            'label'     => 'Options',
-            'default'   => 100,
-            'option'    => 'options_per_page'
+            'label'   => 'Options',
+            'default' => 100,
+            'option'  => 'options_per_page'
         ));
         
     }
     
-    /*
-     * Load: Edit
+    
+    /**
+     * load_edit
      */
     function load_edit(){
     
-        // Nonce
+        // nonce
         if(acf_verify_nonce('acfe-options-edit')){
         
-            // Save data
+            // save data
             if(acf_validate_save_post(true)){
             
                 acf_save_post('acfe_options_edit');
@@ -164,9 +189,7 @@ class acfe_module_options{
                 $redirect = add_query_arg(array('message' => 'updated'));
             
                 if($this->action === 'add'){
-                    
                     $redirect = sprintf('?page=%s&message=added', esc_attr($_REQUEST['page']));
-                    
                 }
             
                 wp_redirect($redirect);
@@ -176,10 +199,10 @@ class acfe_module_options{
         
         }
     
-        // Actions
+        // actions
         add_action('acf/input/admin_head', array($this, 'add_metaboxes'));
     
-        // Add columns support
+        // add columns support
         add_screen_option('layout_columns', array(
             'max'     => 2,
             'default' => 2,
@@ -187,8 +210,9 @@ class acfe_module_options{
     
     }
     
-    /*
-     * Load: Delete
+    
+    /**
+     * load_delete
      */
     function load_delete(){
     
@@ -209,8 +233,9 @@ class acfe_module_options{
     
     }
     
-    /*
-     * Load: Bulk Delete
+    
+    /**
+     * load_bulk_delete
      */
     function load_bulk_delete(){
     
@@ -227,10 +252,7 @@ class acfe_module_options{
     
         // loop
         foreach($delete_ids as $id){
-        
-            // delete
             $this->delete_option($id);
-        
         }
     
         wp_redirect(sprintf('?page=%s&message=bulk-deleted', esc_attr($_REQUEST['page'])));
@@ -238,50 +260,56 @@ class acfe_module_options{
     
     }
     
-    /*
-     * HTML: List
+    
+    /**
+     * html_list
      */
     function html_list(){
-    
         acfe_get_view('html-options-list');
-        
     }
     
-    /*
-     * HTML: Edit
+    
+    /**
+     * html_edit
      */
     function html_edit(){
-    
         acfe_get_view('html-options-edit');
-    
     }
     
-    /*
-     * Save Post
+    
+    /**
+     * save_post
+     *
+     * @param $post_id
      */
     function save_post($post_id){
         
-        // Validate
-        if($post_id !== 'acfe_options_edit') return;
+        // validate
+        if($post_id !== 'acfe_options_edit'){
+            return;
+        }
         
-        // Vars
+        // vars
         $option_name = wp_unslash($_POST['acf']['field_acfe_options_edit_name']);
         $option_value = wp_unslash($_POST['acf']['field_acfe_options_edit_value']);
         $autoload = $_POST['acf']['field_acfe_options_edit_autoload'];
         
-        // Value serialized?
+        // value serialized?
         $option_value = maybe_unserialize($option_value);
         
-        // Update
+        // update
         update_option($option_name, $option_value, $autoload);
         
-        // Flush ACF
+        // flush acf
         $_POST['acf'] = array();
         
     }
     
-    /*
-     * Delete Option
+    
+    /**
+     * delete_option
+     *
+     * @param $id
      */
     function delete_option($id){
         
@@ -291,8 +319,9 @@ class acfe_module_options{
         
     }
     
-    /*
-     * Add Metaboxes
+    
+    /**
+     * add_metaboxes
      */
     function add_metaboxes(){
         
@@ -350,7 +379,7 @@ class acfe_module_options{
             ),
         );
         
-        // Serialized || HTML
+        // serialized || html
         if(is_serialized($option['option_value']) || $option['option_value'] != strip_tags($option['option_value'])){
             
             $type = 'serialized';
@@ -388,7 +417,7 @@ class acfe_module_options{
             
         }
         
-        // Serialized || HTML
+        // json
         elseif(acfe_is_json($option['option_value'])){
             
             $type = 'json';
@@ -419,12 +448,13 @@ class acfe_module_options{
             
         }
         
-        // String
+        // string
         else{
             
             $type = '';
-            if(!empty($option['option_value']))
+            if(!empty($option['option_value'])){
                 $type = '<code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">string</code>';
+            }
             
             $fields[] = array(
                 'label'             => __('Value', 'acfe') . ' ' . $type,
@@ -488,7 +518,7 @@ class acfe_module_options{
             
         }
         
-        // Submit Metabox
+        // submit Metabox
         add_meta_box('submitdiv', $metabox_submit_title, function($post, $args) use($option){
             
             $delete_nonce = wp_create_nonce('acfe_options_delete_option');
@@ -517,7 +547,7 @@ class acfe_module_options{
             <?php
         }, 'acf_options_page', 'side', 'high');
         
-        // Main Metabox
+        // main metabox
         add_meta_box('acf-group_acfe_options_edit', $metabox_main_title, function($post, $args){
             
             // extract args
@@ -544,9 +574,7 @@ class acfe_module_options{
             ?>
             <script type="text/javascript">
                 if(typeof acf !== 'undefined'){
-
                     acf.newPostbox(<?php echo json_encode($o); ?>);
-
                 }
             </script>
             <?php

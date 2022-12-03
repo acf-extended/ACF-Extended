@@ -4,14 +4,20 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// Check setting
-if(!acf_get_setting('acfe/modules/forms'))
+// check setting
+if(!acf_get_setting('acfe/modules/forms')){
     return;
+}
 
 if(!class_exists('acfe_dynamic_forms_import')):
 
 class acfe_dynamic_forms_import extends acfe_module_import{
     
+    /**
+     * initialize
+     *
+     * @return void
+     */
     function initialize(){
         
         // vars

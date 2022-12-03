@@ -7,22 +7,40 @@ if(!defined('ABSPATH')){
 if(!class_exists('acfe_settings')):
 
 class acfe_settings{
-
+    
+    // vars
     public $settings = array();
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
-        
         $this->settings = get_option('acfe', array());
-
     }
     
+    
+    /**
+     * get
+     *
+     * @param $selector
+     * @param $default
+     *
+     * @return mixed|null
+     */
     function get($selector = null, $default = null){
         return $this->array_get($this->settings, $selector, $default);
     }
     
+    
+    /**
+     * set
+     *
+     * @param $selector
+     * @param $value
+     * @param $append
+     *
+     * @return $this|false
+     */
     function set($selector = null, $value = null, $append = false){
         
         if($value === null){
@@ -42,6 +60,14 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * clear
+     *
+     * @param $selector
+     *
+     * @return $this
+     */
     function clear($selector = null){
         
         $this->array_clear($this->settings, $selector);
@@ -51,13 +77,21 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * delete
+     *
+     * @param $selector
+     *
+     * @return $this
+     */
     function delete($selector = null){
         
-        // Single
+        // single
         if(strpos($selector, '.') === false){
             unset($this->settings[ $selector ]);
         
-        // Array
+        // array
         }else{
             $this->array_remove($this->settings, $selector);
         }
@@ -68,13 +102,22 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * append
+     *
+     * @param $selector
+     * @param $value
+     *
+     * @return $this|false
+     */
     function append($selector = null, $value = null){
         
         if($selector === null && $value === null){
             return false;
         }
         
-        // Allow simple append without selector
+        // allow simple append without selector
         if($value === null){
             
             $value = $selector;
@@ -86,6 +129,16 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * array_get
+     *
+     * @param $array
+     * @param $key
+     * @param $default
+     *
+     * @return mixed|null
+     */
     function array_get($array, $key, $default = null){
         
         if(empty($key)){
@@ -121,6 +174,16 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * array_set
+     *
+     * @param $array
+     * @param $key
+     * @param $value
+     *
+     * @return array|mixed
+     */
     function array_set(&$array, $key, $value){
         
         if(empty($key)){
@@ -147,6 +210,16 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * array_append
+     *
+     * @param $array
+     * @param $key
+     * @param $value
+     *
+     * @return mixed
+     */
     function array_append(&$array, $key, $value){
         
         $get = $this->array_get($array, $key);
@@ -162,6 +235,15 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * array_clear
+     *
+     * @param $array
+     * @param $key
+     *
+     * @return mixed
+     */
     function array_clear(&$array, $key){
         
         $get = $this->array_get($array, $key);
@@ -182,6 +264,13 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * array_remove
+     *
+     * @param $array
+     * @param $keys
+     */
     function array_remove(&$array, $keys){
         
         $original =& $array;
@@ -209,6 +298,10 @@ class acfe_settings{
         
     }
     
+    
+    /**
+     * update
+     */
     function update(){
         update_option('acfe', $this->settings, 'true');
     }
@@ -217,10 +310,28 @@ class acfe_settings{
 
 endif;
 
+
+/**
+ * acfe_get_settings
+ *
+ * @param $selector
+ * @param $default
+ *
+ * @return mixed
+ */
 function acfe_get_settings($selector = null, $default = null){
     return acf_get_instance('acfe_settings')->get($selector, $default);
 }
 
+
+/**
+ * acfe_update_settings
+ *
+ * @param $selector
+ * @param $value
+ *
+ * @return mixed
+ */
 function acfe_update_settings($selector = null, $value = null){
     
     if($value === null){
@@ -232,6 +343,14 @@ function acfe_update_settings($selector = null, $value = null){
 
 }
 
+
+/**
+ * acfe_delete_settings
+ *
+ * @param $selector
+ *
+ * @return mixed
+ */
 function acfe_delete_settings($selector = null){
     return acf_get_instance('acfe_settings')->delete($selector);
 }

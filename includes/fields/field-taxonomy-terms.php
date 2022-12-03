@@ -920,6 +920,21 @@ class acfe_field_taxonomy_terms extends acf_field{
      * @return false|mixed|WP_Error|WP_Term
      */
     function load_value($value, $post_id, $field){
+    
+        // bail early if there is no post id
+        if(!$post_id){
+            return $value;
+        }
+    
+        // bail early when local meta
+        if(acfe_is_local_post_id($post_id)){
+            return $value;
+        }
+    
+        // bail early front-end form
+        if(acfe_starts_with($post_id, 'acfe_form-')){
+            return $value;
+        }
         
         // load_terms
         if($field['load_terms']){
@@ -981,7 +996,21 @@ class acfe_field_taxonomy_terms extends acf_field{
         if(is_array($value)){
             $value = array_filter($value);
         }
+    
+        // bail early if there is no post id
+        if(!$post_id){
+            return $value;
+        }
         
+        // bail early when local meta
+        if(acfe_is_local_post_id($post_id)){
+            return $value;
+        }
+    
+        // bail early front-end form
+        if(acfe_starts_with($post_id, 'acfe_form-')){
+            return $value;
+        }
         
         // save_terms
         if($field['save_terms']){
@@ -1099,17 +1128,8 @@ class acfe_field_taxonomy_terms extends acf_field{
             return;
         }
     
-        // bail early when local meta
-        if(acfe_is_local_post_id($post_id)){
-            return;
-        }
-    
         // bail early if not post
         $data = acf_get_post_id_info($post_id);
-    
-        if($data['type'] !== 'post'){
-            return;
-        }
         
         // loop
         foreach($this->save_post_terms as $taxonomy => $term_ids){
@@ -1423,6 +1443,23 @@ class acfe_field_taxonomy_terms extends acf_field{
         }
         
         return $choices;
+        
+    }
+    
+    
+    /**
+     * translate_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function translate_field($field){
+        
+        $field['placeholder'] = acf_translate($field['placeholder']);
+        $field['search_placeholder'] = acf_translate($field['search_placeholder']);
+        
+        return $field;
         
     }
 

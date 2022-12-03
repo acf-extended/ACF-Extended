@@ -121,8 +121,13 @@ class acfe_field_clone extends acfe_field_extend{
                         'field'     => 'display',
                         'operator'  => '==',
                         'value'     => 'group',
+                    ),
+                    array(
+                        'field'     => 'acfe_seamless_style',
+                        'operator'  => '!=',
+                        'value'     => '1',
                     )
-                )
+                ),
             )
         ));
         
@@ -225,6 +230,20 @@ class acfe_field_clone extends acfe_field_extend{
         }
         
         // return
+        return $field;
+        
+    }
+    
+    
+    /**
+     * translate_field
+     *
+     * @param $field
+     */
+    function translate_field($field){
+        
+        $field['acfe_clone_modal_button'] = acf_translate($field['acfe_clone_modal_button']);
+        
         return $field;
         
     }

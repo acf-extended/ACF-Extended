@@ -20,6 +20,7 @@ class acfe_field_flexible_content_actions{
         add_filter('acfe/flexible/validate_field',              array($this, 'validate_actions'));
         add_filter('acfe/flexible/wrapper_attributes',          array($this, 'wrapper_attributes'), 10, 2);
         add_filter('acfe/flexible/load_fields',                 array($this, 'load_fields'), 10, 2);
+        add_filter('acfe/flexible/layouts/div',                 array($this, 'layout_div'), 10, 6);
         add_filter('acfe/flexible/prepare_layout',              array($this, 'prepare_layout'), 10, 5);
         add_filter('acfe/flexible/layouts/icons',               array($this, 'layout_icons'), 11, 3);
         add_filter('acfe/flexible/secondary_actions',           array($this, 'secondary_actions'), 10, 2);
@@ -55,7 +56,7 @@ class acfe_field_flexible_content_actions{
      */
     function render_field_settings($field){
         
-        /*
+        /**
          * old settings:
          *
          * acfe_flexible_title_edition
@@ -228,9 +229,15 @@ class acfe_field_flexible_content_actions{
      */
     function load_fields($fields, $field){
         
-        // Actions
+        // check setting
+        if(!isset($field['acfe_flexible_add_actions'])){
+            return $fields;
+        }
+        
+        // actions
         $actions = $field['acfe_flexible_add_actions'];
         
+        // loop layouts
         foreach($field['layouts'] as $i => $layout){
             
             // Title
@@ -289,6 +296,31 @@ class acfe_field_flexible_content_actions{
         return $fields;
         
     }
+    
+    
+    /**
+     * layout_div
+     *
+     * @param $div
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed
+     */
+    function layout_div($div, $layout, $field, $i, $value, $prefix){
+        
+        if(in_array('toggle', $field['acfe_flexible_add_actions'])){
+            
+            if(isset($value["field_{$layout['key']}_toggle"]) && !empty($value["field_{$layout['key']}_toggle"])){
+                $div['class'] .= ' acfe-flexible-layout-hidden';
+            }
+        
+        }
+        
+        return $div;
+        
+    }
+    
     
     /**
      * prepare_layout

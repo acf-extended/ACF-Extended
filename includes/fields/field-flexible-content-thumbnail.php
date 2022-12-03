@@ -188,7 +188,7 @@ class acfe_field_flexible_content_thumbnail{
      */
     function wrapper_attributes($wrapper, $field){
         
-        // Check setting
+        // check setting
         if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails')){
             return $wrapper;
         }

@@ -311,6 +311,7 @@ class acfe_form_user{
                 // fields
                 $target = get_sub_field('acfe_form_user_save_target');
                 $target = acfe_form_map_field_value($target, $current_post_id, $form);
+                $target = absint($target);
                 
                 $user_login = get_sub_field('acfe_form_user_save_username');
                 $user_login = acfe_form_map_field_value($user_login, $current_post_id, $form);
@@ -326,7 +327,7 @@ class acfe_form_user{
                         return acfe_add_validation_error('', $errors['long_username']);
                 
                     // login already exists
-                    }elseif(username_exists($user_login) && username_exists($user_login) !== (int) $target){
+                    }elseif(username_exists($user_login) && username_exists($user_login) !== $target){
                         return acfe_add_validation_error('', $errors['used_username']);
                     }
             
@@ -337,7 +338,7 @@ class acfe_form_user{
                     
                     $target_user = get_user_by('ID', $target);
                     
-                    if($user_email !== $target_user->user_email){
+                    if($target_user && $user_email !== $target_user->user_email){
     
                         // invalid email
                         if(!is_email($user_email)){

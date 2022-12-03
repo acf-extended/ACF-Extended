@@ -4,16 +4,21 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// Check setting
-if(!acf_get_setting('acfe/modules/author'))
+// check setting
+if(!acf_get_setting('acfe/modules/author')){
     return;
+}
 
 if(!class_exists('acfe_author')):
 
 class acfe_author{
     
+    // vars
     public $post_types = array();
     
+    /**
+     * construct
+     */
     function __construct(){
         
         acf_add_local_field(array(
@@ -36,8 +41,12 @@ class acfe_author{
         
     }
     
-    /*
-     * Add Post Meta Boxes
+    
+    /**
+     * add_post_meta_boxes
+     *
+     * @param $post_type
+     * @param $post
      */
     function add_post_meta_boxes($post_type, $post){
     
@@ -83,8 +92,12 @@ class acfe_author{
         
     }
     
-    /*
-     * Render Meta Box
+    
+    /**
+     * render_meta_box
+     *
+     * @param $post
+     * @param $metabox
      */
     function render_meta_box($post, $metabox){
         
@@ -100,8 +113,14 @@ class acfe_author{
         
     }
     
-    /*
-     * WP Insert Post Data
+    
+    /**
+     * wp_insert_post_data
+     *
+     * @param $data
+     * @param $post_array
+     *
+     * @return mixed
      */
     function wp_insert_post_data($data, $post_array){
         
@@ -131,8 +150,14 @@ class acfe_author{
         
     }
     
-    /*
-     * Get Field Group Style
+    
+    /**
+     * get_field_group_style
+     *
+     * @param $style
+     * @param $field_group
+     *
+     * @return array|string|string[]
      */
     function get_field_group_style($style, $field_group){
         
@@ -143,8 +168,11 @@ class acfe_author{
         
     }
     
-    /*
-     * Get Roles
+    
+    /**
+     * get_roles
+     *
+     * @return array
      */
     function get_roles(){
     
@@ -153,7 +181,9 @@ class acfe_author{
         foreach(wp_roles()->roles as $name => $role){
         
             // check capability
-            if(empty($role['capabilities']['level_1'])) continue;
+            if(empty($role['capabilities']['level_1'])){
+                continue;
+            }
         
             $roles[] = $name;
         

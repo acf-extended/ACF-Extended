@@ -581,8 +581,17 @@ class acfe_form_post{
             if(!empty($term_objects)){
             
                 foreach($term_objects as $term_taxonomy => $term_ids){
+    
+                    // append
+                    $append = true;
+                    $append = apply_filters('acfe/form/submit/post_append_terms',                     $append, $_post_id, $term_ids, $term_taxonomy, $form, $action);
+                    $append = apply_filters('acfe/form/submit/post_append_terms/form=' . $form_name,  $append, $_post_id, $term_ids, $term_taxonomy, $form, $action);
+    
+                    if(!empty($action)){
+                        $append = apply_filters('acfe/form/submit/post_append_terms/action=' . $action, $append, $_post_id, $term_ids, $term_taxonomy, $form, $action);
+                    }
                 
-                    wp_set_object_terms($args['ID'], $term_ids, $term_taxonomy, true);
+                    wp_set_object_terms($args['ID'], $term_ids, $term_taxonomy, $append);
                 
                 }
             
@@ -592,8 +601,17 @@ class acfe_form_post{
             if(!empty($term_create)){
             
                 foreach($term_create as $term_taxonomy => $term_slugs){
+    
+                    // append
+                    $append = true;
+                    $append = apply_filters('acfe/form/submit/post_append_terms',                     $append, $_post_id, $term_slugs, $term_taxonomy, $form, $action);
+                    $append = apply_filters('acfe/form/submit/post_append_terms/form=' . $form_name,  $append, $_post_id, $term_slugs, $term_taxonomy, $form, $action);
+    
+                    if(!empty($action)){
+                        $append = apply_filters('acfe/form/submit/post_append_terms/action=' . $action, $append, $_post_id, $term_slugs, $term_taxonomy, $form, $action);
+                    }
                 
-                    wp_set_object_terms($args['ID'], $term_slugs, $term_taxonomy, true);
+                    wp_set_object_terms($args['ID'], $term_slugs, $term_taxonomy, $append);
                 
                 }
             

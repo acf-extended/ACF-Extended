@@ -237,7 +237,7 @@ class acfe_field_flexible_content_edit{
      */
     function wrapper_attributes($wrapper, $field){
         
-        // Check setting
+        // check setting
         if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $wrapper;
         }
@@ -264,15 +264,22 @@ class acfe_field_flexible_content_edit{
             return;
         }
         
-        // Field
-        $size = $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_size'];
-        
-        // Layout
-        if(!empty($layout['acfe_flexible_modal_edit_size']))
-            $size = $layout['acfe_flexible_modal_edit_size'];
+        // modal
+        $modal = array(
+            'class' => "acfe-modal -fields acfe-modal-edit-{$field['_name']} acfe-modal-edit-{$field['key']} acfe-modal-edit-{$layout['name']}",
+            'data-size' => $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_size'],
+        );
+    
+        if(!empty($layout['acfe_flexible_modal_edit_size'])){
+            $modal['data-size'] = $layout['acfe_flexible_modal_edit_size'];
+        }
+    
+        if(in_array('close', $field['acfe_flexible_add_actions'])){
+            $modal['data-footer'] = __('Close', 'acfe');
+        }
         
         ?>
-        <div class="acfe-modal -fields -<?php echo $size; ?>">
+        <div <?php echo acf_esc_attrs($modal); ?>>
         <div class="acfe-modal-wrapper">
         <div class="acfe-modal-content">
         <?php

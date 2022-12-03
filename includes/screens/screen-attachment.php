@@ -12,7 +12,7 @@ class acfe_screen_attachment{
     var $post_id;
     
     /**
-     * __ construct
+     * construct
      */
     function __construct(){
     

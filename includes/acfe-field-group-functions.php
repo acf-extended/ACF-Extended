@@ -15,7 +15,7 @@ if(!defined('ABSPATH')){
  */
 function acfe_get_post_id_field_groups($post_id = 0){
     
-    /*
+    /**
      * @string  $post_id  12   | term_46 | user_22 | my-option | comment_89 | widget_56 | menu_74 | menu_item_96 | block_my-block | blog_55 | site_36 | attachment_24
      * @string  $id       12   | 46      | 22      | my-option | 89         | widget_56 | 74      | 96           | block_my-block | 55      | 36      | 24
      * @string  $type     post | term    | user    | option    | comment    | option    | term    | post         | block          | blog    | blog    | post
@@ -459,7 +459,7 @@ function acfe_render_field_group_locations_html($field_group){
 /**
  * acfe_add_field_groups_metabox
  *
- * @param $field_groups
+ * @param array $args
  */
 function acfe_add_field_groups_metabox($args = array()){
     

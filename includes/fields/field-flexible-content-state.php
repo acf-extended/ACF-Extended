@@ -115,7 +115,7 @@ class acfe_field_flexible_content_state{
      */
     function wrapper_attributes($wrapper, $field){
         
-        // Check setting
+        // check setting
         if(($field['acfe_flexible_layouts_state'] !== 'open' && $field['acfe_flexible_layouts_state'] !== 'force_open') || $field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled']){
             return $wrapper;
         }
@@ -196,6 +196,7 @@ class acfe_field_flexible_content_state{
             return $handle;
         }
         
+        // remove [data-name="collapse-layout"] so it doesn't trigger js click event
         acfe_unset($handle, 'data-name');
         
         return $handle;

@@ -42,6 +42,15 @@
     margin: 20px 0 0
 }
 
+.plugins tr.acfe-plugin-tr.acfe-plugin-tr-update td {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important
+}
+
+.plugins tr.acfe-plugin-tr.acfe-plugin-tr-update .update-message {
+    margin-bottom: 0
+}
+
 .acf-admin-toolbar i.acf-icon,
 .acf-btn i.acf-icon {
     display: -webkit-inline-box;

@@ -4,24 +4,34 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// Check setting
-if(!acf_get_setting('acfe/modules/ui'))
+// check setting
+if(!acf_get_setting('acfe/modules/ui')){
     return;
+}
 
 if(!class_exists('acfe_enhanced_ui')):
     
 class acfe_enhanced_ui{
     
+    /**
+     * construct
+     */
     function __construct(){
-        
         $this->initialize();
-        
     }
     
+    
+    /**
+     * initialize
+     */
     function initialize(){
         // ...
     }
     
+    
+    /**
+     * enqueue_scripts
+     */
     function enqueue_scripts(){
     
         // acf
@@ -33,8 +43,13 @@ class acfe_enhanced_ui{
         
     }
     
-    /*
-     * Add Field Groups Metaboxes
+    
+    /**
+     * add_metaboxes
+     *
+     * @param $field_groups
+     * @param $post_id
+     * @param $screen
      */
     function add_metaboxes($field_groups, $post_id, $screen){
     
@@ -48,14 +63,14 @@ class acfe_enhanced_ui{
             $context = $field_group['position'];    // normal, side, acf_after_title
             $priority = 'high';                     // high, core, default, low
         
-            // Reduce priority for sidebar metaboxes for best position.
+            // reduce priority for sidebar metaboxes for best position.
             if($context == 'side'){
                 $priority = 'core';
             }
         
             $priority = apply_filters('acf/input/meta_box_priority', $priority, $field_group);
         
-            // Localize data
+            // localize data
             $postboxes[] = array(
                 'id'    => $id,
                 'key'   => $field_group['key'],
@@ -64,20 +79,24 @@ class acfe_enhanced_ui{
                 'edit'  => acf_get_field_group_edit_link($field_group['ID'])
             );
         
-            // Add meta box
+            // add meta box
             add_meta_box($id, $title, array($this, 'render_metabox'), $screen, $context, $priority, array('post_id' => $post_id, 'field_group' => $field_group));
         
         }
     
-        // Localize postboxes.
+        // localize postboxes
         acf_localize_data(array(
             'postboxes' => $postboxes
         ));
     
     }
     
-    /*
-     * Render Metabox
+    
+    /**
+     * render_metabox
+     *
+     * @param $post
+     * @param $metabox
      */
     function render_metabox($post, $metabox){
         
@@ -85,14 +104,18 @@ class acfe_enhanced_ui{
         $post_id = $metabox['args']['post_id'];
         $field_group = $metabox['args']['field_group'];
         
-        // Render fields.
+        // render fields
         $fields = acf_get_fields($field_group);
         acf_render_fields($fields, $post_id, 'div', $field_group['instruction_placement']);
         
     }
     
-    /*
-     * Render Metabox Submit
+    
+    /**
+     * render_metabox_submit
+     *
+     * @param $object
+     * @param $metabox
      */
     function render_metabox_submit($object, $metabox){
         

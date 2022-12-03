@@ -24,14 +24,14 @@ class acfe_field_code_editor extends acf_field{
         $this->label = __('Code Editor', 'acfe');
         $this->category = 'content';
         $this->defaults = array(
-            'default_value' => '',
-            'placeholder'   => '',
-            'mode'          => 'text/html',
-            'lines'         => true,
-            'indent_unit'   => 4,
-            'maxlength'     => '',
-            'rows'          => 4,
-            'max_rows'      => '',
+            'default_value'   => '',
+            'placeholder'     => '',
+            'mode'            => 'text/html',
+            'lines'           => true,
+            'indent_unit'     => 4,
+            'maxlength'       => '',
+            'rows'            => 4,
+            'max_rows'        => '',
             'return_entities' => false
         );
         

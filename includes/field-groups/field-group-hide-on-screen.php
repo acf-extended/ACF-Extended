@@ -7,30 +7,40 @@ if(!defined('ABSPATH')){
 if(!class_exists('acfe_field_group_hide_on_screen')):
 
 class acfe_field_group_hide_on_screen{
- 
+    
+    /**
+     * construct
+     */
     function __construct(){
      
-        // Field Group
+        // field group
         add_action('acf/field_group/admin_head',    array($this, 'admin_head'));
         
-        // Post Metaboxes
+        // post metaboxes
         add_action('acf/add_meta_boxes',            array($this, 'acf_add_meta_boxes'), 10, 3);
         add_action('wp_ajax_acf/ajax/check_screen', array($this, 'ajax_check_screen'), 9);
         
-        // Hide Block Editor
+        // hide block editor
         add_action('load-post.php',                 array($this, 'hide_block_editor'));
         add_action('load-post-new.php',             array($this, 'hide_block_editor'));
         
     }
     
+    
+    /**
+     * admin_head
+     */
     function admin_head(){
-        
         add_filter('acf/prepare_field/name=hide_on_screen', array($this, 'prepare_hide_on_screen'));
-        
     }
     
-    /*
-     * Hide on screen: Settings
+    
+    /**
+     * prepare_hide_on_screen
+     *
+     * @param $field
+     *
+     * @return mixed
      */
     function prepare_hide_on_screen($field){
     
@@ -55,9 +65,16 @@ class acfe_field_group_hide_on_screen{
         
     }
     
-    /*
-     * Add Metaboxes: Apply all Field Groups styles
+    
+    /**
+     * acf_add_meta_boxes
+     *
+     * Apply all Field Groups styles
      * Fix ACF only which only use the first Field Group style
+     *
+     * @param $post_type
+     * @param $post
+     * @param $field_groups
      */
     function acf_add_meta_boxes($post_type, $post, $field_groups){
         
@@ -75,9 +92,11 @@ class acfe_field_group_hide_on_screen{
         
     }
     
-    /*
-     * Ajax Check Screen
-     * Merge hide on screen settings instead of using the first field group style only
+    
+    /**
+     * ajax_check_screen
+     *
+     * Merges hide on screen settings instead of using the first field group style only
      */
     function ajax_check_screen(){
         
@@ -124,8 +143,9 @@ class acfe_field_group_hide_on_screen{
     
     }
     
-    /*
-     * Hide Block Editor
+    
+    /**
+     * hide_block_editor
      */
     function hide_block_editor(){
         
@@ -135,20 +155,18 @@ class acfe_field_group_hide_on_screen{
         // Restrict
         $restricted = array('acf-field-group', 'attachment');
         
-        if(in_array($typenow, $restricted))
+        if(in_array($typenow, $restricted)){
             return;
+        }
         
         $post_type = $typenow;
         $post_id = 0;
         
         if(isset( $_GET['post'])){
-            
             $post_id = (int) $_GET['post'];
             
         }elseif(isset($_POST['post_ID'])){
-            
             $post_id = (int) $_POST['post_ID'];
-            
         }
         
         $field_groups = acf_get_field_groups(array(
@@ -171,9 +189,7 @@ class acfe_field_group_hide_on_screen{
         }
         
         if($hide_block_editor){
-            
             add_filter('use_block_editor_for_post_type', '__return_false');
-            
         }
         
     }

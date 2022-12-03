@@ -231,7 +231,7 @@ function acfe_query_fields($args = array()){
         
         $_query = array();
 
-        /*
+        /**
          * $_query = array('type' => 'text');
          
          * $_query = array(
@@ -265,7 +265,7 @@ function acfe_query_fields($args = array()){
          * );
          */
         
-        /*
+        /**
          * $_query = array(
          *     array('type' => 'text'),
          *     array('type' => 'image'),

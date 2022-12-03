@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.8.8.10
+ * Version:     0.8.8.11
  * Author:      ACF Extended
  * Plugin URI:  https://www.acf-extended.com
  * Author URI:  https://www.acf-extended.com
@@ -19,7 +19,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // vars
-    var $version = '0.8.8.10';
+    var $version = '0.8.8.11';
     
     /**
      * construct
@@ -391,5 +391,44 @@ function acfe(){
 }
 
 acfe();
+
+else:
+    
+    add_action('after_plugin_row_' . plugin_basename(__FILE__), function($plugin_file, $plugin_data, $status){
+        
+        // vars
+        $colspan = version_compare($GLOBALS['wp_version'], '5.5', '<') ? 3 : 4;
+        $pro = defined('ACFE_PRO') && ACFE_PRO;
+        
+        // message
+        $message = __('An another version of ACF Extended has been detected. Please activate only one version.', 'acfe');
+        if($pro){
+            $message = __('ACF Extended Pro has been detected. Please activate only one version.', 'acfe');
+        }
+        
+        // class
+        $class = 'acfe-plugin-tr';
+        if(isset($plugin_data['update']) && !empty($plugin_data['update'])){
+            $class .= ' acfe-plugin-tr-update';
+        }
+        
+        ?>
+        <style>
+            .plugins tr[data-plugin='<?php echo $plugin_file; ?>'] th,
+            .plugins tr[data-plugin='<?php echo $plugin_file; ?>'] td{
+                box-shadow:none;
+            }
+        </style>
+        
+        <tr class="plugin-update-tr active <?php echo $class; ?>">
+            <td colspan="<?php echo $colspan; ?>" class="plugin-update colspanchange">
+                <div class="update-message notice inline notice-error notice-alt">
+                    <p><?php echo $message; ?></p>
+                </div>
+            </td>
+        </tr>
+        <?php
+        
+    }, 5, 3);
 
 endif;

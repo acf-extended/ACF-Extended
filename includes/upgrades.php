@@ -8,6 +8,7 @@ if(!class_exists('acfe_upgrades')):
 
 class acfe_upgrades{
     
+    // upgrades
     public $upgrades = array(
         'do_0_8_5' => '0.8.5',
         'do_0_8_6' => '0.8.6',
@@ -15,6 +16,7 @@ class acfe_upgrades{
         'do_reset' => '0.0',
     );
     
+    // model
     public $model = array(
         'version' => ACFE_VERSION,
         'modules' => array(
@@ -24,20 +26,25 @@ class acfe_upgrades{
             'taxonomies'    => array(),
         )
     );
-
+    
+    /**
+     * construct
+     */
     function __construct(){
         
         $db_version = acfe_get_settings('version');
         
-        // Bail early
-        if(acf_version_compare($db_version, '>=', ACFE_VERSION))
+        // bail early
+        if(acf_version_compare($db_version, '>=', ACFE_VERSION)){
             return;
+        }
         
-        // Loop upgrades
+        // loop upgrades
         foreach($this->upgrades as $upgrade_function => $upgrade_version){
             
-            if(acf_version_compare($upgrade_version, '<=', $db_version))
+            if(acf_version_compare($upgrade_version, '<=', $db_version)){
                 continue;
+            }
             
             add_action('acf/init', array($this, $upgrade_function), 999);
             
@@ -52,12 +59,12 @@ class acfe_upgrades{
         
     }
     
-    /*
-     * Reset Modules
+    
+    /**
+     * do_reset
      */
     function do_reset(){
         
-        // Modules
         acf_get_instance('acfe_dynamic_block_types')->reset();
         acf_get_instance('acfe_dynamic_options_pages')->reset();
         acf_get_instance('acfe_dynamic_post_types')->reset();
@@ -65,8 +72,9 @@ class acfe_upgrades{
         
     }
     
-    /*
-     * ACF Extended: 0.8.8
+    
+    /**
+     * do_0_8_8
      */
     function do_0_8_8(){
         
@@ -80,9 +88,7 @@ class acfe_upgrades{
         
         foreach($tasks as $task){
     
-            /*
-             * Block Types
-             */
+            // block types
             if($task === 'block_types'){
         
                 $old = acfe_get_settings('modules.dynamic_block_type.data', array());
@@ -100,9 +106,7 @@ class acfe_upgrades{
         
             }
             
-            /*
-             * Options Pages
-             */
+            // options pages
             elseif($task === 'options_pages'){
                 
                 $old = acfe_get_settings('modules.dynamic_option.data', array());
@@ -120,9 +124,7 @@ class acfe_upgrades{
         
             }
             
-            /*
-             * Post Types
-             */
+            // post types
             elseif($task === 'post_types'){
                 
                 $old = acfe_get_settings('modules.dynamic_post_type.data', array());
@@ -140,9 +142,7 @@ class acfe_upgrades{
         
             }
             
-            /*
-             * Taxonomies
-             */
+            // taxonomies
             elseif($task === 'taxonomies'){
                 
                 $old = acfe_get_settings('modules.dynamic_taxonomy.data', array());
@@ -160,9 +160,7 @@ class acfe_upgrades{
         
             }
             
-            /*
-             * Clean
-             */
+            // clean
             elseif($task === 'clean'){
     
                 acfe_delete_settings('modules.author');
@@ -183,8 +181,9 @@ class acfe_upgrades{
         
     }
     
-    /*
-     * ACF Extended: 0.8.6
+    
+    /**
+     * do_0_8_6
      */
     function do_0_8_6(){
         
@@ -273,8 +272,9 @@ class acfe_upgrades{
         
     }
     
-    /*
-     * ACF Extended: 0.8.5
+    
+    /**
+     * do_0_8_5
      */
     function do_0_8_5(){
         
@@ -288,9 +288,7 @@ class acfe_upgrades{
         
         foreach($tasks as $task){
             
-            /*
-             * Forms
-             */
+            // forms
             if($task === 'forms'){
                 
                 // Retrieve all forms posts
@@ -707,9 +705,7 @@ class acfe_upgrades{
                 
             }
             
-            /*
-             * Post Types
-             */
+            // post types
             elseif($task === 'post_types'){
                 
                 $old = get_option('acfe_dynamic_post_types', array());
@@ -727,9 +723,7 @@ class acfe_upgrades{
                 
             }
             
-            /*
-             * Taxonomies
-             */
+            // taxonomies
             elseif($task === 'taxonomies'){
                 
                 $old = get_option('acfe_dynamic_taxonomies', array());
@@ -747,9 +741,7 @@ class acfe_upgrades{
                 
             }
             
-            /*
-             * Block Types
-             */
+            // block types
             elseif($task === 'block_types'){
                 
                 $old = get_option('acfe_dynamic_block_types', array());
@@ -767,9 +759,7 @@ class acfe_upgrades{
                 
             }
             
-            /*
-             * Option Pages
-             */
+            // options pages
             elseif($task === 'options_pages'){
                 
                 $old = get_option('acfe_dynamic_options_pages', array());
@@ -791,6 +781,15 @@ class acfe_upgrades{
         
     }
     
+    
+    /**
+     * parse_args_r
+     *
+     * @param $a
+     * @param $b
+     *
+     * @return array
+     */
     function parse_args_r(&$a, $b){
         
         $a = (array) $a;

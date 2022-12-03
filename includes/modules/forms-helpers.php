@@ -704,6 +704,12 @@ function acfe_form_render_fields($content, $post_id, $args){
     
 }
 
+function acfe_form_map_fields_values($data = array(), $array = array()){
+    
+    return acf_get_instance('acfe_dynamic_forms_helpers')->map_fields_values($data, $array);
+    
+}
+
 function acfe_form_map_field_value($field, $post_id = 0, $form = array()){
     
     return acf_get_instance('acfe_dynamic_forms_helpers')->map_field_value($field, $post_id, $form);
@@ -1606,6 +1612,14 @@ function acfe_form_map_current_value($name, $post, $form = false){
 }
 
 function acfe_form_map_vs_fields($map, $fields, $post_id = 0, $form = array()){
+    
+    // force to refresh acfe/form store with $_POST data
+    // this allows to use uploaded files when acfe_form_map_field_value() is used in validation
+    
+    // get store
+    $store = acf_get_store('acfe/form');
+    $data = acfe_form_map_fields_values();
+    $store->set('data', $data);
     
     $return = array();
     

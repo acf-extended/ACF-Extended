@@ -80,7 +80,7 @@
                 this.$wp().remove();
             }
 
-            if (!this.count('acf') && !this.count('wp')) {
+            if ((!this.count('acf') && !this.count('wp')) || (!this.$acf().is(':visible') && !this.$wp().is(':visible'))) {
                 this.hideBulk();
             }
 

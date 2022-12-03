@@ -100,11 +100,11 @@ class acfe_dev_clean_meta{
                 
             }else{
                 
-                $link = ' <a href="#" data-acfe-modal="clean-meta-debug" data-acfe-modal-title="' . __('Deleted meta', 'acfe') . '" data-acfe-modal-footer="' . __('Close', 'acfe') . '">' . __('View', 'acfe') . '</a>';
+                $link = ' <a href="#" data-modal="clean-meta-debug">' . __('View', 'acfe') . '</a>';
                 
                 add_action('admin_footer', function() use($deleted){
                     ?>
-                    <div class="acfe-modal" data-acfe-modal="clean-meta-debug">
+                    <div class="acfe-modal" data-modal="clean-meta-debug" data-title="<?php _e('Deleted meta', 'acfe'); ?>" data-footer="<?php _e('Close', 'acfe'); ?>">
                         <div class="acfe-modal-spacer">
                             <pre><?php print_r($deleted); ?></pre>
                         </div>

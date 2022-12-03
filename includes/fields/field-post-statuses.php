@@ -482,6 +482,23 @@ class acfe_field_post_statuses extends acf_field{
         return $value;
         
     }
+    
+    
+    /**
+     * translate_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function translate_field($field){
+        
+        $field['placeholder'] = acf_translate($field['placeholder']);
+        $field['search_placeholder'] = acf_translate($field['search_placeholder']);
+        
+        return $field;
+        
+    }
 
 }
 

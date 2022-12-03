@@ -39,10 +39,8 @@ class acfe_field_file extends acfe_field_extend{
      */
     function gettext($translated_text, $text, $domain){
         
-        if($domain === 'acf'){
-            if($text === 'No file selected'){
-                return '';
-            }
+        if($domain === 'acf' && $text === 'No file selected'){
+            return '';
         }
         
         return $translated_text;

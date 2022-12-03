@@ -8,65 +8,75 @@ if(!class_exists('acfe_field_validation')):
 
 class acfe_field_validation{
     
+    /**
+     * construct
+     */
     function __construct(){
         
-        // Actions
+        // actions
         add_action('acf/field_group/admin_head',                        array($this, 'load'));
         add_action('wp_ajax_acf/field_group/render_field_settings',     array($this, 'load_ajax'), 5);
         
-        // Filters
+        // filters
         add_filter('acf/validate_value',                                array($this, 'validate_value'), 99, 4);
         
     }
     
-    /*
-     * Admin Head
+    
+    /**
+     * load
      */
     function load(){
         
-        if(!acf_is_filter_enabled('acfe/field_group/advanced'))
+        if(!acf_is_filter_enabled('acfe/field_group/advanced')){
             return;
+        }
         
         $this->prepare_settings();
         $this->add_settings();
         
     }
     
-    /*
-     * Ajax Load
+    
+    /**
+     * load_ajax
      */
     function load_ajax(){
         
         $post_id = acf_maybe_get_POST('post_id');
         $field_group = acf_get_field_group($post_id);
         
-        if(!$field_group)
+        if(!$field_group){
             return;
+        }
         
-        if(!acf_maybe_get($field_group, 'acfe_form'))
+        if(!acf_maybe_get($field_group, 'acfe_form')){
             return;
+        }
         
         $this->add_settings();
         
     }
     
-    /*
-     * Add Settings
+    
+    /**
+     * add_settings
      */
     function add_settings(){
         
-        // Exclude
+        // exclude
         $exclude = array('accordion', 'acfe_button', 'acfe_column', 'acfe_dynamic_render', 'clone', 'flexible_content', 'group', 'message', 'repeater', 'tab');
         
-        // Get Fields Types
+        // get fields types
         foreach(acf_get_field_types_info() as $field){
             
-            // Field type
+            // field type
             $field_type = $field['name'];
             
             // check
-            if(in_array($field_type, $exclude))
+            if(in_array($field_type, $exclude)){
                 continue;
+            }
             
             add_action("acf/render_field_settings/type={$field_type}", array($this, 'render_field_settings'), 99);
             
@@ -74,8 +84,11 @@ class acfe_field_validation{
         
     }
     
-    /*
-     * Render Settings
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
      */
     function render_field_settings($field){
     
@@ -134,10 +147,11 @@ class acfe_field_validation{
         
         $choices = apply_filters('acfe/validate/functions', $functions, $field);
         
-        if(empty($choices))
+        if(empty($choices)){
             return;
+        }
         
-        // Settings
+        // settings
         acf_render_field_setting($field, array(
             'label'         => __('Advanced Validation'),
             'name'          => 'acfe_validate',
@@ -389,64 +403,72 @@ class acfe_field_validation{
         
     }
     
-    /*
-     * Validate Value
+    
+    /**
+     * validate_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     *
+     * @return mixed
      */
     function validate_value($valid, $value, $field, $input){
         
-        if(!$valid)
+        if(!$valid){
             return $valid;
+        }
         
-        if(!acf_maybe_get($field, 'acfe_validate'))
+        if(!acf_maybe_get($field, 'acfe_validate')){
             return $valid;
+        }
         
         foreach($field['acfe_validate'] as $k => $rule){
             
-            // Fix possible ACF Clone Index
-            if($k === 'acfcloneindex')
+            // fix possible acf clone index
+            if($k === 'acfcloneindex'){
                 continue;
+            }
             
-            // Screen
+            // screen
             $screen = isset($rule['acfe_validate_location']) ? $rule['acfe_validate_location'] : '';
             $screen_allow = false;
             
-            // Screen: All
+            // screen: all
             if(empty($screen)){
-                
                 $screen_allow = true;
-                
             }
             
-            // Screen: Admin
+            // screen: admin
             elseif($screen === 'admin' && acfe_is_admin()){
-                
                 $screen_allow = true;
-                
             }
             
-            // Screen: Front
+            // screen: front
             elseif($screen === 'front' && acfe_is_front()){
-                
                 $screen_allow = true;
-                
             }
             
-            if(!$screen_allow)
+            if(!$screen_allow){
                 continue;
+            }
             
-            if(!acf_maybe_get($rule, 'acfe_validate_rules_and'))
+            if(!acf_maybe_get($rule, 'acfe_validate_rules_and')){
                 continue;
+            }
             
             $rule_match = true;
             
             foreach($rule['acfe_validate_rules_and'] as $k => $function){
                 
-                if(!$rule_match)
+                if(!$rule_match){
                     break;
+                }
                 
                 $rule_match = false;
                 
-                // Check filters
+                // check filters
                 $filters = array(
                     'acfe/validate/function/' . $function['acfe_validate_function'] . '/key=' . $field['key'],
                     'acfe/validate/function/' . $function['acfe_validate_function'] . '/name=' . $field['name'],
@@ -457,40 +479,33 @@ class acfe_field_validation{
                 $filter_call = false;
                 foreach($filters as $filter){
                     
-                    if(has_filter($filter))
+                    if(has_filter($filter)){
                         $filter_call = $filter;
+                    }
                     
                 }
                 
-                // Filter
+                // filter
                 if($filter_call){
-                    
                     $result = apply_filters($filter_call, false, $value, $field);
-                    
                 }
                 
-                // Class
+                // class
                 elseif(is_callable(array($this, $function['acfe_validate_function']))){
-                    
                     $result = call_user_func(array($this, $function['acfe_validate_function']), $value);
-                    
                 }
                 
-                // Function
+                // function
                 elseif(is_callable($function['acfe_validate_function'])){
-                    
                     $result = call_user_func($function['acfe_validate_function'], $value);
-                    
                 }
                 
-                // Nothing
+                // nothing
                 else{
-                    
                     continue;
-                    
                 }
                 
-                // Vars
+                // vars
                 $operator = $function['acfe_validate_operator'];
                 $match = acf_maybe_get($function, 'acfe_validate_match');
                 
@@ -584,14 +599,16 @@ class acfe_field_validation{
 
             }
             
-            // Error
+            // rrror
             $error = $rule['acfe_validate_error'];
             
-            if($rule_match && !empty($error))
+            if($rule_match && !empty($error)){
                 $valid = $error;
+            }
             
-            if(!$valid || is_string($valid))
+            if(!$valid || is_string($valid)){
                 break;
+            }
             
         }
         
@@ -599,47 +616,94 @@ class acfe_field_validation{
         
     }
     
+    
+    /**
+     * get_user_by_id
+     *
+     * @param $value
+     *
+     * @return false|WP_User
+     */
     function get_user_by_id($value){
-        
         return get_user_by('id', $value);
-        
     }
-
+    
+    
+    /**
+     * get_user_by_slug
+     *
+     * @param $value
+     *
+     * @return false|WP_User
+     */
     function get_user_by_slug($value){
-        
         return get_user_by('slug', $value);
-        
     }
-
+    
+    
+    /**
+     * get_user_by_email
+     *
+     * @param $value
+     *
+     * @return false|WP_User
+     */
     function get_user_by_email($value){
-        
         return get_user_by('email', $value);
-        
     }
-
+    
+    
+    /**
+     * get_user_by_login
+     *
+     * @param $value
+     *
+     * @return false|WP_User
+     */
     function get_user_by_login($value){
-        
         return get_user_by('login', $value);
-        
     }
     
+    
+    /**
+     * value
+     *
+     * @param $value
+     *
+     * @return mixed
+     */
     function value($value){
-        
         return $value;
-        
     }
     
+    
+    /**
+     * get_post_by_id
+     *
+     * @param $value
+     *
+     * @return bool
+     */
     function get_post_by_id($value){
         
         $get_post = get_post($value);
         
-        if(!$get_post || is_wp_error($get_post))
+        if(!$get_post || is_wp_error($get_post)){
             return false;
+        }
         
         return true;
         
     }
     
+    
+    /**
+     * get_post_by_slug
+     *
+     * @param $value
+     *
+     * @return bool
+     */
     function get_post_by_slug($value){
         
         $get_posts = get_posts(array(
@@ -649,13 +713,22 @@ class acfe_field_validation{
             'posts_per_page'    => 1
         ));
         
-        if(empty($get_posts))
+        if(empty($get_posts)){
             return false;
+        }
         
         return true;
         
     }
     
+    
+    /**
+     * get_post_by_title
+     *
+     * @param $value
+     *
+     * @return bool
+     */
     function get_post_by_title($value){
         
         $get_posts = get_posts(array(
@@ -665,15 +738,17 @@ class acfe_field_validation{
             'posts_per_page'    => 1
         ));
         
-        if(empty($get_posts))
+        if(empty($get_posts)){
             return false;
+        }
         
         return true;
         
     }
     
-    /*
-     * Prepare Settings
+    
+    /**
+     * prepare_settings
      */
     function prepare_settings(){
     

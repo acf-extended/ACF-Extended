@@ -8,8 +8,8 @@ if(!class_exists('acfe_location_post_type_all')):
 
 class acfe_location_post_type_all{
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
     
@@ -18,8 +18,13 @@ class acfe_location_post_type_all{
         
     }
     
-    /*
-     * Rule Values
+    
+    /**
+     * rule_values
+     *
+     * @param $choices
+     *
+     * @return string[]|void[]
      */
     function rule_values($choices){
         
@@ -29,8 +34,15 @@ class acfe_location_post_type_all{
         
     }
     
-    /*
-     * Rule Match
+    
+    /**
+     * rule_match
+     *
+     * @param $match
+     * @param $rule
+     * @param $options
+     *
+     * @return bool|mixed
      */
     function rule_match($match, $rule, $options){
         

@@ -330,11 +330,6 @@ body:not(.taxonomy-product_cat):not(.woocommerce-page) .wrap {
     max-width: none
 }
 
-.wrap form#createuser .acf-tab-wrap,
-.wrap form#your-profile .acf-tab-wrap {
-    position: relative
-}
-
 .wrap form#createuser select#ure_select_other_roles,
 .wrap form#your-profile select#ure_select_other_roles {
     width: 100% !important;

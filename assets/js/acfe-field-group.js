@@ -94,7 +94,7 @@
         taxonomyTermsAjax: function(ajaxData, data, $el, field, select) {
 
             // Taxonomies
-            var $taxonomies = $el.closest('.acf-field-settings').find('> .acf-field-setting-taxonomy > .acf-input > select > option:selected');
+            var $taxonomies = $el.closest('.acf-field-settings').find('.acf-field-setting-taxonomy > .acf-input > select > option:selected');
 
             var tax = [];
 
@@ -105,7 +105,7 @@
             ajaxData.taxonomies = tax;
 
             // Terms level
-            var $level = $el.closest('.acf-field-settings').find('> .acf-field-setting-allow_terms > .acf-input input[type="number"]');
+            var $level = $el.closest('.acf-field-settings').find('.acf-field-setting-allow_terms > .acf-input input[type="number"]');
 
             ajaxData.level = $level.val();
 
@@ -381,12 +381,20 @@
 
             if (acfe.versionCompare(acf.get('acf_version'), '>=', '6.0')) {
 
-                var field = acf.getClosestField($el2);
+                // do not use acf.getClosestField() in order to not instantiate the field
+                // otherwise, this would create a bug when duplicating a flexible content layout:
+                // new layout sub fields would be moved back to the original layout
+                var $field = acf.findClosestField($el2);
 
-                // field.render() should have been in the repeater "add" method, at the end of acf.duplicate()
-                // but it was removed in acf 6.0
-                if (field.get('type') === 'repeater') {
+                if ($field.is('[data-type="repeater"]')) {
+
+                    // instantiate the field here
+                    var field = acf.getField($field);
+
+                    // field.render() should have been in the repeater "add" method, at the end of acf.duplicate()
+                    // but it was removed in acf 6.0
                     field.render();
+
                 }
 
             }

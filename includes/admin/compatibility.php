@@ -30,6 +30,7 @@ class acfe_admin_compatibility{
         
         // current screen
         add_action('current_screen',                            array($this, 'current_screen'));
+        add_filter('acf/validate_field',                        array($this, 'validate_field'));
         
     }
     
@@ -217,6 +218,26 @@ class acfe_admin_compatibility{
         </style>
         <?php
         
+    }
+    
+    /**
+     * validate_field
+     *
+     * Change instructions to hint for appended field settings
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function validate_field($field){
+    
+        if(acf_maybe_get($field, '_appended') && acf_maybe_get($field, 'instructions')){
+            $field['hint'] = $field['instructions'];
+            $field['instructions'] = '';
+        }
+        
+        return $field;
+    
     }
     
 }

@@ -51,7 +51,7 @@ class acfe_field_flexible_content_async{
      */
     function render_field_settings($field){
     
-        /*
+        /**
          * old settings:
          *
          * acfe_flexible_disable_ajax_title

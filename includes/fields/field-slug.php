@@ -132,6 +132,24 @@ class acfe_field_slug extends acf_field{
         return sanitize_title($value);
     }
     
+    
+    /**
+     * translate_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function translate_field($field){
+        
+        $field['placeholder'] = acf_translate($field['placeholder']);
+        $field['prepend'] = acf_translate($field['prepend']);
+        $field['append'] = acf_translate($field['append']);
+        
+        return $field;
+        
+    }
+    
 }
 
 // initialize

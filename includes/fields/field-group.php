@@ -164,6 +164,22 @@ class acfe_field_group_field extends acfe_field_extend{
         
     }
     
+    
+    /**
+     * translate_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function translate_field($field){
+        
+        $field['acfe_group_modal_button'] = acf_translate($field['acfe_group_modal_button']);
+        
+        return $field;
+        
+    }
+    
 }
 
 acf_new_instance('acfe_field_group_field');

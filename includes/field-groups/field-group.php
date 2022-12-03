@@ -8,23 +8,28 @@ if(!class_exists('ACFE_Field_Group')):
 
 class ACFE_Field_Group{
     
-    /*
-     * Construct
+    /**
+     * construct
      */
     function __construct(){
         
-        // Actions
-        add_action('acf/field_group/admin_head',    array($this, 'admin_head'));
-        add_filter('acf/validate_field_group',      array($this, 'validate_default_autosync'));
-        add_filter('acf/get_field_types',           array($this, 'reorder_field_types'));
+        add_action('acf/field_group/admin_head', array($this, 'admin_head'));
+        add_filter('acf/validate_field_group',   array($this, 'validate_default_autosync'));
+        add_filter('acf/get_field_types',        array($this, 'reorder_field_types'));
         
     }
     
-    /*
-     * Reorder Field Types
+    
+    /**
+     * reorder_field_types
+     *
+     * @param $groups
+     *
+     * @return array|mixed
      */
     function reorder_field_types($groups){
         
+        // sort fields
         foreach($groups as $group => &$fields){
             asort($fields);
         }
@@ -45,8 +50,9 @@ class ACFE_Field_Group{
         
     }
     
-    /*
-     * Admin Head
+    
+    /**
+     * admin_head
      */
     function admin_head(){
     
@@ -56,8 +62,11 @@ class ACFE_Field_Group{
         
     }
     
-    /*
-     * Submit Box
+    
+    /**
+     * submitbox
+     *
+     * @param $post
      */
     function submitbox($post){
         
@@ -83,21 +92,19 @@ class ACFE_Field_Group{
         
     }
     
-    /*
-     * Render Sidebar
+    
+    /**
+     * render_sidebar_metabox
      */
     function render_sidebar_metabox(){
         
-        // Global
+        // global
         global $field_group;
     
-        // Setting
+        // setting
         $has_enhanced_ui = acfe_get_setting('modules/field_group_ui') ? true : false;
     
-    
-        /*
-         * Display Title
-         */
+        // display title
         if(!$has_enhanced_ui){
             
             acf_render_field_wrap(array(
@@ -114,15 +121,14 @@ class ACFE_Field_Group{
             
         }
         
-        /*
-         * Sync available
-         */
+        // autosync available
         if(acfe_is_sync_available($field_group)){
             
             $json_already_active = 0;
             
-            if(in_array('json', acf_maybe_get($field_group, 'acfe_autosync', array())))
+            if(in_array('json', acf_maybe_get($field_group, 'acfe_autosync', array()))){
                 $json_already_active = 1;
+            }
             
             ?>
             <div class="acf-field" data-name="acfe_sync_available">
@@ -161,9 +167,7 @@ class ACFE_Field_Group{
             
         }
         
-        /*
-         * AutoSync: Get Local
-         */
+        // autosync: get local
         acf_enable_filter('local');
     
         $json_file = acfe_get_local_json_file($field_group);
@@ -176,32 +180,24 @@ class ACFE_Field_Group{
     
         acf_disable_filter('local');
     
-        /*
-         * AutoSync: Values
-         */
+        // autosync: values
         $acfe_autosync = (array) acf_maybe_get($field_group, 'acfe_autosync');
     
         // Json
         if($json_file){
-        
             if(!in_array('json', $acfe_autosync)){
                 $acfe_autosync[] = 'json';
             }
-        
         }
     
         // PHP
         if($php_file){
-        
             if(!in_array('php', $acfe_autosync)){
                 $acfe_autosync[] = 'php';
             }
-        
         }
     
-        /*
-         * AutoSync: Choices
-         */
+        // autosync: choices
         $choices = array(
             'php' => 'PHP',
             'json' => 'JSON',
@@ -246,9 +242,7 @@ class ACFE_Field_Group{
             
         }
         
-        /*
-         * AutoSync
-         */
+        // autosync
         acf_render_field_wrap(array(
             'label'         => __('Auto Sync'),
             'instructions'  => '',
@@ -263,9 +257,7 @@ class ACFE_Field_Group{
         ));
     
     
-        /*
-         * Permissions
-         */
+        // permissions
         if(!$has_enhanced_ui){
             
             if(acf_maybe_get($field_group, 'acfe_permissions') || acf_is_filter_enabled('acfe/field_group/advanced')){
@@ -392,21 +384,30 @@ class ACFE_Field_Group{
         <?php
     }
     
+    
     /**
-     * Default AutoSync
+     * validate_default_autosync
+     *
+     * @param $field_group
+     *
+     * @return mixed
      */
     function validate_default_autosync($field_group){
         
         // validate screen
-        if(!acf_is_screen('acf-field-group')) return $field_group;
+        if(!acf_is_screen('acf-field-group')){
+            return $field_group;
+        }
         
         // only new field groups (location is empty on new field groups)
-        if(acf_maybe_get($field_group, 'location')) return $field_group;
+        if(acf_maybe_get($field_group, 'location')){
+            return $field_group;
+        }
             
-        // Default label placement: Left
+        // default label placement: Left
         $field_group['label_placement'] = 'left';
         
-        // AutoSync
+        // autoSync
         $acfe_autosync = array();
         
         if(acf_get_setting('acfe/json_found', false)){

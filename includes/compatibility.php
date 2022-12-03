@@ -18,6 +18,7 @@ class acfe_compatibility{
     
         // fields
         add_filter('acf/validate_field_group',                      array($this, 'field_group_location_list'), 20);
+        add_filter('acf/validate_field_group',                      array($this, 'field_group_instruction_tooltip'), 20);
         add_filter('acf/validate_field',                            array($this, 'field_acfe_update'), 20);
         add_filter('acf/validate_field/type=group',                 array($this, 'field_seamless_style'), 20);
         add_filter('acf/validate_field/type=clone',                 array($this, 'field_seamless_style'), 20);
@@ -113,6 +114,27 @@ class acfe_compatibility{
             
         }
         
+        return $field_group;
+        
+    }
+    
+    /**
+     * field_group_instruction_tooltip
+     *
+     * Tooltip old parameter name compatibility
+     *
+     * @param $field_group
+     *
+     * @since 0.8.7.5 (11/12/2020)
+     *
+     * @return mixed
+     */
+    function field_group_instruction_tooltip($field_group){
+    
+        if(acf_maybe_get($field_group, 'instruction_placement') === 'acfe_instructions_tooltip'){
+            $field_group['instruction_placement'] = __('Tooltip', 'acfe');
+        }
+    
         return $field_group;
         
     }

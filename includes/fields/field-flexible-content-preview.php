@@ -252,25 +252,25 @@ class acfe_field_flexible_content_preview{
      */
     function render_field($field){
         
-        // Check setting
+        // check setting
         if(!acf_maybe_get($field, 'acfe_flexible_layouts_templates') || !acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
             return;
         }
     
-        // Vars
+        // vars
         $name = $field['_name'];
         $key = $field['key'];
     
-        // Vars
+        // vars
         global $is_preview;
         $is_preview = true;
     
-        // Actions
+        // actions
         do_action("acfe/flexible/enqueue",              $field, $is_preview);
         do_action("acfe/flexible/enqueue/name={$name}", $field, $is_preview);
         do_action("acfe/flexible/enqueue/key={$key}",   $field, $is_preview);
     
-        // Loop
+        // loop
         foreach($field['layouts'] as $layout){
         
             // Enqueue
@@ -296,6 +296,7 @@ class acfe_field_flexible_content_preview{
         }
         
         if(acf_maybe_get($field, 'acfe_flexible_layouts_templates') && acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
+            $wrapper['data-acfe-flexible-placeholder'] = 1;
             $wrapper['data-acfe-flexible-preview'] = 1;
         }
         
@@ -468,7 +469,8 @@ class acfe_field_flexible_content_preview{
      */
     function return_or_die(){
         
-        if(wp_doing_ajax()){
+        // check ajax & make sure the action is correct
+        if(wp_doing_ajax() && acf_maybe_get_POST('action') === 'acfe/flexible/layout_preview'){
             die;
         }
         

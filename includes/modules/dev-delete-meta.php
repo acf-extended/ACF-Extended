@@ -8,6 +8,9 @@ if(!class_exists('acfe_dev_delete_meta')):
 
 class acfe_dev_delete_meta{
     
+    /**
+     * construct
+     */
     function __construct(){
     
         // check settings
