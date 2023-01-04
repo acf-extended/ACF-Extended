@@ -414,7 +414,7 @@
             // alt text
             this.$('.acf-field.acfe-alt-text').find('label').wrapAll('<div class="acf-label" />');
             this.$('.acf-field.acfe-alt-text').find('.acf-label').prependTo('.acf-field.acfe-alt-text');
-            this.$('.acf-field.acfe-alt-text').find('input, p.attachment-alt-text-description').wrapAll('<div class="acf-input" />');
+            this.$('.acf-field.acfe-alt-text').find('input, textarea, p.attachment-alt-text-description').wrapAll('<div class="acf-input" />');
             this.$('.acf-field.acfe-alt-text').find('.acf-input').appendTo('.acf-field.acfe-alt-text');
             this.$('.acf-field.acfe-alt-text').find('.attachment-alt-text').remove();
 

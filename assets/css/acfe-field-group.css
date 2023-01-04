@@ -434,6 +434,29 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     float: left
 }
 
+.acf-admin-6.acf-admin-single-field-group .acf-input .select2-container--default .select2-selection--single {
+    height: auto
+}
+
+.acf-admin-6.acf-admin-single-field-group .acf-input .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding: 0 6px
+}
+
+.acf-admin-6.acf-admin-single-field-group .acf-input .select2-container--default .select2-selection--single .select2-selection__rendered .acf-selection {
+    padding: 10px 5px;
+    display: block;
+    line-height: 1.5
+}
+
+.acf-admin-6.acf-admin-single-field-group .acf-input .select2-container--default .select2-selection--single .select2-selection__rendered .select2-selection__clear {
+    margin-top: 13px;
+    margin-right: 11px
+}
+
+.acf-admin-6.acf-admin-single-field-group .acf-input .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px
+}
+
 .acf-admin-6.acf-admin-single-field-group #acf-field-group-options .acf-field .acf-table>tbody>tr>td,
 .acf-admin-6.acf-admin-single-field-group #acf-field-group-options .acf-field .acf-table>tbody>tr>th,
 .acf-admin-6.acf-admin-single-field-group #acf-field-group-options .acf-field .acf-table>thead>tr>td,

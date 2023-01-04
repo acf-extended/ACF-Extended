@@ -462,6 +462,71 @@
         return;
     }
 
+    var moduleManager = new acf.Model({
+        wait: 'prepare',
+        priority: 1,
+        initialize: function() {
+            if (acfe.get('module') && acfe.get('module').screen === 'post') {
+                new module(acfe.get('module'));
+            }
+        }
+    });
+
+    var module = acf.Model.extend({
+
+        setup: function(props) {
+            this.inherit(props);
+        },
+
+        filters: {
+            'validation_complete': 'onValidationComplete',
+        },
+
+        onValidationComplete: function(data, $el, instance) {
+
+            // title
+            var $title = $('#titlewrap #title');
+
+            // validate post title
+            if (!$title.val()) {
+
+                // data
+                data.valid = 0;
+                data.errors = data.errors || [];
+
+                // push error
+                data.errors.push({
+                    input: '',
+                    message: this.get('messages.label')
+                });
+
+                $title.focus();
+
+            }
+
+            return data;
+
+        },
+
+        initialize: function() {
+
+            // update status
+            $('#post-status-display').html(this.get('messages.status'));
+
+            // move export links
+            $('.acfe-misc-export').insertAfter('.misc-pub-post-status');
+
+        },
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
     /**
      * Postboxes: ACFE Class
      */

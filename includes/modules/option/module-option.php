@@ -21,7 +21,7 @@ class acfe_module_options{
      */
     function __construct(){
         
-        acfe_include('includes/modules/options.class.php');
+        acfe_include('includes/modules/option/module-option-table.php');
         
         add_filter('set-screen-option', array($this, 'set_screen_option'), 10, 3);
         add_action('admin_menu',        array($this, 'admin_menu'));

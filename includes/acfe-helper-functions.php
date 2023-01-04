@@ -476,10 +476,10 @@ function acfe_parse_args_r(&$a, $b){
     
     foreach($a as $k => &$v){
         
-        if(is_array($v) && isset($r[ $k ])){
-            $r[$k] = acfe_parse_args_r($v, $r[ $k ]);
+        if(is_array($v) && isset($r[ $k ]) && is_array($r[ $k ])){
+            $r[ $k ] = acfe_parse_args_r($v, $r[ $k ]);
         }else{
-            $r[$k] = $v;
+            $r[ $k ] = $v;
         }
         
     }

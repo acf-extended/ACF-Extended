@@ -11,7 +11,7 @@ if(!acf_get_setting('acfe/modules/forms')){
 
 if(!class_exists('acfe_dynamic_forms_import')):
 
-class acfe_dynamic_forms_import extends acfe_module_import{
+class acfe_dynamic_forms_import extends acfe_dynamic_module_import{
     
     /**
      * initialize

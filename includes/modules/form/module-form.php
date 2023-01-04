@@ -50,18 +50,18 @@ class acfe_dynamic_forms extends acfe_dynamic_module{
         add_action('acfe/form/import_fields',                   array($this, 'import_fields'), 10, 3);
         
         // Includes
-        acfe_include('includes/modules/forms-cheatsheet.php');
-        acfe_include('includes/modules/forms-front.php');
-        acfe_include('includes/modules/forms-helpers.php');
-        acfe_include('includes/modules/forms-hooks.php');
-        acfe_include('includes/modules/forms-shortcode.php');
+        acfe_include('includes/modules/form/module-form-cheatsheet.php');
+        acfe_include('includes/modules/form/module-form-front.php');
+        acfe_include('includes/modules/form/module-form-helpers.php');
+        acfe_include('includes/modules/form/module-form-hooks.php');
+        acfe_include('includes/modules/form/module-form-shortcode.php');
         
-        acfe_include('includes/modules/forms-action-custom.php');
-        acfe_include('includes/modules/forms-action-email.php');
-        acfe_include('includes/modules/forms-action-post.php');
-        acfe_include('includes/modules/forms-action-redirect.php');
-        acfe_include('includes/modules/forms-action-term.php');
-        acfe_include('includes/modules/forms-action-user.php');
+        acfe_include('includes/modules/form/module-form-action-custom.php');
+        acfe_include('includes/modules/form/module-form-action-email.php');
+        acfe_include('includes/modules/form/module-form-action-post.php');
+        acfe_include('includes/modules/form/module-form-action-redirect.php');
+        acfe_include('includes/modules/form/module-form-action-term.php');
+        acfe_include('includes/modules/form/module-form-action-user.php');
     
         do_action('acfe/include_form_actions');
         

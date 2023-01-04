@@ -506,6 +506,23 @@ html[dir=rtl] .acf-columns-2 .acf-column-2 {
     width: 200px
 }
 
+.acfe-module.acfe-module-posts .column-acfe-name {
+    width: 15%
+}
+
+.acfe-module.acfe-module-posts .column-acfe-load {
+    width: 70px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.acfe-module.acfe-module-posts .column-acfe-autosync-json,
+.acfe-module.acfe-module-posts .column-acfe-autosync-php {
+    width: 90px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
 ul.acfe-module-export-choices {
     -webkit-column-width: 200px;
     -moz-column-width: 200px;

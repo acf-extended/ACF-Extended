@@ -473,9 +473,28 @@ class acfe_field_advanced_link extends acf_field{
      * @param $post_id
      * @param $field
      *
-     * @return mixed
+     * @return array
      */
     function update_value($value, $post_id, $field){
+        
+        // bail early
+        if(empty($value)){
+            return $value;
+        }
+        
+        // compatibility with string
+        if(is_string($value)){
+            $value = array('value' => $value);
+        }
+    
+        // defaults
+        $value = wp_parse_args($value, array(
+            'type'   => 'url',
+            'value'  => '',
+            'url'    => '',
+            'title'  => '',
+            'target' => '',
+        ));
     
         // loop over fields
         foreach(array('url', 'post', 'term') as $type){
@@ -492,6 +511,12 @@ class acfe_field_advanced_link extends acf_field{
         
         // sanitize target
         $value['target'] = (bool) $value['target'];
+        
+        // empty value
+        // allow to save empty value to not pollute db
+        if(empty($value['value']) && empty($value['title'])){
+            $value = false;
+        }
         
         return $value;
         

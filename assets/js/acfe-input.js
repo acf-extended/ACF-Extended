@@ -2643,6 +2643,13 @@
 
         onAppend: function($el) {
 
+            // acf block type "align" attribute pass a react element
+            // with acf.doAction('append', this.state.$el))
+            // which return a fake jQuery element and break $el.is('...') check
+            if (acf.isset($el, 0, '$$typeof')) {
+                return;
+            }
+
             // validate
             if ($el.is('.layout')) {
 

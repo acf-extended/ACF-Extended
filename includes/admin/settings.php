@@ -162,7 +162,7 @@ class acfe_admin_settings{
                 array(
                     'label'         => 'l10n textdomain',
                     'name'          => 'l10n_textdomain',
-                    'type'          => 'true_false',
+                    'type'          => 'text',
                     'description'   => 'Sets the text domain used when translating field and field group settings.<br />Defaults to ”. Strings will not be translated if this setting is empty',
                     'category'      => 'acf',
                 ),

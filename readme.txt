@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 0.8.8.11
+Stable tag: 0.8.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -483,6 +483,42 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.9 =
+
+**ACF Extended Pro 0.8.9:**
+
+* Field: Block Editor - Added field
+* Field: Payment - Fixed ACF 6.0.x settings instructions
+* Modules: Added PHP/Json AutoSync feature
+* Modules: Added "Local" & "Sync Available" views
+* Modules: Added DB <> PHP <> Json triangular difference comparison
+* Module: Block Types - PHP sync files are saved/loaded from `/my-theme/acfe-php/block-types`
+* Module: Block Types - Json sync files are saved/loaded from `/my-theme/acf-json/block-types`
+* Module: Options Pages - PHP sync files are saved/loaded from `/my-theme/acfe-php/options-pages`
+* Module: Options Pages - Json sync files are saved/loaded from `/my-theme/acf-json/options-pages`
+* Module: Post Types - PHP sync files are saved/loaded from `/my-theme/acfe-php/post-types`
+* Module: Post Types - Json sync files are saved/loaded from `/my-theme/acf-json/post-types`
+* Module: Taxonomies - PHP sync files are saved/loaded from `/my-theme/acfe-php/taxonomies`
+* Module: Taxonomies - Json sync files are saved/loaded from `/my-theme/acf-json/taxonomies`
+* Module: Templates - PHP sync files are saved/loaded from `/my-theme/acfe-php/templates`
+* Module: Templates - Json sync files are saved/loaded from `/my-theme/acf-json/templates`
+* Module: Templates - Deprecated `acfe_add_local_template()` in favor of `acfe_register_template()`
+* Module: Settings - Fixed `l10n_textdomain` setting as text input
+
+**ACF Extended Basic 0.8.9**
+
+* Field: Advanced Link - Added value type control during `update_value` to enhance compatibility
+* Module: Block Types - Added "Align Text", "Align Content", "Full Height", "Align Matrix" settings
+* Module: Enhanced UI - Fixed WP 6.1 Attachment "Alt" field missing
+* Module: Post Types - Added "Meta Key" and "Meta Type" orderby settings in Archive and Admin query
+* Module: Post Types - Added "Enter Title" setting in Labels
+* Module: Post Types - WP Updated Messages now use Labels with Classic Editor
+* Module: Taxonomies - Added "Meta Key" and "Meta Type" orderby settings in Single and Admin query
+* General: Fixed potential Block Type JS error on layout change
+* General: Added ACF 6.0.x Select2 single select CSS fix
+* General: Introduced Module v3
+* General: Reworked Upgrades logic
 
 = 0.8.8.11 =
 

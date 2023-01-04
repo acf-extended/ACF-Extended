@@ -122,8 +122,6 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
                     
                     <?php
                     
-                    acf_update_setting('l10n_var_export', true);
-                    
                     $str_replace = array(
                         "  "            => "\t",
                         "'!!__(!!\'"    => "__('",
@@ -141,8 +139,12 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
                     <p><?php _e("The following code can be used to register a local version of the selected field group(s). A local field group can provide many benefits such as faster load times, version control & dynamic fields/settings. Simply copy and paste the following code to your theme's functions.php file or include it within an external file.", 'acf'); ?></p>
                     
                     <div id="acf-admin-tool-export">
+                        
+                        
                     
                         <textarea id="acf-export-textarea" readonly="true"><?php
+    
+                        acf_update_setting('l10n_var_export', true);
                         
                         echo "if( function_exists('acf_add_local_field_group') ):" . "\r\n" . "\r\n";
                         
@@ -166,6 +168,8 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
                         }
                         
                         echo "endif;";
+    
+                        acf_update_setting('l10n_var_export', false);
                         
                         ?></textarea>
                     

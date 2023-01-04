@@ -47,20 +47,6 @@ class acfe_dev_delete_meta{
             return $row_actions;
         }
         
-        /*
-        // todo: remove
-        // option meta
-        if($args['type'] === 'option'){
-        
-            // edit link
-            $edit = array(
-                'href' => admin_url("options-general.php?page=acfe-options&action=edit&option={$meta['id']}")
-            );
-        
-            $row_actions['edit'] = '<a ' . acf_esc_attrs($edit). '>' . __('Edit') . '</a>';
-        
-        }*/
-        
         // delete link
         $delete = array(
             'href'           => '#',

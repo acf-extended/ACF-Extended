@@ -227,7 +227,7 @@ class ACFE_AutoSync{
         global $pagenow;
         $files = $this->scan_php_folders();
         
-        // do not include php files in acf Admin
+        // do not include php files in acf admin
         if(($pagenow === 'edit.php' && acf_maybe_get_GET('post_type') === 'acf-field-group' && !acf_maybe_get_GET('page')) || ($pagenow === 'post.php' && get_post_type(acf_maybe_get_GET('post')) === 'acf-field-group')){
             return;
         }
@@ -487,16 +487,15 @@ class ACFE_AutoSync{
      */
     function pre_update_field_group_json($field_group){
         
+        // json enabled
         if(!$this->is_json_enabled()){
-            return;
+            return false;
         }
     
+        // bail early
         // do not save json
         if(!acfe_has_json_sync($field_group)){
-            
-            add_filter('acf/settings/json', array($this, '__return_false'));
-            return;
-            
+            return add_filter('acf/settings/json', array($this, '__return_false'));
         }
         
         // vars
@@ -508,9 +507,9 @@ class ACFE_AutoSync{
         $new_path = $path;
         
         // filters
-        $new_path = apply_filters("acfe/settings/json_save/all",           $new_path, $field_group);
-        $new_path = apply_filters("acfe/settings/json_save/ID={$id}",      $new_path, $field_group);
-        $new_path = apply_filters("acfe/settings/json_save/key={$key}",    $new_path, $field_group);
+        $new_path = apply_filters("acfe/settings/json_save/all",        $new_path, $field_group);
+        $new_path = apply_filters("acfe/settings/json_save/ID={$id}",   $new_path, $field_group);
+        $new_path = apply_filters("acfe/settings/json_save/key={$key}", $new_path, $field_group);
     
         // set custom saving point
         if($path !== $new_path){
@@ -533,17 +532,15 @@ class ACFE_AutoSync{
      */
     function post_update_field_group_json($field_group){
         
+        // json enabled
         if(!$this->is_json_enabled()){
-            return;
+            return false;
         }
-    
-        // json
+        
+        // bail early
+        // restore original json setting
         if(!acfe_has_json_sync($field_group)){
-            
-            // Original json setting
-            remove_filter('acf/settings/json', array($this, '__return_false'));
-            return;
-            
+            return remove_filter('acf/settings/json', array($this, '__return_false'));
         }
         
         if(isset($GLOBALS['acfe_json_original_path']) && !empty($GLOBALS['acfe_json_original_path'])){
@@ -611,9 +608,10 @@ function acfe_is_sync_available($field_group){
     $key = acf_maybe_get($field_group, 'key');
     $id = acf_maybe_get($field_group, 'ID');
     
-    // Bail early
-    if(empty($key) || empty($id))
+    // bail early
+    if(empty($key) || empty($id)){
         return false;
+    }
     
     acf_enable_filter('local');
     
@@ -621,18 +619,21 @@ function acfe_is_sync_available($field_group){
     
     acf_disable_filter('local');
     
-    if(!$field_group)
+    if(!$field_group){
         return false;
+    }
     
     $private = acf_maybe_get($field_group, 'private', false);
     $local = acf_maybe_get($field_group, 'local', false);
     $modified = acf_maybe_get($field_group, 'modified', 0);
     
-    if($private || $local !== 'json')
+    if($private || $local !== 'json'){
         return false;
+    }
     
-    if($modified && $modified > get_post_modified_time('U', true, $id, true))
+    if($modified && $modified > get_post_modified_time('U', true, $id, true)){
         return true;
+    }
     
     return false;
     
@@ -642,24 +643,24 @@ function acfe_is_sync_available($field_group){
 /**
  * acfe_has_json_sync
  *
- * @param $field_group
+ * @param $item
  *
  * @return bool
  */
-function acfe_has_json_sync($field_group){
-    return in_array('json', (array) acf_maybe_get($field_group, 'acfe_autosync', array()));
+function acfe_has_json_sync($item){
+    return in_array('json', (array) acf_maybe_get($item, 'acfe_autosync', array()));
 }
 
 
 /**
  * acfe_has_php_sync
  *
- * @param $field_group
+ * @param $item
  *
  * @return bool
  */
-function acfe_has_php_sync($field_group){
-    return in_array('php', (array) acf_maybe_get($field_group, 'acfe_autosync', array()));
+function acfe_has_php_sync($item){
+    return in_array('php', (array) acf_maybe_get($item, 'acfe_autosync', array()));
 }
 
 
@@ -680,8 +681,8 @@ function acfe_get_local_php_file($field_group){
     
     $php_files = acfe_get_local_php_files();
     
-    if(isset($php_files[$key])){
-        return $php_files[$key];
+    if(isset($php_files[ $key ])){
+        return $php_files[ $key ];
     }
     
     return false;
@@ -706,8 +707,8 @@ function acfe_get_local_json_file($field_group){
     
     $json_files = acf_get_local_json_files();
     
-    if(isset($json_files[$key])){
-        return $json_files[$key];
+    if(isset($json_files[ $key ])){
+        return $json_files[ $key ];
     }
     
     return false;

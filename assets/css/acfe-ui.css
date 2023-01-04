@@ -766,6 +766,10 @@ body.post-type-attachment .wrap>form .wp_attachment_details {
     margin-top: 20px
 }
 
+body.post-type-attachment .wrap>form .wp_attachment_details #attachment_alt {
+    max-width: 100%
+}
+
 body.post-type-attachment .wrap>form .wp_attachment_details p.attachment-alt-text-description {
     margin-bottom: 0
 }

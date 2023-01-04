@@ -818,37 +818,84 @@ function acfe_get_post_translated_default($post_id){
  *
  * @return mixed|string|null
  */
-function acfe_translate($string, $name = false, $textdomain = 'acfe'){
+function acfe_translate($string, $name = '', $textdomain = ''){
     
-    // bail early
-    if(!acfe_is_multilang() || empty($string)){
-        return __($string, $textdomain);
+    // no polylang/wpml
+    if(!acfe_is_multilang()){
+        return acf_translate($string);
     }
     
-    // name compatibility
-    if(empty($name)){
-        $name = $string;
+    // acf translate
+    if(empty($name) && empty($textdomain)){
+        return acf_translate($string);
+    }
+    
+    // is array
+    if(is_array($string)){
+        
+        foreach($string as $k => $v){
+            $name = !is_numeric($k) ? ucfirst($k) : $name;
+            $string[ $k ] = acfe_translate($v, $name, $textdomain);
+        }
+        
+    }
+    
+    // bail early if not string
+    if(!is_string($string)){
+        return $string;
+    }
+    
+    // bail early if empty
+    if($string === ''){
+        return $string;
     }
     
     // wpml
-    // translate (register string during save)
     if(acfe_is_wpml()){
         return apply_filters('wpml_translate_single_string', $string, $textdomain, $name);
     }
     
-    // polyLang
+    // polylang
     if(acfe_is_polylang()){
         
-        // register string
         pll_register_string($name, $string, $textdomain);
-        
-        // translate
         return pll__($string);
         
     }
     
     // default translate
-    return __($string, $textdomain);
+    return acf_translate($string);
+    
+}
+
+
+/**
+ * acfe_register_translate
+ *
+ * @param $string
+ * @param $name
+ * @param $textdomain
+ */
+function acfe_register_translate($string, $name = '', $textdomain = ''){
+    
+    // wpml only
+    if(acfe_is_wpml()){
+    
+        // is array
+        if(is_array($string)){
+            
+            foreach($string as $k => $v){
+                $name = !is_numeric($k) ? ucfirst($k) : $name;
+                acfe_register_translate($v, $name, $textdomain);
+            }
+            
+        // string
+        }else{
+            do_action('wpml_register_single_string', $textdomain, $name, $string);
+        }
+    
+    }
+    
     
 }
 
