@@ -585,7 +585,7 @@ class acfe_admin_settings_ui{
      *
      * @param $setting
      *
-     * @return array
+     * @return array|false
      */
     function prepare_setting($setting){
     
@@ -603,13 +603,20 @@ class acfe_admin_settings_ui{
         
         $name = $setting['name'];
         $type = $setting['type'];
+        
+        // setting doesn't exist in default acf settings
+        // probably an older version of acf
+        if(!isset($this->defaults[ $name ])){
+            return false;
+        }
+        
         $format = $setting['format'];
-        $default = $this->defaults[$name];
-        $updated = $this->updated[$name];
+        $default = $this->defaults[ $name ];
+        $updated = $this->updated[ $name ];
         
         $vars = array(
-            'default' => $this->defaults[$name],
-            'updated' => $this->updated[$name]
+            'default' => $this->defaults[ $name ],
+            'updated' => $this->updated[ $name ]
         );
     
         foreach($vars as $v => $var){
@@ -723,7 +730,11 @@ class acfe_admin_settings_ui{
                 foreach($this->fields[$category] as $field){
                     
                     $field = $this->prepare_setting($field);
-                    $fields[] = $field;
+                    
+                    // make sure the setting exists
+                    if($field){
+                        $fields[] = $field;
+                    }
         
                 }
     

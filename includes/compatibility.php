@@ -26,6 +26,7 @@ class acfe_compatibility{
         add_filter('acf/validate_field/type=acfe_column',           array($this, 'field_column'), 20);
         add_filter('acf/validate_field/type=image',                 array($this, 'field_image'), 20);
         add_filter('acf/validate_field/type=file',                  array($this, 'field_image'), 20);
+        add_filter('acf/validate_field/type=acfe_code_editor',      array($this, 'field_code_editor'), 20);
         add_filter('acfe/load_fields/type=flexible_content',        array($this, 'field_flexible_settings_title'), 20, 2);
         add_filter('acf/prepare_field/name=acfe_flexible_category', array($this, 'field_flexible_layout_categories'), 10, 2);
         
@@ -270,6 +271,34 @@ class acfe_compatibility{
             $field['uploader'] = $field['acfe_uploader'];
             unset($field['acfe_uploader']);
             
+        }
+        
+        return $field;
+        
+    }
+    
+    
+    /**
+     * field_code_editor
+     *
+     * acf/validate_field/type=acfe_code_editor:20
+     *
+     * Renamed 'return_entities' to 'return_format' for code editor
+     *
+     * @since 0.8.9.1
+     *
+     * @param $field
+     */
+    function field_code_editor($field){
+        
+        if(acf_maybe_get($field, 'return_entities')){
+            
+            if(!in_array('htmlentities', $field['return_format'])){
+                $field['return_format'][] = 'htmlentities';
+            }
+            
+            unset($field['return_entities']);
+        
         }
         
         return $field;

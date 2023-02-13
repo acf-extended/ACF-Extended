@@ -276,7 +276,7 @@ class acfe_field_flexible_content_settings{
         );
         
         ?>
-        <div <?php echo acf_esc_attrs($modal); ?>>
+        <div <?php echo acf_esc_atts($modal); ?>>
             <div class="acfe-modal-wrapper">
                 <div class="acfe-modal-content">
                     <div class="acf-fields -top">

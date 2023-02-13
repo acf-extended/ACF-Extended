@@ -365,7 +365,7 @@ class ACFE_Field_Groups{
         }
         
         ?>
-        <span <?php echo acf_esc_attrs($wrapper); ?>>
+        <span <?php echo acf_esc_atts($wrapper); ?>>
             
             <?php if($return['wrapper_start']){ echo $return['wrapper_start']; } ?>
             
@@ -503,7 +503,7 @@ class ACFE_Field_Groups{
         }
     
         ?>
-        <span <?php echo acf_esc_attrs($wrapper); ?>>
+        <span <?php echo acf_esc_atts($wrapper); ?>>
             
             <?php if($return['wrapper_start']){ echo $return['wrapper_start']; } ?>
             

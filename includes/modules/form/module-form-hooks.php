@@ -31,6 +31,7 @@ class acfe_dynamic_forms_hooks{
         add_filter('acfe/form/format_value/type=radio',                             array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=google_map',                        array($this, 'format_value_google_map'), 5, 4);
         add_filter('acfe/form/format_value/type=repeater',                          array($this, 'format_value_repeater'), 5, 4);
+        add_filter('acfe/form/format_value/type=acfe_date_range_picker',            array($this, 'format_value_date_range_picker'), 5, 4);
         
     }
     
@@ -221,6 +222,22 @@ class acfe_dynamic_forms_hooks{
         }
         
         return $return;
+        
+    }
+    
+    // Date Range Picker
+    function format_value_date_range_picker($value, $_value, $post_id, $field){
+    
+        if(!empty($value) && is_array($value)){
+    
+            $start = acf_maybe_get($value, 'start');
+            $end = acf_maybe_get($value, 'end');
+    
+            return $start . ' - ' . $end;
+        
+        }
+        
+        return $value;
         
     }
     

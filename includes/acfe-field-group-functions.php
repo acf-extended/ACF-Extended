@@ -409,7 +409,7 @@ function acfe_get_locations_array($locations){
             
         }
         
-        $html = '<span ' . acf_esc_attrs($atts) . '></span>';
+        $html = '<span ' . acf_esc_atts($atts) . '></span>';
         
         $return[] = array(
             'html'      => $html,

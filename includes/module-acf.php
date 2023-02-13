@@ -180,6 +180,11 @@ class acfe_module_acf{
             // item
             $item = $module->get_item($post_id);
             
+            // validate item
+            if(empty($item)){
+                return $null;
+            }
+            
             // remove unused keys
             acf_extract_vars($item, array('ID', '_valid'));
     

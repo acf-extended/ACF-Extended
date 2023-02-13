@@ -521,6 +521,11 @@ class acfe_bidirectional{
         if(acfe_is_local_post_id($post_id)){
             return $value;
         }
+    
+        // bail early if previewing a post
+        if(acf_maybe_get_POST('wp-preview') === 'dopreview'){
+            return $value;
+        }
         
         // decode current post_id (ie: user_1)
         $request = acf_decode_post_id($post_id);

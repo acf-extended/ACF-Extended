@@ -279,7 +279,7 @@ class acfe_field_flexible_content_edit{
         }
         
         ?>
-        <div <?php echo acf_esc_attrs($modal); ?>>
+        <div <?php echo acf_esc_atts($modal); ?>>
         <div class="acfe-modal-wrapper">
         <div class="acfe-modal-content">
         <?php

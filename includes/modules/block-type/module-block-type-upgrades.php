@@ -33,57 +33,62 @@ class acfe_module_block_type_upgrades{
         if(acf_version_compare($db_version, '>=', '0.8.9')){
             return;
         }
+    
+        // hook on init to load all WP components
+        // post types, post statuses 'acf-disabled' etc...
+        add_action('init', function(){
+    
+            // get block types
+            $posts = get_posts(array(
+                'post_type'      => 'acfe-dbt',
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+                'post_status'    => 'any',
+            ));
+    
+            $todo = array();
+    
+            foreach($posts as $post_id){
         
-        // get block types
-        $posts = get_posts(array(
-            'post_type'      => 'acfe-dbt',
-            'posts_per_page' => -1,
-            'fields'         => 'ids',
-            'post_status'    => 'any',
-        ));
-    
-        $todo = array();
-    
-        foreach($posts as $post_id){
-    
-            if(acfe_is_module_v2_item($post_id)){
-                $todo[] = $post_id;
+                if(acfe_is_module_v2_item($post_id)){
+                    $todo[] = $post_id;
+                }
+        
             }
-        
-        }
     
-        if(!$todo){
-            return;
-        }
-        
-        // get module
-        $module = acfe_get_module('block_type');
-    
-        // loop
-        foreach($todo as $post_id){
-        
-            $name = get_post_field('post_name', $post_id);
-            $settings = acfe_get_settings("modules.block_types.{$name}", array());
-        
-            // db settings found
-            if($settings){
-            
-                // generate item
-                $item = wp_parse_args($settings, array(
-                    'ID'   => $post_id,
-                    'name' => $name,
-                ));
-            
-                // import item (update db)
-                $module->import_item($item);
-            
+            if(!$todo){
+                return;
             }
-        
-        }
     
-        // log
-        acf_log('[ACF Extended] 0.8.9 Upgrade: Block Types');
+            // get module
+            $module = acfe_get_module('block_type');
+    
+            // loop
+            foreach($todo as $post_id){
         
+                $name = get_post_field('post_name', $post_id);
+                $settings = acfe_get_settings("modules.block_types.{$name}", array());
+        
+                // db settings found
+                if($settings){
+            
+                    // generate item
+                    $item = wp_parse_args($settings, array(
+                        'ID'   => $post_id,
+                        'name' => $name,
+                    ));
+            
+                    // import item (update db)
+                    $module->import_item($item);
+            
+                }
+        
+            }
+    
+            // log
+            acf_log('[ACF Extended] 0.8.9 Upgrade: Block Types');
+        
+        });
     
     }
     

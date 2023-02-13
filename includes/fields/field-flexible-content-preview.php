@@ -363,7 +363,7 @@ class acfe_field_flexible_content_preview{
         
         ?>
         
-        <div <?php echo acf_esc_attrs($placeholder); ?>>
+        <div <?php echo acf_esc_atts($placeholder); ?>>
             <a href="#" class="button">
                 <span class="dashicons dashicons-edit"></span>
             </a>

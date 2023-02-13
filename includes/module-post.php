@@ -91,6 +91,11 @@ class acfe_module_post{
         // no autosave
         wp_dequeue_script('autosave');
         
+        // remove default 'draft' post status on post-new.php
+        // this fix an issue when user press 'enter' when creating a new item
+        global $post;
+        $post->post_status = 'publish';
+        
     }
     
     

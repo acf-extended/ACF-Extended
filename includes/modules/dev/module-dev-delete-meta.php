@@ -57,7 +57,7 @@ class acfe_dev_delete_meta{
             'data-nonce'     => wp_create_nonce("acfe-dev-delete-meta-{$meta['id']}"),
         );
         
-        $row_actions['delete'] = '<a ' . acf_esc_attrs($delete). '>' . __('Delete') . '</a>';
+        $row_actions['delete'] = '<a ' . acf_esc_atts($delete). '>' . __('Delete') . '</a>';
         
         // return
         return $row_actions;

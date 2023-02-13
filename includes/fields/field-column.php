@@ -171,7 +171,7 @@ class acfe_field_column extends acfe_field{
         );
         
         ?>
-        <div <?php echo acf_esc_attrs($atts); ?>></div>
+        <div <?php echo acf_esc_atts($atts); ?>></div>
         <?php
         
     }

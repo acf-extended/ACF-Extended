@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 0.8.9
+Stable tag: 0.8.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,7 @@ If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), y
 
 * [Website](https://www.acf-extended.com)
 * [Documentation](https://www.acf-extended.com/features)
+* [Guides](https://www.acf-extended.com/guides)
 * [Roadmap](https://www.acf-extended.com/roadmap)
 * [GitHub](https://github.com/acf-extended/ACF-Extended)
 * [Twitter](https://twitter.com/ACFExtended)
@@ -320,8 +321,8 @@ Define grouped choices values using `## Title` markup in the field’s choices.
 **[Relationship](https://www.acf-extended.com/features/fields/relationship)** **(PRO)**
 The Relationship field includes new settings allowing users to create and edit post on-the-fly from the post edit screen.
 
-**[Repeater](https://www.acf-extended.com/features)**
-Add stylised to 'Add Row' button, disable sortable rows and remove repeater's actions.
+**[Repeater](https://www.acf-extended.com/features/fields/repeater)**
+Add stylised to 'Add Row' button, lock rows and remove repeater's actions.
 
 **[Select](https://www.acf-extended.com/features/fields/select)** **(FREE / PRO)**
 Change the default "Select" placeholder text and Search Input placeholder and allow user to enter custom values.
@@ -344,6 +345,9 @@ Display an ACF Extended Templates selector as radio, checkbox or select field ty
 **[Textarea](https://www.acf-extended.com/features/fields/textarea)**
 Switch font family to monospace and allow tab indent.
 
+**[True/False](https://www.acf-extended.com/features/fields/true-false)** **(PRO)**
+Five new styles have been added to the native True/False field.
+
 **[User Roles](https://www.acf-extended.com/features/fields/user-roles)**
 Select any user role (format: checkbox, radio or select)
 
@@ -352,8 +356,8 @@ New settings allowing developers to have more control over the field behavior.
 
 == 🛠️ Modules ==
 
-**[Block Types UI](https://www.acf-extended.com/features/modules/dynamic-block-types)**
-The Dynamic Block Types module allows you to register and manage ACF Block Types from your WordPress admin, in ACF > Block Types menu. All ACF settings can be set within the UI.
+**[Block Types UI](https://www.acf-extended.com/features/modules/dynamic-block-types)** **(FREE / PRO)**
+The Dynamic Block Types module allows you to register and manage ACF Block Types from your WordPress admin, in ACF > Block Types menu. Pro version allows to sync Json/PHP files.
 
 **[Classic Editor](https://www.acf-extended.com/features/modules/classic-editor)** **(PRO)**
 ACF Extended is bundled with a custom merged version of the Classic Editor & Disable Gutenberg plugins.
@@ -364,19 +368,19 @@ The Developer Mode allow you to view all Posts, Terms, Users & Options custom me
 **[Forms](https://www.acf-extended.com/features/modules/dynamic-forms)** **(FREE / PRO)**
 Manage Advanced ACF Forms from the WordPress administration. This module is an enhanced version of the native ACF Form feature. While all native settings can be used, Dynamic Forms adds many new settings and introduce "Actions" for a complete control over the form behavior.
 
-**[Options Pages UI](https://www.acf-extended.com/features/modules/dynamic-options-pages)**
-The Dynamic Options Pages module allows you to register and manage ACF Options Pages from your WordPress admin, in ACF > Options Pages menu. All ACF settings can be set within the UI.
+**[Options Pages UI](https://www.acf-extended.com/features/modules/dynamic-options-pages)** **(FREE / PRO)**
+The Dynamic Options Pages module allows you to register and manage ACF Options Pages from your WordPress admin, in ACF > Options Pages menu. Pro version allows to sync Json/PHP files.
 
-**[Post Types UI](https://www.acf-extended.com/features/modules/dynamic-post-types)**
-The Dynamic Post Types module allows you to register and manage custom post types from your WordPress admin, in Tools > Post Types menu.
+**[Post Types UI](https://www.acf-extended.com/features/modules/dynamic-post-types)** **(FREE / PRO)**
+The Dynamic Post Types module allows you to register and manage custom post types from your WordPress admin, in Tools > Post Types menu. Pro version allows to sync Json/PHP files.
 
 All native post types settings can be set within the UI. ACF Extended also adds more advanced settings allowing to manage posts per page, order etc…
 
 **[Rewrite Rules](https://www.acf-extended.com/features/modules/rewrite-rules)** **(PRO)**
 Get an overview of all WordPress permalinks structures and rules. Test URLs, export rules and flush permalinks from the UI.
 
-**Scripts UI** **(PRO)**
-Run custom scripts on thousands of posts. Including builtin "Orphan Meta Cleaner" and "Single Meta Converter" scripts.
+**[Scripts UI](https://www.acf-extended.com/features/modules/scripts)** **(PRO)**
+Run custom scripts on thousands of posts. Including builtin "Orphan Meta Cleaner", "Script Launcher" and "Single Meta Converter" scripts.
 
 **[Settings UI](https://www.acf-extended.com/features/modules/settings-ui)** **(FREE / PRO)**
 The Settings UI allows developers to get an overview of all ACF and ACF Extended settings values from the ACF > Settings menu.
@@ -384,13 +388,13 @@ The Settings UI allows developers to get an overview of all ACF and ACF Extended
 **[Single Meta](https://www.acf-extended.com/features/modules/single-meta)**
 Compress all fields values from the current post, term, user or options into one single meta data. This process lighten the database load as values are saved and read from one single row called `acf`.
 
-**[Taxonomies UI](https://www.acf-extended.com/features/modules/dynamic-taxonomies)**
-The Dynamic Taxonomies module allows you to register and manage custom taxonomies from your WordPress admin, in Tools > Taxonomies menu.
+**[Taxonomies UI](https://www.acf-extended.com/features/modules/dynamic-taxonomies)** **(FREE / PRO)**
+The Dynamic Taxonomies module allows you to register and manage custom taxonomies from your WordPress admin, in Tools > Taxonomies menu. Pro version allows to sync Json/PHP files.
 
 All native taxonomies settings can be set within the UI. ACF Extended also adds more advanced settings allowing to manage posts per page, order etc…
 
 **[Templates](https://www.acf-extended.com/features/modules/templates)** **(PRO)**
-Manage default ACF values in an advanced way. In order to start, you need to connect a field group to a specific template.
+Manage default ACF values in an advanced way and sync templates with Json/PHP files.
 
 == 🖥️ WordPress ==
 
@@ -484,6 +488,43 @@ The content of the upcoming patch and work in progress features are all listed o
 
 == Changelog ==
 
+= 0.8.9.1 =
+
+**ACF Extended Pro 0.8.9.1:**
+
+* Field: Date Range Picker - Added string value fallback in `format_value()`
+* Field: Menu Locations - Added "Name", "Label" & "Both (Array)"" Return Format
+* Field: Options Pages - Fixed potential warning when "Allowed Options Pages" setting was empty
+* Field Group: Global Conditional Logic - Added <, <=, >, >= Field Group Locations Operators
+* Module: Rewrite Rules - Enhanced invalid regex rule fallback
+* Module: Scripts - Script Launcher - Added `capability` parameter
+* Module: Scripts - Script Launcher - Enhanced `executions` argument to allow `false/true/[number]`
+* Module: Scripts - Script Launcher - Removed unnecessary `$index` from hooks arguments
+* Module: Template - Fixed potential warning when adding a Local Field Group without `location`
+* Module: Template - Fixed "After Title" Field Group position which could break saving
+* Module: Template - Fixed "Required" setting when using DB Field Groups
+* Module: Template - Fixed Clone "Seamless" values prefix
+* General: Fixed Currencies returned in Languages queries
+
+**ACF Extended Basic 0.8.9.1:**
+
+* Field: Advanced Link - Formatted value now correctly return an empty value when needed
+* Field: Advanced Link - Fixed an issue with custom sub fields when `key` argument was missing
+* Field: Code Editor - Added `nl2br()` "Return Format" setting
+* Field Groups: Added `acfe/default_field_group` filter to define default Field Group configuration
+* Field Groups: ACF 6.0 - Fixed Field Groups tabs CSS when there are many categories
+* Field Settings: Bidirectional - Added control to avoid updating values when prevewing changes
+* Module: Block Types - Fixed an edge case where an error could be thrown when editing a post
+* Module: Post Types - Admin Archive - Added `acfe/validate_post_type_archive` hook
+* Module: Post Types - Admin Archive - Deprecated `acfe/post_type_archive_capability` hook
+* Module: Post Types - Admin Archive - Added `show_in_menu`  custom page compatibility
+* Module: Post Types - Admin Archive - Added Post Type `post` "Edit Archive" adminbar compatibility
+* Module: Settings - Fixed warning when using an old ACF version which doesn’t handle newer ACF settings
+* Modules: Fixed "Enter" keypress breaking the creating of new item
+* Modules: Enhanced 0.8.9 module upgrade to use `init` action
+* General: Replaced `acf_esc_attrs()` (ACF 5.8.1) usage with `acf_esc_atts()` (ACF 5.8) to meet requirements
+* General: Updated Readme
+
 = 0.8.9 =
 
 **ACF Extended Pro 0.8.9:**
@@ -506,7 +547,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Module: Templates - Deprecated `acfe_add_local_template()` in favor of `acfe_register_template()`
 * Module: Settings - Fixed `l10n_textdomain` setting as text input
 
-**ACF Extended Basic 0.8.9**
+**ACF Extended Basic 0.8.9:**
 
 * Field: Advanced Link - Added value type control during `update_value` to enhance compatibility
 * Module: Block Types - Added "Align Text", "Align Content", "Full Height", "Align Matrix" settings

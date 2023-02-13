@@ -75,27 +75,25 @@ class acfe_field_advanced_link extends acf_field{
             'id'    => $field['id'],
             'class' => $field['class'] . ' acf-link',
         );
-        
-        // get value render
-        $value = $field['value'];
-        $value = $this->load_value($value, false, $field);
-        $value = $this->format_value($value, false, $field);
     
-        // get sub fields
+        // subfields
         $sub_fields = $this->get_sub_fields($field);
         
+        // render value
+        $render = $this->render_value($field['value']);
+        
         // classes
-        if($value['url'] || $value['title']){
+        if($render['url'] || $render['title']){
             $div['class'] .= ' -value';
         }
         
-        if($value['target']){
+        if($render['target']){
             $div['class'] .= ' -external';
         }
         
         ?>
         
-        <div <?php echo acf_esc_attrs($div); ?>>
+        <div <?php echo acf_esc_atts($div); ?>>
     
             <?php acf_hidden_input(array('name' => $field['name'])); ?>
         
@@ -120,8 +118,8 @@ class acfe_field_advanced_link extends acf_field{
             <a href="#" class="button" data-name="add" target=""><?php _e('Select Link', 'acf'); ?></a>
             
             <div class="link-wrap">
-                <span class="link-title"><?php echo esc_html($value['title']); ?></span>
-                <a class="link-url" href="<?php echo esc_url($value['url']); ?>" target="_blank"><?php echo esc_html($value['name']); ?></a>
+                <span class="link-title"><?php echo esc_html($render['title']); ?></span>
+                <a class="link-url" href="<?php echo esc_url($render['url']); ?>" target="_blank"><?php echo esc_html($render['name']); ?></a>
                 <i class="acf-icon -link-ext acf-js-tooltip" title="<?php _e('Opens in a new window/tab', 'acf'); ?>"></i><?php
                 ?><a class="acf-icon -pencil -clear acf-js-tooltip" data-name="edit" href="#" title="<?php _e('Edit', 'acf'); ?>"></a><?php
                 ?><a class="acf-icon -cancel -clear acf-js-tooltip" data-name="remove" href="#" title="<?php _e('Remove', 'acf'); ?>"></a>
@@ -267,10 +265,22 @@ class acfe_field_advanced_link extends acf_field{
         $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields/name=' . $field['_name'], array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields/name=' . $field['_name']);
         $sub_fields = apply_filters_deprecated('acfe/fields/advanced_link/fields/key=' . $field['key'],    array($sub_fields, $field, $value), '0.8.1', 'acfe/fields/advanced_link/sub_fields/key=' . $field['key']);
         
-        // Sub Fields Fitlers
+        // filters
         $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields',                         $sub_fields, $field, $value);
         $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields/name=' . $field['_name'], $sub_fields, $field, $value);
         $sub_fields = apply_filters('acfe/fields/advanced_link/sub_fields/key=' . $field['key'],    $sub_fields, $field, $value);
+        
+        // map subfields
+        $sub_fields = acfe_map_fields($sub_fields, function($sub_field){
+            
+            // handle missing key
+            if(!isset($sub_field['key'])){
+                $sub_field['key'] = $sub_field['name'];
+            }
+            
+            return $sub_field;
+            
+        });
         
         foreach($sub_fields as &$sub_field){
             
@@ -290,9 +300,6 @@ class acfe_field_advanced_link extends acf_field{
             // update prefix to allow for nested values
             $sub_field['prefix'] = $field['name'];
             
-            // validate sub field
-            $sub_field = acf_validate_field($sub_field);
-            
         }
         
         return $sub_fields;
@@ -310,53 +317,40 @@ class acfe_field_advanced_link extends acf_field{
      * @return array
      */
     function load_value($value, $post_id, $field){
-    
+        
+        // bail early
+        if(empty($value)){
+            return $value;
+        }
+        
         // if value is string then set as value
         if(is_string($value)){
             $value = array('value' => $value);
         }
         
-        // defaults
-        $value = wp_parse_args($value, array(
-            'type'      => 'url',
-            'value'     => '',
-            'title'     => '',
-            'target'    => false,
-        ));
-        
-        // handle old args
-        foreach(array('post', 'term') as $arg){
-            
-            if(isset($value[ $arg ])){
-        
-                $value['value'] = $value[ $arg ];
-                unset($value[ $arg ]);
-        
-            }
-            
-        }
+        if(is_array($value)){
     
-        // sanitize value
-        if(!empty($value['value'])){
+            // defaults array
+            $value = wp_parse_args($value, array(
+                'type'      => 'url',
+                'value'     => '',
+                'title'     => '',
+                'target'    => false,
+            ));
+    
+            // handle old args
+            foreach(array('post', 'term') as $arg){
+        
+                if(isset($value[ $arg ])){
             
-            switch($value['type']){
-        
-                case 'post': {
-                    $value['value'] = is_numeric($value['value']) ? absint($value['value']) : $value['value'];
-                    break;
-                }
-        
-                case 'term': {
-                    $value['value'] = absint($value['value']);
-                    break;
+                    $value['value'] = $value[ $arg ];
+                    unset($value[ $arg ]);
+            
                 }
         
             }
             
         }
-        
-        // sanitize target
-        $value['target'] = (bool) $value['target'];
         
         // return value
         return $value;
@@ -375,61 +369,18 @@ class acfe_field_advanced_link extends acf_field{
      */
     function format_value($value, $post_id, $field){
         
+        // bail early
+        if(empty($value)){
+            return $value;
+        }
+        
         // if value is string then set as value
         if(is_string($value)){
             $value = array('value' => $value);
         }
-    
-        // defaults
-        $value = wp_parse_args($value, array(
-            'type'   => 'url',
-            'value'  => '',
-            'url'    => '',
-            'name'   => '',
-            'title'  => '',
-            'target' => '',
-        ));
-        
-        if(!empty($value['value'])){
-    
-            switch($value['type']){
-        
-                case 'url': {
-    
-                    $value['url'] = $value['value'];
-                    $value['name'] = $value['value'];
-                    break;
-                }
-        
-                case 'post': {
-    
-                    $value['url'] = is_numeric($value['value']) ? get_permalink($value['value']) : get_post_type_archive_link($value['value']);
-                    $value['name'] = is_numeric($value['value']) ? get_the_title($value['value']) : acf_get_post_type_label($value['value']) . ' Archive';
-                    break;
-                }
-        
-                case 'term': {
-            
-                    $term = get_term($value['value']);
-                    if(!empty($term) && !is_wp_error($term)){
-    
-                        $value['url'] = get_term_link($term);
-                        $value['name'] = $term->name;
-                
-                    }
-            
-                    break;
-                }
-        
-            }
-            
-        }
-        
-        // format target
-        $value['target'] = $value['target'] ? '_blank' : '';
         
         // return
-        return $value;
+        return $this->render_value($value);
         
     }
     
@@ -517,6 +468,68 @@ class acfe_field_advanced_link extends acf_field{
         if(empty($value['value']) && empty($value['title'])){
             $value = false;
         }
+        
+        return $value;
+        
+    }
+    
+    
+    /**
+     * render_value
+     *
+     * @param $value
+     *
+     * @return array
+     */
+    function render_value($value){
+        
+        // defaults
+        $value = wp_parse_args($value, array(
+            'type'   => 'url',
+            'value'  => '',
+            'url'    => '',
+            'name'   => '',
+            'title'  => '',
+            'target' => '',
+        ));
+        
+        if(!empty($value['value'])){
+            
+            switch($value['type']){
+                
+                case 'url': {
+                    
+                    $value['url'] = $value['value'];
+                    $value['name'] = $value['value'];
+                    break;
+                }
+                
+                case 'post': {
+                    
+                    $value['url'] = is_numeric($value['value']) ? get_permalink($value['value']) : get_post_type_archive_link($value['value']);
+                    $value['name'] = is_numeric($value['value']) ? get_the_title($value['value']) : acf_get_post_type_label($value['value']) . ' Archive';
+                    break;
+                }
+                
+                case 'term': {
+                    
+                    $term = get_term($value['value']);
+                    if(!empty($term) && !is_wp_error($term)){
+                        
+                        $value['url'] = get_term_link($term);
+                        $value['name'] = $term->name;
+                        
+                    }
+                    
+                    break;
+                }
+                
+            }
+            
+        }
+        
+        // format target
+        $value['target'] = $value['target'] ? '_blank' : '';
         
         return $value;
         

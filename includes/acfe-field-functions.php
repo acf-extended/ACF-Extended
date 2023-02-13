@@ -128,29 +128,84 @@ function acfe_extract_sub_field(&$layout, $name, $value){
 }
 
 /**
- * acfe_map_any_field
+ * acfe_map_fields
  *
- * @param $fields
- * @param $type
+ * Map custom callback to all fields and subfields passed
+ *
+ * @param $field
  * @param $callback
  *
  * @return mixed
  */
-function acfe_map_any_field($fields, $type, $callback){
+function acfe_map_fields($field, $callback){
     
-    foreach($fields as &$field){
+    // bail early
+    if(empty($field)){
+        return $field;
+    }
+    
+    /**
+     * multiple fields array
+     *
+     * array(
+     *     array(
+     *         'key'   => 'field_5c9a1b0b9c2a1',
+     *         'label' => 'Field 1',
+     *         'name'  => 'field_1',
+     *         'type'  => 'text',
+     *     ),
+     *     array(
+     *         'key'   => 'field_5c9a1b0b9c2a2',
+     *         'label' => 'Field 2',
+     *         'name'  => 'field_2',
+     *         'type'  => 'text',
+     *     ),
+     * )
+     */
+    if(acf_is_sequential_array($field)){
+    
+        $fields = $field;
         
-        if($field['type'] === $type){
-            $field = call_user_func($callback, $field);
+        foreach(array_keys($fields) as $k){
+            $fields[ $k ] = acfe_map_fields($fields[ $k ], $callback);
         }
         
-        if(acf_maybe_get($field, 'sub_fields')){
-            $field['sub_fields'] = acfe_map_any_field($field['sub_fields'], $type, $callback);
+        return $fields;
+        
+    }
+    
+    /**
+     * single field array
+     *
+     * array(
+     *     'key'   => 'field_5c9a1b0b9c2a1',
+     *     'label' => 'Field',
+     *     'name'  => 'field',
+     *     'type'  => 'text',
+     * )
+     */
+    $field = call_user_func($callback, $field);
+    
+    // subfields
+    // repeater, group...
+    if(acf_maybe_get($field, 'sub_fields')){
+        $field['sub_fields'] = acfe_map_fields($field['sub_fields'], $callback);
+    }
+    
+    // layouts
+    // flexible content
+    if(acf_maybe_get($field, 'layouts')){
+        
+        foreach(array_keys($field['layouts']) as $l){
+            
+            if(acf_maybe_get($field['layouts'][ $l ], 'sub_fields')){
+                $field['layouts'][ $l ]['sub_fields'] = acfe_map_fields($field['layouts'][ $l ]['sub_fields'], $callback);
+            }
         }
         
     }
     
-    return $fields;
+    return $field;
     
 }
 

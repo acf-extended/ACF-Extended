@@ -611,7 +611,7 @@ class acfe_form_front{
                 add_filter('acf/prepare_field', array($this, 'disable_fields'));
             }
             
-            $atts = acf_esc_attrs($args['form_attributes']);
+            $atts = acf_esc_atts($args['form_attributes']);
     
             // <form class="acfe-form">
             echo "<{$wrapper} {$atts}>";
@@ -644,7 +644,7 @@ class acfe_form_front{
                 $atts['class'] .= " -{$args['label_placement']}";
             }
     
-            $atts = acf_esc_attrs($atts);
+            $atts = acf_esc_atts($atts);
     
             // <div class="acf-fields acf-form-fields">
             echo "<div {$atts}>";

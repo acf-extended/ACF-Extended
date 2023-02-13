@@ -13,27 +13,27 @@ class ACFE_Field_Group{
      */
     function __construct(){
         
+        add_filter('acf/get_field_types',        array($this, 'get_field_types'));
         add_action('acf/field_group/admin_head', array($this, 'admin_head'));
-        add_filter('acf/validate_field_group',   array($this, 'validate_default_autosync'));
-        add_filter('acf/get_field_types',        array($this, 'reorder_field_types'));
+        add_filter('acf/validate_field_group',   array($this, 'validate_field_group'));
         
     }
     
     
     /**
-     * reorder_field_types
+     * get_field_types
      *
      * @param $groups
      *
      * @return array|mixed
      */
-    function reorder_field_types($groups){
+    function get_field_types($groups){
         
         // sort fields
         foreach($groups as $group => &$fields){
             asort($fields);
         }
-    
+        
         if(isset($groups['E-Commerce'])){
             $groups = acfe_array_insert_after($groups, 'jQuery', 'E-Commerce', $groups['E-Commerce']);
         }
@@ -41,11 +41,11 @@ class ACFE_Field_Group{
         if(isset($groups['ACF'])){
             $groups = acfe_array_insert_after($groups, 'jQuery', 'ACF', $groups['ACF']);
         }
-    
+        
         if(isset($groups['WordPress'])){
             $groups = acfe_array_insert_after($groups, 'jQuery', 'WordPress', $groups['WordPress']);
         }
-    
+        
         return $groups;
         
     }
@@ -55,9 +55,9 @@ class ACFE_Field_Group{
      * admin_head
      */
     function admin_head(){
-    
+        
         add_action('post_submitbox_misc_actions', array($this, 'submitbox'), 11);
-    
+        
         add_meta_box('acf-field-group-acfe-side', __('Advanced Settings', 'acfe'), array($this, 'render_sidebar_metabox'), 'acf-field-group', 'side');
         
     }
@@ -227,7 +227,7 @@ class ACFE_Field_Group{
             
             ob_start();
             ?>
-            <span <?php echo acf_esc_attrs($wrapper); ?>>
+            <span <?php echo acf_esc_atts($wrapper); ?>>
                 
                 <?php echo $choices[$type]; ?>
 
@@ -386,25 +386,26 @@ class ACFE_Field_Group{
     
     
     /**
-     * validate_default_autosync
+     * validate_field_group
      *
      * @param $field_group
      *
      * @return mixed
      */
-    function validate_default_autosync($field_group){
+    function validate_field_group($field_group){
         
         // validate screen
         if(!acf_is_screen('acf-field-group')){
             return $field_group;
         }
         
-        // only new field groups (location is empty on new field groups)
+        // only new field groups
+        // location is empty on new field groups
         if(acf_maybe_get($field_group, 'location')){
             return $field_group;
         }
             
-        // default label placement: Left
+        // default label placement
         $field_group['label_placement'] = 'left';
         
         // autoSync
@@ -421,6 +422,9 @@ class ACFE_Field_Group{
         if(!empty($acfe_autosync)){
             $field_group['acfe_autosync'] = $acfe_autosync;
         }
+        
+        // filter
+        $field_group = apply_filters('acfe/default_field_group', $field_group);
         
         return $field_group;
         

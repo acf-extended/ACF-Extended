@@ -32,7 +32,7 @@ class acfe_field_code_editor extends acf_field{
             'maxlength'       => '',
             'rows'            => 4,
             'max_rows'        => '',
-            'return_entities' => false
+            'return_format'   => array(),
         );
         
         $this->textarea = acf_get_field_type('textarea');
@@ -125,13 +125,17 @@ class acfe_field_code_editor extends acf_field{
             'placeholder'   => ''
         ));
     
-        // return entities
+        // return format
         acf_render_field_setting($field, array(
-            'label'         => __('Return HTML Entities', 'acf'),
-            'instructions'  => 'Whether to return the value as HTML entities',
-            'type'          => 'true_false',
-            'name'          => 'return_entities',
-            'ui'            => true,
+            'label'         => __('Return Value', 'acf'),
+            'instructions'  => '',
+            'type'          => 'checkbox',
+            'name'          => 'return_format',
+            'layout'        => 'horizontal',
+            'choices'       => array(
+                'htmlentities' => __("HTML Entities", 'acfe'),
+                'nl2br'        => __("New Lines to &lt;br&gt;", 'acfe'),
+            ),
         ));
         
     }
@@ -177,7 +181,7 @@ class acfe_field_code_editor extends acf_field{
         );
         
         ?>
-        <div <?php echo acf_esc_attrs($wrapper); ?>>
+        <div <?php echo acf_esc_atts($wrapper); ?>>
             <?php $this->textarea->render_field($field); ?>
         </div>
         <?php
@@ -211,8 +215,12 @@ class acfe_field_code_editor extends acf_field{
      */
     function format_value($value, $post_id, $field){
         
-        if($field['return_entities']){
-            return htmlentities($value);
+        if(in_array('htmlentities', $field['return_format'])){
+            $value = htmlentities($value);
+        }
+    
+        if(in_array('nl2br', $field['return_format'])){
+            $value = nl2br($value);
         }
         
         return $value;

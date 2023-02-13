@@ -179,7 +179,7 @@ class acfe_field_recaptcha extends acf_field{
             );
             
             ?>
-            <div <?php echo acf_esc_attrs($wrapper); ?>>
+            <div <?php echo acf_esc_atts($wrapper); ?>>
                 
                 <div></div>
                 <?php acf_hidden_input($hidden_input); ?>
@@ -208,7 +208,7 @@ class acfe_field_recaptcha extends acf_field{
             );
             
             ?>
-            <div <?php echo acf_esc_attrs($wrapper); ?>>
+            <div <?php echo acf_esc_atts($wrapper); ?>>
                 
                 <div></div>
                 <?php acf_hidden_input($hidden_input); ?>

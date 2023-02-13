@@ -252,7 +252,7 @@ class acfe_field_flexible_content_thumbnail{
             $prepend['class'] .= ' acfe-flexible-layout-thumbnail-not-found';
         }
 
-        $prepend = '<div ' . acf_esc_attrs($prepend) . '></div>';
+        $prepend = '<div ' . acf_esc_atts($prepend) . '></div>';
         
         return $prepend;
         
