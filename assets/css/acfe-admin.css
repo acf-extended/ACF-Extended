@@ -335,6 +335,23 @@ html[dir=rtl] .acf-columns-2 .acf-column-2 {
     width: 65px
 }
 
+.postbox#acfe-acf-custom-fields>.inside .wp-list-table tbody tr,
+.postbox#acfe-wp-custom-fields>.inside .wp-list-table tbody tr {
+    -webkit-transition: background-color .5s linear;
+    -o-transition: background-color .5s linear;
+    transition: background-color .5s linear
+}
+
+.postbox#acfe-acf-custom-fields>.inside .wp-list-table tbody tr.updated,
+.postbox#acfe-wp-custom-fields>.inside .wp-list-table tbody tr.updated {
+    background: rgba(34, 113, 177, .2)
+}
+
+.postbox#acfe-acf-custom-fields>.inside .wp-list-table tbody tr.deleted,
+.postbox#acfe-wp-custom-fields>.inside .wp-list-table tbody tr.deleted {
+    background: #faafaa
+}
+
 .postbox#acfe-acf-custom-fields+.acfe-dev-bulk,
 .postbox#acfe-wp-custom-fields+.acfe-dev-bulk {
     padding-top: 0;

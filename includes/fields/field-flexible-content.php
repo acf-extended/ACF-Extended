@@ -29,6 +29,23 @@ class acfe_field_flexible_content extends acfe_field_extend{
     
     
     /**
+     * input_admin_enqueue_scripts
+     */
+    function input_admin_enqueue_scripts(){
+        
+        // localize
+        acf_localize_text(array(
+            'Layout data has been copied to your clipboard.'                     => __('Layout data has been copied to your clipboard.', 'acfe'),
+            'Layouts data have been copied to your clipboard.'                   => __('Layouts data have been copied to your clipboard.', 'acfe'),
+            'Please copy the following layout(s) data to your clipboard.'        => __('Please copy the following layout(s) data to your clipboard.', 'acfe'),
+            'Please paste previously copied layout data in the following field:' => __('Please paste previously copied layout data in the following field:', 'acfe'),
+            'You can now paste it in the same Flexible Content on another page, using the "Paste" button action.' => __('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.', 'acfe'),
+        ));
+        
+    }
+    
+    
+    /**
      * field_group_admin_head
      */
     function field_group_admin_head(){

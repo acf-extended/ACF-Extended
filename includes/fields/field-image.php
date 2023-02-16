@@ -21,7 +21,8 @@ class acfe_field_image extends acfe_field_extend{
         
         $this->add_filter('gettext',                         array($this, 'gettext'), 99, 3);
         $this->add_filter('acf/prepare_field/name=library',  array($this, 'prepare_library'));
-        $this->add_field_action('acf/render_field_settings', array($this, '_render_field_settings'), 0);
+        $this->add_field_action('acf/render_field_settings', array($this, 'render_field_settings_before'), 0);
+        $this->add_field_action('acf/render_field_settings', array($this, 'render_field_settings_after'), 15);
         
     }
     
@@ -79,37 +80,49 @@ class acfe_field_image extends acfe_field_extend{
     
     
     /**
-     * _render_field_settings
+     * render_field_settings_before
      *
      * acf/render_field_settings:0
      *
      * @param $field
      */
-    function _render_field_settings($field){
+    function render_field_settings_before($field){
         
         // uploader type
         acf_render_field_setting($field, array(
-            'label'         => __('Uploader type'),
+            'label'         => __('Uploader Type', 'acfe'),
             'name'          => 'uploader',
             'key'           => 'uploader',
-            'instructions'  => __('Choose the uploader type'),
+            'instructions'  => __('Choose the uploader type', 'acfe'),
             'type'          => 'radio',
             'choices'       => array(
-                ''      => 'Default',
+                ''      => __('Default', 'acf'),
                 'wp'    => 'WordPress',
-                'basic' => 'Browser',
+                'basic' => __('Browser', 'acfe'),
             ),
             'default_value' => '',
             'layout'        => 'horizontal',
             'return_format' => 'value',
         ));
         
+    }
+    
+    
+    /**
+     * render_field_settings_after
+     *
+     * acf/render_field_settings:15
+     *
+     * @param $field
+     */
+    function render_field_settings_after($field){
+    
         // featured thumbnail
         acf_render_field_setting($field, array(
-            'label'         => __('Featured thumbnail'),
+            'label'         => __('Featured Thumbnail', 'acfe'),
             'name'          => 'acfe_thumbnail',
             'key'           => 'acfe_thumbnail',
-            'instructions'  => __('Make this image the featured thumbnail'),
+            'instructions'  => __('Make this image the featured thumbnail', 'acfe'),
             'type'          => 'true_false',
             'default_value'     => false,
             'ui'                => true,

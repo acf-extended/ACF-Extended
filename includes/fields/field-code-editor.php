@@ -142,6 +142,22 @@ class acfe_field_code_editor extends acf_field{
     
     
     /**
+     * update_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function update_field($field){
+        
+        $field['return_format'] = acf_get_array($field['return_format']);
+        
+        return $field;
+        
+    }
+    
+    
+    /**
      * input_admin_enqueue_scripts
      */
     function input_admin_enqueue_scripts(){
@@ -215,14 +231,20 @@ class acfe_field_code_editor extends acf_field{
      */
     function format_value($value, $post_id, $field){
         
+        // force array
+        $field['return_format'] = acf_get_array($field['return_format']);
+        
+        // htmlentities
         if(in_array('htmlentities', $field['return_format'])){
             $value = htmlentities($value);
         }
-    
+        
+        // nl2br
         if(in_array('nl2br', $field['return_format'])){
             $value = nl2br($value);
         }
         
+        // return
         return $value;
         
     }

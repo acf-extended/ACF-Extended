@@ -548,6 +548,22 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.8.9.2
+
+**ACF Extended Pro 0.8.9.2:**
+
+* Module: Dev Mode - Added "Edit" action to edit raw metadata on the fly
+* Field: Color Picker - Custom colors are now normalized to enhance compatibility with Iris
+* Field: Color Picker - Color gradient is now displayed by default instead of the black & white gradient
+* Field: Image - Added "Upload Folder" setting to customize upload path
+
+**ACF Extended Basic 0.8.9.2:**
+
+* Field: Code Editor - Fixed `return_format` throwing an error on newly created/modified Code Editor
+* Field: Flexible Content - Dynamic Render - Removed unnecessary HTML comment with layout name
+* Field: Flexible Content - Copy/Paste - Enhanced prompt instructions
+* General: Updated Translations
+
 ### 0.8.9.1
 
 **ACF Extended Pro 0.8.9.1:**

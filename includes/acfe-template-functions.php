@@ -63,9 +63,6 @@ if(!function_exists('get_flexible')){
                 
             }
             
-            // Render: HTML Comment
-            echo "\n" . '<!-- ' . $layout['label'] . ' -->' . "\n";
-            
             // Render: Enqueue
             acfe_flexible_render_layout_enqueue($layout, $field);
             

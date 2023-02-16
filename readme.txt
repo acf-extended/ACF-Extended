@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 0.8.9.1
+Stable tag: 0.8.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -487,6 +487,22 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.9.2 =
+
+**ACF Extended Pro 0.8.9.2:**
+
+* Module: Dev Mode - Added "Edit" action to edit raw metadata on the fly
+* Field: Color Picker - Custom colors are now normalized to enhance compatibility with Iris
+* Field: Color Picker - Color gradient is now displayed by default instead of the black & white gradient
+* Field: Image - Added "Upload Folder" setting to customize upload path
+
+**ACF Extended Basic 0.8.9.2:**
+
+* Field: Code Editor - Fixed `return_format` throwing an error on newly created/modified Code Editor
+* Field: Flexible Content - Dynamic Render - Removed unnecessary HTML comment with layout name
+* Field: Flexible Content - Copy/Paste - Enhanced prompt instructions
+* General: Updated Translations
 
 = 0.8.9.1 =
 

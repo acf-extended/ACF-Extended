@@ -386,7 +386,7 @@ class acfe_dev{
                             
                             <?php
                             $el = $column_name === 'checkbox' ? 'th' : 'td';
-                            $attrs = $column_name === 'checkbox' ? array('scope' => 'row', 'class' => 'check-column') : array();
+                            $attrs = $column_name === 'checkbox' ? array('scope' => 'row', 'class' => 'check-column') : array('class' => "col-{$column_name}");
         
                             echo "<{$el} " . acf_esc_atts($attrs) . ">";
                                 do_action('acfe/dev/meta/render_column', $column_name, $meta, $args);

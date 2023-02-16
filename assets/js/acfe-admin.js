@@ -105,9 +105,7 @@
                 },
                 beforeSend: function() {
 
-                    $tr.css({
-                        backgroundColor: '#faafaa'
-                    }).fadeOut(350, function() {
+                    $tr.addClass('deleted').delay(200).fadeOut(250, function() {
                         $tr.remove();
                         self.syncMetaboxes();
                     });
@@ -116,9 +114,7 @@
                 success: function(response) {
 
                     if (response !== '1') {
-                        $tr.css({
-                            backgroundColor: ''
-                        });
+                        $tr.removeClass('deleted');
                         $tr.show();
                     }
 
@@ -164,9 +160,7 @@
                 beforeSend: function() {
 
                     trs.map(function(tr) {
-                        $(tr).css({
-                            backgroundColor: '#faafaa'
-                        }).fadeOut(350, function() {
+                        $(tr).addClass('deleted').delay(200).fadeOut(250, function() {
                             $(tr).remove();
                             self.syncMetaboxes();
                         });

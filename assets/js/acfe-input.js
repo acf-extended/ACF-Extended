@@ -1979,13 +1979,14 @@
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo($('body'));
         $input.attr('value', data).select();
 
-        // Command: Copy
-        if (document.execCommand('copy'))
-            alert('Layout has been transferred to your clipboard');
+        // alert
+        if (document.execCommand('copy')) {
+            alert(acf.__('Layout data has been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
 
-        // Prompt
-        else
-            prompt('Copy the following layout data to your clipboard', data);
+            // prompt
+        } else {
+            prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
+        }
 
         // Remove the temp input
         $input.remove();
@@ -2018,13 +2019,15 @@
         var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo(flexible.$el);
         $input.attr('value', data).select();
 
-        // Command: Copy
-        if (document.execCommand('copy'))
-            alert('Layouts have been transferred to your clipboard');
+        // alert
+        if (document.execCommand('copy')) {
+            alert(acf.__('Layouts data have been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
 
-        // Prompt
-        else
-            prompt('Copy the following layouts data to your clipboard', data);
+            // prompt
+        } else {
+            prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
+        }
+
 
         $input.remove();
 
@@ -2036,7 +2039,7 @@
         // Get Flexible
         var flexible = this;
 
-        var paste = prompt('Paste layouts data in the following field');
+        var paste = prompt(acf.__('Please paste previously copied layout data in the following field:'));
 
         // No input
         if (paste == null || paste === '')

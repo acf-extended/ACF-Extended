@@ -128,6 +128,7 @@ class acfe_assets{
         // text
         $text = array(
             'Close'     => __('Close', 'acfe'),
+            'Update'    => __('Update', 'acfe'),
             'Read more' => __('Read more', 'acfe'),
             'Details'   => __('Details', 'acfe'),
             'Debug'     => __('Debug', 'acfe'),

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2022-12-19 08:26+0100\n"
-"PO-Revision-Date: 2022-12-19 08:50+0100\n"
+"POT-Creation-Date: 2023-02-16 07:34+0100\n"
+"PO-Revision-Date: 2023-02-16 07:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
 "Language: fr_FR\n"
@@ -47,16 +47,16 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3457
+#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3467
 #: includes/assets.php:130 includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:84
-#: includes/fields/field-advanced-link.php:102
+#: includes/fields/field-advanced-link.php:100
 #: includes/fields/field-flexible-content-edit.php:278
 #: includes/fields/field-flexible-content-settings.php:275
-#: includes/fields/field-flexible-content.php:794
-#: includes/fields/field-flexible-content.php:800
+#: includes/fields/field-flexible-content.php:811
+#: includes/fields/field-flexible-content.php:817
 #: includes/modules/dev/module-dev-clean-meta.php:107
-#: pro/assets/js/acfe-pro-admin.js:626 pro/assets/js/acfe-pro-input.js:654
+#: pro/assets/js/acfe-pro-admin.js:626 pro/assets/js/acfe-pro-input.js:682
 #: pro/includes/field-groups/field-group-ui.php:440
 #: pro/includes/fields/field-payment.php:477 pro/includes/modules/dev.php:122
 #: pro/includes/modules/dev.php:195 pro/includes/modules/dev.php:262
@@ -65,21 +65,51 @@ msgstr "Non"
 msgid "Close"
 msgstr "Fermer"
 
-#: assets/js/acfe-input.js:2747 includes/fields/field-flexible-content.php:302
+#: assets/js/acfe-input.js:1984 includes/fields/field-flexible-content.php:38
+msgid "Layout data has been copied to your clipboard."
+msgstr "Les données de la section ont été copiées dans votre presse-papiers."
+
+#: assets/js/acfe-input.js:1984 assets/js/acfe-input.js:1988
+#: assets/js/acfe-input.js:2024 assets/js/acfe-input.js:2028
+#: includes/fields/field-flexible-content.php:42
+msgid ""
+"You can now paste it in the same Flexible Content on another page, using the "
+"\"Paste\" button action."
+msgstr ""
+"Vous pouvez maintenant les coller dans le même Contenu Flexible sur une "
+"autre page, en utilisant le bouton d'action \"Coller\"."
+
+#: assets/js/acfe-input.js:1988 assets/js/acfe-input.js:2028
+#: includes/fields/field-flexible-content.php:40
+msgid "Please copy the following layout(s) data to your clipboard."
+msgstr ""
+"Veuillez copier les données des sections suivantes dans votre presse-papiers."
+
+#: assets/js/acfe-input.js:2024 includes/fields/field-flexible-content.php:39
+msgid "Layouts data have been copied to your clipboard."
+msgstr "Les données des sections ont été copiées dans votre presse-papiers."
+
+#: assets/js/acfe-input.js:2042 includes/fields/field-flexible-content.php:41
+msgid "Please paste previously copied layout data in the following field:"
+msgstr ""
+"Veuillez coller les données de section précédemment copiées dans le champ "
+"suivant:"
+
+#: assets/js/acfe-input.js:2757 includes/fields/field-flexible-content.php:319
 msgid "Add Row"
 msgstr "Ajouter une rangée"
 
-#: includes/acfe-field-functions.php:520 includes/module-legacy.php:534
+#: includes/acfe-field-functions.php:575 includes/module-legacy.php:534
 #: includes/modules/form/module-form-helpers.php:242
 #: includes/modules/form/module-form-helpers.php:271
 msgid "no label"
 msgstr "pas de label"
 
 #: includes/acfe-field-group-functions.php:468
-#: includes/modules/block-type/module-block-type.php:182
+#: includes/modules/block-type/module-block-type.php:207
 #: includes/modules/options-page/module-options-page.php:238
 #: pro/includes/fields/field-field-groups.php:17
-#: pro/includes/modules/template/module-template.php:58
+#: pro/includes/modules/template/module-template.php:59
 msgid "Field Groups"
 msgstr "Groupes de champs"
 
@@ -125,10 +155,10 @@ msgstr "Super-admin"
 msgid "Advanced Custom Fields"
 msgstr "Champs personnalisés avancés"
 
-#: includes/admin/settings.php:527 includes/admin/settings.php:671
-#: includes/admin/settings.php:681 includes/fields-settings/settings.php:136
-#: includes/fields/field-flexible-content.php:74
-#: pro/includes/admin/settings.php:302 pro/includes/admin/settings.php:362
+#: includes/admin/settings.php:527 includes/admin/settings.php:678
+#: includes/admin/settings.php:688 includes/fields-settings/settings.php:136
+#: includes/fields/field-flexible-content.php:91
+#: pro/includes/admin/settings.php:309 pro/includes/admin/settings.php:369
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -154,7 +184,7 @@ msgstr[1] "Importé %s groupes de champs"
 msgid "No field group selected"
 msgstr "Aucun groupe de champs sélectionné"
 
-#: includes/admin/tools/field-groups-local.php:141
+#: includes/admin/tools/field-groups-local.php:139
 msgid ""
 "The following code can be used to register a local version of the selected "
 "field group(s). A local field group can provide many benefits such as faster "
@@ -168,19 +198,19 @@ msgstr ""
 "et les champes/paramètres dynamiques. Copiez/collez simplement le code "
 "suivant dans le functions.php de votre thème."
 
-#: includes/admin/tools/field-groups-local.php:175
+#: includes/admin/tools/field-groups-local.php:179
 #: includes/admin/tools/module-export.php:210
 #: includes/admin/tools/tools-legacy/module-export-legacy.php:124
 #: pro/includes/admin/tools/rewrite-rules-export.php:116
-#: pro/includes/admin/tools/settings-export.php:135
+#: pro/includes/admin/tools/settings-export.php:147
 msgid "Copy to clipboard"
 msgstr "Copier dans le presse-papiers"
 
-#: includes/admin/tools/field-groups-local.php:203
+#: includes/admin/tools/field-groups-local.php:207
 #: includes/admin/tools/module-export.php:265
 #: includes/admin/tools/tools-legacy/module-export-legacy.php:152
 #: pro/includes/admin/tools/rewrite-rules-export.php:144
-#: pro/includes/admin/tools/settings-export.php:163
+#: pro/includes/admin/tools/settings-export.php:203
 msgid "Copied"
 msgstr "Copié"
 
@@ -209,7 +239,7 @@ msgstr ""
 
 #: includes/admin/tools/module-import.php:58
 #: includes/admin/tools/tools-legacy/module-import-legacy.php:37
-#: pro/assets/js/acfe-pro-input.js:1091 pro/assets/js/acfe-pro-input.js:1109
+#: pro/assets/js/acfe-pro-input.js:1119 pro/assets/js/acfe-pro-input.js:1137
 #: pro/includes/admin/tools/settings-import.php:40
 msgid "Select File"
 msgstr "Choisir un fichier"
@@ -267,7 +297,7 @@ msgid "Import Forms"
 msgstr "Importer des formulaires"
 
 #: includes/admin/tools/tools-legacy/module-export-legacy.php:117
-#: pro/includes/admin/tools/settings-export.php:78
+#: pro/includes/admin/tools/settings-export.php:89
 msgid ""
 "You can copy and paste the following code to your theme's functions.php file "
 "or include it within an external file."
@@ -296,7 +326,7 @@ msgstr "Options"
 msgid "Add New"
 msgstr "Ajouter"
 
-#: includes/assets.php:131 pro/assets/js/acfe-pro-input.js:4874
+#: includes/assets.php:131 pro/assets/js/acfe-pro-input.js:4902
 msgid "Read more"
 msgstr "Lire la suite"
 
@@ -309,7 +339,7 @@ msgstr "Details"
 msgid "Debug"
 msgstr "Débogage"
 
-#: includes/compatibility.php:135
+#: includes/compatibility.php:136
 #: includes/field-groups/field-group-instruction-placement.php:40
 msgid "Tooltip"
 msgstr "Info-bulle"
@@ -375,6 +405,7 @@ msgid "Categories"
 msgstr "Catégories"
 
 #: includes/field-groups/field-group-hide-on-screen.php:53
+#: pro/includes/fields/field-block-editor.php:17
 msgid "Block Editor"
 msgstr "Éditeur de blocs"
 
@@ -418,7 +449,7 @@ msgstr "Clé"
 #: includes/modules/option/module-option.php:460
 #: pro/includes/field-groups/field-group-ui.php:201
 #: pro/includes/field-groups/field-group-ui.php:364
-#: pro/includes/fields/field-color-picker.php:168
+#: pro/includes/fields/field-color-picker.php:163
 #: pro/includes/fields/field-image-selector.php:119
 msgid "Value"
 msgstr "Valeur"
@@ -734,67 +765,68 @@ msgstr "Filtrer par taxonomie"
 msgid "All taxonomies"
 msgstr "Toutes les taxonomies"
 
-#: includes/fields/field-advanced-link.php:120
+#: includes/fields/field-advanced-link.php:118
 msgid "Select Link"
 msgstr "Sélectionnez le lien"
 
-#: includes/fields/field-advanced-link.php:125
+#: includes/fields/field-advanced-link.php:123
 msgid "Opens in a new window/tab"
 msgstr "Ouvrir dans une nouvelle fenêtre/onglet"
 
-#: includes/fields/field-advanced-link.php:126
+#: includes/fields/field-advanced-link.php:124
 #: includes/fields/field-clone.php:162 includes/fields/field-clone.php:226
 #: includes/fields/field-group.php:97 includes/fields/field-group.php:156
+#: includes/locations/post-type-archive.php:236
 #: includes/modules/option/module-option-table.php:203
 #: includes/modules/option/module-option.php:516
 #: includes/modules/ui/module-ui-settings.php:70
 #: includes/modules/ui/module-ui-term.php:102
 #: includes/modules/ui/module-ui-user.php:166
-#: pro/includes/fields/field-file.php:472
+#: pro/includes/fields/field-file.php:481
 #: pro/includes/locations/post-screen.php:23
 msgid "Edit"
 msgstr "Modifier"
 
-#: includes/fields/field-advanced-link.php:127
-#: pro/includes/fields/field-file.php:474
+#: includes/fields/field-advanced-link.php:125
+#: pro/includes/fields/field-file.php:483
 msgid "Remove"
 msgstr "Supprimer"
 
-#: includes/fields/field-advanced-link.php:155 pro/includes/modules/dev.php:83
+#: includes/fields/field-advanced-link.php:153 pro/includes/modules/dev.php:83
 msgid "Type"
 msgstr "Type"
 
-#: includes/fields/field-advanced-link.php:160
-#: includes/fields/field-advanced-link.php:179
+#: includes/fields/field-advanced-link.php:158
+#: includes/fields/field-advanced-link.php:177
 msgid "URL"
 msgstr "URL"
 
-#: includes/fields/field-advanced-link.php:161
-#: includes/fields/field-advanced-link.php:199
-#: includes/locations/post-type-archive.php:254
+#: includes/fields/field-advanced-link.php:159
+#: includes/fields/field-advanced-link.php:197
+#: includes/locations/post-type-archive.php:291
 #: includes/locations/post-type-list.php:214
 #: pro/includes/locations/menu-item-type.php:23
 msgid "Post"
 msgstr "Article"
 
-#: includes/fields/field-advanced-link.php:162
-#: includes/fields/field-advanced-link.php:224
+#: includes/fields/field-advanced-link.php:160
+#: includes/fields/field-advanced-link.php:222
 msgid "Term"
 msgstr "Terme"
 
-#: includes/fields/field-advanced-link.php:248
+#: includes/fields/field-advanced-link.php:246
 msgid "Link text"
 msgstr "Texte du lien"
 
-#: includes/fields/field-advanced-link.php:258
+#: includes/fields/field-advanced-link.php:256
 msgid "Target"
 msgstr "Cible"
 
-#: includes/fields/field-advanced-link.php:260
+#: includes/fields/field-advanced-link.php:258
 msgid "Open in a new window"
 msgstr "Ouvrir dans une nouvelle fenêtre"
 
-#: includes/fields/field-advanced-link.php:713
+#: includes/fields/field-advanced-link.php:726
 msgid "Archives"
 msgstr "Archives"
 
@@ -950,15 +982,15 @@ msgstr "Éditeur de code"
 #: pro/includes/fields/field-block-types.php:107
 #: pro/includes/fields/field-countries.php:152
 #: pro/includes/fields/field-currencies.php:152
-#: pro/includes/fields/field-field-groups.php:109
+#: pro/includes/fields/field-field-groups.php:114
 #: pro/includes/fields/field-field-types.php:112
 #: pro/includes/fields/field-fields.php:122
 #: pro/includes/fields/field-image-selector.php:58
 #: pro/includes/fields/field-image-sizes.php:119
 #: pro/includes/fields/field-languages.php:231
-#: pro/includes/fields/field-menu-locations.php:107
+#: pro/includes/fields/field-menu-locations.php:108
 #: pro/includes/fields/field-menus.php:108
-#: pro/includes/fields/field-options-pages.php:105
+#: pro/includes/fields/field-options-pages.php:110
 #: pro/includes/fields/field-payment-cart.php:90
 #: pro/includes/fields/field-phone-number.php:163
 #: pro/includes/fields/field-post-formats.php:119
@@ -982,15 +1014,14 @@ msgstr "Apparaît à la création d’un nouvel article"
 #: pro/includes/fields/field-date-picker.php:35
 #: pro/includes/fields/field-date-range-picker.php:104
 #: pro/includes/fields/field-date-time-picker.php:43
-#: pro/includes/fields/field-field-groups.php:216
+#: pro/includes/fields/field-field-groups.php:221
 #: pro/includes/fields/field-field-types.php:218
 #: pro/includes/fields/field-fields.php:230
-#: pro/includes/fields/field-file.php:145
 #: pro/includes/fields/field-image-sizes.php:239
 #: pro/includes/fields/field-languages.php:398
-#: pro/includes/fields/field-menu-locations.php:200
+#: pro/includes/fields/field-menu-locations.php:215
 #: pro/includes/fields/field-menus.php:215
-#: pro/includes/fields/field-options-pages.php:211
+#: pro/includes/fields/field-options-pages.php:216
 #: pro/includes/fields/field-payment-cart.php:186
 #: pro/includes/fields/field-phone-number.php:171
 #: pro/includes/fields/field-post-formats.php:211
@@ -1008,14 +1039,14 @@ msgstr "Etiquette"
 #: pro/includes/fields/field-block-types.php:213
 #: pro/includes/fields/field-countries.php:332
 #: pro/includes/fields/field-currencies.php:321
-#: pro/includes/fields/field-field-groups.php:217
+#: pro/includes/fields/field-field-groups.php:222
 #: pro/includes/fields/field-field-types.php:219
 #: pro/includes/fields/field-fields.php:231
 #: pro/includes/fields/field-image-sizes.php:240
 #: pro/includes/fields/field-languages.php:399
-#: pro/includes/fields/field-menu-locations.php:201
+#: pro/includes/fields/field-menu-locations.php:216
 #: pro/includes/fields/field-menus.php:216
-#: pro/includes/fields/field-options-pages.php:212
+#: pro/includes/fields/field-options-pages.php:217
 #: pro/includes/fields/field-payment-cart.php:187
 #: pro/includes/fields/field-post-formats.php:212
 #: pro/includes/fields/field-templates.php:222
@@ -1082,9 +1113,36 @@ msgstr "Rangées Max"
 msgid "Sets the textarea max height"
 msgstr "Définit la hauteur maximale de la zone de texte"
 
-#: includes/fields/field-code-editor.php:130
-msgid "Return HTML Entities"
-msgstr "Retourner les entités HTML"
+#: includes/fields/field-code-editor.php:130 includes/fields/field-forms.php:88
+#: includes/fields/field-post-statuses.php:88
+#: includes/fields/field-post-types.php:88
+#: includes/fields/field-taxonomies.php:88
+#: includes/fields/field-taxonomy-terms.php:506
+#: pro/includes/fields/field-block-types.php:115
+#: pro/includes/fields/field-color-picker.php:157
+#: pro/includes/fields/field-countries.php:160
+#: pro/includes/fields/field-currencies.php:175
+#: pro/includes/fields/field-field-groups.php:122
+#: pro/includes/fields/field-field-types.php:120
+#: pro/includes/fields/field-fields.php:130
+#: pro/includes/fields/field-image-selector.php:113
+#: pro/includes/fields/field-image-sizes.php:141
+#: pro/includes/fields/field-languages.php:239
+#: pro/includes/fields/field-menu-locations.php:116
+#: pro/includes/fields/field-menus.php:116
+#: pro/includes/fields/field-options-pages.php:118
+#: pro/includes/fields/field-phone-number.php:191
+#: pro/includes/fields/field-templates.php:123
+msgid "Return Value"
+msgstr "Valeur de retour"
+
+#: includes/fields/field-code-editor.php:136
+msgid "HTML Entities"
+msgstr "Entités HTML"
+
+#: includes/fields/field-code-editor.php:137
+msgid "New Lines to &lt;br&gt;"
+msgstr "Nouvelles lignes vers &lt;br&gt;"
 
 #: includes/fields/field-column.php:17
 msgid "Column"
@@ -1108,7 +1166,7 @@ msgstr ""
 msgid "Dynamic Render"
 msgstr "Rendu Dynamique"
 
-#: includes/fields/field-file.php:66 pro/includes/fields/field-file.php:465
+#: includes/fields/field-file.php:66 pro/includes/fields/field-file.php:474
 msgid "File size"
 msgstr "Taille du fichier"
 
@@ -1120,13 +1178,22 @@ msgstr "Taille minimum"
 msgid "Max size"
 msgstr "Taille maximum"
 
-#: includes/fields/field-file.php:130 includes/fields/field-image.php:92
-msgid "Uploader type"
-msgstr "Type de téléchargeur"
+#: includes/fields/field-file.php:130 includes/fields/field-image.php:93
+msgid "Uploader Type"
+msgstr "Type de téléchargement"
 
-#: includes/fields/field-file.php:133 includes/fields/field-image.php:95
+#: includes/fields/field-file.php:133 includes/fields/field-image.php:96
 msgid "Choose the uploader type"
 msgstr "Choisissez le type de téléchargeur"
+
+#: includes/fields/field-file.php:136 includes/fields/field-image.php:99
+#: pro/includes/fields/field-true-false.php:38
+msgid "Default"
+msgstr "Par défaut"
+
+#: includes/fields/field-file.php:138 includes/fields/field-image.php:101
+msgid "Browser"
+msgstr "Navigateur"
 
 #: includes/fields/field-flexible-content-actions.php:84
 msgid "Additional Actions"
@@ -1150,15 +1217,15 @@ msgstr "Coller des dispositions"
 #: pro/includes/fields/field-block-types.php:326
 #: pro/includes/fields/field-countries.php:445
 #: pro/includes/fields/field-currencies.php:434
-#: pro/includes/fields/field-field-groups.php:330
+#: pro/includes/fields/field-field-groups.php:335
 #: pro/includes/fields/field-field-types.php:332
 #: pro/includes/fields/field-fields.php:344
 #: pro/includes/fields/field-image-selector.php:145
 #: pro/includes/fields/field-image-sizes.php:353
 #: pro/includes/fields/field-languages.php:512
-#: pro/includes/fields/field-menu-locations.php:314
+#: pro/includes/fields/field-menu-locations.php:329
 #: pro/includes/fields/field-menus.php:329
-#: pro/includes/fields/field-options-pages.php:325
+#: pro/includes/fields/field-options-pages.php:330
 #: pro/includes/fields/field-payment-cart.php:281
 #: pro/includes/fields/field-payment-selector.php:102
 #: pro/includes/fields/field-post-formats.php:325
@@ -1179,7 +1246,7 @@ msgid "Show advanced Flexible Content settings"
 msgstr "Afficher les paramètres avancés de contenu flexible"
 
 #: includes/fields/field-flexible-content-controls.php:72
-#: includes/fields/field-repeater.php:37 pro/includes/fields/field-file.php:218
+#: includes/fields/field-repeater.php:37
 msgid "Stylised Button"
 msgstr "Bouton stylisé"
 
@@ -1264,7 +1331,6 @@ msgid "Display a placeholder with an icon"
 msgstr "Afficher un espace réservé avec une icône"
 
 #: includes/fields/field-flexible-content-preview.php:180
-#: includes/modules/block-type/module-block-type.php:62
 msgid "Render"
 msgstr "Afficher"
 
@@ -1324,17 +1390,18 @@ msgid "Set a thumbnail for each layouts"
 msgstr "Définir une miniature pour chaque mise en page"
 
 #: includes/fields/field-flexible-content-thumbnail.php:111
+#: pro/includes/fields/field-block-editor.php:553
 msgid "Thumbnail"
 msgstr "Miniature"
 
-#: includes/fields/field-flexible-content.php:325
+#: includes/fields/field-flexible-content.php:342
 #, php-format
 msgid "Click the \"%s\" button below to start creating your layout"
 msgstr ""
 "Cliquer sur le bouton “%s” ci-dessous pour commencer à créer votre mise en "
 "page"
 
-#: includes/fields/field-flexible-content.php:521
+#: includes/fields/field-flexible-content.php:538
 msgid "Drag to reorder"
 msgstr "Faites glisser pour réorganiser"
 
@@ -1345,7 +1412,7 @@ msgstr "Faites glisser pour réorganiser"
 #: includes/modules/form/module-form.php:108
 #: includes/modules/form/module-form.php:183
 #: pro/includes/locations/settings.php:77
-#: pro/includes/modules/template/module-template-features.php:45
+#: pro/includes/modules/template/module-template-features.php:41
 msgid "Forms"
 msgstr "Formulaires"
 
@@ -1366,14 +1433,14 @@ msgstr "Tous les formulaires"
 #: pro/includes/fields/field-block-types.php:93
 #: pro/includes/fields/field-countries.php:139
 #: pro/includes/fields/field-currencies.php:139
-#: pro/includes/fields/field-field-groups.php:95
+#: pro/includes/fields/field-field-groups.php:100
 #: pro/includes/fields/field-field-types.php:98
 #: pro/includes/fields/field-fields.php:108
 #: pro/includes/fields/field-image-sizes.php:105
 #: pro/includes/fields/field-languages.php:218
-#: pro/includes/fields/field-menu-locations.php:93
+#: pro/includes/fields/field-menu-locations.php:94
 #: pro/includes/fields/field-menus.php:94
-#: pro/includes/fields/field-options-pages.php:91
+#: pro/includes/fields/field-options-pages.php:96
 #: pro/includes/fields/field-post-formats.php:106
 #: pro/includes/fields/field-templates.php:101
 msgid "Appearance"
@@ -1388,14 +1455,14 @@ msgstr "Apparence"
 #: pro/includes/fields/field-block-types.php:94
 #: pro/includes/fields/field-countries.php:140
 #: pro/includes/fields/field-currencies.php:140
-#: pro/includes/fields/field-field-groups.php:96
+#: pro/includes/fields/field-field-groups.php:101
 #: pro/includes/fields/field-field-types.php:99
 #: pro/includes/fields/field-fields.php:109
 #: pro/includes/fields/field-image-sizes.php:106
 #: pro/includes/fields/field-languages.php:219
-#: pro/includes/fields/field-menu-locations.php:94
+#: pro/includes/fields/field-menu-locations.php:95
 #: pro/includes/fields/field-menus.php:95
-#: pro/includes/fields/field-options-pages.php:92
+#: pro/includes/fields/field-options-pages.php:97
 #: pro/includes/fields/field-post-formats.php:107
 #: pro/includes/fields/field-templates.php:102
 msgid "Select the appearance of this field"
@@ -1410,14 +1477,14 @@ msgstr "Sélectionnez l'apparence de ce champ"
 #: pro/includes/fields/field-block-types.php:99
 #: pro/includes/fields/field-countries.php:144
 #: pro/includes/fields/field-currencies.php:144
-#: pro/includes/fields/field-field-groups.php:101
+#: pro/includes/fields/field-field-groups.php:106
 #: pro/includes/fields/field-field-types.php:104
 #: pro/includes/fields/field-fields.php:114
 #: pro/includes/fields/field-image-sizes.php:111
 #: pro/includes/fields/field-languages.php:223
-#: pro/includes/fields/field-menu-locations.php:99
+#: pro/includes/fields/field-menu-locations.php:100
 #: pro/includes/fields/field-menus.php:100
-#: pro/includes/fields/field-options-pages.php:97
+#: pro/includes/fields/field-options-pages.php:102
 #: pro/includes/fields/field-payment-cart.php:117
 #: pro/includes/fields/field-post-formats.php:111
 #: pro/includes/fields/field-templates.php:107
@@ -1433,14 +1500,14 @@ msgstr "Case à cocher"
 #: pro/includes/fields/field-block-types.php:100
 #: pro/includes/fields/field-countries.php:145
 #: pro/includes/fields/field-currencies.php:145
-#: pro/includes/fields/field-field-groups.php:102
+#: pro/includes/fields/field-field-groups.php:107
 #: pro/includes/fields/field-field-types.php:105
 #: pro/includes/fields/field-fields.php:115
 #: pro/includes/fields/field-image-sizes.php:112
 #: pro/includes/fields/field-languages.php:224
-#: pro/includes/fields/field-menu-locations.php:100
+#: pro/includes/fields/field-menu-locations.php:101
 #: pro/includes/fields/field-menus.php:101
-#: pro/includes/fields/field-options-pages.php:98
+#: pro/includes/fields/field-options-pages.php:103
 #: pro/includes/fields/field-post-formats.php:112
 #: pro/includes/fields/field-templates.php:108
 msgid "Radio Buttons"
@@ -1455,14 +1522,14 @@ msgstr "Boutons radio"
 #: pro/includes/fields/field-block-types.php:101
 #: pro/includes/fields/field-countries.php:146
 #: pro/includes/fields/field-currencies.php:146
-#: pro/includes/fields/field-field-groups.php:103
+#: pro/includes/fields/field-field-groups.php:108
 #: pro/includes/fields/field-field-types.php:106
 #: pro/includes/fields/field-fields.php:116
 #: pro/includes/fields/field-image-sizes.php:113
 #: pro/includes/fields/field-languages.php:225
-#: pro/includes/fields/field-menu-locations.php:101
+#: pro/includes/fields/field-menu-locations.php:102
 #: pro/includes/fields/field-menus.php:102
-#: pro/includes/fields/field-options-pages.php:99
+#: pro/includes/fields/field-options-pages.php:104
 #: pro/includes/fields/field-post-formats.php:113
 #: pro/includes/fields/field-templates.php:109
 msgctxt "noun"
@@ -1478,42 +1545,20 @@ msgstr "Sélectionner"
 #: pro/includes/fields/field-block-types.php:108
 #: pro/includes/fields/field-countries.php:153
 #: pro/includes/fields/field-currencies.php:153
-#: pro/includes/fields/field-field-groups.php:110
+#: pro/includes/fields/field-field-groups.php:115
 #: pro/includes/fields/field-field-types.php:113
 #: pro/includes/fields/field-fields.php:123
 #: pro/includes/fields/field-image-selector.php:59
 #: pro/includes/fields/field-image-sizes.php:120
 #: pro/includes/fields/field-languages.php:232
-#: pro/includes/fields/field-menu-locations.php:108
+#: pro/includes/fields/field-menu-locations.php:109
 #: pro/includes/fields/field-menus.php:109
-#: pro/includes/fields/field-options-pages.php:106
+#: pro/includes/fields/field-options-pages.php:111
 #: pro/includes/fields/field-payment-cart.php:91
 #: pro/includes/fields/field-post-formats.php:120
 #: pro/includes/fields/field-templates.php:116
 msgid "Enter each default value on a new line"
 msgstr "Entrer chaque valeur par défaut sur une nouvelle ligne"
-
-#: includes/fields/field-forms.php:88
-#: includes/fields/field-post-statuses.php:88
-#: includes/fields/field-post-types.php:88
-#: includes/fields/field-taxonomies.php:88
-#: includes/fields/field-taxonomy-terms.php:506
-#: pro/includes/fields/field-block-types.php:115
-#: pro/includes/fields/field-color-picker.php:162
-#: pro/includes/fields/field-countries.php:160
-#: pro/includes/fields/field-currencies.php:175
-#: pro/includes/fields/field-field-groups.php:117
-#: pro/includes/fields/field-field-types.php:120
-#: pro/includes/fields/field-fields.php:130
-#: pro/includes/fields/field-image-selector.php:113
-#: pro/includes/fields/field-image-sizes.php:141
-#: pro/includes/fields/field-languages.php:239
-#: pro/includes/fields/field-menus.php:116
-#: pro/includes/fields/field-options-pages.php:113
-#: pro/includes/fields/field-phone-number.php:191
-#: pro/includes/fields/field-templates.php:123
-msgid "Return Value"
-msgstr "Valeur de retour"
 
 #: includes/fields/field-forms.php:93
 msgid "Form ID"
@@ -1532,15 +1577,15 @@ msgstr "Nom du formulaire"
 #: pro/includes/fields/field-block-types.php:128
 #: pro/includes/fields/field-countries.php:247
 #: pro/includes/fields/field-currencies.php:236
-#: pro/includes/fields/field-field-groups.php:131
+#: pro/includes/fields/field-field-groups.php:136
 #: pro/includes/fields/field-field-types.php:133
 #: pro/includes/fields/field-fields.php:145
 #: pro/includes/fields/field-image-selector.php:127
 #: pro/includes/fields/field-image-sizes.php:154
 #: pro/includes/fields/field-languages.php:314
-#: pro/includes/fields/field-menu-locations.php:115
+#: pro/includes/fields/field-menu-locations.php:130
 #: pro/includes/fields/field-menus.php:130
-#: pro/includes/fields/field-options-pages.php:126
+#: pro/includes/fields/field-options-pages.php:131
 #: pro/includes/fields/field-payment-cart.php:125
 #: pro/includes/fields/field-post-formats.php:127
 #: pro/includes/fields/field-templates.php:136
@@ -1556,14 +1601,14 @@ msgstr "Autoriser une valeur « null »?"
 #: pro/includes/fields/field-block-types.php:216
 #: pro/includes/fields/field-countries.php:335
 #: pro/includes/fields/field-currencies.php:324
-#: pro/includes/fields/field-field-groups.php:220
+#: pro/includes/fields/field-field-groups.php:225
 #: pro/includes/fields/field-field-types.php:222
 #: pro/includes/fields/field-fields.php:234
 #: pro/includes/fields/field-image-sizes.php:243
 #: pro/includes/fields/field-languages.php:402
-#: pro/includes/fields/field-menu-locations.php:204
+#: pro/includes/fields/field-menu-locations.php:219
 #: pro/includes/fields/field-menus.php:219
-#: pro/includes/fields/field-options-pages.php:215
+#: pro/includes/fields/field-options-pages.php:220
 #: pro/includes/fields/field-payment-cart.php:190
 #: pro/includes/fields/field-post-formats.php:215
 #: pro/includes/fields/field-templates.php:225
@@ -1581,14 +1626,14 @@ msgstr "Sélectionner"
 #: pro/includes/fields/field-block-types.php:279
 #: pro/includes/fields/field-countries.php:398
 #: pro/includes/fields/field-currencies.php:387
-#: pro/includes/fields/field-field-groups.php:283
+#: pro/includes/fields/field-field-groups.php:288
 #: pro/includes/fields/field-field-types.php:285
 #: pro/includes/fields/field-fields.php:297
 #: pro/includes/fields/field-image-sizes.php:306
 #: pro/includes/fields/field-languages.php:465
-#: pro/includes/fields/field-menu-locations.php:267
+#: pro/includes/fields/field-menu-locations.php:282
 #: pro/includes/fields/field-menus.php:282
-#: pro/includes/fields/field-options-pages.php:278
+#: pro/includes/fields/field-options-pages.php:283
 #: pro/includes/fields/field-payment-cart.php:253
 #: pro/includes/fields/field-post-formats.php:278
 #: pro/includes/fields/field-templates.php:288
@@ -1605,14 +1650,14 @@ msgstr "Espace réservé pour les entrées de recherche"
 #: pro/includes/fields/field-block-types.php:280
 #: pro/includes/fields/field-countries.php:399
 #: pro/includes/fields/field-currencies.php:388
-#: pro/includes/fields/field-field-groups.php:284
+#: pro/includes/fields/field-field-groups.php:289
 #: pro/includes/fields/field-field-types.php:286
 #: pro/includes/fields/field-fields.php:298
 #: pro/includes/fields/field-image-sizes.php:307
 #: pro/includes/fields/field-languages.php:466
-#: pro/includes/fields/field-menu-locations.php:268
+#: pro/includes/fields/field-menu-locations.php:283
 #: pro/includes/fields/field-menus.php:283
-#: pro/includes/fields/field-options-pages.php:279
+#: pro/includes/fields/field-options-pages.php:284
 #: pro/includes/fields/field-payment-cart.php:254
 #: pro/includes/fields/field-post-formats.php:279
 #: pro/includes/fields/field-templates.php:289
@@ -1628,15 +1673,15 @@ msgstr "Apparaît dans l’entrée de recherche"
 #: pro/includes/fields/field-block-types.php:153
 #: pro/includes/fields/field-countries.php:272
 #: pro/includes/fields/field-currencies.php:261
-#: pro/includes/fields/field-field-groups.php:156
+#: pro/includes/fields/field-field-groups.php:161
 #: pro/includes/fields/field-field-types.php:158
 #: pro/includes/fields/field-fields.php:170
 #: pro/includes/fields/field-image-selector.php:136
 #: pro/includes/fields/field-image-sizes.php:179
 #: pro/includes/fields/field-languages.php:339
-#: pro/includes/fields/field-menu-locations.php:140
+#: pro/includes/fields/field-menu-locations.php:155
 #: pro/includes/fields/field-menus.php:155
-#: pro/includes/fields/field-options-pages.php:151
+#: pro/includes/fields/field-options-pages.php:156
 #: pro/includes/fields/field-payment-cart.php:150
 #: pro/includes/fields/field-post-formats.php:152
 #: pro/includes/fields/field-templates.php:161
@@ -1652,14 +1697,14 @@ msgstr "Sélectionnez plusieurs valeurs?"
 #: pro/includes/fields/field-block-types.php:171
 #: pro/includes/fields/field-countries.php:290
 #: pro/includes/fields/field-currencies.php:279
-#: pro/includes/fields/field-field-groups.php:174
+#: pro/includes/fields/field-field-groups.php:179
 #: pro/includes/fields/field-field-types.php:176
 #: pro/includes/fields/field-fields.php:188
 #: pro/includes/fields/field-image-sizes.php:197
 #: pro/includes/fields/field-languages.php:357
-#: pro/includes/fields/field-menu-locations.php:158
+#: pro/includes/fields/field-menu-locations.php:173
 #: pro/includes/fields/field-menus.php:173
-#: pro/includes/fields/field-options-pages.php:169
+#: pro/includes/fields/field-options-pages.php:174
 #: pro/includes/fields/field-payment-cart.php:168
 #: pro/includes/fields/field-payment-selector.php:122
 #: pro/includes/fields/field-post-formats.php:170
@@ -1676,14 +1721,14 @@ msgstr "UI Stylised"
 #: pro/includes/fields/field-block-types.php:189
 #: pro/includes/fields/field-countries.php:308
 #: pro/includes/fields/field-currencies.php:297
-#: pro/includes/fields/field-field-groups.php:193
+#: pro/includes/fields/field-field-groups.php:198
 #: pro/includes/fields/field-field-types.php:195
 #: pro/includes/fields/field-fields.php:207
 #: pro/includes/fields/field-image-sizes.php:216
 #: pro/includes/fields/field-languages.php:375
-#: pro/includes/fields/field-menu-locations.php:177
+#: pro/includes/fields/field-menu-locations.php:192
 #: pro/includes/fields/field-menus.php:192
-#: pro/includes/fields/field-options-pages.php:188
+#: pro/includes/fields/field-options-pages.php:193
 #: pro/includes/fields/field-post-formats.php:188
 #: pro/includes/fields/field-templates.php:198
 msgid "Use AJAX to lazy load choices?"
@@ -1697,14 +1742,14 @@ msgstr "Utilisez AJAX pour des choix de charge paresseux?"
 #: pro/includes/fields/field-block-types.php:307
 #: pro/includes/fields/field-countries.php:426
 #: pro/includes/fields/field-currencies.php:415
-#: pro/includes/fields/field-field-groups.php:311
+#: pro/includes/fields/field-field-groups.php:316
 #: pro/includes/fields/field-field-types.php:313
 #: pro/includes/fields/field-fields.php:325
 #: pro/includes/fields/field-image-sizes.php:334
 #: pro/includes/fields/field-languages.php:493
-#: pro/includes/fields/field-menu-locations.php:295
+#: pro/includes/fields/field-menu-locations.php:310
 #: pro/includes/fields/field-menus.php:310
-#: pro/includes/fields/field-options-pages.php:306
+#: pro/includes/fields/field-options-pages.php:311
 #: pro/includes/fields/field-post-formats.php:306
 #: pro/includes/fields/field-templates.php:316
 msgid "Other"
@@ -1718,14 +1763,14 @@ msgstr "Autre"
 #: pro/includes/fields/field-block-types.php:312
 #: pro/includes/fields/field-countries.php:431
 #: pro/includes/fields/field-currencies.php:420
-#: pro/includes/fields/field-field-groups.php:316
+#: pro/includes/fields/field-field-groups.php:321
 #: pro/includes/fields/field-field-types.php:318
 #: pro/includes/fields/field-fields.php:330
 #: pro/includes/fields/field-image-sizes.php:339
 #: pro/includes/fields/field-languages.php:498
-#: pro/includes/fields/field-menu-locations.php:300
+#: pro/includes/fields/field-menu-locations.php:315
 #: pro/includes/fields/field-menus.php:315
-#: pro/includes/fields/field-options-pages.php:311
+#: pro/includes/fields/field-options-pages.php:316
 #: pro/includes/fields/field-post-formats.php:311
 #: pro/includes/fields/field-templates.php:321
 msgid "Add 'other' choice to allow for custom values"
@@ -1750,15 +1795,15 @@ msgstr "Enregistrer 'les autres' pour les valeurs dans les choix du champ"
 #: pro/includes/fields/field-block-types.php:332
 #: pro/includes/fields/field-countries.php:451
 #: pro/includes/fields/field-currencies.php:440
-#: pro/includes/fields/field-field-groups.php:336
+#: pro/includes/fields/field-field-groups.php:341
 #: pro/includes/fields/field-field-types.php:338
 #: pro/includes/fields/field-fields.php:350
 #: pro/includes/fields/field-image-selector.php:152
 #: pro/includes/fields/field-image-sizes.php:359
 #: pro/includes/fields/field-languages.php:518
-#: pro/includes/fields/field-menu-locations.php:320
+#: pro/includes/fields/field-menu-locations.php:335
 #: pro/includes/fields/field-menus.php:335
-#: pro/includes/fields/field-options-pages.php:331
+#: pro/includes/fields/field-options-pages.php:336
 #: pro/includes/fields/field-payment-cart.php:287
 #: pro/includes/fields/field-payment-selector.php:108
 #: pro/includes/fields/field-post-formats.php:331
@@ -1775,15 +1820,15 @@ msgstr "Vertical"
 #: pro/includes/fields/field-block-types.php:333
 #: pro/includes/fields/field-countries.php:452
 #: pro/includes/fields/field-currencies.php:441
-#: pro/includes/fields/field-field-groups.php:337
+#: pro/includes/fields/field-field-groups.php:342
 #: pro/includes/fields/field-field-types.php:339
 #: pro/includes/fields/field-fields.php:351
 #: pro/includes/fields/field-image-selector.php:151
 #: pro/includes/fields/field-image-sizes.php:360
 #: pro/includes/fields/field-languages.php:519
-#: pro/includes/fields/field-menu-locations.php:321
+#: pro/includes/fields/field-menu-locations.php:336
 #: pro/includes/fields/field-menus.php:336
-#: pro/includes/fields/field-options-pages.php:332
+#: pro/includes/fields/field-options-pages.php:337
 #: pro/includes/fields/field-payment-cart.php:288
 #: pro/includes/fields/field-payment-selector.php:109
 #: pro/includes/fields/field-post-formats.php:332
@@ -1800,14 +1845,14 @@ msgstr "Horizontal"
 #: pro/includes/fields/field-block-types.php:355
 #: pro/includes/fields/field-countries.php:474
 #: pro/includes/fields/field-currencies.php:463
-#: pro/includes/fields/field-field-groups.php:359
+#: pro/includes/fields/field-field-groups.php:364
 #: pro/includes/fields/field-field-types.php:361
 #: pro/includes/fields/field-fields.php:373
 #: pro/includes/fields/field-image-sizes.php:382
 #: pro/includes/fields/field-languages.php:541
-#: pro/includes/fields/field-menu-locations.php:343
+#: pro/includes/fields/field-menu-locations.php:358
 #: pro/includes/fields/field-menus.php:358
-#: pro/includes/fields/field-options-pages.php:354
+#: pro/includes/fields/field-options-pages.php:359
 #: pro/includes/fields/field-payment-cart.php:310
 #: pro/includes/fields/field-post-formats.php:354
 #: pro/includes/fields/field-templates.php:364
@@ -1823,14 +1868,14 @@ msgstr "Basculer"
 #: pro/includes/fields/field-block-types.php:356
 #: pro/includes/fields/field-countries.php:475
 #: pro/includes/fields/field-currencies.php:464
-#: pro/includes/fields/field-field-groups.php:360
+#: pro/includes/fields/field-field-groups.php:365
 #: pro/includes/fields/field-field-types.php:362
 #: pro/includes/fields/field-fields.php:374
 #: pro/includes/fields/field-image-sizes.php:383
 #: pro/includes/fields/field-languages.php:542
-#: pro/includes/fields/field-menu-locations.php:344
+#: pro/includes/fields/field-menu-locations.php:359
 #: pro/includes/fields/field-menus.php:359
-#: pro/includes/fields/field-options-pages.php:355
+#: pro/includes/fields/field-options-pages.php:360
 #: pro/includes/fields/field-payment-cart.php:311
 #: pro/includes/fields/field-post-formats.php:355
 #: pro/includes/fields/field-templates.php:365
@@ -1845,14 +1890,14 @@ msgstr "Ajouter une case supplémentaire pour sélectionner tous les choix"
 #: pro/includes/fields/field-block-types.php:373
 #: pro/includes/fields/field-countries.php:492
 #: pro/includes/fields/field-currencies.php:481
-#: pro/includes/fields/field-field-groups.php:377
+#: pro/includes/fields/field-field-groups.php:382
 #: pro/includes/fields/field-field-types.php:379
 #: pro/includes/fields/field-fields.php:391
 #: pro/includes/fields/field-image-sizes.php:400
 #: pro/includes/fields/field-languages.php:559
-#: pro/includes/fields/field-menu-locations.php:361
+#: pro/includes/fields/field-menu-locations.php:376
 #: pro/includes/fields/field-menus.php:376
-#: pro/includes/fields/field-options-pages.php:372
+#: pro/includes/fields/field-options-pages.php:377
 #: pro/includes/fields/field-post-formats.php:372
 #: pro/includes/fields/field-templates.php:382
 msgid "Allow Custom"
@@ -1866,14 +1911,14 @@ msgstr "Autoriser les mots clés personnalisés"
 #: pro/includes/fields/field-block-types.php:378
 #: pro/includes/fields/field-countries.php:497
 #: pro/includes/fields/field-currencies.php:486
-#: pro/includes/fields/field-field-groups.php:382
+#: pro/includes/fields/field-field-groups.php:387
 #: pro/includes/fields/field-field-types.php:384
 #: pro/includes/fields/field-fields.php:396
 #: pro/includes/fields/field-image-sizes.php:405
 #: pro/includes/fields/field-languages.php:564
-#: pro/includes/fields/field-menu-locations.php:366
+#: pro/includes/fields/field-menu-locations.php:381
 #: pro/includes/fields/field-menus.php:381
-#: pro/includes/fields/field-options-pages.php:377
+#: pro/includes/fields/field-options-pages.php:382
 #: pro/includes/fields/field-post-formats.php:377
 #: pro/includes/fields/field-templates.php:387
 msgid "Allow 'custom' values to be added"
@@ -1895,11 +1940,11 @@ msgstr "Masqué"
 msgid "Default value in the hidden input"
 msgstr "Valeur par défaut dans l’entrée masquée"
 
-#: includes/fields/field-image.php:109
-msgid "Featured thumbnail"
+#: includes/fields/field-image.php:122
+msgid "Featured Thumbnail"
 msgstr "Miniature mise en avant"
 
-#: includes/fields/field-image.php:112
+#: includes/fields/field-image.php:125
 msgid "Make this image the featured thumbnail"
 msgstr "Faire de cette image l’image mise en avant"
 
@@ -2070,7 +2115,7 @@ msgstr "Meilleure intégration des boutons de ligne"
 msgid "Slug"
 msgstr "Identifiant"
 
-#: includes/fields/field-slug.php:47
+#: includes/fields/field-slug.php:47 pro/includes/fields/field-file.php:145
 msgid "Placeholder Text"
 msgstr "Texte d'espace réservé"
 
@@ -2134,7 +2179,7 @@ msgstr "Terms_level"
 
 #: includes/fields/field-taxonomy-terms.php:477
 #: includes/locations/post-type-all.php:31
-#: includes/locations/post-type-archive.php:283
+#: includes/locations/post-type-archive.php:320
 #: includes/locations/post-type-list.php:237
 #: includes/locations/taxonomy-list.php:223
 #: pro/includes/locations/post-author-role.php:24
@@ -2204,20 +2249,20 @@ msgstr ""
 "ACF Extended nécessite <a href=\"https://www.advancedcustomfields.com/pro/\" "
 "target=\"_blank\">Advanced Custom Fields PRO</a> (minimum : 5.8)."
 
-#: includes/locations/post-type-archive.php:46
+#: includes/locations/post-type-archive.php:44
 #, php-format
 msgid "Archive <span class=\"count\">(%s)</span>"
 msgstr "Archive <span class=\"count\">(%s)</span>"
 
-#: includes/locations/post-type-archive.php:148
+#: includes/locations/post-type-archive.php:139
 msgid "Permalink:"
 msgstr "Permalien:"
 
-#: includes/locations/post-type-archive.php:202
+#: includes/locations/post-type-archive.php:236
 msgid "Archive"
 msgstr "Archive"
 
-#: includes/locations/post-type-archive.php:255
+#: includes/locations/post-type-archive.php:292
 msgid "Post Type Archive"
 msgstr "Archives de type de contenu"
 
@@ -2225,7 +2270,7 @@ msgstr "Archives de type de contenu"
 #: includes/locations/taxonomy-list.php:199
 #: includes/modules/option/module-option.php:541
 #: includes/modules/options-page/module-options-page.php:79
-#: pro/includes/admin/settings.php:344
+#: pro/includes/admin/settings.php:351
 #: pro/includes/locations/attachment-list.php:191
 #: pro/includes/locations/user-list.php:189 pro/includes/modules/dev.php:673
 msgid "Update"
@@ -2239,8 +2284,9 @@ msgstr "Liste de Type d’article"
 msgid "Taxonomy List"
 msgstr "Liste de sites web"
 
-#: includes/module-acf.php:91 includes/module-post.php:115
+#: includes/module-acf.php:91 includes/module-post.php:120
 #: pro/includes/fields-settings/required.php:26
+#: pro/includes/fields/field-block-editor.php:493
 #, php-format
 msgid "%s value is required"
 msgstr "le champ %s est obligatoire"
@@ -2256,51 +2302,51 @@ msgstr[1] "Actif <span class=\"count\">(%s)</span>"
 msgid "Export "
 msgstr "Exporter "
 
-#: includes/module-legacy.php:256 includes/module-post.php:114
+#: includes/module-legacy.php:256 includes/module-post.php:119
 #: pro/includes/module-item.php:75
 msgid "Active"
 msgstr "Actif"
 
-#: includes/module-legacy.php:256 includes/module-post.php:114
+#: includes/module-legacy.php:256 includes/module-post.php:119
 msgid "Inactive"
 msgstr "Inactif"
 
-#: includes/module-post.php:136 includes/module-posts.php:233
+#: includes/module-post.php:141 includes/module-posts.php:233
 msgid "Export"
 msgstr "Exporter"
 
-#: includes/module-post.php:239 includes/module-post.php:240
-#: includes/module-post.php:242
+#: includes/module-post.php:244 includes/module-post.php:245
+#: includes/module-post.php:247
 #, php-format
 msgid "%s updated."
 msgstr "%s mis à jour."
 
-#: includes/module-post.php:241
+#: includes/module-post.php:246
 #, php-format
 msgid "%s deleted."
 msgstr "%s supprimé."
 
-#: includes/module-post.php:244
+#: includes/module-post.php:249
 #, php-format
 msgid "%s published."
 msgstr "%s publié."
 
-#: includes/module-post.php:245
+#: includes/module-post.php:250
 #, php-format
 msgid "%s saved."
 msgstr "%s sauvegardé."
 
-#: includes/module-post.php:246
+#: includes/module-post.php:251
 #, php-format
 msgid "%s submitted."
 msgstr "%s a été soumis."
 
-#: includes/module-post.php:247
+#: includes/module-post.php:252
 #, php-format
 msgid "%s scheduled."
 msgstr "%s programmé."
 
-#: includes/module-post.php:248
+#: includes/module-post.php:253
 #, php-format
 msgid "%s draft updated."
 msgstr "%s brouillon mis à jour."
@@ -2319,7 +2365,7 @@ msgstr "Voir"
 msgid "copy"
 msgstr "copier"
 
-#: includes/module.php:1064
+#: includes/module.php:1066
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -2329,6 +2375,7 @@ msgstr "Auteur"
 
 #: includes/modules/block-type/module-block-type-fields.php:33
 #: includes/modules/block-type/module-block-type.php:28
+#: pro/includes/fields/field-block-editor.php:293
 msgid "Block Type"
 msgstr "Type de bloc"
 
@@ -2338,10 +2385,13 @@ msgid ""
 "block name can only contain lowercase alphanumeric characters and dashes, "
 "and must begin with a letter."
 msgstr ""
+"Nom unique qui identifie le bloc (sans espace de noms).<br />Remarque : Un "
+"nom de bloc ne peut contenir que des caractères alphanumériques minuscules "
+"et des tirets, et doit commencer par une lettre."
 
 #: includes/modules/block-type/module-block-type-fields.php:96
 msgid "This is a short description for your block."
-msgstr ""
+msgstr "Ceci est une brève description de votre bloc."
 
 #: includes/modules/block-type/module-block-type-fields.php:115
 msgid ""
@@ -2352,16 +2402,27 @@ msgid ""
 "wordpress.org/block-editor/reference-guides/filters/block-filters/#managing-"
 "block-categories\" target=\"_blank\">custom block categories</a>."
 msgstr ""
+"Les blocs sont regroupés en catégories pour aider les utilisateurs à les "
+"parcourir et à les découvrir. Les catégories de base fournies sont [ common "
+"| formatting | layout | widgets | embed ]. Les plugins et les thèmes peuvent "
+"également enregistrer des catégories de blocs personnalisées.<br /><br />Les "
+"plugins et les thèmes peuvent également enregistrer <a href=\"https://"
+"developer.wordpress.org/block-editor/reference-guides/filters/block-filters/"
+"#managing-block-categories\" target=\"_blank\">des catégories de blocs "
+"personnalisées</a>."
 
 #: includes/modules/block-type/module-block-type-fields.php:134
 msgid ""
 "An array of search terms to help user discover the block while searching."
 "<br />One line for each keyword. ie:<br /><br />quote<br />mention<br />cite"
 msgstr ""
+"Tableau de termes de recherche pour aider l’utilisateur à découvrir le bloc "
+"lors de la recherche.<br />Une ligne pour chaque mot-clé. Ie:<br /><br /"
+">citer<br />mentionner<br />citer"
 
 #: includes/modules/block-type/module-block-type-fields.php:154
 msgid "An array of post types to restrict this block type to."
-msgstr ""
+msgstr "Tableau de types de publication auxquels restreindre ce type de bloc."
 
 #: includes/modules/block-type/module-block-type-fields.php:170
 msgid ""
@@ -2374,12 +2435,24 @@ msgid ""
 "\"preview\" or \"edit\" modes, an icon will appear in the block toolbar to "
 "toggle between modes."
 msgstr ""
+"Le mode d’affichage de votre bloc. Les paramètres disponibles sont auto\", "
+"\"preview\" et \"edit\". La valeur par défaut est « aperçu ».<br /><br /"
+"><strong>Preview</strong> : l’aperçu est toujours affiché. Modifier le "
+"formulaire apparaît dans la barre latérale lorsque le bloc est sélectionné."
+"<br /><strong>Auto</strong> : l’aperçu est affiché par défaut, mais change "
+"pour modifier le formulaire lorsque le bloc est sélectionné.<br /"
+"><strong>Edit</strong> : le formulaire d'édition est toujours affiché.<br /"
+"><br />Note. En mode \"preview\" ou \"edit\", une icône apparaît dans la "
+"barre d’outils de bloc pour basculer entre les modes."
 
 #: includes/modules/block-type/module-block-type-fields.php:196
 msgid ""
 "The default block alignment. Available settings are \"left\", \"center\", "
 "\"right\", \"wide\" and \"full\". Defaults to an empty string."
 msgstr ""
+"Alignement des blocs par défaut. Les paramètres disponibles sont \"left\", "
+"\"center\", \"right\", \"wide\" et \"full\". Par défaut, il s’agit d’une "
+"chaîne vide."
 
 #: includes/modules/block-type/module-block-type-fields.php:225
 msgid ""
@@ -2387,6 +2460,10 @@ msgid ""
 "Available settings are \"left\", \"center\" and \"right\". Defaults to the "
 "current language's text alignment."
 msgstr ""
+"L’alignement du texte de bloc par défaut (voir le paramètre de prise en "
+"charge pour plus d’informations). Les paramètres disponibles sont \"left\", "
+"\"center\" et \"right\". Par défaut, l’alignement du texte de la langue "
+"actuelle."
 
 #: includes/modules/block-type/module-block-type-fields.php:252
 msgid ""
@@ -2396,16 +2473,24 @@ msgid ""
 "specify all 9 positions from “top left” to “bottom right”. Defaults to "
 "\"top\"."
 msgstr ""
+"L’alignement du contenu de bloc par défaut (voir le paramètre de prise en "
+"charge pour plus d’informations). Les paramètres disponibles sont \"top\", "
+"\"center\" et \"bottom\".<br /><br />Lors de l’utilisation du type de champ "
+"\"Matrix\", des paramètres supplémentaires sont disponibles pour spécifier "
+"les 9 positions de “top left” à “bottom right”. La valeur par défaut est "
+"\"top\"."
 
 #: includes/modules/block-type/module-block-type-fields.php:289
 msgid "Enable Anchor attribute. Defaults to false"
-msgstr ""
+msgstr "Activez l’attribut Anchor. La valeur par défaut est false"
 
 #: includes/modules/block-type/module-block-type-fields.php:310
 msgid ""
 "Parse the block HTML as JSX for the Inner Block Component to function within "
 "the React based block editor."
 msgstr ""
+"Analysez le bloc HTML au format JSX pour que le composant de bloc interne "
+"fonctionne dans l’éditeur de blocs basé sur React."
 
 #: includes/modules/block-type/module-block-type-fields.php:331
 msgid ""
@@ -2413,12 +2498,20 @@ msgid ""
 "alignment. Defaults to true. Set to false to hide the alignment toolbar. Set "
 "to an array of specific alignment names to customize the toolbar."
 msgstr ""
+"Cette propriété ajoute des contrôles de bloc qui permettent à l’utilisateur "
+"de modifier l’alignement du bloc. La valeur par défaut est true. Affectez la "
+"valeur false pour masquer la barre d’outils d’alignement. Définissez un "
+"tableau de noms d’alignement spécifiques pour personnaliser la barre "
+"d’outils."
 
 #: includes/modules/block-type/module-block-type-fields.php:351
 msgid ""
 "Set to an array of specific alignment names to customize the toolbar.<br /"
 ">One line for each name. ie:<br /><br />left<br />right<br />full"
 msgstr ""
+"Définissez un tableau de noms d’alignement spécifiques pour personnaliser la "
+"barre d’outils.<br />Une ligne pour chaque nom. Ie:<br /><br />left<br /"
+">right<br />full"
 
 #: includes/modules/block-type/module-block-type-fields.php:381
 msgid ""
@@ -2426,6 +2519,9 @@ msgid ""
 "alignment. Defaults to false. Set to true to show the alignment toolbar "
 "button."
 msgstr ""
+"Cette propriété active un bouton de barre d’outils pour contrôler "
+"l’alignement du texte du bloc. La valeur par défaut est false. Affectez la "
+"valeur true pour afficher le bouton de la barre d’outils d’alignement."
 
 #: includes/modules/block-type/module-block-type-fields.php:402
 msgid ""
@@ -2434,48 +2530,68 @@ msgid ""
 "button, or set to \"matrix\" to enable the full alignment matrix in the "
 "toolbar"
 msgstr ""
+"Cette propriété permet à un bouton de barre d’outils de contrôler "
+"l’alignement du contenu interne du bloc. La valeur par défaut est false. "
+"Définissez sur true pour afficher le bouton de la barre d’outils "
+"d’alignement, ou sur \"matrix\" pour activer la matrice d’alignement "
+"complète dans la barre d’outils"
 
 #: includes/modules/block-type/module-block-type-fields.php:426
 msgid "This property enables the full height button on the toolbar of a block"
 msgstr ""
+"Cette propriété active le bouton pleine hauteur dans la barre d’outils d’un "
+"bloc"
 
 #: includes/modules/block-type/module-block-type-fields.php:447
 msgid ""
 "This property allows the user to toggle between edit and preview modes via a "
 "button. Defaults to true."
 msgstr ""
+"Cette propriété permet à l’utilisateur de basculer entre les modes d’édition "
+"et d’aperçu via un bouton. La valeur par défaut est true."
 
 #: includes/modules/block-type/module-block-type-fields.php:467
 msgid ""
 "This property allows the block to be added multiple times. Defaults to true."
 msgstr ""
+"Cette propriété permet d’ajouter le bloc plusieurs fois. La valeur par "
+"défaut est true."
 
 #: includes/modules/block-type/module-block-type-fields.php:504
 msgid ""
 "Simple: Specify a Dashicons class or SVG path<br />Colors: Specify colors & "
 "Dashicons class"
 msgstr ""
+"Simple : Spécifier une classe Dashicons ou un chemin SVG<br />Couleurs : "
+"Spécifier les couleurs et la classe Dashicons"
 
 #: includes/modules/block-type/module-block-type-fields.php:530
 msgid ""
 "An icon property can be specified to make it easier to identify a block. "
 "These can be any of WordPress’ Dashicons, or a custom svg element."
 msgstr ""
+"Une propriété d’icône peut être spécifiée pour faciliter l’identification "
+"d’un bloc. Il peut s’agir de l’un des Dashicons de WordPress ou d’un élément "
+"svg personnalisé."
 
 #: includes/modules/block-type/module-block-type-fields.php:558
 msgid ""
 "Specifying a background color to appear with the icon e.g.: in the inserter."
 msgstr ""
+"Spécification d’une couleur d’arrière-plan à afficher avec l’icône, par "
+"exemple : dans l’inserteur."
 
 #: includes/modules/block-type/module-block-type-fields.php:582
 msgid ""
 "Specifying a color for the icon (optional: if not set, a readable color will "
 "be automatically defined)"
 msgstr ""
+"Spécification d’une couleur pour l’icône (facultatif : si elle n’est pas "
+"définie, une couleur lisible sera automatiquement définie)"
 
 #: includes/modules/block-type/module-block-type-fields.php:606
 msgid "Specifying a dashicon for the block"
-msgstr ""
+msgstr "Spécification d’un dashicon pour le bloc"
 
 #: includes/modules/block-type/module-block-type-fields.php:651
 msgid ""
@@ -2483,12 +2599,18 @@ msgid ""
 "be a relative path to a file within the active theme, parent theme, wp-"
 "content directory or a full path to any file."
 msgstr ""
+"Chemin d’accès à un fichier de modèle utilisé pour afficher le bloc HTML. Il "
+"peut s’agir d’un chemin relatif à un fichier dans le thème actif, le thème "
+"parent, le répertoire wp-content ou un chemin complet vers n’importe quel "
+"fichier."
 
 #: includes/modules/block-type/module-block-type-fields.php:670
 msgid ""
 "Instead of providing a render_template, a callback function name may be "
 "specified to output the block's HTML."
 msgstr ""
+"Au lieu de fournir un render_template, un nom de fonction de rappel peut "
+"être spécifié pour générer le code HTML du bloc."
 
 #: includes/modules/block-type/module-block-type-fields.php:706
 msgid ""
@@ -2497,6 +2619,10 @@ msgid ""
 "within the active theme, parent theme, wp-content directory or a full path "
 "to any file."
 msgstr ""
+"L’URL d’un fichier .css à mettre en file d’attente chaque fois que votre "
+"bloc est affiché (front-end et back-end). Il peut s’agir d’un chemin relatif "
+"à un fichier dans le thème actif, le thème parent, le répertoire wp-content "
+"ou un chemin complet vers n’importe quel fichier."
 
 #: includes/modules/block-type/module-block-type-fields.php:725
 msgid ""
@@ -2504,12 +2630,19 @@ msgid ""
 "end and back-end). This can either be a relative path to a file within the "
 "active theme, parent theme, wp-content directory or a full path to any file."
 msgstr ""
+"L’URL d’un fichier .js à mettre en file d’attente chaque fois que votre bloc "
+"est affiché (front-end et back-end). Il peut s’agir d’un chemin relatif à un "
+"fichier dans le thème actif, le thème parent, le répertoire wp-content ou un "
+"chemin complet vers n’importe quel fichier."
 
 #: includes/modules/block-type/module-block-type-fields.php:744
 msgid ""
 "A callback function that runs whenever your block is displayed (front-end "
 "and back-end) and enqueues scripts and/or styles."
 msgstr ""
+"Une fonction de rappel qui s’exécute chaque fois que votre bloc est affiché "
+"(front-end et back-end) et met en file d’attente les scripts et/ou les "
+"styles."
 
 #: includes/modules/block-type/module-block-type.php:24
 #: includes/modules/block-type/module-block-type.php:27
@@ -2563,6 +2696,8 @@ msgid ""
 "It is recommended to include this code within the <code>acf/init</code> hook "
 "(<a href=\"%s\" target=\"blank\">see documentation</a>)."
 msgstr ""
+"Il est recommandé d’inclure ce code dans le hook <code>acf/init</code> (<a "
+"href=\"%s\" target=\"blank\">voir documentation</a>)."
 
 #: includes/modules/block-type/module-block-type.php:45
 #: includes/modules/block-type/module-block-type.php:46
@@ -2585,7 +2720,9 @@ msgstr "%s types de bloc importés"
 #: includes/modules/option/module-option.php:361
 #: includes/modules/post-type/module-post-type.php:60
 #: includes/modules/taxonomy/module-taxonomy.php:60
+#: pro/includes/fields/field-menu-locations.php:121
 #: pro/includes/fields/field-post-field.php:48
+#: pro/includes/modules/template/module-template.php:57
 msgid "Name"
 msgstr "Nom"
 
@@ -2594,8 +2731,8 @@ msgstr "Nom"
 msgid "Posts"
 msgstr "Articles"
 
-#: includes/modules/block-type/module-block-type.php:211
-#: includes/modules/block-type/module-block-type.php:216
+#: includes/modules/block-type/module-block-type.php:236
+#: includes/modules/block-type/module-block-type.php:241
 msgid "This block type already exists"
 msgstr "Ce type de bloc existe déjà"
 
@@ -2847,10 +2984,13 @@ msgid ""
 "The URL slug used to uniquely identify this options page. Defaults to a url "
 "friendly version of Menu Title"
 msgstr ""
+"Le slug d’URL utilisé pour identifier de manière unique cette page "
+"d’options. Par défaut, une version conviviale pour l’URL du Titre du menu"
 
 #: includes/modules/options-page/module-options-page-fields.php:84
 msgid "The title displayed in the wp-admin sidebar. Defaults to Page Title"
 msgstr ""
+"Le titre affiché dans la barre latérale wp-admin. Titre de page par défaut"
 
 #: includes/modules/options-page/module-options-page-fields.php:103
 msgid ""
@@ -2860,6 +3000,11 @@ msgid ""
 "target=\"_blank\">https://wordpress.org/support/article/roles-and-"
 "capabilities/</a>"
 msgstr ""
+"Capacité requise pour que ce menu soit affiché à l’utilisateur. La valeur "
+"par défaut est edit_posts.<br /><br />En savoir plus sur la capacité ici: <a "
+"href=\"https://wordpress.org/support/article/roles-and-capabilities/\" "
+"target=\"_blank\">https://wordpress.org/support/article/roles-and-"
+"capabilities/</a>"
 
 #: includes/modules/options-page/module-options-page-fields.php:122
 msgid ""
@@ -2869,11 +3014,19 @@ msgid ""
 "item displays!<br />Risk of conflict can be reduced by using decimal instead "
 "of integer values, e.g. 63.3 instead of 63."
 msgstr ""
+"La position dans l’ordre de menu de ce menu devrait apparaître. Valeur par "
+"défaut au bas des éléments de menu de l’utilitaire.<br /><br />ATTENTION : "
+"si deux rubriques de menu utilisent le même attribut position, l’une des "
+"rubriques peut être écrasée afin qu’une seule rubrique s’affiche !<br />Le "
+"risque de conflit peut être réduit en utilisant des valeurs décimales au "
+"lieu de valeurs entières, par exemple 63,3 au lieu de 63."
 
 #: includes/modules/options-page/module-options-page-fields.php:141
 msgid ""
 "The slug of another WP admin page. if set, this will become a child page."
 msgstr ""
+"Le slug d’une autre page d’administration WP. Si elle est définie, cette "
+"page deviendra une page enfant."
 
 #: includes/modules/options-page/module-options-page-fields.php:160
 msgid ""
@@ -2882,6 +3035,10 @@ msgid ""
 "resource/dashicons/\" target=\"_blank\">https://developer.wordpress.org/"
 "resource/dashicons/</a>"
 msgstr ""
+"Classe d’icônes de ce menu. Par défaut, l’équipement WordPress est utilisé."
+"<br /><br />En savoir plus sur les dashicons ici: <a href=\"https://"
+"developer.wordpress.org/resource/dashicons/\" target=\"_blank\">https://"
+"developer.wordpress.org/resource/dashicons/</a>"
 
 #: includes/modules/options-page/module-options-page-fields.php:179
 msgid ""
@@ -2889,22 +3046,31 @@ msgid ""
 "a child page exists). If set to false, this parent page will appear "
 "alongside any child pages. Defaults to true"
 msgstr ""
+"Si elle est définie sur true, cette page d’options redirigera vers la "
+"première page enfant (si une page enfant existe). Si elle est définie sur "
+"false, cette page parent apparaîtra à côté des pages enfants. La valeur par "
+"défaut est true"
 
 #: includes/modules/options-page/module-options-page-fields.php:198
 msgid ""
 "The <code>$post_id</code> to save/load data to/from. Can be set to a numeric "
 "post ID (123), or a string ('user_2'). Defaults to 'options'."
 msgstr ""
+"Le <code>$post_id</code> pour enregistrer/charger des données vers/depuis. "
+"Peut être défini sur un ID de publication numérique (123) ou une chaîne "
+"('user_2'). La valeur par défaut est 'options'."
 
 #: includes/modules/options-page/module-options-page-fields.php:217
 msgid ""
 "Whether to load the option (values saved from this options page) when "
 "WordPress starts up. Defaults to false."
 msgstr ""
+"S’il faut charger l’option (valeurs enregistrées à partir de cette page "
+"d’options) au démarrage de WordPress. La valeur par défaut est false."
 
 #: includes/modules/options-page/module-options-page-fields.php:236
 msgid "The update button text."
-msgstr "Le texte du bouton de mise à jour"
+msgstr "Le texte du bouton de mise à jour."
 
 #: includes/modules/options-page/module-options-page-fields.php:255
 msgid "The message shown above the form on submit."
@@ -3025,10 +3191,14 @@ msgid ""
 "developer.wordpress.org/reference/functions/sanitize_key/\" "
 "target=\"_blank\">sanitize_key()</a>."
 msgstr ""
+"Identifiant de type de publication. Ne doit pas dépasser 20 caractères et ne "
+"peut contenir que des caractères alphanumériques, des tirets et des traits "
+"de soulignement minuscules. Voir <a href=\"https://developer.wordpress.org/"
+"reference/functions/sanitize_key/\" target=\"_blank\">sanitize_key()</a>."
 
 #: includes/modules/post-type/module-post-type-fields.php:96
 msgid "A short descriptive summary of what the post type is."
-msgstr ""
+msgstr "Un petit résumé pour décrire de quel type de post il s'agit."
 
 #: includes/modules/post-type/module-post-type-fields.php:115
 msgid ""
@@ -3036,6 +3206,10 @@ msgid ""
 "specified. The <code>supports</code> parameter should contain 'page-"
 "attributes' to show the parent select box on the editor page. Default false."
 msgstr ""
+"Si le type de publication est hiérarchique (par exemple, page). Permet de "
+"spécifier Parent. Le <code>supports</code> paramètre doit contenir 'page-"
+"attributes' pour afficher la zone de sélection parent sur la page de "
+"l’éditeur. Valeur par défaut false."
 
 #: includes/modules/post-type/module-post-type-fields.php:134
 msgid ""
@@ -3044,6 +3218,11 @@ msgid ""
 "add_post_type_support/\" target=\"_blank\">add_post_type_support()</a> "
 "directly. Default is an array containing 'title' and 'editor'."
 msgstr ""
+"Fonctionnalité(s) principale(s) prise en charge par le type de publication. "
+"Sert d’alias pour appeler directement <a href=\"https://developer.wordpress."
+"org/reference/functions/add_post_type_support/\" "
+"target=\"_blank\">add_post_type_support()</a>. La valeur par défaut est un "
+"tableau contenant 'title' et 'editor'."
 
 #: includes/modules/post-type/module-post-type-fields.php:167
 msgid ""
@@ -3054,6 +3233,13 @@ msgid ""
 "wordpress.org/reference/functions/register_taxonomy_for_object_type/\" "
 "target=\"_blank\">register_taxonomy_for_object_type()</a>."
 msgstr ""
+"Tableau d’identificateurs de taxonomie qui seront enregistrés pour le type "
+"de publication. Les taxonomies peuvent être enregistrées ultérieurement avec "
+"<a href=\"https://developer.wordpress.org/reference/functions/"
+"register_taxonomy/\" target=\"_blank\">register_taxonomy()</a> ou <a "
+"href=\"https://developer.wordpress.org/reference/functions/"
+"register_taxonomy_for_object_type/\" "
+"target=\"_blank\">register_taxonomy_for_object_type()</a>."
 
 #: includes/modules/post-type/module-post-type-fields.php:185
 msgid ""
@@ -3061,22 +3247,31 @@ msgid ""
 "<code>show_ui</code>) and readers (<code>exclude_from_search</code>, "
 "<code>publicly_queryable</code>). Default: false."
 msgstr ""
+"Contrôle la visibilité du type par les auteurs (<code>show_in_nav_menus</"
+"code>, <code>show_ui</code>) et les lecteurs (<code>exclude_from_search</"
+"code>, <code>publicly_queryable</code>). Valeur par défaut : false."
 
 #: includes/modules/post-type/module-post-type-fields.php:204
 msgid ""
 "Whether to exclude posts with this post type from front end search results. "
 "Default: value of the opposite of <code>public</code> argument"
 msgstr ""
+"S’il faut exclure les publications avec ce type de publication des résultats "
+"de recherche frontaux. Valeur par défaut : valeur de l’opposé de l’argument "
+"<code>public</code>"
 
 #: includes/modules/post-type/module-post-type-fields.php:223
 msgid ""
 "Whether queries can be performed on the front end as part of "
 "<code>parse_request()</code>. Default: value of <code>public</code> argument."
 msgstr ""
+"Si les requêtes peuvent être exécutées sur le serveur frontal dans le cadre "
+"de <code>parse_request()</code>. Valeur par défaut : valeur de l’argument "
+"<code>public</code> ."
 
 #: includes/modules/post-type/module-post-type-fields.php:242
 msgid "Can this post_type be exported. Default: true."
-msgstr ""
+msgstr "Ce post_type peut-il être exporté? Valeur par défaut : true."
 
 #: includes/modules/post-type/module-post-type-fields.php:261
 msgid ""
@@ -3087,6 +3282,15 @@ msgid ""
 "trashed if <code>post_type_supports('author')</code>. Otherwise posts are "
 "not trashed or deleted. Default: null."
 msgstr ""
+"S’il faut supprimer des publications de ce type lors de la suppression d’un "
+"utilisateur.<br/><br/>Si la valeur est true, les messages de ce type "
+"appartenant à l’utilisateur seront déplacés vers la corbeille lorsque "
+"l’utilisateur sera supprimé.<br/><br/>Si elles sont fausses, les "
+"publications de ce type appartenant à l’utilisateur ne seront ni supprimées "
+"ni supprimées.<br/><br/>S’il n’est pas défini (valeur par défaut), les "
+"publications sont supprimées si <code>post_type_supports('author')</code>. "
+"Sinon, les messages ne sont pas supprimés ou supprimés. Valeur par défaut : "
+"null."
 
 #: includes/modules/post-type/module-post-type-fields.php:305
 msgid ""
@@ -3094,6 +3298,9 @@ msgid ""
 "<code>show_in_menu</code> must be true. Default: null – defaults to below "
 "Comments."
 msgstr ""
+"La position dans l’ordre du menu le type de publication doit apparaître. "
+"<code>show_in_menu</code> doit être vrai. Valeur par défaut : null – par "
+"défaut sous Commentaires."
 
 #: includes/modules/post-type/module-post-type-fields.php:326
 msgid ""
@@ -3102,18 +3309,28 @@ msgid ""
 "\" target=\"_blank\">Dashicons</a>). Default: null – defaults to the posts "
 "icon."
 msgstr ""
+"L’URL de l’icône à utiliser pour ce menu ou le nom de l’icône de l’iconfont "
+"(<a href=\"https://developer.wordpress.org/resource/dashicons/\" "
+"target=\"_blank\">Dashicons</a>). Valeur par défaut : null – par défaut sur "
+"l’icône des publications."
 
 #: includes/modules/post-type/module-post-type-fields.php:345
 msgid ""
 "Whether to generate a default UI for managing this post type in the admin. "
 "Default: value of <code>public</code> argument"
 msgstr ""
+"S’il faut générer une interface utilisateur par défaut pour gérer ce type de "
+"publication dans l’admin. Valeur par défaut : valeur de l’argument "
+"<code>public</code>"
 
 #: includes/modules/post-type/module-post-type-fields.php:364
 msgid ""
 "Where to show the post type in the admin menu. <code>show_ui</code> must be "
 "true. Default: value of <code>show_ui</code> argument"
 msgstr ""
+"Où afficher le type de publication dans le menu d’administration. "
+"<code>show_ui</code> doit être vrai. Valeur par défaut : valeur de "
+"l’argument <code>show_ui</code>"
 
 #: includes/modules/post-type/module-post-type-fields.php:383
 msgid ""
@@ -3121,18 +3338,26 @@ msgid ""
 "php?post_type=page</code>, the post type will be placed as a sub menu of "
 "that."
 msgstr ""
+"Si une page de niveau supérieur existante telle que <code>tools.php</code> "
+"ou <code>edit.php?post_type=page</code>, le type de publication sera placé "
+"en tant que sous-menu de celle-ci."
 
 #: includes/modules/post-type/module-post-type-fields.php:411
 msgid ""
 "Whether post_type is available for selection in navigation menus. Default: "
 "value of <code>public</code> argument"
 msgstr ""
+"Si le post_type est disponible pour la sélection dans les menus de "
+"navigation. Valeur par défaut : valeur de l’argument <code>public</code>"
 
 #: includes/modules/post-type/module-post-type-fields.php:430
 msgid ""
 "Whether to make this post type available in the WordPress admin bar. "
 "Default: value of <code>show_in_menu</code> argument"
 msgstr ""
+"S’il faut rendre ce type de publication disponible dans la barre "
+"d’administration WordPress. Valeur par défaut : valeur de l’argument "
+"<code>show_in_menu</code>"
 
 #: includes/modules/post-type/module-post-type-fields.php:465
 msgid ""
@@ -3140,37 +3365,47 @@ msgid ""
 "href=\"https://developer.wordpress.org/themes/basics/template-hierarchy/\" "
 "target=\"_blank\">Template hierarchy</a>"
 msgstr ""
+"Fichier de modèle à charger pour la requête d’archive. Valeur par défaut : "
+"<a href=\"https://developer.wordpress.org/themes/basics/template-hierarchy/"
+"\" target=\"_blank\">Hiérarchie des modèles</a>"
 
 #: includes/modules/post-type/module-post-type-fields.php:484
 msgid "Enables post type archives. Default: false"
-msgstr ""
+msgstr "Active les archives de type post. Valeur par défaut : false"
 
 #: includes/modules/post-type/module-post-type-fields.php:503
 msgid "Will use <code>name</code> as archive slug by default."
-msgstr ""
+msgstr "Utilisera <code>name</code> comme slug d’archive par défaut."
 
 #: includes/modules/post-type/module-post-type-fields.php:531
 #: includes/modules/taxonomy/module-taxonomy-fields.php:446
 msgid "Number of posts to display in the archive page. Default: 10"
 msgstr ""
+"Nombre de messages à afficher dans la page d’archives. Valeur par défaut : 10"
 
 #: includes/modules/post-type/module-post-type-fields.php:560
 msgid ""
 "Sort retrieved posts by parameter in the archive page. Default: date "
 "(<code>post_date</code>)."
 msgstr ""
+"Triez les posts  récupérés par paramètre dans la page d’archive. Valeur par "
+"défaut : date (<code>post_date</code>)."
 
 #: includes/modules/post-type/module-post-type-fields.php:587
 msgid ""
 "Designates the ascending or descending order of the <code>orderby</code> "
 "parameter in the archive page. Default: DESC."
 msgstr ""
+"Désigne l’ordre croissant ou décroissant du paramètre dans la page d’archive "
+"<code>orderby</code> . Valeur par défaut : DESC."
 
 #: includes/modules/post-type/module-post-type-fields.php:622
 #: includes/modules/taxonomy/module-taxonomy-fields.php:513
 msgid ""
 "Custom field used for the <code>orderby</code> parameter in the archive page"
 msgstr ""
+"Champ personnalisé utilisé pour le <code>orderby</code> paramètre dans la "
+"page d’archive"
 
 #: includes/modules/post-type/module-post-type-fields.php:649
 #: includes/modules/taxonomy/module-taxonomy-fields.php:532
@@ -3179,6 +3414,9 @@ msgid ""
 "TIME, UNSIGNED) used for the <code>orderby</code> parameter in the archive "
 "page"
 msgstr ""
+"Type de champ personnalisé (NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, "
+"SIGNED, TIME, UNSIGNED) utilisé pour le paramètre <code>orderby</code> dans "
+"la page d’archive"
 
 #: includes/modules/post-type/module-post-type-fields.php:692
 msgid ""
@@ -3186,18 +3424,26 @@ msgid ""
 "developer.wordpress.org/themes/basics/template-hierarchy/\" "
 "target=\"_blank\">Template hierarchy</a>"
 msgstr ""
+"Fichier de modèle à charger pour la requête de page unique. Valeur par "
+"défaut : <a href=\"https://developer.wordpress.org/themes/basics/template-"
+"hierarchy/\" target=\"_blank\">Hiérarchie des modèles</a>"
 
 #: includes/modules/post-type/module-post-type-fields.php:711
 msgid ""
 "Triggers the handling of rewrites for this post type. To prevent rewrites, "
 "set to false. Default: true and use <code>name</code> as slug"
 msgstr ""
+"Déclenche la gestion des réécritures pour ce type de publication. Pour "
+"empêcher les réécritures, définissez sur false. Valeur par défaut : true et "
+"utiliser <code>name</code> comme slug"
 
 #: includes/modules/post-type/module-post-type-fields.php:787
 msgid ""
 "Customize the permalink structure slug. Defaults to the <code>name</code> "
 "value. Should be translatable."
 msgstr ""
+"Personnalisez le slug de structure de permalien. Valeur par <code>name</"
+"code> défaut. Devrait être traduisible."
 
 #: includes/modules/post-type/module-post-type-fields.php:815
 msgid ""
@@ -3206,37 +3452,53 @@ msgid ""
 "false-><code>/news/</code>, true-><code>/blog/news/</code>). Defaults to "
 "true."
 msgstr ""
+"Si la structure du permalien doit être précédée de la base avant. (Exemple : "
+"si votre structure de permalien est <code>/blog/</code>, alors vos liens "
+"seront : false-><code>/news/</code>, true-><code>/blog/news/</code>). La "
+"valeur par défaut est true."
 
 #: includes/modules/post-type/module-post-type-fields.php:843
 msgid ""
 "Should a feed permalink structure be built for this post type. Defaults to "
 "<code>has_archive</code> value."
 msgstr ""
+"Une structure de permalien feed doit-elle être construite pour ce type de "
+"contenu. Valeur par défaut <code>has_archive</code> ."
 
 #: includes/modules/post-type/module-post-type-fields.php:871
 msgid ""
 "Should the permalink structure provide for pagination. Defaults to true."
 msgstr ""
+"La structure en permalien devrait-elle prévoir une pagination? La valeur par "
+"défaut est true."
 
 #: includes/modules/post-type/module-post-type-fields.php:917
 msgid "Add an \"Archive\" Options Page as submenu of the post type."
 msgstr ""
+"Ajoutez une page d’options \"Archive\" comme sous-menu du type de "
+"publication."
 
 #: includes/modules/post-type/module-post-type-fields.php:935
 msgid "Number of posts to display on the admin list screen. Default: 10"
 msgstr ""
+"Nombre de messages à afficher sur l’écran de la liste d’administration. "
+"Valeur par défaut : 10"
 
 #: includes/modules/post-type/module-post-type-fields.php:956
 msgid ""
 "Sort retrieved posts by parameter in the admin list screen. Default: date "
 "(<code>post_date</code>)."
 msgstr ""
+"Triez les posts récupérés sur l’écran de liste de l'administration. Valeur "
+"par défaut : date (<code>post_date</code>)."
 
 #: includes/modules/post-type/module-post-type-fields.php:975
 msgid ""
 "Designates the ascending or descending order of the <code>orderby</code> "
 "parameter in the admin list screen. Default: DESC."
 msgstr ""
+"Désigne l’ordre croissant ou décroissant du paramètre sur l’écran de liste "
+"de l'administration <code>orderby</code> . Valeur par défaut : DESC."
 
 #: includes/modules/post-type/module-post-type-fields.php:1002
 #: includes/modules/taxonomy/module-taxonomy-fields.php:796
@@ -3244,6 +3506,8 @@ msgid ""
 "Custom field used for the <code>orderby</code> parameter in the admin list "
 "screen"
 msgstr ""
+"Champ personnalisé utilisé pour le <code>orderby</code> paramètre sur "
+"l’écran de liste de l'administration"
 
 #: includes/modules/post-type/module-post-type-fields.php:1021
 #: includes/modules/taxonomy/module-taxonomy-fields.php:815
@@ -3252,6 +3516,9 @@ msgid ""
 "TIME, UNSIGNED) used for the <code>orderby</code> parameter in the admin "
 "list screen"
 msgstr ""
+"Type de champ personnalisé (NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, "
+"SIGNED, TIME, UNSIGNED) utilisé pour le paramètre <code>orderby</code> sur "
+"l’écran de liste de l'administration"
 
 #: includes/modules/post-type/module-post-type-fields.php:1679
 msgid ""
@@ -3260,6 +3527,10 @@ msgid ""
 "argument as a base to construct the capabilities, like this:<br /><br /"
 ">story<br />stories"
 msgstr ""
+"Chaîne à utiliser pour créer les fonctionnalités de lecture, de modification "
+"et de suppression.<br />Peut être passé sous la forme d’un tableau pour "
+"permettre d’autres pluriels lors de l’utilisation de cet argument comme base "
+"pour construire les capacités, comme ceci :<br /><br />story<br />stories"
 
 #: includes/modules/post-type/module-post-type-fields.php:1699
 msgid ""
@@ -3268,6 +3539,10 @@ msgid ""
 ">delete_post : delete_book<br />edit_posts : edit_books<br />publish_posts : "
 "publish_books<br />etc..."
 msgstr ""
+"Tableau des fonctionnalités de ce type de publication. Spécifiez des "
+"fonctionnalités comme celle-ci :<br /><br />edit_post : edit_book<br /"
+">read_post : read_book<br />delete_post : delete_book<br />edit_posts : "
+"edit_books<br />publish_posts : publish_books<br />etc..."
 
 #: includes/modules/post-type/module-post-type-fields.php:1719
 msgid ""
@@ -3276,18 +3551,27 @@ msgid ""
 "types. Then the <code>edit_post</code> capability must be added to all roles "
 "to add or edit the posts types."
 msgstr ""
+"S’il faut utiliser la gestion interne des méta par défaut. Valeur par "
+"défaut : null.<br/><br/>S’il est défini sur false, le rôle d’administrateur "
+"standard ne peut pas modifier les types de publication. Ensuite, la "
+"fonctionnalité <code>edit_post</code> doit être ajoutée à tous les rôles "
+"pour ajouter ou modifier les types de publications."
 
 #: includes/modules/post-type/module-post-type-fields.php:1764
 msgid ""
 "Whether to expose this post type in the REST API. Must be true to enable the "
 "Gutenberg editor. Default: false."
 msgstr ""
+"S’il faut exposer ce type de publication dans l’API REST. Doit être true "
+"pour activer l’éditeur Gutenberg. Valeur par défaut : false."
 
 #: includes/modules/post-type/module-post-type-fields.php:1783
 msgid ""
 "The base slug that this post type will use when accessed using the REST API: "
 "Default: <code>name</code>."
 msgstr ""
+"Le slug de base que ce type de publication utilisera lors de l’accès à "
+"l’aide de l’API REST : Valeur par défaut : <code>name</code>."
 
 #: includes/modules/post-type/module-post-type-fields.php:1802
 msgid ""
@@ -3299,6 +3583,14 @@ msgid ""
 "developer.wordpress.org/reference/classes/wp_rest_posts_controller/\" "
 "target=\"_blank\">WP_REST_Posts_Controller</a>."
 msgstr ""
+"Un contrôleur personnalisé facultatif à utiliser à la place de <a "
+"href=\"https://developer.wordpress.org/reference/classes/"
+"wp_rest_posts_controller/\" target=\"_blank\">WP_REST_Posts_Controller</a>. "
+"Doit être une sous-classe de <a href=\"https://developer.wordpress.org/"
+"reference/classes/wp_rest_controller/\" "
+"target=\"_blank\">WP_REST_Controller</a>. Valeur par défaut : <a "
+"href=\"https://developer.wordpress.org/reference/classes/"
+"wp_rest_posts_controller/\" target=\"_blank\">WP_REST_Posts_Controller</a>."
 
 #: includes/modules/post-type/module-post-type.php:31
 msgid "Edit Post Type"
@@ -3345,6 +3637,8 @@ msgid ""
 "It is recommended to include this code within the <code>init</code> hook (<a "
 "href=\"%s\" target=\"blank\">see documentation</a>)."
 msgstr ""
+"Il est recommandé d’inclure ce code dans le hook <code>init</code> (<a "
+"href=\"%s\" target=\"blank\">voir documentation</a>)."
 
 #: includes/modules/post-type/module-post-type.php:46
 #: includes/modules/post-type/module-post-type.php:47
@@ -3392,16 +3686,21 @@ msgid ""
 "underscore character, and not be more than 32 characters long (database "
 "structure restriction)"
 msgstr ""
+"Nom de la taxonomie. Le nom ne doit contenir que des lettres minuscules et "
+"le caractère de soulignement, et ne doit pas dépasser 32 caractères "
+"(restriction de structure de la base de données)"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:96
 msgid "Include a description of the taxonomy"
-msgstr ""
+msgstr "Ajouter une description de la taxonomie."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:115
 msgid ""
 "Is this taxonomy hierarchical (have descendants) like categories or not "
 "hierarchical like tags. Default: false"
 msgstr ""
+"Cette taxonomie est-elle hiérarchique (avec des descendants) comme des "
+"catégories ou non hiérarchique comme les tags. Valeur par défaut : false"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:134
 msgid ""
@@ -3409,6 +3708,9 @@ msgid ""
 "built-in Post Type or any Custom Post Type that may be registered. Default "
 "is None."
 msgstr ""
+"Nom du type d’objet de l’objet de taxonomie. Les types d’objets peuvent être "
+"des types de publication intégrés ou tout type de publication personnalisé "
+"pouvant être enregistré. La valeur par défaut est Aucun."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:150
 msgid ""
@@ -3418,12 +3720,19 @@ msgid ""
 "<code>show_in_nav_menus</code> are inherited from <code>public</code>. "
 "Default: true."
 msgstr ""
+"Si une taxonomie est destinée à être utilisée publiquement, soit via "
+"l’interface d’administration, soit par les utilisateurs frontaux. Les "
+"paramètres par défaut de <code>publicly_queryable</code>, <code>show_ui</"
+"code>, et <code>show_in_nav_menus</code> sont hérités de <code>public</"
+"code>. Valeur par défaut : true."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:169
 msgid ""
 "Whether the taxonomy is publicly queryable. Default: value of <code>public</"
 "code>"
 msgstr ""
+"Si la taxonomie est publiquement visible. Valeur par défaut : valeur de "
+"<code>public</code>"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:188
 msgid ""
@@ -3431,6 +3740,9 @@ msgid ""
 "<code>object_type</code>, such as post, is updated. Works much like a hook. "
 "Default: None."
 msgstr ""
+"Nom de fonction qui sera appelé lors de la mise à jour du nombre d’un "
+"<code>object_type</code>, tel qu'un post. Fonctionne un peu comme un hook. "
+"Valeur par défaut : Aucune."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:207
 msgid ""
@@ -3442,6 +3754,15 @@ msgid ""
 "target=\"_blank\">post_tags_meta_box()</a> is used for non-hierarchical. If "
 "false, no meta box is shown. Default: null."
 msgstr ""
+"Fournissez une fonction de retour pour l’affichage de la meta box. S’il "
+"n’est pas défini, <a href=\"https://developer.wordpress.org/reference/"
+"functions/post_categories_meta_box/\" "
+"target=\"_blank\">post_categories_meta_box()</a> est utilisé pour les "
+"taxonomies hiérarchiques et <a href=\"https://developer.wordpress.org/"
+"reference/functions/post_tags_meta_box/\" "
+"target=\"_blank\">post_tags_meta_box()</a> est utilisé pour les taxonomies "
+"non hiérarchiques. Si la valeur est false, aucune meta-box n’est affichée. "
+"Valeur par défaut : null."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:262
 msgid ""
@@ -3449,12 +3770,18 @@ msgid ""
 "provided to <code>wp_set_object_terms()</code>. Default null which equates "
 "to false."
 msgstr ""
+"Si les termes de cette taxonomie doivent être triés dans l’ordre dans lequel "
+"ils sont fournis à <code>wp_set_object_terms()</code>. Valeur par défaut "
+"null égale à false."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:297
 msgid ""
 "Whether to generate and allow a UI for managing terms in this taxonomy in "
 "the admin. Default: value of <code>public</code>."
 msgstr ""
+"S’il faut générer et autoriser une interface utilisateur pour gérer les "
+"termes de cette taxonomie dans l’administration. Valeur par défaut : valeur "
+"de <code>public</code>."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:316
 msgid ""
@@ -3462,30 +3789,43 @@ msgid ""
 "shown as a submenu of the object type menu. If false, no menu is shown. "
 "<code>show_ui</code> must be true. Default: value of <code>show_ui</code>."
 msgstr ""
+"S’il faut afficher la taxonomie dans le menu d’administration. Si la valeur "
+"est true, la classification est affichée sous la forme d’un sous-menu du "
+"menu Type d’objet. Si la valeur est false, aucun menu ne s’affiche. "
+"<code>show_ui</code> doit être vrai. Valeur par défaut : valeur de "
+"<code>show_ui</code>."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:335
 msgid ""
 "Makes this taxonomy available for selection in navigation menus. Default: "
 "value of <code>public</code>."
 msgstr ""
+"Permet de sélectionner cette taxonomie dans les menus de navigation. Valeur "
+"par défaut : valeur de <code>public</code>."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:354
 msgid ""
 "Whether to list the taxonomy in the Tag Cloud Widget controls. Default: "
 "value of <code>show_ui</code>."
 msgstr ""
+"S’il faut répertorier la taxonomie dans les contrôleurs Tag Cloud Widget. "
+"Valeur par défaut : valeur de <code>show_ui</code>."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:373
 msgid ""
 "Whether to show the taxonomy in the quick/bulk edit panel. Default: value of "
 "<code>show_ui</code>."
 msgstr ""
+"S’il faut afficher la taxonomie dans le panneau d’édition rapide/groupée. "
+"Valeur par défaut : valeur de <code>show_ui</code>."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:392
 msgid ""
 "Whether to display a column for the taxonomy on its post type listing "
 "screens. Default: false."
 msgstr ""
+"S’il faut afficher une colonne pour la taxonomie sur ses écrans de liste de "
+"type de publication. Valeur par défaut : false."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:427
 msgid ""
@@ -3493,18 +3833,25 @@ msgid ""
 "href=\"https://developer.wordpress.org/themes/basics/template-hierarchy/"
 "\">Template hierarchy</a>"
 msgstr ""
+"Fichier de modèle à charger pour la requête d’archive. Valeur par défaut : "
+"<a href=\"https://developer.wordpress.org/themes/basics/template-hierarchy/"
+"\">Hiérarchie des modèles</a>"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:467
 msgid ""
 "Sort retrieved posts by parameter in the archive page. Defaults: date "
 "(<code>post_date</code>)."
 msgstr ""
+"Triez les posts récupérés par sur la page d’archive. Valeur par défaut : "
+"date (<code>post_date</code>)."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:486
 msgid ""
 "Designates the ascending or descending order of the <code>orderby</code> "
 "parameter in the archive page. Defaults: DESC."
 msgstr ""
+"Désigne l’ordre croissant ou décroissant du paramètre <code>orderby</code> "
+"sur la page d’archive. Valeur par défaut : DESC."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:551
 msgid ""
@@ -3512,24 +3859,31 @@ msgid ""
 "permalinks\". Pass an argument array to override default URL settings for "
 "permalinks"
 msgstr ""
+"Réglez sur false pour empêcher la réécriture automatique des URL alias "
+"« pretty permalinks ». Transmettre un tableau d’arguments pour remplacer les "
+"paramètres d’URL par défaut pour les permaliens"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:627
 msgid ""
 "Used as pretty permalink text (i.e. <code>/tag/</code>). Default: value of "
 "<code>name</code>"
 msgstr ""
+"Utilisé comme texte de permalien (c’est-à-dire <code>/tag/</code>). Valeur "
+"par défaut : valeur de <code>name</code>"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:655
 msgid "Allowing permalinks to be prepended with front base. Default: true."
 msgstr ""
+"Permettre aux permaliens d’être précédés de la base \"front\". Valeur par "
+"défaut : true."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:683
 msgid "Either hierarchical rewrite tag or not. Default: false."
-msgstr ""
+msgstr "Balise de réécriture hiérarchique ou non. Valeur par défaut : false."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:729
 msgid "Number of terms to display on the admin list screen"
-msgstr ""
+msgstr "Nombre de termes à afficher sur l’écran de liste de l'administration"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:750
 msgid ""
@@ -3539,12 +3893,19 @@ msgid ""
 "<code>parent</code>, <code>count</code> (for term taxonomy count), or "
 "<code>none</code> to omit the ORDER BY clause"
 msgstr ""
+"Triez les termes récupérés sur l’écran de liste de l'administration. Accepte "
+"les champs <code>name</code>, <code>slug</code>, <code>term_group</code>, "
+"<code>term_id</code>, <code>id</code>, <code>description</code>, "
+"<code>parent</code>, <code>count</code> (pour le nombre de taxonomies de "
+"termes), ou <code>none</code> pour omettre la clause ORDER BY"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:769
 msgid ""
 "Designates the ascending or descending order of the <code>orderby</code> "
 "parameter in the admin list screen. Default: ASC."
 msgstr ""
+"Désigne l’ordre croissant ou décroissant du paramètre <code>orderby</code> "
+"sur l’écran de liste de l'administration. Valeur par défaut : ASC."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:850
 msgid ""
@@ -3553,6 +3914,11 @@ msgid ""
 ">Default: if empty, <code>name</code> is set to <code>label</code> value, "
 "and <code>singular_name</code> is set to <code>name</code> value."
 msgstr ""
+"Tableau d’étiquettes pour cette taxonomie. Par défaut, les étiquettes de "
+"balise sont utilisées pour les types non hiérarchiques et les étiquettes de "
+"catégorie pour les types hiérarchiques.<br /><br />Valeur par défaut : si "
+"vide, <code>name</code> est défini sur <code>label</code> valeur et "
+"<code>singular_name</code> valeur définie <code>name</code> ."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:1206
 msgid ""
@@ -3560,6 +3926,9 @@ msgid ""
 "edit_posts<br />edit_terms : edit_posts<br />delete_terms : edit_posts<br /"
 ">assign_terms : edit_posts"
 msgstr ""
+"Un tableau des capacités de cette taxonomie :<br /><br />manage_terms : "
+"edit_posts<br />edit_terms : edit_posts<br />delete_terms : edit_posts<br /"
+">assign_terms : edit_posts"
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:1242
 msgid ""
@@ -3567,10 +3936,15 @@ msgid ""
 "to true in order to use the taxonomy in your gutenberg metablock. Default: "
 "false."
 msgstr ""
+"S’il faut inclure la taxonomie dans l’API REST. Vous devrez définir cela sur "
+"true afin d’utiliser la taxonomie dans votre métabloc gutenberg. Valeur par "
+"défaut : false."
 
 #: includes/modules/taxonomy/module-taxonomy-fields.php:1261
 msgid "To change the base url of REST API route. Default: <code>name</code>."
 msgstr ""
+"Pour modifier l’URL de base de la route de l’API REST. Valeur par défaut : "
+"<code>name</code>."
 
 #: includes/modules/taxonomy/module-taxonomy.php:31
 msgid "Edit Taxonomy"
@@ -3681,39 +4055,39 @@ msgstr "(ce champ)"
 msgid "No toggle fields available"
 msgstr "Aucun champ de basculement disponible"
 
-#: pro/assets/js/acfe-pro-input.js:655
+#: pro/assets/js/acfe-pro-input.js:683
 #: pro/includes/modules/script/module-script.php:291
 msgid "Clear"
 msgstr "Effacer"
 
-#: pro/assets/js/acfe-pro-input.js:1020
+#: pro/assets/js/acfe-pro-input.js:1048
 msgid "Maximum items reached ({max} items)"
 msgstr "Nombre maximal d’objets atteints ({max} éléments)"
 
-#: pro/assets/js/acfe-pro-input.js:1135
+#: pro/assets/js/acfe-pro-input.js:1163
 msgid "Edit File"
 msgstr "Modifier le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1136
+#: pro/assets/js/acfe-pro-input.js:1164
 msgid "Update File"
 msgstr "Mettre à jour le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1620
+#: pro/assets/js/acfe-pro-input.js:1648
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr "Ce champ a une limite de {max} {label} {identifier}"
 
-#: pro/assets/js/acfe-pro-input.js:1621
+#: pro/assets/js/acfe-pro-input.js:1649
 #: pro/includes/fields/field-flexible-content-locations.php:181
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] "disposition"
 msgstr[1] "mises en page"
 
-#: pro/assets/js/acfe-pro-input.js:3628
+#: pro/assets/js/acfe-pro-input.js:3656
 msgid "OK"
 msgstr "OK"
 
-#: pro/assets/js/acfe-pro-input.js:3628
+#: pro/assets/js/acfe-pro-input.js:3656
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -3733,10 +4107,11 @@ msgstr "Exporter les paramètres"
 
 #: pro/includes/admin/tools/settings-export.php:42
 #: pro/includes/admin/tools/settings-export.php:48
+#: pro/includes/admin/tools/settings-export.php:82
 msgid "Export ACF Settings"
 msgstr "Exporter les paramètres ACF"
 
-#: pro/includes/admin/tools/settings-export.php:203
+#: pro/includes/admin/tools/settings-export.php:243
 msgid "Settings exported."
 msgstr "Paramètres exportés."
 
@@ -3840,6 +4215,124 @@ msgstr "Message requis"
 msgid "Field Visibility"
 msgstr "Champ de visibilité"
 
+#: pro/includes/fields/field-block-editor.php:82
+#: pro/includes/fields/field-block-editor.php:103
+#: pro/includes/fields/field-wysiwyg.php:97
+#: pro/includes/fields/field-wysiwyg.php:117
+#: pro/includes/fields/field-wysiwyg.php:139
+msgid "Height"
+msgstr "Hauteur"
+
+#: pro/includes/fields/field-block-editor.php:148
+#: pro/includes/fields/field-wysiwyg.php:209
+msgid "Autoresize"
+msgstr "Mise en forme automatique"
+
+#: pro/includes/fields/field-block-editor.php:151
+#: pro/includes/fields/field-wysiwyg.php:212
+msgid "Height will be based on the editor content"
+msgstr "La hauteur sera basée sur le contenu de l’éditeur"
+
+#: pro/includes/fields/field-block-editor.php:160
+msgid "Top Bar"
+msgstr "Barre supérieure"
+
+#: pro/includes/fields/field-block-editor.php:163
+#: pro/includes/fields/field-wysiwyg.php:248
+msgid "Show the menu bar on top of the editor"
+msgstr "Afficher la barre de menus en haut de l’éditeur"
+
+#: pro/includes/fields/field-block-editor.php:171
+msgid "Top Bar Tools"
+msgstr "Outils de barre supérieure"
+
+#: pro/includes/fields/field-block-editor.php:179
+msgid "Inserter"
+msgstr "Introducteur"
+
+#: pro/includes/fields/field-block-editor.php:180
+msgid "Selector"
+msgstr "Sélecteur"
+
+#: pro/includes/fields/field-block-editor.php:181
+msgid "Undo"
+msgstr "Annuler"
+
+#: pro/includes/fields/field-block-editor.php:182
+msgid "Contents"
+msgstr "Contenu"
+
+#: pro/includes/fields/field-block-editor.php:183
+msgid "Navigation"
+msgstr "Navigation"
+
+#: pro/includes/fields/field-block-editor.php:184
+msgid "Inspector"
+msgstr "Inspecteur"
+
+#: pro/includes/fields/field-block-editor.php:185
+msgid "Editor"
+msgstr "Éditeur"
+
+#: pro/includes/fields/field-block-editor.php:200
+msgid "Fixed Toolbar"
+msgstr "Barre d’outils fixe"
+
+#: pro/includes/fields/field-block-editor.php:212
+msgid "Allow Code Editing"
+msgstr "Autoriser la modification du code"
+
+#: pro/includes/fields/field-block-editor.php:224
+msgid "Allow Lock"
+msgstr "Autoriser le verrouillage"
+
+#: pro/includes/fields/field-block-editor.php:236
+msgid "Allow File Upload"
+msgstr "Autoriser le téléchargement d’un fichier"
+
+#: pro/includes/fields/field-block-editor.php:248
+msgid "Allow File Library"
+msgstr "Autoriser la bibliothèque de fichiers"
+
+#: pro/includes/fields/field-block-editor.php:269
+msgid "Allowed Blocks"
+msgstr "Blocs autorisés"
+
+#: pro/includes/fields/field-block-editor.php:272
+msgid "List of all available core blocks"
+msgstr "Liste de tous les blocs principaux disponibles"
+
+#: pro/includes/fields/field-block-editor.php:274
+msgid "+ Add block"
+msgstr "+ Ajouter un bloc"
+
+#: pro/includes/fields/field-block-editor.php:521
+msgctxt "CSS Font Family for Editor Font"
+msgid "Noto Serif"
+msgstr ""
+
+#: pro/includes/fields/field-block-editor.php:553
+msgid "Medium"
+msgstr "Moyen"
+
+#: pro/includes/fields/field-block-editor.php:553
+msgid "Large"
+msgstr "Grand"
+
+#: pro/includes/fields/field-block-editor.php:553
+#: pro/includes/fields/field-image-sizes.php:62
+#: pro/includes/fields/field-image-sizes.php:483
+msgid "Full Size"
+msgstr "Taille originale"
+
+#: pro/includes/fields/field-block-editor.php:573
+msgid "Add title"
+msgstr "Ajouter un titre"
+
+#: pro/includes/fields/field-block-editor.php:574
+msgid "Start writing or type / to choose a block"
+msgstr "Commencez à écrire ou saisissez \" / \" pour choisir un bloc"
+
 #: pro/includes/fields/field-block-types.php:80
 msgid "Allow Block Types"
 msgstr "Autoriser les types de blocs"
@@ -3861,75 +4354,66 @@ msgid "Toggle All"
 msgstr "Sélectionner tout"
 
 #: pro/includes/fields/field-color-picker.php:23
-#: pro/includes/fields/field-color-picker.php:181
+#: pro/includes/fields/field-color-picker.php:176
 msgid "Select Color"
 msgstr "Sélectionner une couleur"
 
-#: pro/includes/fields/field-color-picker.php:76
-#: pro/includes/fields/field-color-picker.php:169
-#: pro/includes/fields/field-color-picker.php:305
+#: pro/includes/fields/field-color-picker.php:67
+#: pro/includes/fields/field-color-picker.php:164
+#: pro/includes/fields/field-menu-locations.php:122
 msgid "Label"
 msgstr "Label"
 
-#: pro/includes/fields/field-color-picker.php:77
+#: pro/includes/fields/field-color-picker.php:68
 msgid "Color + Label Array"
 msgstr "Tableau Couleur + Intitulé"
 
-#: pro/includes/fields/field-color-picker.php:147
+#: pro/includes/fields/field-color-picker.php:142
 msgid "Display Style"
 msgstr "Style d’affichage"
 
-#: pro/includes/fields/field-color-picker.php:170
+#: pro/includes/fields/field-color-picker.php:165
+#: pro/includes/fields/field-menu-locations.php:123
 msgid "Both (Array)"
 msgstr "Les deux (Tableau)"
 
-#: pro/includes/fields/field-color-picker.php:177
-#: pro/includes/fields/field-file.php:186
+#: pro/includes/fields/field-color-picker.php:172
+#: pro/includes/fields/field-file.php:195
 msgid "Button Label"
 msgstr "Nom du bouton"
 
-#: pro/includes/fields/field-color-picker.php:194
+#: pro/includes/fields/field-color-picker.php:189
 msgid "Color Picker"
 msgstr "Sélecteur de couleur"
 
-#: pro/includes/fields/field-color-picker.php:202
+#: pro/includes/fields/field-color-picker.php:197
 msgid "Position Absolute"
 msgstr "Position Absolue"
 
-#: pro/includes/fields/field-color-picker.php:219
+#: pro/includes/fields/field-color-picker.php:214
 msgid "Text Input"
 msgstr "Saisie de texte"
 
-#: pro/includes/fields/field-color-picker.php:243
+#: pro/includes/fields/field-color-picker.php:238
 #: pro/includes/fields/field-date-range-picker.php:251
 msgid "Allow null"
 msgstr "Autoriser une valeur « null »"
 
-#: pro/includes/fields/field-color-picker.php:254
+#: pro/includes/fields/field-color-picker.php:249
 msgid "RGBA"
 msgstr "RGBA"
 
-#: pro/includes/fields/field-color-picker.php:264
+#: pro/includes/fields/field-color-picker.php:259
 msgid "Use Theme Colors"
 msgstr "Utiliser les couleurs du thème"
 
-#: pro/includes/fields/field-color-picker.php:272
+#: pro/includes/fields/field-color-picker.php:267
 msgid "Custom Colors"
 msgstr "Couleurs personnalisées"
 
-#: pro/includes/fields/field-color-picker.php:273
+#: pro/includes/fields/field-color-picker.php:268
 msgid "Enter each choice on a new line."
 msgstr "Entrez chaque choix sur une nouvelle ligne."
-
-#: pro/includes/fields/field-color-picker.php:273
-msgid "For more control, you may specify both a value and label like this:"
-msgstr ""
-"Pour plus de contrôle, vous pouvez spécifier à la fois une valeur et une "
-"étiquette comme ceci:"
-
-#: pro/includes/fields/field-color-picker.php:273
-msgid "#2271b1 : Primary"
-msgstr "#2271b1 : Primaire"
 
 #: pro/includes/fields/field-column.php:66
 #: pro/includes/fields/field-column.php:88
@@ -4124,23 +4608,23 @@ msgstr "Minutes Restriction"
 msgid "Seconds Restriction"
 msgstr "Restriction des secondes"
 
-#: pro/includes/fields/field-field-groups.php:82
+#: pro/includes/fields/field-field-groups.php:87
 msgid "Allow Field Groups"
 msgstr "Autoriser les groupes de champs"
 
-#: pro/includes/fields/field-field-groups.php:90
+#: pro/includes/fields/field-field-groups.php:95
 msgid "All field groups"
 msgstr "Tous les groupes de champs"
 
-#: pro/includes/fields/field-field-groups.php:122
+#: pro/includes/fields/field-field-groups.php:127
 msgid "Field group object"
 msgstr "Objet de groupe de champs"
 
-#: pro/includes/fields/field-field-groups.php:123
+#: pro/includes/fields/field-field-groups.php:128
 msgid "Field group key"
 msgstr "Clé de groupe de champs"
 
-#: pro/includes/fields/field-field-groups.php:124
+#: pro/includes/fields/field-field-groups.php:129
 msgid "Field group ID"
 msgstr "ID de groupe de champs"
 
@@ -4195,8 +4679,8 @@ msgstr "Champ – Identifiant"
 msgid "Select"
 msgstr "Sélectionner"
 
-#: pro/includes/fields/field-file.php:22 pro/includes/fields/field-file.php:189
-#: pro/includes/fields/field-file.php:494
+#: pro/includes/fields/field-file.php:22 pro/includes/fields/field-file.php:198
+#: pro/includes/fields/field-file.php:503
 msgid "Add File"
 msgstr "Ajouter un fichier"
 
@@ -4204,19 +4688,39 @@ msgstr "Ajouter un fichier"
 msgid "Preview Style"
 msgstr "Style d’aperçu"
 
-#: pro/includes/fields/field-file.php:177
+#: pro/includes/fields/field-file.php:178
+#: pro/includes/fields/field-image.php:87
+msgid "Leave blank to use the default upload folder."
+msgstr "Laissez vide pour utiliser le dossier de téléchargement par défaut."
+
+#: pro/includes/fields/field-file.php:178
+#: pro/includes/fields/field-image.php:87
+msgid "Available template tags:"
+msgstr "Modèle de tags disponibles:"
+
+#: pro/includes/fields/field-file.php:181
+#: pro/includes/fields/field-image.php:90
+msgid "Current default upload folder:"
+msgstr "Dossier de téléchargement par défaut actuel:"
+
+#: pro/includes/fields/field-file.php:186
+#: pro/includes/fields/field-image.php:95
 msgid "Upload Folder"
 msgstr "Dossier des envois"
 
-#: pro/includes/fields/field-file.php:241
+#: pro/includes/fields/field-file.php:227
+msgid "Stylized Button"
+msgstr "Bouton stylisé"
+
+#: pro/includes/fields/field-file.php:250
 msgid "File Count"
 msgstr "Nombre de fichiers"
 
-#: pro/includes/fields/field-file.php:283
-msgid "Allow multiple files"
+#: pro/includes/fields/field-file.php:292
+msgid "Allow Multiple Files"
 msgstr "Autoriser plusieurs fichiers"
 
-#: pro/includes/fields/field-file.php:461
+#: pro/includes/fields/field-file.php:470
 msgid "File name"
 msgstr "Nom du fichier"
 
@@ -4354,11 +4858,6 @@ msgstr "Image"
 msgid "Image Sizes"
 msgstr "Tailles des images"
 
-#: pro/includes/fields/field-image-sizes.php:62
-#: pro/includes/fields/field-image-sizes.php:483
-msgid "Full Size"
-msgstr "Taille originale"
-
 #: pro/includes/fields/field-image-sizes.php:92
 msgid "Allow Image Sizes"
 msgstr "Autoriser les tailles d’image"
@@ -4423,11 +4922,11 @@ msgstr "Regrouper les langues par continent"
 msgid "Menu Locations"
 msgstr "Emplacements de menus"
 
-#: pro/includes/fields/field-menu-locations.php:80
+#: pro/includes/fields/field-menu-locations.php:81
 msgid "Allow Locations"
 msgstr "Autoriser les emplacements"
 
-#: pro/includes/fields/field-menu-locations.php:88
+#: pro/includes/fields/field-menu-locations.php:89
 msgid "All locations"
 msgstr "Tous les lieux"
 
@@ -4455,19 +4954,19 @@ msgstr "Nom du menu"
 msgid "Menu ID"
 msgstr "ID Menu"
 
-#: pro/includes/fields/field-options-pages.php:78
+#: pro/includes/fields/field-options-pages.php:83
 msgid "Allow Options Pages"
 msgstr "Autoriser les pages d’options"
 
-#: pro/includes/fields/field-options-pages.php:86
+#: pro/includes/fields/field-options-pages.php:91
 msgid "All options pages"
 msgstr "Toutes les pages d’options"
 
-#: pro/includes/fields/field-options-pages.php:118
+#: pro/includes/fields/field-options-pages.php:123
 msgid "Options page object"
 msgstr "Objet de page Options"
 
-#: pro/includes/fields/field-options-pages.php:119
+#: pro/includes/fields/field-options-pages.php:124
 msgid "Options page name"
 msgstr "Nom de la page Options"
 
@@ -4941,10 +5440,6 @@ msgstr "Nom du modèle"
 msgid "Style"
 msgstr "Style"
 
-#: pro/includes/fields/field-true-false.php:38
-msgid "Default"
-msgstr "Par défaut"
-
 #: pro/includes/fields/field-true-false.php:39
 msgid "Default Rounded"
 msgstr "Arrondi par défaut"
@@ -4973,12 +5468,6 @@ msgstr "Initialisation automatique"
 msgid "Automatically initialize TinyMCE when shown"
 msgstr "Initialiser automatiquement de TinyMCE lorsqu’il est affiché"
 
-#: pro/includes/fields/field-wysiwyg.php:97
-#: pro/includes/fields/field-wysiwyg.php:117
-#: pro/includes/fields/field-wysiwyg.php:139
-msgid "Height"
-msgstr "Hauteur"
-
 #: pro/includes/fields/field-wysiwyg.php:162
 msgid "Valid Elements"
 msgstr "Éléments valides"
@@ -5003,14 +5492,6 @@ msgstr "Désactiver le style WP"
 msgid "Remove TinyMCE builtin stylesheets"
 msgstr "Supprimer les feuilles de style intégrées TinyMCE"
 
-#: pro/includes/fields/field-wysiwyg.php:209
-msgid "Autoresize"
-msgstr "Mise en forme automatique"
-
-#: pro/includes/fields/field-wysiwyg.php:212
-msgid "Height will be based on the editor content"
-msgstr "La hauteur sera basée sur le contenu de l’éditeur"
-
 #: pro/includes/fields/field-wysiwyg.php:221
 msgid "Disable Resize"
 msgstr "Désactiver le redimensionnement"
@@ -5030,10 +5511,6 @@ msgstr "Masquer la barre d’état du chemin d’accès de l’éditeur"
 #: pro/includes/fields/field-wysiwyg.php:245
 msgid "Menu Bar"
 msgstr "Barre de menu"
-
-#: pro/includes/fields/field-wysiwyg.php:248
-msgid "Show the menu bar on top of the editor"
-msgstr "Afficher la barre de menus en haut de l’éditeur"
 
 #: pro/includes/fields/field-wysiwyg.php:257
 msgid "Transparent Editor"
@@ -5076,6 +5553,7 @@ msgstr "Profondeur de l’élément de menu"
 #: pro/includes/locations/post-date-time.php:59
 #: pro/includes/locations/post-date.php:59
 #: pro/includes/locations/post-time.php:59
+#: pro/includes/modules/global-field-condition.php:253
 msgid "is less than"
 msgstr "est inférieur à"
 
@@ -5083,6 +5561,7 @@ msgstr "est inférieur à"
 #: pro/includes/locations/post-date-time.php:60
 #: pro/includes/locations/post-date.php:60
 #: pro/includes/locations/post-time.php:60
+#: pro/includes/modules/global-field-condition.php:254
 msgid "is less or equal to"
 msgstr "est inférieur ou égal à"
 
@@ -5090,6 +5569,7 @@ msgstr "est inférieur ou égal à"
 #: pro/includes/locations/post-date-time.php:61
 #: pro/includes/locations/post-date.php:61
 #: pro/includes/locations/post-time.php:61
+#: pro/includes/modules/global-field-condition.php:255
 msgid "is greater than"
 msgstr "est supérieur à"
 
@@ -5097,6 +5577,7 @@ msgstr "est supérieur à"
 #: pro/includes/locations/post-date-time.php:62
 #: pro/includes/locations/post-date.php:62
 #: pro/includes/locations/post-time.php:62
+#: pro/includes/modules/global-field-condition.php:256
 msgid "is greater or equal to"
 msgstr "est supérieur ou égal à"
 
@@ -5407,7 +5888,7 @@ msgstr "Objet de la taxonomie"
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: pro/includes/modules/global-field-condition.php:75
+#: pro/includes/modules/global-field-condition.php:76
 msgid "Set as Global Conditional Logic"
 msgstr "Définir comme logique conditionnelle globale"
 
@@ -5463,17 +5944,17 @@ msgstr "Temps restant"
 msgid "Timer"
 msgstr "Minuteur"
 
-#: pro/includes/modules/template/module-template-features.php:46
+#: pro/includes/modules/template/module-template-features.php:42
 #: pro/includes/modules/template/module-template-fields.php:33
 #: pro/includes/modules/template/module-template.php:26
 msgid "Template"
 msgstr "Modèle"
 
-#: pro/includes/modules/template/module-template-features.php:62
+#: pro/includes/modules/template/module-template-features.php:58
 msgid "is equal to"
 msgstr "est égal à"
 
-#: pro/includes/modules/template/module-template-features.php:79
+#: pro/includes/modules/template/module-template-features.php:75
 msgid "No templates found"
 msgstr "Aucun modèle trouvé"
 
@@ -5492,6 +5973,15 @@ msgid ""
 "\"Dynamic Template\" under \"Forms\", then choose your template and save the "
 "field group."
 msgstr ""
+"Le module Modèles dynamiques vous permet de gérer les valeurs ACF par défaut "
+"de manière avancée. Pour commencer, vous devez connecter un groupe de champs "
+"à un modèle spécifique. Rendez-vous sur l’administration des groupes de "
+"champs, sélectionnez le groupe de champs de votre choix et faites défiler "
+"jusqu’aux paramètres d’emplacement. Pour connecter un groupe de champs à un "
+"modèle, choisissez un emplacement classique (comme Type de publication = "
+"Post) et ajoutez une nouvelle règle à l’aide de l’opérateur « ET ». "
+"Sélectionnez la règle « Modèle dynamique » sous « Formulaires », puis "
+"choisissez votre modèle et enregistrez le groupe de champs."
 
 #: pro/includes/modules/template/module-template-fields.php:109
 msgid ""
@@ -5500,6 +5990,12 @@ msgid ""
 "screenshot, there is a different template for the \"Post Type: Page\" & the "
 "\"Post Type: Post\" while using the same field group."
 msgstr ""
+"Vous pouvez maintenant remplir la page du modèle, les valeurs seront "
+"automatiquement chargées pour l’emplacement auquel elle est liée si "
+"l’utilisateur n’a jamais rien enregistré. Dans cette capture d’écran, il "
+"existe un modèle différent pour le « Type de publication: Page » et le "
+"« Type de publication: Publication » tout en utilisant le même groupe de "
+"champs."
 
 #: pro/includes/modules/template/module-template-fields.php:111
 msgid ""
@@ -5508,6 +6004,11 @@ msgid ""
 "field group location as needed. It is also possible to add multiple field "
 "groups into a single template to keep things organized."
 msgstr ""
+"La conception du modèle dynamique est suffisamment intelligente pour "
+"répondre à des scénarios complexes. Par exemple, un seul modèle peut être "
+"utilisé conjointement avec autant d’emplacements de groupe de champs que "
+"nécessaire. Il est également possible d’ajouter plusieurs groupes de champs "
+"dans un seul modèle pour garder les choses organisées."
 
 #: pro/includes/modules/template/module-template-fields.php:113
 msgid ""
@@ -5515,6 +6016,10 @@ msgid ""
 "data related to the said values. Typically in a \"New Post\" situation. If "
 "the user save a value, even an empty one, the template won't be loaded."
 msgstr ""
+"<u>Note:</u> Le modèle sera chargé sur une page dans le cas où l’utilisateur "
+"n'a jamais sauvegardé de meta donnée. Généralement dans une situation de "
+"« création d'article ». Si l’utilisateur enregistre une meta-donnée, même "
+"vide, le modèle ne sera pas chargé."
 
 #: pro/includes/modules/template/module-template.php:28
 msgid "Edit Template"
@@ -5559,6 +6064,7 @@ msgid ""
 "It is recommended to include this code within the <code>acfe/init</code> "
 "hook."
 msgstr ""
+"Il est recommandé d’inclure ce code dans le hook <code>acfe/init</code>."
 
 #: pro/includes/modules/template/module-template.php:43
 #: pro/includes/modules/template/module-template.php:44
@@ -5574,15 +6080,15 @@ msgstr "1 modèle importé"
 msgid "%s templates imported"
 msgstr "%s modèles importés"
 
-#: pro/includes/modules/template/module-template.php:57
+#: pro/includes/modules/template/module-template.php:58
 msgid "Locations"
 msgstr "Emplacements"
 
-#: pro/includes/modules/template/module-template.php:100
+#: pro/includes/modules/template/module-template.php:102
 msgid "You are currently editing a Dynamic Template."
 msgstr "Vous modifiez actuellement un modèle dynamique."
 
-#: pro/includes/modules/template/module-template.php:280
+#: pro/includes/modules/template/module-template.php:325
 msgid "This template already exists"
 msgstr "Ce modèle existe déjà"
 
@@ -5724,6 +6230,14 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "ACF Extended"
 msgstr "ACF Extended"
+
+#~ msgid "For more control, you may specify both a value and label like this:"
+#~ msgstr ""
+#~ "Pour plus de contrôle, vous pouvez spécifier à la fois une valeur et une "
+#~ "étiquette comme ceci:"
+
+#~ msgid "#2271b1 : Primary"
+#~ msgstr "#2271b1 : Primaire"
 
 #~ msgid "Dynamic Block Type"
 #~ msgstr "Type de bloc dynamique"
