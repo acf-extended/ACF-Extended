@@ -93,7 +93,7 @@ class acfe_dev{
         $this->add_meta_boxes($post_id, $post_type);
     
         // action
-        do_action('acfe/dev/clean_metabox', $post_id, $post_type, 'post');
+        do_action('acfe/dev/add_meta_boxes', $post_id, $post_type, 'post');
         
     }
     
@@ -114,7 +114,7 @@ class acfe_dev{
         $this->add_meta_boxes($post_id, 'edit');
     
         // action
-        do_action('acfe/dev/clean_metabox', $post_id, 'edit', 'posts');
+        do_action('acfe/dev/add_meta_boxes', $post_id, 'edit', 'posts');
         
     }
     
@@ -136,7 +136,7 @@ class acfe_dev{
         $this->add_meta_boxes($post_id, "edit-{$taxonomy}");
     
         // action
-        do_action('acfe/dev/clean_metabox', $post_id, "edit-{$taxonomy}", 'term');
+        do_action('acfe/dev/add_meta_boxes', $post_id, "edit-{$taxonomy}", 'term');
         
     }
     
@@ -157,7 +157,7 @@ class acfe_dev{
         $this->add_meta_boxes($post_id, 'edit');
     
         // action
-        do_action('acfe/dev/clean_metabox', $post_id, 'edit', 'terms');
+        do_action('acfe/dev/add_meta_boxes', $post_id, 'edit', 'terms');
         
     }
     
@@ -178,7 +178,7 @@ class acfe_dev{
         $this->add_meta_boxes($post_id, array('profile', 'user-edit'));
     
         // action
-        do_action('acfe/dev/clean_metabox', $post_id, array('profile', 'user-edit'), 'user');
+        do_action('acfe/dev/add_meta_boxes', $post_id, array('profile', 'user-edit'), 'user');
         
     }
     
@@ -199,7 +199,7 @@ class acfe_dev{
         $this->add_meta_boxes($post_id, 'acf_options_page');
         
         // action
-        do_action('acfe/dev/clean_metabox', $post_id, 'acf_options_page', 'option');
+        do_action('acfe/dev/add_meta_boxes', $post_id, 'acf_options_page', 'option');
         
     }
     
@@ -218,6 +218,8 @@ class acfe_dev{
         
         // add meta boxes
         $this->add_meta_boxes($post_id, $page);
+    
+        do_action('acfe/dev/add_meta_boxes', $post_id, $page, 'settings');
         
     }
     
@@ -238,7 +240,7 @@ class acfe_dev{
         // add meta boxes
         $this->add_meta_boxes($post_id, $post_type);
     
-        do_action('acfe/dev/clean_metabox', $post_id, $post_type, 'attachment');
+        do_action('acfe/dev/add_meta_boxes', $post_id, $post_type, 'attachment');
         
     }
     
@@ -255,6 +257,8 @@ class acfe_dev{
         
         // add meta boxes
         $this->add_meta_boxes($post_id, 'edit');
+    
+        do_action('acfe/dev/add_meta_boxes', $post_id, 'edit', 'attachments');
         
     }
     
@@ -271,6 +275,8 @@ class acfe_dev{
         
         // add meta boxes
         $this->add_meta_boxes($post_id, 'edit');
+    
+        do_action('acfe/dev/add_meta_boxes', $post_id, 'edit', 'users');
         
     }
     
@@ -287,7 +293,7 @@ class acfe_dev{
         $this->setup_meta($post_id);
         
         // do action
-        do_action('acfe/dev/add_meta_boxes', $post_id, $screen);
+        // do_action('acfe/dev/add_meta_boxes', $post_id, $screen);
         
         // vars
         $bulk = false;
@@ -617,18 +623,29 @@ class acfe_dev{
         // loop to prepare acf_meta
         foreach($wp_meta as $key => $meta){
             
+            $ref = false;
+            $ref_found = false;
+            
             // no prefix, so not acf meta
-            if(!isset($wp_meta["_$key"])){
+            if(isset($wp_meta["_$key"])){
+                $ref = $wp_meta["_$key"];
+                $ref_found = true;
+            }
+            
+            // filters
+            $ref = apply_filters('acfe/dev/meta_ref', $ref, $wp_meta, $type, $key, $id, $post_id);
+            
+            if(!$ref){
                 continue;
             }
             
-            // check if key is field_abcde123456?
-            if(!acf_is_field_key($wp_meta["_$key"]['value'])){
+            // check if key is field_abcde123456
+            if(!acf_is_field_key($ref['value'])){
                 continue;
             }
             
             // vars
-            $field_key = $wp_meta["_$key"]['value'];
+            $field_key = $ref['value'];
             $field_type = '<em>' . __('Undefined', 'acfe') . '</em>';
             $field_group_title = '<em>' . __('Undefined', 'acfe') . '</em>';
             
@@ -683,11 +700,17 @@ class acfe_dev{
             }
             
             // assign acf meta: prefix
-            $_meta = $wp_meta["_$key"];
-            $_meta['field_type'] = $field_type;
-            $_meta['field_group'] = $field_group_title;
-            
-            $acf_meta[] = $_meta;
+            if($ref_found){
+    
+                unset($wp_meta["_$key"]);
+    
+                $_meta = $ref;
+                $_meta['field_type'] = $field_type;
+                $_meta['field_group'] = $field_group_title;
+    
+                $acf_meta[] = $_meta;
+                
+            }
             
             // assign acf meta: normal
             $_meta = $wp_meta[ $key ];
@@ -697,8 +720,7 @@ class acfe_dev{
             $acf_meta[] = $_meta;
 
             // unset wp meta
-            unset($wp_meta["_$key"]);
-            unset($wp_meta[$key]);
+            unset($wp_meta[ $key ]);
             
         }
         

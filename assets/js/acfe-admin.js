@@ -24,6 +24,10 @@
 
         wait: 'prepare',
 
+        actions: {
+            'refresh_post_screen': 'onRefreshScreen',
+        },
+
         events: {
             'click .acfe-dev-delete-meta': 'onDeleteSingle',
             'click .acfe-dev-bulk [type="submit"]': 'onDeleteBulk',
@@ -184,6 +188,18 @@
             }
 
         },
+
+        onRefreshScreen: function(data) {
+
+            // fix dev mode postbox being hidden
+            // on page attributes template change
+            data.hidden.map(function(id) {
+                if (id === 'acfe-wp-custom-fields' || id === 'acfe-acf-custom-fields' || id === 'acfe-performance') {
+                    acf.getPostbox(id).showEnable();
+                }
+            });
+
+        }
 
     });
 

@@ -1234,7 +1234,7 @@ class acfe_field_taxonomy_terms extends acf_field{
             
             $terms = $all_terms;
             
-            // Filter allowed terms
+        // Filter allowed terms
         }else{
             
             // Add term level
@@ -1460,6 +1460,28 @@ class acfe_field_taxonomy_terms extends acf_field{
         $field['search_placeholder'] = acf_translate($field['search_placeholder']);
         
         return $field;
+        
+    }
+    
+    
+    /**
+     * get_rest_schema
+     *
+     * @param $field
+     *
+     * @return array
+     */
+    function get_rest_schema(array $field){
+        
+        $schema = array(
+            'type'     => array('string', 'array', 'null'),
+            'required' => isset($field['required']) && $field['required'],
+            'items'    => array(
+                'type' => 'string',
+            ),
+        );
+        
+        return $schema;
         
     }
 

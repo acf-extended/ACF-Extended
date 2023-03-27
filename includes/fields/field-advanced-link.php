@@ -466,7 +466,10 @@ class acfe_field_advanced_link extends acf_field{
         // empty value
         // allow to save empty value to not pollute db
         if(empty($value['value']) && empty($value['title'])){
-            $value = false;
+            
+            // must be empty string so options page can save empty value
+            // fix a bug where option would not save value if value = false
+            $value = '';
         }
         
         return $value;

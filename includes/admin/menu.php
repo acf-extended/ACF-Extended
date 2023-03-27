@@ -86,7 +86,9 @@ class acfe_admin_menu{
             'edit.php?post_type=acfe-dbt',
             'edit.php?post_type=acfe-form',
             'edit.php?post_type=acfe-dop',
+            'edit.php?post_type=acf-post-type',
             'acfe-settings',
+            'edit.php?post_type=acf-taxonomy',
             'acf-tools',
             'acf-settings-updates',
         );

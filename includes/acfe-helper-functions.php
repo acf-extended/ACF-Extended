@@ -476,7 +476,7 @@ function acfe_parse_args_r(&$a, $b){
     
     foreach($a as $k => &$v){
         
-        if(is_array($v) && isset($r[ $k ]) && is_array($r[ $k ])){
+        if(is_array($v) && !empty($v) && isset($r[ $k ]) && is_array($r[ $k ]) && acf_is_associative_array($r[ $k ])){
             $r[ $k ] = acfe_parse_args_r($v, $r[ $k ]);
         }else{
             $r[ $k ] = $v;
@@ -637,8 +637,8 @@ function acfe_is_dev(){
     
     // deprecated
     if(defined('ACFE_dev')){
-    
-        _deprecated_function('ACF Extended: "ACFE_dev" constant', '0.8.8.7', 'the constant "ACFE_DEV"');
+        
+        acfe_deprecated_constant('ACFE_dev', '0.8.8.7', 'ACFE_DEV');
         return ACFE_dev;
         
     }
@@ -658,8 +658,8 @@ function acfe_is_super_dev(){
     
     // deprecated
     if(defined('ACFE_super_dev')){
-        
-        _deprecated_function('ACF Extended: "ACFE_super_dev" constant', '0.8.8.7', 'the constant "ACFE_SUPER_DEV"');
+    
+        acfe_deprecated_constant('ACFE_super_dev', '0.8.8.7', 'ACFE_SUPER_DEV');
         return ACFE_super_dev;
         
     }

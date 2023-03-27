@@ -405,17 +405,17 @@ class acfe_admin_settings{
                     'category'      => 'modules',
                 ),
                 array(
+                    'label'         => 'Performance',
+                    'name'          => 'acfe/modules/performance',
+                    'type'          => 'text',
+                    'description'   => 'Enable/disable Performance module. Defaults to empty',
+                    'category'      => 'modules',
+                ),
+                array(
                     'label'         => 'Post Types',
                     'name'          => 'acfe/modules/post_types',
                     'type'          => 'true_false',
                     'description'   => 'Show/hide the Post Types module. Defaults to true',
-                    'category'      => 'modules',
-                ),
-                array(
-                    'label'         => 'Single Meta',
-                    'name'          => 'acfe/modules/single_meta',
-                    'type'          => 'true_false',
-                    'description'   => 'Enable/disable Single Meta Save module. Defaults to false',
                     'category'      => 'modules',
                 ),
                 array(
@@ -642,7 +642,12 @@ class acfe_admin_settings_ui{
                     }
                 
                     foreach($var as &$r){
-                        $r = '<div class="acf-js-tooltip acfe-settings-text" title="' . $r . '"><code>' . $r . '</code></div>';
+                        if(is_array($r)){
+                            $encode = json_encode($r);
+                            $r = '<div class="acfe-settings-text"><code>' . $encode . '</code></div>';
+                        }else{
+                            $r = '<div class="acf-js-tooltip acfe-settings-text" title="' . $r . '"><code>' . $r . '</code></div>';
+                        }
                     }
                 
                     $result = implode('', $var);

@@ -14,7 +14,8 @@ class acfe_compatibility{
     function __construct(){
         
         // global
-        add_action('acf/init',                                      array($this, 'init'), 98);
+        add_action('acf/init',                                      array($this, 'acf_init'), 98);
+        add_action('acfe/init',                                     array($this, 'acfe_init'), 99);
     
         // fields
         add_filter('acf/validate_field_group',                      array($this, 'field_group_location_list'), 20);
@@ -37,7 +38,7 @@ class acfe_compatibility{
     
     
     /**
-     * init
+     * acf_init
      *
      * acf/init:98
      *
@@ -45,7 +46,7 @@ class acfe_compatibility{
      *
      * @since 0.8 (20/10/2019)
      */
-    function init(){
+    function acf_init(){
     
         // settings list
         $settings = array(
@@ -62,9 +63,46 @@ class acfe_compatibility{
         
         // loop settings
         foreach($settings as $old => $new){
+            
+            // get old setting 'acfe_php'
+            $value = acf_get_setting($old);
     
-            if(acf_get_setting($old) !== null){
-                acf_update_setting($new, acf_get_setting($old));
+            if($value !== null){
+                
+                // deprecated notice
+                acfe_deprecated_setting($old, '0.8', $new);
+                
+                // update setting
+                acf_update_setting($new, $value);
+                
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    /**
+     * acfe_init
+     *
+     * acfe/init:99
+     *
+     * @since 0.8.9.3 (03/2023)
+     */
+    function acfe_init(){
+    
+        // get old setting
+        $setting = acf_get_setting('acfe/modules/single_meta');
+        
+        if($setting !== null){
+    
+            // deprecated notice
+            acfe_deprecated_setting('acfe/modules/single_meta', '0.8.9.3', 'acfe/modules/performance');
+            
+            // update setting
+            if($setting){
+                acf_update_setting('acfe/modules/performance', 'ultra');
             }
             
         }
@@ -95,16 +133,16 @@ class acfe_compatibility{
                     continue;
                 }
                 
-                // Post Type List
+                // post type list
+                // replace old 'my-post-type_archive'
                 if($and['param'] === 'post_type' && acfe_ends_with($and['value'], '_archive')){
                     
                     $and['param'] = 'post_type_list';
                     $and['value'] = substr_replace($and['value'], '', -8);
-                    
-                }
-                
-                // Taxonomy List
-                elseif($and['param'] === 'taxonomy' && acfe_ends_with($and['value'], '_archive')){
+    
+                // taxonomy list
+                // replace old 'my-taxonomy_archive'
+                }elseif($and['param'] === 'taxonomy' && acfe_ends_with($and['value'], '_archive')){
                     
                     $and['param'] = 'taxonomy_list';
                     $and['value'] = substr_replace($and['value'], '', -8);
@@ -131,9 +169,9 @@ class acfe_compatibility{
      * @return mixed
      */
     function field_group_instruction_tooltip($field_group){
-    
+        
         if(acf_maybe_get($field_group, 'instruction_placement') === 'acfe_instructions_tooltip'){
-            $field_group['instruction_placement'] = __('Tooltip', 'acfe');
+            $field_group['instruction_placement'] = 'tooltip';
         }
     
         return $field_group;
@@ -175,6 +213,7 @@ class acfe_compatibility{
         
         if($seamless = acf_maybe_get($field, 'acfe_seemless_style', false)){
             $field['acfe_seamless_style'] = $seamless;
+            unset($field['acfe_seemless_style']);
         }
         
         return $field;

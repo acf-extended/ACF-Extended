@@ -8,6 +8,8 @@ if(!class_exists('acfe_form_front')):
 
 class acfe_form_front{
     
+    var $fields = array();
+    
     function __construct(){
         
         // vars

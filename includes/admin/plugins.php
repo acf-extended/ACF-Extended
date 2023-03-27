@@ -13,9 +13,9 @@ class acfe_admin_plugins{
      */
     function __construct(){
     
-        add_filter('install_plugins_tabs',                  array($this, 'install_plugins_tabs'));
-        add_filter('install_plugins_table_api_args_acf',    array($this, 'install_plugins_table_api_args'));
-        add_action('install_plugins_acf',                   array($this, 'install_plugins'));
+        add_filter('install_plugins_tabs',               array($this, 'install_plugins_tabs'));
+        add_filter('install_plugins_table_api_args_acf', array($this, 'install_plugins_table_api_args'));
+        add_action('install_plugins_acf',                array($this, 'install_plugins'));
         
     }
     
@@ -54,6 +54,7 @@ class acfe_admin_plugins{
         return $args;
         
     }
+    
     
     /**
      * install_plugins

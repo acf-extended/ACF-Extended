@@ -17,6 +17,8 @@ class ACFE_Field_Group{
         add_action('acf/field_group/admin_head', array($this, 'admin_head'));
         add_filter('acf/validate_field_group',   array($this, 'validate_field_group'));
         
+        // acf 6.1
+        add_filter( 'acf/localized_field_categories', array($this, 'localized_field_categories'));
     }
     
     
@@ -34,19 +36,35 @@ class ACFE_Field_Group{
             asort($fields);
         }
         
+        // before acf 6.1 category was 'jQuery'
+        $category = acfe_is_acf_61() ? 'Advanced' : 'jQuery';
+        
         if(isset($groups['E-Commerce'])){
-            $groups = acfe_array_insert_after($groups, 'jQuery', 'E-Commerce', $groups['E-Commerce']);
+            $groups = acfe_array_insert_after($groups, $category, 'E-Commerce', $groups['E-Commerce']);
         }
         
         if(isset($groups['ACF'])){
-            $groups = acfe_array_insert_after($groups, 'jQuery', 'ACF', $groups['ACF']);
+            $groups = acfe_array_insert_after($groups, $category, 'ACF', $groups['ACF']);
         }
         
         if(isset($groups['WordPress'])){
-            $groups = acfe_array_insert_after($groups, 'jQuery', 'WordPress', $groups['WordPress']);
+            $groups = acfe_array_insert_after($groups, $category, 'WordPress', $groups['WordPress']);
         }
         
         return $groups;
+        
+    }
+    
+    
+    function localized_field_categories($categories_i18n){
+    
+        $categories_i18n = acfe_array_insert_after($categories_i18n, 'advanced', 'E-Commerce', 'E-Commerce');
+        $categories_i18n = acfe_array_insert_after($categories_i18n, 'advanced', 'ACF',        'ACF');
+        $categories_i18n = acfe_array_insert_after($categories_i18n, 'advanced', 'WordPress',  'WordPress');
+        
+        unset($categories_i18n['pro']);
+        
+        return $categories_i18n;
         
     }
     

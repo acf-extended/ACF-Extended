@@ -228,9 +228,10 @@ html[dir=rtl] .acf-columns-2 .acf-column-2 {
 .misc-pub-acfe-object-data::before,
 .misc-pub-acfe-object-id::before,
 .misc-pub-acfe-object-meta::before,
+.misc-pub-acfe-object-performance::before,
 .misc-pub-acfe-object-role::before,
-.misc-pub-acfe-object-single-meta::before,
-.misc-pub-acfe-object-type::before {
+.misc-pub-acfe-object-type::before,
+.misc-pub-acfe-object::before {
     font: normal 19px/1 dashicons;
     speak: never;
     display: inline-block;
@@ -268,8 +269,53 @@ html[dir=rtl] .acf-columns-2 .acf-column-2 {
     content: "\f17e"
 }
 
-.misc-pub-acfe-object-single-meta::before {
-    content: "\f106"
+.misc-pub-acfe-object-performance::before {
+    content: "\f226"
+}
+
+.misc-pub-acfe-yes::before {
+    content: "\f147";
+    font-size: 24px;
+    line-height: 20px;
+    width: 18px;
+    margin-left: -3px
+}
+
+.misc-pub-acfe-no::before {
+    content: "\f335";
+    font-size: 22px;
+    width: 15px
+}
+
+.misc-pub-acfe-import::before {
+    content: "\f17b";
+    font-size: 19px;
+    width: 15px;
+    margin-left: 1px
+}
+
+.misc-pub-acfe-info::before {
+    content: "\f14c";
+    font-size: 17px;
+    line-height: 19px;
+    width: 13px;
+    margin-left: 2px
+}
+
+.misc-pub-acfe-dashboard::before {
+    content: "\f226";
+    font-size: 18px;
+    line-height: 19px;
+    width: 14px;
+    margin-left: 1px
+}
+
+.misc-pub-acfe-warning::before {
+    content: "\f534";
+    font-size: 18px;
+    line-height: 19px;
+    width: 14px;
+    margin-left: 1px
 }
 
 .acfe-list-postboxes .postbox>.postbox-header>h2.hndle {

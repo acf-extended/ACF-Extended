@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.8.9.2
+ * Version:     0.8.9.3
  * Author:      ACF Extended
  * Plugin URI:  https://www.acf-extended.com
  * Author URI:  https://www.acf-extended.com
@@ -19,7 +19,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // vars
-    var $version = '0.8.9.2';
+    var $version = '0.8.9.3';
     
     /**
      * construct
@@ -47,6 +47,7 @@ class ACFE{
         include_once(ACFE_PATH . 'includes/init.php');
         
         // functions
+        acfe_include('includes/acfe-deprecated-functions.php');
         acfe_include('includes/acfe-field-functions.php');
         acfe_include('includes/acfe-field-group-functions.php');
         acfe_include('includes/acfe-file-functions.php');
@@ -121,7 +122,7 @@ class ACFE{
             'modules/taxonomies'            => true,
             'modules/multilang'             => true,
             'modules/options'               => true,
-            'modules/single_meta'           => false,
+            'modules/performance'           => false,
             'modules/ui'                    => true,
             
             // fields
@@ -144,8 +145,10 @@ class ACFE{
         add_action('acf/include_admin_tools',   array($this, 'include_admin_tools'));
         add_action('acf/include_admin_tools',   array($this, 'include_admin_tools_late'), 20);
         
+        // compatibility
+        acfe_include('includes/compatibility-6.0.php');
+        
         // admin
-        acfe_include('includes/admin/compatibility.php');
         acfe_include('includes/admin/menu.php');
         acfe_include('includes/admin/plugins.php');
         acfe_include('includes/admin/settings.php');
@@ -175,6 +178,12 @@ class ACFE{
         
         // form
         acfe_include('includes/modules/form/module-form-upgrades.php');
+        
+        // performance
+        acfe_include('includes/modules/performance/module-performance.php');
+        acfe_include('includes/modules/performance/module-performance-connector.php');
+        acfe_include('includes/modules/performance/module-performance-functions.php');
+        acfe_include('includes/modules/performance/module-performance-ui.php');
     
         // post type
         acfe_include('includes/modules/post-type/module-post-type.php');
@@ -261,15 +270,18 @@ class ACFE{
         // modules
         acfe_include('includes/modules/author.php');
         acfe_include('includes/modules/dev/module-dev.php');
-        acfe_include('includes/modules/dev/module-dev-clean-meta.php');
         acfe_include('includes/modules/dev/module-dev-delete-meta.php');
         acfe_include('includes/modules/option/module-option.php');
-        acfe_include('includes/modules/single-meta.php');
         acfe_include('includes/modules/ui/module-ui.php');
         acfe_include('includes/modules/ui/module-ui-attachment.php');
         acfe_include('includes/modules/ui/module-ui-settings.php');
         acfe_include('includes/modules/ui/module-ui-term.php');
         acfe_include('includes/modules/ui/module-ui-user.php');
+    
+        // performance
+        acfe_include('includes/modules/performance/module-performance-ultra.php');
+        acfe_include('includes/modules/performance/module-performance-ultra-fields.php');
+        acfe_include('includes/modules/performance/module-performance-ultra-revisions.php');
         
         // modules legacy
         acfe_include('includes/module-legacy.php');

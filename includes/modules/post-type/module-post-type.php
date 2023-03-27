@@ -277,6 +277,11 @@ class acfe_module_post_type extends acfe_module{
         // general: taxonomies
         $item['taxonomies'] = acf_get_array($item['taxonomies']);
         
+        // general: supports
+        if(empty($item['supports'])){
+            $item['supports'] = false;
+        }
+        
         // menu: menu position
         if(!acf_is_empty($item['menu_position'])){
             $item['menu_position'] = (int) $item['menu_position'];

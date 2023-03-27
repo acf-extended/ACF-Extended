@@ -2905,7 +2905,11 @@
                     html += '<h2 class="acfe-flexible-categories nav-tab-wrapper">';
                     html += '<a href="#" data-acfe-flexible-category="acfe-all" class="nav-tab nav-tab-active"><span class="dashicons dashicons-menu"></span></a>';
 
-                    data.sort().map(function(row) {
+                    data.sort(function(a, b) {
+                        return a.slug > b.slug ? 1 : -1;
+                    });
+
+                    data.map(function(row) {
                         html += '<a href="#" data-acfe-flexible-category="' + row.label + '" class="nav-tab">' + row.label + '</a>';
                     });
 

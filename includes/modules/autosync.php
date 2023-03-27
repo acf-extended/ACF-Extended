@@ -405,6 +405,10 @@ class ACFE_AutoSync{
             $field_group['fields'] = acf_get_fields($field_group);
         
             acf_update_setting('l10n_var_export', false);
+    
+            // reset store again to avoid storing translated fields
+            // this fix an issue with acfml 2.0.2 which update fields as "!!__(!!'My Field!!', !!'my-textdomain!!')!!" in ACF UI
+            $store->reset();
         
         }
     

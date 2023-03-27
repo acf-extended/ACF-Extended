@@ -25,6 +25,16 @@ function acfe_is_acf_6(){
     return acf_version_compare(acf_get_setting('version'),  '>=', '6.0');
 }
 
+
+/**
+ * acfe_is_acf_admin_61
+ *
+ * @return bool
+ */
+function acfe_is_acf_61(){
+    return acf_version_compare(acf_get_setting('version'),  '>=', '6.1');
+}
+
 /**
  * acfe_include
  *

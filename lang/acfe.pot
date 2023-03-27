@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2023-02-16 07:34+0100\n"
+"POT-Creation-Date: 2023-03-26 03:05+0200\n"
 "PO-Revision-Date: 2021-07-27 23:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
@@ -22,29 +22,29 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: .build\n"
 
-#: acf-extended.php:427
+#: acf-extended.php:439
 msgid ""
 "An another version of ACF Extended has been detected. Please activate only "
 "one version."
 msgstr ""
 
-#: acf-extended.php:429
+#: acf-extended.php:441
 msgid "ACF Extended Pro has been detected. Please activate only one version."
 msgstr ""
 
-#: assets/js/acfe-admin.js:315 includes/modules/option/module-option.php:500
+#: assets/js/acfe-admin.js:325 includes/modules/option/module-option.php:500
 #: includes/modules/options-page/module-options-page.php:313
 #: pro/includes/updates.php:398
 msgid "Yes"
 msgstr ""
 
-#: assets/js/acfe-admin.js:316 includes/modules/option/module-option.php:499
+#: assets/js/acfe-admin.js:326 includes/modules/option/module-option.php:499
 #: includes/modules/options-page/module-options-page.php:313
 #: pro/includes/updates.php:412
 msgid "No"
 msgstr ""
 
-#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3467
+#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3471
 #: includes/assets.php:130 includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:84
 #: includes/fields/field-advanced-link.php:100
@@ -52,13 +52,17 @@ msgstr ""
 #: includes/fields/field-flexible-content-settings.php:275
 #: includes/fields/field-flexible-content.php:811
 #: includes/fields/field-flexible-content.php:817
-#: includes/modules/dev/module-dev-clean-meta.php:107
-#: pro/assets/js/acfe-pro-admin.js:626 pro/assets/js/acfe-pro-input.js:682
-#: pro/includes/field-groups/field-group-ui.php:440
-#: pro/includes/fields/field-payment.php:477 pro/includes/modules/dev.php:122
-#: pro/includes/modules/dev.php:195 pro/includes/modules/dev.php:262
-#: pro/includes/modules/dev.php:362 pro/includes/modules/dev.php:418
-#: pro/includes/modules/dev.php:474 pro/includes/modules/dev.php:528
+#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:700
+#: pro/includes/field-groups/field-group-ui.php:617
+#: pro/includes/fields/field-payment.php:477
+#: pro/includes/modules/dev/module-dev-clean-meta.php:116
+#: pro/includes/modules/dev/module-dev-metabox.php:121
+#: pro/includes/modules/dev/module-dev-metabox.php:196
+#: pro/includes/modules/dev/module-dev-metabox.php:265
+#: pro/includes/modules/dev/module-dev-metabox.php:369
+#: pro/includes/modules/dev/module-dev-metabox.php:427
+#: pro/includes/modules/dev/module-dev-metabox.php:485
+#: pro/includes/modules/dev/module-dev-metabox.php:541
 msgid "Close"
 msgstr ""
 
@@ -89,6 +93,19 @@ msgstr ""
 
 #: assets/js/acfe-input.js:2757 includes/fields/field-flexible-content.php:319
 msgid "Add Row"
+msgstr ""
+
+#: includes/acfe-deprecated-functions.php:110
+#, php-format
+msgid ""
+"%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
+msgstr ""
+
+#: includes/acfe-deprecated-functions.php:112
+#, php-format
+msgid ""
+"%1$s is <strong>deprecated</strong> since version %2$s with no alternative "
+"available."
 msgstr ""
 
 #: includes/acfe-field-functions.php:575 includes/module-legacy.php:534
@@ -147,10 +164,10 @@ msgstr ""
 msgid "Advanced Custom Fields"
 msgstr ""
 
-#: includes/admin/settings.php:527 includes/admin/settings.php:678
-#: includes/admin/settings.php:688 includes/fields-settings/settings.php:136
+#: includes/admin/settings.php:527 includes/admin/settings.php:683
+#: includes/admin/settings.php:693 includes/fields-settings/settings.php:136
 #: includes/fields/field-flexible-content.php:91
-#: pro/includes/admin/settings.php:309 pro/includes/admin/settings.php:369
+#: pro/includes/admin/settings.php:314 pro/includes/admin/settings.php:374
 msgid "Settings"
 msgstr ""
 
@@ -224,7 +241,7 @@ msgstr ""
 
 #: includes/admin/tools/module-import.php:58
 #: includes/admin/tools/tools-legacy/module-import-legacy.php:37
-#: pro/assets/js/acfe-pro-input.js:1119 pro/assets/js/acfe-pro-input.js:1137
+#: pro/assets/js/acfe-pro-input.js:1137 pro/assets/js/acfe-pro-input.js:1155
 #: pro/includes/admin/tools/settings-import.php:40
 msgid "Select File"
 msgstr ""
@@ -309,33 +326,41 @@ msgstr ""
 msgid "Add New"
 msgstr ""
 
-#: includes/assets.php:131 pro/assets/js/acfe-pro-input.js:4902
+#: includes/assets.php:131 includes/locations/post-type-list.php:199
+#: includes/locations/taxonomy-list.php:199
+#: includes/modules/option/module-option.php:541
+#: includes/modules/options-page/module-options-page.php:79
+#: pro/assets/js/acfe-pro-admin.js:54 pro/includes/admin/settings.php:356
+#: pro/includes/locations/attachment-list.php:191
+#: pro/includes/locations/user-list.php:189
+#: pro/includes/modules/dev/module-dev-metabox.php:688
+msgid "Update"
+msgstr ""
+
+#: includes/assets.php:132 pro/assets/js/acfe-pro-input.js:4938
 msgid "Read more"
 msgstr ""
 
-#: includes/assets.php:132
+#: includes/assets.php:133
 msgid "Details"
 msgstr ""
 
-#: includes/assets.php:133 pro/assets/js/acfe-pro-admin.js:625
-#: pro/assets/js/acfe-pro-admin.js:626
+#: includes/assets.php:134 pro/assets/js/acfe-pro-admin.js:615
+#: pro/assets/js/acfe-pro-admin.js:616
 msgid "Debug"
 msgstr ""
 
-#: includes/compatibility.php:136
-#: includes/field-groups/field-group-instruction-placement.php:40
-msgid "Tooltip"
-msgstr ""
-
 #: includes/field-groups/field-group-advanced.php:51
-#: pro/includes/field-groups/field-group-ui.php:96
-#: pro/includes/field-groups/field-group-ui.php:261
+#: pro/includes/field-groups/field-group-ui.php:102
+#: pro/includes/field-groups/field-group-ui.php:267
+#: pro/includes/field-groups/field-group-ui.php:435
 msgid "Advanced settings"
 msgstr ""
 
 #: includes/field-groups/field-group-advanced.php:56
-#: pro/includes/field-groups/field-group-ui.php:101
-#: pro/includes/field-groups/field-group-ui.php:266
+#: pro/includes/field-groups/field-group-ui.php:107
+#: pro/includes/field-groups/field-group-ui.php:272
+#: pro/includes/field-groups/field-group-ui.php:440
 msgid "Enable advanced fields settings & validation"
 msgstr ""
 
@@ -396,132 +421,153 @@ msgstr ""
 msgid "Above fields"
 msgstr ""
 
+#: includes/field-groups/field-group-instruction-placement.php:40
+msgid "Tooltip"
+msgstr ""
+
 #: includes/field-groups/field-group-meta.php:34
 msgid "Field group"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:48
-#: pro/includes/field-groups/field-group-ui.php:168
-#: pro/includes/field-groups/field-group-ui.php:331
+#: pro/includes/field-groups/field-group-ui.php:174
+#: pro/includes/field-groups/field-group-ui.php:337
+#: pro/includes/field-groups/field-group-ui.php:506
 msgid "Custom meta data"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:51
-#: pro/includes/field-groups/field-group-ui.php:171
-#: pro/includes/field-groups/field-group-ui.php:334
+#: pro/includes/field-groups/field-group-ui.php:177
+#: pro/includes/field-groups/field-group-ui.php:340
+#: pro/includes/field-groups/field-group-ui.php:509
 msgid "Add custom meta data to the field group."
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:54
-#: pro/includes/field-groups/field-group-ui.php:174
-#: pro/includes/field-groups/field-group-ui.php:337
+#: pro/includes/field-groups/field-group-ui.php:180
+#: pro/includes/field-groups/field-group-ui.php:343
+#: pro/includes/field-groups/field-group-ui.php:512
 msgid "+ Meta"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:64
-#: pro/includes/field-groups/field-group-ui.php:184
-#: pro/includes/field-groups/field-group-ui.php:347
+#: pro/includes/field-groups/field-group-ui.php:190
+#: pro/includes/field-groups/field-group-ui.php:353
+#: pro/includes/field-groups/field-group-ui.php:522
 msgid "Key"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:81
-#: includes/fields/field-hidden.php:66 includes/modules/dev/module-dev.php:431
+#: includes/fields/field-hidden.php:66 includes/modules/dev/module-dev.php:437
 #: includes/modules/option/module-option-table.php:222
 #: includes/modules/option/module-option.php:396
 #: includes/modules/option/module-option.php:427
 #: includes/modules/option/module-option.php:460
-#: pro/includes/field-groups/field-group-ui.php:201
-#: pro/includes/field-groups/field-group-ui.php:364
+#: pro/includes/field-groups/field-group-ui.php:207
+#: pro/includes/field-groups/field-group-ui.php:370
+#: pro/includes/field-groups/field-group-ui.php:539
 #: pro/includes/fields/field-color-picker.php:163
 #: pro/includes/fields/field-image-selector.php:119
+#: pro/includes/modules/dev/module-dev-edit-meta.php:117
 msgid "Value"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:101
-#: pro/includes/field-groups/field-group-ui.php:238
-#: pro/includes/field-groups/field-group-ui.php:397
-#: pro/includes/field-groups/field-group-ui.php:406
+#: pro/includes/field-groups/field-group-ui.php:244
+#: pro/includes/field-groups/field-group-ui.php:403
+#: pro/includes/field-groups/field-group-ui.php:412
+#: pro/includes/field-groups/field-group-ui.php:572
+#: pro/includes/field-groups/field-group-ui.php:581
 msgid "Note"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:105
-#: pro/includes/field-groups/field-group-ui.php:242
-#: pro/includes/field-groups/field-group-ui.php:410
+#: pro/includes/field-groups/field-group-ui.php:248
+#: pro/includes/field-groups/field-group-ui.php:416
+#: pro/includes/field-groups/field-group-ui.php:585
 msgid "Add personal note. Only visible to administrators"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:115
-#: pro/includes/field-groups/field-group-ui.php:221
-#: pro/includes/field-groups/field-group-ui.php:384
+#: pro/includes/field-groups/field-group-ui.php:227
+#: pro/includes/field-groups/field-group-ui.php:390
+#: pro/includes/field-groups/field-group-ui.php:559
 msgid "Field group data"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:116
-#: pro/includes/field-groups/field-group-ui.php:222
-#: pro/includes/field-groups/field-group-ui.php:385
+#: pro/includes/field-groups/field-group-ui.php:228
+#: pro/includes/field-groups/field-group-ui.php:391
+#: pro/includes/field-groups/field-group-ui.php:560
 msgid "View raw field group data, for development use"
 msgstr ""
 
 #: includes/field-groups/field-group-meta.php:147
 #: includes/field-groups/field-group-meta.php:159
 #: includes/fields-settings/data.php:83
-#: pro/includes/field-groups/field-group-ui.php:322
-#: pro/includes/field-groups/field-group-ui.php:428
-#: pro/includes/field-groups/field-group-ui.php:439
+#: pro/includes/field-groups/field-group-ui.php:328
+#: pro/includes/field-groups/field-group-ui.php:497
+#: pro/includes/field-groups/field-group-ui.php:605
+#: pro/includes/field-groups/field-group-ui.php:616
 msgid "Data"
 msgstr ""
 
-#: includes/field-groups/field-group.php:61
+#: includes/field-groups/field-group.php:79
 #: includes/fields-settings/settings.php:99
 msgid "Advanced Settings"
 msgstr ""
 
-#: includes/field-groups/field-group.php:111
-#: pro/includes/field-groups/field-group-ui.php:111
-#: pro/includes/field-groups/field-group-ui.php:276
+#: includes/field-groups/field-group.php:129
+#: pro/includes/field-groups/field-group-ui.php:117
+#: pro/includes/field-groups/field-group-ui.php:282
+#: pro/includes/field-groups/field-group-ui.php:450
 msgid "Display title"
 msgstr ""
 
-#: includes/field-groups/field-group.php:112
-#: pro/includes/field-groups/field-group-ui.php:112
-#: pro/includes/field-groups/field-group-ui.php:277
+#: includes/field-groups/field-group.php:130
+#: pro/includes/field-groups/field-group-ui.php:118
+#: pro/includes/field-groups/field-group-ui.php:283
+#: pro/includes/field-groups/field-group-ui.php:451
 msgid "Render this title on edit post screen"
 msgstr ""
 
-#: includes/field-groups/field-group.php:136
+#: includes/field-groups/field-group.php:154
 #: includes/field-groups/field-groups.php:573
 #: includes/field-groups/field-groups.php:581 pro/includes/module-item.php:95
 #: pro/includes/module-local.php:673 pro/includes/module-posts.php:300
 msgid "Sync available"
 msgstr ""
 
-#: includes/field-groups/field-group.php:137
+#: includes/field-groups/field-group.php:155
 msgid "Local json file is different from the version in database."
 msgstr ""
 
-#: includes/field-groups/field-group.php:148
+#: includes/field-groups/field-group.php:166
 msgid "Synchronize"
 msgstr ""
 
-#: includes/field-groups/field-group.php:157 pro/includes/module-item.php:158
+#: includes/field-groups/field-group.php:175 pro/includes/module-item.php:158
 msgid "Review changes"
 msgstr ""
 
-#: includes/field-groups/field-group.php:247 pro/includes/module-item.php:167
+#: includes/field-groups/field-group.php:265 pro/includes/module-item.php:167
 msgid "Auto Sync"
 msgstr ""
 
-#: includes/field-groups/field-group.php:266
+#: includes/field-groups/field-group.php:284
 #: includes/fields-settings/permissions.php:23
-#: pro/includes/field-groups/field-group-ui.php:145
-#: pro/includes/field-groups/field-group-ui.php:294
-#: pro/includes/field-groups/field-group-ui.php:303
+#: pro/includes/field-groups/field-group-ui.php:151
+#: pro/includes/field-groups/field-group-ui.php:300
+#: pro/includes/field-groups/field-group-ui.php:309
+#: pro/includes/field-groups/field-group-ui.php:469
+#: pro/includes/field-groups/field-group-ui.php:478
 msgid "Permissions"
 msgstr ""
 
-#: includes/field-groups/field-group.php:270
-#: pro/includes/field-groups/field-group-ui.php:149
-#: pro/includes/field-groups/field-group-ui.php:307
+#: includes/field-groups/field-group.php:288
+#: pro/includes/field-groups/field-group-ui.php:155
+#: pro/includes/field-groups/field-group-ui.php:313
+#: pro/includes/field-groups/field-group-ui.php:482
 msgid ""
 "Select user roles that are allowed to view and edit this field group in post "
 "edition"
@@ -555,7 +601,7 @@ msgstr ""
 #: includes/field-groups/field-groups.php:113
 #: includes/fields/field-flexible-content-select.php:105
 #: pro/includes/field-groups/field-group-hide-on-screen.php:39
-#: pro/includes/fields/field-post-field.php:55
+#: pro/includes/fields/field-post-field.php:60
 #: pro/includes/modules/script/module-script-table.php:257
 msgid "Title"
 msgstr ""
@@ -760,6 +806,7 @@ msgstr ""
 #: includes/modules/ui/module-ui-user.php:166
 #: pro/includes/fields/field-file.php:481
 #: pro/includes/locations/post-screen.php:23
+#: pro/includes/modules/dev/module-dev-edit-meta.php:56
 msgid "Edit"
 msgstr ""
 
@@ -768,7 +815,8 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: includes/fields/field-advanced-link.php:153 pro/includes/modules/dev.php:83
+#: includes/fields/field-advanced-link.php:153
+#: pro/includes/modules/dev/module-dev-metabox.php:82
 msgid "Type"
 msgstr ""
 
@@ -802,7 +850,7 @@ msgstr ""
 msgid "Open in a new window"
 msgstr ""
 
-#: includes/fields/field-advanced-link.php:726
+#: includes/fields/field-advanced-link.php:729
 msgid "Archives"
 msgstr ""
 
@@ -812,7 +860,7 @@ msgstr ""
 
 #: includes/fields/field-button.php:20
 #: includes/modules/option/module-option.php:511
-#: pro/includes/modules/dev.php:619
+#: pro/includes/modules/dev/module-dev-metabox.php:634
 msgid "Submit"
 msgstr ""
 
@@ -966,7 +1014,7 @@ msgstr ""
 #: pro/includes/fields/field-menus.php:108
 #: pro/includes/fields/field-options-pages.php:110
 #: pro/includes/fields/field-payment-cart.php:90
-#: pro/includes/fields/field-phone-number.php:163
+#: pro/includes/fields/field-phone-number.php:165
 #: pro/includes/fields/field-post-formats.php:119
 #: pro/includes/fields/field-templates.php:115
 msgid "Default Value"
@@ -986,7 +1034,7 @@ msgstr ""
 #: pro/includes/fields/field-countries.php:331
 #: pro/includes/fields/field-currencies.php:320
 #: pro/includes/fields/field-date-picker.php:35
-#: pro/includes/fields/field-date-range-picker.php:104
+#: pro/includes/fields/field-date-range-picker.php:106
 #: pro/includes/fields/field-date-time-picker.php:43
 #: pro/includes/fields/field-field-groups.php:221
 #: pro/includes/fields/field-field-types.php:218
@@ -997,7 +1045,7 @@ msgstr ""
 #: pro/includes/fields/field-menus.php:215
 #: pro/includes/fields/field-options-pages.php:216
 #: pro/includes/fields/field-payment-cart.php:186
-#: pro/includes/fields/field-phone-number.php:171
+#: pro/includes/fields/field-phone-number.php:173
 #: pro/includes/fields/field-post-formats.php:211
 #: pro/includes/fields/field-templates.php:221
 #: pro/includes/fields/field-time-picker.php:40
@@ -1105,7 +1153,7 @@ msgstr ""
 #: pro/includes/fields/field-menu-locations.php:116
 #: pro/includes/fields/field-menus.php:116
 #: pro/includes/fields/field-options-pages.php:118
-#: pro/includes/fields/field-phone-number.php:191
+#: pro/includes/fields/field-phone-number.php:193
 #: pro/includes/fields/field-templates.php:123
 msgid "Return Value"
 msgstr ""
@@ -1375,7 +1423,7 @@ msgstr ""
 #: includes/modules/form/module-form.php:108
 #: includes/modules/form/module-form.php:183
 #: pro/includes/locations/settings.php:77
-#: pro/includes/modules/template/module-template-features.php:41
+#: pro/includes/modules/template/module-template-features.php:44
 msgid "Forms"
 msgstr ""
 
@@ -1967,91 +2015,91 @@ msgstr ""
 msgid "Post type name"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:17
+#: includes/fields/field-recaptcha.php:19
 msgid "Google reCaptcha"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:43
+#: includes/fields/field-recaptcha.php:45
 msgid "Version"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:44
+#: includes/fields/field-recaptcha.php:46
 msgid "Select the reCaptcha version"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:48
+#: includes/fields/field-recaptcha.php:50
 msgid "reCaptcha V2"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:49
+#: includes/fields/field-recaptcha.php:51
 msgid "reCaptcha V3"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:55
+#: includes/fields/field-recaptcha.php:57
 msgid "Theme"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:56
+#: includes/fields/field-recaptcha.php:58
 msgid "Select the reCaptcha theme"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:60
+#: includes/fields/field-recaptcha.php:62
 msgid "Light"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:61
+#: includes/fields/field-recaptcha.php:63
 msgid "Dark"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:76
+#: includes/fields/field-recaptcha.php:78
 #: pro/includes/fields/field-image-sizes.php:134
 msgid "Size"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:77
+#: includes/fields/field-recaptcha.php:79
 msgid "Select the reCaptcha size"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:81
+#: includes/fields/field-recaptcha.php:83
 msgid "Normal"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:82
+#: includes/fields/field-recaptcha.php:84
 msgid "Compact"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:97
+#: includes/fields/field-recaptcha.php:99
 msgid "Hide logo"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:98
+#: includes/fields/field-recaptcha.php:100
 msgid "Hide the reCaptcha logo"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:115
+#: includes/fields/field-recaptcha.php:117
 msgid "Site key"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:116
+#: includes/fields/field-recaptcha.php:118
 msgid ""
 "Enter the site key. <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">reCaptcha API Admin</a>"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:123
+#: includes/fields/field-recaptcha.php:125
 #: pro/includes/fields/field-payment.php:229
 #: pro/includes/fields/field-payment.php:249
 msgid "Secret key"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:124
+#: includes/fields/field-recaptcha.php:126
 msgid ""
 "Enter the secret key. <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">reCaptcha API Admin</a>"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:273
-#: includes/fields/field-recaptcha.php:281
+#: includes/fields/field-recaptcha.php:275
+#: includes/fields/field-recaptcha.php:283
 #: pro/includes/fields/field-payment.php:639
 #: pro/includes/fields/field-payment.php:753
 #: pro/includes/fields/field-payment.php:888
@@ -2192,7 +2240,7 @@ msgstr ""
 msgid "All user roles"
 msgstr ""
 
-#: includes/init.php:164
+#: includes/init.php:174
 msgid ""
 "ACF Extended requires <a href=\"https://www.advancedcustomfields.com/pro/\" "
 "target=\"_blank\">Advanced Custom Fields PRO</a> (minimum: 5.8)."
@@ -2213,16 +2261,6 @@ msgstr ""
 
 #: includes/locations/post-type-archive.php:292
 msgid "Post Type Archive"
-msgstr ""
-
-#: includes/locations/post-type-list.php:199
-#: includes/locations/taxonomy-list.php:199
-#: includes/modules/option/module-option.php:541
-#: includes/modules/options-page/module-options-page.php:79
-#: pro/includes/admin/settings.php:351
-#: pro/includes/locations/attachment-list.php:191
-#: pro/includes/locations/user-list.php:189 pro/includes/modules/dev.php:673
-msgid "Update"
 msgstr ""
 
 #: includes/locations/post-type-list.php:215
@@ -2252,6 +2290,7 @@ msgid "Export "
 msgstr ""
 
 #: includes/module-legacy.php:256 includes/module-post.php:119
+#: includes/modules/performance/module-performance-functions.php:651
 #: pro/includes/module-item.php:75
 msgid "Active"
 msgstr ""
@@ -2300,12 +2339,15 @@ msgstr ""
 msgid "%s draft updated."
 msgstr ""
 
-#: includes/module-posts.php:204
-#: includes/modules/dev/module-dev-clean-meta.php:103
-#: pro/includes/fields/field-payment.php:476 pro/includes/modules/dev.php:88
-#: pro/includes/modules/dev.php:178 pro/includes/modules/dev.php:245
-#: pro/includes/modules/dev.php:345 pro/includes/modules/dev.php:401
-#: pro/includes/modules/dev.php:457 pro/includes/modules/dev.php:511
+#: includes/module-posts.php:204 pro/includes/fields/field-payment.php:476
+#: pro/includes/modules/dev/module-dev-clean-meta.php:112
+#: pro/includes/modules/dev/module-dev-metabox.php:87
+#: pro/includes/modules/dev/module-dev-metabox.php:179
+#: pro/includes/modules/dev/module-dev-metabox.php:248
+#: pro/includes/modules/dev/module-dev-metabox.php:352
+#: pro/includes/modules/dev/module-dev-metabox.php:410
+#: pro/includes/modules/dev/module-dev-metabox.php:468
+#: pro/includes/modules/dev/module-dev-metabox.php:524
 #: pro/includes/modules/script/module-script-table.php:195
 msgid "View"
 msgstr ""
@@ -2318,7 +2360,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: includes/modules/author.php:75 pro/includes/fields/field-post-field.php:41
+#: includes/modules/author.php:75 pro/includes/fields/field-post-field.php:46
 msgid "Author"
 msgstr ""
 
@@ -2575,14 +2617,15 @@ msgid "%s block types imported"
 msgstr ""
 
 #: includes/modules/block-type/module-block-type.php:59
-#: includes/modules/dev/module-dev.php:430
+#: includes/modules/dev/module-dev.php:436
 #: includes/modules/form/module-form.php:27
 #: includes/modules/option/module-option-table.php:221
 #: includes/modules/option/module-option.php:361
 #: includes/modules/post-type/module-post-type.php:60
 #: includes/modules/taxonomy/module-taxonomy.php:60
 #: pro/includes/fields/field-menu-locations.php:121
-#: pro/includes/fields/field-post-field.php:48
+#: pro/includes/fields/field-post-field.php:53
+#: pro/includes/modules/dev/module-dev-edit-meta.php:95
 #: pro/includes/modules/template/module-template.php:57
 msgid "Name"
 msgstr ""
@@ -2595,23 +2638,6 @@ msgstr ""
 #: includes/modules/block-type/module-block-type.php:236
 #: includes/modules/block-type/module-block-type.php:241
 msgid "This block type already exists"
-msgstr ""
-
-#: includes/modules/dev/module-dev-clean-meta.php:99
-#: pro/includes/modules/script/module-script-orphan-meta-cleaner.php:298
-msgid "No orphan meta found"
-msgstr ""
-
-#: includes/modules/dev/module-dev-clean-meta.php:107
-msgid "Deleted meta"
-msgstr ""
-
-#: includes/modules/dev/module-dev-clean-meta.php:181
-msgid "Single Meta"
-msgstr ""
-
-#: includes/modules/dev/module-dev-clean-meta.php:205
-msgid "Clean orphan meta"
 msgstr ""
 
 #: includes/modules/dev/module-dev-delete-meta.php:60
@@ -2634,48 +2660,49 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:314
+#: includes/modules/dev/module-dev.php:320
 msgid "WP Options Meta"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:314
+#: includes/modules/dev/module-dev.php:320
 msgid "WP Custom Fields"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:337
+#: includes/modules/dev/module-dev.php:343
 msgid "ACF Options Meta"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:337
+#: includes/modules/dev/module-dev.php:343
 msgid "ACF Custom Fields"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:439
+#: includes/modules/dev/module-dev.php:445
 #: pro/includes/fields/field-payment-cart.php:112
 #: pro/includes/fields/field-payment-cart.php:113
 #: pro/includes/fields/field-payment-selector.php:90
 #: pro/includes/fields/field-payment-selector.php:91
-#: pro/includes/fields/field-post-field.php:35
+#: pro/includes/fields/field-post-field.php:40
 msgid "Field Type"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:440
+#: includes/modules/dev/module-dev.php:446
 msgid "Field Group"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:444
+#: includes/modules/dev/module-dev.php:450
 #: includes/modules/option/module-option-table.php:223
 #: includes/modules/option/module-option.php:484
 #: includes/modules/options-page/module-options-page.php:63
+#: pro/includes/modules/dev/module-dev-edit-meta.php:144
 msgid "Autoload"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:549
+#: includes/modules/dev/module-dev.php:555
 msgid "empty"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:632
-#: includes/modules/dev/module-dev.php:633
+#: includes/modules/dev/module-dev.php:649
+#: includes/modules/dev/module-dev.php:650
 msgid "Undefined"
 msgstr ""
 
@@ -2744,17 +2771,17 @@ msgstr ""
 msgid "Nicename may not be longer than 50 characters."
 msgstr ""
 
-#: includes/modules/form/module-form-front.php:19
+#: includes/modules/form/module-form-front.php:21
 msgid "Validate Email"
 msgstr ""
 
-#: includes/modules/form/module-form-front.php:63
+#: includes/modules/form/module-form-front.php:65
 #: includes/modules/form/module-form-shortcode.php:87
 #: includes/modules/form/module-form.php:107
 msgid "Form"
 msgstr ""
 
-#: includes/modules/form/module-form-front.php:109
+#: includes/modules/form/module-form-front.php:111
 msgid "Spam Detected"
 msgstr ""
 
@@ -2807,11 +2834,15 @@ msgid "No options avaliable."
 msgstr ""
 
 #: includes/modules/option/module-option-table.php:220
-#: pro/includes/modules/dev.php:79 pro/includes/modules/dev.php:169
-#: pro/includes/modules/dev.php:236 pro/includes/modules/dev.php:295
-#: pro/includes/modules/dev.php:340 pro/includes/modules/dev.php:396
-#: pro/includes/modules/dev.php:452 pro/includes/modules/dev.php:506
-#: pro/includes/modules/dev.php:559
+#: pro/includes/modules/dev/module-dev-metabox.php:78
+#: pro/includes/modules/dev/module-dev-metabox.php:170
+#: pro/includes/modules/dev/module-dev-metabox.php:239
+#: pro/includes/modules/dev/module-dev-metabox.php:300
+#: pro/includes/modules/dev/module-dev-metabox.php:347
+#: pro/includes/modules/dev/module-dev-metabox.php:405
+#: pro/includes/modules/dev/module-dev-metabox.php:463
+#: pro/includes/modules/dev/module-dev-metabox.php:519
+#: pro/includes/modules/dev/module-dev-metabox.php:574
 msgid "ID"
 msgstr ""
 
@@ -2986,6 +3017,92 @@ msgstr ""
 #: includes/modules/options-page/module-options-page.php:267
 #: includes/modules/options-page/module-options-page.php:277
 msgid "This options page slug already exists"
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:651
+msgid "Ready"
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:665
+msgid "Performance Mode is active."
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:665
+#, php-format
+msgid "The '%s' meta was found on this object and is effective."
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:670
+msgid "Performance Mode is ready."
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:670
+#, php-format
+msgid "The '%s' meta will be created when object will be saved."
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:720
+msgid "Hybrid meta found"
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:721
+#, php-format
+msgid "Hybrid engine '%s' meta found."
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:721
+msgid "This meta will be converted to Ultra engine upon save."
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:746
+msgid "Ultra meta found"
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:747
+#, php-format
+msgid "Ultra engine '%s' meta found."
+msgstr ""
+
+#: includes/modules/performance/module-performance-functions.php:747
+msgid "This meta will be converted to Hybrid engine upon save."
+msgstr ""
+
+#: includes/modules/performance/module-performance-ui.php:47
+msgid "Performance Mode"
+msgstr ""
+
+#: includes/modules/performance/module-performance-ui.php:84
+#: pro/includes/modules/script/module-script-performance-converter.php:164
+msgid "Test Drive"
+msgstr ""
+
+#: includes/modules/performance/module-performance-ui.php:85
+#: pro/includes/fields/field-payment.php:352
+#: pro/includes/fields/field-payment.php:1376
+#: pro/includes/modules/script/module-script-performance-converter.php:165
+msgid "Production"
+msgstr ""
+
+#: includes/modules/performance/module-performance-ui.php:86
+#: pro/includes/modules/script/module-script-performance-converter.php:166
+msgid "Rollback"
+msgstr ""
+
+#: includes/modules/performance/module-performance-ui.php:103
+msgid "Engine"
+msgstr ""
+
+#: includes/modules/performance/module-performance-ui.php:108
+#: pro/includes/fields/field-post-field.php:58
+msgid "Status"
+msgstr ""
+
+#: includes/modules/performance/module-performance-ultra-fields.php:43
+msgid "Save as individual meta"
+msgstr ""
+
+#: includes/modules/performance/module-performance-ultra-fields.php:46
+msgid "Save the field as an individual meta."
 msgstr ""
 
 #: includes/modules/post-type/module-post-type-features.php:291
@@ -3367,20 +3484,12 @@ msgstr ""
 msgid "This post type is reserved"
 msgstr ""
 
-#: includes/modules/single-meta.php:445
-msgid "Save as individual meta"
-msgstr ""
-
-#: includes/modules/single-meta.php:448
-msgid "Save the field as an individual meta."
-msgstr ""
-
 #: includes/modules/taxonomy/module-taxonomy-fields.php:33
 #: includes/modules/taxonomy/module-taxonomy.php:29
-#: pro/includes/fields/field-post-field.php:54
-#: pro/includes/fields/field-post-field.php:63
+#: pro/includes/fields/field-post-field.php:59
+#: pro/includes/fields/field-post-field.php:68
 #: pro/includes/locations/menu-item-type.php:24
-#: pro/includes/modules/dev.php:173
+#: pro/includes/modules/dev/module-dev-metabox.php:174
 msgid "Taxonomy"
 msgstr ""
 
@@ -3639,26 +3748,30 @@ msgstr ""
 msgid "Edit Media"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-admin.js:193
+#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:3692
+msgid "Cancel"
+msgstr ""
+
+#: pro/assets/js/acfe-pro-admin.js:183
 msgid "Review local changes"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-admin.js:197 pro/includes/module-posts.php:87
+#: pro/assets/js/acfe-pro-admin.js:187 pro/includes/module-posts.php:87
 msgid "Loading diff"
 msgstr ""
 
 #: pro/assets/js/acfe-pro-field-group.js:31
-#: pro/includes/field-groups/field-group-ui.php:45
+#: pro/includes/field-groups/field-group-ui.php:51
 msgid "Shift+click: Alternative mode"
 msgstr ""
 
 #: pro/assets/js/acfe-pro-field-group.js:72
-#: pro/includes/field-groups/field-group-ui.php:42
+#: pro/includes/field-groups/field-group-ui.php:48
 msgid "Enter a Field Type"
 msgstr ""
 
 #: pro/assets/js/acfe-pro-field-group.js:91
-#: pro/includes/field-groups/field-group-ui.php:43
+#: pro/includes/field-groups/field-group-ui.php:49
 msgid "Enter the Field Label"
 msgstr ""
 
@@ -3679,40 +3792,36 @@ msgstr ""
 msgid "No toggle fields available"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:683
+#: pro/assets/js/acfe-pro-input.js:701
 #: pro/includes/modules/script/module-script.php:291
 msgid "Clear"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1048
+#: pro/assets/js/acfe-pro-input.js:1066
 msgid "Maximum items reached ({max} items)"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1163
+#: pro/assets/js/acfe-pro-input.js:1181
 msgid "Edit File"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1164
+#: pro/assets/js/acfe-pro-input.js:1182
 msgid "Update File"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1648
+#: pro/assets/js/acfe-pro-input.js:1666
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1649
+#: pro/assets/js/acfe-pro-input.js:1667
 #: pro/includes/fields/field-flexible-content-locations.php:181
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/assets/js/acfe-pro-input.js:3656
+#: pro/assets/js/acfe-pro-input.js:3692
 msgid "OK"
-msgstr ""
-
-#: pro/assets/js/acfe-pro-input.js:3656
-msgid "Cancel"
 msgstr ""
 
 #: pro/includes/admin/tools/rewrite-rules-export.php:15
@@ -3757,7 +3866,7 @@ msgid "Save Draft"
 msgstr ""
 
 #: pro/includes/field-groups/field-group-hide-on-screen.php:41
-#: pro/includes/fields/field-post-field.php:50
+#: pro/includes/fields/field-post-field.php:55
 msgid "Preview"
 msgstr ""
 
@@ -3797,7 +3906,7 @@ msgstr ""
 msgid "Publish Metabox"
 msgstr ""
 
-#: pro/includes/field-groups/field-group-ui.php:44
+#: pro/includes/field-groups/field-group-ui.php:50
 msgid "Hint: Shift to bypass this prompt"
 msgstr ""
 
@@ -4019,7 +4128,7 @@ msgid "Text Input"
 msgstr ""
 
 #: pro/includes/fields/field-color-picker.php:238
-#: pro/includes/fields/field-date-range-picker.php:251
+#: pro/includes/fields/field-date-range-picker.php:253
 msgid "Allow null"
 msgstr ""
 
@@ -4061,7 +4170,7 @@ msgid "Countries"
 msgstr ""
 
 #: pro/includes/fields/field-countries.php:123
-#: pro/includes/fields/field-phone-number.php:46
+#: pro/includes/fields/field-phone-number.php:48
 msgid "Allow Countries"
 msgstr ""
 
@@ -4083,7 +4192,7 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:186
 #: pro/includes/fields/field-currencies.php:160
-#: pro/includes/fields/field-date-range-picker.php:64
+#: pro/includes/fields/field-date-range-picker.php:66
 #: pro/includes/fields/field-image-sizes.php:127
 #: pro/includes/fields/field-languages.php:253
 #: pro/includes/fields/field-payment-cart.php:98
@@ -4092,7 +4201,7 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:187
 #: pro/includes/fields/field-currencies.php:161
-#: pro/includes/fields/field-date-range-picker.php:65
+#: pro/includes/fields/field-date-range-picker.php:67
 #: pro/includes/fields/field-languages.php:254
 #: pro/includes/fields/field-payment-cart.php:99
 msgid "The format displayed when editing a post"
@@ -4100,8 +4209,8 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:195
 #: pro/includes/fields/field-currencies.php:169
-#: pro/includes/fields/field-date-range-picker.php:73
-#: pro/includes/fields/field-date-range-picker.php:89
+#: pro/includes/fields/field-date-range-picker.php:75
+#: pro/includes/fields/field-date-range-picker.php:91
 #: pro/includes/fields/field-languages.php:262
 #: pro/includes/fields/field-payment-cart.php:106
 msgid "Custom:"
@@ -4161,54 +4270,54 @@ msgid "Group currencies by their continent"
 msgstr ""
 
 #: pro/includes/fields/field-date-picker.php:44
-#: pro/includes/fields/field-date-range-picker.php:174
+#: pro/includes/fields/field-date-range-picker.php:176
 #: pro/includes/fields/field-date-time-picker.php:53
 msgid "Date Restriction"
 msgstr ""
 
 #: pro/includes/fields/field-date-picker.php:70
-#: pro/includes/fields/field-date-range-picker.php:231
+#: pro/includes/fields/field-date-range-picker.php:233
 #: pro/includes/fields/field-date-time-picker.php:105
 msgid "No Weekends"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:20
+#: pro/includes/fields/field-date-range-picker.php:22
 msgid "Date Range Picker"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:79
+#: pro/includes/fields/field-date-range-picker.php:81
 msgid "Return Format"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:80
+#: pro/includes/fields/field-date-range-picker.php:82
 msgid "The format returned via template functions"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:95
+#: pro/includes/fields/field-date-range-picker.php:97
 msgid "Week Starts On"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:112
+#: pro/includes/fields/field-date-range-picker.php:114
 msgid "Separator"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:120
+#: pro/includes/fields/field-date-range-picker.php:122
 msgid "Default Date"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:147
+#: pro/includes/fields/field-date-range-picker.php:149
 msgid "Range Restriction"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:204
+#: pro/includes/fields/field-date-range-picker.php:206
 msgid "Custom Ranges"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:221
+#: pro/includes/fields/field-date-range-picker.php:223
 msgid "Show Dropdowns"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:241
+#: pro/includes/fields/field-date-range-picker.php:243
 msgid "Auto Close on Selection"
 msgstr ""
 
@@ -4299,7 +4408,7 @@ msgstr ""
 #: pro/includes/fields/field-file.php:20 pro/includes/fields/field-file.php:149
 #: pro/includes/fields/field-payment-cart.php:119
 #: pro/includes/fields/field-payment-selector.php:96
-#: pro/includes/fields/field-phone-number.php:65
+#: pro/includes/fields/field-phone-number.php:67
 msgid "Select"
 msgstr ""
 
@@ -4774,11 +4883,6 @@ msgstr ""
 msgid "Test"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:352
-#: pro/includes/fields/field-payment.php:1376
-msgid "Production"
-msgstr ""
-
 #: pro/includes/fields/field-payment.php:450
 #: pro/includes/fields/field-payment.php:1417
 msgid "Gateway"
@@ -4791,7 +4895,7 @@ msgstr ""
 
 #: pro/includes/fields/field-payment.php:464
 #: pro/includes/fields/field-payment.php:1425
-#: pro/includes/fields/field-post-field.php:44
+#: pro/includes/fields/field-post-field.php:49
 msgid "Date"
 msgstr ""
 
@@ -4826,75 +4930,75 @@ msgstr ""
 msgid "Your card number is invalid"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:17
-#: pro/includes/fields/field-phone-number.php:179
+#: pro/includes/fields/field-phone-number.php:19
+#: pro/includes/fields/field-phone-number.php:181
 msgid "Phone Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:52
+#: pro/includes/fields/field-phone-number.php:54
 msgid "All countries"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:59
+#: pro/includes/fields/field-phone-number.php:61
 msgid "Preferred Countries"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:72
+#: pro/includes/fields/field-phone-number.php:74
 msgid "Default Country"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:93
+#: pro/includes/fields/field-phone-number.php:95
 msgid "Geolocation"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:94
+#: pro/includes/fields/field-phone-number.php:96
 msgid ""
 "Lookup the user's country based on their IP address using <a href='https://"
 "ipinfo.io/' target='_blank'>IPinfo.io</a>"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:101
+#: pro/includes/fields/field-phone-number.php:103
 msgid "Geolocation API token"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:102
+#: pro/includes/fields/field-phone-number.php:104
 msgid ""
 "<a href=\"https://ipinfo.io/\" target=\"_blank\">IPinfo.io</a> API token"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:118
+#: pro/includes/fields/field-phone-number.php:120
 msgid "Native Names"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:127
+#: pro/includes/fields/field-phone-number.php:129
 msgid "National Mode"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:145
+#: pro/includes/fields/field-phone-number.php:147
 msgid "Allow Dropdown"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:154
+#: pro/includes/fields/field-phone-number.php:156
 msgid "Separate Dial Code"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:178
+#: pro/includes/fields/field-phone-number.php:180
 msgid "Phone Array"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:184
+#: pro/includes/fields/field-phone-number.php:186
 msgid "National Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:185
+#: pro/includes/fields/field-phone-number.php:187
 msgid "International Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:203
+#: pro/includes/fields/field-phone-number.php:205
 msgid "Additional Settings"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:207
+#: pro/includes/fields/field-phone-number.php:209
 msgid ""
 "Additional settings such as \"National Number\", \"International Number\" "
 "return formats and phone number server validation become available when "
@@ -4905,85 +5009,81 @@ msgid ""
 "Phone Number Library Addon</a> plugin."
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:230
+#: pro/includes/fields/field-phone-number.php:232
 msgctxt "Phone Number JS invalidPhoneNumber"
 msgid "Invalid Phone Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:231
+#: pro/includes/fields/field-phone-number.php:233
 msgctxt "Phone Number JS invalidCountry"
 msgid "Invalid Country"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:232
+#: pro/includes/fields/field-phone-number.php:234
 msgctxt "Phone Number JS phoneNumberTooShort"
 msgid "Phone Number is too short"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:233
+#: pro/includes/fields/field-phone-number.php:235
 msgctxt "Phone Number JS phoneNumberTooLong"
 msgid "Phone Number is too long"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:337
-#: pro/includes/fields/field-phone-number.php:354
+#: pro/includes/fields/field-phone-number.php:339
+#: pro/includes/fields/field-phone-number.php:356
 msgid "Invalid Phone Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:348
+#: pro/includes/fields/field-phone-number.php:350
 msgid "Invalid Country"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:17
+#: pro/includes/fields/field-post-field.php:20
 msgid "Post Field"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:40
+#: pro/includes/fields/field-post-field.php:45
 msgid "Attributes"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:42
+#: pro/includes/fields/field-post-field.php:47
 msgid "Comments"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:43
+#: pro/includes/fields/field-post-field.php:48
 msgid "Content"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:45
+#: pro/includes/fields/field-post-field.php:50
 #: pro/includes/locations/settings.php:91
 msgid "Discussion"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:46
+#: pro/includes/fields/field-post-field.php:51
 msgid "Excerpt"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:47
+#: pro/includes/fields/field-post-field.php:52
 msgid "Featured Image"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:49
+#: pro/includes/fields/field-post-field.php:54
 msgid "Permalink"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:51
+#: pro/includes/fields/field-post-field.php:56
 msgid "Revisions"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:52
+#: pro/includes/fields/field-post-field.php:57
 msgid "Revisions List"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:53
-msgid "Status"
-msgstr ""
-
-#: pro/includes/fields/field-post-field.php:56
+#: pro/includes/fields/field-post-field.php:61
 msgid "Trackbacks"
 msgstr ""
 
-#: pro/includes/fields/field-post-field.php:57
+#: pro/includes/fields/field-post-field.php:62
 msgid "Visibility"
 msgstr ""
 
@@ -5156,7 +5256,7 @@ msgstr ""
 #: pro/includes/locations/post-date-time.php:59
 #: pro/includes/locations/post-date.php:59
 #: pro/includes/locations/post-time.php:59
-#: pro/includes/modules/global-field-condition.php:253
+#: pro/includes/modules/global-field-condition.php:267
 msgid "is less than"
 msgstr ""
 
@@ -5164,7 +5264,7 @@ msgstr ""
 #: pro/includes/locations/post-date-time.php:60
 #: pro/includes/locations/post-date.php:60
 #: pro/includes/locations/post-time.php:60
-#: pro/includes/modules/global-field-condition.php:254
+#: pro/includes/modules/global-field-condition.php:268
 msgid "is less or equal to"
 msgstr ""
 
@@ -5172,7 +5272,7 @@ msgstr ""
 #: pro/includes/locations/post-date-time.php:61
 #: pro/includes/locations/post-date.php:61
 #: pro/includes/locations/post-time.php:61
-#: pro/includes/modules/global-field-condition.php:255
+#: pro/includes/modules/global-field-condition.php:269
 msgid "is greater than"
 msgstr ""
 
@@ -5180,7 +5280,7 @@ msgstr ""
 #: pro/includes/locations/post-date-time.php:62
 #: pro/includes/locations/post-date.php:62
 #: pro/includes/locations/post-time.php:62
-#: pro/includes/modules/global-field-condition.php:256
+#: pro/includes/modules/global-field-condition.php:270
 msgid "is greater or equal to"
 msgstr ""
 
@@ -5424,74 +5524,91 @@ msgstr ""
 msgid "Last updated: %s"
 msgstr ""
 
-#: pro/includes/modules/dev.php:87 pro/includes/modules/dev.php:177
-#: pro/includes/modules/dev.php:244 pro/includes/modules/dev.php:344
-#: pro/includes/modules/dev.php:400 pro/includes/modules/dev.php:456
-#: pro/includes/modules/dev.php:510
+#: pro/includes/modules/dev/module-dev-clean-meta.php:108
+#: pro/includes/modules/script/module-script-orphan-meta-cleaner.php:298
+msgid "No orphan meta found"
+msgstr ""
+
+#: pro/includes/modules/dev/module-dev-clean-meta.php:116
+msgid "Deleted meta"
+msgstr ""
+
+#: pro/includes/modules/dev/module-dev-metabox.php:86
+#: pro/includes/modules/dev/module-dev-metabox.php:178
+#: pro/includes/modules/dev/module-dev-metabox.php:247
+#: pro/includes/modules/dev/module-dev-metabox.php:351
+#: pro/includes/modules/dev/module-dev-metabox.php:409
+#: pro/includes/modules/dev/module-dev-metabox.php:467
+#: pro/includes/modules/dev/module-dev-metabox.php:523
 msgid "Object data"
 msgstr ""
 
-#: pro/includes/modules/dev.php:91 pro/includes/modules/dev.php:181
-#: pro/includes/modules/dev.php:248 pro/includes/modules/dev.php:299
-#: pro/includes/modules/dev.php:348 pro/includes/modules/dev.php:404
-#: pro/includes/modules/dev.php:460 pro/includes/modules/dev.php:514
-#: pro/includes/modules/dev.php:563
+#: pro/includes/modules/dev/module-dev-metabox.php:90
+#: pro/includes/modules/dev/module-dev-metabox.php:182
+#: pro/includes/modules/dev/module-dev-metabox.php:251
+#: pro/includes/modules/dev/module-dev-metabox.php:304
+#: pro/includes/modules/dev/module-dev-metabox.php:355
+#: pro/includes/modules/dev/module-dev-metabox.php:413
+#: pro/includes/modules/dev/module-dev-metabox.php:471
+#: pro/includes/modules/dev/module-dev-metabox.php:527
+#: pro/includes/modules/dev/module-dev-metabox.php:578
 msgid "Meta count"
 msgstr ""
 
-#: pro/includes/modules/dev.php:94 pro/includes/modules/dev.php:184
-#: pro/includes/modules/dev.php:251 pro/includes/modules/dev.php:302
-#: pro/includes/modules/dev.php:351 pro/includes/modules/dev.php:407
-#: pro/includes/modules/dev.php:463 pro/includes/modules/dev.php:517
-#: pro/includes/modules/dev.php:566
+#: pro/includes/modules/dev/module-dev-metabox.php:93
+#: pro/includes/modules/dev/module-dev-metabox.php:185
+#: pro/includes/modules/dev/module-dev-metabox.php:254
+#: pro/includes/modules/dev/module-dev-metabox.php:307
+#: pro/includes/modules/dev/module-dev-metabox.php:358
+#: pro/includes/modules/dev/module-dev-metabox.php:416
+#: pro/includes/modules/dev/module-dev-metabox.php:474
+#: pro/includes/modules/dev/module-dev-metabox.php:530
+#: pro/includes/modules/dev/module-dev-metabox.php:581
 msgid "Clean"
 msgstr ""
 
-#: pro/includes/modules/dev.php:100 pro/includes/modules/dev.php:190
-#: pro/includes/modules/dev.php:257 pro/includes/modules/dev.php:308
-#: pro/includes/modules/dev.php:357 pro/includes/modules/dev.php:413
-#: pro/includes/modules/dev.php:469 pro/includes/modules/dev.php:523
-#: pro/includes/modules/dev.php:572
-msgid "Single meta"
+#: pro/includes/modules/dev/module-dev-metabox.php:99
+#: pro/includes/modules/dev/module-dev-metabox.php:191
+#: pro/includes/modules/dev/module-dev-metabox.php:260
+#: pro/includes/modules/dev/module-dev-metabox.php:313
+#: pro/includes/modules/dev/module-dev-metabox.php:364
+#: pro/includes/modules/dev/module-dev-metabox.php:422
+#: pro/includes/modules/dev/module-dev-metabox.php:480
+#: pro/includes/modules/dev/module-dev-metabox.php:536
+#: pro/includes/modules/dev/module-dev-metabox.php:587
+msgid "Performance"
 msgstr ""
 
-#: pro/includes/modules/dev.php:101 pro/includes/modules/dev.php:191
-#: pro/includes/modules/dev.php:258 pro/includes/modules/dev.php:309
-#: pro/includes/modules/dev.php:358 pro/includes/modules/dev.php:414
-#: pro/includes/modules/dev.php:470 pro/includes/modules/dev.php:524
-#: pro/includes/modules/dev.php:573
-msgid "Enabled"
-msgstr ""
-
-#: pro/includes/modules/dev.php:122
+#: pro/includes/modules/dev/module-dev-metabox.php:121
 msgid "Post Object"
 msgstr ""
 
-#: pro/includes/modules/dev.php:195
+#: pro/includes/modules/dev/module-dev-metabox.php:196
 msgid "Term Object"
 msgstr ""
 
-#: pro/includes/modules/dev.php:262
+#: pro/includes/modules/dev/module-dev-metabox.php:265
 msgid "User Object"
 msgstr ""
 
-#: pro/includes/modules/dev.php:362
+#: pro/includes/modules/dev/module-dev-metabox.php:369
 msgid "Options Page Object"
 msgstr ""
 
-#: pro/includes/modules/dev.php:418 pro/includes/modules/dev.php:528
+#: pro/includes/modules/dev/module-dev-metabox.php:427
+#: pro/includes/modules/dev/module-dev-metabox.php:541
 msgid "Post Type Object"
 msgstr ""
 
-#: pro/includes/modules/dev.php:474
+#: pro/includes/modules/dev/module-dev-metabox.php:485
 msgid "Taxonomy Object"
 msgstr ""
 
-#: pro/includes/modules/dev.php:633
+#: pro/includes/modules/dev/module-dev-metabox.php:648
 msgid "Users"
 msgstr ""
 
-#: pro/includes/modules/global-field-condition.php:76
+#: pro/includes/modules/global-field-condition.php:77
 msgid "Set as Global Conditional Logic"
 msgstr ""
 
@@ -5501,7 +5618,7 @@ msgid "Rewrite Rules"
 msgstr ""
 
 #: pro/includes/modules/script/module-script-orphan-meta-cleaner.php:127
-#: pro/includes/modules/script/module-script-single-meta-converter.php:127
+#: pro/includes/modules/script/module-script-performance-converter.php:129
 msgid "No options pages"
 msgstr ""
 
@@ -5547,17 +5664,17 @@ msgstr ""
 msgid "Timer"
 msgstr ""
 
-#: pro/includes/modules/template/module-template-features.php:42
+#: pro/includes/modules/template/module-template-features.php:45
 #: pro/includes/modules/template/module-template-fields.php:33
 #: pro/includes/modules/template/module-template.php:26
 msgid "Template"
 msgstr ""
 
-#: pro/includes/modules/template/module-template-features.php:58
+#: pro/includes/modules/template/module-template-features.php:61
 msgid "is equal to"
 msgstr ""
 
-#: pro/includes/modules/template/module-template-features.php:75
+#: pro/includes/modules/template/module-template-features.php:78
 msgid "No templates found"
 msgstr ""
 

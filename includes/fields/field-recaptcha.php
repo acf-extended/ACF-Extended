@@ -12,10 +12,12 @@ class acfe_field_recaptcha extends acf_field{
      * initialize
      */
     function initialize(){
+    
+        $category = acfe_is_acf_61() ? 'advanced' : 'jquery';
         
         $this->name = 'acfe_recaptcha';
         $this->label = __('Google reCaptcha', 'acfe');
-        $this->category = 'jquery';
+        $this->category = $category;
         $this->defaults = array(
             'required'      => 0,
             'disabled'      => 0,
