@@ -18,23 +18,27 @@ class acfe_admin_compatibility{
      */
     function __construct(){
     
-        add_action('admin_menu',                                array($this, 'admin_menu'));
+        add_action('admin_menu',                                    array($this, 'admin_menu'));
         
         // acf-field groups (6.0)
-        add_action('acfe/load_posts/post_type=acf-field-group', array($this, 'load_posts'));
-        add_action('acfe/load_post/post_type=acf-field-group',  array($this, 'load_post'));
+        add_action('acfe/load_posts/post_type=acf-field-group',     array($this, 'load_posts'));
+        add_action('acfe/load_post/post_type=acf-field-group',      array($this, 'load_post'));
         
         // acf-post type (6.1)
-        add_action('acfe/load_posts/post_type=acf-post-type',   array($this, 'load_posts'));
-        add_action('acfe/load_post/post_type=acf-post-type',    array($this, 'load_post'));
+        add_action('acfe/load_posts/post_type=acf-post-type',       array($this, 'load_posts'));
+        add_action('acfe/load_post/post_type=acf-post-type',        array($this, 'load_post'));
         
         // acf-taxonomy (6.1)
-        add_action('acfe/load_posts/post_type=acf-taxonomy',    array($this, 'load_posts'));
-        add_action('acfe/load_post/post_type=acf-taxonomy',     array($this, 'load_post'));
+        add_action('acfe/load_posts/post_type=acf-taxonomy',        array($this, 'load_posts'));
+        add_action('acfe/load_post/post_type=acf-taxonomy',         array($this, 'load_post'));
+        
+        // acf-ui-options-page (6.2)
+        add_action('acfe/load_posts/post_type=acf-ui-options-page', array($this, 'load_posts'));
+        add_action('acfe/load_post/post_type=acf-ui-options-page',  array($this, 'load_post'));
         
         // additional hooks
-        add_action('current_screen',                            array($this, 'current_screen'));
-        add_filter('acf/validate_field',                        array($this, 'validate_field'));
+        add_action('current_screen',                                array($this, 'current_screen'));
+        add_filter('acf/validate_field',                            array($this, 'validate_field'));
     
         // re-add sidebar submitdiv metabox
         acfe_replace_action('load-post.php',     array('ACF_Form_Post', 'initialize'), array($this, 'acf_load_post'));
@@ -97,7 +101,7 @@ class acfe_admin_compatibility{
         global $typenow;
     
         // restrict specific post types
-        $restricted = array('acf-field-group', 'acf-post-type', 'acf-taxonomy', 'attachment');
+        $restricted = array('acf-field-group', 'acf-post-type', 'acf-taxonomy', 'acf-ui-options-page', 'attachment');
         if(in_array($typenow, $restricted)){
             return;
         }
@@ -131,9 +135,10 @@ class acfe_admin_compatibility{
     function admin_head(){
         
         // remove forced 1 column on 'screen_layout' options
-        acfe_remove_filter('get_user_option_screen_layout_acf-field-group', array('acf_admin_field_group', 'screen_layout'));
-        acfe_remove_filter('get_user_option_screen_layout_acf-post-type',   array('ACF_Admin_Post_type', 'screen_layout'));
-        acfe_remove_filter('get_user_option_screen_layout_acf-taxonomy',    array('ACF_Admin_Taxonomy', 'screen_layout'));
+        acfe_remove_filter('get_user_option_screen_layout_acf-field-group',     array('acf_admin_field_group', 'screen_layout'));
+        acfe_remove_filter('get_user_option_screen_layout_acf-post-type',       array('ACF_Admin_Post_type', 'screen_layout'));
+        acfe_remove_filter('get_user_option_screen_layout_acf-taxonomy',        array('ACF_Admin_Taxonomy', 'screen_layout'));
+        acfe_remove_filter('get_user_option_screen_layout_acf-ui-options-page', array('ACF_Admin_UI_Options_Page', 'screen_layout'));
     
         // base url
         $default_icon = acf_get_url('assets/images/icons/icon-fields.svg');

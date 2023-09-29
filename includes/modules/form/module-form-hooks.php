@@ -37,10 +37,13 @@ class acfe_dynamic_forms_hooks{
     
     function prepare_custom_html($value, $post_id, $field){
         
-        $custom_html = trim(get_field('acfe_form_custom_html', $post_id));
+        $custom_html = get_field('acfe_form_custom_html', $post_id);
+        $custom_html = strval($custom_html);
+        $custom_html = trim($custom_html);
         
-        if($value === false && !empty($custom_html))
+        if($value === false && !empty($custom_html)){
             $value = true;
+        }
         
         return $value;
         
@@ -49,9 +52,7 @@ class acfe_dynamic_forms_hooks{
     function prepare_actions($field){
         
         if(empty(acf_get_instance('acfe_dynamic_forms_helpers')->get_field_groups())){
-            
             $field['instructions'] .= '<br /><u>No field groups are currently mapped</u>';
-            
         }
         
         return $field;

@@ -3,9 +3,9 @@ Contributors: hwk-fr
 Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
-Tested up to: 6.1
+Tested up to: 6.3
 Requires PHP: 5.6
-Stable tag: 0.8.9.3
+Stable tag: 0.8.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -267,8 +267,8 @@ Allow users to edit group fields in a modal Choose the edit button text, display
 **[Hidden Input](https://www.acf-extended.com/features/fields/hidden-input)**
 Display a hidden input with custom name/value
 
-**[Image](https://www.acf-extended.com/features/fields/image)**
-Choose the uploader type and set the image as post featured thumbnail
+**[Image](https://www.acf-extended.com/features/fields/image)** **(FREE / PRO)**
+Choose the uploader type, customize the upload folder and set the image as post featured thumbnail
 
 **[Image Selector](https://www.acf-extended.com/features/fields/image-selector)** **(PRO)**
 Display an Image Selector field.
@@ -487,6 +487,30 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.9.4 =
+
+**ACF Extended Pro 0.8.9.4:**
+
+* Field: Block Editor - Fixed WP 6.3 compatibility
+* Field: Block Editor - Enhanced WP 6.0 / 6.1 / 6.2 compatibility
+* Field: Block Editor - Fixed duplicated field when using "Duplicate" action with a Flexible Content/Repeater
+* Field: Color Picker - Fixed Theme Json Resolver deprecated notice since WP 6.2
+* Field: Payment - Fixed PayPal credentials field settings width for better usability
+* Field: Phone Number - Updated Libphonenumber PHP Addon to latest 8.13.21 version
+* Field: Phone Number - Fixed Libphonenumber PHP Addon deprecated notice
+* Module: Performance - Added auto upgrade for `single_meta` into `performance ultra` when using Settings UI
+* Core: Fixed PHP 8 deprecated notice on ACF/ACFE Updates admin page
+
+**ACF Extended Basic 0.8.9.4:**
+
+* Module: Form - Fixed PHP 8 deprecated notice when creating a new form
+* Module: Form - Fixed escaping in `[acfe_form]` attributes shortcode
+* Module: Performance - Removed unnecessary "Save as individual meta" field setting when module is disabled
+* Compatibility: ACF 6.2 - Added sidebar column in the new ACF Options Pages UI
+* Compatibility: Profile Builder - Fixed PHP notice in settings page
+* Compatibility: Query Monitor - Updated internal trigger notice function to correctly register as "Doing it wrong"
+* Core: Updated Readme
 
 = 0.8.9.3 =
 

@@ -33,6 +33,14 @@ class acfe_form_shortcode{
         // allow array atts
         foreach(array_keys($atts) as $key){
             
+            /**
+             * ID
+             * name
+             * form
+             * submit_value
+             * ...
+             */
+            
             // sub array compatibility
             foreach(array('form_attributes_', 'fields_attributes_') as $allowed){
                 
@@ -49,6 +57,15 @@ class acfe_form_shortcode{
                 
             }
             
+        }
+        
+        // disallowed shortcode settings (esc html)
+        $disallowed = array('html_submit_button', 'html_submit_spinner', 'html_updated_message');
+        
+        foreach($disallowed as $key){
+            if(isset($atts[ $key ])){
+                unset($atts[ $key ]);
+            }
         }
         
         // render

@@ -104,6 +104,8 @@ function acfe_do_action_deprecated($hook, $args, $version, $replacement = ''){
  */
 function acfe_trigger_error($label, $function, $version, $replacement = ''){
     
+    do_action('deprecated_function_run', $function, $replacement, $version);
+    
     if(WP_DEBUG && apply_filters('deprecated_function_trigger_error', true)){
         
         if($replacement){

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.8.9.3
+ * Version:     0.8.9.4
  * Author:      ACF Extended
  * Plugin URI:  https://www.acf-extended.com
  * Author URI:  https://www.acf-extended.com
@@ -19,7 +19,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // vars
-    var $version = '0.8.9.3';
+    var $version = '0.8.9.4';
     
     /**
      * construct
@@ -184,6 +184,7 @@ class ACFE{
         acfe_include('includes/modules/performance/module-performance-connector.php');
         acfe_include('includes/modules/performance/module-performance-functions.php');
         acfe_include('includes/modules/performance/module-performance-ui.php');
+        acfe_include('includes/modules/performance/module-performance-upgrades.php');
     
         // post type
         acfe_include('includes/modules/post-type/module-post-type.php');

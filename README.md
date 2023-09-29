@@ -318,9 +318,9 @@ Allow users to edit group fields in a modal Choose the edit button text, display
 
 Display a hidden input with custom name/value
 
-**[Image](https://www.acf-extended.com/features/fields/image)**
+**[Image](https://www.acf-extended.com/features/fields/image)** **(FREE / PRO)**
 
-Choose the uploader type and set the image as post featured thumbnail
+Choose the uploader type, customize the upload folder and set the image as post featured thumbnail
 
 **[Image Selector](https://www.acf-extended.com/features/fields/image-selector)** **(PRO)**
 
@@ -547,6 +547,30 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 * Thanks to Geuer M.
 
 ## 📋 Changelog
+
+### 0.8.9.4
+
+**ACF Extended Pro 0.8.9.4:**
+
+* Field: Block Editor - Fixed WP 6.3 compatibility
+* Field: Block Editor - Enhanced WP 6.0 / 6.1 / 6.2 compatibility
+* Field: Block Editor - Fixed duplicated field when using "Duplicate" action with a Flexible Content/Repeater
+* Field: Color Picker - Fixed Theme Json Resolver deprecated notice since WP 6.2
+* Field: Payment - Fixed PayPal credentials field settings width for better usability
+* Field: Phone Number - Updated Libphonenumber PHP Addon to latest 8.13.21 version
+* Field: Phone Number - Fixed Libphonenumber PHP Addon deprecated notice
+* Module: Performance - Added auto upgrade for `single_meta` into `performance ultra` when using Settings UI
+* Core: Fixed PHP 8 deprecated notice on ACF/ACFE Updates admin page
+
+**ACF Extended Basic 0.8.9.4:**
+
+* Module: Form - Fixed PHP 8 deprecated notice when creating a new form
+* Module: Form - Fixed escaping in `[acfe_form]` attributes shortcode
+* Module: Performance - Removed unnecessary "Save as individual meta" field setting when module is disabled
+* Compatibility: ACF 6.2 - Added sidebar column in the new ACF Options Pages UI
+* Compatibility: Profile Builder - Fixed PHP notice in settings page
+* Compatibility: Query Monitor - Updated internal trigger notice function to correctly register as "Doing it wrong"
+* Core: Updated Readme
 
 ### 0.8.9.3
 

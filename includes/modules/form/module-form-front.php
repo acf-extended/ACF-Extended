@@ -666,7 +666,7 @@ class acfe_form_front{
             if($args['form_submit']): ?>
             <div class="acf-form-submit">
         
-                <?php printf($args['html_submit_button'], $args['submit_value']); ?>
+                <?php printf($args['html_submit_button'], esc_attr($args['submit_value'])); ?>
                 <?php echo $args['html_submit_spinner']; ?>
 
             </div>

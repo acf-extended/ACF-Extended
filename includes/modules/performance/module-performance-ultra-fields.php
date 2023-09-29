@@ -14,6 +14,7 @@ class acfe_performance_ultra_fields{
     function __construct(){
     
         add_action('acf/render_field_settings', array($this, 'render_field_settings'));
+        add_filter('acf/validate_field',        array($this, 'validate_field'), 20);
         
     }
     
@@ -26,7 +27,7 @@ class acfe_performance_ultra_fields{
     function render_field_settings($field){
         
         // validate
-        if(acfe_get_performance_config('engine') !== 'ultra'){
+        if(!acfe_is_performance_enabled() || acfe_get_performance_config('engine') !== 'ultra'){
             return;
         }
         
@@ -58,6 +59,25 @@ class acfe_performance_ultra_fields{
             'ui_on_text'        => '',
             'ui_off_text'       => '',
         ));
+        
+    }
+    
+    
+    /**
+     * validate_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function validate_field($field){
+        
+        // cleanup setting if set and empty
+        if(isset($field['acfe_save_meta']) && empty($field['acfe_save_meta'])){
+            unset($field['acfe_save_meta']);
+        }
+        
+        return $field;
         
     }
     
