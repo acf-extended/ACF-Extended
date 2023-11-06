@@ -3631,15 +3631,26 @@
             var sitekey = this.get('siteKey');
 
             // request
-            grecaptcha.ready(function() {
-                grecaptcha.execute(sitekey, {
-                    action: 'homepage'
-                }).then(function(response) {
+            var request = function() {
 
-                    acf.val($input, response, true);
+                // execute recaptcha v3
+                grecaptcha.ready(function() {
+                    grecaptcha.execute(sitekey, {
+                        action: 'homepage'
+                    }).then(function(response) {
 
+                        acf.val($input, response, true);
+
+                    });
                 });
-            });
+
+                // refresh every 80sec
+                setTimeout(request, 80 * 1000);
+
+            }
+
+            // execute request
+            request();
 
         },
 

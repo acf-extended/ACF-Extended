@@ -558,7 +558,12 @@ class acfe_dev{
         }elseif(is_serialized($value)){
             
             $value = maybe_unserialize($value);
-            $value = @map_deep($value, '_wp_specialchars');
+            
+            if(is_object($value) && is_a($value, '__PHP_Incomplete_Class')){
+                // do nothing
+            }else{
+                $value = @map_deep($value, '_wp_specialchars');
+            }
             
             $return = '<pre>' . print_r($value, true) . '</pre>';
             $return .= '<pre class="raw">' . print_r($raw, true) . '</pre>';

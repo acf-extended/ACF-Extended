@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2023-03-26 03:05+0200\n"
+"POT-Creation-Date: 2023-11-05 10:35+0100\n"
 "PO-Revision-Date: 2021-07-27 23:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: acf-extended.php\n"
@@ -22,13 +22,13 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: .build\n"
 
-#: acf-extended.php:439
+#: acf-extended.php:440
 msgid ""
 "An another version of ACF Extended has been detected. Please activate only "
 "one version."
 msgstr ""
 
-#: acf-extended.php:441
+#: acf-extended.php:442
 msgid "ACF Extended Pro has been detected. Please activate only one version."
 msgstr ""
 
@@ -52,9 +52,9 @@ msgstr ""
 #: includes/fields/field-flexible-content-settings.php:275
 #: includes/fields/field-flexible-content.php:811
 #: includes/fields/field-flexible-content.php:817
-#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:700
+#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:710
 #: pro/includes/field-groups/field-group-ui.php:617
-#: pro/includes/fields/field-payment.php:477
+#: pro/includes/fields/field-payment.php:516
 #: pro/includes/modules/dev/module-dev-clean-meta.php:116
 #: pro/includes/modules/dev/module-dev-metabox.php:121
 #: pro/includes/modules/dev/module-dev-metabox.php:196
@@ -95,13 +95,13 @@ msgstr ""
 msgid "Add Row"
 msgstr ""
 
-#: includes/acfe-deprecated-functions.php:110
+#: includes/acfe-deprecated-functions.php:112
 #, php-format
 msgid ""
 "%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
 msgstr ""
 
-#: includes/acfe-deprecated-functions.php:112
+#: includes/acfe-deprecated-functions.php:114
 #, php-format
 msgid ""
 "%1$s is <strong>deprecated</strong> since version %2$s with no alternative "
@@ -241,7 +241,7 @@ msgstr ""
 
 #: includes/admin/tools/module-import.php:58
 #: includes/admin/tools/tools-legacy/module-import-legacy.php:37
-#: pro/assets/js/acfe-pro-input.js:1137 pro/assets/js/acfe-pro-input.js:1155
+#: pro/assets/js/acfe-pro-input.js:1147 pro/assets/js/acfe-pro-input.js:1165
 #: pro/includes/admin/tools/settings-import.php:40
 msgid "Select File"
 msgstr ""
@@ -337,7 +337,7 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: includes/assets.php:132 pro/assets/js/acfe-pro-input.js:4938
+#: includes/assets.php:132 pro/assets/js/acfe-pro-input.js:5037
 msgid "Read more"
 msgstr ""
 
@@ -459,7 +459,7 @@ msgstr ""
 
 #: includes/field-groups/field-group-meta.php:81
 #: includes/fields/field-hidden.php:66 includes/modules/dev/module-dev.php:437
-#: includes/modules/option/module-option-table.php:222
+#: includes/modules/option/module-option-table.php:227
 #: includes/modules/option/module-option.php:396
 #: includes/modules/option/module-option.php:427
 #: includes/modules/option/module-option.php:460
@@ -799,7 +799,7 @@ msgstr ""
 #: includes/fields/field-clone.php:162 includes/fields/field-clone.php:226
 #: includes/fields/field-group.php:97 includes/fields/field-group.php:156
 #: includes/locations/post-type-archive.php:236
-#: includes/modules/option/module-option-table.php:203
+#: includes/modules/option/module-option-table.php:208
 #: includes/modules/option/module-option.php:516
 #: includes/modules/ui/module-ui-settings.php:70
 #: includes/modules/ui/module-ui-term.php:102
@@ -865,12 +865,12 @@ msgid "Submit"
 msgstr ""
 
 #: includes/fields/field-button.php:78
-#: pro/includes/fields/field-payment.php:129
+#: pro/includes/fields/field-payment.php:161
 msgid "Button value"
 msgstr ""
 
 #: includes/fields/field-button.php:79
-#: pro/includes/fields/field-payment.php:130
+#: pro/includes/fields/field-payment.php:162
 msgid "Set a default button value"
 msgstr ""
 
@@ -887,37 +887,37 @@ msgid "Input"
 msgstr ""
 
 #: includes/fields/field-button.php:99
-#: pro/includes/fields/field-payment.php:144
+#: pro/includes/fields/field-payment.php:176
 msgid "Button attributes"
 msgstr ""
 
 #: includes/fields/field-button.php:103
-#: pro/includes/fields/field-payment.php:148
+#: pro/includes/fields/field-payment.php:180
 msgid "class"
 msgstr ""
 
 #: includes/fields/field-button.php:112
-#: pro/includes/fields/field-payment.php:164
+#: pro/includes/fields/field-payment.php:196
 msgid "id"
 msgstr ""
 
 #: includes/fields/field-button.php:118
-#: pro/includes/fields/field-payment.php:177
+#: pro/includes/fields/field-payment.php:209
 msgid "Before HTML"
 msgstr ""
 
 #: includes/fields/field-button.php:119
-#: pro/includes/fields/field-payment.php:178
+#: pro/includes/fields/field-payment.php:210
 msgid "Custom HTML before the button"
 msgstr ""
 
 #: includes/fields/field-button.php:127
-#: pro/includes/fields/field-payment.php:193
+#: pro/includes/fields/field-payment.php:225
 msgid "After HTML"
 msgstr ""
 
 #: includes/fields/field-button.php:128
-#: pro/includes/fields/field-payment.php:194
+#: pro/includes/fields/field-payment.php:226
 msgid "Custom HTML after the button"
 msgstr ""
 
@@ -1403,7 +1403,7 @@ msgid "Set a thumbnail for each layouts"
 msgstr ""
 
 #: includes/fields/field-flexible-content-thumbnail.php:111
-#: pro/includes/fields/field-block-editor.php:553
+#: pro/includes/fields/field-block-editor.php:623
 msgid "Thumbnail"
 msgstr ""
 
@@ -2087,8 +2087,8 @@ msgid ""
 msgstr ""
 
 #: includes/fields/field-recaptcha.php:125
-#: pro/includes/fields/field-payment.php:229
-#: pro/includes/fields/field-payment.php:249
+#: pro/includes/fields/field-payment.php:261
+#: pro/includes/fields/field-payment.php:281
 msgid "Secret key"
 msgstr ""
 
@@ -2100,12 +2100,10 @@ msgstr ""
 
 #: includes/fields/field-recaptcha.php:275
 #: includes/fields/field-recaptcha.php:283
-#: pro/includes/fields/field-payment.php:639
-#: pro/includes/fields/field-payment.php:753
-#: pro/includes/fields/field-payment.php:888
-#: pro/includes/fields/field-payment.php:917
-#: pro/includes/fields/field-payment.php:965
-#: pro/includes/fields/field-payment.php:1079
+#: pro/includes/fields/field-payment.php:55
+#: pro/includes/fields/field-payment.php:56
+#: pro/includes/fields/field-payment.php:57
+#: pro/includes/fields/field-payment.php:59
 msgid "An error has occured"
 msgstr ""
 
@@ -2271,9 +2269,9 @@ msgstr ""
 msgid "Taxonomy List"
 msgstr ""
 
-#: includes/module-acf.php:91 includes/module-post.php:120
+#: includes/module-acf.php:91 includes/module-post.php:125
 #: pro/includes/fields-settings/required.php:26
-#: pro/includes/fields/field-block-editor.php:493
+#: pro/includes/fields/field-block-editor.php:541
 #, php-format
 msgid "%s value is required"
 msgstr ""
@@ -2289,57 +2287,57 @@ msgstr[1] ""
 msgid "Export "
 msgstr ""
 
-#: includes/module-legacy.php:256 includes/module-post.php:119
+#: includes/module-legacy.php:256 includes/module-post.php:124
 #: includes/modules/performance/module-performance-functions.php:651
 #: pro/includes/module-item.php:75
 msgid "Active"
 msgstr ""
 
-#: includes/module-legacy.php:256 includes/module-post.php:119
+#: includes/module-legacy.php:256 includes/module-post.php:124
 msgid "Inactive"
 msgstr ""
 
-#: includes/module-post.php:141 includes/module-posts.php:233
+#: includes/module-post.php:146 includes/module-posts.php:233
 msgid "Export"
 msgstr ""
 
-#: includes/module-post.php:244 includes/module-post.php:245
-#: includes/module-post.php:247
+#: includes/module-post.php:249 includes/module-post.php:250
+#: includes/module-post.php:252
 #, php-format
 msgid "%s updated."
 msgstr ""
 
-#: includes/module-post.php:246
+#: includes/module-post.php:251
 #, php-format
 msgid "%s deleted."
 msgstr ""
 
-#: includes/module-post.php:249
+#: includes/module-post.php:254
 #, php-format
 msgid "%s published."
 msgstr ""
 
-#: includes/module-post.php:250
+#: includes/module-post.php:255
 #, php-format
 msgid "%s saved."
 msgstr ""
 
-#: includes/module-post.php:251
+#: includes/module-post.php:256
 #, php-format
 msgid "%s submitted."
 msgstr ""
 
-#: includes/module-post.php:252
+#: includes/module-post.php:257
 #, php-format
 msgid "%s scheduled."
 msgstr ""
 
-#: includes/module-post.php:253
+#: includes/module-post.php:258
 #, php-format
 msgid "%s draft updated."
 msgstr ""
 
-#: includes/module-posts.php:204 pro/includes/fields/field-payment.php:476
+#: includes/module-posts.php:204 pro/includes/fields/field-payment.php:515
 #: pro/includes/modules/dev/module-dev-clean-meta.php:112
 #: pro/includes/modules/dev/module-dev-metabox.php:87
 #: pro/includes/modules/dev/module-dev-metabox.php:179
@@ -2619,7 +2617,7 @@ msgstr ""
 #: includes/modules/block-type/module-block-type.php:59
 #: includes/modules/dev/module-dev.php:436
 #: includes/modules/form/module-form.php:27
-#: includes/modules/option/module-option-table.php:221
+#: includes/modules/option/module-option-table.php:226
 #: includes/modules/option/module-option.php:361
 #: includes/modules/post-type/module-post-type.php:60
 #: includes/modules/taxonomy/module-taxonomy.php:60
@@ -2642,8 +2640,8 @@ msgstr ""
 
 #: includes/modules/dev/module-dev-delete-meta.php:60
 #: includes/modules/dev/module-dev-delete-meta.php:93
-#: includes/modules/option/module-option-table.php:204
-#: includes/modules/option/module-option-table.php:256
+#: includes/modules/option/module-option-table.php:209
+#: includes/modules/option/module-option-table.php:261
 #: includes/modules/option/module-option.php:533
 msgid "Delete"
 msgstr ""
@@ -2690,7 +2688,7 @@ msgid "Field Group"
 msgstr ""
 
 #: includes/modules/dev/module-dev.php:450
-#: includes/modules/option/module-option-table.php:223
+#: includes/modules/option/module-option-table.php:228
 #: includes/modules/option/module-option.php:484
 #: includes/modules/options-page/module-options-page.php:63
 #: pro/includes/modules/dev/module-dev-edit-meta.php:144
@@ -2701,8 +2699,8 @@ msgstr ""
 msgid "empty"
 msgstr ""
 
-#: includes/modules/dev/module-dev.php:649
-#: includes/modules/dev/module-dev.php:650
+#: includes/modules/dev/module-dev.php:654
+#: includes/modules/dev/module-dev.php:655
 msgid "Undefined"
 msgstr ""
 
@@ -2776,7 +2774,7 @@ msgid "Validate Email"
 msgstr ""
 
 #: includes/modules/form/module-form-front.php:65
-#: includes/modules/form/module-form-shortcode.php:87
+#: includes/modules/form/module-form-shortcode.php:104
 #: includes/modules/form/module-form.php:107
 msgid "Form"
 msgstr ""
@@ -2833,7 +2831,7 @@ msgstr ""
 msgid "No options avaliable."
 msgstr ""
 
-#: includes/modules/option/module-option-table.php:220
+#: includes/modules/option/module-option-table.php:225
 #: pro/includes/modules/dev/module-dev-metabox.php:78
 #: pro/includes/modules/dev/module-dev-metabox.php:170
 #: pro/includes/modules/dev/module-dev-metabox.php:239
@@ -3077,8 +3075,8 @@ msgid "Test Drive"
 msgstr ""
 
 #: includes/modules/performance/module-performance-ui.php:85
-#: pro/includes/fields/field-payment.php:352
-#: pro/includes/fields/field-payment.php:1376
+#: pro/includes/fields/field-payment.php:384
+#: pro/includes/fields/field-payment.php:1441
 #: pro/includes/modules/script/module-script-performance-converter.php:165
 msgid "Production"
 msgstr ""
@@ -3097,11 +3095,11 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: includes/modules/performance/module-performance-ultra-fields.php:43
+#: includes/modules/performance/module-performance-ultra-fields.php:44
 msgid "Save as individual meta"
 msgstr ""
 
-#: includes/modules/performance/module-performance-ultra-fields.php:46
+#: includes/modules/performance/module-performance-ultra-fields.php:47
 msgid "Save the field as an individual meta."
 msgstr ""
 
@@ -3748,7 +3746,7 @@ msgstr ""
 msgid "Edit Media"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:3692
+#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:3791
 msgid "Cancel"
 msgstr ""
 
@@ -3792,35 +3790,35 @@ msgstr ""
 msgid "No toggle fields available"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:701
+#: pro/assets/js/acfe-pro-input.js:711
 #: pro/includes/modules/script/module-script.php:291
 msgid "Clear"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1066
+#: pro/assets/js/acfe-pro-input.js:1076
 msgid "Maximum items reached ({max} items)"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1181
+#: pro/assets/js/acfe-pro-input.js:1191
 msgid "Edit File"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1182
+#: pro/assets/js/acfe-pro-input.js:1192
 msgid "Update File"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1666
+#: pro/assets/js/acfe-pro-input.js:1676
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1667
+#: pro/assets/js/acfe-pro-input.js:1677
 #: pro/includes/fields/field-flexible-content-locations.php:181
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/assets/js/acfe-pro-input.js:3692
+#: pro/assets/js/acfe-pro-input.js:3791
 msgid "OK"
 msgstr ""
 
@@ -4039,30 +4037,30 @@ msgstr ""
 msgid "+ Add block"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:521
+#: pro/includes/fields/field-block-editor.php:591
 msgctxt "CSS Font Family for Editor Font"
 msgid "Noto Serif"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:553
+#: pro/includes/fields/field-block-editor.php:623
 msgid "Medium"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:553
+#: pro/includes/fields/field-block-editor.php:623
 msgid "Large"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:553
+#: pro/includes/fields/field-block-editor.php:623
 #: pro/includes/fields/field-image-sizes.php:62
 #: pro/includes/fields/field-image-sizes.php:483
 msgid "Full Size"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:573
+#: pro/includes/fields/field-block-editor.php:643
 msgid "Add title"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:574
+#: pro/includes/fields/field-block-editor.php:644
 msgid "Start writing or type / to choose a block"
 msgstr ""
 
@@ -4729,7 +4727,7 @@ msgstr ""
 msgid "Radio Button"
 msgstr ""
 
-#: pro/includes/fields/field-payment-cart.php:489
+#: pro/includes/fields/field-payment-cart.php:490
 msgid "This item doesn't exists. Please try again"
 msgstr ""
 
@@ -4754,180 +4752,192 @@ msgstr ""
 msgid "Icons"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:19
+#: pro/includes/fields/field-payment.php:20
 msgid "Payment"
 msgstr ""
 
 #: pro/includes/fields/field-payment.php:27
+msgid "PayPal Checkout"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:29
 msgid "Pay now"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:76
+#: pro/includes/fields/field-payment.php:54
+msgid "Amount cannot be null"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:58
+msgid "Payment failed"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:60
+msgid "Your card number is invalid"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:61
+msgid "Payment cancelled, please try again"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:93
 msgid "Gateways"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:77
+#: pro/includes/fields/field-payment.php:94
 msgid "Choose your payment gateways"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:90
-#: pro/includes/fields/field-payment.php:454
-#: pro/includes/fields/field-payment.php:1419
+#: pro/includes/fields/field-payment.php:107
+#: pro/includes/fields/field-payment.php:493
+#: pro/includes/fields/field-payment.php:1484
 msgid "Amount"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:91
+#: pro/includes/fields/field-payment.php:108
 msgid "The amount to charge"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:99
+#: pro/includes/fields/field-payment.php:116
 msgid "Currency"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:100
+#: pro/includes/fields/field-payment.php:117
 msgid "The currency to use"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:112
+#: pro/includes/fields/field-payment.php:129
 #: pro/includes/modules/script/module-script-table.php:258
 msgid "Description"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:113
+#: pro/includes/fields/field-payment.php:130
 msgid "A description attached to the payment. Useful for displaying to users"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:120
+#: pro/includes/fields/field-payment.php:137
+msgid "Paypal Button"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:138
+msgid "The paypal checkout button text"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:152
 msgid "Display Button"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:209
-msgid "Stripe Hide Postal Code"
+#: pro/includes/fields/field-payment.php:241
+msgid "Stripe: Hide Postal Code"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:210
+#: pro/includes/fields/field-payment.php:242
 msgid ""
 "Hide Stripe's postal code field validation which can be displayed in "
 "specific cases"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:225
+#: pro/includes/fields/field-payment.php:257
 msgid "Stripe Test API"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:226
+#: pro/includes/fields/field-payment.php:258
 msgid "Your Stripe Test API Keys"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:239
-#: pro/includes/fields/field-payment.php:259
+#: pro/includes/fields/field-payment.php:271
+#: pro/includes/fields/field-payment.php:291
 msgid "Public key"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:245
+#: pro/includes/fields/field-payment.php:277
 msgid "Stripe Production API"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:246
+#: pro/includes/fields/field-payment.php:278
 msgid "Your Stripe Production API Keys"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:265
+#: pro/includes/fields/field-payment.php:297
 msgid "PayPal Test API"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:266
+#: pro/includes/fields/field-payment.php:298
 msgid "Your PayPal Sandbox Credentials"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:269
-#: pro/includes/fields/field-payment.php:309
+#: pro/includes/fields/field-payment.php:301
+#: pro/includes/fields/field-payment.php:341
 msgid "Username"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:279
-#: pro/includes/fields/field-payment.php:319
+#: pro/includes/fields/field-payment.php:311
+#: pro/includes/fields/field-payment.php:351
 msgid "Password"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:289
-#: pro/includes/fields/field-payment.php:329
+#: pro/includes/fields/field-payment.php:321
+#: pro/includes/fields/field-payment.php:361
 msgid "Signature"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:299
-#: pro/includes/fields/field-payment.php:339
+#: pro/includes/fields/field-payment.php:331
+#: pro/includes/fields/field-payment.php:371
 msgid "Merchant ID"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:305
+#: pro/includes/fields/field-payment.php:337
 msgid "PayPal Production API"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:306
+#: pro/includes/fields/field-payment.php:338
 msgid "Your PayPal Production Credentials"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:345
+#: pro/includes/fields/field-payment.php:377
 msgid "Mode"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:346
+#: pro/includes/fields/field-payment.php:378
 msgid "Switch API mode"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:351
-#: pro/includes/fields/field-payment.php:450
-#: pro/includes/fields/field-payment.php:1375
-#: pro/includes/fields/field-payment.php:1417
+#: pro/includes/fields/field-payment.php:383
+#: pro/includes/fields/field-payment.php:489
+#: pro/includes/fields/field-payment.php:1440
+#: pro/includes/fields/field-payment.php:1482
 msgid "Test"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:450
-#: pro/includes/fields/field-payment.php:1417
+#: pro/includes/fields/field-payment.php:489
+#: pro/includes/fields/field-payment.php:1482
 msgid "Gateway"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:459
-#: pro/includes/fields/field-payment.php:1422
+#: pro/includes/fields/field-payment.php:498
+#: pro/includes/fields/field-payment.php:1487
 msgid "Items"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:464
-#: pro/includes/fields/field-payment.php:1425
+#: pro/includes/fields/field-payment.php:503
+#: pro/includes/fields/field-payment.php:1490
 #: pro/includes/fields/field-post-field.php:49
 msgid "Date"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:468
-#: pro/includes/fields/field-payment.php:1427
+#: pro/includes/fields/field-payment.php:507
+#: pro/includes/fields/field-payment.php:1492
 msgid "IP Address"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:472
-#: pro/includes/fields/field-payment.php:1429
+#: pro/includes/fields/field-payment.php:511
+#: pro/includes/fields/field-payment.php:1494
 msgid "Payment ID"
 msgstr ""
 
-#: pro/includes/fields/field-payment.php:476
-#: pro/includes/fields/field-payment.php:477
+#: pro/includes/fields/field-payment.php:515
+#: pro/includes/fields/field-payment.php:516
 msgid "Payment Object"
-msgstr ""
-
-#: pro/includes/fields/field-payment.php:576
-msgid "PayPal Checkout"
-msgstr ""
-
-#: pro/includes/fields/field-payment.php:704
-msgid "Amount can't be null"
-msgstr ""
-
-#: pro/includes/fields/field-payment.php:788
-msgid "Payment failed"
-msgstr ""
-
-#: pro/includes/fields/field-payment.php:1066
-msgid "Your card number is invalid"
 msgstr ""
 
 #: pro/includes/fields/field-phone-number.php:19
@@ -5001,12 +5011,12 @@ msgstr ""
 #: pro/includes/fields/field-phone-number.php:209
 msgid ""
 "Additional settings such as \"National Number\", \"International Number\" "
-"return formats and phone number server validation become available when "
-"using the <a href=\"https://github.com/giggsey/libphonenumber-for-php\" "
-"target=\"_blank\">Libphonenumber for PHP</a> library.<br />You can install "
-"this library manually or with the <a href=\"https://www.acf-extended.com/"
-"addons/acf-extended-pro-libphonenumber.zip\" target=\"_blank\">ACF Extended: "
-"Phone Number Library Addon</a> plugin."
+"return formats and phone number server validation are available when using "
+"the <a href=\"https://github.com/giggsey/libphonenumber-for-php\" "
+"target=\"_blank\">Libphonenumber for PHP</a> library.<br /><br />You can "
+"install this library manually or with the <a href=\"https://www.acf-extended."
+"com/addons/acf-extended-pro-libphonenumber.zip\" target=\"_blank\">ACF "
+"Extended: Phone Number Library Addon</a> plugin."
 msgstr ""
 
 #: pro/includes/fields/field-phone-number.php:232

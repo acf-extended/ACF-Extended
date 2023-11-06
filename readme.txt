@@ -3,9 +3,9 @@ Contributors: hwk-fr
 Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 0.8.9.4
+Stable tag: 0.8.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -487,6 +487,34 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.8.9.5 =
+
+**ACF Extended Pro 0.8.9.5:**
+
+* Field: Block Editor - Added WP 6.4 compatibility
+* Field: Block Editor - Enhanced compatibility with custom blocks
+* Field: Block Editor - Fixed Media Upload not working in front-end form
+* Field: Block Editor - Fixed shortcodes not applied with `get_field()`
+* Field: Block Editor - Fixed Embed Block preview height
+* Field: Block Editor - Fixed "Allowed Block Types" setting not working in WP 6.3
+* Field: Block Editor - Fixed Inserter Block Preview popup position
+* Field: Payment - Enhanced Conditional logic & Tab logic compatibility
+* Field: Payment - Fixed PayPal Checkout button being disabled when form has no submit button
+* Field: Payment - Added "Paypal Checkout" button text setting
+* Field: Payment Cart - Added quotes compatibility in Items name
+* Field: Phone Number - Updated Intl Tel Input library and Utilities with latest area codes
+
+
+**ACF Extended Basic 0.8.9.5:**
+
+* Field: Google reCaptcha v3 - Added token refresh logic
+* Module: Developer Mode - Enhanced handle of incomplete class in meta values
+* Module: Options UI - Enhanced handle of incomplete class in options values
+* Module: Performance Ultra - Fixed slash values in WP Preview & WP Revisions
+* General: Bump WP version up to 6.4
+* General: Updated french translation
+* General: Enhanced internal tools
 
 = 0.8.9.4 =
 

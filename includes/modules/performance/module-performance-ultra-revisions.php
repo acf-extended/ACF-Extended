@@ -41,7 +41,7 @@ class acfe_performance_ultra_revisions{
         $post_id = wp_get_post_parent_id($revision_id);
         
         // check parent post has performance
-        if(acfe_is_object_performance_enabled($post_id)){
+        if(!acfe_is_object_performance_enabled($post_id)){
             return $null;
         }
     
