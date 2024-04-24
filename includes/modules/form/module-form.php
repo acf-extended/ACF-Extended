@@ -218,6 +218,12 @@ class acfe_module_form extends acfe_module{
         
         global $item;
         
+        // deregister selectWoo
+        // in case third party plugin enqueue it
+        // this cause issues with the Select2 ajax field
+        wp_deregister_script('selectWoo');
+        wp_register_script('selectWoo', false);
+        
         $field_groups = array();
         
         if($item['field_groups']){

@@ -1975,21 +1975,31 @@
             layouts: $layout[0].outerHTML
         });
 
-        // Append Temp Input
-        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo($('body'));
-        $input.attr('value', data).select();
+        navigator.clipboard.writeText(data).then(function() {
 
-        // alert
-        if (document.execCommand('copy')) {
             alert(acf.__('Layout data has been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
+            return true;
 
-            // prompt
-        } else {
-            prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
-        }
+        }).catch(function() {
 
-        // Remove the temp input
-        $input.remove();
+            // append Temp Input
+            var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo($('body'));
+            $input.attr('value', data).select();
+
+            // alert
+            if (document.execCommand('copy')) {
+                alert(acf.__('Layout data has been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
+
+                // prompt
+            } else {
+                prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
+            }
+
+            // remove the temp input
+            $input.remove();
+
+        });
+
 
     }
 
@@ -2015,21 +2025,30 @@
             layouts: $layouts.html()
         });
 
-        // Append Temp Input
-        var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo(flexible.$el);
-        $input.attr('value', data).select();
+        navigator.clipboard.writeText(data).then(function() {
 
-        // alert
-        if (document.execCommand('copy')) {
             alert(acf.__('Layouts data have been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
+            return true;
 
-            // prompt
-        } else {
-            prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
-        }
+        }).catch(function() {
 
+            // append Temp Input
+            var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo(flexible.$el);
+            $input.attr('value', data).select();
 
-        $input.remove();
+            // alert
+            if (document.execCommand('copy')) {
+                alert(acf.__('Layouts data have been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
+
+                // prompt
+            } else {
+                prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
+            }
+
+            // remove the temp input
+            $input.remove();
+
+        });
 
     }
 

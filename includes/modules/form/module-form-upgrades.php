@@ -11,9 +11,29 @@ class acfe_module_form_upgrades{
     function __construct(){
     
         // upgrade
-        add_action('acfe/do_upgrade', array($this, 'upgrade_0_9'),   30);
-        add_action('acfe/do_upgrade', array($this, 'upgrade_0_8_8'), 20);
-        add_action('acfe/do_upgrade', array($this, 'upgrade_0_8_5'), 10);
+        add_action('acfe/do_upgrade', array($this, 'upgrade_0_9_0_1'), 40);
+        add_action('acfe/do_upgrade', array($this, 'upgrade_0_9'),     30);
+        add_action('acfe/do_upgrade', array($this, 'upgrade_0_8_8'),   20);
+        add_action('acfe/do_upgrade', array($this, 'upgrade_0_8_5'),   10);
+        
+    }
+    
+    /**
+     * upgrade_0_9_0_1
+     *
+     * acfe/do_upgrade:40
+     *
+     * @param $db_version
+     */
+    function upgrade_0_9_0_1($db_version){
+        
+        // check already done
+        if(acf_version_compare($db_version, '>=', '0.9.0.1')){
+            return;
+        }
+        
+        // re-run 0.9 upgrade
+        $this->upgrade_0_9('0.8.9.5');
         
     }
     
@@ -77,6 +97,9 @@ class acfe_module_form_upgrades{
 
             // upgrade item
             $item = $this->upgrade_v2_item_to_v3($item, $meta);
+            
+            // allow button html in post_content
+            remove_filter('content_save_pre', 'wp_filter_post_kses');
             
             // import item (update db)
             $module->import_item($item);

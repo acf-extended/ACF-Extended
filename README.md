@@ -548,6 +548,12 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.0.1
+
+* Module: Forms - Fixed upgrade issues when using distant Auto Update
+* Module: Forms - Added safeguard logic when third party plugin enqueue selectWoo
+* Field: Flexible Content - Added Navigator Clipboard API to allow copy very large layout data
+
 ### 0.9
 
 **ACF Extended Pro 0.9:**

@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.9
+Stable tag: 0.9.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -487,6 +487,12 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.0.1 =
+
+* Module: Forms - Fixed upgrade issues when using distant Auto Update
+* Module: Forms - Added safeguard logic when third party plugin enqueue selectWoo
+* Field: Flexible Content - Added Navigator Clipboard API to allow copy very large layout data
 
 = 0.9 =
 
