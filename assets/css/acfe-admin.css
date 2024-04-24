@@ -669,6 +669,35 @@ ul.acfe-module-export-choices {
     vertical-align: text-bottom
 }
 
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field,
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=form]>.acf-input>.acf-fields>.acf-field {
+    border: 0
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=form]>.acf-input>.acf-fields>.acf-field>.acf-input>.acf-input-prepend {
+    width: 77px
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=form]>.acf-input>.acf-fields>.acf-field[data-name=class],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=form]>.acf-input>.acf-fields>.acf-field[data-name=id] {
+    padding-left: 0
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field>.acf-input>.acf-input-prepend {
+    width: 77px
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field[data-name=class],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field[data-name=instruction],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field[data-name=wrapper_class] {
+    padding-left: 0
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field[data-name=instruction],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field[data-name=label] {
+    padding-top: 0
+}
+
 .acfe-module.acfe-module-form.acfe-module-post .acf-field[data-type=acfe_dynamic_render][data-key*="_doc"] {
     padding: 0 !important;
     border: 0 !important;
@@ -713,20 +742,33 @@ ul.acfe-module-export-choices {
     padding: 0
 }
 
-.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields] ul li label,
-.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields] ul li label {
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields]>.acf-input>ul,
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields]>.acf-input>ul {
+    border: 0
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields]>.acf-input>ul>li>strong,
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields]>.acf-input>ul>li>strong {
+    display: block;
+    padding: 15px 12px 8px;
+    line-height: 1.4;
+    margin-top: 0
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields]>.acf-input>ul>li>ul>li label,
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields]>.acf-input>ul>li>ul>li label {
     display: block;
     padding: 8px 12px;
     border-bottom: 1px solid #e1e1e1
 }
 
-.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields] ul li:last-child label,
-.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields] ul li:last-child label {
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields]>.acf-input>ul>li>ul>li:last-child label,
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields]>.acf-input>ul>li>ul>li:last-child label {
     border-bottom: 0
 }
 
-.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields] ul li input,
-.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields] ul li input {
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=load_acf_fields]>.acf-input>ul>li>ul>li input,
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=save_acf_fields]>.acf-input>ul>li>ul>li input {
     margin-right: 7px
 }
 
@@ -774,9 +816,30 @@ ul.acfe-module-export-choices {
     width: 83%
 }
 
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=content_editor],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=content_html],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=description_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=parent_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=post_author_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=post_content_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=post_date_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=post_excerpt_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=post_parent_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=post_thumbnail_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=source_custom],
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=target_custom] {
+    border-top: 0;
+    padding-top: 0
+}
+
 .acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=files]>.acf-input .acf-actions,
 .acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=files_static]>.acf-input .acf-actions {
     text-align: left
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=files]>.acf-input .acf-actions .acf-button,
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=files_static]>.acf-input .acf-actions .acf-button {
+    float: none
 }
 
 .acfe-module.acfe-module-form.acfe-module-post .select2-results__options .loading-results,
@@ -1038,6 +1101,11 @@ html[dir=rtl] .acfe-postbox-left>.inside>.acf-field>.acf-input {
     .postbox:hover .handle-order-lower {
         visibility: visible
     }
+}
+
+body.branch-6-5 .postbox .handle-actions .acf-hndle-cog {
+    line-height: 28px;
+    height: 26px
 }
 
 .postbox .handlediv {

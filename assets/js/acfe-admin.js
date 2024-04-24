@@ -351,127 +351,6 @@
         return;
     }
 
-    /**
-     * ACFE Form
-     */
-    new acf.Model({
-
-        actions: {
-
-            // Buttons
-            'new_field/name=acfe_form_actions': 'actionsButton',
-            'new_field/name=acfe_form_email_files': 'filesButton',
-            'new_field/name=acfe_form_email_files_static': 'filesButton',
-
-            // Post
-            'new_field/name=acfe_form_post_map_target': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_type': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_status': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_title': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_name': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_content': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_excerpt': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_author': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_parent': 'mapFields',
-            'new_field/name=acfe_form_post_map_post_terms': 'mapFields',
-
-            // User
-            'new_field/name=acfe_form_user_map_email': 'mapFields',
-            'new_field/name=acfe_form_user_map_username': 'mapFields',
-            'new_field/name=acfe_form_user_map_password': 'mapFields',
-            'new_field/name=acfe_form_user_map_first_name': 'mapFields',
-            'new_field/name=acfe_form_user_map_last_name': 'mapFields',
-            'new_field/name=acfe_form_user_map_nickname': 'mapFields',
-            'new_field/name=acfe_form_user_map_display_name': 'mapFields',
-            'new_field/name=acfe_form_user_map_website': 'mapFields',
-            'new_field/name=acfe_form_user_map_description': 'mapFields',
-            'new_field/name=acfe_form_user_map_role': 'mapFields',
-
-            // Term
-            'new_field/name=acfe_form_term_map_name': 'mapFields',
-            'new_field/name=acfe_form_term_map_slug': 'mapFields',
-            'new_field/name=acfe_form_term_map_taxonomy': 'mapFields',
-            'new_field/name=acfe_form_term_map_parent': 'mapFields',
-            'new_field/name=acfe_form_term_map_description': 'mapFields',
-        },
-
-        filters: {
-            'select2_template_selection': 'select2TemplateSelection',
-            'select2_template_result': 'select2TemplateSelection',
-        },
-
-        actionsButton: function(field) {
-
-            field.on('click', '[data-name="add-layout"]', function(e) {
-
-                $('body').find('.acf-fc-popup').addClass('acfe-fc-popup-grey');
-
-            });
-
-        },
-
-        filesButton: function(field) {
-
-            field.$('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
-
-        },
-
-        mapFields: function(field) {
-
-            var $layout = field.$el.closest('.layout');
-            var $message = $layout.find('> .acf-fields > .acf-field[data-name="' + field.get('name') + '_message"] > .acf-input');
-
-            var selected = field.$input().find('option:selected').text();
-
-            if (selected.length) {
-                $message.html(selected);
-            }
-
-            field.$input().on('change', function() {
-
-                // Message
-                var text = $(this).find('option:selected').text();
-
-                $message.html(text);
-
-            });
-
-        },
-
-        select2TemplateSelection: function(text, selection, $select, fieldData, field, instance) {
-
-            if (field.get('acfeAllowCustom')) {
-                return this.replaceCode(text);
-            }
-
-            return text;
-
-        },
-
-        replaceCode: function(text) {
-
-            text = text.replace(/{field:(.*?)}/g, "<code>{field:$1}</code>");
-            text = text.replace(/{fields}/g, "<code>{fields}</code>");
-            text = text.replace(/{get_field:(.*?)}/g, "<code>{get_field:$1}</code>");
-            text = text.replace(/{query_var:(.*?)}/g, "<code>{query_var:$1}</code>");
-            text = text.replace(/{request:(.*?)}/g, "<code>{request:$1}</code>");
-            text = text.replace(/{current:(.*?)}/g, "<code>{current:$1}</code>");
-            text = text.replace(/{(form|form:.*?)}/g, "<code>{$1}</code>");
-            text = text.replace(/{action:(.*?)}/g, "<code>{action:$1}</code>");
-
-            return text;
-
-        }
-
-    });
-
-})(jQuery);
-(function($) {
-
-    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
-        return;
-    }
-
     var moduleManager = new acf.Model({
         wait: 'prepare',
         priority: 1,
@@ -527,6 +406,630 @@
             $('.acfe-misc-export').insertAfter('.misc-pub-post-status');
 
         },
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * module manager
+     * @type {acf.Model}
+     */
+    var moduleManager = new acf.Model({
+        wait: 'prepare',
+        priority: 1,
+        initialize: function() {
+            if (acfe.get('module') && acfe.get('module').name === 'form' && acfe.get('module').screen === 'post') {
+                new module();
+            }
+        }
+    });
+
+    var hideLoadFieldsCheckboxes = function() {
+
+        var loadFields = acf.getFields({
+            name: 'load_acf_fields',
+        });
+
+        // loop
+        loadFields.map(function(field) {
+
+            var values = [];
+            var selects = acf.getFields({
+                type: 'select',
+                sibling: field.$el,
+            });
+
+            selects.map(function(select) {
+                if (select.has('relatedField') && select.val()) {
+                    values.push(select.val());
+                }
+            });
+
+            // checkbox inputs
+            var $inputs = field.$inputs();
+
+            // loop checkboxes
+            $inputs.each(function() {
+
+                var $li = $(this).closest('li');
+
+                // show checkbox if not selected
+                if (!acfe.inArray($(this).val(), values)) {
+                    acf.show($li);
+                } else {
+                    acf.hide($li);
+                }
+            });
+
+            field.$control().find('> li').each(function() {
+
+                var $li = $(this);
+
+                // check inputs hidden
+                if ($li.find('li').not('.acf-hidden').length === 0) {
+                    acf.hide($li);
+                } else {
+                    acf.show($li);
+                }
+
+            });
+
+            // hide field if all checkboxes hidden
+            if (field.$control().find('> li').not('.acf-hidden').length === 0) {
+                field.hideDisable('acfe_form_field_groups', 'acfe_form_field_groups');
+            } else {
+                field.showEnable('acfe_form_field_groups', 'acfe_form_field_groups');
+            }
+
+        });
+
+    }
+
+    /**
+     * module
+     */
+    var module = acf.Model.extend({
+
+        actions: {
+            'new_select2': 'newSelect2',
+            'new_field/key=field_post_action_save_append_terms': 'newAppendTerms',
+            'new_field/key=field_actions': 'newActions',
+            'new_field/key=field_email_action_files': 'newFiles',
+            'new_field/key=field_email_action_files_static': 'newFiles',
+            'new_field/name=save_acf_fields': 'newCheckboxes',
+            'new_field/name=load_acf_fields': 'newCheckboxes',
+            'new_field/key=field_field_groups': 'newFieldGroups'
+        },
+
+        filters: {
+            'select2_args': 'select2Args',
+            'select2_ajax_data/action=acfe/form/map_field_ajax': 'mapFieldAjax',
+            'select2_ajax_data/action=acfe/form/map_field_groups_ajax': 'mapFieldGroupsAjax',
+
+            'select2_ajax_data/key=field_post_action_save_target_custom': 'customAjaxData',
+            'select2_ajax_data/key=field_post_action_load_source_custom': 'customAjaxData',
+            'select2_ajax_data/key=field_post_action_save_post_author_custom': 'customAjaxData',
+            'select2_ajax_data/key=field_post_action_save_post_parent_custom': 'customAjaxData',
+
+            'select2_ajax_data/key=field_term_action_save_target_custom': 'customAjaxData',
+            'select2_ajax_data/key=field_term_action_save_parent_custom': 'customAjaxData',
+            'select2_ajax_data/key=field_term_action_load_source_custom': 'customAjaxData',
+
+            'select2_ajax_data/key=field_user_action_save_target_custom': 'customAjaxData',
+            'select2_ajax_data/key=field_user_action_load_source_custom': 'customAjaxData',
+        },
+
+
+        /**
+         * newSelect2
+         *
+         * new_select2
+         */
+        newSelect2: function(select2) {
+
+            // spawn related field model
+            if (select2.get('field') && select2.get('field').has('relatedField')) {
+                new relatedField(select2);
+            }
+
+        },
+
+
+        /**
+         * newAppendTerms
+         *
+         * new_field/key=field_post_action_save_append_terms
+         */
+        newAppendTerms: function(field) {
+
+            // get save post terms
+            var postTerms = acf.getFields({
+                key: 'field_post_action_save_post_terms',
+                sibling: field.$el
+            }).shift();
+
+            // move append terms
+            if (postTerms) {
+
+                field.$inputWrap().addClass('append-terms').appendTo(postTerms.$inputWrap());
+                field.$el.remove();
+
+            }
+
+        },
+
+
+        /**
+         * newActions
+         *
+         * new_field/key=field_actions
+         */
+        newActions: function(field) {
+
+            field.on('click', '[data-name="add-layout"]', function(e) {
+                $('body').find('.acf-fc-popup').addClass('acfe-fc-popup-grey');
+            });
+
+        },
+
+
+        /**
+         * newFiles
+         *
+         * new_field/key=field_email_action_files
+         * new_field/key=field_email_action_files_static
+         */
+        newFiles: function(field) {
+            field.$('> .acf-input > .acf-repeater > .acf-actions > .acf-button').removeClass('button-primary');
+        },
+
+
+        /**
+         * select2Args
+         *
+         * select2_args
+         */
+        select2Args: function(options, $select, fieldData, field, instance) {
+
+            if (field.get('acfeAllowCustom')) {
+
+                var replaceCode = function(state) {
+
+                    // /[{\w:]*(?<full>{(?<name>[\w]+)(?!:})(?::(?<value>\S*?))?})}*/g
+                    // /({[\w: +-\\]+}*)/g
+
+                    if (state.text && state.text.indexOf('<code>') === -1) {
+                        state.text = state.text.replace(/({[\w: +-\\]+}*)/g, "<code>$1</code>");
+                    }
+
+                    // we must escape to let user re-order
+                    var $selection = $('<span class="acf-selection"></span>');
+                    $selection.html(acf.escHtml(state.text));
+                    $selection.data('element', state.element);
+
+                    return $selection;
+                };
+
+                options.templateSelection = replaceCode;
+                options.templateResult = replaceCode;
+
+            }
+
+            return options;
+
+        },
+
+
+        /**
+         * mapFieldAjax
+         *
+         * select2_ajax_data/action=acfe/form/map_field_ajax
+         *
+         * @param ajaxData
+         * @param data
+         * @param $el
+         * @param field
+         * @param instance
+         * @returns {*}
+         */
+        mapFieldAjax: function(ajaxData, data, $el, field, instance) {
+
+            ajaxData.field_label = '';
+            ajaxData.value = field.val();
+            ajaxData.choices = [];
+            ajaxData.custom_choices = [];
+            ajaxData.field_groups = [];
+            ajaxData.is_load = field.has('relatedField') ? 1 : 0;
+
+            // field label
+            // get node text to avoid additional HTML (like tooltip)
+            var fieldLabel = acfe.getTextNode(field.$labelWrap().find('label'));
+
+            if (!fieldLabel) {
+                var parent = acf.getInstance(field.$el.closest('.acf-field-group'));
+                if (parent) {
+                    fieldLabel = acfe.getTextNode(parent.$labelWrap().find('label'));
+                }
+            }
+
+            ajaxData.field_label = fieldLabel;
+
+            // choices
+            var choices = field.get('choices');
+            if (choices) {
+                ajaxData.choices = choices;
+            }
+
+            // custom choices
+            var customChoices = field.get('customChoices');
+            if (customChoices) {
+                ajaxData.custom_choices = customChoices;
+            }
+
+            // field groups
+            var fieldGroups = acf.getField('field_field_groups').val();
+            if (fieldGroups.length) {
+                ajaxData.field_groups = fieldGroups;
+            }
+
+            return ajaxData;
+
+        },
+
+        /**
+         * mapFieldGroupsAjax
+         *
+         * select2_ajax_data/action=acfe/form/map_field_groups_ajax
+         *
+         * @param ajaxData
+         * @param data
+         * @param $el
+         * @param field
+         * @param instance
+         * @returns {*}
+         */
+        mapFieldGroupsAjax: function(ajaxData, data, $el, field, instance) {
+
+            // data
+            ajaxData.value = field.val();
+            ajaxData.choices = [];
+            ajaxData.custom_choices = [];
+
+            // choices
+            var choices = field.get('choices');
+            if (choices) {
+                ajaxData.choices = choices;
+            }
+
+            // custom choices
+            var customChoices = field.get('customChoices');
+            if (customChoices) {
+                ajaxData.custom_choices = customChoices;
+            }
+
+            return ajaxData;
+
+        },
+
+
+        /**
+         * customAjaxData
+         *
+         * @param ajaxData
+         * @param data
+         * @param $el
+         * @param field
+         * @param instance
+         * @returns {*}
+         */
+        customAjaxData: function(ajaxData, data, $el, field, instance) {
+
+            ajaxData.is_form = 1;
+
+            return ajaxData;
+
+        },
+
+        /**
+         * newCheckboxes
+         *
+         * new_field/name=save_acf_fields
+         * new_field/name=load_acf_fields
+         *
+         * @param field
+         */
+        newCheckboxes: function(field) {
+
+            this.refreshCheckboxChoicesHtml(field);
+
+        },
+
+
+        /**
+         * newFieldGroups
+         *
+         * new_field/key=field_field_groups
+         */
+        newFieldGroups: function(field) {
+
+            field.on('change', this.proxy(function(e) {
+
+                this.refreshFieldGroupsMetabox();
+                this.refreshCheckboxesChoices();
+
+            }));
+
+        },
+
+        refreshFieldGroupsMetabox: function() {
+
+            // get field groups
+            var fieldGroups = acf.getField('field_field_groups').val();
+            var metabox = acf.getPostbox('acfe-field-groups');
+
+            if (!metabox) {
+                return;
+            }
+
+            if (!fieldGroups.length) {
+                return metabox.hide();
+            }
+
+            $.ajax({
+                url: acf.get('ajaxurl'),
+                data: acf.prepareForAjax({
+                    action: 'acfe/form/field_groups_metabox',
+                    field_groups: fieldGroups
+                }),
+                type: 'post',
+                dataType: 'html',
+                context: this,
+                success: function(response) {
+
+                    metabox.show();
+                    metabox.html(response);
+
+                },
+            });
+
+        },
+
+        refreshCheckboxesChoices: function() {
+
+            // get save acf fields
+            var saveFields = acf.getFields({
+                name: 'save_acf_fields',
+            });
+
+            // get load acf fields
+            var loadFields = acf.getFields({
+                name: 'load_acf_fields',
+            });
+
+            // merge fields
+            var checkboxes = [].concat(saveFields, loadFields);
+
+            // loop checkboxes fields
+            checkboxes.map(function(field) {
+                this.refreshCheckboxChoicesHtml(field);
+            }, this);
+
+        },
+
+        refreshCheckboxChoicesHtml: function(field) {
+
+            // get field groups
+            var fieldGroups = acf.getField('field_field_groups').val();
+
+            if (!fieldGroups.length) {
+                return field.hideDisable('acfe_form_field_groups', 'acfe_form_field_groups');
+            }
+
+            // send ajax
+            $.ajax({
+                url: acf.get('ajaxurl'),
+                data: acf.prepareForAjax({
+                    action: 'acfe/form/map_checkbox_ajax',
+                    name: field.getInputName(), // acf[field_actions][row-0][field_post_action_save_acf_fields]
+                    _name: field.get('name'),
+                    key: field.get('key'),
+                    value: field.val(),
+                    field_groups: fieldGroups
+                }),
+                type: 'post',
+                dataType: 'html',
+                context: this,
+                success: function(response) {
+
+                    field.$inputWrap().html(response);
+
+                    if (field.$control().find('> li').length) {
+
+                        var labels = field.$inputWrap().find('> [data-labels]').data('labels');
+
+                        if (labels.length) {
+
+                            labels.map(function(label, i) {
+                                field.$control().find('> li:eq(' + i + ')').prepend('<strong>' + label + '</strong>');
+                            });
+
+                        }
+
+                        // show enable field
+                        field.showEnable('acfe_form_field_groups', 'acfe_form_field_groups');
+
+                    } else {
+                        field.hideDisable('acfe_form_field_groups', 'acfe_form_field_groups');
+                    }
+
+                    // hide checkboxes based on "load fields"
+                    hideLoadFieldsCheckboxes();
+
+                },
+            });
+
+        },
+
+    });
+
+
+    /**
+     * relatedField
+     *
+     * new_select2
+     */
+    var relatedField = acf.Model.extend({
+
+        field: {},
+        select2: {},
+        relatedField: false,
+
+        events: {
+            'change': 'onChange',
+            'hideField': 'onHideField',
+            'showField': 'onShowField',
+        },
+
+        setup: function(select2) {
+            this.select2 = select2;
+            this.field = select2.get('field');
+
+            // used for events
+            this.$el = this.field.$el;
+        },
+
+        initialize: function() {
+
+            // bail early if no related field
+            this.relatedField = this.getRelatedField();
+
+            if (!this.relatedField) {
+                return;
+            }
+
+            this.setupRelatedHTML();
+            this.showRelatedMessage(true);
+
+        },
+
+        onChange: function() {
+            if (this.field.val()) {
+                this.showRelatedMessage();
+            } else {
+                this.hideRelatedMessage();
+            }
+        },
+
+        onHideField: function(e, $el, context) {
+            if (this.relatedField && context === 'conditional_logic') {
+                this.hideRelatedMessage();
+            }
+        },
+
+        onShowField: function(e, $el, context) {
+            if (this.relatedField && context === 'conditional_logic') {
+                this.showRelatedMessage();
+            }
+        },
+
+        setupRelatedHTML: function() {
+            if (!this.relatedField.$inputWrap().find('.related-message').length) {
+                this.relatedField.$inputWrap().append('<div class="related-message" />');
+            }
+        },
+
+        showRelatedMessage: function(initialize) {
+
+            initialize = initialize || false;
+
+            // get select value
+            var id = this.field.val();
+            var value = this.field.val();
+
+            // get select2 option label
+            if (this.select2) {
+
+                var options = this.select2.getValue();
+                var option = options.shift();
+
+                if (option && option.id) {
+                    id = option.id;
+                    value = option.text;
+                }
+
+            }
+
+            // if value found
+            if (value) {
+
+                // display related message
+                this.relatedField.$inputWrap().addClass('acfe-display-related-message');
+                this.relatedField.$inputWrap().find('.related-message').html('Field: ' + value);
+
+                if (!initialize) {
+
+                    // var $input = this.relatedField.$input();
+                    // if(!$input.is('select')){
+                    //     console.log($input)
+                    //     acf.val($input, '', true); // silent
+                    // }
+
+                    if (acf.isset(this.relatedField, 'select2')) {
+                        this.relatedField.select2.$el.val(null);
+                        this.relatedField.select2.$el.trigger('change');
+                    }
+
+                }
+
+
+
+                // // set empty value for conditional logic
+                // var relatedFieldVal = this.relatedField.val();
+                //
+                // // delete value silently (to avoid trigger exit prompt)
+                // if(acfe.isFieldKey(relatedFieldVal) || (acfe.isArray(relatedFieldVal) && acfe.isFieldKey(relatedFieldVal.shift()))){
+                //     acf.val(this.relatedField.$input(), '', true);
+                //
+                // // delete value normally
+                // }else{
+                //     this.relatedField.select2.$el.val(null);
+                //     this.relatedField.select2.$el.trigger('change');
+                // }
+
+                hideLoadFieldsCheckboxes();
+
+            }
+
+        },
+
+        hideRelatedMessage: function() {
+
+            this.relatedField.$inputWrap().removeClass('acfe-display-related-message');
+            this.relatedField.$inputWrap().find('.related-message').html('');
+
+            hideLoadFieldsCheckboxes();
+
+        },
+
+        getRelatedField: function() {
+
+            var key = this.field.get('relatedField');
+            var $layout = this.field.$el.closest('.layout');
+
+            var relatedField = acf.getFields({
+                key: key,
+                parent: $layout
+            });
+
+            return relatedField.shift();
+
+        }
 
     });
 

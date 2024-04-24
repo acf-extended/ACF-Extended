@@ -1084,11 +1084,15 @@ input.acfe-flexible-control-title {
     position: relative
 }
 
-.layout.acfe-flexible-layout-hidden>.acf-fc-layout-controls,
 .layout.acfe-flexible-layout-hidden>.acf-fc-layout-handle,
-.layout.acfe-flexible-layout-hidden>.acf-fields,
 .layout.acfe-flexible-layout-hidden>.acfe-fc-placeholder {
     opacity: .5
+}
+
+.layout.acfe-flexible-layout-hidden>.acf-fc-layout-controls>.acfe-flexible-icon.dashicons-hidden {
+    background: #2c3338;
+    border-color: #111;
+    color: #fff
 }
 
 .acf-field-flexible-content[data-acfe-flexible-modal-edition="1"]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-controls>a.-collapse {
@@ -1326,6 +1330,10 @@ body:not(.acf-admin-5-3) .acf-repeater.-row>table>tbody>tr>td:last-of-type {
     width: auto;
     height: auto;
     vertical-align: text-top
+}
+
+.acf-tab-wrap {
+    overflow: unset
 }
 
 .acf-field-textarea[data-acfe-textarea-code="1"]>.acf-input>textarea {

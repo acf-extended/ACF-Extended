@@ -200,7 +200,7 @@ class acfe_module_posts{
         unset($actions['inline'], $actions['inline hide-if-no-js']);
         
         // View
-        if(!empty($module->view)){
+        if(!empty($module->view) && $item['active']){
             $actions['view'] = '<a href="' . admin_url(sprintf($module->view, $item['name'])) . '">' . __('View') . '</a>';
         }
         

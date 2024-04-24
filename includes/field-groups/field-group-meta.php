@@ -140,20 +140,20 @@ class acfe_field_group_meta{
      */
     function render_data($field){
         
+        // get field group
         $field_group = acf_get_field_group($field['value']);
         
         if(!$field_group){
-            
             echo '<a href="#" class="button disabled" disabled>' . __('Data') . '</a>';
             return;
-            
         }
         
+        // esc field group
+        $field_group = @map_deep($field_group, 'esc_html');
+        
+        // get raw field group
         $raw_field_group = get_post($field_group['ID']);
-    
-        // try to unserialize post content
-        $raw_field_group->post_content = maybe_unserialize($raw_field_group->post_content);
-        $raw_field_group->post_content = @map_deep($raw_field_group->post_content, '_wp_specialchars');
+        $raw_field_group = @map_deep($raw_field_group, 'esc_html');
         
         ?>
         <a href="#" class="acf-button button" data-modal><?php _e('Data', 'acfe'); ?></a>

@@ -648,6 +648,11 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     width: 100%
 }
 
+.acf-admin-6.acf-admin-single-field-group .acf-field-setting-acfe_permissions>.acf-input>ul {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap
+}
+
 .acf-admin-6.acf-admin-single-field-group .acf-field-setting-acfe_field_group_condition {
     padding-right: 72px;
     padding-left: 72px;

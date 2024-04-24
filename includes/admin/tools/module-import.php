@@ -97,6 +97,7 @@ class acfe_module_import extends ACF_Admin_Tool{
         // Loop over json
         foreach($json as $key => $item){
             
+            // prior 0.9
             // old import had name as key
             if(!is_numeric($key) && !isset($item['name'])){
                 $item['name'] = $key;
@@ -113,7 +114,7 @@ class acfe_module_import extends ACF_Admin_Tool{
                 $item['ID'] = $post->ID;
             }
             
-            // Import field group.
+            // import item
             $item = $this->module->import_item($item);
             
             // append message

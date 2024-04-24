@@ -561,15 +561,37 @@ function acfe_query_fields($args = array()){
  *
  * @return array|mixed
  */
-function acfe_get_fields_details_recursive($fields){
+function acfe_get_fields_details_recursive($fields, $callback = false){
     
     $fields = acf_get_array($fields);
     $return = array();
     
     foreach($fields as $field){
         
+        // check callback
+        if($callback && is_callable($callback)){
+            
+            // execute callback
+            $field = call_user_func($callback, $field);
+            
+            // allow to return false to bypass field
+            if(!$field){
+                continue;
+            }
+            
+        }
+        
+        // pass clone subfields parent as field key (instead of field group)
+        if($field['type'] === 'clone'){
+            if(acf_maybe_get($field, 'sub_fields')){
+                foreach($field['sub_fields'] as &$sub_field){
+                    $sub_field['parent'] = $field['key'];
+                }
+            }
+        }
+        
         $ancestors = isset($field['ancestors']) ? $field['ancestors'] : count(acf_get_field_ancestors($field));
-    
+        
         $label = '';
         $label = str_repeat('- ', $ancestors) . $label;
         $label .= !empty($field['label']) ? $field['label'] : '(' . __('no label', 'acf') . ')';
@@ -583,10 +605,11 @@ function acfe_get_fields_details_recursive($fields){
             'name'  => $field['name'],
             'key'   => $field['key'],
             'type'  => $type,
+            'field' => $field,
         );
     
         if(acf_maybe_get($field, 'sub_fields')){
-            $return = array_merge($return, acfe_get_fields_details_recursive($field['sub_fields']));
+            $return = array_merge($return, acfe_get_fields_details_recursive($field['sub_fields'], $callback));
         }
         
     }

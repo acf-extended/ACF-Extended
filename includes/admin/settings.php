@@ -384,6 +384,13 @@ class acfe_admin_settings{
                     'category'      => 'modules',
                 ),
                 array(
+                    'label'         => 'Forms: Top Level',
+                    'name'          => 'acfe/modules/forms/top_level',
+                    'type'          => 'true_false',
+                    'description'   => 'Show/hide the Forms module as top level menu. Defaults to false',
+                    'category'      => 'modules',
+                ),
+                array(
                     'label'         => 'Multilangual',
                     'name'          => 'acfe/modules/multilang',
                     'type'          => 'true_false',
@@ -408,7 +415,7 @@ class acfe_admin_settings{
                     'label'         => 'Performance',
                     'name'          => 'acfe/modules/performance',
                     'type'          => 'text',
-                    'description'   => 'Enable/disable Performance module. Defaults to empty',
+                    'description'   => 'Enable/disable Performance module. Defaults to false',
                     'category'      => 'modules',
                 ),
                 array(
@@ -641,11 +648,16 @@ class acfe_admin_settings_ui{
                         $var = explode(',', $var);
                     }
                 
-                    foreach($var as &$r){
+                    foreach($var as $k => &$r){
                         if(is_array($r)){
                             $encode = json_encode($r);
                             $r = '<div class="acfe-settings-text"><code>' . $encode . '</code></div>';
                         }else{
+                            
+                            if(!is_numeric($k)){
+                                $r = "{$k} = {$r}";
+                            }
+                            
                             $r = '<div class="acf-js-tooltip acfe-settings-text" title="' . $r . '"><code>' . $r . '</code></div>';
                         }
                     }

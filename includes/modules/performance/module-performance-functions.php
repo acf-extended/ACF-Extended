@@ -818,6 +818,15 @@ function acfe_delete_object_performance_meta($post_id){
  */
 function acfe_is_single_meta_enabled($post_id = 0){
     
+    // return global setting
+    if(!$post_id){
+        
+        acfe_deprecated_function('acfe_is_single_meta_enabled()', '0.8.9.3', 'acfe_is_performance_enabled()');
+        return acfe_is_performance_enabled() && acfe_get_performance_config('engine') === 'ultra';
+        
+    }
+    
+    // return object performance setting
     acfe_deprecated_function('acfe_is_single_meta_enabled()', '0.8.9.3', 'acfe_is_object_performance_enabled()');
     return acfe_get_object_performance_engine_name($post_id) === 'ultra';
     

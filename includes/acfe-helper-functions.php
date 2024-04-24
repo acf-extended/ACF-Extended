@@ -46,6 +46,7 @@ function acfe_array_get($array, $key, $default = null){
     
 }
 
+
 /**
  * acfe_array_set
  *
@@ -88,6 +89,59 @@ function acfe_array_set(&$array, $key, $value){
     
 }
 
+
+/**
+ * acfe_array_unset
+ *
+ * @param $array
+ * @param $keys
+ *
+ * @return array|mixed
+ */
+function acfe_array_unset(&$array, $keys){
+    
+    $original = &$array;
+    
+    $keys = (array) $keys;
+    
+    if(count($keys) === 0){
+        return $array;
+    }
+    
+    foreach($keys as $key){
+        
+        // if the exact key exists in the top-level, remove it
+        if(array_key_exists($key, $array)){
+            unset($array[ $key ]);
+            continue;
+        }
+        
+        $parts = explode('.', $key);
+        
+        // clean up before each pass
+        $array = &$original;
+        
+        while(count($parts) > 1){
+            
+            $part = array_shift($parts);
+            
+            if (isset($array[$part]) && is_array($array[$part])) {
+                $array = &$array[$part];
+            } else {
+                continue 2;
+            }
+            
+        }
+        
+        unset($array[ array_shift($parts) ]);
+        
+    }
+    
+    return $array;
+    
+}
+
+
 /**
  * acfe_maybe_get
  *
@@ -109,6 +163,7 @@ function acfe_maybe_get($array = array(), $key = 0, $default = null){
     
 }
 
+
 /**
  * acfe_maybe_get_REQUEST
  *
@@ -122,6 +177,7 @@ function acfe_maybe_get($array = array(), $key = 0, $default = null){
 function acfe_maybe_get_REQUEST($key = '', $default = null){
     return isset($_REQUEST[ $key ]) ? $_REQUEST[ $key ] : $default;
 }
+
 
 /**
  * acfe_is_json
@@ -327,6 +383,182 @@ function acfe_unprefix_array_keys($array, $prefix, $ignore = array(), $recursive
     
 }
 
+
+/**
+ * acfe_map_array_keys
+ *
+ * Map array keys recursively, allowing to update a row key.
+ * Return false in callback to remove the row.
+ *
+ * @param $array
+ * @param $func
+ *
+ * @return array|false
+ */
+function acfe_map_array_keys($array, $func){
+    
+    // validate array
+    if(!is_array($array)){
+        return $array;
+    }
+    
+    // vars
+    $array2 = false;
+    
+    // loop
+    foreach($array as $k => $v){
+        
+        // callback
+        $k2 = call_user_func($func, $k, $v);
+        
+        // remove the row
+        if($k2 === false){
+            continue;
+            
+        // allow row and don't process sub array
+        }elseif($k2 === true){
+            
+            $array2 = acf_get_array($array2);
+            $array2[ $k ] = $v;
+            
+        // allow row and process sub array
+        }else{
+            
+            $array2 = acf_get_array($array2);
+            $array2[ $k2 ] = $v;
+            
+            // recursive sub array
+            if(is_array($array2[ $k2 ])){
+                
+                $array2[ $k2 ] = acfe_map_array_keys($array2[ $k2 ], $func);
+                
+                if($array2[ $k2 ] === false){
+                    unset($array2[ $k2 ]);
+                }
+                
+                if(is_array($array2) && empty($array2)){
+                    $array2 = false;
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    // return
+    return $array2;
+    
+}
+
+
+/**
+ * acfe_filter_acf_values_by_keys
+ *
+ * @param $acf
+ * @param $field_keys
+ *
+ * @return array|false
+ */
+function acfe_filter_acf_values_by_keys($acf, $field_keys){
+    
+    $acf = acf_get_array($acf);
+    $field_keys = acf_get_array($field_keys);
+    $filtered_keys = $field_keys;
+    
+    foreach($field_keys as $field_key){
+        
+        $field = acf_get_field($field_key);
+        
+        if($field && $field['type'] === 'clone' && $field['display'] === 'seamless' && $field['sub_fields']){
+            
+            $sub_fields = $field['sub_fields'];
+            $sub_fields = wp_list_pluck($sub_fields, 'key');
+            
+            if($sub_fields){
+                $filtered_keys = array_merge($filtered_keys, $sub_fields);
+            }
+            
+        }
+        
+    }
+    
+    $acf = acfe_map_array_keys($acf, function($key, $value) use($filtered_keys){
+        
+        // top level key found
+        // allow row and ignore sub array
+        if(in_array($key, $filtered_keys, true)){
+            return true;
+        }
+        
+        // sub array key not found and value is not array (so no sub array available)
+        // do not allow row and ignore sub array
+        if(!is_array($value) && !in_array($key, $filtered_keys, true)){
+            return false;
+        }
+        
+        // process sub array
+        return $key;
+        
+    });
+    
+    return $acf;
+    
+}
+
+
+/**
+ * acfe_get_value_from_acf_values_by_key
+ *
+ * @param $acf
+ * @param $field_key
+ *
+ * @return mixed|null
+ */
+function acfe_get_value_from_acf_values_by_key($acf, $field_key){
+    
+    // vars
+    $value = null;
+    $acf = acf_get_array($acf);
+    
+    // seamless clone rule
+    $field = acf_get_field($field_key);
+    $is_seamless = false;
+    
+    if($field && $field['type'] === 'clone' && $field['display'] === 'seamless'){
+        $value = array();
+        $is_seamless = true;
+    }
+    
+    // loop values
+    acfe_map_array_keys($acf, function($k, $v) use($field_key, $is_seamless, &$value){
+        
+        if($is_seamless){
+            
+            if(acfe_starts_with($k, "{$field_key}_")){
+                $value[ $k ] = $v;
+            }
+            
+        }else{
+            
+            // found key
+            if($k === $field_key){
+                $value = $v;
+            }
+            
+        }
+        
+        // continue loop
+        return $k;
+        
+    });
+    
+    // return
+    return $value;
+    
+}
+
+
 /**
  * acfe_array_insert_before
  *
@@ -476,7 +708,8 @@ function acfe_parse_args_r(&$a, $b){
     
     foreach($a as $k => &$v){
         
-        if(is_array($v) && !empty($v) && isset($r[ $k ]) && is_array($r[ $k ]) && acf_is_associative_array($r[ $k ])){
+        //if(is_array($v) && !empty($v) && isset($r[ $k ]) && is_array($r[ $k ]) && acf_is_associative_array($r[ $k ])){
+        if(is_array($v) && isset($r[ $k ]) && is_array($r[ $k ]) && acf_is_associative_array($r[ $k ])){
             $r[ $k ] = acfe_parse_args_r($v, $r[ $k ]);
         }else{
             $r[ $k ] = $v;

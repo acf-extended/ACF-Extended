@@ -4,139 +4,189 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-if(!class_exists('acfe_form_custom')):
+if(!class_exists('acfe_module_form_action_custom')):
 
-class acfe_form_custom{
+class acfe_module_form_action_custom extends acfe_module_form_action{
     
-    function __construct(){
+    /**
+     * initialize
+     */
+    function initialize(){
         
-        add_filter('acfe/form/actions',                                 array($this, 'add_action'));
+        $this->name = 'custom';
+        $this->title = __('Custom action', 'acfe');
         
-        add_action('acfe/form/make/custom',                             array($this, 'make'), 10, 3);
-        add_filter('acf/validate_value/name=acfe_form_custom_action',   array($this, 'validate_action'), 10, 4);
-        
-    }
-    
-    function make($form, $current_post_id, $action){
-    
-        // Form
-        $form_name = acf_maybe_get($form, 'name');
-        $form_id = acf_maybe_get($form, 'ID');
-        
-        // Custom Action Name
-        $action = get_sub_field('acfe_form_custom_action');
-    
-        // Prepare
-        $prepare = true;
-        $prepare = apply_filters('acfe/form/prepare/' . $action,                            $prepare, $form, $current_post_id, '');
-        $prepare = apply_filters('acfe/form/prepare/' . $action . '/form=' . $form_name,    $prepare, $form, $current_post_id, '');
-        
-        if($prepare === false)
-            return;
-        
-        // Submit
-        do_action('acfe/form/submit/' . $action,                            $form, $current_post_id, '');
-        do_action('acfe/form/submit/' . $action . '/form=' . $form_name,    $form, $current_post_id, '');
-        
-    }
-    
-    function validate_action($valid, $value, $field, $input){
-        
-        if(!$valid)
-            return $valid;
-        
-        $reserved = array('custom', 'email', 'post', 'option', 'redirect', 'term', 'user');
-        
-        if(in_array($value, $reserved))
-            $valid = 'This action name is not authorized';
-        
-        return $valid;
-        
-    }
-    
-    function add_action($layouts){
-
-        $layouts['layout_custom'] = array(
-            'key' => 'layout_custom',
-            'name' => 'custom',
-            'label' => 'Custom action',
-            'display' => 'row',
-            'sub_fields' => array(
-    
-                /*
-                 * Documentation
-                 */
-                array(
-                    'key' => 'field_acfe_form_custom_action_docs',
-                    'label' => '',
-                    'name' => 'acfe_form_action_docs',
-                    'type' => 'acfe_dynamic_render',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ),
-                    'render' => function(){
-                        echo '<a href="https://www.acf-extended.com/features/modules/dynamic-forms/custom-action" target="_blank">' . __('Documentation', 'acfe') . '</a>';
-                    }
-                ),
-            
-                /*
-                 * Layout: Custom Action
-                 */
-                array(
-                    'key' => 'field_acfe_form_custom_action_tab_action',
-                    'label' => 'Action',
-                    'name' => '',
-                    'type' => 'tab',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                        'data-no-preference' => true,
-                    ),
-                    'acfe_permissions' => '',
-                    'placement' => 'top',
-                    'endpoint' => 0,
-                ),
-                array(
-                    'key' => 'field_acfe_form_custom_action',
-                    'label' => 'Action name',
-                    'name' => 'acfe_form_custom_action',
-                    'type' => 'acfe_slug',
-                    'instructions' => __('Set a unique action slug.', 'acfe'),
-                    'required' => 1,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                        'data-instruction-placement' => 'field'
-                    ),
-                    'acfe_permissions' => '',
-                    'default_value' => '',
-                    'placeholder' => 'my-custom-action',
-                    'prepend' => '',
-                    'append' => '',
-                    'maxlength' => '',
-                ),
-            ),
-            'min' => '',
-            'max' => '',
+        $this->item = array(
+            'action' => 'custom',
+            'name'   => '',
         );
         
-        return $layouts;
+        $this->validate = array('name');
+        
+    }
+    
+    
+    /**
+     * prepare_action
+     *
+     * acfe/form/prepare_custom:9
+     *
+     * @param $action
+     * @param $form
+     *
+     * @return mixed
+     */
+    function prepare_action($action, $form){
+    
+        // prepare action
+                    $action = apply_filters("acfe/form/prepare_{$action['name']}",                      $action, $form);
+        if($action){$action = apply_filters("acfe/form/prepare_{$action['name']}/form={$form['name']}", $action, $form);}
+        
+        // return
+        return $action;
+        
+    }
+    
+    
+    /**
+     * validate_action
+     *
+     * acfe/form/validate_custom:9
+     *
+     * @param $form
+     * @param $action
+     */
+    function validate_action($form, $action){
+    
+        // validate action
+        do_action("acfe/form/validate_{$action['name']}",                      $form, $action);
+        do_action("acfe/form/validate_{$action['name']}/form={$form['name']}", $form, $action);
+    
+    }
+    
+    
+    /**
+     * make_action
+     *
+     * acfe/form/make_custom:9
+     *
+     * @param $form
+     * @param $action
+     */
+    function make_action($form, $action){
+    
+        // hooks
+        do_action("acfe/form/submit_{$action['name']}",                      $form, $action);
+        do_action("acfe/form/submit_{$action['name']}/form={$form['name']}", $form, $action);
+    
+    }
+    
+    /**
+     * validate_name
+     *
+     * @param $value
+     *
+     * @return false|string|void
+     */
+    function validate_name($value){
+        
+        $actions = acfe_get_form_actions();
+        $names = array('form'); // reserved
+        
+        // get actions names
+        foreach($actions as $action){
+            $names[] = $action->name;
+        }
+        
+        // do not allow existing action name
+        if(in_array($value, $names)){
+            return __('This action name is reserved', 'acfe');
+        }
+        
+        return false;
+        
+    }
+    
+    
+    /**
+     * register_layout
+     *
+     * @param $layout
+     *
+     * @return array
+     */
+    function register_layout($layout){
+    
+        return array(
+    
+            /**
+             * documentation
+             */
+            array(
+                'key' => 'field_doc',
+                'label' => '',
+                'name' => '',
+                'type' => 'acfe_dynamic_render',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'render' => function(){
+                    echo '<a href="https://www.acf-extended.com/features/modules/dynamic-forms/custom-action" target="_blank">' . __('Documentation', 'acfe') . '</a>';
+                }
+            ),
+    
+            /**
+             * action
+             */
+            array(
+                'key' => 'field_tab_action',
+                'label' => __('Action', 'acfe'),
+                'name' => '',
+                'type' => 'tab',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                    'data-no-preference' => true,
+                ),
+                'placement' => 'top',
+                'endpoint' => 0,
+            ),
+            array(
+                'key' => 'field_name',
+                'label' => __('Action name', 'acfe'),
+                'name' => 'name',
+                'type' => 'acfe_slug',
+                'instructions' => __('Target this action using hooks.', 'acfe'),
+                'required' => 1,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                    'data-instruction-placement' => 'field'
+                ),
+                'default_value' => '',
+                'placeholder' => __('Custom', 'acfe'),
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+            ),
+
+        );
         
     }
     
 }
 
-new acfe_form_custom();
+acfe_register_form_action('acfe_module_form_action_custom');
 
 endif;

@@ -63,6 +63,7 @@ class acfe_module{
         $this->add_module_action('acfe/module/untrashed_item',        array($this, 'untrashed_item'), 9);
         $this->add_module_action('acfe/module/deleted_item',          array($this, 'deleted_item'), 9);
         $this->add_module_action('acfe/module/imported_item',         array($this, 'imported_item'), 9);
+        $this->add_module_filter('acfe/module/validate_item',         array($this, 'validate_item'), 9);
         $this->add_module_filter('acfe/module/load_item',             array($this, 'load_item'), 9);
         $this->add_module_filter('acfe/module/load_items',            array($this, 'load_items'), 9);
         
@@ -202,6 +203,7 @@ class acfe_module{
     
         // remove filter to avoid serialized data corruption
         remove_filter('content_save_pre', 'wp_targeted_link_rel');
+        
     
         // slash
         $save = wp_slash($save);

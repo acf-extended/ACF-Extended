@@ -56,6 +56,13 @@ class ACFE_Field_Group{
     }
     
     
+    /**
+     * localized_field_categories
+     *
+     * @param $categories_i18n
+     *
+     * @return array
+     */
     function localized_field_categories($categories_i18n){
     
         $categories_i18n = acfe_array_insert_after($categories_i18n, 'advanced', 'E-Commerce', 'E-Commerce');

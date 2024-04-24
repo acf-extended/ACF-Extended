@@ -39,6 +39,11 @@ class acfe_module_post{
         if(!isset($post)){
             return;
         }
+        
+        // validate WP_Post
+        if(!is_a($post, 'WP_Post')){
+            return;
+        }
     
         // get module
         $module = acfe_get_module_by_item($post->ID);

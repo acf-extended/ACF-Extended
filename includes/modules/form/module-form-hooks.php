@@ -4,146 +4,145 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-if(!class_exists('acfe_dynamic_forms_hooks')):
+if(!class_exists('acfe_module_form_hooks')):
 
-class acfe_dynamic_forms_hooks{
+class acfe_module_form_hooks{
     
-    /*
-     * Construct
+    /**
+     * __construct
      */
     function __construct(){
-    
-        // Fields
-        add_filter('acf/load_value/name=acfe_form_custom_html_enable',              array($this, 'prepare_custom_html'), 10, 3);
-        add_filter('acf/prepare_field/name=acfe_form_actions',                      array($this, 'prepare_actions'));
-        add_filter('acf/prepare_field/name=acfe_form_field_groups',                 array($this, 'field_groups_choices'));
-        add_filter('acf/prepare_field/name=acfe_form_return',                       array($this, 'form_return_deprecated'));
-    
-        // Format values
-        add_filter('acfe/form/format_value/type=post_object',                       array($this, 'format_value_post_object'), 5, 4);
-        add_filter('acfe/form/format_value/type=relationship',                      array($this, 'format_value_post_object'), 5, 4);
-        add_filter('acfe/form/format_value/type=user',                              array($this, 'format_value_user'), 5, 4);
-        add_filter('acfe/form/format_value/type=taxonomy',                          array($this, 'format_value_taxonomy'), 5, 4);
-        add_filter('acfe/form/format_value/type=image',                             array($this, 'format_value_file'), 5, 4);
-        add_filter('acfe/form/format_value/type=file',                              array($this, 'format_value_file'), 5, 4);
-        add_filter('acfe/form/format_value/type=select',                            array($this, 'format_value_select'), 5, 4);
-        add_filter('acfe/form/format_value/type=checkbox',                          array($this, 'format_value_select'), 5, 4);
-        add_filter('acfe/form/format_value/type=radio',                             array($this, 'format_value_select'), 5, 4);
-        add_filter('acfe/form/format_value/type=google_map',                        array($this, 'format_value_google_map'), 5, 4);
-        add_filter('acfe/form/format_value/type=repeater',                          array($this, 'format_value_repeater'), 5, 4);
-        add_filter('acfe/form/format_value/type=acfe_date_range_picker',            array($this, 'format_value_date_range_picker'), 5, 4);
+        
+        add_filter('acfe/form/format_value/type=post_object',            array($this, 'format_value_post_object'), 5, 4);
+        add_filter('acfe/form/format_value/type=relationship',           array($this, 'format_value_post_object'), 5, 4);
+        add_filter('acfe/form/format_value/type=user',                   array($this, 'format_value_user'), 5, 4);
+        add_filter('acfe/form/format_value/type=taxonomy',               array($this, 'format_value_taxonomy'), 5, 4);
+        add_filter('acfe/form/format_value/type=image',                  array($this, 'format_value_file'), 5, 4);
+        add_filter('acfe/form/format_value/type=file',                   array($this, 'format_value_file'), 5, 4);
+        add_filter('acfe/form/format_value/type=select',                 array($this, 'format_value_select'), 5, 4);
+        add_filter('acfe/form/format_value/type=checkbox',               array($this, 'format_value_select'), 5, 4);
+        add_filter('acfe/form/format_value/type=radio',                  array($this, 'format_value_select'), 5, 4);
+        add_filter('acfe/form/format_value/type=google_map',             array($this, 'format_value_google_map'), 5, 4);
+        add_filter('acfe/form/format_value/type=repeater',               array($this, 'format_value_repeater'), 5, 4);
+        add_filter('acfe/form/format_value/type=flexible_content',       array($this, 'format_value_repeater'), 5, 4);
+        add_filter('acfe/form/format_value/type=group',                  array($this, 'format_value_group'), 5, 4);
+        add_filter('acfe/form/format_value/type=acfe_date_range_picker', array($this, 'format_value_date_range_picker'), 5, 4);
         
     }
     
-    function prepare_custom_html($value, $post_id, $field){
-        
-        $custom_html = get_field('acfe_form_custom_html', $post_id);
-        $custom_html = strval($custom_html);
-        $custom_html = trim($custom_html);
-        
-        if($value === false && !empty($custom_html)){
-            $value = true;
-        }
-        
-        return $value;
-        
-    }
     
-    function prepare_actions($field){
-        
-        if(empty(acf_get_instance('acfe_dynamic_forms_helpers')->get_field_groups())){
-            $field['instructions'] .= '<br /><u>No field groups are currently mapped</u>';
-        }
-        
-        return $field;
-        
-    }
-    
-    /*
-     * Field Groups Choices
+    /**
+     * format_value_post_object
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
      */
-    function field_groups_choices($field){
+    function format_value_post_object($formatted, $unformatted, $post_id, $field){
         
-        // Vars
-        $field_groups = acf_get_field_groups();
-        $hidden = acfe_get_setting('reserved_field_groups', array());
-        
-        foreach($field_groups as $field_group){
-            
-            if(in_array($field_group['key'], $hidden))
-                continue;
-            
-            $field['choices'][$field_group['key']] = $field_group['title'];
-            
-        }
-        
-        return $field;
-        
-    }
-    
-    function form_return_deprecated($field){
-        
-        if(empty($field['value']))
-            return false;
-        
-        return $field;
-        
-    }
-    
-    // Post Object & Relationship
-    function format_value_post_object($value, $_value, $post_id, $field){
-        
-        $value = acf_get_array($_value);
+        // vars
+        $value = acf_get_array($unformatted);
         $array = array();
         
+        // loop values
         foreach($value as $p_id){
             
             $array[] = get_the_title($p_id);
             
         }
         
+        // merge
         return implode(', ', $array);
         
     }
     
-    // User
-    function format_value_user($value, $_value, $post_id, $field){
+    
+    /**
+     * format_value_user
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
+     */
+    function format_value_user($formatted, $unformatted, $post_id, $field){
         
-        $value = acf_get_array($_value);
+        // vars
+        $value = acf_get_array($unformatted);
         $array = array();
         
+        // loop values
         foreach($value as $user_id){
             
+            // get user data
             $user_data = get_userdata($user_id);
-            $array[] = $user_data->user_nicename;
+            
+            // validate
+            if($user_data){
+                $array[] = $user_data->user_nicename;
+            }
             
         }
         
+        // merge
         return implode(', ', $array);
         
     }
     
-    // Taxonomy
-    function format_value_taxonomy($value, $_value, $post_id, $field){
+    
+    /**
+     * format_value_taxonomy
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
+     */
+    function format_value_taxonomy($formatted, $unformatted, $post_id, $field){
         
-        $value = acf_get_array($_value);
+        // vars
+        $value = acf_get_array($unformatted);
         $array = array();
         
+        // loop values
         foreach($value as $term_id){
             
+            // get term
             $term = get_term($term_id);
-            $array[] = $term->name;
+            
+            // validate
+            if($term && !is_wp_error($term)){
+                $array[] = $term->name;
+            }
             
         }
         
+        // merge
         return implode(', ', $array);
         
     }
     
-    // Image / File
-    function format_value_file($value, $_value, $post_id, $field){
+    
+    /**
+     * format_value_file
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
+     */
+    function format_value_file($formatted, $unformatted, $post_id, $field){
         
-        $value = acf_get_array($_value);
+        $value = acf_get_array($unformatted);
         $array = array();
         
         foreach($value as $v){
@@ -156,94 +155,364 @@ class acfe_dynamic_forms_hooks{
         
     }
     
-    // Select / Checkbox / Radio
-    function format_value_select($value, $_value, $post_id, $field){
+    
+    /**
+     * format_value_select
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
+     */
+    function format_value_select($formatted, $unformatted, $post_id, $field){
         
-        $value = acf_get_array($_value);
+        // vars
+        $value = acf_get_array($unformatted);
         $array = array();
         
+        // loop values
         foreach($value as $v){
-            
             $array[] = acf_maybe_get($field['choices'], $v, $v);
-            
         }
         
+        // merge
         return implode(', ', $array);
         
     }
     
-    // Google Map
-    function format_value_google_map($value, $_value, $post_id, $field){
+    
+    /**
+     * format_value_google_map
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return mixed|null
+     */
+    function format_value_google_map($formatted, $unformatted, $post_id, $field){
         
-        if(is_string($value)){
-            
-            $value = json_decode(wp_unslash($value), true);
-            
+        if(is_string($formatted)){
+            $formatted = json_decode(wp_unslash($formatted), true);
         }
         
-        $value = acf_get_array($value);
+        $formatted = acf_get_array($formatted);
         
-        $address = acf_maybe_get($value, 'address');
-        
-        return $address;
+        return acf_maybe_get($formatted, 'address');
         
     }
     
-    // Repeater
-    function format_value_repeater($value, $_value, $post_id, $field){
+    
+    /**
+     * format_value_repeater
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
+     */
+    function format_value_repeater($formatted, $unformatted, $post_id, $field){
         
-        $value = acf_get_array($_value);
+        // vars
+        $value = acf_get_array($unformatted);
+        $array = array();
         $return = '';
         
+        // loop values
         foreach($value as $i => $sub_fields){
             
-            $array = array();
             $return .= "<br/>\n- ";
             
+            // loop subfields keys
             foreach($sub_fields as $key => $val){
                 
+                // get subfield
                 $sub_field = acf_get_field($key);
                 
-                if(!$sub_field) continue;
-                
-                // Label
-                $label = !empty($sub_field['label']) ? $sub_field['label'] : $sub_field['name'];
-                
-                // Value
-                $sub_field['name'] = $field['name'] . '_' . $i . '_' . $sub_field['name'];
-                $val = acfe_form_format_value($val, $sub_field);
-                
-                // Add
-                $array[] = $label . ': ' . $val;
+                // validate
+                if($sub_field){
+                    
+                    // label
+                    $label = !empty($sub_field['label']) ? $sub_field['label'] : $sub_field['name'];
+                    
+                    // value
+                    $sub_field['name'] = $field['name'] . '_' . $i . '_' . $sub_field['name'];
+                    $val = $this->format_value($val, $sub_field);
+                    
+                    // append
+                    $array[] = "{$label}: {$val}";
+                    
+                }
                 
             }
             
+            // merge
             $return .= implode(', ', $array);
             
         }
         
+        // return
         return $return;
         
     }
     
-    // Date Range Picker
-    function format_value_date_range_picker($value, $_value, $post_id, $field){
     
-        if(!empty($value) && is_array($value)){
+    /**
+     * format_value_group
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return string
+     */
+    function format_value_group($formatted, $unformatted, $post_id, $field){
+        
+        // vars
+        $value = acf_get_array($unformatted);
+        $array = array();
+        $return = '';
+        
+        // loop subfields keys
+        foreach($value as $key => $val){
+            
+            // get sub field
+            $sub_field = acf_get_field($key);
+            
+            // validate
+            if($sub_field){
+                
+                // label
+                $label = !empty($sub_field['label']) ? $sub_field['label'] : $sub_field['name'];
+                
+                // format value
+                $sub_field['name'] = $field['name'] . '_' . $sub_field['name'];
+                $val = $this->format_value($val, $sub_field);
+                
+                // append
+                $array[] = "{$label}: {$val}";
+                
+            }
+            
+        }
+        
+        // merge
+        $return .= implode(', ', $array);
+        
+        // return
+        return $return;
+        
+    }
     
-            $start = acf_maybe_get($value, 'start');
-            $end = acf_maybe_get($value, 'end');
     
-            return $start . ' - ' . $end;
+    /**
+     * format_value_date_range_picker
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return mixed|string
+     */
+    function format_value_date_range_picker($formatted, $unformatted, $post_id, $field){
+    
+        if(!empty($formatted) && is_array($formatted)){
+    
+            $start = acf_maybe_get($formatted, 'start');
+            $end = acf_maybe_get($formatted, 'end');
+    
+            return "{$start} - {$end}";
         
         }
         
-        return $value;
+        return $formatted;
+        
+    }
+    
+    
+    /**
+     * format_value_array
+     *
+     * @param $value
+     *
+     * @return mixed|string
+     */
+    function format_value_array($value){
+        
+        // bail early
+        if(!is_array($value)){
+            return $value;
+        }
+        
+        $return = array();
+        
+        foreach($value as $i => $v){
+            
+            $key = !is_numeric($i) ? "$i: " : '';
+            
+            if(is_object($v)){
+                $v = (array) $v;
+            }
+            
+            $return[] = $key . $this->format_value_array($v);
+            
+        }
+        
+        return implode(', ', $return);
+        
+    }
+    
+    
+    /**
+     * format_value
+     *
+     * @param $unformatted
+     * @param $field
+     *
+     * @return mixed|string|null
+     */
+    function format_value($unformatted, $field){
+        
+        $post_id = 0;
+        
+        // format value
+        $formatted = acf_format_value($unformatted, $post_id, $field);
+        
+        // pass thru filters
+        $formatted = apply_filters("acfe/form/format_value",                        $formatted, $unformatted, $post_id, $field);
+        $formatted = apply_filters("acfe/form/format_value/type={$field['type']}",  $formatted, $unformatted, $post_id, $field);
+        $formatted = apply_filters("acfe/form/format_value/key={$field['key']}",    $formatted, $unformatted, $post_id, $field);
+        $formatted = apply_filters("acfe/form/format_value/name={$field['name']}",  $formatted, $unformatted, $post_id, $field);
+        
+        if(is_object($formatted)){
+            $formatted = (array) $formatted;
+        }
+        
+        // format array value
+        if(is_array($formatted)){
+            $formatted = $this->format_value_array($formatted);
+        }
+        
+        return $formatted;
         
     }
     
 }
 
-acf_new_instance('acfe_dynamic_forms_hooks');
+acf_new_instance('acfe_module_form_hooks');
 
 endif;
+
+
+/**
+ * acfe_form_format_value
+ *
+ * @param $value
+ * @param $field
+ * @param $deprecated
+ *
+ * @return mixed
+ */
+function acfe_form_format_value($value, $field, $deprecated = null){
+    
+    // deprecated
+    if($deprecated !== null){
+        _deprecated_function('ACF Extended: acfe_form_format_value($value, $field, $deprecated) 3rd argument', '0.8.8', 'pass field array as 2nd argument');
+        $field = $deprecated; // second argument was $post_id
+    }
+    
+    return acf_get_instance('acfe_module_form_hooks')->format_value($value, $field);
+    
+}
+
+
+/**
+ * acfe_import_form
+ *
+ * @param $args
+ *
+ * @return array|mixed|WP_Error
+ */
+function acfe_import_form($args){
+    
+    // json string
+    if(is_string($args)){
+        $args = json_decode($args, true);
+    }
+    
+    // validate array
+    if(!is_array($args) || empty($args)){
+        return new WP_Error('acfe_import_form_invalid_input', __("Input is invalid: Must be a json string or an array."));
+    }
+    
+    // module
+    $module = acfe_get_module('form');
+    
+    /**
+     * single item
+     *
+     * array(
+     *     'title' => 'My Form',
+     *     'acfe_form_name' => 'my-form',
+     *     'acfe_form_actions' => array(...)
+     * )
+     */
+    if(isset($args['title'])){
+        
+        $args = array(
+            $args
+        );
+        
+    }
+    
+    // vars
+    $result = array();
+    
+    // loop
+    foreach($args as $key => $item){
+        
+        // prior 0.9
+        // old import had name as key
+        if(!is_numeric($key) && !isset($item['name'])){
+            $item['name'] = $key;
+        }
+        
+        // name still missing
+        // retrieve from old key acfe_form_name
+        if(!isset($item['name'])){
+            $item['name'] = acf_maybe_get($item, 'acfe_form_name');
+        }
+        
+        // search database for existing item
+        $post = $module->get_item_post($item['name']);
+        if($post){
+            $item['ID'] = $post->ID;
+        }
+        
+        // import item
+        $item = $module->import_item($item);
+        
+        $return = array(
+            'success' => true,
+            'post_id' => $item['ID'],
+            'message' => 'Form "' . get_the_title($item['ID']) . '" successfully imported.',
+        );
+        
+        $result[] = $return;
+        
+    }
+    
+    if(count($result) === 1){
+        $result = $result[0];
+    }
+    
+    return $result;
+    
+}

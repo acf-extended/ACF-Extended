@@ -8,44 +8,32 @@ if(!defined('ABSPATH')){
  * acfe_get_pretty_forms
  *
  * Similar to acf_get_pretty_post_types() but for ACFE Forms
+ * Used in the Forms field type
  *
  * @param array $forms
  *
  * @return array
  */
-function acfe_get_pretty_forms($forms = array()){
+function acfe_get_pretty_forms($allowed = array()){
     
-    if(empty($forms)){
-        
-        $forms = get_posts(array(
-            'post_type'         => 'acfe-form',
-            'posts_per_page'    => -1,
-            'fields'            => 'ids',
-            'orderby'           => 'title',
-            'order'             => 'ASC',
-        ));
-        
-    }
+    $forms = acfe_get_module('form')->get_items();
+    $choices = array();
     
-    $return = array();
-    
-    // Choices
-    if(!empty($forms)){
+    foreach($forms as $item){
         
-        foreach($forms as $form_id){
-            
-            $form_name = get_the_title($form_id);
-            
-            // todo: use form name instead of ID
-            $return[ $form_id ] = $form_name;
-            
+        // fallback to name if empty title
+        $item['title'] = !empty($item['title']) ? $item['title'] : $item['name'];
+        
+        if(empty($allowed) || in_array($item['name'], $allowed, true)){
+            $choices[ $item['name'] ] = $item['title'];
         }
         
     }
-    
-    return $return;
-    
+
+    return $choices;
+
 }
+
 
 /**
  * acfe_form_decrypt_args
@@ -69,6 +57,7 @@ function acfe_form_decrypt_args(){
     return $form;
     
 }
+
 
 /**
  * acfe_is_form_success
@@ -118,6 +107,7 @@ function acfe_is_form_success($form_name = false){
     
 }
 
+
 /**
  * acfe_form_is_submitted
  *
@@ -131,11 +121,12 @@ function acfe_is_form_success($form_name = false){
  */
 function acfe_form_is_submitted($form_name = false){
     
-    _deprecated_function('ACF Extended - Dynamic Forms: "acfe_form_is_submitted()" function', '0.8.7.5', "acfe_is_form_success()");
+    _deprecated_function('ACF Extended: acfe_form_is_submitted()', '0.8.7.5', "acfe_is_form_success()");
     
     return acfe_is_form_success($form_name);
     
 }
+
 
 /**
  * acfe_form_unique_action_id
@@ -149,37 +140,44 @@ function acfe_form_is_submitted($form_name = false){
  */
 function acfe_form_unique_action_id($form, $type){
     
-    $name = $form['name'] . '-' . $type;
-    
+    // global
     global $acfe_form_uniqid;
-    
     $acfe_form_uniqid = acf_get_array($acfe_form_uniqid);
     
-    if(!isset($acfe_form_uniqid[$type])){
-        
-        $acfe_form_uniqid[$type] = 1;
-        
+    $name = "{$form['name']}-{$type}";
+    
+    if(!isset($acfe_form_uniqid[ $type ])){
+        $acfe_form_uniqid[ $type ] = 1;
     }
     
-    if($acfe_form_uniqid[$type] > 1)
-        $name = $name . '-' . $acfe_form_uniqid[$type];
+    if($acfe_form_uniqid[ $type ] > 1){
+        $name = "{$name}-{$acfe_form_uniqid[ $type ]}";
+    }
     
-    $acfe_form_uniqid[$type]++;
+    $acfe_form_uniqid[ $type ]++;
     
     return $name;
     
 }
+
 
 /**
  * acfe_form_get_actions
  *
  * Retrieve all actions output
  *
- * @return mixed
+ * @return array|false|string[]
  */
 function acfe_form_get_actions(){
-    return get_query_var('acfe_form_actions', array());
+    
+    // get actions
+    $actions = acf_get_form_data('acfe/form/actions');
+    $actions = acf_get_array($actions);
+    
+    // return
+    return $actions;
 }
+
 
 /**
  * acfe_form_get_action
@@ -193,27 +191,30 @@ function acfe_form_get_actions(){
  */
 function acfe_form_get_action($name = false, $key = false){
     
+    // get actions
     $actions = acfe_form_get_actions();
     
-    // No action
+    // no action
     if(empty($actions)){
         return false;
     }
     
-    // Action name
+    // get last action
+    $return = end($actions);
+    
+    // get by action name
     if(!empty($name)){
         $return = acf_maybe_get($actions, $name, false);
-    }else{
-        $return = end($actions);
     }
     
-    if($key !== false || is_numeric($key)){
-        $return = acf_maybe_get($return, $key, false);
+    if($return && !acf_is_empty($key)){
+        $return = acfe_array_get($return, $key);
     }
     
     return $return;
     
 }
+
 
 /**
  * acfe_form_is_admin
@@ -231,6 +232,7 @@ function acfe_form_is_admin(){
     return acfe_is_admin();
     
 }
+
 
 /**
  * acfe_form_is_front

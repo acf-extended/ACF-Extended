@@ -16,8 +16,8 @@ class acfe_performance_connector{
     function __construct(){
         
         // hooks
-        add_filter('acf/pre_load_meta',       array($this, 'pre_load_meta'),     1000, 2);
-        add_filter('acf/pre_load_metadata',   array($this, 'pre_load_metadata'), 1000, 4);
+        add_filter('acf/pre_load_meta',       array($this, 'pre_load_meta'),      1000, 2);
+        add_filter('acf/pre_load_metadata',   array($this, 'pre_load_metadata'),  1000, 4);
         add_filter('acfe/delete_orphan_meta', array($this, 'delete_orphan_meta'), 10, 3);
         
     }
