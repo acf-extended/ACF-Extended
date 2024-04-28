@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.9.0.1
+Stable tag: 0.9.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -487,6 +487,27 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.0.2 =
+
+**ACF Extended Pro 0.9.0.2:**
+
+* Module: Global Field Location - Fixed Field Group Location escaping issues
+* Field Groups: Advanced Locations - Fixed Field Group Location escaping issues
+* Field: Payment - Fixed `{field:payment}` Template Tag output
+* Field: Flexible Content - Grid - Added translatable strings
+* Global: Country/Currency/Language - Added PHP filters to allow customization
+
+**ACF Extended Basic 0.9.0.2:**
+
+* Module: Form - Enhanced load/validate/submit/render hooks strategy
+* Module: Form - Fixed instruction placement undefined key warning
+* Module: Form - "Current Post" Target/Source now correctly use the WP Query loop `post_id`
+* Module: Form - Enhanced multiple forms on single page support
+* Module: Form - Added missing `wpautop()` on email content when using "Content Editor"
+* Module: Form - Fixed Taxonomy "Load Terms" & Image "Featured Thumbnail" compatibility
+* Fields Condition - Enhanced `acf.newCondition` closer to native ACF logic
+* Global: Updated French translation
 
 = 0.9.0.1 =
 

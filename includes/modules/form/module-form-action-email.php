@@ -100,6 +100,10 @@ class acfe_module_form_action_email extends acfe_module_form_action{
         acfe_apply_tags($action['email']['subject']);
         acfe_apply_tags($action['email']['content']);
         
+        if(!$action['email']['html']){
+            $action['email']['content'] = wpautop($action['email']['content']);
+        }
+        
         // args
         $args = $action['email'];
 
@@ -717,7 +721,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                         ),
                         'choices' => array(
                             'editor' => __('Content Editor', 'acfe'),
-                            'html'   => __('HTML Editor', 'acfe'),
+                            'html'   => __('Raw HTML', 'acfe'),
                         ),
                         'default_value' => array('custom'),
                         'allow_null' => 0,

@@ -548,6 +548,27 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.0.2
+
+**ACF Extended Pro 0.9.0.2:**
+
+* Module: Global Field Location - Fixed Field Group Location escaping issues
+* Field Groups: Advanced Locations - Fixed Field Group Location escaping issues
+* Field: Payment - Fixed `{field:payment}` Template Tag output
+* Field: Flexible Content - Grid - Added translatable strings
+* Global: Country/Currency/Language - Added PHP filters to allow customization
+
+**ACF Extended Basic 0.9.0.2:**
+
+* Module: Form - Enhanced load/validate/submit/render hooks strategy
+* Module: Form - Fixed instruction placement undefined key warning
+* Module: Form - "Current Post" Target/Source now correctly use the WP Query loop `post_id`
+* Module: Form - Enhanced multiple forms on single page support
+* Module: Form - Added missing `wpautop()` on email content when using "Content Editor"
+* Module: Form - Fixed Taxonomy "Load Terms" & Image "Featured Thumbnail" compatibility
+* Fields Condition - Enhanced `acf.newCondition` closer to native ACF logic
+* Global: Updated French translation
+
 ### 0.9.0.1
 
 * Module: Forms - Fixed upgrade issues when using distant Auto Update

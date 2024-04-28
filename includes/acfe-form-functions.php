@@ -228,7 +228,6 @@ function acfe_form_get_action($name = false, $key = false){
 function acfe_form_is_admin(){
     
     _deprecated_function('ACF Extended: acfe_form_is_admin()', '0.8.8', "acfe_is_admin()");
-    
     return acfe_is_admin();
     
 }
@@ -246,7 +245,91 @@ function acfe_form_is_admin(){
 function acfe_form_is_front(){
     
     _deprecated_function('ACF Extended: acfe_form_is_front()', '0.8.8', "acfe_is_front()");
-    
     return acfe_is_front();
+    
+}
+
+
+/**
+ * acfe_import_form
+ *
+ * @param $args
+ *
+ * @return array|mixed|WP_Error
+ */
+function acfe_import_form($args){
+    
+    // json string
+    if(is_string($args)){
+        $args = json_decode($args, true);
+    }
+    
+    // validate array
+    if(!is_array($args) || empty($args)){
+        return new WP_Error('acfe_import_form_invalid_input', __("Input is invalid: Must be a json string or an array."));
+    }
+    
+    // module
+    $module = acfe_get_module('form');
+    
+    /**
+     * single item
+     *
+     * array(
+     *     'title' => 'My Form',
+     *     'acfe_form_name' => 'my-form',
+     *     'acfe_form_actions' => array(...)
+     * )
+     */
+    if(isset($args['title'])){
+        
+        $args = array(
+            $args
+        );
+        
+    }
+    
+    // vars
+    $result = array();
+    
+    // loop
+    foreach($args as $key => $item){
+        
+        // prior 0.9
+        // old import had name as key
+        if(!is_numeric($key) && !isset($item['name'])){
+            $item['name'] = $key;
+        }
+        
+        // name still missing
+        // retrieve from old key acfe_form_name
+        if(!isset($item['name'])){
+            $item['name'] = acf_maybe_get($item, 'acfe_form_name');
+        }
+        
+        // search database for existing item
+        $post = $module->get_item_post($item['name']);
+        if($post){
+            $item['ID'] = $post->ID;
+        }
+        
+        // import item
+        $item = $module->import_item($item);
+        
+        $return = array(
+            'success' => true,
+            'post_id' => $item['ID'],
+            'message' => 'Form "' . get_the_title($item['ID']) . '" successfully imported.',
+        );
+        
+        $result[] = $return;
+        
+    }
+    
+    if(count($result) === 1){
+        $result = $result[0];
+    }
+    
+    return $result;
     
 }

@@ -4488,9 +4488,22 @@
         // - this field is used to setup the conditional logic events
         var field = target.getField(rule.field);
 
-        // ACF Extended: Check in all form if targeted field not found
+        // acfe
+        // found target, but not the field to check value against
         if (target && !field) {
-            field = acf.getField(rule.field);
+
+            // find the field in the whole page
+            // we must add this step because acf.getField('do_not_exists') will still instantiate the field
+            var findField = acf.findField(rule.field);
+
+            // find field
+            if (findField.length) {
+
+                //instatiate field once found
+                field = acf.getField(rule.field);
+
+            }
+
         }
 
         // bail ealry if no target or no field (possible if field doesn't exist due to HTML error)

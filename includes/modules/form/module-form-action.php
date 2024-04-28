@@ -206,23 +206,27 @@ class acfe_module_form_action{
                 continue;
             }
         
-            // get value
+            // get field & value
+            $field = acf_get_field($field_key);
             $value = acfe_get_value_from_acf_values_by_key($acf, $field_key);
+            
+            // value is null
+            // might be a "taxonomy field" with "load values"
+            if($field && $value === null){
+                
+                // we need to retrieve the taxonomy valud via acf_get_value()
+                // so the load_value() method kicks in and "load values" can inject data
+                $value = acf_get_value($post_id, $field);
+                
+            }
             
             // map value
             $form['map'][ $field_key ]['value'] = $value;
-        
-            // seamless clone rule
-            $field = acf_get_field($field_key);
             
-            if($field){
+            if($field && $field['type'] === 'clone' && $field['display'] === 'seamless'){
                 
-                if($field['type'] === 'clone' && $field['display'] === 'seamless'){
-                    
-                    foreach(acf_get_array($value) as $sub_field_key => $sub_field_value){
-                        $form['map'][ $sub_field_key ]['value'] = $sub_field_value;
-                    }
-                    
+                foreach(acf_get_array($value) as $sub_field_key => $sub_field_value){
+                    $form['map'][ $sub_field_key ]['value'] = $sub_field_value;
                 }
                 
             }

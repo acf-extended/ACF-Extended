@@ -574,8 +574,8 @@ class acfe_module_form_deprecated{
      */
     function load_form($form){
                 
-                  // deprecated
-                  $form = apply_filters_deprecated("acfe/form/load",                      array($form, $form['post_id']), '0.9', "acfe/form/load_form");
+        // deprecated
+        if($form){$form = apply_filters_deprecated("acfe/form/load",                      array($form, $form['post_id']), '0.9', "acfe/form/load_form");}
         if($form){$form = apply_filters_deprecated("acfe/form/load/form={$form['name']}", array($form, $form['post_id']), '0.9', "acfe/form/load_form/form={$form['name']}");}
         
         return $form;

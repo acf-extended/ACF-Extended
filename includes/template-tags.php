@@ -36,16 +36,14 @@ class acfe_template_tags{
                 // validate
                 $format = $format && $format === 'false' ? false : true;
                 
-                // markers
+                // vars
                 $is_local_meta = acfe_is_local_meta();
-                $is_field_key = acf_is_field_key($name);
-                $has_post_data = !empty($_POST['acf']);
                 
                 // $_POST['acf']
-                if($has_post_data){
+                if(!empty($_POST['acf'])){
                     
                     // field_key
-                    if($is_field_key){
+                    if(acf_is_field_key($name)){
                         
                         // we use this method because get_field('field_abcdef123456')
                         // cannot retrieve values from group subfields for example, when get_field('my_group_my_sub_field') can
@@ -73,7 +71,7 @@ class acfe_template_tags{
                         }
                         
                         // get field
-                        $post_id = acf_get_valid_post_id(false);
+                        $post_id = acf_get_valid_post_id();
                         $field = acf_maybe_get_field($name, $post_id);
                         
                         if(!$field){
@@ -98,11 +96,10 @@ class acfe_template_tags{
                     }
                     
                 // no $_POST['acf']
-                // get current post
                 }else{
                     
-                    // get field
-                    $post_id = acf_get_valid_post_id(false);
+                    // get field on current post
+                    $post_id = acf_get_valid_post_id();
                     $field = acf_maybe_get_field($name, $post_id);
                     
                     if(!$field){
@@ -285,14 +282,8 @@ class acfe_template_tags{
                     // form submit
                     if($form['attributes']['submit']){
                         
-                        ob_start(); ?>
-                        <div class="acf-form-submit">
-                            
-                            <?php printf($form['attributes']['submit']['button'], $form['attributes']['submit']['value']); ?>
-                            <?php echo $form['attributes']['submit']['spinner']; ?>
-                        
-                        </div>
-                        <?php
+                        ob_start();
+                        do_action("acfe/form/render_submit", $form);
                         return ob_get_clean();
                         
                     }
@@ -326,7 +317,7 @@ class acfe_template_tags{
                 }
                 
                 ob_start();
-                acf_render_fields($fields, acf_uniqid('acfe_form'), $form['attributes']['fields']['element'], $form['settings']['instruction_placement']);
+                acf_render_fields($fields, $form['uniqid'], $form['attributes']['fields']['element'], $form['attributes']['fields']['instruction']);
                 return ob_get_clean();
                 
             }
@@ -459,8 +450,26 @@ class acfe_template_tags{
                 $keys = explode(':', $args);
                 $post_id = (int) array_shift($keys);
                 
+                // current post
                 if(empty($post_id)){
-                    $post_id = null; // current post
+                    
+                    // default
+                    $post_id = null;
+                    
+                    // check form context exists
+                    $form = $this->get_context('form');
+                    if($form){
+
+                        // decode post_id
+                        $decoded = acf_decode_post_id($form['post_id']);
+
+                        // check if post
+                        if($decoded['type'] === 'post'){
+                            $post_id = $decoded['id'];
+                        }
+
+                    }
+                    
                 }
                 
                 // merge back
@@ -909,7 +918,6 @@ class acfe_template_tags{
         
         // tags
         // match {name} {name:value} {name:value:value2} etc...
-        //preg_match_all('/[{\w:]*(?<full>{(?<name>[\w]+)(?!:})(?::(?<value>\S*?))?})}*/', $string, $matches);
         preg_match_all('/[{\w: +-\\\]*(?<full>{(?<name>[\w]+)(?!:})(?::(?<value>.*?))?})}*/', $string, $matches);
         
         // keys
@@ -959,11 +967,6 @@ class acfe_template_tags{
                             $replace = acfe_array_to_string($replace);
                             $replace = str_replace('{', '{ ', $replace);
                             $replace = str_replace('}', ' }', $replace);
-                            
-                            // escape output
-                            // if(strpos($replace, '{') !== false){
-                            //    $replace = preg_replace('/{([\w:]+)}/', '{ \1 }', $replace);
-                            // }
                             
                         }
                         

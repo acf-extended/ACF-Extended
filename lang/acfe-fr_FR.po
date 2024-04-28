@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2024-02-08 08:54+0100\n"
-"PO-Revision-Date: 2024-02-08 08:54+0100\n"
+"POT-Creation-Date: 2024-04-27 23:40+0200\n"
+"PO-Revision-Date: 2024-04-27 23:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
 "Language: fr_FR\n"
@@ -47,7 +47,7 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3464
+#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3483
 #: includes/assets.php:130 includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:94
 #: includes/fields/field-advanced-link.php:100
@@ -57,7 +57,7 @@ msgstr "Non"
 #: includes/fields/field-flexible-content.php:817
 #: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:710
 #: pro/includes/field-groups/field-group-ui.php:619
-#: pro/includes/fields/field-payment.php:516
+#: pro/includes/fields/field-payment.php:513
 #: pro/includes/modules/dev/module-dev-clean-meta.php:116
 #: pro/includes/modules/dev/module-dev-metabox.php:121
 #: pro/includes/modules/dev/module-dev-metabox.php:196
@@ -69,12 +69,14 @@ msgstr "Non"
 msgid "Close"
 msgstr "Fermer"
 
-#: assets/js/acfe-input.js:1984 includes/fields/field-flexible-content.php:38
+#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:1991
+#: includes/fields/field-flexible-content.php:38
 msgid "Layout data has been copied to your clipboard."
 msgstr "Les données de la section ont été copiées dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:1984 assets/js/acfe-input.js:1988
-#: assets/js/acfe-input.js:2024 assets/js/acfe-input.js:2028
+#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:1991
+#: assets/js/acfe-input.js:1995 assets/js/acfe-input.js:2030
+#: assets/js/acfe-input.js:2041 assets/js/acfe-input.js:2045
 #: includes/fields/field-flexible-content.php:42
 msgid ""
 "You can now paste it in the same Flexible Content on another page, using the "
@@ -83,23 +85,24 @@ msgstr ""
 "Vous pouvez maintenant les coller dans le même Contenu Flexible sur une "
 "autre page, en utilisant le bouton d'action \"Coller\"."
 
-#: assets/js/acfe-input.js:1988 assets/js/acfe-input.js:2028
+#: assets/js/acfe-input.js:1995 assets/js/acfe-input.js:2045
 #: includes/fields/field-flexible-content.php:40
 msgid "Please copy the following layout(s) data to your clipboard."
 msgstr ""
 "Veuillez copier les données des sections suivantes dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:2024 includes/fields/field-flexible-content.php:39
+#: assets/js/acfe-input.js:2030 assets/js/acfe-input.js:2041
+#: includes/fields/field-flexible-content.php:39
 msgid "Layouts data have been copied to your clipboard."
 msgstr "Les données des sections ont été copiées dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:2042 includes/fields/field-flexible-content.php:41
+#: assets/js/acfe-input.js:2061 includes/fields/field-flexible-content.php:41
 msgid "Please paste previously copied layout data in the following field:"
 msgstr ""
 "Veuillez coller les données de section précédemment copiées dans le champ "
 "suivant:"
 
-#: assets/js/acfe-input.js:2750 includes/fields/field-flexible-content.php:319
+#: assets/js/acfe-input.js:2769 includes/fields/field-flexible-content.php:319
 msgid "Add Row"
 msgstr "Ajouter une rangée"
 
@@ -129,7 +132,7 @@ msgstr "pas de label"
 #: includes/modules/block-type/module-block-type.php:207
 #: includes/modules/form/module-form-fields.php:1192
 #: includes/modules/form/module-form.php:61
-#: includes/modules/form/module-form.php:241
+#: includes/modules/form/module-form.php:247
 #: includes/modules/options-page/module-options-page.php:238
 #: pro/includes/fields/field-field-groups.php:17
 #: pro/includes/modules/template/module-template.php:59
@@ -205,6 +208,10 @@ msgstr "dans le plugin:"
 #: includes/field-groups/field-groups.php:889
 msgid "in:"
 msgstr "dans:"
+
+#: includes/acfe-form-functions.php:269
+msgid "Input is invalid: Must be a json string or an array."
+msgstr "L’entrée n’est pas valide : doit être une chaîne json ou un tableau."
 
 #: includes/acfe-screen-functions.php:49
 msgid "Custom Fields"
@@ -1487,7 +1494,7 @@ msgid "Set a thumbnail for each layouts"
 msgstr "Définir une miniature pour chaque mise en page"
 
 #: includes/fields/field-flexible-content-thumbnail.php:111
-#: pro/includes/fields/field-block-editor.php:635
+#: pro/includes/fields/field-block-editor.php:646
 msgid "Thumbnail"
 msgstr "Miniature"
 
@@ -1506,7 +1513,7 @@ msgstr "Faites glisser pour réorganiser"
 #: includes/modules/form/module-form.php:22
 #: includes/modules/form/module-form.php:27
 #: includes/modules/form/module-form.php:29
-#: includes/modules/form/module-form.php:284
+#: includes/modules/form/module-form.php:290
 #: pro/includes/locations/settings.php:77
 #: pro/includes/modules/template/module-template-features.php:44
 msgid "Forms"
@@ -2374,9 +2381,9 @@ msgid "Taxonomy List"
 msgstr "Liste de sites web"
 
 #: includes/module-acf.php:91 includes/module-post.php:130
-#: includes/modules/form/module-form.php:700
+#: includes/modules/form/module-form.php:706
 #: pro/includes/fields-settings/required.php:26
-#: pro/includes/fields/field-block-editor.php:553
+#: pro/includes/fields/field-block-editor.php:564
 #, php-format
 msgid "%s value is required"
 msgstr "le champ %s est obligatoire"
@@ -2442,7 +2449,7 @@ msgstr "%s programmé."
 msgid "%s draft updated."
 msgstr "%s brouillon mis à jour."
 
-#: includes/module-posts.php:204 pro/includes/fields/field-payment.php:515
+#: includes/module-posts.php:204 pro/includes/fields/field-payment.php:512
 #: pro/includes/modules/dev/module-dev-clean-meta.php:112
 #: pro/includes/modules/dev/module-dev-metabox.php:87
 #: pro/includes/modules/dev/module-dev-metabox.php:179
@@ -2897,14 +2904,14 @@ msgstr "Ce nom d'action est réservé"
 #: includes/modules/form/module-form-action-redirect.php:106
 #: includes/modules/form/module-form-action-term.php:575
 #: includes/modules/form/module-form-action-user.php:1068
-#: includes/modules/form/module-form-upgrades.php:1214
-#: includes/modules/form/module-form-upgrades.php:1289
-#: includes/modules/form/module-form-upgrades.php:1655
-#: includes/modules/form/module-form-upgrades.php:2868
-#: includes/modules/form/module-form-upgrades.php:2965
-#: includes/modules/form/module-form-upgrades.php:3754
-#: includes/modules/form/module-form-upgrades.php:5333
-#: includes/modules/form/module-form.php:278
+#: includes/modules/form/module-form-upgrades.php:1237
+#: includes/modules/form/module-form-upgrades.php:1312
+#: includes/modules/form/module-form-upgrades.php:1678
+#: includes/modules/form/module-form-upgrades.php:2891
+#: includes/modules/form/module-form-upgrades.php:2988
+#: includes/modules/form/module-form-upgrades.php:3777
+#: includes/modules/form/module-form-upgrades.php:5356
+#: includes/modules/form/module-form.php:284
 #: pro/includes/modules/form/module-form-action-option.php:249
 msgid "Documentation"
 msgstr "Documentation"
@@ -2954,8 +2961,8 @@ msgstr "Action d'e-mail"
 #: includes/modules/form/module-form-action-redirect.php:135
 #: includes/modules/form/module-form-action-term.php:623
 #: includes/modules/form/module-form-action-user.php:1139
-#: includes/modules/form/module-form-upgrades.php:1319
-#: includes/modules/form/module-form-upgrades.php:2898
+#: includes/modules/form/module-form-upgrades.php:1342
+#: includes/modules/form/module-form-upgrades.php:2921
 #: pro/includes/modules/form/module-form-action-option.php:278
 msgid "(Optional) Target this action using hooks."
 msgstr "(Facultatif) Ciblez cette action à l’aide de hooks."
@@ -3554,7 +3561,7 @@ msgid "Log user once created"
 msgstr "Loguer l'utilisateur une fois qu'il a été créé"
 
 #: includes/modules/form/module-form-fields.php:1128
-#: includes/modules/form/module-form-shortcode.php:158
+#: includes/modules/form/module-form-shortcode.php:159
 #: includes/modules/form/module-form.php:28
 msgid "Form"
 msgstr "Formulaire"
@@ -3648,10 +3655,12 @@ msgid "Attributes settings related to the fields."
 msgstr "Paramètres d'attributs liés aux champs."
 
 #: includes/modules/form/module-form-fields.php:1535
+#: pro/includes/fields/field-flexible-content-grid.php:130
 msgid "Top"
 msgstr "Haut"
 
 #: includes/modules/form/module-form-fields.php:1536
+#: pro/includes/fields/field-flexible-content-grid.php:102
 msgid "Left"
 msgstr "Gauche"
 
@@ -3828,19 +3837,15 @@ msgstr ""
 "Si l'utilisé, vous devez inclure le code suivant <code>%s</code> pour "
 "afficher le \"message de succès\" ci-dessus."
 
-#: includes/modules/form/module-form-front-render.php:331
+#: includes/modules/form/module-form-front-render.php:509
 msgid "Validate Email"
 msgstr "Valider l’adresse e-mail"
 
-#: includes/modules/form/module-form-hooks.php:452
-msgid "Input is invalid: Must be a json string or an array."
-msgstr "L’entrée n’est pas valide : doit être une chaîne json ou un tableau."
-
-#: includes/modules/form/module-form-upgrades.php:1244
+#: includes/modules/form/module-form-upgrades.php:1267
 msgid "Set a unique action slug."
 msgstr "Définissez un identifiant d’action unique."
 
-#: includes/modules/form/module-form-upgrades.php:6457
+#: includes/modules/form/module-form-upgrades.php:6480
 msgid "Post updated"
 msgstr "Article mis à jour"
 
@@ -3909,52 +3914,52 @@ msgstr "%s formulaires importés"
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: includes/modules/form/module-form.php:246
-#: includes/modules/form/module-form.php:285
+#: includes/modules/form/module-form.php:252
+#: includes/modules/form/module-form.php:291
 msgid "Integration"
 msgstr "Intégration"
 
-#: includes/modules/form/module-form.php:286
+#: includes/modules/form/module-form.php:292
 msgid "Template Tags"
 msgstr "Étiquettes de modèle"
 
-#: includes/modules/form/module-form.php:287
+#: includes/modules/form/module-form.php:293
 msgid "Hooks"
 msgstr "Hooks"
 
-#: includes/modules/form/module-form.php:288
+#: includes/modules/form/module-form.php:294
 msgid "Helpers"
 msgstr "Aides"
 
-#: includes/modules/form/module-form.php:294
+#: includes/modules/form/module-form.php:300
 msgid "Guides"
 msgstr "Guides"
 
-#: includes/modules/form/module-form.php:300
+#: includes/modules/form/module-form.php:306
 msgid "Dummy Title & Content Fields"
 msgstr "Champs de titre et de contenu factices"
 
-#: includes/modules/form/module-form.php:301
+#: includes/modules/form/module-form.php:307
 msgid "Hide a Field on Front-End"
 msgstr "Masquer un champ sur le front-end"
 
-#: includes/modules/form/module-form.php:302
+#: includes/modules/form/module-form.php:308
 msgid "Passing Data to a Form"
 msgstr "Transmettre des données à un formulaire"
 
-#: includes/modules/form/module-form.php:303
+#: includes/modules/form/module-form.php:309
 msgid "Using Actions Output Data"
 msgstr "Utiliser les données des actions"
 
-#: includes/modules/form/module-form.php:315
+#: includes/modules/form/module-form.php:321
 msgid "Shortcodes"
 msgstr "Shortcodes"
 
-#: includes/modules/form/module-form.php:330
+#: includes/modules/form/module-form.php:336
 msgid "PHP code"
 msgstr "Code PHP"
 
-#: includes/modules/form/module-form.php:740
+#: includes/modules/form/module-form.php:746
 msgid "This form name already exists"
 msgstr "Ce nom de formulaire existe déjà"
 
@@ -4241,7 +4246,7 @@ msgstr "Test"
 
 #: includes/modules/performance/module-performance-ui.php:85
 #: pro/includes/fields/field-payment.php:384
-#: pro/includes/fields/field-payment.php:1441
+#: pro/includes/fields/field-payment.php:1425
 #: pro/includes/modules/script/module-script-performance-converter.php:165
 msgid "Production"
 msgstr "Production"
@@ -5409,30 +5414,30 @@ msgstr "Liste de tous les blocs principaux disponibles"
 msgid "+ Add block"
 msgstr "+ Ajouter un bloc"
 
-#: pro/includes/fields/field-block-editor.php:603
+#: pro/includes/fields/field-block-editor.php:614
 msgctxt "CSS Font Family for Editor Font"
 msgid "Noto Serif"
-msgstr ""
+msgstr "Noto Serif"
 
-#: pro/includes/fields/field-block-editor.php:635
+#: pro/includes/fields/field-block-editor.php:646
 msgid "Medium"
 msgstr "Moyen"
 
-#: pro/includes/fields/field-block-editor.php:635
+#: pro/includes/fields/field-block-editor.php:646
 msgid "Large"
 msgstr "Grand"
 
-#: pro/includes/fields/field-block-editor.php:635
+#: pro/includes/fields/field-block-editor.php:646
 #: pro/includes/fields/field-image-sizes.php:62
 #: pro/includes/fields/field-image-sizes.php:490
 msgid "Full Size"
 msgstr "Taille originale"
 
-#: pro/includes/fields/field-block-editor.php:655
+#: pro/includes/fields/field-block-editor.php:666
 msgid "Add title"
 msgstr "Ajouter un titre"
 
-#: pro/includes/fields/field-block-editor.php:656
+#: pro/includes/fields/field-block-editor.php:667
 msgid "Start writing or type / to choose a block"
 msgstr "Commencez à écrire ou saisissez \" / \" pour choisir un bloc"
 
@@ -5829,6 +5834,47 @@ msgstr "Système de grille"
 msgid "Enable columns mode"
 msgstr "Activer le mode colonnes"
 
+#: pro/includes/fields/field-flexible-content-grid.php:103
+#: pro/includes/fields/field-flexible-content-grid.php:131
+msgid "Center"
+msgstr "Centre"
+
+#: pro/includes/fields/field-flexible-content-grid.php:104
+msgid "Right"
+msgstr "Droite"
+
+#: pro/includes/fields/field-flexible-content-grid.php:105
+msgid "Space evenly"
+msgstr "Espace uniforme"
+
+#: pro/includes/fields/field-flexible-content-grid.php:106
+msgid "Space between"
+msgstr "Espace entre"
+
+#: pro/includes/fields/field-flexible-content-grid.php:107
+msgid "Space around"
+msgstr "Espace autour"
+
+#: pro/includes/fields/field-flexible-content-grid.php:120
+msgid "Align"
+msgstr "Aligner"
+
+#: pro/includes/fields/field-flexible-content-grid.php:129
+msgid "Stretch"
+msgstr "Étirer"
+
+#: pro/includes/fields/field-flexible-content-grid.php:132
+msgid "Bottom"
+msgstr "Bas"
+
+#: pro/includes/fields/field-flexible-content-grid.php:145
+msgid "Valign"
+msgstr "Valign"
+
+#: pro/includes/fields/field-flexible-content-grid.php:159
+msgid "No Wrap"
+msgstr "Une seule ligne"
+
 #: pro/includes/fields/field-flexible-content-grid.php:187
 msgid "Grid System: Container"
 msgstr "Système de grille: Conteneur"
@@ -5840,6 +5886,28 @@ msgstr "Appliquer la largeur maximale de la grille"
 #: pro/includes/fields/field-flexible-content-grid.php:221
 msgid "Grid settings"
 msgstr "Paramètres de grille"
+
+#: pro/includes/fields/field-flexible-content-grid.php:241
+#: pro/includes/fields/field-flexible-content-grid.php:273
+#: pro/includes/fields/field-flexible-content-grid.php:446
+msgid "Auto"
+msgstr "Auto"
+
+#: pro/includes/fields/field-flexible-content-grid.php:262
+msgid "Default Col"
+msgstr "Col par défaut"
+
+#: pro/includes/fields/field-flexible-content-grid.php:287
+msgid "All sizes"
+msgstr "Toutes les tailles"
+
+#: pro/includes/fields/field-flexible-content-grid.php:295
+msgid "Allowed Col"
+msgstr "Col Autorisé"
+
+#: pro/includes/fields/field-flexible-content-grid.php:431
+msgid "Resize column"
+msgstr "Redimensionner la colonne"
 
 #: pro/includes/fields/field-flexible-content-locations.php:180
 #: pro/includes/fields/field-flexible-content-locations.php:195
@@ -6158,8 +6226,8 @@ msgid "Choose your payment gateways"
 msgstr "Choisissez vos passerelles de paiement"
 
 #: pro/includes/fields/field-payment.php:107
-#: pro/includes/fields/field-payment.php:493
-#: pro/includes/fields/field-payment.php:1484
+#: pro/includes/fields/field-payment.php:490
+#: pro/includes/fields/field-payment.php:1457
 msgid "Amount"
 msgstr "Montant"
 
@@ -6260,40 +6328,40 @@ msgid "Switch API mode"
 msgstr "Changer de mode API"
 
 #: pro/includes/fields/field-payment.php:383
-#: pro/includes/fields/field-payment.php:489
-#: pro/includes/fields/field-payment.php:1440
-#: pro/includes/fields/field-payment.php:1482
+#: pro/includes/fields/field-payment.php:486
+#: pro/includes/fields/field-payment.php:1424
+#: pro/includes/fields/field-payment.php:1455
 msgid "Test"
 msgstr "Test"
 
-#: pro/includes/fields/field-payment.php:489
-#: pro/includes/fields/field-payment.php:1482
+#: pro/includes/fields/field-payment.php:486
+#: pro/includes/fields/field-payment.php:1455
 msgid "Gateway"
 msgstr "Passerelle"
 
-#: pro/includes/fields/field-payment.php:498
-#: pro/includes/fields/field-payment.php:1487
+#: pro/includes/fields/field-payment.php:495
+#: pro/includes/fields/field-payment.php:1460
 msgid "Items"
 msgstr "Articles"
 
-#: pro/includes/fields/field-payment.php:503
-#: pro/includes/fields/field-payment.php:1490
+#: pro/includes/fields/field-payment.php:500
+#: pro/includes/fields/field-payment.php:1463
 #: pro/includes/fields/field-post-field.php:49
 msgid "Date"
 msgstr "Date"
 
-#: pro/includes/fields/field-payment.php:507
-#: pro/includes/fields/field-payment.php:1492
+#: pro/includes/fields/field-payment.php:504
+#: pro/includes/fields/field-payment.php:1465
 msgid "IP Address"
 msgstr "Adresse IP"
 
-#: pro/includes/fields/field-payment.php:511
-#: pro/includes/fields/field-payment.php:1494
+#: pro/includes/fields/field-payment.php:508
+#: pro/includes/fields/field-payment.php:1467
 msgid "Payment ID"
 msgstr "ID du Paiement"
 
-#: pro/includes/fields/field-payment.php:515
-#: pro/includes/fields/field-payment.php:516
+#: pro/includes/fields/field-payment.php:512
+#: pro/includes/fields/field-payment.php:513
 msgid "Payment Object"
 msgstr "Objet de Paiement"
 
