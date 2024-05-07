@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.9.0.2
+Stable tag: 0.9.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -487,6 +487,32 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.0.3 =
+
+**ACF Extended Pro 0.9.0.3:**
+
+* Module: Form - Added Ajax Submission feature
+* Module: Form - Ajax Submission can be enabled in the Form "Settings" tab
+
+**ACF Extended Basic 0.9.0.3:**
+
+* Module: Form - Added "Scroll to message" setting in the "Success" tab
+* Module: Form - Enhanced `acfe/form/load_form` strategy
+* Module: Form - Enhanced `map` argument to allow override loaded values from Actions
+* Module: Form - Enhanced `{render:field_name}` to first search within mapped field groups
+* Module: Form - Renamed `acfe/form/success_form` to `acfe/form/render_success` for consistency
+* Module: Form - Added `acfe/form/submit_success` as very early hook, in page headers
+* Module: Form - Fixed Select field "Custom Value" setting compatibility with forms
+* Module: Form - Fixed duplicate rows in `{field:repeater}` Template Tag
+* Module: Form - Added missing `wpautop()` on Success Message
+* Module: Form - Minor CSS compatibility tweaks for mac
+* Module: Form - User Action - Fixed the "Roles" load value as raw array
+* Module: AutoSync - Fixed PHP files not being correctly deleted when Field Group was removed using a custom path
+* Field Groups - Local - Fixed missing "Local" tab when there are only AutoSync PHP files
+* Field Groups: Minor CSS tweaks
+* Field: reCaptcha - Reworked & enhanced code logic
+* Settings UI: Fixed missing reCaptcha ACF settings in the "Fields" tab
 
 = 0.9.0.2 =
 

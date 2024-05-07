@@ -57,13 +57,13 @@ class acfe_module_form_action_term extends acfe_module_form_action{
      */
     function load_action($form, $action){
         
-        // apply template tags
-        acfe_apply_tags($action['load']['source']);
-        
         // check source
         if(!$action['load']['source']){
             return $form;
         }
+        
+        // apply template tags
+        acfe_apply_tags($action['load']['source']);
         
         // vars
         $load = $action['load'];
@@ -102,15 +102,20 @@ class acfe_module_form_action_term extends acfe_module_form_action{
          */
         foreach($load as $term_field => $field_key){
             
-            // check key exists in WP_Term and is field key
-            if(in_array($term_field, $this->fields) && !empty($field_key) && is_string($field_key) && acf_is_field_key($field_key)){
+            // check field is not hidden and has no value set in 'acfe/form/load_form'
+            if(acf_maybe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
                 
-                // add field to excluded list
-                $acf_fields_exclude[] = $field_key;
+                // check key exists in WP_Term and is field key
+                if(in_array($term_field, $this->fields) && !empty($field_key) && is_string($field_key) && acf_is_field_key($field_key)){
+                    
+                    // add field to excluded list
+                    $acf_fields_exclude[] = $field_key;
+                    
+                    // assign term field as value
+                    $form['map'][ $field_key ]['value'] = get_term_field($term_field, $term_id, '', 'raw');
+            
+                }
                 
-                // assign term field as value
-                $form['map'][ $field_key ]['value'] = get_term_field($term_field, $term_id, '', 'raw');
-        
             }
             
         }

@@ -8,6 +8,8 @@ if(!class_exists('acfe_field_recaptcha')):
 
 class acfe_field_recaptcha extends acf_field{
     
+    public $hide_logo = false;
+    
     /**
      * initialize
      */
@@ -30,6 +32,8 @@ class acfe_field_recaptcha extends acf_field{
             'secret_key'    => '',
         );
         
+        $this->add_action('acf/input/admin_print_footer_scripts', array($this, 'admin_print_footer_scripts'));
+        
     }
     
     
@@ -42,25 +46,25 @@ class acfe_field_recaptcha extends acf_field{
         
         // Version
         acf_render_field_setting($field, array(
-            'label'         => __('Version', 'acf'),
+            'label'         => __('Version', 'acfe'),
             'instructions'  => __('Select the reCaptcha version', 'acfe'),
             'type'          => 'select',
             'name'          => 'version',
             'choices'       => array(
-                'v2' => __('reCaptcha V2', 'acf'),
-                'v3' => __('reCaptcha V3', 'acf'),
+                'v2' => __('reCaptcha V2', 'acfe'),
+                'v3' => __('reCaptcha V3', 'acfe'),
             )
         ));
         
         // V2 Theme
         acf_render_field_setting($field, array(
-            'label'         => __('Theme', 'acf'),
+            'label'         => __('Theme', 'acfe'),
             'instructions'  => __('Select the reCaptcha theme', 'acfe'),
             'type'          => 'select',
             'name'          => 'v2_theme',
             'choices'       => array(
-                'light' => __('Light', 'acf'),
-                'dark'  => __('Dark', 'acf'),
+                'light' => __('Light', 'acfe'),
+                'dark'  => __('Dark', 'acfe'),
             ),
             'conditional_logic' => array(
                 array(
@@ -75,13 +79,13 @@ class acfe_field_recaptcha extends acf_field{
         
         // V2 Size
         acf_render_field_setting($field, array(
-            'label'         => __('Size', 'acf'),
+            'label'         => __('Size', 'acfe'),
             'instructions'  => __('Select the reCaptcha size', 'acfe'),
             'type'          => 'select',
             'name'          => 'v2_size',
             'choices'       => array(
-                'normal'        => __('Normal', 'acf'),
-                'compact'       => __('Compact', 'acf'),
+                'normal'        => __('Normal', 'acfe'),
+                'compact'       => __('Compact', 'acfe'),
             ),
             'conditional_logic' => array(
                 array(
@@ -96,7 +100,7 @@ class acfe_field_recaptcha extends acf_field{
         
         // V3 Hide Logo
         acf_render_field_setting($field, array(
-            'label'             => __('Hide logo', 'acf'),
+            'label'             => __('Hide logo', 'acfe'),
             'instructions'      => __('Hide the reCaptcha logo', 'acfe'),
             'type'              => 'true_false',
             'name'              => 'v3_hide_logo',
@@ -114,7 +118,7 @@ class acfe_field_recaptcha extends acf_field{
         
         // Site Key
         acf_render_field_setting($field, array(
-            'label'         => __('Site key', 'acf'),
+            'label'         => __('Site key', 'acfe'),
             'instructions'  => __('Enter the site key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acfe'),
             'type'          => 'text',
             'name'          => 'site_key',
@@ -122,7 +126,7 @@ class acfe_field_recaptcha extends acf_field{
         
         // Site Secret
         acf_render_field_setting($field, array(
-            'label'         => __('Secret key', 'acf'),
+            'label'         => __('Secret key', 'acfe'),
             'instructions'  => __('Enter the secret key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acfe'),
             'type'          => 'text',
             'name'          => 'secret_key',
@@ -157,80 +161,56 @@ class acfe_field_recaptcha extends acf_field{
     function render_field($field){
 
         // vars
-        $site_key = acf_get_setting('acfe/field/recaptcha/site_key', $field['site_key']);
-        $version = acf_get_setting('acfe/field/recaptcha/version', $field['version']);
-
-        // V2
+        $site_key = acf_get_setting('acfe/field/recaptcha/site_key') ? acf_get_setting('acfe/field/recaptcha/site_key') : $field['site_key'];
+        $version = acf_get_setting('acfe/field/recaptcha/version') ? acf_get_setting('acfe/field/recaptcha/version') : $field['version'];
+        
+        // wrapper attributes
+        $wrapper = array(
+            'class'         => 'acf-input-wrap',
+            'data-site-key' => $site_key,
+            'data-version'  => $version,
+        );
+        
+        // v2
         if($version === 'v2'){
             
-            // Theme & Size
-            $field['v2_theme'] = acf_get_setting('acfe/field/recaptcha/v2/theme', $field['v2_theme']);
-            $field['v2_size'] = acf_get_setting('acfe/field/recaptcha/v2/size', $field['v2_size']);
+            // vars
+            $field['v2_theme'] = acf_get_setting('acfe/field/recaptcha/v2/theme') ? acf_get_setting('acfe/field/recaptcha/v2/theme') : $field['v2_theme'];
+            $field['v2_size'] = acf_get_setting('acfe/field/recaptcha/v2/size') ? acf_get_setting('acfe/field/recaptcha/v2/size') : $field['v2_size'];
             
-            $wrapper = array(
-                'class'         => 'acf-input-wrap acfe-field-recaptcha',
-                'data-site-key' => $site_key,
-                'data-version'  => $version,
-                'data-size'     => $field['v2_size'],
-                'data-theme'    => $field['v2_theme'],
-            );
-            
-            $hidden_input = array(
-                'id'    => $field['id'],
-                'name'  => $field['name'],
-            );
-            
-            ?>
-            <div <?php echo acf_esc_atts($wrapper); ?>>
-                
-                <div></div>
-                <?php acf_hidden_input($hidden_input); ?>
-                
-            </div>
-            
-            <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-            
-            <?php
-            
-        // V3
-        }elseif($version === 'v3'){
-            
-            // Hide logo
-            $field['v3_hide_logo'] = acf_get_setting('acfe/field/recaptcha/v3/hide_logo', $field['v3_hide_logo']);
-            
-            $wrapper = array(
-                'class'         => 'acf-input-wrap acfe-field-recaptcha',
-                'data-site-key' => $site_key,
-                'data-version'  => $version,
-            );
-            
-            $hidden_input = array(
-                'id'    => $field['id'],
-                'name'  => $field['name'],
-            );
-            
-            ?>
-            <div <?php echo acf_esc_atts($wrapper); ?>>
-                
-                <div></div>
-                <?php acf_hidden_input($hidden_input); ?>
-                
-            </div>
-            
-            <?php if($field['v3_hide_logo']){ ?>
-                <style>
-                .grecaptcha-badge{
-                    display: none;
-                    visibility: hidden;
-                }
-                </style>
-            <?php } ?>
-            
-            <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $site_key; ?>" async defer></script>
-            
-            <?php
+            // wrapper attributes
+            $wrapper['data-size'] = $field['v2_size'];
+            $wrapper['data-theme'] = $field['v2_theme'];
             
         }
+        
+        // v3
+        if($version === 'v3'){
+            
+            $field['v3_hide_logo'] = acf_get_setting('acfe/field/recaptcha/v3/hide_logo') ? acf_get_setting('acfe/field/recaptcha/v3/hide_logo') : $field['v3_hide_logo'];
+            
+            if($field['v3_hide_logo']){
+                $this->hide_logo = true;
+            }
+            
+        }
+        
+        // hidden input
+        $hidden_input = array(
+            'id'    => $field['id'],
+            'name'  => $field['name'],
+        );
+        
+        ?>
+        <div <?php echo acf_esc_atts($wrapper); ?>>
+        
+            <?php if($version === 'v2'){ ?>
+                <div></div>
+            <?php } ?>
+            <?php acf_hidden_input($hidden_input); ?>
+
+        </div>
+        <?php
 
     }
     
@@ -251,49 +231,47 @@ class acfe_field_recaptcha extends acf_field{
         if(!$field['required']){
             return $valid;
         }
-    
-        // Avoid duplicate token: Do not process during Ajax validation
-        if(wp_doing_ajax()){
+        
+        // bail early in ajax validation
+        // token can only be verified once then becomes invalid
+        $should_validate = apply_filters('acfe/field/recpatcha/should_validate_value', !acf_is_ajax(), $value, $field, $input);
+        
+        if(!$should_validate){
             return $valid;
         }
     
-        // Secret key
-        $secret_key = acf_get_setting('acfe/field/recaptcha/secret_key', $field['secret_key']);
-    
-        // API Call
-        $curl = curl_init();
-    
-        curl_setopt($curl, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$value}");
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $api = curl_exec($curl);
-    
-        curl_close($curl);
-    
-        // No API response
-        if(empty($api)){
-            return __('An error has occured');
-        }
-    
-        // Decode
-        $response = json_decode($api);
-    
-        // No success
-        if(!isset($response->success)){
+        // vars
+        $secret_key = acf_get_setting('acfe/field/recaptcha/secret_key') ? acf_get_setting('acfe/field/recaptcha/secret_key') : $field['secret_key'];
+        
+        // post request
+        $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', array(
+            'body' => array(
+                'secret'    => $secret_key,
+                'response'  => $value,
+            ),
+        ));
+        
+        // validate request response
+        if(is_wp_error($response)){
             return __('An error has occured');
         }
         
-        // fail
-        if($response->success === false){
-            $valid = false;
+        // get response as json
+        $data = json_decode(wp_remote_retrieve_body($response));
+        
+        // success is not true|false
+        // something went wrong
+        if(!isset($data->success)){
+            return __('An error has occured');
+        }
+        
+        // error
+        if($data->success === false){
+            return __('Invalid reCaptcha, please try again');
+        }
         
         // success
-        }elseif($response->success === true){
-            $valid = true;
-        }
-        
-        // return
-        return $valid;
+        return true;
         
     }
     
@@ -311,6 +289,27 @@ class acfe_field_recaptcha extends acf_field{
         
         // do not save value
         return null;
+        
+    }
+    
+    
+    /**
+     * admin_print_footer_scripts
+     *
+     * @return void
+     */
+    function admin_print_footer_scripts(){
+        
+        if($this->hide_logo){
+            ?>
+            <style>
+            .grecaptcha-badge{
+                display: none;
+                visibility: hidden;
+            }
+            </style>
+            <?php
+        }
         
     }
 

@@ -85,6 +85,9 @@ function acfe_is_form_success($form_name = false){
     }
     
     // avoid multiple submissions
+    // this method is already added in js
+    // but it must be added here in case developer use this as conditional on acfe_form()
+    // and thus, prevent the acf javascript from being enqueued
     if(headers_sent()){
         
         // check filter

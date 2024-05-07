@@ -359,11 +359,33 @@ class ACFE_AutoSync{
             return;
         }
         
-        // wp appends '__trashed' to end of 'key' (post_name)
-        $key = str_replace('__trashed', '', $field_group['key']);
+        // vars
+        $id = $field_group['ID'];
+        $key = str_replace('__trashed', '', $field_group['key']); // wp appends '__trashed' to end of 'key' (post_name)
+        $path = untrailingslashit(acf_get_setting('acfe/php_save'));
+        
+        // backup path
+        $new_path = $path;
+        
+        // filters
+        $new_path = apply_filters("acfe/settings/php_save/all",        $new_path, $field_group);
+        $new_path = apply_filters("acfe/settings/php_save/ID={$id}",   $new_path, $field_group);
+        $new_path = apply_filters("acfe/settings/php_save/key={$key}", $new_path, $field_group);
+        
+        $diff = $path !== $new_path;
+        
+        // custom path
+        if($diff){
+            acf_update_setting('acfe/php_save', $new_path);
+        }
         
         // delete file
         $this->delete_file($key);
+        
+        // restore
+        if($diff){
+            acf_update_setting('acfe/php_save', $path);
+        }
         
     }
     

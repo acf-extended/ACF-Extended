@@ -37,86 +37,46 @@ class acfe_template_tags{
                 $format = $format && $format === 'false' ? false : true;
                 
                 // vars
-                $is_local_meta = acfe_is_local_meta();
+                $setup_meta = !acfe_is_local_meta() && !empty($_POST['acf']);
                 
-                // $_POST['acf']
-                if(!empty($_POST['acf'])){
+                if($setup_meta){
+                    acfe_setup_meta($_POST['acf'], 'acfe/tag/field', true);
+                }
+                
+                // vars
+                $post_id = acf_get_valid_post_id();
+                $field = acf_maybe_get_field($name, $post_id, false);
+                
+                if(!$field){
                     
-                    // field_key
-                    if(acf_is_field_key($name)){
-                        
-                        // we use this method because get_field('field_abcdef123456')
-                        // cannot retrieve values from group subfields for example, when get_field('my_group_my_sub_field') can
-                        $field = acf_get_field($name);
-                        $value = acfe_get_value_from_acf_values_by_key($_POST['acf'], $name);
-                        
-                        if(!$field){
-                            
-                            $field = acf_validate_field(array(
-                                'name' => $name,
-                                'key'  => '',
-                                'type' => '',
-                            ));
-                            
-                            // prevent formatting
-                            $format = false;
-                            
-                        }
-                        
-                    // field name
-                    }else{
-                        
-                        if(!$is_local_meta){
-                            acfe_setup_meta($_POST['acf'], 'acfe/tag/field', true);
-                        }
-                        
-                        // get field
-                        $post_id = acf_get_valid_post_id();
-                        $field = acf_maybe_get_field($name, $post_id);
-                        
-                        if(!$field){
-                            
-                            $field = acf_validate_field(array(
-                                'name' => $name,
-                                'key'  => '',
-                                'type' => '',
-                            ));
-                            
-                            // prevent formatting
-                            $format = false;
-                            
-                        }
-                        
-                        $value = acf_get_value($post_id, $field);
-                        
-                        if(!$is_local_meta){
-                            acfe_reset_meta();
-                        }
-                        
-                    }
+                    $field = acf_validate_field(array(
+                        'name' => $name,
+                        'key'  => '',
+                        'type' => '',
+                    ));
                     
-                // no $_POST['acf']
-                }else{
+                    // prevent formatting
+                    $format = false;
                     
-                    // get field on current post
-                    $post_id = acf_get_valid_post_id();
-                    $field = acf_maybe_get_field($name, $post_id);
+                }
+                
+                // get field by name or key
+                $value = acf_get_value($post_id, $field);
+                
+                // field_key
+                if($value === null && !empty($_POST['acf']) && acf_is_field_key($name)){
                     
-                    if(!$field){
-                        
-                        $field = acf_validate_field(array(
-                            'name' => $name,
-                            'key'  => '',
-                            'type' => '',
-                        ));
-                        
-                        // prevent formatting
-                        $format = false;
-                        
-                    }
+                    // fallback strategy
+                    // get_field('my_group_my_sub_field') can retrieve values from group subfield
+                    // but get_field('field_abcdef123456') cannot, thus this implementation
+                    // this might not work for fields with dyanmic subfields like payment or date range
+                    $value = acfe_get_value_from_acf_values_by_key($_POST['acf'], $name);
+                    $value = apply_filters('acf/load_value', $value, $post_id, $field);
                     
-                    $value = acf_get_value($post_id, $field);
-                    
+                }
+                
+                if($setup_meta){
+                    acfe_reset_meta();
                 }
                 
                 // format via context
@@ -163,26 +123,12 @@ class acfe_template_tags{
         ));
         
         // {fields}
-        // {fields:45}
         $this->add_tag(array(
             'name'     => 'fields',
             'resolver' => function($args){
                 
-                // extract
-                $keys   = explode(':', $args);
-                $post_id = array_shift($keys);
-                
-                if(empty($post_id)){
-                    $post_id = false;
-                }
-                
-                // get values from post id (or current)
-                $values = acfe_get_fields($post_id);
-                
-                // get submitted values
-                if(!$post_id && !empty($_POST['acf'])){
-                    $values = $_POST['acf'];
-                }
+                $values = acfe_get_fields();
+                $tag = $this->get_tag('field');
                 
                 if(!$values){
                     return false;
@@ -207,8 +153,7 @@ class acfe_template_tags{
                         // label
                         $label = !empty($field['label']) ? $field['label'] : $field['name'];
                         
-                        // format value
-                        $formatted = acfe_form_format_value($unformatted, $field);
+                        $formatted = call_user_func_array($tag['resolver'], array($field_key));
                         
                         // html
                         $html .= "$label: $formatted<br />\n";
@@ -218,7 +163,7 @@ class acfe_template_tags{
                 }
                 
                 // get form context
-                $form = $this->get_context('form', array('name' => ''));
+                $form = $this->get_context('form', array('name' => '')); // default for deprecated filter
                 
                 // depreacted filters
                 $html = apply_filters_deprecated("acfe/form/template_tag/fields",                      array($html, array(), $form), '0.9');
@@ -293,6 +238,11 @@ class acfe_template_tags{
                 // field name
                 }else{
                     
+                    // try to get field key using field name from mapped field groups
+                    // otheriwse, fallback to field name
+                    $args = $this->get_field_key_from_field_groups($args);
+                    
+                    // get field array
                     $field = acf_get_field($args);
                     
                     // field name
@@ -1098,6 +1048,26 @@ class acfe_template_tags{
         
         // return
         return $user;
+        
+    }
+    
+    
+    /**
+     * get_field_key_from_field_groups
+     *
+     * @param $name
+     *
+     * @return mixed
+     */
+    function get_field_key_from_field_groups($name){
+        
+        $mapped = $this->get_context('mapped_fields');
+        
+        if(!empty($mapped) && isset($mapped[ $name ])){
+            return $mapped[ $name ];
+        }
+        
+        return $name;
         
     }
     

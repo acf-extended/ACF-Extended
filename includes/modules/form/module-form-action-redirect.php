@@ -68,8 +68,7 @@ class acfe_module_form_action_redirect extends acfe_module_form_action{
     
         // redirect
         if(!empty($url)){
-            wp_redirect($url);
-            exit;
+            acfe_redirect($url);
         }
     
     }

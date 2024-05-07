@@ -679,3 +679,7 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
 .acf-admin-6.acf-admin-single-field-group .acf-hl[data-cols="6"]>li:nth-child(6) {
     margin-top: 10px
 }
+
+.acf-admin-6.acf-admin-single-field-group .acf-field-type-settings .acf-field {
+    border-top-width: 0
+}

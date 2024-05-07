@@ -220,12 +220,12 @@ class acfe_module_form_format{
         
         // vars
         $value = acf_get_array($unformatted);
-        $array = array();
         $return = '';
         
         // loop values
         foreach($value as $i => $sub_fields){
             
+            $array = array();
             $return .= "<br/>\n- ";
             
             // loop subfields keys

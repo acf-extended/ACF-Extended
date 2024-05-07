@@ -24,9 +24,9 @@ class acfe_module_form_deprecated{
         add_filter('acfe/form/load_form',            array($this, 'load_form'));
         add_action('acfe/form/validate_form',        array($this, 'validate_form'));
         add_action('acfe/form/submit_form',          array($this, 'submit_form'));
-        add_action('acfe/form/success_form',         array($this, 'success_form'));
         
         // deprecated global render
+        add_action('acfe/form/render_success',       array($this, 'render_success'));
         add_action("acfe/form/render_before_form",   array($this, 'render_before_form'));
         add_action("acfe/form/render_before_fields", array($this, 'render_before_fields'));
         add_action("acfe/form/render_fields",        array($this, 'render_fields'));
@@ -612,16 +612,21 @@ class acfe_module_form_deprecated{
     
     
     /**
-     * success_form
+     * render_success
      *
      * @param $form
      */
-    function success_form($form){
+    function render_success($form){
         
         // deprecated
-        do_action_deprecated("acfe/form/success",                      array($form), '0.9', "acfe/form/success_form");
-        do_action_deprecated("acfe/form/success/id={$form['ID']}",     array($form), '0.9', "acfe/form/success_form/form={$form['name']}");
-        do_action_deprecated("acfe/form/success/name={$form['name']}", array($form), '0.9', "acfe/form/success_form/form={$form['name']}");
+        do_action_deprecated("acfe/form/success",                           array($form), '0.9.0.3', "acfe/form/render_success");
+        do_action_deprecated("acfe/form/success/id={$form['ID']}",          array($form), '0.9.0.3', "acfe/form/render_success/form={$form['name']}");
+        do_action_deprecated("acfe/form/success/name={$form['name']}",      array($form), '0.9.0.3', "acfe/form/render_success/form={$form['name']}");
+        
+        // deprecated
+        do_action_deprecated("acfe/form/success_form",                      array($form), '0.9.0.3', "acfe/form/render_success");
+        do_action_deprecated("acfe/form/success_form/form={$form['name']}", array($form), '0.9.0.3', "acfe/form/render_success/form={$form['name']}");
+        do_action_deprecated("acfe/form/success_form/name={$form['name']}", array($form), '0.9.0.3', "acfe/form/render_success/form={$form['name']}");
         
     }
     

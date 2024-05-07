@@ -205,16 +205,21 @@ class acfe_module_form_action{
             if(in_array($field_key, $acf_fields_exclude)){
                 continue;
             }
+            
+            // check field is not hidden and has no value set in 'acfe/form/load_form'
+            if(acf_maybe_get($form['map'], $field_key) === false || isset($form['map'][ $field_key ]['value'])){
+                continue;
+            }
         
             // get field & value
             $field = acf_get_field($field_key);
             $value = acfe_get_value_from_acf_values_by_key($acf, $field_key);
             
             // value is null
-            // might be a "taxonomy field" with "load values"
+            // might be a "taxonomy field" with "load values" enabled
             if($field && $value === null){
                 
-                // we need to retrieve the taxonomy valud via acf_get_value()
+                // we need to retrieve the taxonomy value via acf_get_value()
                 // so the load_value() method kicks in and "load values" can inject data
                 $value = acf_get_value($post_id, $field);
                 

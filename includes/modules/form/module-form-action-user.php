@@ -76,14 +76,14 @@ class acfe_module_form_action_user extends acfe_module_form_action{
      * @return mixed
      */
     function load_action($form, $action){
-    
-        // apply template tags
-        acfe_apply_tags($action['load']['source']);
-    
+        
         // check source
         if(!$action['load']['source']){
             return $form;
         }
+    
+        // apply template tags
+        acfe_apply_tags($action['load']['source']);
         
         // vars
         $load = $action['load'];
@@ -123,35 +123,45 @@ class acfe_module_form_action_user extends acfe_module_form_action{
          */
         foreach($load as $user_field => $field_key){
             
-            // check key exists in WP_User and is field key
-            if(in_array($user_field, $this->fields) && !empty($field_key) && is_string($field_key) && acf_is_field_key($field_key)){
+            // check field is not hidden and has no value set in 'acfe/form/load_form'
+            if(acf_maybe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
                 
-                // add field to excluded list
-                $acf_fields_exclude[] = $field_key;
-                
-                // exclude password
-                if($user_field === 'user_pass'){
-                    continue;
+                // check key exists in WP_User and is field key
+                if(in_array($user_field, $this->fields) && !empty($field_key) && is_string($field_key) && acf_is_field_key($field_key)){
+                    
+                    // add field to excluded list
+                    $acf_fields_exclude[] = $field_key;
+                    
+                    // exclude password
+                    if($user_field === 'user_pass'){
+                        continue;
+                    }
+                    
+                    // assign user field as value
+                    $form['map'][ $field_key ]['value'] = $user->{$user_field};
+            
                 }
                 
-                // assign user field as value
-                $form['map'][ $field_key ]['value'] = $user->{$user_field};
-        
             }
             
         }
     
         // load user role
         if(!empty($user_role) && is_string($user_role) && acf_is_field_key($user_role)){
-        
-            // vars
-            $value = $user_role;
-        
-            // add field to excluded list
-            $acf_fields_exclude[] = $value;
-        
-            // get roles
-            $form['map'][ $value ]['value'] = implode(', ', $user->roles);
+            
+            // field key
+            $field_key = $user_role;
+            
+            // check field is not hidden and has no value set in 'acfe/form/load_form'
+            if(acf_maybe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
+            
+                // add field to excluded list
+                $acf_fields_exclude[] = $field_key;
+            
+                // get roles
+                $form['map'][ $field_key ]['value'] = $user->roles;
+            
+            }
         
         }
         

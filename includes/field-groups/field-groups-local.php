@@ -311,10 +311,6 @@ class ACFE_Field_Groups_Local{
         
         $local_field_groups = acf_get_local_field_groups();
         
-        if(empty($local_field_groups)){
-            return array();
-        }
-        
         $locals = array();
         
         foreach($local_field_groups as $field_group){

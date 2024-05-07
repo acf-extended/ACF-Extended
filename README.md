@@ -548,6 +548,32 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.0.3
+
+**ACF Extended Pro 0.9.0.3:**
+
+* Module: Form - Added Ajax Submission feature
+* Module: Form - Ajax Submission can be enabled in the Form "Settings" tab
+
+**ACF Extended Basic 0.9.0.3:**
+
+* Module: Form - Added "Scroll to message" setting in the "Success" tab
+* Module: Form - Enhanced `acfe/form/load_form` strategy
+* Module: Form - Enhanced `map` argument to allow override loaded values from Actions
+* Module: Form - Enhanced `{render:field_name}` to first search within mapped field groups
+* Module: Form - Renamed `acfe/form/success_form` to `acfe/form/render_success` for consistency
+* Module: Form - Added `acfe/form/submit_success` as very early hook, in page headers
+* Module: Form - Fixed Select field "Custom Value" setting compatibility with forms
+* Module: Form - Fixed duplicate rows in `{field:repeater}` Template Tag
+* Module: Form - Added missing `wpautop()` on Success Message
+* Module: Form - Minor CSS compatibility tweaks for mac
+* Module: Form - User Action - Fixed the "Roles" load value as raw array
+* Module: AutoSync - Fixed PHP files not being correctly deleted when Field Group was removed using a custom path
+* Field Groups - Local - Fixed missing "Local" tab when there are only AutoSync PHP files
+* Field Groups: Minor CSS tweaks
+* Field: reCaptcha - Reworked & enhanced code logic
+* Settings UI: Fixed missing reCaptcha ACF settings in the "Fields" tab
+
 ### 0.9.0.2
 
 **ACF Extended Pro 0.9.0.2:**

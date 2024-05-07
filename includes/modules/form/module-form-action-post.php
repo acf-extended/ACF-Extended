@@ -70,13 +70,13 @@ class acfe_module_form_action_post extends acfe_module_form_action{
      */
     function load_action($form, $action){
         
-        // apply template tags
-        acfe_apply_tags($action['load']['source']);
-        
         // check source
         if(!$action['load']['source']){
             return $form;
         }
+        
+        // apply template tags
+        acfe_apply_tags($action['load']['source']);
         
         // vars
         $load = $action['load'];
@@ -120,15 +120,20 @@ class acfe_module_form_action_post extends acfe_module_form_action{
          */
         foreach($load as $post_field => $field_key){
             
-            // check key exists in WP_Post and is field key
-            if(in_array($post_field, $this->fields) && !empty($field_key) && is_string($field_key) && acf_is_field_key($field_key)){
+            // check field is not hidden and has no value set in 'acfe/form/load_form'
+            if(acf_maybe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
                 
-                // add field to excluded list
-                $acf_fields_exclude[] = $field_key;
+                // check key exists in WP_Post and is field key
+                if(in_array($post_field, $this->fields) && !empty($field_key) && is_string($field_key) && acf_is_field_key($field_key)){
+                    
+                    // add field to excluded list
+                    $acf_fields_exclude[] = $field_key;
+                    
+                    // assign post field as value
+                    $form['map'][$field_key]['value'] = get_post_field($post_field, $post_id);
+                    
+                }
                 
-                // assign post field as value
-                $form['map'][ $field_key ]['value'] = get_post_field($post_field, $post_id);
-        
             }
             
         }
@@ -138,16 +143,21 @@ class acfe_module_form_action_post extends acfe_module_form_action{
             
             // vars
             $field_key = $post_thumbnail;
-    
-            // add field to excluded list
-            $acf_fields_exclude[] = $field_key;
             
-            // get thumbnail
-            $thumbnail_id = get_post_thumbnail_id($post_id);
-    
-            // map thumbnail value
-            if($thumbnail_id){
-                $form['map'][ $field_key ]['value'] = $thumbnail_id;
+            // check field is not hidden and has no value set in 'acfe/form/load_form'
+            if(acf_maybe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
+        
+                // add field to excluded list
+                $acf_fields_exclude[] = $field_key;
+                
+                // get thumbnail
+                $thumbnail_id = get_post_thumbnail_id($post_id);
+        
+                // map thumbnail value
+                if($thumbnail_id){
+                    $form['map'][ $field_key ]['value'] = $thumbnail_id;
+                }
+            
             }
         
         }
@@ -155,34 +165,41 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         // load post terms
         if(!empty($post_terms) && is_string($post_terms) && acf_is_field_key($post_terms)){
             
-            // vars
-            $terms = array();
+            // field key
             $field_key = $post_terms;
-    
-            // add field to excluded list
-            $acf_fields_exclude[] = $field_key;
             
-            // get taxonomies
-            $taxonomies = acf_get_taxonomies(array(
-                'post_type' => get_post_type($post_id)
-            ));
-    
-            // loop
-            foreach($taxonomies as $taxonomy){
-        
-                // get taxonomy terms
-                $_terms = get_the_terms($post_id, $taxonomy);
+            // check field is not hidden and has no value set in 'acfe/form/load_form'
+            if(acf_maybe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
                 
-                // validate
-                if($_terms && !is_wp_error($_terms)){
-                    $terms = array_merge($terms, $_terms);
+                // vars
+                $terms = array();
+        
+                // add field to excluded list
+                $acf_fields_exclude[] = $field_key;
+                
+                // get taxonomies
+                $taxonomies = acf_get_taxonomies(array(
+                    'post_type' => get_post_type($post_id)
+                ));
+        
+                // loop
+                foreach($taxonomies as $taxonomy){
+            
+                    // get taxonomy terms
+                    $_terms = get_the_terms($post_id, $taxonomy);
+                    
+                    // validate
+                    if($_terms && !is_wp_error($_terms)){
+                        $terms = array_merge($terms, $_terms);
+                    }
+            
                 }
         
-            }
-    
-            // map terms value
-            if($terms){
-                $form['map'][ $field_key ]['value'] = wp_list_pluck($terms, 'term_id');
+                // map terms value
+                if($terms){
+                    $form['map'][ $field_key ]['value'] = wp_list_pluck($terms, 'term_id');
+                }
+            
             }
         
         }

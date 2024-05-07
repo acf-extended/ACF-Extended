@@ -3567,71 +3567,56 @@
 
         wait: 'load',
 
-        actions: {
-            'validation_failure': 'validationFailure'
+        widgetID: 0,
+
+        events: {
+            'invalidField': 'onInvalidField'
         },
 
         $control: function() {
-            return this.$('.acfe-field-recaptcha');
+            return this.$('.acf-input-wrap');
         },
 
         $input: function() {
             return this.$('input[type="hidden"]');
         },
 
-        $selector: function() {
-            return this.$control().find('> div');
-        },
-
-        selector: function() {
-            return this.$selector()[0];
-        },
-
         initialize: function() {
+            reCaptchaAPI.load(this, this.render);
+        },
+
+        render: function() {
 
             if (this.get('version') === 'v2') {
-
-                this.renderV2(this);
+                this.renderV2();
 
             } else if (this.get('version') === 'v3') {
-
                 this.renderV3();
-
             }
-
         },
 
-        renderV2: function(self) {
-
-            // selectors
-            var selector = this.selector();
-            var $input = this.$input();
-
-            // vars
-            var sitekey = this.get('siteKey');
-            var theme = this.get('theme');
-            var size = this.get('size');
+        renderV2: function() {
 
             // request
-            this.recaptcha = grecaptcha.render(selector, {
-                'sitekey': sitekey,
-                'theme': theme,
-                'size': size,
+            this.widgetID = grecaptcha.render(this.$control().find('> div')[0], {
+                'sitekey': this.get('siteKey'),
+                'theme': this.get('theme'),
+                'size': this.get('size'),
 
-                'callback': function(response) {
-                    acf.val($input, response, true);
-                    self.removeError();
-                },
+                'callback': this.proxy(function(response) {
 
-                'error-callback': function() {
-                    acf.val($input, '', true);
-                    self.showError('An error has occured');
-                },
+                    acf.val(this.$input(), response, true);
+                    this.removeError();
 
-                'expired-callback': function() {
-                    acf.val($input, '', true);
-                    self.showError('reCaptcha has expired');
-                }
+                }),
+
+                'error-callback': this.proxy(function() {
+                    this.showError('An error has occured');
+                }),
+
+                'expired-callback': this.proxy(function() {
+                    this.showError('reCaptcha has expired');
+                })
             });
 
         },
@@ -3645,18 +3630,14 @@
             // request
             var request = function() {
 
-                // execute recaptcha v3
-                grecaptcha.ready(function() {
-                    grecaptcha.execute(sitekey, {
-                        action: 'homepage'
-                    }).then(function(response) {
-
-                        acf.val($input, response, true);
-
-                    });
+                grecaptcha.execute(sitekey, {
+                    action: 'homepage'
+                }).then(function(response) {
+                    acf.val($input, response, true);
                 });
 
                 // refresh every 80sec
+                // this avoid an issue where token becomes invalid after 2min
                 setTimeout(request, 80 * 1000);
 
             }
@@ -3666,17 +3647,83 @@
 
         },
 
-        validationFailure: function($form) {
+        reset: function() {
 
+            // reset v2
             if (this.get('version') === 'v2') {
-                grecaptcha.reset(this.recaptcha);
+                grecaptcha.reset(this.widgetID);
+                acf.val(this.$input(), '', true);
+
+                // reset v3
+            } else if (this.get('version') === 'v3') {
+                this.renderV3();
+
             }
 
-        }
+        },
+
+        onInvalidField: function(e, $el) {
+            this.reset();
+        },
 
     });
 
     acf.registerFieldType(reCaptcha);
+
+
+    /**
+     * recpatchaAPI
+     *
+     * @type {acf.Model}
+     */
+    var reCaptchaAPI = new acf.Model({
+
+        busy: false,
+
+        load: function(field, callback) {
+
+            // defaults
+            callback = field.proxy(callback);
+
+            // vars
+            var url_v2 = 'https://www.google.com/recaptcha/api.js?render=explicit';
+            var url_v3 = 'https://www.google.com/recaptcha/api.js?render=' + field.get('siteKey');
+            var url = field.get('version') === 'v2' ? url_v2 : url_v3;
+
+            // check if recaptcha exists
+            if (typeof grecaptcha !== 'undefined' || acf.isset(window, 'grecaptcha')) {
+                return callback();
+            }
+
+            acf.addAction('acfe/recpatcha_loaded', callback);
+
+            // already busy
+            if (this.busy) {
+                return;
+            }
+
+            // set busy
+            this.busy = true;
+
+            // load api
+            $.ajax({
+                url: url,
+                dataType: 'script',
+                cache: true,
+                context: this,
+                success: function() {
+
+                    grecaptcha.ready(this.proxy(function() {
+                        acf.doAction('acfe/recpatcha_loaded');
+                        this.busy = false;
+                    }));
+
+                }
+            });
+
+        }
+
+    });
 
 })(jQuery);
 (function($) {
@@ -4282,19 +4329,61 @@
             }
 
             // loop
-            acfe.get('acfe_form_success').map(function(form) {
+            acfe.get('acfe_form_success').map(function(data, i) {
+
+                // parse data
+                data = acf.parseArgs(data, {
+                    name: '',
+                    id: '',
+                    scroll: false,
+                    selector: false,
+                });
+
+                // get form element
+                var $form = $('.acfe-form.-success').length ? $('.acfe-form.-success') : false;
 
                 // hooks
-                acf.doAction('acfe/form/success');
-                acf.doAction('acfe/form/success/id=' + form.id);
-                acf.doAction('acfe/form/success/name=' + form.name);
+                acf.doAction(`acfe/form/submit_success`, $form);
+                acf.doAction(`acfe/form/submit_success/form=${data.name}`, $form);
 
                 // deprecated
-                acf.doAction('acfe/form/submit/success');
-                acf.doAction('acfe/form/submit/success/id=' + form.id);
-                acf.doAction('acfe/form/submit/success/name=' + form.name);
+                acfe.doActionDeprecated(`acfe/form/success`, [$form], '0.9.0.3', `acfe/form/submit_success`);
+                acfe.doActionDeprecated(`acfe/form/success/id=${data.id}`, [$form], '0.9.0.3', `acfe/form/submit_success/form=${data.name}`);
+                acfe.doActionDeprecated(`acfe/form/success/form=${data.name}`, [$form], '0.9.0.3', `acfe/form/submit_success/form=${data.name}`);
+                acfe.doActionDeprecated(`acfe/form/success/name=${data.name}`, [$form], '0.9.0.3', `acfe/form/submit_success/form=${data.name}`);
 
-            });
+                // deprecated
+                acfe.doActionDeprecated(`acfe/form/submit/success`, [$form], '0.9.0.3', `acfe/form/submit_success`);
+                acfe.doActionDeprecated(`acfe/form/submit/success/id=${data.id}`, [$form], '0.9.0.3', `acfe/form/submit_success/form=${data.name}`);
+                acfe.doActionDeprecated(`acfe/form/submit/success/name=${data.name}`, [$form], '0.9.0.3', `acfe/form/submit_success/form=${data.name}`);
+
+                if (i === 0 && data.scroll) {
+
+                    // scroll to message
+                    if (data.selector) {
+                        this.scrollTo($(data.selector));
+
+                        // scroll to previous element
+                    } else if ($form) {
+                        this.scrollTo($form.prev());
+
+                    }
+
+                }
+
+            }, this);
+
+        },
+
+        scrollTo: function($el) {
+
+            // Scroll to element if needed.
+            var scrollTime = 500;
+            if (!acf.isInView($el)) {
+                $('body, html').animate({
+                    scrollTop: $el.offset().top - $(window).height() / 2
+                }, scrollTime);
+            }
 
         },
 
@@ -4417,11 +4506,9 @@
         // Ajax Validation
         validationBegin: function($form) {
 
-            if (typeof $form === 'undefined') {
-                return;
+            if (typeof $form !== 'undefined') {
+                $form.find('.acf-error-message').remove();
             }
-
-            $form.find('.acf-error-message').remove();
 
         }
 

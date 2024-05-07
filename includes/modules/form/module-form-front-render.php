@@ -12,146 +12,18 @@ class acfe_module_form_front_render{
      * __construct
      */
     function __construct(){
-        
-        add_filter('acfe/form/prepare_form',         array($this, 'prepare_form'), 9);
-        add_action('acfe/form/success_form',         array($this, 'success_form'), 9);
-        
-        add_action('acfe/form/render_before_form',   array($this, 'render_before_form'), 9);
-        add_action('acfe/form/render_before_fields', array($this, 'render_before_fields'), 9);
-        add_action('acfe/form/render_fields',        array($this, 'render_fields'), 9);
-        add_action('acfe/form/render_after_fields',  array($this, 'render_after_fields'), 9);
-        add_action('acfe/form/render_submit',        array($this, 'render_submit'), 9);
-        add_action('acfe/form/render_after_form',    array($this, 'render_after_form'), 9);
-        
+        // ...
     }
     
     
     /**
-     * prepare_form
+     * form_render_success
+     *
+     * acfe/form/render_success
      *
      * @param $form
      */
-    function prepare_form($form){
-        
-        if(!$form){
-            return false;
-        }
-        
-        add_filter("acfe/form/prepare_form/form={$form['name']}", array($this, 'form_prepare_form'), 9);
-        return apply_filters("acfe/form/prepare_form/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * success_form
-     *
-     * @param $form
-     */
-    function success_form($form){
-        
-        add_action("acfe/form/success_form/form={$form['name']}", array($this, 'form_success_form'), 9);
-        do_action("acfe/form/success_form/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * render_before_form
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function render_before_form($form){
-        
-        add_action("acfe/form/render_before_form/form={$form['name']}", array($this, 'form_render_before_form'), 9);
-        do_action("acfe/form/render_before_form/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * render_before_fields
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function render_before_fields($form){
-        
-        add_action("acfe/form/render_before_fields/form={$form['name']}", array($this, 'form_render_before_fields'), 9);
-        do_action("acfe/form/render_before_fields/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * render_fields
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function render_fields($form){
-        
-        add_action("acfe/form/render_fields/form={$form['name']}", array($this, 'form_render_fields'), 9);
-        do_action("acfe/form/render_fields/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * render_after_fields
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function render_after_fields($form){
-        
-        add_action("acfe/form/render_after_fields/form={$form['name']}", array($this, 'form_render_after_fields'), 9);
-        do_action("acfe/form/render_after_fields/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * render_submit
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function render_submit($form){
-        
-        add_action("acfe/form/render_submit/form={$form['name']}", array($this, 'form_render_submit'), 9);
-        do_action("acfe/form/render_submit/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * render_after_form
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function render_after_form($form){
-        
-        add_action("acfe/form/render_after_form/form={$form['name']}", array($this, 'form_render_after_form'), 9);
-        do_action("acfe/form/render_after_form/form={$form['name']}", $form);
-        
-    }
-    
-    
-    /**
-     * form_success_form
-     *
-     * @param $form
-     */
-    function form_success_form($form){
+    function render_success($form){
         
         // get message
         $message = $form['success']['message'];
@@ -161,18 +33,18 @@ class acfe_module_form_front_render{
             
             // html message
             if($form['success']['wrapper']){
-                $message = sprintf($form['success']['wrapper'], wp_unslash($message));
+                $message = sprintf($form['success']['wrapper'], wpautop(wp_unslash($message)));
             }
             
             echo $message;
             
         }
-    
+        
     }
     
     
     /**
-     * form_prepare_form
+     * prepare_form
      *
      * acfe/form/prepare_form
      *
@@ -180,48 +52,27 @@ class acfe_module_form_front_render{
      *
      * @return mixed
      */
-    function form_prepare_form($form){
+    function prepare_form($form){
         
         if(!$form){
             return false;
         }
         
-        // form success
-        if(acfe_is_form_success($form['name'])){
-            
-            $setup_meta = !acfe_is_local_meta() && !empty(acf_maybe_get_POST('acf'));
-            
-            if($setup_meta){
-                acfe_setup_meta($_POST['acf'], 'acfe/form/render', true);
-            }
-            
-            acfe_apply_tags($form['success']['message']);
-            acfe_apply_tags($form['success']['wrapper']);
-            
-            // append data for javascript hooks
-            acfe_append_localize_data('acfe_form_success', array(
-                'name' => $form['name'],
-                'id'   => $form['ID'],
-            ));
-            
-            do_action('acfe/form/success_form', $form);
-            
-            if($setup_meta){
-                acfe_reset_meta();
-            }
-            
-            // hide form on success
-            if($form['success']['hide_form']){
-                return false;
-            }
-            
+        // hide form on success
+        if(acfe_is_form_success($form['name']) && $form['success']['hide_form']){
+            return false;
         }
+        
+        // field values
+        // we must inject values earlier than 10 so custom check in acf/prepare_field can be done
+        // this fix an issue with Select 'custom value' which is checked on acf/prepare_field/type=select
+        add_filter('acf/prepare_field', array($this, 'prepare_field_values'), 9);
+        
+        // field settings
+        add_filter('acf/prepare_field', array($this, 'prepare_field_settings'), 15);
         
         // field attributes
         add_filter('acf/prepare_field', array($this, 'prepare_field_attributes'), 15);
-        
-        // field values
-        add_filter('acf/prepare_field', array($this, 'prepare_field_values'), 15);
         
         // uploader (always set in case of multiple forms on the page)
         acf_disable_filter('acfe/form/uploader');
@@ -236,15 +87,10 @@ class acfe_module_form_front_render{
         // generate render
         if($form['render']){
             
-            // allow use of {field:field_name} tag in render
-            // this create an issue where developers who use get_field() in their acf/render_field
-            // will retrive submitted values instead of the actual value in db
-            
-            // $setup_meta = !acfe_is_local_meta() && !empty(acf_maybe_get_POST('acf'));
-            //
-            // if($setup_meta){
-            //     acfe_setup_meta($_POST['acf'], 'acfe/form/render', true);
-            // }
+            // added mapped fields to context
+            // this allow {render:field_name} to first check fields of the mapped field groups
+            $mapped_fields = $this->get_form_fields_keys($form);
+            acfe_add_context('mapped_fields', $mapped_fields);
             
             // check if render has {render:submit} tag
             $has_render_submit = false;
@@ -298,10 +144,6 @@ class acfe_module_form_front_render{
             if($has_render_submit){
                 $form['attributes']['submit'] = false;
             }
-            
-            // if($setup_meta){
-            //     acfe_reset_meta();
-            // }
         
         }
         
@@ -311,85 +153,13 @@ class acfe_module_form_front_render{
     
     
     /**
-     * prepare_field_attributes
-     *
-     * @param $field
-     *
-     * @return array|mixed
-     */
-    function prepare_field_attributes($field){
-        
-        // hidden by code
-        if(!$field){
-            return $field;
-        }
-        
-        // get form context
-        $form = acfe_get_context('form');
-        if(!$form){
-            return $field;
-        }
-        
-        if($form['attributes']['fields']['wrapper_class']){
-            $field['wrapper']['class'] .= ' ' . $form['attributes']['fields']['wrapper_class'];
-        }
-        
-        if($form['attributes']['fields']['class']){
-            $field['class'] .= ' ' . $form['attributes']['fields']['class'];
-        }
-        
-        if($form['attributes']['fields']['label'] === 'hidden'){
-            $field['label'] = false;
-        }
-        
-        return $field;
-        
-    }
-    
-    
-    /**
-     * prepare_field_values
-     *
-     * @param $field
-     *
-     * @return mixed
-     */
-    function prepare_field_values($field){
-        
-        // hidden by code
-        if(!$field){
-            return $field;
-        }
-        
-        // get form context
-        $form = acfe_get_context('form');
-        if(!$form){
-            return $field;
-        }
-        
-        // mapping not set
-        if(!isset($form['map'][ $field['key'] ])){
-            return $field;
-        }
-        
-        // hidden in mapping
-        if($form['map'][ $field['key'] ] === false){
-            return false;
-        }
-        
-        return array_merge($field, $form['map'][ $field['key'] ]);
-        
-    }
-    
-    
-    /**
-     * form_render_before_form
+     * render_before_form
      *
      * acfe/form/render_before_form
      *
      * @param $form
      */
-    function form_render_before_form($form){
+    function render_before_form($form){
         
         /**
          * form wrapper open
@@ -408,7 +178,6 @@ class acfe_module_form_front_render{
         }
         
         // atts
-        // todo: use acf_localize_data to pass data to JS unique generated ID
         $atts = array(
             'action'                 => '',
             'method'                 => 'post',
@@ -422,6 +191,19 @@ class acfe_module_form_front_render{
             'data-errors-class'      => $form['validation']['errors_class'],
         );
         
+        // append "-success" class
+        if(acfe_is_form_success($form['name'])){
+            
+            // get submitted form
+            $submitted_form = acfe_form_decrypt_args();
+            
+            // compare to loaded form
+            if($submitted_form === $form){
+                $atts['class'] .= ' -success';
+            }
+            
+        }
+        
         // form class
         if($form['attributes']['form']['class']){
             $atts['class'] .= ' ' . $form['attributes']['form']['class'];
@@ -431,6 +213,9 @@ class acfe_module_form_front_render{
         if($element === 'div'){
             unset($atts['method'], $atts['action']);
         }
+        
+        $atts = apply_filters("acfe/form/render_form_atts",                      $atts, $form);
+        $atts = apply_filters("acfe/form/render_form_atts/form={$form['name']}", $atts, $form);
         
         // esc atts
         $atts = acf_esc_attrs($atts);
@@ -454,13 +239,13 @@ class acfe_module_form_front_render{
     
     
     /**
-     * form_render_before_fields
+     * render_before_fields
      *
      * acfe/form/render_before_fields
      *
      * @param $form
      */
-    function form_render_before_fields($form){
+    function render_before_fields($form){
     
         /**
          * fields wrapper open
@@ -480,13 +265,13 @@ class acfe_module_form_front_render{
     
     
     /**
-     * form_render_fields
+     * render_fields
      *
      * acfe/form/render_fields
      *
      * @param $form
      */
-    function form_render_fields($form){
+    function render_fields($form){
     
         // honeypot
         // ACF will then automatically validate that _validate_email field
@@ -525,13 +310,13 @@ class acfe_module_form_front_render{
     
     
     /**
-     * form_render_after_fields
+     * render_after_fields
      *
      * acfe/form/render_after_fields
      *
      * @param $form
      */
-    function form_render_after_fields($form){
+    function render_after_fields($form){
     
         /**
          * fields wrapper close
@@ -542,13 +327,13 @@ class acfe_module_form_front_render{
     
     
     /**
-     * form_render_submit
+     * render_submit
      *
      * acfe/form/render_submit
      *
      * @param $form
      */
-    function form_render_submit($form){
+    function render_submit($form){
         
         // form submit
         if($form['attributes']['submit']): ?>
@@ -564,13 +349,13 @@ class acfe_module_form_front_render{
     
     
     /**
-     * form_render_after_form
+     * render_after_form
      *
      * acfe/form/render_after_form
      *
      * @param $form
      */
-    function form_render_after_form($form){
+    function render_after_form($form){
     
         /**
          * form wrapper close
@@ -590,6 +375,120 @@ class acfe_module_form_front_render{
         if($is_preview){
             remove_filter('acf/prepare_field', array($this, 'disable_fields'));
         }
+        
+    }
+    
+    
+    /**
+     * prepare_field_values
+     *
+     * acf/prepare_field:9
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function prepare_field_values($field){
+        
+        // hidden by code
+        if(!$field){
+            return $field;
+        }
+        
+        // get form context
+        $form = acfe_get_context('form');
+        if(!$form){
+            return $field;
+        }
+        
+        // mapping not set
+        if(!isset($form['map'][ $field['key'] ]['value'])){
+            return $field;
+        }
+        
+        $field['value'] = $form['map'][ $field['key'] ]['value'];
+        
+        return $field;
+        
+    }
+    
+    
+    /**
+     * prepare_field_settings
+     *
+     * acf/prepare_field:15
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function prepare_field_settings($field){
+        
+        // hidden by code
+        if(!$field){
+            return $field;
+        }
+        
+        // get form context
+        $form = acfe_get_context('form');
+        if(!$form){
+            return $field;
+        }
+        
+        // mapping not set
+        if(!isset($form['map'][ $field['key'] ])){
+            return $field;
+        }
+        
+        // hidden in mapping
+        if($form['map'][ $field['key'] ] === false){
+            return false;
+        }
+        
+        // value already injected in prepare_field_values()
+        unset($form['map'][ $field['key'] ]['value']);
+        
+        // merge
+        return array_merge($field, $form['map'][ $field['key'] ]);
+        
+    }
+    
+    
+    /**
+     * prepare_field_attributes
+     *
+     * acf/prepare_field:15
+     *
+     * @param $field
+     *
+     * @return array|mixed
+     */
+    function prepare_field_attributes($field){
+        
+        // hidden by code
+        if(!$field){
+            return $field;
+        }
+        
+        // get form context
+        $form = acfe_get_context('form');
+        if(!$form){
+            return $field;
+        }
+        
+        if($form['attributes']['fields']['wrapper_class']){
+            $field['wrapper']['class'] .= ' ' . $form['attributes']['fields']['wrapper_class'];
+        }
+        
+        if($form['attributes']['fields']['class']){
+            $field['class'] .= ' ' . $form['attributes']['fields']['class'];
+        }
+        
+        if($form['attributes']['fields']['label'] === 'hidden'){
+            $field['label'] = false;
+        }
+        
+        return $field;
         
     }
     
@@ -716,6 +615,47 @@ class acfe_module_form_front_render{
         }
         
         return $fields;
+        
+    }
+    
+    
+    /**
+     * get_form_fields_keys
+     *
+     * Used to determine if the {render:field_name} is within mapped field groups
+     *
+     * @param $form
+     *
+     * @return array
+     */
+    function get_form_fields_keys($form){
+        
+        $results = array();
+        
+        // form field groups
+        foreach($form['field_groups'] as $key){
+            
+            // make sure field group exists
+            $field_group = acf_get_field_group($key);
+            
+            // found field group
+            if($field_group){
+                
+                // get fields
+                $fields = acf_get_fields($field_group);
+                
+                // found fields
+                if(!empty($fields)){
+                    
+                    // merge results
+                    $results = array_merge($results, wp_list_pluck($fields, 'key', 'name'));
+                }
+                
+            }
+            
+        }
+        
+        return $results;
         
     }
     
