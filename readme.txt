@@ -1,11 +1,11 @@
-﻿=== Advanced Custom Fields: Extended ===
+=== Advanced Custom Fields: Extended ===
 Contributors: hwk-fr
 Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.9.0.3
+Stable tag: 0.9.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -487,6 +487,25 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.0.4 =
+
+**ACF Extended Pro 0.9.0.4:**
+
+* Modules: Added "Bulk Sync Changes from DB/JSON/PHP" feature
+* Field: Block Editor - Fixed field when copy/pasted within a Flexible Content
+* Field: Color Picker - Fixed "Palette" tooltip title being duplicated on change
+
+**ACF Extended Basic 0.9.0.4:**
+
+* Module: Form - Fixed `acfe/form/submit_post_args` not passing new `post_id` to fields if changed
+* Module: Form - Fixed `{field:field_6635cd66ba409}` not working with group subfields
+* Module: Form - Fixed Post Thumbnail reset when a Form has no post thumbnail
+* Field: Flexible Content - Fixed "Settings Modal" subfields loop within a sub flexible content
+* Field: Flexible Content - Fixed "Copy/Paste Layout" not working on non-HTTPS environments
+* Field: Taxonomy Terms - Enhanced front-end forms compatibility
+* Field: Taxonomy Terms - Improved `{field:taxonomy_terms}` tag format
+* Field: Taxonomy - Enhanced front-end forms compatibility
 
 = 0.9.0.3 =
 

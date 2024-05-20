@@ -1975,29 +1975,9 @@
             layouts: $layout[0].outerHTML
         });
 
-        navigator.clipboard.writeText(data).then(function() {
-
-            alert(acf.__('Layout data has been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
-            return true;
-
-        }).catch(function() {
-
-            // append Temp Input
-            var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo($('body'));
-            $input.attr('value', data).select();
-
-            // alert
-            if (document.execCommand('copy')) {
-                alert(acf.__('Layout data has been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
-
-                // prompt
-            } else {
-                prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
-            }
-
-            // remove the temp input
-            $input.remove();
-
+        acfe.copyClipboard(data, {
+            auto: acf.__('Layout data has been copied to your clipboard.') + "\n" + acf.__('You can now paste it on another page, using the "Paste" button action.'),
+            manual: acf.__('Please copy the following data to your clipboard.') + "\n" + acf.__('You can then paste it on another page, using the "Paste" button action.'),
         });
 
 
@@ -2025,29 +2005,9 @@
             layouts: $layouts.html()
         });
 
-        navigator.clipboard.writeText(data).then(function() {
-
-            alert(acf.__('Layouts data have been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
-            return true;
-
-        }).catch(function() {
-
-            // append Temp Input
-            var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo(flexible.$el);
-            $input.attr('value', data).select();
-
-            // alert
-            if (document.execCommand('copy')) {
-                alert(acf.__('Layouts data have been copied to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'));
-
-                // prompt
-            } else {
-                prompt(acf.__('Please copy the following layout(s) data to your clipboard.') + "\n" + acf.__('You can now paste it in the same Flexible Content on another page, using the "Paste" button action.'), data);
-            }
-
-            // remove the temp input
-            $input.remove();
-
+        acfe.copyClipboard(data, {
+            auto: acf.__('Layouts data have been copied to your clipboard.') + "\n" + acf.__('You can now paste it on another page, using the "Paste" button action.'),
+            manual: acf.__('Please copy the following data to your clipboard.') + "\n" + acf.__('You can then paste it on another page, using the "Paste" button action.'),
         });
 
     }
@@ -2428,6 +2388,15 @@
 
             $input.find('.wp-editor-container div').remove();
             $input.find('.wp-editor-container textarea').css('display', '');
+
+        });
+
+        // Clean Block Editor
+        $layout.find('.acfe-block-editor-wrapper').each(function() {
+
+            var $editor = $(this);
+
+            $editor.find('.editor').remove();
 
         });
 

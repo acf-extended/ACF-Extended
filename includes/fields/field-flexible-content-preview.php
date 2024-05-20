@@ -424,7 +424,7 @@ class acfe_field_flexible_content_preview{
         $name = $field['_name'];
         $key = $field['key'];
         $l_name = $layout['name'];
-        $post_id = "{$options['field_key']}_{$options['i']}";
+        $post_id = acf_uniqid('acfe/flexible_content/preview');
         
         // Prepare values
         $meta = array($options['field_key'] => array(

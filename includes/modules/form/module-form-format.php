@@ -17,6 +17,7 @@ class acfe_module_form_format{
         add_filter('acfe/form/format_value/type=relationship',           array($this, 'format_value_post_object'), 5, 4);
         add_filter('acfe/form/format_value/type=user',                   array($this, 'format_value_user'), 5, 4);
         add_filter('acfe/form/format_value/type=taxonomy',               array($this, 'format_value_taxonomy'), 5, 4);
+        add_filter('acfe/form/format_value/type=acfe_taxonomy_terms',    array($this, 'format_value_taxonomy'), 5, 4);
         add_filter('acfe/form/format_value/type=image',                  array($this, 'format_value_file'), 5, 4);
         add_filter('acfe/form/format_value/type=file',                   array($this, 'format_value_file'), 5, 4);
         add_filter('acfe/form/format_value/type=select',                 array($this, 'format_value_select'), 5, 4);

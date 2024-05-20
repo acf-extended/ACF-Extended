@@ -932,7 +932,7 @@ class acfe_field_taxonomy_terms extends acf_field{
         }
     
         // bail early front-end form
-        if(acfe_starts_with($post_id, 'acfe_form-')){
+        if(acfe_starts_with($post_id, 'acfe_form')){
             return $value;
         }
         
@@ -1008,7 +1008,7 @@ class acfe_field_taxonomy_terms extends acf_field{
         }
     
         // bail early front-end form
-        if(acfe_starts_with($post_id, 'acfe_form-')){
+        if(acfe_starts_with($post_id, 'acfe_form')){
             return $value;
         }
         

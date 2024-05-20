@@ -127,11 +127,13 @@ class acfe_assets{
         
         // text
         $text = array(
-            'Close'     => __('Close', 'acfe'),
-            'Update'    => __('Update', 'acfe'),
-            'Read more' => __('Read more', 'acfe'),
-            'Details'   => __('Details', 'acfe'),
-            'Debug'     => __('Debug', 'acfe'),
+            'Close'                                             => __('Close', 'acfe'),
+            'Update'                                            => __('Update', 'acfe'),
+            'Read more'                                         => __('Read more', 'acfe'),
+            'Details'                                           => __('Details', 'acfe'),
+            'Debug'                                             => __('Debug', 'acfe'),
+            'Data has been copied to your clipboard.'           => __('Data has been copied to your clipboard.', 'acfe'),
+            'Please copy the following data to your clipboard.' => __('Please copy the following data to your clipboard.', 'acfe'),
         );
         
         // filters

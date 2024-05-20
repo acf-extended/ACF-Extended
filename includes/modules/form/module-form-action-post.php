@@ -391,7 +391,7 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         // vars
         $save = $action['save'];
         $post_id = (int) acf_extract_var($save, 'target');
-        $post_thumbnail = (int) acf_extract_var($save, 'post_thumbnail');
+        $post_thumbnail = acf_extract_var($save, 'post_thumbnail');
         $post_terms = acf_extract_var($save, 'post_terms');
         $append_terms = acf_extract_var($save, 'append_terms');
         
@@ -453,10 +453,10 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         }
     
         // update post
-        $update = wp_update_post($args);
+        $post_id = wp_update_post($args);
     
         // bail early
-        if(!$update || is_wp_error($update)){
+        if(!$post_id || is_wp_error($post_id)){
             return false;
         }
     

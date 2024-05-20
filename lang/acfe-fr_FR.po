@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2024-05-07 05:43+0200\n"
-"PO-Revision-Date: 2024-05-07 05:43+0200\n"
+"POT-Creation-Date: 2024-05-18 19:55+0200\n"
+"PO-Revision-Date: 2024-05-18 19:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
 "Language: fr_FR\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: acf-extended.php\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: .build\n"
 
-#: acf-extended.php:448
+#: acf-extended.php:449
 msgid ""
 "An another version of ACF Extended has been detected. Please activate only "
 "one version."
@@ -30,7 +30,7 @@ msgstr ""
 "Une autre version de ACF Extended a été détectée. Veuillez n'activer qu'une "
 "seule version."
 
-#: acf-extended.php:450
+#: acf-extended.php:451
 msgid "ACF Extended Pro has been detected. Please activate only one version."
 msgstr ""
 "ACF Extended Pro a été détecté. Veuillez n'activer qu'une seule version."
@@ -47,14 +47,14 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3483
+#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3443
 #: includes/assets.php:130 includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:94
 #: includes/fields/field-advanced-link.php:100
 #: includes/fields/field-flexible-content-edit.php:278
 #: includes/fields/field-flexible-content-settings.php:275
-#: includes/fields/field-flexible-content.php:811
-#: includes/fields/field-flexible-content.php:817
+#: includes/fields/field-flexible-content.php:812
+#: includes/fields/field-flexible-content.php:818
 #: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:710
 #: pro/includes/field-groups/field-group-ui.php:619
 #: pro/includes/fields/field-payment.php:513
@@ -69,42 +69,49 @@ msgstr "Non"
 msgid "Close"
 msgstr "Fermer"
 
-#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:1991
-#: includes/fields/field-flexible-content.php:38
+#: assets/js/acfe-input.js:1979 includes/fields/field-flexible-content.php:38
 msgid "Layout data has been copied to your clipboard."
 msgstr "Les données de la section ont été copiées dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:1991
-#: assets/js/acfe-input.js:1995 assets/js/acfe-input.js:2030
-#: assets/js/acfe-input.js:2041 assets/js/acfe-input.js:2045
+#: assets/js/acfe-input.js:1979 assets/js/acfe-input.js:2009
 #: includes/fields/field-flexible-content.php:42
 msgid ""
-"You can now paste it in the same Flexible Content on another page, using the "
-"\"Paste\" button action."
+"You can now paste it on another page, using the \"Paste\" button action."
 msgstr ""
-"Vous pouvez maintenant les coller dans le même Contenu Flexible sur une "
-"autre page, en utilisant le bouton d'action \"Coller\"."
+"Vous pouvez maintenant le coller sur une autre page, en utilisant l'action "
+"du bouton \"Coller\"."
 
-#: assets/js/acfe-input.js:1995 assets/js/acfe-input.js:2045
+#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:2010
+#: assets/js/acfe.js:2236 includes/assets.php:136
 #: includes/fields/field-flexible-content.php:40
-msgid "Please copy the following layout(s) data to your clipboard."
-msgstr ""
-"Veuillez copier les données des sections suivantes dans votre presse-papiers."
+msgid "Please copy the following data to your clipboard."
+msgstr "Veuillez copier les données suivantes dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:2030 assets/js/acfe-input.js:2041
-#: includes/fields/field-flexible-content.php:39
+#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:2010
+#: includes/fields/field-flexible-content.php:43
+msgid ""
+"You can then paste it on another page, using the \"Paste\" button action."
+msgstr ""
+"Vous pouvez ensuite le coller sur une autre page, en utilisant l'action du "
+"bouton \"Coller\"."
+
+#: assets/js/acfe-input.js:2009 includes/fields/field-flexible-content.php:39
 msgid "Layouts data have been copied to your clipboard."
 msgstr "Les données des sections ont été copiées dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:2061 includes/fields/field-flexible-content.php:41
+#: assets/js/acfe-input.js:2021 includes/fields/field-flexible-content.php:41
 msgid "Please paste previously copied layout data in the following field:"
 msgstr ""
 "Veuillez coller les données de section précédemment copiées dans le champ "
 "suivant:"
 
-#: assets/js/acfe-input.js:2769 includes/fields/field-flexible-content.php:319
+#: assets/js/acfe-input.js:2729 includes/fields/field-flexible-content.php:320
 msgid "Add Row"
 msgstr "Ajouter une rangée"
+
+#: assets/js/acfe.js:2235 includes/assets.php:135
+msgid "Data has been copied to your clipboard."
+msgstr "Les données ont été copiées dans le presse-papiers."
 
 #: includes/acfe-deprecated-functions.php:112
 #, php-format
@@ -227,7 +234,7 @@ msgstr "Champs personnalisés avancés"
 
 #: includes/admin/settings.php:534 includes/admin/settings.php:695
 #: includes/admin/settings.php:705 includes/fields-settings/settings.php:136
-#: includes/fields/field-flexible-content.php:91
+#: includes/fields/field-flexible-content.php:92
 #: includes/modules/form/module-form-fields.php:1239
 #: pro/includes/admin/settings.php:316 pro/includes/admin/settings.php:376
 #: pro/includes/module-item.php:52
@@ -1498,14 +1505,14 @@ msgstr "Définir une miniature pour chaque mise en page"
 msgid "Thumbnail"
 msgstr "Miniature"
 
-#: includes/fields/field-flexible-content.php:342
+#: includes/fields/field-flexible-content.php:343
 #, php-format
 msgid "Click the \"%s\" button below to start creating your layout"
 msgstr ""
 "Cliquer sur le bouton “%s” ci-dessous pour commencer à créer votre mise en "
 "page"
 
-#: includes/fields/field-flexible-content.php:538
+#: includes/fields/field-flexible-content.php:539
 msgid "Drag to reorder"
 msgstr "Faites glisser pour réorganiser"
 
@@ -6239,7 +6246,7 @@ msgstr "Choisissez vos passerelles de paiement"
 
 #: pro/includes/fields/field-payment.php:107
 #: pro/includes/fields/field-payment.php:490
-#: pro/includes/fields/field-payment.php:1455
+#: pro/includes/fields/field-payment.php:1459
 msgid "Amount"
 msgstr "Montant"
 
@@ -6342,33 +6349,33 @@ msgstr "Changer de mode API"
 #: pro/includes/fields/field-payment.php:383
 #: pro/includes/fields/field-payment.php:486
 #: pro/includes/fields/field-payment.php:1424
-#: pro/includes/fields/field-payment.php:1454
+#: pro/includes/fields/field-payment.php:1458
 msgid "Test"
 msgstr "Test"
 
 #: pro/includes/fields/field-payment.php:486
-#: pro/includes/fields/field-payment.php:1454
+#: pro/includes/fields/field-payment.php:1458
 msgid "Gateway"
 msgstr "Passerelle"
 
 #: pro/includes/fields/field-payment.php:495
-#: pro/includes/fields/field-payment.php:1457
+#: pro/includes/fields/field-payment.php:1461
 msgid "Items"
 msgstr "Articles"
 
 #: pro/includes/fields/field-payment.php:500
-#: pro/includes/fields/field-payment.php:1459
+#: pro/includes/fields/field-payment.php:1463
 #: pro/includes/fields/field-post-field.php:49
 msgid "Date"
 msgstr "Date"
 
 #: pro/includes/fields/field-payment.php:504
-#: pro/includes/fields/field-payment.php:1460
+#: pro/includes/fields/field-payment.php:1464
 msgid "IP Address"
 msgstr "Adresse IP"
 
 #: pro/includes/fields/field-payment.php:508
-#: pro/includes/fields/field-payment.php:1461
+#: pro/includes/fields/field-payment.php:1465
 msgid "Payment ID"
 msgstr "ID du Paiement"
 

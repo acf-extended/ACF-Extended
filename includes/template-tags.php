@@ -60,18 +60,19 @@ class acfe_template_tags{
                     
                 }
                 
-                // get field by name or key
-                $value = acf_get_value($post_id, $field);
-                
                 // field_key
-                if($value === null && !empty($_POST['acf']) && acf_is_field_key($name)){
+                if(!empty($_POST['acf']) && acf_is_field_key($name)){
                     
-                    // fallback strategy
                     // get_field('my_group_my_sub_field') can retrieve values from group subfield
                     // but get_field('field_abcdef123456') cannot, thus this implementation
-                    // this might not work for fields with dyanmic subfields like payment or date range
+                    // apply acf/load_value filter so payment/date range fields generate dynamic subfields
                     $value = acfe_get_value_from_acf_values_by_key($_POST['acf'], $name);
                     $value = apply_filters('acf/load_value', $value, $post_id, $field);
+                    
+                // field name or key
+                }else{
+                    
+                    $value = acf_get_value($post_id, $field);
                     
                 }
                 

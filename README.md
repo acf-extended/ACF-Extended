@@ -1,4 +1,4 @@
-﻿![Advanced Custom Fields: Extended](https://ps.w.org/acf-extended/assets/banner-772x250.png)
+![Advanced Custom Fields: Extended](https://ps.w.org/acf-extended/assets/banner-772x250.png)
 
 # Advanced Custom Fields: Extended
 
@@ -547,6 +547,25 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 * Thanks to Geuer M.
 
 ## 📋 Changelog
+
+### 0.9.0.4
+
+**ACF Extended Pro 0.9.0.4:**
+
+* Modules: Added "Bulk Sync Changes from DB/JSON/PHP" feature
+* Field: Block Editor - Fixed field when copy/pasted within a Flexible Content
+* Field: Color Picker - Fixed "Palette" tooltip title being duplicated on change
+
+**ACF Extended Basic 0.9.0.4:**
+
+* Module: Form - Fixed `acfe/form/submit_post_args` not passing new `post_id` to fields if changed
+* Module: Form - Fixed `{field:field_6635cd66ba409}` not working with group subfields
+* Module: Form - Fixed Post Thumbnail reset when a Form has no post thumbnail
+* Field: Flexible Content - Fixed "Settings Modal" subfields loop within a sub flexible content
+* Field: Flexible Content - Fixed "Copy/Paste Layout" not working on non-HTTPS environments
+* Field: Taxonomy Terms - Enhanced front-end forms compatibility
+* Field: Taxonomy Terms - Improved `{field:taxonomy_terms}` tag format
+* Field: Taxonomy - Enhanced front-end forms compatibility
 
 ### 0.9.0.3
 

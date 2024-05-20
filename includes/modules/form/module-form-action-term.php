@@ -331,16 +331,16 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         }
     
         // update term
-        $response = wp_update_term($args['ID'], $args['taxonomy'], $args);
+        $update = wp_update_term($args['ID'], $args['taxonomy'], $args);
     
         // bail early
-        if(!$response || is_wp_error($response)){
+        if(!$update || is_wp_error($update)){
             return false;
         }
         
         // return
         return array(
-            'term_id' => $term_id,
+            'term_id' => $update['term_id'],
             'args'    => $args
         );
         

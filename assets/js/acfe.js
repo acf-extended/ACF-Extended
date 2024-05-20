@@ -2221,6 +2221,55 @@
         return;
     }
 
+
+    /**
+     * acfe.copyClipboard
+     *
+     * @param data
+     * @param message
+     */
+    acfe.copyClipboard = function(data, message) {
+
+        // default message
+        message = acf.parseArgs(message, {
+            auto: acf.__('Data has been copied to your clipboard.'),
+            manual: acf.__('Please copy the following data to your clipboard.'),
+        });
+
+        // fallback for browsers that don't support navigator.clipboard
+        var fallbackCopy = function(data, message) {
+
+            var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo($('body'));
+            $input.attr('value', data).select();
+
+            if (document.execCommand('copy')) {
+                alert(message.auto);
+            } else {
+                prompt(message.manual, data);
+            }
+
+            $input.remove();
+
+        }
+
+        // navigator clipboard
+        if (navigator.clipboard) {
+
+            navigator.clipboard.writeText(data).then(function() {
+                alert(message.auto);
+                return true;
+            }).catch(function() {
+                fallbackCopy(data, message);
+            });
+
+            // fallback
+        } else {
+            fallbackCopy(data, message);
+        }
+
+    }
+
+
     /**
      * acfe.versionCompare
      *

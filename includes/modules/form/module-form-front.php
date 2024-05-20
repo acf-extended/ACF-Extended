@@ -583,16 +583,16 @@ class acfe_module_form_front{
      */
     function get_css_selector_from_string($str){
         
-        // Extract id and class using regex
+        // extract id and class using regex
         preg_match('/id="([^"]*)"/', $str, $idMatch);
         preg_match('/class="([^"]*)"/', $str, $classMatch);
         
-        // Construct jQuery selector
+        // construct jQuery selector
         $selector = '';
-        if (!empty($idMatch)) {
+        if(!empty($idMatch)){
             $selector .= '#' . $idMatch[1];
         }
-        if (!empty($classMatch)) {
+        if(!empty($classMatch)){
             $selector .= '.' . str_replace(' ', '.', $classMatch[1]);
         }
         
