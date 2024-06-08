@@ -91,6 +91,9 @@ class acfe_module_form_action_email extends acfe_module_form_action{
      */
     function process($form, $action){
         
+        // tags context
+        acfe_add_context(array('context' => 'display'));
+        
         // apply tags
         acfe_apply_tags($action['email']['from']);
         acfe_apply_tags($action['email']['to']);
@@ -98,10 +101,17 @@ class acfe_module_form_action_email extends acfe_module_form_action{
         acfe_apply_tags($action['email']['cc']);
         acfe_apply_tags($action['email']['bcc']);
         acfe_apply_tags($action['email']['subject']);
-        acfe_apply_tags($action['email']['content']);
+        acfe_apply_tags($action['email']['content'], array('unformat' => 'wysiwyg'));
         
-        if(!$action['email']['html']){
-            $action['email']['content'] = wpautop($action['email']['content']);
+        acfe_delete_context(array('context'));
+        
+        // html: apply shortcodes
+        if($action['email']['html']){
+            $action['email']['content'] = do_shortcode($action['email']['content']);
+            
+        // wysiwyg: apply the_content filters (autop, shortcode, etc.)
+        }else{
+            $action['email']['content'] = apply_filters('acf_the_content', $action['email']['content']);
         }
         
         // args
@@ -123,6 +133,16 @@ class acfe_module_form_action_email extends acfe_module_form_action{
         // bail early
         if($args === false){
             return false;
+        }
+        
+        // attachements/delete_files might have been deleted by filters
+        // reset to empty array if not set
+        if(!isset($args['attachments']) || empty($args['attachments'])){
+            $args['attachments'] = array();
+        }
+        
+        if(!isset($args['delete_files']) || empty($args['delete_files'])){
+            $args['delete_files'] = array();
         }
     
         // check arguments change after filters
@@ -214,7 +234,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                 $delete = $row['delete'];
                 
                 // files
-                $file_id = acfe_parse_tags($file_id, array('format' => false, 'return' => 'raw')); // parse tags (unformatted + raw)
+                $file_id = acfe_parse_tags($file_id, array('context' => 'save', 'format' => false, 'return' => 'raw')); // parse tags (unformatted + raw)
                 $files = acf_get_array($file_id);
             
                 // deprecated
@@ -912,6 +932,6 @@ class acfe_module_form_action_email extends acfe_module_form_action{
     
 }
 
-acfe_register_form_action('acfe_module_form_action_email');
+acfe_register_form_action_type('acfe_module_form_action_email');
 
 endif;

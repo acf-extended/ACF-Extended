@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2024-05-18 19:55+0200\n"
-"PO-Revision-Date: 2024-05-18 19:56+0200\n"
+"POT-Creation-Date: 2024-06-08 14:08+0200\n"
+"PO-Revision-Date: 2024-06-08 14:09+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
 "Language: fr_FR\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: .build\n"
 
-#: acf-extended.php:449
+#: acf-extended.php:451
 msgid ""
 "An another version of ACF Extended has been detected. Please activate only "
 "one version."
@@ -30,7 +30,7 @@ msgstr ""
 "Une autre version de ACF Extended a été détectée. Veuillez n'activer qu'une "
 "seule version."
 
-#: acf-extended.php:451
+#: acf-extended.php:453
 msgid "ACF Extended Pro has been detected. Please activate only one version."
 msgstr ""
 "ACF Extended Pro a été détecté. Veuillez n'activer qu'une seule version."
@@ -47,15 +47,33 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: assets/js/acfe-input.js:1416 assets/js/acfe-input.js:3443
-#: includes/assets.php:130 includes/field-groups/field-group-meta.php:160
+#: assets/js/acfe-input.js:2088
+msgid "Select Image"
+msgstr "Sélectionner une image"
+
+#: assets/js/acfe-input.js:2094 includes/admin/tools/module-import.php:58
+#: pro/assets/js/acfe-pro-input.js:1438 pro/assets/js/acfe-pro-input.js:1453
+#: pro/includes/admin/tools/settings-import.php:40
+msgid "Select File"
+msgstr "Choisir un fichier"
+
+#: assets/js/acfe-input.js:2127
+msgid "Maximum selection reached"
+msgstr "Nombre de sélections maximales atteint"
+
+#: assets/js/acfe-input.js:2136
+msgid "Add Image to Gallery"
+msgstr "Ajouter une image à la galerie"
+
+#: assets/js/acfe-input.js:2790 assets/js/acfe-input.js:4826
+#: includes/assets.php:124 includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:94
 #: includes/fields/field-advanced-link.php:100
 #: includes/fields/field-flexible-content-edit.php:278
 #: includes/fields/field-flexible-content-settings.php:275
 #: includes/fields/field-flexible-content.php:812
 #: includes/fields/field-flexible-content.php:818
-#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:710
+#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:1001
 #: pro/includes/field-groups/field-group-ui.php:619
 #: pro/includes/fields/field-payment.php:513
 #: pro/includes/modules/dev/module-dev-clean-meta.php:116
@@ -69,11 +87,11 @@ msgstr "Non"
 msgid "Close"
 msgstr "Fermer"
 
-#: assets/js/acfe-input.js:1979 includes/fields/field-flexible-content.php:38
+#: assets/js/acfe-input.js:3353 includes/fields/field-flexible-content.php:38
 msgid "Layout data has been copied to your clipboard."
 msgstr "Les données de la section ont été copiées dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:1979 assets/js/acfe-input.js:2009
+#: assets/js/acfe-input.js:3353 assets/js/acfe-input.js:3383
 #: includes/fields/field-flexible-content.php:42
 msgid ""
 "You can now paste it on another page, using the \"Paste\" button action."
@@ -81,13 +99,13 @@ msgstr ""
 "Vous pouvez maintenant le coller sur une autre page, en utilisant l'action "
 "du bouton \"Coller\"."
 
-#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:2010
-#: assets/js/acfe.js:2236 includes/assets.php:136
+#: assets/js/acfe-input.js:3354 assets/js/acfe-input.js:3384
+#: assets/js/acfe.js:2238 includes/assets.php:130
 #: includes/fields/field-flexible-content.php:40
 msgid "Please copy the following data to your clipboard."
 msgstr "Veuillez copier les données suivantes dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:1980 assets/js/acfe-input.js:2010
+#: assets/js/acfe-input.js:3354 assets/js/acfe-input.js:3384
 #: includes/fields/field-flexible-content.php:43
 msgid ""
 "You can then paste it on another page, using the \"Paste\" button action."
@@ -95,21 +113,21 @@ msgstr ""
 "Vous pouvez ensuite le coller sur une autre page, en utilisant l'action du "
 "bouton \"Coller\"."
 
-#: assets/js/acfe-input.js:2009 includes/fields/field-flexible-content.php:39
+#: assets/js/acfe-input.js:3383 includes/fields/field-flexible-content.php:39
 msgid "Layouts data have been copied to your clipboard."
 msgstr "Les données des sections ont été copiées dans votre presse-papiers."
 
-#: assets/js/acfe-input.js:2021 includes/fields/field-flexible-content.php:41
+#: assets/js/acfe-input.js:3395 includes/fields/field-flexible-content.php:41
 msgid "Please paste previously copied layout data in the following field:"
 msgstr ""
 "Veuillez coller les données de section précédemment copiées dans le champ "
 "suivant:"
 
-#: assets/js/acfe-input.js:2729 includes/fields/field-flexible-content.php:320
+#: assets/js/acfe-input.js:4112 includes/fields/field-flexible-content.php:320
 msgid "Add Row"
 msgstr "Ajouter une rangée"
 
-#: assets/js/acfe.js:2235 includes/assets.php:135
+#: assets/js/acfe.js:2237 includes/assets.php:129
 msgid "Data has been copied to your clipboard."
 msgstr "Les données ont été copiées dans le presse-papiers."
 
@@ -139,7 +157,7 @@ msgstr "pas de label"
 #: includes/modules/block-type/module-block-type.php:207
 #: includes/modules/form/module-form-fields.php:1192
 #: includes/modules/form/module-form.php:61
-#: includes/modules/form/module-form.php:248
+#: includes/modules/form/module-form.php:256
 #: includes/modules/options-page/module-options-page.php:238
 #: pro/includes/fields/field-field-groups.php:17
 #: pro/includes/modules/template/module-template.php:59
@@ -161,8 +179,8 @@ msgstr "Label"
 #: includes/acfe-field-group-functions.php:554
 #: includes/modules/block-type/module-block-type.php:59
 #: includes/modules/dev/module-dev.php:436
-#: includes/modules/form/module-form-action-term.php:752
-#: includes/modules/form/module-form-action-term.php:1136
+#: includes/modules/form/module-form-action-term.php:753
+#: includes/modules/form/module-form-action-term.php:1137
 #: includes/modules/form/module-form-fields.php:1173
 #: includes/modules/form/module-form.php:60
 #: includes/modules/option/module-option-table.php:226
@@ -191,9 +209,9 @@ msgid "Type"
 msgstr "Type"
 
 #: includes/acfe-file-functions.php:204
-#: includes/field-groups/field-groups.php:866
-#: includes/field-groups/field-groups.php:876
-#: includes/field-groups/field-groups.php:886
+#: includes/field-groups/field-groups.php:863
+#: includes/field-groups/field-groups.php:873
+#: includes/field-groups/field-groups.php:883
 msgid "Located"
 msgstr "Situé"
 
@@ -202,21 +220,21 @@ msgid "Not found"
 msgstr "Introuvable"
 
 #: includes/acfe-file-functions.php:220 includes/acfe-file-functions.php:231
-#: includes/field-groups/field-groups.php:869
+#: includes/field-groups/field-groups.php:866
 msgid "in theme:"
 msgstr "dans le thème:"
 
 #: includes/acfe-file-functions.php:242
-#: includes/field-groups/field-groups.php:879
+#: includes/field-groups/field-groups.php:876
 msgid "in plugin:"
 msgstr "dans le plugin:"
 
 #: includes/acfe-file-functions.php:253
-#: includes/field-groups/field-groups.php:889
+#: includes/field-groups/field-groups.php:886
 msgid "in:"
 msgstr "dans:"
 
-#: includes/acfe-form-functions.php:272
+#: includes/acfe-form-functions.php:200
 msgid "Input is invalid: Must be a json string or an array."
 msgstr "L’entrée n’est pas valide : doit être une chaîne json ou un tableau."
 
@@ -312,12 +330,6 @@ msgstr ""
 "Vous pouvez copier et coller le code suivant dans le fichier <code>functions."
 "php</code> de votre theme ou l’inclure dans un fichier externe."
 
-#: includes/admin/tools/module-import.php:58
-#: pro/assets/js/acfe-pro-input.js:1147 pro/assets/js/acfe-pro-input.js:1165
-#: pro/includes/admin/tools/settings-import.php:40
-msgid "Select File"
-msgstr "Choisir un fichier"
-
 #: includes/admin/tools/module-import.php:69
 #: pro/includes/admin/tools/settings-import.php:51
 msgid "Import File"
@@ -364,26 +376,27 @@ msgstr "Options"
 msgid "Add New"
 msgstr "Ajouter"
 
-#: includes/assets.php:131 includes/locations/post-type-list.php:199
+#: includes/assets.php:125 includes/locations/post-type-list.php:199
 #: includes/locations/taxonomy-list.php:199
 #: includes/modules/option/module-option.php:541
 #: includes/modules/options-page/module-options-page.php:79
-#: pro/assets/js/acfe-pro-admin.js:54 pro/includes/admin/settings.php:358
+#: pro/assets/js/acfe-pro-admin.js:54 pro/includes/admin/dashboard.php:185
+#: pro/includes/admin/settings.php:358
 #: pro/includes/locations/attachment-list.php:191
 #: pro/includes/locations/user-list.php:189
 #: pro/includes/modules/dev/module-dev-metabox.php:688
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: includes/assets.php:132 pro/assets/js/acfe-pro-input.js:5043
+#: includes/assets.php:126 pro/assets/js/acfe-pro-input.js:5345
 msgid "Read more"
 msgstr "Lire la suite"
 
-#: includes/assets.php:133
+#: includes/assets.php:127
 msgid "Details"
 msgstr "Details"
 
-#: includes/assets.php:134 pro/assets/js/acfe-pro-admin.js:615
+#: includes/assets.php:128 pro/assets/js/acfe-pro-admin.js:615
 #: pro/assets/js/acfe-pro-admin.js:616
 msgid "Debug"
 msgstr "Débogage"
@@ -456,11 +469,12 @@ msgid "Block Editor"
 msgstr "Éditeur de blocs"
 
 #: includes/field-groups/field-group-instruction-placement.php:39
-#: includes/modules/form/module-form-fields.php:1809
+#: includes/modules/form/module-form-fields.php:1924
 msgid "Above fields"
 msgstr "Au dessus des champs"
 
 #: includes/field-groups/field-group-instruction-placement.php:40
+#: includes/modules/form/module-form-fields.php:1562
 msgid "Tooltip"
 msgstr "Info-bulle"
 
@@ -546,50 +560,50 @@ msgstr ""
 msgid "Data"
 msgstr "Données"
 
-#: includes/field-groups/field-group.php:86
+#: includes/field-groups/field-group.php:49
 #: includes/fields-settings/settings.php:99
 msgid "Advanced Settings"
 msgstr "Paramètres avancés"
 
-#: includes/field-groups/field-group.php:136
+#: includes/field-groups/field-group.php:97
 #: pro/includes/field-groups/field-group-ui.php:117
 #: pro/includes/field-groups/field-group-ui.php:282
 #: pro/includes/field-groups/field-group-ui.php:450
 msgid "Display title"
 msgstr "Afficher le titre"
 
-#: includes/field-groups/field-group.php:137
+#: includes/field-groups/field-group.php:98
 #: pro/includes/field-groups/field-group-ui.php:118
 #: pro/includes/field-groups/field-group-ui.php:283
 #: pro/includes/field-groups/field-group-ui.php:451
 msgid "Render this title on edit post screen"
 msgstr "Afficher ce titre sur l’écran d’édition"
 
-#: includes/field-groups/field-group.php:161
-#: includes/field-groups/field-groups.php:573
-#: includes/field-groups/field-groups.php:581 pro/includes/module-item.php:95
-#: pro/includes/module-local.php:673 pro/includes/module-posts.php:300
+#: includes/field-groups/field-group.php:122
+#: includes/field-groups/field-groups.php:575
+#: includes/field-groups/field-groups.php:583 pro/includes/module-item.php:95
+#: pro/includes/module-local.php:716 pro/includes/module-posts.php:311
 msgid "Sync available"
 msgstr "Synchronisation disponible"
 
-#: includes/field-groups/field-group.php:162
+#: includes/field-groups/field-group.php:123
 msgid "Local json file is different from the version in database."
 msgstr ""
 "Le fichier json local est différent de la version dans la base de données."
 
-#: includes/field-groups/field-group.php:173
+#: includes/field-groups/field-group.php:134
 msgid "Synchronize"
 msgstr "Synchroniser"
 
-#: includes/field-groups/field-group.php:182 pro/includes/module-item.php:158
+#: includes/field-groups/field-group.php:143 pro/includes/module-item.php:161
 msgid "Review changes"
 msgstr "Examiner les modifications"
 
-#: includes/field-groups/field-group.php:272 pro/includes/module-item.php:167
+#: includes/field-groups/field-group.php:164 pro/includes/module-item.php:170
 msgid "Auto Sync"
 msgstr "Auto Sync"
 
-#: includes/field-groups/field-group.php:291
+#: includes/field-groups/field-group.php:181
 #: includes/fields-settings/permissions.php:23
 #: pro/includes/field-groups/field-group-ui.php:151
 #: pro/includes/field-groups/field-group-ui.php:300
@@ -599,7 +613,7 @@ msgstr "Auto Sync"
 msgid "Permissions"
 msgstr "Permissions"
 
-#: includes/field-groups/field-group.php:295
+#: includes/field-groups/field-group.php:185
 #: pro/includes/field-groups/field-group-ui.php:155
 #: pro/includes/field-groups/field-group-ui.php:313
 #: pro/includes/field-groups/field-group-ui.php:482
@@ -615,18 +629,18 @@ msgid "Local"
 msgstr "Local"
 
 #: includes/field-groups/field-groups-local.php:160
-#: pro/includes/module-posts.php:428
+#: pro/includes/module-posts.php:441
 #, php-format
 msgid "Select %s"
 msgstr "Sélectionner %s"
 
 #: includes/field-groups/field-groups-local.php:243
-#: includes/field-groups/field-groups.php:783
+#: includes/field-groups/field-groups.php:780
 msgid "Export PHP"
 msgstr "Exporter php"
 
 #: includes/field-groups/field-groups-local.php:244
-#: includes/field-groups/field-groups.php:784
+#: includes/field-groups/field-groups.php:781
 msgid "Export Json"
 msgstr "Exporter Json"
 
@@ -635,7 +649,7 @@ msgid "Sync to database"
 msgstr "Synchroniser avec la base de données"
 
 #: includes/field-groups/field-groups.php:102
-#: includes/field-groups/field-groups.php:113
+#: includes/field-groups/field-groups.php:112
 #: includes/fields/field-flexible-content-select.php:105
 #: pro/includes/field-groups/field-group-hide-on-screen.php:39
 #: pro/includes/fields/field-post-field.php:60
@@ -644,112 +658,111 @@ msgid "Title"
 msgstr "Titre"
 
 #: includes/field-groups/field-groups.php:103
-#: includes/field-groups/field-groups.php:114
-#: includes/modules/form/module-form-action-post.php:1673
-#: includes/modules/form/module-form-action-term.php:1052
-#: includes/modules/form/module-form-action-user.php:1811
+#: includes/field-groups/field-groups.php:113
+#: includes/modules/form/module-form-action-post.php:1685
+#: includes/modules/form/module-form-action-term.php:1053
+#: includes/modules/form/module-form-action-user.php:1859
 #: pro/includes/modules/form/module-form-action-option.php:403
 msgid "Source"
 msgstr "Source"
 
 #: includes/field-groups/field-groups.php:104
-#: includes/field-groups/field-groups.php:115
-#: includes/field-groups/field-groups.php:162
+#: includes/field-groups/field-groups.php:114
+#: includes/field-groups/field-groups.php:167
 #: pro/includes/fields/field-fields.php:17
 msgid "Fields"
 msgstr "Champs"
 
 #: includes/field-groups/field-groups.php:105
-#: includes/field-groups/field-groups.php:116
-#: includes/field-groups/field-groups.php:142
-#: includes/field-groups/field-groups.php:163
+#: includes/field-groups/field-groups.php:115
+#: includes/field-groups/field-groups.php:144
+#: includes/field-groups/field-groups.php:168
 msgid "Location"
 msgstr "Emplacement"
 
-#: includes/field-groups/field-groups.php:106
-#: includes/field-groups/field-groups.php:117
-#: includes/field-groups/field-groups.php:143
-#: includes/field-groups/field-groups.php:165
-#: includes/modules/form/module-form-action-post.php:1637
-#: includes/modules/form/module-form-action-term.php:1015
-#: includes/modules/form/module-form-action-user.php:1764
-#: pro/includes/module-posts.php:482
+#: includes/field-groups/field-groups.php:121
+#: includes/field-groups/field-groups.php:147
+#: includes/field-groups/field-groups.php:171
+#: includes/modules/form/module-form-action-post.php:1649
+#: includes/modules/form/module-form-action-term.php:1016
+#: includes/modules/form/module-form-action-user.php:1812
+#: pro/includes/module-posts.php:498
 #: pro/includes/modules/form/module-form-action-option.php:368
 msgid "Load"
 msgstr "Charger"
 
-#: includes/field-groups/field-groups.php:123
+#: includes/field-groups/field-groups.php:125
 msgid "PHP Sync"
 msgstr "Synchronisation PHP"
 
-#: includes/field-groups/field-groups.php:127
+#: includes/field-groups/field-groups.php:129
 msgid "Json Sync"
 msgstr "Synchronisation Json"
 
-#: includes/field-groups/field-groups.php:146
-#: includes/field-groups/field-groups.php:168 pro/includes/module-posts.php:485
+#: includes/field-groups/field-groups.php:151
+#: includes/field-groups/field-groups.php:175 pro/includes/module-posts.php:502
 msgid "PHP"
 msgstr "PHP"
 
-#: includes/field-groups/field-groups.php:150
-#: includes/field-groups/field-groups.php:172
-#: includes/fields/field-code-editor.php:77 pro/includes/module-posts.php:489
+#: includes/field-groups/field-groups.php:155
+#: includes/field-groups/field-groups.php:179
+#: includes/fields/field-code-editor.php:77 pro/includes/module-posts.php:506
 msgid "Json"
 msgstr "Json"
 
-#: includes/field-groups/field-groups.php:280
+#: includes/field-groups/field-groups.php:287
 msgid "Theme/Plugin"
 msgstr "Thème/Plugin"
 
-#: includes/field-groups/field-groups.php:414
 #: includes/field-groups/field-groups.php:421
-#: includes/field-groups/field-groups.php:591 pro/includes/module-local.php:700
+#: includes/field-groups/field-groups.php:428
+#: includes/field-groups/field-groups.php:593 pro/includes/module-local.php:743
 msgid "Synchronized"
 msgstr "Synchronisé"
 
-#: includes/field-groups/field-groups.php:414
-#: includes/field-groups/field-groups.php:415
+#: includes/field-groups/field-groups.php:421
+#: includes/field-groups/field-groups.php:422
 msgid "Warning: Duplicated PHP code found in theme/plugin."
 msgstr "Avertissement: Code PHP dupliqué trouvé dans le thème / plugin."
 
-#: includes/field-groups/field-groups.php:441
-#: includes/field-groups/field-groups.php:611 pro/includes/module-local.php:727
-#: pro/includes/module-local.php:728
+#: includes/field-groups/field-groups.php:442
+#: includes/field-groups/field-groups.php:607 pro/includes/module-local.php:770
+#: pro/includes/module-local.php:771
 msgid "Awaiting save"
 msgstr "En attente d’enregistrement"
 
-#: includes/field-groups/field-groups.php:441
 #: includes/field-groups/field-groups.php:442
-#: includes/field-groups/field-groups.php:449
-#: includes/field-groups/field-groups.php:611
-#: includes/field-groups/field-groups.php:612
-#: includes/field-groups/field-groups.php:619 pro/includes/module-local.php:727
-#: pro/includes/module-local.php:728 pro/includes/module-local.php:741
+#: includes/field-groups/field-groups.php:443
+#: includes/field-groups/field-groups.php:450
+#: includes/field-groups/field-groups.php:607
+#: includes/field-groups/field-groups.php:608
+#: includes/field-groups/field-groups.php:615 pro/includes/module-local.php:770
+#: pro/includes/module-local.php:771 pro/includes/module-local.php:784
 msgid "Save path"
 msgstr "Chemin d’enregistrement"
 
-#: includes/field-groups/field-groups.php:556
+#: includes/field-groups/field-groups.php:558
 msgid "Sync"
 msgstr "Synchroniser"
 
-#: includes/field-groups/field-groups.php:556
-#: includes/field-groups/field-groups.php:564
+#: includes/field-groups/field-groups.php:558
+#: includes/field-groups/field-groups.php:566
 msgid "Import"
 msgstr "Importer"
 
-#: includes/field-groups/field-groups.php:564 pro/includes/module-local.php:677
-#: pro/includes/module-local.php:691
+#: includes/field-groups/field-groups.php:566 pro/includes/module-local.php:720
+#: pro/includes/module-local.php:734
 msgid "Review"
 msgstr "Avis"
 
-#: includes/field-groups/field-groups.php:714
-#: includes/field-groups/field-groups.php:722 includes/module-legacy.php:371
-#: includes/module-posts.php:171 pro/includes/module-posts.php:436
+#: includes/field-groups/field-groups.php:711
+#: includes/field-groups/field-groups.php:719 includes/module-legacy.php:371
+#: includes/module-posts.php:171 pro/includes/module-posts.php:449
 msgctxt "post status"
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: includes/field-groups/field-groups.php:731
+#: includes/field-groups/field-groups.php:728
 msgid "Alternative title"
 msgstr "Titre alternatif"
 
@@ -851,14 +864,14 @@ msgstr "Ouvrir dans une nouvelle fenêtre/onglet"
 #: includes/modules/ui/module-ui-settings.php:70
 #: includes/modules/ui/module-ui-term.php:102
 #: includes/modules/ui/module-ui-user.php:166
-#: pro/includes/fields/field-file.php:481
+#: pro/includes/fields/field-file.php:540
 #: pro/includes/locations/post-screen.php:23
 #: pro/includes/modules/dev/module-dev-edit-meta.php:56
 msgid "Edit"
 msgstr "Modifier"
 
 #: includes/fields/field-advanced-link.php:125
-#: pro/includes/fields/field-file.php:483
+#: pro/includes/fields/field-file.php:542
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -871,14 +884,14 @@ msgstr "URL"
 #: includes/fields/field-advanced-link.php:188
 #: includes/locations/post-type-archive.php:291
 #: includes/locations/post-type-list.php:214
-#: includes/modules/form/module-form-action-post.php:909
+#: includes/modules/form/module-form-action-post.php:921
 #: pro/includes/locations/menu-item-type.php:23
 msgid "Post"
 msgstr "Article"
 
 #: includes/fields/field-advanced-link.php:160
 #: includes/fields/field-advanced-link.php:213
-#: includes/modules/form/module-form-action-term.php:639
+#: includes/modules/form/module-form-action-term.php:640
 msgid "Term"
 msgstr "Terme"
 
@@ -887,9 +900,9 @@ msgid "Link text"
 msgstr "Texte du lien"
 
 #: includes/fields/field-advanced-link.php:247
-#: includes/modules/form/module-form-action-post.php:937
-#: includes/modules/form/module-form-action-term.php:668
-#: includes/modules/form/module-form-action-user.php:1325
+#: includes/modules/form/module-form-action-post.php:949
+#: includes/modules/form/module-form-action-term.php:669
+#: includes/modules/form/module-form-action-user.php:1373
 #: pro/includes/modules/form/module-form-action-option.php:315
 msgid "Target"
 msgstr "Cible"
@@ -906,7 +919,7 @@ msgstr "Archives"
 msgid "Button"
 msgstr "Bouton"
 
-#: includes/fields/field-button.php:20
+#: includes/fields/field-button.php:20 includes/modules/form/module-form.php:91
 #: includes/modules/option/module-option.php:511
 #: pro/includes/modules/dev/module-dev-metabox.php:634
 msgid "Submit"
@@ -1238,7 +1251,7 @@ msgstr ""
 msgid "Dynamic Render"
 msgstr "Rendu Dynamique"
 
-#: includes/fields/field-file.php:66 pro/includes/fields/field-file.php:474
+#: includes/fields/field-file.php:66 pro/includes/fields/field-file.php:533
 msgid "File size"
 msgstr "Taille du fichier"
 
@@ -1250,57 +1263,57 @@ msgstr "Taille minimum"
 msgid "Max size"
 msgstr "Taille maximum"
 
-#: includes/fields/field-file.php:130 includes/fields/field-image.php:93
+#: includes/fields/field-file.php:130 includes/fields/field-image.php:100
 msgid "Uploader Type"
 msgstr "Type de téléchargement"
 
-#: includes/fields/field-file.php:133 includes/fields/field-image.php:96
+#: includes/fields/field-file.php:133 includes/fields/field-image.php:103
 msgid "Choose the uploader type"
 msgstr "Choisissez le type de téléchargeur"
 
-#: includes/fields/field-file.php:136 includes/fields/field-image.php:99
-#: includes/modules/form/module-form-action-email.php:731
-#: includes/modules/form/module-form-action-post.php:983
-#: includes/modules/form/module-form-action-post.php:1035
-#: includes/modules/form/module-form-action-post.php:1064
-#: includes/modules/form/module-form-action-post.php:1097
-#: includes/modules/form/module-form-action-post.php:1124
-#: includes/modules/form/module-form-action-post.php:1169
-#: includes/modules/form/module-form-action-post.php:1242
-#: includes/modules/form/module-form-action-post.php:1314
-#: includes/modules/form/module-form-action-post.php:1385
-#: includes/modules/form/module-form-action-post.php:1457
-#: includes/modules/form/module-form-action-post.php:1531
-#: includes/modules/form/module-form-action-post.php:1582
-#: includes/modules/form/module-form-action-post.php:1719
-#: includes/modules/form/module-form-action-term.php:714
-#: includes/modules/form/module-form-action-term.php:772
-#: includes/modules/form/module-form-action-term.php:800
-#: includes/modules/form/module-form-action-term.php:825
-#: includes/modules/form/module-form-action-term.php:878
-#: includes/modules/form/module-form-action-term.php:952
-#: includes/modules/form/module-form-action-term.php:1098
-#: includes/modules/form/module-form-action-user.php:1236
-#: includes/modules/form/module-form-action-user.php:1261
-#: includes/modules/form/module-form-action-user.php:1286
-#: includes/modules/form/module-form-action-user.php:1371
-#: includes/modules/form/module-form-action-user.php:1422
-#: includes/modules/form/module-form-action-user.php:1447
-#: includes/modules/form/module-form-action-user.php:1475
-#: includes/modules/form/module-form-action-user.php:1500
-#: includes/modules/form/module-form-action-user.php:1525
-#: includes/modules/form/module-form-action-user.php:1550
-#: includes/modules/form/module-form-action-user.php:1575
-#: includes/modules/form/module-form-action-user.php:1600
-#: includes/modules/form/module-form-action-user.php:1646
-#: includes/modules/form/module-form-action-user.php:1697
-#: includes/modules/form/module-form-action-user.php:1857
+#: includes/fields/field-file.php:136 includes/fields/field-image.php:106
+#: includes/modules/form/module-form-action-email.php:751
+#: includes/modules/form/module-form-action-post.php:995
+#: includes/modules/form/module-form-action-post.php:1047
+#: includes/modules/form/module-form-action-post.php:1076
+#: includes/modules/form/module-form-action-post.php:1109
+#: includes/modules/form/module-form-action-post.php:1136
+#: includes/modules/form/module-form-action-post.php:1181
+#: includes/modules/form/module-form-action-post.php:1254
+#: includes/modules/form/module-form-action-post.php:1326
+#: includes/modules/form/module-form-action-post.php:1397
+#: includes/modules/form/module-form-action-post.php:1469
+#: includes/modules/form/module-form-action-post.php:1543
+#: includes/modules/form/module-form-action-post.php:1594
+#: includes/modules/form/module-form-action-post.php:1731
+#: includes/modules/form/module-form-action-term.php:715
+#: includes/modules/form/module-form-action-term.php:773
+#: includes/modules/form/module-form-action-term.php:801
+#: includes/modules/form/module-form-action-term.php:826
+#: includes/modules/form/module-form-action-term.php:879
+#: includes/modules/form/module-form-action-term.php:953
+#: includes/modules/form/module-form-action-term.php:1099
+#: includes/modules/form/module-form-action-user.php:1284
+#: includes/modules/form/module-form-action-user.php:1309
+#: includes/modules/form/module-form-action-user.php:1334
+#: includes/modules/form/module-form-action-user.php:1419
+#: includes/modules/form/module-form-action-user.php:1470
+#: includes/modules/form/module-form-action-user.php:1495
+#: includes/modules/form/module-form-action-user.php:1523
+#: includes/modules/form/module-form-action-user.php:1548
+#: includes/modules/form/module-form-action-user.php:1573
+#: includes/modules/form/module-form-action-user.php:1598
+#: includes/modules/form/module-form-action-user.php:1623
+#: includes/modules/form/module-form-action-user.php:1648
+#: includes/modules/form/module-form-action-user.php:1694
+#: includes/modules/form/module-form-action-user.php:1745
+#: includes/modules/form/module-form-action-user.php:1905
 #: includes/modules/form/module-form-fields.php:1326
 #: pro/includes/fields/field-true-false.php:38
 msgid "Default"
 msgstr "Par défaut"
 
-#: includes/fields/field-file.php:138 includes/fields/field-image.php:101
+#: includes/fields/field-file.php:138 includes/fields/field-image.php:108
 #: includes/modules/form/module-form-fields.php:1328
 msgid "Browser"
 msgstr "Navigateur"
@@ -1441,7 +1454,7 @@ msgid "Display a placeholder with an icon"
 msgstr "Afficher un espace réservé avec une icône"
 
 #: includes/fields/field-flexible-content-preview.php:180
-#: includes/modules/form/module-form-fields.php:1678
+#: includes/modules/form/module-form-fields.php:1680
 msgid "Render"
 msgstr "Affichage"
 
@@ -1520,7 +1533,7 @@ msgstr "Faites glisser pour réorganiser"
 #: includes/modules/form/module-form.php:22
 #: includes/modules/form/module-form.php:27
 #: includes/modules/form/module-form.php:29
-#: includes/modules/form/module-form.php:291
+#: includes/modules/form/module-form.php:299
 #: pro/includes/locations/settings.php:77
 #: pro/includes/modules/template/module-template-features.php:44
 msgid "Forms"
@@ -2051,11 +2064,11 @@ msgstr "Masqué"
 msgid "Default value in the hidden input"
 msgstr "Valeur par défaut dans l’entrée masquée"
 
-#: includes/fields/field-image.php:122
+#: includes/fields/field-image.php:129
 msgid "Featured Thumbnail"
 msgstr "Miniature mise en avant"
 
-#: includes/fields/field-image.php:125
+#: includes/fields/field-image.php:132
 msgid "Make this image the featured thumbnail"
 msgstr "Faire de cette image l’image mise en avant"
 
@@ -2225,12 +2238,12 @@ msgid "Better row button integration"
 msgstr "Meilleure intégration des boutons de ligne"
 
 #: includes/fields/field-slug.php:17
-#: includes/modules/form/module-form-action-term.php:781
-#: includes/modules/form/module-form-action-term.php:1170
+#: includes/modules/form/module-form-action-term.php:782
+#: includes/modules/form/module-form-action-term.php:1171
 msgid "Slug"
 msgstr "Identifiant"
 
-#: includes/fields/field-slug.php:47 pro/includes/fields/field-file.php:145
+#: includes/fields/field-slug.php:47 pro/includes/fields/field-file.php:190
 msgid "Placeholder Text"
 msgstr "Texte d'espace réservé"
 
@@ -2243,7 +2256,7 @@ msgid "Appears before the input"
 msgstr "Apparaît avant l’entrée"
 
 #: includes/fields/field-slug.php:63
-#: includes/modules/form/module-form-action-post.php:1608
+#: includes/modules/form/module-form-action-post.php:1620
 #: pro/includes/fields/field-select.php:43
 msgid "Append"
 msgstr "Ajouter"
@@ -2392,7 +2405,7 @@ msgid "Taxonomy List"
 msgstr "Liste de sites web"
 
 #: includes/module-acf.php:91 includes/module-post.php:130
-#: includes/modules/form/module-form.php:707
+#: includes/modules/form/module-form.php:721
 #: pro/includes/fields-settings/required.php:26
 #: pro/includes/fields/field-block-editor.php:564
 #, php-format
@@ -2910,11 +2923,11 @@ msgid "This action name is reserved"
 msgstr "Ce nom d'action est réservé"
 
 #: includes/modules/form/module-form-action-custom.php:139
-#: includes/modules/form/module-form-action-email.php:512
-#: includes/modules/form/module-form-action-post.php:851
+#: includes/modules/form/module-form-action-email.php:532
+#: includes/modules/form/module-form-action-post.php:863
 #: includes/modules/form/module-form-action-redirect.php:105
-#: includes/modules/form/module-form-action-term.php:580
-#: includes/modules/form/module-form-action-user.php:1078
+#: includes/modules/form/module-form-action-term.php:581
+#: includes/modules/form/module-form-action-user.php:1126
 #: includes/modules/form/module-form-upgrades.php:1237
 #: includes/modules/form/module-form-upgrades.php:1312
 #: includes/modules/form/module-form-upgrades.php:1678
@@ -2922,30 +2935,30 @@ msgstr "Ce nom d'action est réservé"
 #: includes/modules/form/module-form-upgrades.php:2988
 #: includes/modules/form/module-form-upgrades.php:3777
 #: includes/modules/form/module-form-upgrades.php:5356
-#: includes/modules/form/module-form.php:285
+#: includes/modules/form/module-form.php:293
 #: pro/includes/modules/form/module-form-action-option.php:249
 msgid "Documentation"
 msgstr "Documentation"
 
 #: includes/modules/form/module-form-action-custom.php:148
-#: includes/modules/form/module-form-action-email.php:521
-#: includes/modules/form/module-form-action-post.php:860
-#: includes/modules/form/module-form-action-post.php:877
+#: includes/modules/form/module-form-action-email.php:541
+#: includes/modules/form/module-form-action-post.php:872
+#: includes/modules/form/module-form-action-post.php:889
 #: includes/modules/form/module-form-action-redirect.php:114
-#: includes/modules/form/module-form-action-term.php:589
-#: includes/modules/form/module-form-action-term.php:606
-#: includes/modules/form/module-form-action-user.php:1087
-#: includes/modules/form/module-form-action-user.php:1104
+#: includes/modules/form/module-form-action-term.php:590
+#: includes/modules/form/module-form-action-term.php:607
+#: includes/modules/form/module-form-action-user.php:1135
+#: includes/modules/form/module-form-action-user.php:1152
 #: pro/includes/modules/form/module-form-action-option.php:258
 msgid "Action"
 msgstr "Action"
 
 #: includes/modules/form/module-form-action-custom.php:165
-#: includes/modules/form/module-form-action-email.php:538
-#: includes/modules/form/module-form-action-post.php:896
+#: includes/modules/form/module-form-action-email.php:558
+#: includes/modules/form/module-form-action-post.php:908
 #: includes/modules/form/module-form-action-redirect.php:131
-#: includes/modules/form/module-form-action-term.php:625
-#: includes/modules/form/module-form-action-user.php:1146
+#: includes/modules/form/module-form-action-term.php:626
+#: includes/modules/form/module-form-action-user.php:1194
 #: pro/includes/modules/form/module-form-action-option.php:275
 msgid "Action name"
 msgstr "Nom de l'action"
@@ -2967,142 +2980,142 @@ msgstr "Personnalisé"
 msgid "Email action"
 msgstr "Action d'e-mail"
 
-#: includes/modules/form/module-form-action-email.php:541
-#: includes/modules/form/module-form-action-post.php:899
+#: includes/modules/form/module-form-action-email.php:561
+#: includes/modules/form/module-form-action-post.php:911
 #: includes/modules/form/module-form-action-redirect.php:134
-#: includes/modules/form/module-form-action-term.php:628
-#: includes/modules/form/module-form-action-user.php:1149
+#: includes/modules/form/module-form-action-term.php:629
+#: includes/modules/form/module-form-action-user.php:1197
 #: includes/modules/form/module-form-upgrades.php:1342
 #: includes/modules/form/module-form-upgrades.php:2921
 #: pro/includes/modules/form/module-form-action-option.php:278
 msgid "(Optional) Target this action using hooks."
 msgstr "(Facultatif) Ciblez cette action à l’aide de hooks."
 
-#: includes/modules/form/module-form-action-email.php:551
-#: includes/modules/form/module-form-action-email.php:562
-#: includes/modules/form/module-form-action-user.php:1406
-#: includes/modules/form/module-form-action-user.php:1892
+#: includes/modules/form/module-form-action-email.php:571
+#: includes/modules/form/module-form-action-email.php:582
+#: includes/modules/form/module-form-action-user.php:1454
+#: includes/modules/form/module-form-action-user.php:1940
 msgid "Email"
 msgstr "E-mail"
 
-#: includes/modules/form/module-form-action-email.php:578
+#: includes/modules/form/module-form-action-email.php:598
 msgid "From"
 msgstr "De"
 
-#: includes/modules/form/module-form-action-email.php:590
-#: includes/modules/form/module-form-action-email.php:627
+#: includes/modules/form/module-form-action-email.php:610
+#: includes/modules/form/module-form-action-email.php:647
 msgid "Name <email@domain.com>"
 msgstr "Nom <email@domaine.com>"
 
-#: includes/modules/form/module-form-action-email.php:597
+#: includes/modules/form/module-form-action-email.php:617
 msgid "To"
 msgstr "À"
 
-#: includes/modules/form/module-form-action-email.php:609
-#: includes/modules/form/module-form-action-email.php:646
-#: includes/modules/form/module-form-action-email.php:665
+#: includes/modules/form/module-form-action-email.php:629
+#: includes/modules/form/module-form-action-email.php:666
+#: includes/modules/form/module-form-action-email.php:685
 msgid "email@domain.com"
 msgstr "email@domaine.com"
 
-#: includes/modules/form/module-form-action-email.php:615
+#: includes/modules/form/module-form-action-email.php:635
 msgid "Reply to"
 msgstr "Répondre à"
 
-#: includes/modules/form/module-form-action-email.php:634
+#: includes/modules/form/module-form-action-email.php:654
 msgid "Cc"
 msgstr "Cc"
 
-#: includes/modules/form/module-form-action-email.php:653
+#: includes/modules/form/module-form-action-email.php:673
 msgid "Bcc"
 msgstr "Bcc"
 
-#: includes/modules/form/module-form-action-email.php:672
+#: includes/modules/form/module-form-action-email.php:692
 msgid "Subject"
 msgstr "Sujet"
 
-#: includes/modules/form/module-form-action-email.php:692
+#: includes/modules/form/module-form-action-email.php:712
 #: pro/includes/fields/field-post-field.php:48
 msgid "Content"
 msgstr "Contenu"
 
-#: includes/modules/form/module-form-action-email.php:695
+#: includes/modules/form/module-form-action-email.php:715
 msgid "Render customized email content."
 msgstr "Envoyer un contenu de courrier électronique personnalisé."
 
-#: includes/modules/form/module-form-action-email.php:696
+#: includes/modules/form/module-form-action-email.php:716
 msgid "Render all fields values:"
 msgstr "Afficher toutes les valeurs de champs:"
 
-#: includes/modules/form/module-form-action-email.php:697
+#: includes/modules/form/module-form-action-email.php:717
 msgid "Render field value:"
 msgstr "Afficher une valeur de champ:"
 
-#: includes/modules/form/module-form-action-email.php:723
-#: includes/modules/form/module-form-action-post.php:1162
-#: includes/modules/form/module-form-action-post.php:1235
-#: includes/modules/form/module-form-action-term.php:945
-#: includes/modules/form/module-form-action-user.php:1638
+#: includes/modules/form/module-form-action-email.php:743
+#: includes/modules/form/module-form-action-post.php:1174
+#: includes/modules/form/module-form-action-post.php:1247
+#: includes/modules/form/module-form-action-term.php:946
+#: includes/modules/form/module-form-action-user.php:1686
 msgid "Content Editor"
 msgstr "Éditeur de contenu"
 
-#: includes/modules/form/module-form-action-email.php:724
+#: includes/modules/form/module-form-action-email.php:744
 msgid "Raw HTML"
 msgstr "HTML brut"
 
-#: includes/modules/form/module-form-action-email.php:794
+#: includes/modules/form/module-form-action-email.php:814
 msgid "Attachments"
 msgstr "Pièces jointes"
 
-#: includes/modules/form/module-form-action-email.php:810
+#: includes/modules/form/module-form-action-email.php:830
 msgid "Dynamic files"
 msgstr "Fichiers dynamiques"
 
-#: includes/modules/form/module-form-action-email.php:825
-#: includes/modules/form/module-form-action-email.php:889
+#: includes/modules/form/module-form-action-email.php:845
+#: includes/modules/form/module-form-action-email.php:909
 msgid "Add file"
 msgstr "Ajouter un fichier"
 
-#: includes/modules/form/module-form-action-email.php:829
-#: includes/modules/form/module-form-action-email.php:893
+#: includes/modules/form/module-form-action-email.php:849
+#: includes/modules/form/module-form-action-email.php:913
 msgid "File"
 msgstr "Fichier"
 
-#: includes/modules/form/module-form-action-email.php:848
-#: includes/modules/form/module-form-action-post.php:985
-#: includes/modules/form/module-form-action-post.php:1042
-#: includes/modules/form/module-form-action-post.php:1071
-#: includes/modules/form/module-form-action-post.php:1099
-#: includes/modules/form/module-form-action-post.php:1126
-#: includes/modules/form/module-form-action-post.php:1171
-#: includes/modules/form/module-form-action-post.php:1244
-#: includes/modules/form/module-form-action-post.php:1316
-#: includes/modules/form/module-form-action-post.php:1387
-#: includes/modules/form/module-form-action-post.php:1459
-#: includes/modules/form/module-form-action-post.php:1533
-#: includes/modules/form/module-form-action-post.php:1589
-#: includes/modules/form/module-form-action-post.php:1721
-#: includes/modules/form/module-form-action-term.php:716
-#: includes/modules/form/module-form-action-term.php:774
-#: includes/modules/form/module-form-action-term.php:802
-#: includes/modules/form/module-form-action-term.php:832
-#: includes/modules/form/module-form-action-term.php:880
-#: includes/modules/form/module-form-action-term.php:954
-#: includes/modules/form/module-form-action-term.php:1100
-#: includes/modules/form/module-form-action-user.php:1238
-#: includes/modules/form/module-form-action-user.php:1263
-#: includes/modules/form/module-form-action-user.php:1288
-#: includes/modules/form/module-form-action-user.php:1373
-#: includes/modules/form/module-form-action-user.php:1424
-#: includes/modules/form/module-form-action-user.php:1449
-#: includes/modules/form/module-form-action-user.php:1477
-#: includes/modules/form/module-form-action-user.php:1502
-#: includes/modules/form/module-form-action-user.php:1527
-#: includes/modules/form/module-form-action-user.php:1552
-#: includes/modules/form/module-form-action-user.php:1577
-#: includes/modules/form/module-form-action-user.php:1602
-#: includes/modules/form/module-form-action-user.php:1648
-#: includes/modules/form/module-form-action-user.php:1704
-#: includes/modules/form/module-form-action-user.php:1859
+#: includes/modules/form/module-form-action-email.php:868
+#: includes/modules/form/module-form-action-post.php:997
+#: includes/modules/form/module-form-action-post.php:1054
+#: includes/modules/form/module-form-action-post.php:1083
+#: includes/modules/form/module-form-action-post.php:1111
+#: includes/modules/form/module-form-action-post.php:1138
+#: includes/modules/form/module-form-action-post.php:1183
+#: includes/modules/form/module-form-action-post.php:1256
+#: includes/modules/form/module-form-action-post.php:1328
+#: includes/modules/form/module-form-action-post.php:1399
+#: includes/modules/form/module-form-action-post.php:1471
+#: includes/modules/form/module-form-action-post.php:1545
+#: includes/modules/form/module-form-action-post.php:1601
+#: includes/modules/form/module-form-action-post.php:1733
+#: includes/modules/form/module-form-action-term.php:717
+#: includes/modules/form/module-form-action-term.php:775
+#: includes/modules/form/module-form-action-term.php:803
+#: includes/modules/form/module-form-action-term.php:833
+#: includes/modules/form/module-form-action-term.php:881
+#: includes/modules/form/module-form-action-term.php:955
+#: includes/modules/form/module-form-action-term.php:1101
+#: includes/modules/form/module-form-action-user.php:1286
+#: includes/modules/form/module-form-action-user.php:1311
+#: includes/modules/form/module-form-action-user.php:1336
+#: includes/modules/form/module-form-action-user.php:1421
+#: includes/modules/form/module-form-action-user.php:1472
+#: includes/modules/form/module-form-action-user.php:1497
+#: includes/modules/form/module-form-action-user.php:1525
+#: includes/modules/form/module-form-action-user.php:1550
+#: includes/modules/form/module-form-action-user.php:1575
+#: includes/modules/form/module-form-action-user.php:1600
+#: includes/modules/form/module-form-action-user.php:1625
+#: includes/modules/form/module-form-action-user.php:1650
+#: includes/modules/form/module-form-action-user.php:1696
+#: includes/modules/form/module-form-action-user.php:1752
+#: includes/modules/form/module-form-action-user.php:1907
 #: pro/includes/modules/form/module-form-action-option.php:335
 #: pro/includes/modules/form/module-form-action-option.php:431
 msgid "Select a field or enter a custom value/template tag."
@@ -3110,15 +3123,15 @@ msgstr ""
 "Sélectionnez un champ ou saisissez une valeur personnalisée/une balise "
 "modèle."
 
-#: includes/modules/form/module-form-action-email.php:854
+#: includes/modules/form/module-form-action-email.php:874
 msgid "Delete file"
 msgstr "Supprimer le fichier"
 
-#: includes/modules/form/module-form-action-email.php:864
+#: includes/modules/form/module-form-action-email.php:884
 msgid "Delete file once sent"
 msgstr "Supprimer le fichier une fois envoyé"
 
-#: includes/modules/form/module-form-action-email.php:874
+#: includes/modules/form/module-form-action-email.php:894
 msgid "Static files"
 msgstr "Fichiers statiques"
 
@@ -3126,147 +3139,147 @@ msgstr "Fichiers statiques"
 msgid "Post action"
 msgstr "Action d'article"
 
-#: includes/modules/form/module-form-action-post.php:889
+#: includes/modules/form/module-form-action-post.php:901
 msgid "Create post"
 msgstr "Créer un article"
 
-#: includes/modules/form/module-form-action-post.php:890
+#: includes/modules/form/module-form-action-post.php:902
 msgid "Update post"
 msgstr "Mettre à jour un article"
 
-#: includes/modules/form/module-form-action-post.php:920
-#: includes/modules/form/module-form-action-term.php:650
-#: includes/modules/form/module-form-action-user.php:1299
+#: includes/modules/form/module-form-action-post.php:932
+#: includes/modules/form/module-form-action-term.php:651
+#: includes/modules/form/module-form-action-user.php:1347
 #: pro/includes/modules/form/module-form-action-option.php:299
 msgid "Save"
 msgstr "Enregistrer"
 
-#: includes/modules/form/module-form-action-post.php:974
-#: includes/modules/form/module-form-action-post.php:1522
-#: includes/modules/form/module-form-action-post.php:1710
+#: includes/modules/form/module-form-action-post.php:986
+#: includes/modules/form/module-form-action-post.php:1534
+#: includes/modules/form/module-form-action-post.php:1722
 msgid "Current Post"
 msgstr "Article Actuel"
 
-#: includes/modules/form/module-form-action-post.php:975
-#: includes/modules/form/module-form-action-post.php:1523
-#: includes/modules/form/module-form-action-post.php:1711
+#: includes/modules/form/module-form-action-post.php:987
+#: includes/modules/form/module-form-action-post.php:1535
+#: includes/modules/form/module-form-action-post.php:1723
 msgid "Current Post Parent"
 msgstr "Le parent de l’article actuel"
 
-#: includes/modules/form/module-form-action-post.php:976
-#: includes/modules/form/module-form-action-post.php:1524
-#: includes/modules/form/module-form-action-post.php:1712
+#: includes/modules/form/module-form-action-post.php:988
+#: includes/modules/form/module-form-action-post.php:1536
+#: includes/modules/form/module-form-action-post.php:1724
 msgid "Post Selector"
 msgstr "Sélecteur d’article"
 
-#: includes/modules/form/module-form-action-post.php:1019
-#: includes/modules/form/module-form-action-post.php:1753
+#: includes/modules/form/module-form-action-post.php:1031
+#: includes/modules/form/module-form-action-post.php:1765
 msgid "Post type"
 msgstr "Type de publication"
 
-#: includes/modules/form/module-form-action-post.php:1048
-#: includes/modules/form/module-form-action-post.php:1787
+#: includes/modules/form/module-form-action-post.php:1060
+#: includes/modules/form/module-form-action-post.php:1799
 msgid "Post status"
 msgstr "Statuts de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1078
-#: includes/modules/form/module-form-action-post.php:1821
+#: includes/modules/form/module-form-action-post.php:1090
+#: includes/modules/form/module-form-action-post.php:1833
 msgid "Post title"
 msgstr "Titre de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1089
-#: includes/modules/form/module-form-action-post.php:1117
-#: includes/modules/form/module-form-action-term.php:763
-#: includes/modules/form/module-form-action-term.php:792
+#: includes/modules/form/module-form-action-post.php:1101
+#: includes/modules/form/module-form-action-post.php:1129
+#: includes/modules/form/module-form-action-term.php:764
+#: includes/modules/form/module-form-action-term.php:793
 msgid "Generated ID"
 msgstr "ID généré"
 
-#: includes/modules/form/module-form-action-post.php:1090
-#: includes/modules/form/module-form-action-term.php:764
+#: includes/modules/form/module-form-action-post.php:1102
+#: includes/modules/form/module-form-action-term.php:765
 msgid "#Generated ID"
 msgstr "#ID généré"
 
-#: includes/modules/form/module-form-action-post.php:1106
-#: includes/modules/form/module-form-action-post.php:1855
+#: includes/modules/form/module-form-action-post.php:1118
+#: includes/modules/form/module-form-action-post.php:1867
 msgid "Post name"
 msgstr "Nom de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1133
-#: includes/modules/form/module-form-action-post.php:1889
+#: includes/modules/form/module-form-action-post.php:1145
+#: includes/modules/form/module-form-action-post.php:1901
 msgid "Post content"
 msgstr "Contenu de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1206
-#: includes/modules/form/module-form-action-post.php:1923
+#: includes/modules/form/module-form-action-post.php:1218
+#: includes/modules/form/module-form-action-post.php:1935
 msgid "Post excerpt"
 msgstr "Extrait de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1276
-#: includes/modules/form/module-form-action-post.php:1957
+#: includes/modules/form/module-form-action-post.php:1288
+#: includes/modules/form/module-form-action-post.php:1969
 msgid "Post author"
 msgstr "Auteur de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1305
-#: includes/modules/form/module-form-action-user.php:1362
-#: includes/modules/form/module-form-action-user.php:1848
+#: includes/modules/form/module-form-action-post.php:1317
+#: includes/modules/form/module-form-action-user.php:1410
+#: includes/modules/form/module-form-action-user.php:1896
 msgid "Current User"
 msgstr "Utilisateur Actuel"
 
-#: includes/modules/form/module-form-action-post.php:1306
-#: includes/modules/form/module-form-action-user.php:1363
-#: includes/modules/form/module-form-action-user.php:1849
+#: includes/modules/form/module-form-action-post.php:1318
+#: includes/modules/form/module-form-action-user.php:1411
+#: includes/modules/form/module-form-action-user.php:1897
 msgid "Current Post Author"
 msgstr "Auteur de l’article actuel"
 
-#: includes/modules/form/module-form-action-post.php:1307
-#: includes/modules/form/module-form-action-user.php:1364
-#: includes/modules/form/module-form-action-user.php:1850
+#: includes/modules/form/module-form-action-post.php:1319
+#: includes/modules/form/module-form-action-user.php:1412
+#: includes/modules/form/module-form-action-user.php:1898
 msgid "User Selector"
 msgstr "Sélecteur d’utilisateur"
 
-#: includes/modules/form/module-form-action-post.php:1349
-#: includes/modules/form/module-form-action-post.php:1991
+#: includes/modules/form/module-form-action-post.php:1361
+#: includes/modules/form/module-form-action-post.php:2003
 msgid "Post date"
 msgstr "Date de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1378
+#: includes/modules/form/module-form-action-post.php:1390
 msgid "Date picker"
 msgstr "Sélecteur de date"
 
-#: includes/modules/form/module-form-action-post.php:1421
-#: includes/modules/form/module-form-action-post.php:2025
+#: includes/modules/form/module-form-action-post.php:1433
+#: includes/modules/form/module-form-action-post.php:2037
 msgid "Post thumbnail"
 msgstr "Miniature de l’article"
 
-#: includes/modules/form/module-form-action-post.php:1450
+#: includes/modules/form/module-form-action-post.php:1462
 #: pro/includes/fields/field-image-selector.php:17
 msgid "Image Selector"
 msgstr "Sélecteur d’image"
 
-#: includes/modules/form/module-form-action-post.php:1493
-#: includes/modules/form/module-form-action-post.php:2059
+#: includes/modules/form/module-form-action-post.php:1505
+#: includes/modules/form/module-form-action-post.php:2071
 msgid "Post parent"
 msgstr "Article Parent"
 
-#: includes/modules/form/module-form-action-post.php:1566
-#: includes/modules/form/module-form-action-post.php:2093
+#: includes/modules/form/module-form-action-post.php:1578
+#: includes/modules/form/module-form-action-post.php:2105
 msgid "Post terms"
 msgstr "Termes du poste"
 
-#: includes/modules/form/module-form-action-post.php:1595
+#: includes/modules/form/module-form-action-post.php:1607
 msgid "Append terms"
 msgstr "Ajouter les termes"
 
-#: includes/modules/form/module-form-action-post.php:1612
-#: includes/modules/form/module-form-action-term.php:990
-#: includes/modules/form/module-form-action-user.php:1739
+#: includes/modules/form/module-form-action-post.php:1624
+#: includes/modules/form/module-form-action-term.php:991
+#: includes/modules/form/module-form-action-user.php:1787
 #: pro/includes/modules/form/module-form-action-option.php:341
 msgid "Save ACF fields"
 msgstr "Sauvegarder les champs ACF"
 
-#: includes/modules/form/module-form-action-post.php:1615
-#: includes/modules/form/module-form-action-term.php:993
-#: includes/modules/form/module-form-action-user.php:1742
+#: includes/modules/form/module-form-action-post.php:1627
+#: includes/modules/form/module-form-action-term.php:994
+#: includes/modules/form/module-form-action-user.php:1790
 #: includes/modules/form/module-form-fields.php:263
 #: pro/includes/modules/form/module-form-action-option.php:344
 msgid "Which ACF fields should be saved as metadata"
@@ -3274,88 +3287,88 @@ msgstr ""
 "Sélectionnez les champs ACF qui doivent être enregistrés en tant que méta "
 "données"
 
-#: includes/modules/form/module-form-action-post.php:1653
-#: includes/modules/form/module-form-action-term.php:1031
-#: includes/modules/form/module-form-action-user.php:1789
+#: includes/modules/form/module-form-action-post.php:1665
+#: includes/modules/form/module-form-action-term.php:1032
+#: includes/modules/form/module-form-action-user.php:1837
 #: pro/includes/modules/form/module-form-action-option.php:384
 msgid "Load Values"
 msgstr "Charger les valeurs"
 
-#: includes/modules/form/module-form-action-post.php:1656
-#: includes/modules/form/module-form-action-term.php:1034
-#: includes/modules/form/module-form-action-user.php:1792
+#: includes/modules/form/module-form-action-post.php:1668
+#: includes/modules/form/module-form-action-term.php:1035
+#: includes/modules/form/module-form-action-user.php:1840
 #: pro/includes/modules/form/module-form-action-option.php:387
 msgid "Fill inputs with values"
 msgstr "Remplir les champs avec des valeurs"
 
-#: includes/modules/form/module-form-action-post.php:1770
-#: includes/modules/form/module-form-action-post.php:1804
-#: includes/modules/form/module-form-action-post.php:1838
-#: includes/modules/form/module-form-action-post.php:1872
-#: includes/modules/form/module-form-action-post.php:1906
-#: includes/modules/form/module-form-action-post.php:1940
-#: includes/modules/form/module-form-action-post.php:1974
-#: includes/modules/form/module-form-action-post.php:2008
-#: includes/modules/form/module-form-action-post.php:2042
-#: includes/modules/form/module-form-action-post.php:2076
-#: includes/modules/form/module-form-action-post.php:2110
-#: includes/modules/form/module-form-action-term.php:1153
-#: includes/modules/form/module-form-action-term.php:1187
-#: includes/modules/form/module-form-action-term.php:1221
-#: includes/modules/form/module-form-action-term.php:1255
-#: includes/modules/form/module-form-action-term.php:1289
-#: includes/modules/form/module-form-action-user.php:1909
-#: includes/modules/form/module-form-action-user.php:1943
-#: includes/modules/form/module-form-action-user.php:1977
-#: includes/modules/form/module-form-action-user.php:2011
-#: includes/modules/form/module-form-action-user.php:2045
-#: includes/modules/form/module-form-action-user.php:2079
-#: includes/modules/form/module-form-action-user.php:2113
-#: includes/modules/form/module-form-action-user.php:2147
-#: includes/modules/form/module-form-action-user.php:2181
-#: includes/modules/form/module-form-action-user.php:2215
+#: includes/modules/form/module-form-action-post.php:1782
+#: includes/modules/form/module-form-action-post.php:1816
+#: includes/modules/form/module-form-action-post.php:1850
+#: includes/modules/form/module-form-action-post.php:1884
+#: includes/modules/form/module-form-action-post.php:1918
+#: includes/modules/form/module-form-action-post.php:1952
+#: includes/modules/form/module-form-action-post.php:1986
+#: includes/modules/form/module-form-action-post.php:2020
+#: includes/modules/form/module-form-action-post.php:2054
+#: includes/modules/form/module-form-action-post.php:2088
+#: includes/modules/form/module-form-action-post.php:2122
+#: includes/modules/form/module-form-action-term.php:1154
+#: includes/modules/form/module-form-action-term.php:1188
+#: includes/modules/form/module-form-action-term.php:1222
+#: includes/modules/form/module-form-action-term.php:1256
+#: includes/modules/form/module-form-action-term.php:1290
+#: includes/modules/form/module-form-action-user.php:1957
+#: includes/modules/form/module-form-action-user.php:1991
+#: includes/modules/form/module-form-action-user.php:2025
+#: includes/modules/form/module-form-action-user.php:2059
+#: includes/modules/form/module-form-action-user.php:2093
+#: includes/modules/form/module-form-action-user.php:2127
+#: includes/modules/form/module-form-action-user.php:2161
+#: includes/modules/form/module-form-action-user.php:2195
+#: includes/modules/form/module-form-action-user.php:2229
+#: includes/modules/form/module-form-action-user.php:2263
 msgid "None"
 msgstr "Aucun"
 
-#: includes/modules/form/module-form-action-post.php:1772
-#: includes/modules/form/module-form-action-post.php:1806
-#: includes/modules/form/module-form-action-post.php:1840
-#: includes/modules/form/module-form-action-post.php:1874
-#: includes/modules/form/module-form-action-post.php:1908
-#: includes/modules/form/module-form-action-post.php:1942
-#: includes/modules/form/module-form-action-post.php:1976
-#: includes/modules/form/module-form-action-post.php:2010
-#: includes/modules/form/module-form-action-post.php:2044
-#: includes/modules/form/module-form-action-post.php:2078
-#: includes/modules/form/module-form-action-post.php:2112
-#: includes/modules/form/module-form-action-term.php:1155
-#: includes/modules/form/module-form-action-term.php:1189
-#: includes/modules/form/module-form-action-term.php:1223
-#: includes/modules/form/module-form-action-term.php:1257
-#: includes/modules/form/module-form-action-term.php:1291
-#: includes/modules/form/module-form-action-user.php:1911
-#: includes/modules/form/module-form-action-user.php:1945
-#: includes/modules/form/module-form-action-user.php:1979
-#: includes/modules/form/module-form-action-user.php:2013
-#: includes/modules/form/module-form-action-user.php:2047
-#: includes/modules/form/module-form-action-user.php:2081
-#: includes/modules/form/module-form-action-user.php:2115
-#: includes/modules/form/module-form-action-user.php:2149
-#: includes/modules/form/module-form-action-user.php:2183
-#: includes/modules/form/module-form-action-user.php:2217
+#: includes/modules/form/module-form-action-post.php:1784
+#: includes/modules/form/module-form-action-post.php:1818
+#: includes/modules/form/module-form-action-post.php:1852
+#: includes/modules/form/module-form-action-post.php:1886
+#: includes/modules/form/module-form-action-post.php:1920
+#: includes/modules/form/module-form-action-post.php:1954
+#: includes/modules/form/module-form-action-post.php:1988
+#: includes/modules/form/module-form-action-post.php:2022
+#: includes/modules/form/module-form-action-post.php:2056
+#: includes/modules/form/module-form-action-post.php:2090
+#: includes/modules/form/module-form-action-post.php:2124
+#: includes/modules/form/module-form-action-term.php:1156
+#: includes/modules/form/module-form-action-term.php:1190
+#: includes/modules/form/module-form-action-term.php:1224
+#: includes/modules/form/module-form-action-term.php:1258
+#: includes/modules/form/module-form-action-term.php:1292
+#: includes/modules/form/module-form-action-user.php:1959
+#: includes/modules/form/module-form-action-user.php:1993
+#: includes/modules/form/module-form-action-user.php:2027
+#: includes/modules/form/module-form-action-user.php:2061
+#: includes/modules/form/module-form-action-user.php:2095
+#: includes/modules/form/module-form-action-user.php:2129
+#: includes/modules/form/module-form-action-user.php:2163
+#: includes/modules/form/module-form-action-user.php:2197
+#: includes/modules/form/module-form-action-user.php:2231
+#: includes/modules/form/module-form-action-user.php:2265
 msgid "Select a field or enter a field key"
 msgstr "Sélectionnez le champ ou entrez une clé de champ"
 
-#: includes/modules/form/module-form-action-post.php:2127
-#: includes/modules/form/module-form-action-term.php:1306
-#: includes/modules/form/module-form-action-user.php:2233
+#: includes/modules/form/module-form-action-post.php:2139
+#: includes/modules/form/module-form-action-term.php:1307
+#: includes/modules/form/module-form-action-user.php:2281
 #: pro/includes/modules/form/module-form-action-option.php:437
 msgid "Load ACF fields"
 msgstr "Charger les champs ACF"
 
-#: includes/modules/form/module-form-action-post.php:2130
-#: includes/modules/form/module-form-action-term.php:1309
-#: includes/modules/form/module-form-action-user.php:2236
+#: includes/modules/form/module-form-action-post.php:2142
+#: includes/modules/form/module-form-action-term.php:1310
+#: includes/modules/form/module-form-action-user.php:2284
 msgid "Select which ACF fields should have their values loaded"
 msgstr "Sélectionner les champs ACF dont les valeurs doivent être chargées"
 
@@ -3379,34 +3392,34 @@ msgstr "L'URL de redirection."
 msgid "Term action"
 msgstr "Action de catégorie"
 
-#: includes/modules/form/module-form-action-term.php:618
+#: includes/modules/form/module-form-action-term.php:619
 msgid "Create term"
 msgstr "Créer une catégorie"
 
-#: includes/modules/form/module-form-action-term.php:619
+#: includes/modules/form/module-form-action-term.php:620
 msgid "Update term"
 msgstr "Mettre à jour une catégorie"
-
-#: includes/modules/form/module-form-action-term.php:705
-#: includes/modules/form/module-form-action-term.php:869
-#: includes/modules/form/module-form-action-term.php:1089
-msgid "Current Term"
-msgstr "Catégorie actuelle"
 
 #: includes/modules/form/module-form-action-term.php:706
 #: includes/modules/form/module-form-action-term.php:870
 #: includes/modules/form/module-form-action-term.php:1090
-msgid "Current Term Parent"
-msgstr "Parent de la catégorie actuelle"
+msgid "Current Term"
+msgstr "Catégorie actuelle"
 
 #: includes/modules/form/module-form-action-term.php:707
 #: includes/modules/form/module-form-action-term.php:871
 #: includes/modules/form/module-form-action-term.php:1091
+msgid "Current Term Parent"
+msgstr "Parent de la catégorie actuelle"
+
+#: includes/modules/form/module-form-action-term.php:708
+#: includes/modules/form/module-form-action-term.php:872
+#: includes/modules/form/module-form-action-term.php:1092
 msgid "Term Selector"
 msgstr "Sélecteur de catégorie"
 
-#: includes/modules/form/module-form-action-term.php:809
-#: includes/modules/form/module-form-action-term.php:1204
+#: includes/modules/form/module-form-action-term.php:810
+#: includes/modules/form/module-form-action-term.php:1205
 #: includes/modules/taxonomy/module-taxonomy-fields.php:33
 #: includes/modules/taxonomy/module-taxonomy.php:29
 #: pro/includes/fields/field-post-field.php:59
@@ -3416,15 +3429,15 @@ msgstr "Sélecteur de catégorie"
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
-#: includes/modules/form/module-form-action-term.php:840
-#: includes/modules/form/module-form-action-term.php:1238
+#: includes/modules/form/module-form-action-term.php:841
+#: includes/modules/form/module-form-action-term.php:1239
 msgid "Parent"
 msgstr "Parent"
 
-#: includes/modules/form/module-form-action-term.php:916
-#: includes/modules/form/module-form-action-term.php:1272
-#: includes/modules/form/module-form-action-user.php:1609
-#: includes/modules/form/module-form-action-user.php:2164
+#: includes/modules/form/module-form-action-term.php:917
+#: includes/modules/form/module-form-action-term.php:1273
+#: includes/modules/form/module-form-action-user.php:1657
+#: includes/modules/form/module-form-action-user.php:2212
 #: pro/includes/fields/field-payment.php:129
 #: pro/includes/modules/script/module-script-table.php:258
 msgid "Description"
@@ -3434,140 +3447,140 @@ msgstr "Description"
 msgid "User action"
 msgstr "Action d'utilisateur"
 
-#: includes/modules/form/module-form-action-user.php:331
+#: includes/modules/form/module-form-action-user.php:333
 msgid "An error has occured. Please try again"
 msgstr "Une erreur est survenue. Veuillez réessayer"
 
-#: includes/modules/form/module-form-action-user.php:332
+#: includes/modules/form/module-form-action-user.php:334
 msgid "Invalid e-mail"
 msgstr "E-mail invalide"
 
-#: includes/modules/form/module-form-action-user.php:333
+#: includes/modules/form/module-form-action-user.php:335
 msgid "Invalid e-mail or password"
 msgstr "E-mail ou mot de passe invalide"
 
-#: includes/modules/form/module-form-action-user.php:334
+#: includes/modules/form/module-form-action-user.php:336
 msgid "Invalid username"
 msgstr "Nom d'utilisateur invalide"
 
-#: includes/modules/form/module-form-action-user.php:335
+#: includes/modules/form/module-form-action-user.php:337
 msgid "Invalid username or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide"
 
-#: includes/modules/form/module-form-action-user.php:336
+#: includes/modules/form/module-form-action-user.php:338
 msgid "E-mail address is already used"
 msgstr "L'adresse e-mail est déjà utilisée"
 
-#: includes/modules/form/module-form-action-user.php:337
+#: includes/modules/form/module-form-action-user.php:339
 msgid "Username is already used"
 msgstr "Le nom d'utilisateur est déjà utilisé"
 
-#: includes/modules/form/module-form-action-user.php:338
+#: includes/modules/form/module-form-action-user.php:340
 msgid "Username may not be longer than 60 characters."
 msgstr "Nom d'utilisateur ne peut pas excéder 60 caractères."
 
-#: includes/modules/form/module-form-action-user.php:1116
+#: includes/modules/form/module-form-action-user.php:1164
 msgid "Create user"
 msgstr "Créer un utilisateur"
 
-#: includes/modules/form/module-form-action-user.php:1117
+#: includes/modules/form/module-form-action-user.php:1165
 msgid "Update user"
 msgstr "Mettre à jour un utilisateur"
 
-#: includes/modules/form/module-form-action-user.php:1118
-#: includes/modules/form/module-form-action-user.php:1711
+#: includes/modules/form/module-form-action-user.php:1166
+#: includes/modules/form/module-form-action-user.php:1759
 msgid "Log user"
 msgstr "Identifier un utilisateur"
 
-#: includes/modules/form/module-form-action-user.php:1125
-#: includes/modules/form/module-form-fields.php:1720
+#: includes/modules/form/module-form-action-user.php:1173
+#: includes/modules/form/module-form-fields.php:1722
 msgid "Validation"
 msgstr "Validation"
 
-#: includes/modules/form/module-form-action-user.php:1128
+#: includes/modules/form/module-form-action-user.php:1176
 msgid "(Optional) Automatically validate fields"
 msgstr "(Optionnel) Valider automatiquement les champs"
 
-#: includes/modules/form/module-form-action-user.php:1136
+#: includes/modules/form/module-form-action-user.php:1184
 msgid "Built-in validation"
 msgstr "Validation embarquée"
 
-#: includes/modules/form/module-form-action-user.php:1159
+#: includes/modules/form/module-form-action-user.php:1207
 msgid "User"
 msgstr "Utilisateur"
 
-#: includes/modules/form/module-form-action-user.php:1170
-#: includes/modules/form/module-form-action-user.php:1220
+#: includes/modules/form/module-form-action-user.php:1218
+#: includes/modules/form/module-form-action-user.php:1268
 msgid "Login"
 msgstr "Connexion"
 
-#: includes/modules/form/module-form-action-user.php:1195
+#: includes/modules/form/module-form-action-user.php:1243
 msgid "Login type"
 msgstr "Type de connexion"
 
-#: includes/modules/form/module-form-action-user.php:1206
+#: includes/modules/form/module-form-action-user.php:1254
 msgid "E-mail"
 msgstr "E-mail"
 
-#: includes/modules/form/module-form-action-user.php:1207
-#: includes/modules/form/module-form-action-user.php:1431
-#: includes/modules/form/module-form-action-user.php:1926
+#: includes/modules/form/module-form-action-user.php:1255
+#: includes/modules/form/module-form-action-user.php:1479
+#: includes/modules/form/module-form-action-user.php:1974
 #: pro/includes/fields/field-payment.php:301
 #: pro/includes/fields/field-payment.php:341
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: includes/modules/form/module-form-action-user.php:1208
+#: includes/modules/form/module-form-action-user.php:1256
 msgid "E-mail or username"
 msgstr "E-mail ou Nom d'utilisateur"
 
-#: includes/modules/form/module-form-action-user.php:1245
-#: includes/modules/form/module-form-action-user.php:1456
-#: includes/modules/form/module-form-action-user.php:1960
+#: includes/modules/form/module-form-action-user.php:1293
+#: includes/modules/form/module-form-action-user.php:1504
+#: includes/modules/form/module-form-action-user.php:2008
 #: pro/includes/fields/field-payment.php:311
 #: pro/includes/fields/field-payment.php:351
 msgid "Password"
 msgstr "Mot de passe"
 
-#: includes/modules/form/module-form-action-user.php:1270
+#: includes/modules/form/module-form-action-user.php:1318
 msgid "Remember me"
 msgstr "Se souvenir de moi"
 
-#: includes/modules/form/module-form-action-user.php:1467
+#: includes/modules/form/module-form-action-user.php:1515
 msgid "Generate Password"
 msgstr "Générer un mot de passe"
 
-#: includes/modules/form/module-form-action-user.php:1484
-#: includes/modules/form/module-form-action-user.php:1994
+#: includes/modules/form/module-form-action-user.php:1532
+#: includes/modules/form/module-form-action-user.php:2042
 msgid "First name"
 msgstr "Prénom"
 
-#: includes/modules/form/module-form-action-user.php:1509
-#: includes/modules/form/module-form-action-user.php:2028
+#: includes/modules/form/module-form-action-user.php:1557
+#: includes/modules/form/module-form-action-user.php:2076
 msgid "Last name"
 msgstr "Nom"
 
-#: includes/modules/form/module-form-action-user.php:1534
-#: includes/modules/form/module-form-action-user.php:2062
+#: includes/modules/form/module-form-action-user.php:1582
+#: includes/modules/form/module-form-action-user.php:2110
 msgid "Nickname"
 msgstr "Pseudo"
 
-#: includes/modules/form/module-form-action-user.php:1559
-#: includes/modules/form/module-form-action-user.php:2096
+#: includes/modules/form/module-form-action-user.php:1607
+#: includes/modules/form/module-form-action-user.php:2144
 msgid "Display name"
 msgstr "Nom affiché"
 
-#: includes/modules/form/module-form-action-user.php:1584
-#: includes/modules/form/module-form-action-user.php:2130
+#: includes/modules/form/module-form-action-user.php:1632
+#: includes/modules/form/module-form-action-user.php:2178
 msgid "Website"
 msgstr "Site web"
 
-#: includes/modules/form/module-form-action-user.php:1683
-#: includes/modules/form/module-form-action-user.php:2198
+#: includes/modules/form/module-form-action-user.php:1731
+#: includes/modules/form/module-form-action-user.php:2246
 msgid "Role"
 msgstr "Rôle"
 
-#: includes/modules/form/module-form-action-user.php:1714
+#: includes/modules/form/module-form-action-user.php:1762
 msgid "Log user once created"
 msgstr "Loguer l'utilisateur une fois qu'il a été créé"
 
@@ -3679,69 +3692,73 @@ msgstr "Gauche"
 msgid "Field"
 msgstr "Champ"
 
-#: includes/modules/form/module-form-fields.php:1572
-#: includes/modules/form/module-form-fields.php:1620
+#: includes/modules/form/module-form-fields.php:1561
+msgid "Above field"
+msgstr "Au-dessus de champ"
+
+#: includes/modules/form/module-form-fields.php:1574
+#: includes/modules/form/module-form-fields.php:1622
 msgid "Submit button"
 msgstr "Bouton de soumission"
 
-#: includes/modules/form/module-form-fields.php:1575
+#: includes/modules/form/module-form-fields.php:1577
 msgid "Whether or not to create a form submit button. Defaults to true"
 msgstr ""
 "Création ou non d'un bouton de soumission de formulaire. La valeur par "
 "défaut est true"
 
-#: includes/modules/form/module-form-fields.php:1592
+#: includes/modules/form/module-form-fields.php:1594
 msgid "Submit value"
 msgstr "Valeur du bouton"
 
-#: includes/modules/form/module-form-fields.php:1595
+#: includes/modules/form/module-form-fields.php:1597
 msgid "The text displayed on the submit button"
 msgstr "Le texte affiché sur le bouton de soumission"
 
-#: includes/modules/form/module-form-fields.php:1623
+#: includes/modules/form/module-form-fields.php:1625
 msgid "HTML used to render the submit button."
 msgstr "HTML utilisé pour afficher le bouton de soumission."
 
-#: includes/modules/form/module-form-fields.php:1647
+#: includes/modules/form/module-form-fields.php:1649
 msgid "Submit spinner"
 msgstr "Icône de chargement"
 
-#: includes/modules/form/module-form-fields.php:1650
+#: includes/modules/form/module-form-fields.php:1652
 msgid "HTML used to render the submit button loading spinner."
 msgstr ""
 "HTML utilisé pour afficher le bouton de chargement du bouton de soumission."
 
-#: includes/modules/form/module-form-fields.php:1694
+#: includes/modules/form/module-form-fields.php:1696
 msgid "Form render"
 msgstr "Rendu du formulaire"
 
-#: includes/modules/form/module-form-fields.php:1697
+#: includes/modules/form/module-form-fields.php:1699
 msgid "Render customized form HTML. Leave empty to render form normally."
 msgstr ""
 "Rendu HTML personnalisé du formulaire. Laisser vide pour afficher le "
 "formulaire normalement."
 
-#: includes/modules/form/module-form-fields.php:1698
+#: includes/modules/form/module-form-fields.php:1700
 msgid "Render field group:"
 msgstr "Afficher un groupe de champs:"
 
-#: includes/modules/form/module-form-fields.php:1699
+#: includes/modules/form/module-form-fields.php:1701
 msgid "Render field:"
 msgstr "Afficher un champ:"
 
-#: includes/modules/form/module-form-fields.php:1700
+#: includes/modules/form/module-form-fields.php:1702
 msgid "Render all fields:"
 msgstr "Afficher tous les champs:"
 
-#: includes/modules/form/module-form-fields.php:1701
+#: includes/modules/form/module-form-fields.php:1703
 msgid "Render submit button:"
 msgstr "Afficher le bouton de soumission:"
 
-#: includes/modules/form/module-form-fields.php:1737
+#: includes/modules/form/module-form-fields.php:1739
 msgid "Hide general error"
 msgstr "Masquer l'erreur générale"
 
-#: includes/modules/form/module-form-fields.php:1740
+#: includes/modules/form/module-form-fields.php:1742
 msgid ""
 "Hide the general error message: \"Validation failed. 1 field requires "
 "attention\""
@@ -3749,105 +3766,118 @@ msgstr ""
 "Masquer le message d'erreur général: \"Échec de la validation. 1 champ "
 "nécessite une attention particulière\""
 
-#: includes/modules/form/module-form-fields.php:1757
+#: includes/modules/form/module-form-fields.php:1759
 msgid "Hide successful re-validation"
 msgstr "Masquer une revalidation réussie"
 
-#: includes/modules/form/module-form-fields.php:1760
-msgid "Hide the successful notice when an error has been thrown"
-msgstr "Masquer l'avis de réussite lorsqu'une erreur a été déclenchée"
+#: includes/modules/form/module-form-fields.php:1762
+msgid ""
+"Hide \"Validation successful\" notice when an error has been previously "
+"thrown"
+msgstr ""
+"Masquer la mention \"Validation réussie\" lorsqu'une erreur a été "
+"précédemment affichée"
 
-#: includes/modules/form/module-form-fields.php:1777
+#: includes/modules/form/module-form-fields.php:1787
 msgid "Hide confirmation on exit"
 msgstr "Masquer la confirmation à la sortie"
 
-#: includes/modules/form/module-form-fields.php:1780
+#: includes/modules/form/module-form-fields.php:1790
 msgid "Do not prompt user on page refresh"
 msgstr "Ne pas avertir l'utilisateur lors du rafraîchissement de la page"
 
-#: includes/modules/form/module-form-fields.php:1797
+#: includes/modules/form/module-form-fields.php:1807
+msgid "General error messages"
+msgstr "Messages d'erreur généraux"
+
+#: includes/modules/form/module-form-fields.php:1810
+msgid "Customize general error messages."
+msgstr "Personnaliser les messages d'erreur généraux."
+
+#: includes/modules/form/module-form-fields.php:1912
 msgid "Fields errors position"
 msgstr "Position des erreurs des champs"
 
-#: includes/modules/form/module-form-fields.php:1800
+#: includes/modules/form/module-form-fields.php:1915
 msgid "Choose where to display field errors"
 msgstr "Choisir l'endroit où afficher les erreurs de champ"
 
-#: includes/modules/form/module-form-fields.php:1810
+#: includes/modules/form/module-form-fields.php:1925
 msgid "Below fields"
 msgstr "Sous les champs"
 
-#: includes/modules/form/module-form-fields.php:1811
+#: includes/modules/form/module-form-fields.php:1926
 msgid "Group errors"
 msgstr "Grouper les erreurs"
 
-#: includes/modules/form/module-form-fields.php:1812
+#: includes/modules/form/module-form-fields.php:1927
 msgid "Hide errors"
 msgstr "Masquer les erreurs"
 
-#: includes/modules/form/module-form-fields.php:1824
+#: includes/modules/form/module-form-fields.php:1939
 msgid "Fields errors class"
 msgstr "Classe des erreurs des champs"
 
-#: includes/modules/form/module-form-fields.php:1827
+#: includes/modules/form/module-form-fields.php:1942
 msgid "Add class to the error message"
 msgstr "Ajouter une classe au message d'erreur"
 
-#: includes/modules/form/module-form-fields.php:1861
+#: includes/modules/form/module-form-fields.php:1971
 msgid "Success"
 msgstr "Succès"
 
-#: includes/modules/form/module-form-fields.php:1877
+#: includes/modules/form/module-form-fields.php:1987
 msgid "Redirection"
 msgstr "Redirection"
 
-#: includes/modules/form/module-form-fields.php:1880
+#: includes/modules/form/module-form-fields.php:1990
 msgid "The URL to be redirected to after the form is submitted."
 msgstr "L'URL à rediriger après l'envoi du formulaire."
 
-#: includes/modules/form/module-form-fields.php:1880
+#: includes/modules/form/module-form-fields.php:1990
 msgid "This setting is deprecated, use the new \"Redirect Action\" instead."
 msgstr ""
 "Ce paramètre est obsolète, utilisez le nouveau \"Action de Redirection\" à "
 "la place."
 
-#: includes/modules/form/module-form-fields.php:1898
+#: includes/modules/form/module-form-fields.php:2008
 msgid "Hide form"
 msgstr "Masquer le formulaire"
 
-#: includes/modules/form/module-form-fields.php:1901
+#: includes/modules/form/module-form-fields.php:2011
 msgid "Hide form on successful submission"
 msgstr "Masquer le formulaire en cas de soumission réussie"
 
-#: includes/modules/form/module-form-fields.php:1925
+#: includes/modules/form/module-form-fields.php:2035
 msgid "Scroll to message"
 msgstr "Défiler jusqu'au message"
 
-#: includes/modules/form/module-form-fields.php:1928
+#: includes/modules/form/module-form-fields.php:2038
 msgid "Scroll to message on success"
 msgstr "Faire défiler le message en cas de succès"
 
-#: includes/modules/form/module-form-fields.php:1952
+#: includes/modules/form/module-form-fields.php:2062
 msgid "Success message"
 msgstr "Message de succès"
 
-#: includes/modules/form/module-form-fields.php:1955
+#: includes/modules/form/module-form-fields.php:2065
 msgid "The message displayed above the form after the submission."
 msgstr "Le message affiché au dessus du formulaire à la soumission."
 
-#: includes/modules/form/module-form-fields.php:1972
+#: includes/modules/form/module-form-fields.php:2082
+#: includes/modules/form/module-form.php:112
 msgid "Form updated"
 msgstr "Formulaire mis à jour"
 
-#: includes/modules/form/module-form-fields.php:1981
+#: includes/modules/form/module-form-fields.php:2091
 msgid "Success wrapper HTML"
 msgstr "Wrapper HTML du message de succès"
 
-#: includes/modules/form/module-form-fields.php:1984
+#: includes/modules/form/module-form-fields.php:2094
 msgid "HTML used to render the updated message."
 msgstr "HTML utilisé pour afficher le message mis à jour."
 
-#: includes/modules/form/module-form-fields.php:1985
+#: includes/modules/form/module-form-fields.php:2095
 #, php-format
 msgid ""
 "If used, you have to include the following code <code>%s</code> to print the "
@@ -3856,7 +3886,7 @@ msgstr ""
 "Si l'utilisé, vous devez inclure le code suivant <code>%s</code> pour "
 "afficher le \"message de succès\" ci-dessus."
 
-#: includes/modules/form/module-form-front-render.php:286
+#: includes/modules/form/module-form-front-render.php:302
 msgid "Validate Email"
 msgstr "Valider l’adresse e-mail"
 
@@ -3933,52 +3963,69 @@ msgstr "%s formulaires importés"
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: includes/modules/form/module-form.php:253
-#: includes/modules/form/module-form.php:292
+#: includes/modules/form/module-form.php:103
+msgid "Validation failed"
+msgstr "Échec de la validation"
+
+#: includes/modules/form/module-form.php:104
+msgid "Validation successful"
+msgstr "Validation réussie"
+
+#: includes/modules/form/module-form.php:105
+msgid "1 field requires attention"
+msgstr "1 champ demande votre attention"
+
+#: includes/modules/form/module-form.php:106
+#, php-format
+msgid "%d fields require attention"
+msgstr "%d champs demandent votre attention"
+
+#: includes/modules/form/module-form.php:261
+#: includes/modules/form/module-form.php:300
 msgid "Integration"
 msgstr "Intégration"
 
-#: includes/modules/form/module-form.php:293
+#: includes/modules/form/module-form.php:301
 msgid "Template Tags"
 msgstr "Étiquettes de modèle"
 
-#: includes/modules/form/module-form.php:294
+#: includes/modules/form/module-form.php:302
 msgid "Hooks"
 msgstr "Hooks"
 
-#: includes/modules/form/module-form.php:295
+#: includes/modules/form/module-form.php:303
 msgid "Helpers"
 msgstr "Aides"
 
-#: includes/modules/form/module-form.php:301
+#: includes/modules/form/module-form.php:309
 msgid "Guides"
 msgstr "Guides"
 
-#: includes/modules/form/module-form.php:307
+#: includes/modules/form/module-form.php:315
 msgid "Dummy Title & Content Fields"
 msgstr "Champs de titre et de contenu factices"
 
-#: includes/modules/form/module-form.php:308
+#: includes/modules/form/module-form.php:316
 msgid "Hide a Field on Front-End"
 msgstr "Masquer un champ sur le front-end"
 
-#: includes/modules/form/module-form.php:309
+#: includes/modules/form/module-form.php:317
 msgid "Passing Data to a Form"
 msgstr "Transmettre des données à un formulaire"
 
-#: includes/modules/form/module-form.php:310
+#: includes/modules/form/module-form.php:318
 msgid "Using Actions Output Data"
 msgstr "Utiliser les données des actions"
 
-#: includes/modules/form/module-form.php:322
+#: includes/modules/form/module-form.php:330
 msgid "Shortcodes"
 msgstr "Shortcodes"
 
-#: includes/modules/form/module-form.php:337
+#: includes/modules/form/module-form.php:345
 msgid "PHP code"
 msgstr "Code PHP"
 
-#: includes/modules/form/module-form.php:747
+#: includes/modules/form/module-form.php:761
 msgid "This form name already exists"
 msgstr "Ce nom de formulaire existe déjà"
 
@@ -4021,6 +4068,7 @@ msgid "Option has been added"
 msgstr "L’option a été ajoutée"
 
 #: includes/modules/option/module-option.php:564
+#: pro/includes/admin/dashboard.php:144
 msgid "Edit field group"
 msgstr "Modifier groupe de champs"
 
@@ -5134,7 +5182,7 @@ msgstr "Cette taxonomie est réservée"
 msgid "Edit Media"
 msgstr "Editer le Media"
 
-#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:3797
+#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:4099
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -5178,37 +5226,41 @@ msgstr "(ce champ)"
 msgid "No toggle fields available"
 msgstr "Aucun champ de basculement disponible"
 
-#: pro/assets/js/acfe-pro-input.js:711
+#: pro/assets/js/acfe-pro-input.js:1002
 #: pro/includes/modules/script/module-script.php:291
 msgid "Clear"
 msgstr "Effacer"
 
-#: pro/assets/js/acfe-pro-input.js:1076
+#: pro/assets/js/acfe-pro-input.js:1367
 msgid "Maximum items reached ({max} items)"
 msgstr "Nombre maximal d’objets atteints ({max} éléments)"
 
-#: pro/assets/js/acfe-pro-input.js:1191
+#: pro/assets/js/acfe-pro-input.js:1493
 msgid "Edit File"
 msgstr "Modifier le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1192
+#: pro/assets/js/acfe-pro-input.js:1494
 msgid "Update File"
 msgstr "Mettre à jour le fichier"
 
-#: pro/assets/js/acfe-pro-input.js:1676
+#: pro/assets/js/acfe-pro-input.js:1978
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr "Ce champ a une limite de {max} {label} {identifier}"
 
-#: pro/assets/js/acfe-pro-input.js:1677
+#: pro/assets/js/acfe-pro-input.js:1979
 #: pro/includes/fields/field-flexible-content-locations.php:181
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] "disposition"
 msgstr[1] "mises en page"
 
-#: pro/assets/js/acfe-pro-input.js:3797
+#: pro/assets/js/acfe-pro-input.js:4099
 msgid "OK"
 msgstr "OK"
+
+#: pro/includes/admin/dashboard.php:184 pro/includes/admin/dashboard.php:232
+msgid "Widget updated."
+msgstr "Widget mis à jour."
 
 #: pro/includes/admin/tools/rewrite-rules-export.php:15
 #: pro/includes/admin/tools/rewrite-rules-export.php:42
@@ -5499,7 +5551,7 @@ msgid "Both (Array)"
 msgstr "Les deux (Tableau)"
 
 #: pro/includes/fields/field-color-picker.php:172
-#: pro/includes/fields/field-file.php:195
+#: pro/includes/fields/field-file.php:240
 msgid "Button Label"
 msgstr "Nom du bouton"
 
@@ -5793,55 +5845,55 @@ msgstr "Nom du champ"
 msgid "Field ID"
 msgstr "Champ – Identifiant"
 
-#: pro/includes/fields/field-file.php:20 pro/includes/fields/field-file.php:149
+#: pro/includes/fields/field-file.php:20 pro/includes/fields/field-file.php:194
 #: pro/includes/fields/field-payment-cart.php:119
 #: pro/includes/fields/field-payment-selector.php:96
 #: pro/includes/fields/field-phone-number.php:67
 msgid "Select"
 msgstr "Sélectionner"
 
-#: pro/includes/fields/field-file.php:22 pro/includes/fields/field-file.php:198
-#: pro/includes/fields/field-file.php:503
+#: pro/includes/fields/field-file.php:22 pro/includes/fields/field-file.php:243
+#: pro/includes/fields/field-file.php:562
 msgid "Add File"
 msgstr "Ajouter un fichier"
 
-#: pro/includes/fields/field-file.php:96
+#: pro/includes/fields/field-file.php:134
 msgid "Preview Style"
 msgstr "Style d’aperçu"
 
-#: pro/includes/fields/field-file.php:178
+#: pro/includes/fields/field-file.php:223
 #: pro/includes/fields/field-image.php:87
 msgid "Leave blank to use the default upload folder."
 msgstr "Laissez vide pour utiliser le dossier de téléchargement par défaut."
 
-#: pro/includes/fields/field-file.php:178
+#: pro/includes/fields/field-file.php:223
 #: pro/includes/fields/field-image.php:87
 msgid "Available template tags:"
 msgstr "Modèle de tags disponibles:"
 
-#: pro/includes/fields/field-file.php:181
+#: pro/includes/fields/field-file.php:226
 #: pro/includes/fields/field-image.php:90
 msgid "Current default upload folder:"
 msgstr "Dossier de téléchargement par défaut actuel:"
 
-#: pro/includes/fields/field-file.php:186
+#: pro/includes/fields/field-file.php:231
 #: pro/includes/fields/field-image.php:95
 msgid "Upload Folder"
 msgstr "Dossier des envois"
 
-#: pro/includes/fields/field-file.php:227
+#: pro/includes/fields/field-file.php:279
 msgid "Stylized Button"
 msgstr "Bouton stylisé"
 
-#: pro/includes/fields/field-file.php:250
+#: pro/includes/fields/field-file.php:302
 msgid "File Count"
 msgstr "Nombre de fichiers"
 
-#: pro/includes/fields/field-file.php:292
+#: pro/includes/fields/field-file.php:351
 msgid "Allow Multiple Files"
 msgstr "Autoriser plusieurs fichiers"
 
-#: pro/includes/fields/field-file.php:470
+#: pro/includes/fields/field-file.php:529
 msgid "File name"
 msgstr "Nom du fichier"
 
@@ -6705,6 +6757,14 @@ msgstr "Boutons de barre d’outils personnalisés"
 msgid "List"
 msgstr "Liste"
 
+#: pro/includes/locations/dashboard.php:14
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: pro/includes/locations/dashboard.php:22
+msgid "Widget"
+msgstr "Widget"
+
 #: pro/includes/locations/menu-item-depth.php:14
 msgid "Menu Item Depth"
 msgstr "Profondeur de l’élément de menu"
@@ -6902,7 +6962,31 @@ msgstr "Terme enfant (a un parent)"
 msgid "Taxonomy Term"
 msgstr "Terme de taxonomie"
 
-#: pro/includes/module-local.php:687
+#: pro/includes/locations/woocommerce.php:14
+msgid "Woocommerce"
+msgstr "Woocommerce"
+
+#: pro/includes/locations/woocommerce.php:22
+msgid "Cart page"
+msgstr "Page panier"
+
+#: pro/includes/locations/woocommerce.php:23
+msgid "Checkout page"
+msgstr "Page de paiement"
+
+#: pro/includes/locations/woocommerce.php:24
+msgid "My account page"
+msgstr "Page Mon compte"
+
+#: pro/includes/locations/woocommerce.php:25
+msgid "Shop page"
+msgstr "Page boutique"
+
+#: pro/includes/locations/woocommerce.php:26
+msgid "Terms and conditions"
+msgstr "Termes et conditions"
+
+#: pro/includes/module-local.php:730
 msgid "Import available"
 msgstr "Import disponible"
 
@@ -6914,7 +6998,7 @@ msgstr "Examiner les modifications JSON"
 msgid "Review local PHP changes"
 msgstr "Examiner les modifications PHP"
 
-#: pro/includes/module-posts.php:88 pro/includes/module-posts.php:376
+#: pro/includes/module-posts.php:88
 msgid "Sync changes"
 msgstr "Synchroniser les changements"
 
@@ -6925,20 +7009,32 @@ msgid_plural "%s items synchronised."
 msgstr[0] "Elément synchronisé."
 msgstr[1] "%s éléments synchronisés."
 
-#: pro/includes/module-posts.php:228
+#: pro/includes/module-posts.php:240
 #, php-format
 msgid "Item duplicated."
 msgid_plural "%s items duplicated."
 msgstr[0] "Elément dupliqué."
 msgstr[1] "%s éléments dupliqués."
 
-#: pro/includes/module-posts.php:346
+#: pro/includes/module-posts.php:357
 msgid "Duplicate this item"
 msgstr "Dupliquer cet élément"
 
-#: pro/includes/module-posts.php:346 pro/includes/module-posts.php:366
+#: pro/includes/module-posts.php:357 pro/includes/module-posts.php:377
 msgid "Duplicate"
 msgstr "Dupliquer"
+
+#: pro/includes/module-posts.php:387 pro/includes/module-sync.php:128
+msgid "Sync from Database"
+msgstr "Synchroniser depuis la Base de Données"
+
+#: pro/includes/module-posts.php:388 pro/includes/module-sync.php:165
+msgid "Sync from JSON file"
+msgstr "Synchroniser depuis le fichier JSON"
+
+#: pro/includes/module-posts.php:389 pro/includes/module-sync.php:165
+msgid "Sync from PHP file"
+msgstr "Synchroniser depuis le fichier PHP"
 
 #: pro/includes/module-sync.php:31
 msgid "Invalid parameter(s)."
@@ -6951,18 +7047,6 @@ msgstr "Désolé, cet élément est indisponible à la comparaison."
 #: pro/includes/module-sync.php:91
 msgid "Database item"
 msgstr "Elément de Base de Données"
-
-#: pro/includes/module-sync.php:128
-msgid "Sync from Database"
-msgstr "Synchroniser depuis la Base de Données"
-
-#: pro/includes/module-sync.php:165
-msgid "Sync from JSON file"
-msgstr "Synchroniser depuis le fichier JSON"
-
-#: pro/includes/module-sync.php:165
-msgid "Sync from PHP file"
-msgstr "Synchroniser depuis le fichier PHP"
 
 #: pro/includes/module-sync.php:183
 msgid "JSON file"
@@ -7069,11 +7153,11 @@ msgstr "Action d'option"
 msgid "Which ACF fields should have their values loaded"
 msgstr "Sélectionner les champs ACF dont les valeurs doivent être chargées"
 
-#: pro/includes/modules/form/module-form-ajax.php:135
+#: pro/includes/modules/form/module-form-ajax.php:138
 msgid "Ajax submission"
 msgstr "Soumission Ajax"
 
-#: pro/includes/modules/form/module-form-ajax.php:138
+#: pro/includes/modules/form/module-form-ajax.php:141
 msgid "Enable Ajax form submission"
 msgstr "Activer la soumission de formulaire Ajax"
 
@@ -7413,6 +7497,9 @@ msgstr ""
 msgid "ACF Extended"
 msgstr "ACF Extended"
 
+#~ msgid "General error"
+#~ msgstr "Erreur générale"
+
 #~ msgid "HTML Editor"
 #~ msgstr "Éditeur HTML"
 
@@ -7575,9 +7662,6 @@ msgstr "ACF Extended"
 #, javascript-format
 #~ msgid "Argument check failed: %s"
 #~ msgstr "Vérification d'argument a échoué: %s"
-
-#~ msgid "Implications failed:"
-#~ msgstr "Les implications ont échoué :"
 
 #, javascript-format
 #~ msgid "Arguments %s and %s are mutually exclusive"

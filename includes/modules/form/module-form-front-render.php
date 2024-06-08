@@ -31,12 +31,43 @@ class acfe_module_form_front_render{
         // success message
         if($message){
             
+            // apply the_content filters (autop, shortcode, etc.)
+            $message = apply_filters('acf_the_content', $message);
+            
             // html message
             if($form['success']['wrapper']){
-                $message = sprintf($form['success']['wrapper'], wpautop(wp_unslash($message)));
+                $message = acfe_str_replace_first('%s', $message, $form['success']['wrapper'], true);
             }
             
             echo $message;
+            
+        }
+        
+        // add localize data
+        acfe_set_form_data($form, 'success', true);
+        
+        $data = array();
+        $data = apply_filters("acfe/form/submit_success_data",                      $data, $form);
+        $data = apply_filters("acfe/form/submit_success_data/form={$form['name']}", $data, $form);
+        
+        // add success data
+        acfe_set_form_data($form, 'success_data', $data);
+        
+        // scroll to message
+        if($form['success']['scroll']){
+            
+            // message exists
+            if(!empty($form['success']['message']) && !empty($form['success']['wrapper'])){
+                
+                // get css selector
+                $selector = $this->get_css_selector_from_string($form['success']['wrapper']);
+                
+                // add selector
+                if(!empty($selector)){
+                    acfe_set_form_data($form, 'selector', $selector);
+                }
+                
+            }
             
         }
         
@@ -55,11 +86,6 @@ class acfe_module_form_front_render{
     function prepare_form($form){
         
         if(!$form){
-            return false;
-        }
-        
-        // hide form on success
-        if(acfe_is_form_success($form['name']) && $form['success']['hide_form']){
             return false;
         }
         
@@ -82,6 +108,17 @@ class acfe_module_form_front_render{
             acf_enable_filter('acfe/form/uploader');
             acf_update_setting('uploader', $form['settings']['uploader']);
             
+        }
+        
+        // custom instruction placement
+        acf_enable_filter('acfe/override_instruction');
+        acf_disable_filter('acfe/instruction_tooltip');
+        acf_disable_filter('acfe/instruction_above_field');
+        
+        if($form['attributes']['fields']['instruction'] === 'tooltip'){
+            acf_enable_filter('acfe/instruction_tooltip');
+        }elseif($form['attributes']['fields']['instruction'] === 'above_field'){
+            acf_enable_filter('acfe/instruction_above_field');
         }
     
         // generate render
@@ -130,7 +167,7 @@ class acfe_module_form_front_render{
             }
         
             // parse template tags
-            $form['render'] = acfe_parse_tags($form['render']);
+            $form['render'] = acfe_parse_tags($form['render'], array('context' => 'display'));
             
             // render is empty even after tags parsing
             // we must set it to true to render nothing
@@ -161,59 +198,38 @@ class acfe_module_form_front_render{
      */
     function render_before_form($form){
         
-        /**
-         * form wrapper open
-         */
-        $element = $form['attributes']['form']['element'];
-        $is_preview = acfe_is_dynamic_preview();
-        
-        // remove <form>
-        if($is_preview){
-            $element = 'div';
-        }
-        
-        // disabled required + fields names
-        if($is_preview){
-            add_filter('acf/prepare_field', array($this, 'disable_fields'));
-        }
-        
         // atts
         $atts = array(
-            'action'                 => '',
-            'method'                 => 'post',
-            'class'                  => 'acfe-form',
-            'id'                     => $form['attributes']['form']['id'],
-            'data-fields-class'      => $form['attributes']['fields']['class'],
-            'data-hide-error'        => $form['validation']['hide_error'],
-            'data-hide-unload'       => $form['validation']['hide_unload'],
-            'data-hide-revalidation' => $form['validation']['hide_revalidation'],
-            'data-errors-position'   => $form['validation']['errors_position'],
-            'data-errors-class'      => $form['validation']['errors_class'],
+            'method'   => 'post',
+            'class'    => 'acfe-form',
+            'data-cid' => $form['cid'],
         );
-        
-        // append "-success" class
-        if(acfe_is_form_success($form['name'])){
-            
-            // get submitted form
-            $submitted_form = acfe_form_decrypt_args();
-            
-            // compare to loaded form
-            if($submitted_form === $form){
-                $atts['class'] .= ' -success';
-            }
-            
-        }
         
         // form class
         if($form['attributes']['form']['class']){
             $atts['class'] .= ' ' . $form['attributes']['form']['class'];
         }
         
-        // unset method & action for <div> element
-        if($element === 'div'){
-            unset($atts['method'], $atts['action']);
+        // form id
+        if($form['attributes']['form']['id']){
+            $atts['id'] = $form['attributes']['form']['id'];
         }
         
+        /**
+         * form wrapper open
+         */
+        if(acfe_is_dynamic_preview()){
+            $form['attributes']['form']['element'] = 'div';
+        }
+        
+        $element = $form['attributes']['form']['element'];
+        
+        // unset method & action for <div> element
+        if($element === 'div'){
+            unset($atts['method']);
+        }
+        
+        // filters
         $atts = apply_filters("acfe/form/render_form_atts",                      $atts, $form);
         $atts = apply_filters("acfe/form/render_form_atts/form={$form['name']}", $atts, $form);
         
@@ -225,7 +241,7 @@ class acfe_module_form_front_render{
         
         // form data
         // do not set form data in preview mode
-        if(!$is_preview){
+        if(!acfe_is_dynamic_preview()){
             
             acf_form_data(array(
                 'screen'  => 'acfe_form',
@@ -274,8 +290,8 @@ class acfe_module_form_front_render{
     function render_fields($form){
     
         // honeypot
-        // ACF will then automatically validate that _validate_email field
-        // in /advanced-custom-fields-pro/includes/forms/form-front.php:218
+        // ACF automatically validate that field in:
+        // advanced-custom-fields-pro/includes/forms/form-front.php:218
         if($form['settings']['honeypot']){
     
             // register local _validate_email
@@ -361,19 +377,30 @@ class acfe_module_form_front_render{
          * form wrapper close
          */
         $element = $form['attributes']['form']['element'];
-        $is_preview = acfe_is_dynamic_preview();
-    
-        // remove <form>
-        if($is_preview){
-            $element = 'div';
-        }
         
         // </form>
         echo "</{$element}>";
-    
-        // re-enable required + fields names
-        if($is_preview){
-            remove_filter('acf/prepare_field', array($this, 'disable_fields'));
+        
+        // form is loaded in ajax
+        // append form data manually
+        if(acf_is_ajax() && !acfe_is_dynamic_preview()){
+            
+            $data = array();
+            $data = apply_filters("acfe/form/set_form_data",                      $data, $form);
+            $data = apply_filters("acfe/form/set_form_data/form={$form['name']}", $data, $form);
+            
+            if($data){
+                ?>
+                <script type="text/javascript">
+                    (function($){
+                    if(typeof acf !== 'undefined' && typeof acfe !== 'undefined'){
+                        acfe.set('forms.<?php echo $form['cid']; ?>', <?php echo json_encode($data); ?>);
+                    }
+                    })(jQuery);
+                </script>
+                <?php
+            }
+            
         }
         
     }
@@ -446,10 +473,15 @@ class acfe_module_form_front_render{
         }
         
         // value already injected in prepare_field_values()
+        // we should not assign again the value, as it might be changed in acf/prepare_field/type=name
         unset($form['map'][ $field['key'] ]['value']);
         
+        // merge field settings
+        // form map takes priority over other rules in acf/prepare_field
+        $field = acfe_parse_args_r($form['map'][ $field['key'] ], $field);
+        
         // merge
-        return array_merge($field, $form['map'][ $field['key'] ]);
+        return $field;
         
     }
     
@@ -488,22 +520,14 @@ class acfe_module_form_front_render{
             $field['label'] = false;
         }
         
-        return $field;
-        
-    }
-    
-    
-    /**
-     * disable_fields
-     *
-     * @param $field
-     *
-     * @return mixed
-     */
-    function disable_fields($field){
-        
-        $field['name'] = '';
-        $field['required'] = false;
+        // preview mode
+        if(acfe_is_dynamic_preview()){
+            
+            $field['name'] = '';
+            $field['required'] = false;
+            $field['value'] = null;
+            
+        }
         
         return $field;
         
@@ -656,6 +680,33 @@ class acfe_module_form_front_render{
         }
         
         return $results;
+        
+    }
+    
+    
+    /**
+     * get_css_selector_from_string
+     *
+     * @param $str
+     *
+     * @return string
+     */
+    function get_css_selector_from_string($str){
+        
+        // extract id and class using regex
+        preg_match('/id="([^"]*)"/', $str, $idMatch);
+        preg_match('/class="([^"]*)"/', $str, $classMatch);
+        
+        // construct jQuery selector
+        $selector = '';
+        if(!empty($idMatch)){
+            $selector .= '#' . $idMatch[1];
+        }
+        if(!empty($classMatch)){
+            $selector .= '.' . str_replace(' ', '.', $classMatch[1]);
+        }
+        
+        return $selector;
         
     }
     

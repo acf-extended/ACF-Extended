@@ -77,7 +77,7 @@ class acfe_module_form extends acfe_module{
             'attributes'    => array(
                 'form' => array(
                     'element' => 'form',
-                    'class'   => 'acf-form',
+                    'class'   => '',
                     'id'      => '',
                 ),
                 'fields' => array(
@@ -88,7 +88,7 @@ class acfe_module_form extends acfe_module{
                     'instruction'   => 'label',
                 ),
                 'submit' => array(
-                    'value'   => 'Submit',
+                    'value'   => __('Submit', 'acfe'),
                     'button'  => '<input type="submit" class="acf-button button button-primary button-large" value="%s" />',
                     'spinner' => '<span class="acf-spinner"></span>',
                 )
@@ -99,11 +99,17 @@ class acfe_module_form extends acfe_module{
                 'hide_unload'       => false,
                 'errors_position'   => 'above',
                 'errors_class'      => '',
+                'messages'          => array(
+                    'failure' => __('Validation failed', 'acf'),
+                    'success' => __('Validation successful', 'acf'),
+                    'error'   => __('1 field requires attention', 'acf'),
+                    'errors'  => __('%d fields require attention', 'acf'),
+                ),
             ),
             'success'       => array(
                 'hide_form' => false,
                 'scroll'    => false,
-                'message'   => 'Form updated',
+                'message'   => __('Form updated', 'acfe'),
                 'wrapper'   => '<div id="message" class="updated">%s</div>',
             ),
             'actions'       => array(),
@@ -114,7 +120,15 @@ class acfe_module_form extends acfe_module{
             'title' => 'label',
         );
         
-        // $this->l10n = array('label', 'description', 'labels');
+        $this->l10n = array(
+            'title',
+            'attributes.submit.value',
+            'validation.messages.failure',
+            'validation.messages.success',
+            'validation.messages.error',
+            'validation.messages.errors',
+            'success.message'
+        );
         
         $this->add_action('admin_menu', array($this, 'admin_menu'), 999);
         $this->add_action('register_post_type_args', array($this, 'register_post_type_args'), 10, 2);
@@ -191,17 +205,11 @@ class acfe_module_form extends acfe_module{
      */
     function register_post_type_args($args, $post_type){
         
-        // check post type
+        // set as top level
         if($post_type === $this->post_type){
-            
-            // check setting
             if(acfe_get_setting('modules/forms/top_level')){
-                
-                // set as top level
                 $args['show_in_menu'] = true;
-                
             }
-            
         }
         
         // return
@@ -443,7 +451,7 @@ class acfe_module_form extends acfe_module{
         foreach($actions as $action){
         
             // get instance
-            $instance = acfe_get_form_action($action['action']);
+            $instance = acfe_get_form_action_type($action['action']);
         
             // validate action
             if($instance){
@@ -474,7 +482,7 @@ class acfe_module_form extends acfe_module{
         foreach($actions as $action){
             
             // get instance
-            $instance = acfe_get_form_action($action['action']);
+            $instance = acfe_get_form_action_type($action['action']);
             
             // prepare action for export
             if($instance){
@@ -538,6 +546,12 @@ class acfe_module_form extends acfe_module{
         foreach(array_keys($item['validation']) as $key){
             $item[ $key ] = $item['validation'][ $key ];
         }
+        
+        // validation: messages
+        foreach(array('failure', 'success', 'error', 'errors') as $key){
+            $item['messages']["messages_$key"] = $item['validation']['messages'][ $key ];
+            unset($item['validation']['messages'][ $key ]);
+        }
     
         // success
         foreach(array_keys($item['success']) as $key){
@@ -575,7 +589,7 @@ class acfe_module_form extends acfe_module{
         foreach($actions as $action){
             
             // get instance
-            $instance = acfe_get_form_action($action['action']);
+            $instance = acfe_get_form_action_type($action['action']);
             
             if($instance){
                 
@@ -664,7 +678,7 @@ class acfe_module_form extends acfe_module{
         foreach($actions as $action){
             
             // get instance
-            $instance = acfe_get_form_action($action['acf_fc_layout']);
+            $instance = acfe_get_form_action_type($action['acf_fc_layout']);
             
             // prepare save action
             if($instance){
@@ -687,7 +701,7 @@ class acfe_module_form extends acfe_module{
      */
     function validate_save_item($item){
         
-        $actions = acfe_get_form_actions();
+        $actions = acfe_get_form_action_types();
         
         foreach($actions as $action){
     

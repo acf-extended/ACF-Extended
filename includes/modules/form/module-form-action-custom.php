@@ -90,7 +90,7 @@ class acfe_module_form_action_custom extends acfe_module_form_action{
      */
     function validate_name($value){
         
-        $actions = acfe_get_form_actions();
+        $actions = acfe_get_form_action_types();
         $names = array('form'); // reserved
         
         // get actions names
@@ -187,6 +187,6 @@ class acfe_module_form_action_custom extends acfe_module_form_action{
     
 }
 
-acfe_register_form_action('acfe_module_form_action_custom');
+acfe_register_form_action_type('acfe_module_form_action_custom');
 
 endif;

@@ -1114,7 +1114,7 @@ class acfe_module_form_field_groups{
     function register_field_groups($field_groups, $module){
     
         $layouts = array();
-        $actions = acfe_get_form_actions();
+        $actions = acfe_get_form_action_types();
         
         foreach($actions as $action){
             
@@ -1407,7 +1407,7 @@ class acfe_module_form_field_groups{
                                 'class' => '',
                                 'id' => '',
                             ),
-                            'default_value' => 'acf-form',
+                            'default_value' => '',
                             'placeholder' => '',
                             'prepend' => 'form class',
                             'append' => '',
@@ -1556,8 +1556,10 @@ class acfe_module_form_field_groups{
                                 'id' => '',
                             ),
                             'choices' => array(
-                                'label' => __('Label', 'acfe'),
-                                'field' => __('Field', 'acfe'),
+                                'label'       => __('Label', 'acfe'),
+                                'field'       => __('Field', 'acfe'),
+                                'above_field' => __('Above field', 'acfe'),
+                                'tooltip'     => __('Tooltip', 'acfe'),
                             ),
                             'allow_null' => 0,
                             'other_choice' => 0,
@@ -1757,9 +1759,17 @@ class acfe_module_form_field_groups{
                     'label' => __('Hide successful re-validation', 'acfe'),
                     'name' => 'hide_revalidation',
                     'type' => 'true_false',
-                    'instructions' => __('Hide the successful notice when an error has been thrown', 'acfe'),
+                    'instructions' => __('Hide "Validation successful" notice when an error has been previously thrown', 'acfe'),
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_hide_error',
+                                'operator' => '!=',
+                                'value' => '1',
+                            ),
+                        )
+                    ),
                     'wrapper' => array(
                         'width' => '',
                         'class' => '',
@@ -1791,6 +1801,111 @@ class acfe_module_form_field_groups{
                     'ui_on_text' => '',
                     'ui_off_text' => '',
                     'group_with' => 'validation',
+                ),
+                array(
+                    'key' => 'field_messages',
+                    'label' => __('General error messages', 'acfe'),
+                    'name' => 'messages',
+                    'type' => 'group',
+                    'instructions' => __('Customize general error messages.', 'acfe'),
+                    'required' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'layout' => 'block',
+                    'acfe_seamless_style' => true,
+                    'acfe_group_modal' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_hide_error',
+                                'operator' => '!=',
+                                'value' => '1',
+                            ),
+                        )
+                    ),
+                    'group_with' => 'validation',
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_messages_failure',
+                            'label' => '',
+                            'name' => 'failure',
+                            'type' => 'text',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(),
+                            'wrapper' => array(
+                                'width' => '50',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'default_value' => 'Validation failed',
+                            'placeholder' => '',
+                            'prepend' => 'failure',
+                            'append' => '',
+                            'maxlength' => '',
+                        ),
+                        array(
+                            'key' => 'field_messages_error',
+                            'label' => '',
+                            'name' => 'error',
+                            'type' => 'text',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(),
+                            'wrapper' => array(
+                                'width' => '50',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'default_value' => '1 field requires attention',
+                            'placeholder' => '',
+                            'prepend' => 'error',
+                            'append' => '',
+                            'maxlength' => '',
+                        ),
+                        array(
+                            'key' => 'field_messages_success',
+                            'label' => '',
+                            'name' => 'success',
+                            'type' => 'text',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(),
+                            'wrapper' => array(
+                                'width' => '50',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'default_value' => 'Validation successful',
+                            'placeholder' => '',
+                            'prepend' => 'success',
+                            'append' => '',
+                            'maxlength' => '',
+                        ),
+                        array(
+                            'key' => 'field_messages_errors',
+                            'label' => '',
+                            'name' => 'errors',
+                            'type' => 'text',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => array(),
+                            'wrapper' => array(
+                                'width' => '50',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'default_value' => '%d fields require attention',
+                            'placeholder' => '',
+                            'prepend' => 'errors',
+                            'append' => '',
+                            'maxlength' => '',
+                        ),
+                    
+                    ),
                 ),
                 array(
                     'key' => 'field_errors_position',
@@ -1828,11 +1943,6 @@ class acfe_module_form_field_groups{
                     'required' => 0,
                     'conditional_logic' => array(
                         array(
-                            array(
-                                'field' => 'field_errors_position',
-                                'operator' => '!=',
-                                'value' => 'group',
-                            ),
                             array(
                                 'field' => 'field_errors_position',
                                 'operator' => '!=',

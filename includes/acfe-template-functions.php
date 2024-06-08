@@ -507,111 +507,192 @@ function acfe_the_archive_post_id($null, $post_id){
     
 }
 
+
 /**
  * acfe_get_post_id
  *
- * Universal way to always retrieve the correct ACF Post ID on front-end and back-end
- * Returns ACF formatted Post ID. ie: 12|term_24|user_56|my-options
+ * Universal way to always retrieve the correct ACF Post ID on front-end, back-end and ajax
  *
- * @param bool $format
+ * Format:
+ *
+ * raw:   12   | term_24 | user_56 | my-options
+ * id:    12   | 24      | 56      | my-options
+ * type:  post | term    | user    | options
+ * array: array('id' => 12, 'type' => 'post')
+ *
+ * @param string $format - raw, id, type or array
  *
  * @return mixed|void
  */
-function acfe_get_post_id($format = true){
+function acfe_get_post_id($format = 'raw'){
     
-    // Admin
-    if(acfe_is_admin()){
+    // deprecated format: true/false
+    $format = $format === true ? 'raw' : $format;
+    $format = $format === false ? 'id' : $format;
+    
+    // vars
+    $is_ajax  = wp_doing_ajax();
+    $is_front = !is_admin() && !$is_ajax;
+    $is_admin = is_admin() && !$is_ajax;
+    
+    // ajax request
+    if($is_ajax){
         
-        // Legacy ACF method (get_the_ID(), get_queried_object() etc...)
-        $post_id = acf_get_valid_post_id();
-        
-        // Exclude local meta post ids
-        if(function_exists('acfe_get_local_post_ids') && in_array($post_id, acfe_get_local_post_ids())){
-            $post_id = false;
-        }
-        
-        if($post_id){
-            return $post_id;
-        }
-        
-        // ACF Form Data
+        // passed in acf_form_data()
+        // passed during acf/save_post
         $post_id = acf_get_form_data('post_id');
         
-        // $_POST['_acf_post_id']
+        // form submission
         if(!$post_id){
             $post_id = acf_maybe_get_POST('_acf_post_id', 0);
         }
         
-        // $_REQUEST['post']
+        // passed in acf_form_data()
+        // passed in acf.data > acf.prepareForAjax
+        if(!$post_id){
+            $post_id = acf_maybe_get_POST('post_id', 0);
+        }
+        
+    // admin request
+    }elseif($is_admin){
+        
+        // passed in acf_form_data()
+        // passed during acf/save_post & acf/validate_save_post
+        $post_id = acf_get_form_data('post_id');
+        
+        // form submission
+        if(!$post_id){
+            $post_id = acf_maybe_get_POST('_acf_post_id', 0);
+        }
+        
+        // post url param
         if(!$post_id){
             $post_id = isset($_REQUEST['post']) ? absint($_REQUEST['post']) : 0;
         }
         
-        // $_REQUEST['post_id'] (ACF Block Type)
+        // acf block type request
         if(!$post_id){
             $post_id = isset($_REQUEST['post_id']) ? absint($_REQUEST['post_id']) : 0;
         }
         
-        // $_REQUEST['user_id']
+        // url param
         if(!$post_id){
             $post_id = isset($_REQUEST['user_id']) ? 'user_' . absint($_REQUEST['user_id']) : 0;
         }
         
-        // global $user_ID
+        // profile
         if(!$post_id){
             global $pagenow, $user_ID;
             $post_id = $pagenow === 'profile.php' && $user_ID !== null ? 'user_' . absint($user_ID) : 0;
         }
         
-        // $_REQUEST['tag_ID']
+        // term url param
         if(!$post_id){
             $post_id = isset($_REQUEST['tag_ID']) ? 'term_' . absint($_REQUEST['tag_ID']) : 0;
         }
         
-        // Default
-        if(!$post_id){
-            $post_id = 0;
-        }
-        
-    // Front
-    }else{
-    
-        // ACF Form Data
-        $post_id = acf_get_form_data('post_id');
-        
+        // options page
+        // must be before post type list because post type archive is on edit.php
         if(!$post_id){
             
-            // vars
+            global $plugin_page;
+            if(isset($plugin_page)){
+                $page = acf_get_options_page($plugin_page);
+                if($page){
+                    $post_id = $page['post_id'];
+                }
+            }
+            
+        }
+        
+        // post type list
+        if(!$post_id){
+            global $pagenow, $typenow;
+            $post_id = $pagenow === 'edit.php' ? "{$typenow}_options" : 0;
+        }
+        
+        // term list
+        if(!$post_id){
+            global $pagenow, $taxnow;
+            $post_id = $pagenow === 'edit-tags.php' ? "tax_{$taxnow}_options" : 0;
+        }
+        
+        // user list
+        if(!$post_id){
+            global $pagenow;
+            $post_id = $pagenow === 'users.php' ? "user_options" : 0;
+        }
+        
+        // attachment list
+        if(!$post_id){
+            global $pagenow;
+            $post_id = $pagenow === 'upload.php' ? "attachment_options" : 0;
+        }
+        
+        // settings
+        if(!$post_id && function_exists('get_current_screen')){
+            
+            $setting_pages = array('options-general', 'options-writing', 'options-reading', 'options-discussion', 'options-media', 'options-permalink');
+            if(in_array(get_current_screen()->id, $setting_pages)){
+                $post_id = get_current_screen()->id;
+            }
+        }
+        
+        // common post id
+        if(!$post_id){
+            $post_id = (int) get_the_ID();
+        }
+        
+    // front-end request
+    }elseif($is_front){
+        
+        // default
+        $post_id = 0;
+        
+        // passed in acf_form_data()
+        // passed during acf/save_post & acf/validate_save_post
+        if(doing_action('acf/save_post') || doing_action('acf/validate_save_post')){
+            $post_id = acf_get_form_data('post_id');
+        }
+        
+        // common post id (within a loop)
+        if(!$post_id){
+            if(in_the_loop() || is_singular()){
+                $post_id = (int) get_the_ID();
+            }
+        }
+        
+        // get queries object
+        if(!$post_id){
+            
             $object = get_queried_object();
-            $post_id = 0;
             
             if(is_object($object)){
                 
-                // Post
+                // post/page object
                 if(isset($object->post_type, $object->ID)){
                     
-                    $post_id = $object->ID;
+                    $post_id = (int) $object->ID;
                     
-                // Post Type Archive
+                // post type archive object
                 }elseif(isset($object->hierarchical, $object->name, $object->acfe_admin_archive)){
                     
-                    // Validate with ACF filter (for multilang)
-                    $post_id = $object->name . '_archive';
+                    $post_id = "{$object->name}_archive";
                     
-                // User
+                // user object
                 }elseif(isset($object->roles, $object->ID)){
                     
-                    $post_id = 'user_' . $object->ID;
+                    $post_id = "user_{$object->ID}";
                     
-                // Term
+                // term object
                 }elseif(isset($object->taxonomy, $object->term_id)){
                     
-                    $post_id = 'term_' . $object->term_id;
+                    $post_id = "term_{$object->term_id}";
                     
-                // Comment
+                // comment object
                 }elseif(isset($object->comment_ID)){
                     
-                    $post_id = 'comment_' . $object->comment_ID;
+                    $post_id = "comment_{$object->comment_ID}";
                     
                 }
                 
@@ -619,23 +700,59 @@ function acfe_get_post_id($format = true){
             
         }
         
-    }
-    
-    // Validate with filters
-    $post_id = acf_get_valid_post_id($post_id);
-    
-    // Do not format
-    if(!$format){
+        // passed in acf_form_data()
+        // passed during acf/save_post & acf/validate_save_post
+        if(!$post_id){
+            $post_id = acf_get_form_data('post_id');
+        }
         
-        // Decode
-        $info = acf_decode_post_id($post_id);
-        
-        // Return raw id
-        $post_id = $info['id'];
+        // fallback common post id
+        if(!$post_id){
+            $post_id = (int) get_the_ID();
+        }
         
     }
     
-    // return
+    // default
+    if(!$post_id){
+        $post_id = 0;
+    }
+    
+    // allow for option == options
+    if($post_id === 'option'){
+        $post_id = 'options';
+    }
+    
+    // append language code
+    if($post_id == 'options'){
+        $dl = acf_get_setting('default_language');
+        $cl = acf_get_setting('current_language');
+        
+        if($cl && $cl !== $dl){
+            $post_id .= '_' . $cl;
+        }
+    }
+    
+    // filter for 3rd party
+    $post_id = apply_filters('acf/validate_post_id', $post_id, $post_id);
+    
+    // decoded post id
+    $decoded = acf_decode_post_id($post_id);
+    
+    // return id
+    if($format === 'id'){
+        return $decoded['id'];
+        
+    // return type
+    }elseif($format === 'type'){
+        return $decoded['type'];
+    
+    // return array
+    }elseif($format === 'array'){
+        return $decoded;
+    }
+    
+    // return raw
     return $post_id;
-    
+
 }

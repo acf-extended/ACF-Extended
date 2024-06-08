@@ -8,6 +8,8 @@ if(!class_exists('acfe_assets')):
 
 class acfe_assets{
     
+    public $data = array();
+    
     /**
      * construct
      */
@@ -117,16 +119,8 @@ class acfe_assets{
      */
     function acf_enqueue_scripts(){
         
-        // data
-        $data = array(
-            'version'           => ACFE_VERSION,
-            'home_url'          => home_url(),
-            'is_admin'          => is_admin(),
-            'is_user_logged_in' => is_user_logged_in(),
-        );
-        
         // text
-        $text = array(
+        $text = apply_filters('acfe/localize_text', array(
             'Close'                                             => __('Close', 'acfe'),
             'Update'                                            => __('Update', 'acfe'),
             'Read more'                                         => __('Read more', 'acfe'),
@@ -134,67 +128,131 @@ class acfe_assets{
             'Debug'                                             => __('Debug', 'acfe'),
             'Data has been copied to your clipboard.'           => __('Data has been copied to your clipboard.', 'acfe'),
             'Please copy the following data to your clipboard.' => __('Please copy the following data to your clipboard.', 'acfe'),
-        );
+        ));
         
-        // filters
-        $data = apply_filters('acfe/localize_data', $data);
-        $text = apply_filters('acfe/localize_text', $text);
+        acf_localize_text($text);
+        
+        // data
+        $data = apply_filters('acfe/localize_data', array(
+            'version'           => ACFE_VERSION,
+            'home_url'          => home_url(),
+            'is_admin'          => is_admin(),
+            'is_user_logged_in' => is_user_logged_in(),
+        ));
+        
+        // set data
+        $this->set_data($data);
         
         // localize
-        acfe_localize_data($data);
-        acf_localize_text($text);
+        acfe_localize_data();
+        
+    }
+    
+    
+    /**
+     * get_data
+     *
+     * @param $path
+     * @param $default
+     *
+     * @return array|mixed|null
+     */
+    function get_data($path = null, $default = null){
+        return !$path ? $this->data : acfe_array_get($this->data, $path, $default);
+    }
+    
+    
+    /**
+     * set_data
+     *
+     * @param $path
+     * @param $value
+     *
+     * @return void
+     */
+    function set_data($path = null, $value = null){
+        
+        if($value === null){
+            $value = $path;
+            $path = null;
+        }
+        
+        if(!$path){
+            $this->data = array_merge($this->data, $value);
+        }else{
+            acfe_array_set($this->data, $path, $value);
+        }
+        
+    }
+    
+    
+    /**
+     * unset_data
+     *
+     * @param $path
+     *
+     * @return void
+     */
+    function unset_data($path = null){
+        
+        if(!$path){
+            $this->data = array();
+        }else{
+            acfe_array_unset($this->data, $path);
+        }
         
     }
     
 }
 
-new acfe_assets();
+acf_new_instance('acfe_assets');
 
 endif;
+
 
 /**
  * acfe_localize_data
  *
- * @param $data
+ * @return void
  */
-function acfe_localize_data($data){
-    
-    $acfe_data = acfe_get_localize_data();
-    $acfe_data = array_merge($acfe_data, $data);
-    
-    acf_localize_data(array('acfe' => $acfe_data));
-    
+function acfe_localize_data(){
+    acf_localize_data(array('acfe' => acfe_get_localize_data()));
 }
 
 
 /**
  * acfe_get_localize_data
+ *
  * @return array|false|string[]
  */
-function acfe_get_localize_data(){
-    
-    return acf_get_array(acf_maybe_get(acf_get_instance('ACF_Assets')->data, 'acfe', array()));
-    
+function acfe_get_localize_data($path = null, $default = null){
+    return acf_get_instance('acfe_assets')->get_data($path, $default);
 }
 
 
 /**
- * acfe_localize_append_data
+ * acfe_set_localize_data
  *
- * @param $name
- * @param $data
+ * @param null $path
+ * @param null $value
  */
-function acfe_append_localize_data($name, $data){
-    
-    $acfe_data = acfe_get_localize_data();
-    
-    if(!isset($acfe_data[ $name ])){
-        $acfe_data[ $name ] = array();
-    }
-    
-    $acfe_data[ $name ] = acf_get_array($acfe_data[ $name ]);
-    $acfe_data[ $name ][] = $data;
-    
-    acfe_localize_data($acfe_data);
-    
+function acfe_set_localize_data($path = null, $value = null){
+    acf_get_instance('acfe_assets')->set_data($path, $value);
+    acfe_localize_data();
+}
+
+
+/**
+ * acfe_append_localize_data
+ *
+ * @param $path
+ * @param $value
+ *
+ * @return void
+ *
+ * @deprecated
+ */
+function acfe_append_localize_data($path = null, $value = null){
+    acfe_deprecated_function('acfe_append_localize_data()', '0.9.0.5', 'acfe_set_localize_data()');
+    acfe_set_localize_data($path, $value);
 }

@@ -1359,15 +1359,7 @@ body:not(.acf-admin-5-3) .acf-repeater.-row>table>tbody>tr>td:last-of-type {
     color: #aaa
 }
 
-form.acfe-form.is-valid[data-hide-revalidation="1"]>.acf-notice.-success {
-    display: none
-}
-
-form.acfe-form.is-invalid[data-hide-error="1"]>.acf-error-message.-dismiss {
-    display: none
-}
-
-form.acfe-form.is-invalid[data-errors-position=below] .acf-field .acf-notice {
+.acfe-form .acf-field .acf-notice.-below {
     margin: 15px 0 0
 }
 
@@ -1376,7 +1368,6 @@ form.acfe-form.is-invalid[data-errors-position=below] .acf-field .acf-notice {
 .acf-media-modal .ui-helper-hidden-accessible {
     border: 0;
     clip: rect(1px, 1px, 1px, 1px);
-    -webkit-clip-path: inset(50%);
     clip-path: inset(50%);
     height: 1px;
     margin: -1px;

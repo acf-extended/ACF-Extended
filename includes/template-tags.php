@@ -40,7 +40,7 @@ class acfe_template_tags{
                 $setup_meta = !acfe_is_local_meta() && !empty($_POST['acf']);
                 
                 if($setup_meta){
-                    acfe_setup_meta($_POST['acf'], 'acfe/tag/field', true);
+                    acfe_setup_meta(wp_unslash($_POST['acf']), 'acfe/tag/field', true);
                 }
                 
                 // vars
@@ -61,19 +61,16 @@ class acfe_template_tags{
                 }
                 
                 // field_key
-                if(!empty($_POST['acf']) && acf_is_field_key($name)){
+                // get_field('my_group_my_sub_field') can retrieve values from group subfield
+                // but get_field('field_abcdef123456') cannot, thus this implementation
+                // apply acf/load_value filter so payment/date range fields generate dynamic subfields
+                if(acf_is_field_key($name)){
+                    $acf = acfe_get_fields(); // pass via acf_get_value() > acf/load_value
+                    $value = acfe_get_value_from_acf_values_by_key($acf, $name);
                     
-                    // get_field('my_group_my_sub_field') can retrieve values from group subfield
-                    // but get_field('field_abcdef123456') cannot, thus this implementation
-                    // apply acf/load_value filter so payment/date range fields generate dynamic subfields
-                    $value = acfe_get_value_from_acf_values_by_key($_POST['acf'], $name);
-                    $value = apply_filters('acf/load_value', $value, $post_id, $field);
-                    
-                // field name or key
+                // field name
                 }else{
-                    
                     $value = acf_get_value($post_id, $field);
-                    
                 }
                 
                 if($setup_meta){
@@ -85,9 +82,30 @@ class acfe_template_tags{
                     $format = $this->get_context('format');
                 }
                 
+                // context = save
+                // never format wysiwyg in save context
+                // to avoid shortcodes to be saved as interpreted
+                if($this->get_context('context') === 'save'){
+                    if($field['type'] === 'wysiwyg'){
+                        $format = false;
+                    }
+                }
+                
+                // unformat = field_type
+                // never format specific fields in unformat context
+                if($this->get_context('unformat') && in_array($field['type'], acf_get_array($this->get_context('unformat')))){
+                    $format = false;
+                }
+                
                 // format value
                 if($format){
                     $value = acfe_form_format_value($value, $field);
+                }
+                
+                // context display
+                // value is already unslashed when using name, via acfe_setup_meta()
+                if($this->get_context('context') === 'display' && acf_is_field_key($name)){
+                    $value = wp_unslash($value);
                 }
                 
                 // return
@@ -282,7 +300,7 @@ class acfe_template_tags{
                 
                 $keys   = explode(':', $args);
                 $name   = array_shift($keys);
-                $action = acfe_form_get_action($name);
+                $action = acfe_get_form_action($name);
                 
                 return !acf_is_empty($name) && $action;
                 
@@ -294,7 +312,7 @@ class acfe_template_tags{
                 $name = array_shift($keys);
                 
                 // get action
-                $action = acfe_form_get_action($name);
+                $action = acfe_get_form_action($name);
                 if(!$action){
                     return false;
                 }
@@ -495,7 +513,23 @@ class acfe_template_tags{
                 $term_id = (int) array_shift($keys);
                 
                 if(empty($term_id)){
-                    $term_id = null; // current term
+                    
+                    $term_id = null; // current queried object
+                    
+                    // check form context exists
+                    $form = $this->get_context('form');
+                    if($form){
+                        
+                        // decode post_id
+                        $decoded = acf_decode_post_id($form['post_id']);
+                        
+                        // check if post
+                        if($decoded['type'] === 'term'){
+                            $term_id = $decoded['id'];
+                        }
+                        
+                    }
+                    
                 }
                 
                 // merge back
@@ -635,7 +669,10 @@ class acfe_template_tags{
                 }
                 
                 // get post
-                $post = get_post(null, ARRAY_A);
+                $tag = $this->get_tag('post');
+                $post_id = call_user_func_array($tag['resolver'], array(''));
+                
+                $post = get_post($post_id, ARRAY_A);
                 
                 // validate post found
                 if(!$post){
@@ -1236,8 +1273,14 @@ class acfe_template_tags{
         // array
         if(is_array($name)){
             
-            foreach(array_keys($name) as $key){
-                unset($this->context[ $key ]);
+            if(acf_is_associative_array($name)){
+                foreach(array_keys($name) as $key){
+                    unset($this->context[ $key ]);
+                }
+            }else{
+                foreach($name as $key){
+                    unset($this->context[ $key ]);
+                }
             }
             
         // normal

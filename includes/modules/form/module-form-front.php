@@ -8,66 +8,71 @@ if(!class_exists('acfe_module_form_front')):
 
 class acfe_module_form_front{
     
+    /**
+     * construct
+     */
     function __construct(){
         
-        add_action('acf/validate_save_post',  array($this, 'validate_save_post'), 1);
-        add_action('wp',                      array($this, 'save_post'));
+        add_action('acf/validate_save_post',                    array($this, 'validate_save_post'), 1);
+        add_action('wp',                                        array($this, 'save_post'));
         
-        add_action('acfe/form/validate_form', array($this, 'validate_form'), 9);
-        add_action('acfe/form/submit_form',   array($this, 'submit_form'), 9);
-        add_filter('acfe/form/load_form',     array($this, 'load_form'), 19);
+        add_action('acfe/form/validate_form',                   array($this, 'validate_form'), 9);
+        add_action('acfe/form/submit_form',                     array($this, 'submit_form'), 9);
+        add_filter('acfe/form/load_form',                       array($this, 'load_form'), 19);
+        add_filter('acfe/form/set_form_data',                   array($this, 'set_form_data'), 10, 2);
         
-    }
-    
-    
-    /**
-     * get_form_validation
-     * @return false|mixed
-     */
-    function get_form_validation(){
-    
-        $valid_screen = acfe_is_front() && acf_maybe_get_POST('_acf_screen') === 'acfe_form';
-        $form = $this->get_form_data(); // get $_POST data
-        
-        if($valid_screen && $form){
-            return $form;
-        }
-        
-        return false;
-    }
-    
-    
-    /**
-     * get_form_submission
-     * @return false|mixed
-     */
-    function get_form_submission(){
-        
-        $valid_screen = acf_verify_nonce('acfe_form');
-        $form = $this->get_form_data(); // get $_POST data
-    
-        if($valid_screen && $form){
-            return $form;
-        }
-    
-        return false;
+        add_action(       'wp_ajax_acfe/form/render_form_ajax', array($this, 'render_form_ajax'));
+        add_action('wp_ajax_nopriv_acfe/form/render_form_ajax', array($this, 'render_form_ajax'));
         
     }
     
     
     /**
-     * get_form_data
-     * @return false|mixed
+     * validate_form
+     *
+     * @param $form
+     *
+     * @return void
      */
-    function get_form_data(){
+    function validate_form($form){
         
-        if(isset($_POST['_acf_form'])){
-            if($form = json_decode(acf_decrypt($_POST['_acf_form']), true)){
-                return $form;
-            }
+        add_action("acfe/form/validate_form/form={$form['name']}", array($this, 'validate_actions'), 9);
+        do_action("acfe/form/validate_form/form={$form['name']}", $form);
+        
+    }
+    
+    
+    /**
+     * submit_form
+     *
+     * @param $form
+     *
+     * @return void
+     */
+    function submit_form($form){
+        
+        add_action("acfe/form/submit_form/form={$form['name']}", array($this, 'submit_actions'), 9);
+        do_action("acfe/form/submit_form/form={$form['name']}", $form);
+        
+    }
+    
+    
+    /**
+     * load_form
+     *
+     * @param $form
+     *
+     * @return false|mixed|null
+     */
+    function load_form($form){
+        
+        if(!$form){
+            return false;
         }
         
-        return false;
+        // load actions
+        add_filter("acfe/form/load_form/form={$form['name']}", array($this, 'load_actions'), 19);
+        return apply_filters("acfe/form/load_form/form={$form['name']}", $form);
         
     }
     
@@ -87,7 +92,8 @@ class acfe_module_form_front{
             return;
         }
         
-        // set form data (used in validation with acfe_add_validation_error())
+        // set form data
+        // used in validation with acfe_add_validation_error()
         acf_set_form_data('acfe/form', $form);
         
         // tags context
@@ -95,28 +101,13 @@ class acfe_module_form_front{
         acfe_add_context('method', 'validate');
         
         // setup meta
-        acfe_setup_meta($_POST['acf'], 'acfe/form/validation', true);
+        acfe_setup_meta(wp_unslash($_POST['acf']), 'acfe/form/validation', true);
     
         // validate form
         do_action("acfe/form/validate_form", $form);
         
         // reset
         acfe_reset_meta();
-        
-    }
-    
-    
-    /**
-     * validate_form
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function validate_form($form){
-        
-        add_action("acfe/form/validate_form/form={$form['name']}", array($this, 'validate_actions'), 9);
-        do_action("acfe/form/validate_form/form={$form['name']}", $form);
         
     }
     
@@ -219,13 +210,13 @@ class acfe_module_form_front{
         // unset files to avoid duplicate upload
         unset($_FILES);
         
-        // remove shortcode (temp)
+        // remove shortcode temporarly
         // https://github.com/elementor/elementor/issues/10998
         // https://github.com/Yoast/wordpress-seo/issues/14643
         remove_shortcode('acfe_form');
         
         // setup meta
-        acfe_setup_meta($_POST['acf'], 'acfe/form/submit', true);
+        acfe_setup_meta(wp_unslash($_POST['acf']), 'acfe/form/submit', true);
     
         // submit form
         do_action("acfe/form/submit_form", $form);
@@ -239,26 +230,14 @@ class acfe_module_form_front{
         
         // re-add shortcode
         add_shortcode('acfe_form', array(acf_get_instance('acfe_module_form_shortcode'), 'render_shortcode'));
-    
+        
+        // prevent refresh
+        add_action('wp_print_footer_scripts', array($this, 'prevent_refresh'));
+        
         // return (deprecated)
         if($return = acf_maybe_get($form, 'return')){
             acfe_redirect($return);
         }
-        
-    }
-    
-    
-    /**
-     * submit_form
-     *
-     * @param $form
-     *
-     * @return void
-     */
-    function submit_form($form){
-        
-        add_action("acfe/form/submit_form/form={$form['name']}", array($this, 'submit_actions'), 9);
-        do_action("acfe/form/submit_form/form={$form['name']}", $form);
         
     }
     
@@ -313,41 +292,39 @@ class acfe_module_form_front{
         // allow non array argument
         if(!is_array($form)){
             
-            $name_or_id = $form;
-            $form = array();
-            
-            if(is_numeric($name_or_id)){
-                $form['ID'] = $name_or_id;
-            }else{
-                $form['name'] = $name_or_id;
-            }
+            $arg = $form;
+            $form = array(
+                'ID'   => is_numeric($arg) ? $arg : 0,
+                'name' => !is_numeric($arg) ? $arg : '',
+            );
             
         }
     
         // check lowercase id
         if(isset($form['id'])){
-            $form['ID'] = $form['id'];
-            unset($form['id']);
+            $form['ID'] = acf_extract_var($form, 'id');
         }
     
         // get module
         $module = acfe_get_module('form');
-    
-        // get by name or ID
-        $name = acf_maybe_get($form, 'name', acf_maybe_get($form, 'ID'));
         
-        if($name){
+        // get by name or ID
+        $selector = !empty($form['name']) ? $form['name'] : acf_maybe_get($form, 'ID');
+        
+        if($selector){
         
             // get item
-            $item = $module->get_item($name);
+            $item = $module->get_item($selector);
         
             // merge arrays
             if($item){
-            
+                
+                // assign item vars
                 $form['ID'] = $item['ID'];
                 $form['name'] = $item['name'];
                 $form = acfe_parse_args_r($form, $item);
-    
+                
+                // allow validate_item again
                 acf_extract_vars($form, array('_valid'));
             
             }
@@ -355,6 +332,7 @@ class acfe_module_form_front{
         }
     
         // validate form (set alias)
+        // also add settings in case there is no form found
         $form = $module->validate_item($form);
         
         // cleanup keys
@@ -362,16 +340,17 @@ class acfe_module_form_front{
         
         // add post id
         if(!isset($form['post_id'])){
-            
-            // acf_get_valid_post_id() will return the post_id within the loop
-            // acfe_get_post_id() will return the post_id outside of the loop (queried_object)
-            $form['post_id'] = acf_get_valid_post_id();
-            
+            $form['post_id'] = acfe_get_post_id();
         }
         
         // add uniqid
         if(!isset($form['uniqid'])){
             $form['uniqid'] = acf_uniqid("acfe_form_{$form['name']}");
+        }
+        
+        // add cid (visible in the DOM)
+        if(!isset($form['cid'])){
+            $form['cid'] = uniqid();
         }
         
         // add map
@@ -381,26 +360,6 @@ class acfe_module_form_front{
         
         return $form;
     
-    }
-    
-    
-    /**
-     * load_form
-     *
-     * @param $form
-     *
-     * @return false|mixed|null
-     */
-    function load_form($form){
-        
-        if(!$form){
-            return false;
-        }
-        
-        // load actions
-        add_filter("acfe/form/load_form/form={$form['name']}", array($this, 'load_actions'), 19);
-        return apply_filters("acfe/form/load_form/form={$form['name']}", $form);
-        
     }
     
     
@@ -420,19 +379,22 @@ class acfe_module_form_front{
         // update context
         acfe_add_context('form', $form);
         
+        // tags context
+        $opt = array('context' => 'display');
+        
         // apply tags
-        acfe_apply_tags($form['attributes']['form']['class']);
-        acfe_apply_tags($form['attributes']['form']['id']);
-        acfe_apply_tags($form['attributes']['fields']['wrapper_class']);
-        acfe_apply_tags($form['attributes']['fields']['class']);
-        acfe_apply_tags($form['attributes']['submit']['value']);
-        acfe_apply_tags($form['attributes']['submit']['button']);
-        acfe_apply_tags($form['attributes']['submit']['spinner']);
-        acfe_apply_tags($form['validation']['errors_class']);
+        acfe_apply_tags($form['attributes']['form']['class'],           $opt);
+        acfe_apply_tags($form['attributes']['form']['id'],              $opt);
+        acfe_apply_tags($form['attributes']['fields']['wrapper_class'], $opt);
+        acfe_apply_tags($form['attributes']['fields']['class'],         $opt);
+        acfe_apply_tags($form['attributes']['submit']['value'],         $opt);
+        acfe_apply_tags($form['attributes']['submit']['button'],        $opt);
+        acfe_apply_tags($form['attributes']['submit']['spinner'],       $opt);
+        acfe_apply_tags($form['validation']['errors_class'],            $opt);
         
         // deprecated
         if(isset($form['return'])){
-            acfe_apply_tags($form['return']);
+            acfe_apply_tags($form['return'], $opt);
         }
         
         // load form per action
@@ -488,9 +450,34 @@ class acfe_module_form_front{
         // enqueue acf
         acf_enqueue_scripts();
         
-        // render success
-        if(acfe_is_form_success($form['name'])){
+        $data = array();
+        $data = apply_filters("acfe/form/set_form_data",                      $data, $form);
+        $data = apply_filters("acfe/form/set_form_data/form={$form['name']}", $data, $form);
+        
+        if($data){
+            acfe_set_form_data($form, $data);
+        }
+        
+        // override acf.data.post_id
+        add_action('wp_print_footer_scripts', array($this, 'override_acf_post_id'), 9);
+        
+        // render success only once
+        // this allows to render the same form within the success message with [acfe_form]
+        // do not execute in ajax so form displayed in success message using ajax submission doesn't display success twice
+        if(acfe_is_form_success($form) && !acf_did('acfe/form/success') && !acf_is_ajax()){
+            
+            // render success
             $this->render_success($form);
+            
+            // add success class
+            $form['attributes']['form']['class'] .= !empty($form['attributes']['form']['class']) ? ' ' : '';
+            $form['attributes']['form']['class'] .= '-success';
+            
+            // hide form
+            if($form['success']['hide_form']){
+                return;
+            }
+            
         }
         
         // prepare form
@@ -525,44 +512,16 @@ class acfe_module_form_front{
      */
     function render_success($form){
         
-        $setup_meta = !acfe_is_local_meta() && !empty(acf_maybe_get_POST('acf'));
+        $setup_meta = !acfe_is_local_meta() && !empty($_POST['acf']);
         
         if($setup_meta){
-            acfe_setup_meta($_POST['acf'], 'acfe/form/success', true);
+            acfe_setup_meta(wp_unslash($_POST['acf']), 'acfe/form/success', true);
         }
         
         // apply tags
-        acfe_apply_tags($form['success']['message']);
-        acfe_apply_tags($form['success']['wrapper']);
-        
-        // default args
-        $args = array(
-            'name' => $form['name'],
-            'id'   => $form['ID'],
-        );
-        
-        // scroll to message
-        if($form['success']['scroll']){
-            
-            // enable
-            $args['scroll'] = true;
-            
-            // message exists
-            if(!empty($form['success']['message']) && !empty($form['success']['wrapper'])){
-                
-                // get css selector
-                $selector = $this->get_css_selector_from_string($form['success']['wrapper']);
-                
-                if(!empty($selector)){
-                    $args['selector'] = $selector;
-                }
-                
-            }
-            
-        }
-        
-        // append data for javascript hooks
-        acfe_append_localize_data('acfe_form_success', $args);
+        // wysiwyg is formatted later with acf_the_content filter in render_success()
+        acfe_apply_tags($form['success']['wrapper'], array('context' => 'display'));
+        acfe_apply_tags($form['success']['message'], array('context' => 'display', 'unformat' => 'wysiwyg'));
         
         // hook
         do_action('acfe/form/render_success', $form);
@@ -575,29 +534,175 @@ class acfe_module_form_front{
     
     
     /**
-     * get_css_selector_from_string
+     * set_form_data
      *
-     * @param $str
+     * @param $data
+     * @param $form
      *
-     * @return string
+     * @return mixed
      */
-    function get_css_selector_from_string($str){
+    function set_form_data($data, $form){
         
-        // extract id and class using regex
-        preg_match('/id="([^"]*)"/', $str, $idMatch);
-        preg_match('/class="([^"]*)"/', $str, $classMatch);
+        $data['cid'] =               $form['cid'];
+        $data['name'] =              $form['name'];
+        $data['id'] =                $form['ID'];
+        $data['field_class'] =       $form['attributes']['fields']['class'];
+        $data['hide_error'] =        $form['validation']['hide_error'];
+        $data['hide_unload'] =       $form['validation']['hide_unload'];
+        $data['hide_revalidation'] = $form['validation']['hide_revalidation'];
+        $data['error_position'] =    $form['validation']['errors_position'];
+        $data['error_class'] =       $form['validation']['errors_class'];
+        $data['messages'] =          $form['validation']['messages'];
+        $data['scroll'] =            $form['success']['scroll'];
+        $data['hide_form'] =         $form['success']['hide_form'];
+        $data['success'] =           false;
         
-        // construct jQuery selector
-        $selector = '';
-        if(!empty($idMatch)){
-            $selector .= '#' . $idMatch[1];
+        return $data;
+        
+    }
+    
+    
+    /**
+     * get_form_validation
+     *
+     * @return array|false
+     */
+    function get_form_validation(){
+        
+        $valid_screen = acfe_is_front() && acf_maybe_get_POST('_acf_screen') === 'acfe_form';
+        $form = acfe_get_form_sent();
+        
+        if($valid_screen && $form){
+            return $form;
         }
-        if(!empty($classMatch)){
-            $selector .= '.' . str_replace(' ', '.', $classMatch[1]);
+        
+        return false;
+    }
+    
+    
+    /**
+     * get_form_submission
+     *
+     * @return array|false
+     */
+    function get_form_submission(){
+        
+        $valid_screen = acf_verify_nonce('acfe_form');
+        $form = acfe_get_form_sent();
+        
+        if($valid_screen && $form){
+            return $form;
         }
         
-        return $selector;
+        return false;
         
+    }
+    
+    
+    /**
+     * set_data
+     *
+     * @param $form
+     * @param $path
+     * @param $value
+     *
+     * @return void
+     */
+    function set_data($form, $path = null, $value = null){
+        
+        if($value === null){
+            $value = $path;
+            $path = null;
+        }
+        
+        // append data for acf.data
+        if($form['cid']){
+            
+            // determine path
+            $data_path = $path ? "forms.{$form['cid']}.{$path}" : "forms.{$form['cid']}";
+            
+            // localize
+            acfe_set_localize_data($data_path, $value);
+            
+        }
+        
+    }
+    
+    
+    /**
+     * override_acf_post_id
+     *
+     * wp_print_footer_scripts
+     *
+     * Override acf.data.post_id to use page id and not form post_id
+     * Multiple acfe_form() in a WP_Query loop will assign acf.data.post_id to the last post
+     *
+     * @return void
+     */
+    function override_acf_post_id(){
+        
+        // only once
+        if(!acf_did('acfe/form/override_acf_post_id')){
+            acf_set_form_data('post_id', acfe_get_post_id());
+        }
+        
+    }
+    
+    
+    /**
+     * prevent_refresh
+     *
+     * wp_print_footer_scripts
+     *
+     * Avoid multiple submissions on page refresh
+     *
+     * @return void
+     */
+    function prevent_refresh(){
+        ?>
+        <script>
+        if(window.history.replaceState){
+            window.history.replaceState(null, null, window.location.href);
+        }
+        </script>
+        <?php
+    }
+    
+    
+    /**
+     * render_form_ajax
+     *
+     * @return void
+     */
+    function render_form_ajax(){
+        
+        // validate ajax
+        if(!acf_verify_ajax()){
+            die;
+        }
+        
+        // parse options
+        $options = wp_parse_args($_POST, array(
+            'form' => false,
+        ));
+        
+        // render form
+        if(!empty($options['form'])){
+            acfe_form($options['form']);
+        }
+        
+        die;
+        
+    }
+    
+    
+    /**
+     * get_form_data
+     *
+     * @return array|false
+     */
+    function get_form_data(){
+        return acfe_get_form_sent();
     }
     
     
@@ -614,4 +719,29 @@ endif;
  */
 function acfe_form($form = array()){
     acf_get_instance('acfe_module_form_front')->render_form($form);
+}
+
+
+/**
+ * acfe_get_form
+ *
+ * @param array $form
+ *
+ * @return mixed
+ */
+function acfe_get_form(array $form = array()){
+    return acf_get_instance('acfe_module_form_front')->get_form($form);
+}
+
+
+/**
+ * acfe_set_form_data
+ *
+ * @param $form
+ * @param $value
+ *
+ * @return void
+ */
+function acfe_set_form_data($form, $path = null, $value = null){
+    acf_get_instance('acfe_module_form_front')->set_data($form, $path, $value);
 }

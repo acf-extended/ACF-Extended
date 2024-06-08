@@ -83,7 +83,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         }
     
         // apply template tags
-        acfe_apply_tags($action['load']['source']);
+        acfe_apply_tags($action['load']['source'], array('context' => 'load', 'format' => false));
         
         // vars
         $load = $action['load'];
@@ -190,22 +190,23 @@ class acfe_module_form_action_user extends acfe_module_form_action{
             // insert user
             case 'insert_user':{
                 
-                // tags opt
-                $opt = array('format' => false);
+                // tags context
+                $opt     = array('context' => 'save');
+                $opt_fmt = array('context' => 'save', 'format' => false);
                 
                 // apply tags
-                acfe_apply_tags($action['save']['target'],       $opt);
-                acfe_apply_tags($action['save']['log_user'],     $opt);
-                acfe_apply_tags($action['save']['user_email'],   $opt);
-                acfe_apply_tags($action['save']['user_login'],   $opt);
-                acfe_apply_tags($action['save']['user_pass'],    $opt);
-                acfe_apply_tags($action['save']['first_name'],   $opt);
-                acfe_apply_tags($action['save']['last_name'],    $opt);
-                acfe_apply_tags($action['save']['nickname'],     $opt);
-                acfe_apply_tags($action['save']['display_name'], $opt);
-                acfe_apply_tags($action['save']['user_url'],     $opt);
+                acfe_apply_tags($action['save']['target'],       $opt_fmt);
+                acfe_apply_tags($action['save']['log_user'],     $opt_fmt);
+                acfe_apply_tags($action['save']['user_email'],   $opt_fmt);
+                acfe_apply_tags($action['save']['user_login'],   $opt_fmt);
+                acfe_apply_tags($action['save']['user_pass'],    $opt_fmt);
+                acfe_apply_tags($action['save']['first_name'],   $opt_fmt);
+                acfe_apply_tags($action['save']['last_name'],    $opt_fmt);
+                acfe_apply_tags($action['save']['nickname'],     $opt_fmt);
+                acfe_apply_tags($action['save']['display_name'], $opt_fmt);
+                acfe_apply_tags($action['save']['user_url'],     $opt_fmt);
                 acfe_apply_tags($action['save']['description'],  $opt);
-                acfe_apply_tags($action['save']['role'],         $opt);
+                acfe_apply_tags($action['save']['role'],         $opt_fmt);
                 
                 // sanitize password
                 $action['save']['user_pass'] = wp_specialchars_decode($action['save']['user_pass']);
@@ -221,22 +222,23 @@ class acfe_module_form_action_user extends acfe_module_form_action{
             // update user
             case 'update_user':{
                 
-                // tags opt
-                $opt = array('format' => false);
+                // tags context
+                $opt     = array('context' => 'save');
+                $opt_fmt = array('context' => 'save', 'format' => false);
                 
                 // apply tags
-                acfe_apply_tags($action['save']['target'],       $opt);
-                acfe_apply_tags($action['save']['log_user'],     $opt);
-                acfe_apply_tags($action['save']['user_email'],   $opt);
-                acfe_apply_tags($action['save']['user_login'],   $opt);
-                acfe_apply_tags($action['save']['user_pass'],    $opt);
-                acfe_apply_tags($action['save']['first_name'],   $opt);
-                acfe_apply_tags($action['save']['last_name'],    $opt);
-                acfe_apply_tags($action['save']['nickname'],     $opt);
-                acfe_apply_tags($action['save']['display_name'], $opt);
-                acfe_apply_tags($action['save']['user_url'],     $opt);
+                acfe_apply_tags($action['save']['target'],       $opt_fmt);
+                acfe_apply_tags($action['save']['log_user'],     $opt_fmt);
+                acfe_apply_tags($action['save']['user_email'],   $opt_fmt);
+                acfe_apply_tags($action['save']['user_login'],   $opt_fmt);
+                acfe_apply_tags($action['save']['user_pass'],    $opt_fmt);
+                acfe_apply_tags($action['save']['first_name'],   $opt_fmt);
+                acfe_apply_tags($action['save']['last_name'],    $opt_fmt);
+                acfe_apply_tags($action['save']['nickname'],     $opt_fmt);
+                acfe_apply_tags($action['save']['display_name'], $opt_fmt);
+                acfe_apply_tags($action['save']['user_url'],     $opt_fmt);
                 acfe_apply_tags($action['save']['description'],  $opt);
-                acfe_apply_tags($action['save']['role'],         $opt);
+                acfe_apply_tags($action['save']['role'],         $opt_fmt);
                 
                 // sanitize password
                 $action['save']['user_pass'] = wp_specialchars_decode($action['save']['user_pass']);
@@ -258,7 +260,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
             case 'log_user':{
                 
                 // tags opt
-                $opt = array('format' => false);
+                $opt = array('context' => 'save', 'format' => false);
                 
                 // apply tags
                 acfe_apply_tags($action['login']['type'],     $opt);
@@ -643,9 +645,17 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                 // log user once created
                 if($action['save']['log_user']){
                     
+                    // catch auth setcookie
+                    // and assign $_COOKIE so we don't need to reload the page
+                    add_action('set_auth_cookie',         array($this, 'set_auth_cookie'));
+                    add_action('set_logged_in_cookie',    array($this, 'set_logged_in_cookie'));
+                    
                     wp_clear_auth_cookie();
                     wp_set_current_user($user_id);
                     wp_set_auth_cookie($user_id);
+                    
+                    remove_action('set_auth_cookie',      array($this, 'set_auth_cookie'));
+                    remove_action('set_logged_in_cookie', array($this, 'set_logged_in_cookie'));
                     
                 }
                 
@@ -754,14 +764,25 @@ class acfe_module_form_action_user extends acfe_module_form_action{
             'user_password' => $action['login']['pass'],
             'remember'      => boolval($action['login']['remember'])
         );
+        
+        // catch auth setcookie
+        // and assign $_COOKIE so we don't need to reload the page
+        add_action('set_auth_cookie',         array($this, 'set_auth_cookie'));
+        add_action('set_logged_in_cookie',    array($this, 'set_logged_in_cookie'));
     
         // signon
         $user = wp_signon($args, is_ssl());
+        
+        remove_action('set_auth_cookie',      array($this, 'set_auth_cookie'));
+        remove_action('set_logged_in_cookie', array($this, 'set_logged_in_cookie'));
     
         // validate
         if(!$user || is_wp_error($user)){
             return false;
         }
+        
+        // setup user for is_user_logged_in()
+        wp_set_current_user($user->ID);
         
         // return
         return array(
@@ -841,6 +862,33 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         // return
         return $user;
         
+    }
+    
+    
+    /**
+     * set_auth_cookie
+     *
+     * @param $cookie
+     *
+     * @return void
+     */
+    function set_auth_cookie($cookie){
+        
+        $cookie_name = is_ssl() ? SECURE_AUTH_COOKIE : AUTH_COOKIE;
+        $_COOKIE[ $cookie_name ] = $cookie;
+        
+    }
+    
+    
+    /**
+     * set_logged_in_cookie
+     *
+     * @param $cookie
+     *
+     * @return void
+     */
+    function set_logged_in_cookie($cookie){
+        $_COOKIE[ LOGGED_IN_COOKIE ] = $cookie;
     }
     
     
@@ -2264,6 +2312,6 @@ class acfe_module_form_action_user extends acfe_module_form_action{
     
 }
 
-acfe_register_form_action('acfe_module_form_action_user');
+acfe_register_form_action_type('acfe_module_form_action_user');
 
 endif;

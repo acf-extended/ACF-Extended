@@ -20,6 +20,7 @@ class acfe_module_form_format{
         add_filter('acfe/form/format_value/type=acfe_taxonomy_terms',    array($this, 'format_value_taxonomy'), 5, 4);
         add_filter('acfe/form/format_value/type=image',                  array($this, 'format_value_file'), 5, 4);
         add_filter('acfe/form/format_value/type=file',                   array($this, 'format_value_file'), 5, 4);
+        add_filter('acfe/form/format_value/type=gallery',                array($this, 'format_value_file'), 5, 4);
         add_filter('acfe/form/format_value/type=select',                 array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=checkbox',               array($this, 'format_value_select'), 5, 4);
         add_filter('acfe/form/format_value/type=radio',                  array($this, 'format_value_select'), 5, 4);
@@ -50,9 +51,7 @@ class acfe_module_form_format{
         
         // loop values
         foreach($value as $p_id){
-            
             $array[] = get_the_title($p_id);
-            
         }
         
         // merge
@@ -147,9 +146,7 @@ class acfe_module_form_format{
         $array = array();
         
         foreach($value as $v){
-            
             $array[] = get_the_title($v);
-            
         }
         
         return implode(', ', $array);
@@ -381,7 +378,17 @@ class acfe_module_form_format{
      */
     function format_value($unformatted, $field){
         
-        $post_id = 0;
+        // vars
+        $post_id = acf_get_valid_post_id();
+        $field_name = $field['name'];
+        
+        // check & delete store
+        // this fix an issue where different group subfields with same name will output same value
+        // this is because group subfields have singular name. ie: 'textarea' instead of 'group_textarea'
+        $store = acf_get_store('values');
+        if($store->has("$post_id:$field_name:formatted")){
+            $store->remove("$post_id:$field_name:formatted");
+        }
         
         // format value
         $formatted = acf_format_value($unformatted, $post_id, $field);

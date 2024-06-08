@@ -196,7 +196,7 @@ class acfe_module_form_action{
     function load_acf_values($form, $post_id, $acf_fields, $acf_fields_exclude){
         
         // get fields
-        $acf = acfe_get_fields($post_id, false);
+        $acf = acfe_get_fields($post_id);
     
         // load acf fields
         foreach($acf_fields as $field_key){
@@ -215,7 +215,7 @@ class acfe_module_form_action{
             $field = acf_get_field($field_key);
             $value = acfe_get_value_from_acf_values_by_key($acf, $field_key);
             
-            // value is null
+            // value is null (doesn't exist in database for $post_id)
             // might be a "taxonomy field" with "load values" enabled
             if($field && $value === null){
                 
@@ -405,13 +405,13 @@ acf_register_store('acfe-module-form-actions');
 
 
 /**
- * acfe_register_form_action
+ * acfe_register_form_action_type
  *
  * @param $class
  *
  * @return bool
  */
-function acfe_register_form_action($class){
+function acfe_register_form_action_type($class){
     
     // instantiate
     $action = new $class();
@@ -426,10 +426,10 @@ function acfe_register_form_action($class){
 
 
 /**
- * acfe_get_form_actions
+ * acfe_get_form_action_types
  * @return array|mixed|null
  */
-function acfe_get_form_actions(){
+function acfe_get_form_action_types(){
     return acf_get_store('acfe-module-form-actions')->get();
 }
 
@@ -441,19 +441,19 @@ function acfe_get_form_actions(){
  *
  * @return array|mixed|null
  */
-function acfe_get_form_action($name){
+function acfe_get_form_action_type($name){
     return acf_get_store('acfe-module-form-actions')->get($name);
 }
 
 
 /**
- * acfe_query_form_action
+ * acfe_query_form_action_type
  *
  * @param $query
  *
  * @return false|mixed
  */
-function acfe_query_form_action($query = array()){
+function acfe_query_form_action_type($query = array()){
     
     $module = acf_get_store('acfe-module-form-actions')->query($query);
     

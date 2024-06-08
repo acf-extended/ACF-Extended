@@ -1093,7 +1093,8 @@
             modal = new acfe.Modal($modal, args);
 
             // actions
-            acf.doAction('new_modal', modal);
+            acf.doAction('acfe/new_modal', modal);
+            acfe.doActionDeprecated('new_modal', [modal], '0.9.0.5', 'acfe/new_modal');
 
             // return
             return modal;
@@ -1109,7 +1110,8 @@
         modal = new acfe.Modal(args);
 
         // actions
-        acf.doAction('new_modal', modal);
+        acf.doAction('acfe/new_modal', modal);
+        acfe.doActionDeprecated('new_modal', [modal], '0.9.0.5', 'acfe/new_modal');
 
         // return
         return modal;
@@ -2265,6 +2267,26 @@
             // fallback
         } else {
             fallbackCopy(data, message);
+        }
+
+    }
+
+
+    /**
+     * acfe.scrollTo
+     *
+     * Scroll to element, if needed with acf.isInView()
+     *
+     * @param $el
+     * @param scrollTime
+     * @constructor
+     */
+    acfe.scrollTo = function($el, scrollTime = 500) {
+
+        if (!acf.isInView($el)) {
+            $('body, html').animate({
+                scrollTop: $el.offset().top - $(window).height() / 2
+            }, scrollTime);
         }
 
     }

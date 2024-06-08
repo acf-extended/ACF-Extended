@@ -76,7 +76,7 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         }
         
         // apply template tags
-        acfe_apply_tags($action['load']['source']);
+        acfe_apply_tags($action['load']['source'], array('context' => 'load', 'format' => false));
         
         // vars
         $load = $action['load'];
@@ -130,7 +130,7 @@ class acfe_module_form_action_post extends acfe_module_form_action{
                     $acf_fields_exclude[] = $field_key;
                     
                     // assign post field as value
-                    $form['map'][$field_key]['value'] = get_post_field($post_field, $post_id);
+                    $form['map'][ $field_key ]['value'] = get_post_field($post_field, $post_id);
                     
                 }
                 
@@ -207,6 +207,46 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         // load acf values
         $form = $this->load_acf_values($form, $post_id, $acf_fields, $acf_fields_exclude);
         
+        // media field keys
+        if($action['type'] === 'update_post'){
+            
+            // vars
+            $field_keys = array();
+            $all_fields = array_merge(array_values($load), array_values($acf_fields));
+            
+            // loop post fields
+            foreach($all_fields as $field_key){
+                
+                // get field
+                $field = acf_get_field($field_key);
+                
+                // check field type
+                if($field && in_array($field['type'], array('file', 'image', 'gallery'))){
+                    $field_keys[] = $field_key;
+                }
+                
+            }
+            
+            // localize data
+            if(!empty($field_keys)){
+                
+                add_filter('acfe/form/set_form_data', function($data, $displayed_form) use($post_id, $field_keys, $form){
+                    
+                    if($displayed_form['cid'] === $form['cid']){
+                        $data['media'] = array(
+                            'post_id' => $post_id,
+                            'fields'  => $field_keys
+                        );
+                    }
+                    
+                    return $data;
+                    
+                }, 10, 2);
+                
+            }
+            
+        }
+        
         // return
         return $form;
     
@@ -255,26 +295,31 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         // output
         $this->generate_output($post_id, $args, $form, $action);
         
-        // globals
-        global $acfe_form_post_id;
-        $acfe_form_post_id = $form['post_id'];
-        
-        // update file/image/gallery attachment
-        add_filter('acf/update_value/type=file',    array($this, 'update_file_value'), 20, 3);
-        add_filter('acf/update_value/type=image',   array($this, 'update_file_value'), 20, 3);
-        add_filter('acf/update_value/type=gallery', array($this, 'update_file_value'), 20, 3);
+        // update gallery attachment
+        add_filter('acf/update_value/type=gallery', array($this, 'update_gallery_value'), 20, 3);
     
         // acf values
         $this->save_acf_fields($post_id, $action);
         
-        remove_filter('acf/update_value/type=file',    array($this, 'update_file_value'), 20);
-        remove_filter('acf/update_value/type=image',   array($this, 'update_file_value'), 20);
-        remove_filter('acf/update_value/type=gallery', array($this, 'update_file_value'), 20);
+        remove_filter('acf/update_value/type=gallery', array($this, 'update_gallery_value'), 20);
         
         // hooks
         do_action("acfe/form/submit_post",                          $post_id, $args, $form, $action);
         do_action("acfe/form/submit_post/form={$form['name']}",     $post_id, $args, $form, $action);
         do_action("acfe/form/submit_post/action={$action['name']}", $post_id, $args, $form, $action);
+        
+        // update queried object
+        // this fix an issue where current post is not displaying updated title/content/author
+        // when the form update the queried_object() post
+        if($action['type'] === 'update_post'){
+            if($post_id === get_queried_object_id()){
+                
+                // refresh current post
+                global $wp;
+                $wp->query_posts();
+                
+            }
+        }
     
     }
     
@@ -294,21 +339,22 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         $has_post_thumbnail = !acf_is_empty($action['save']['post_thumbnail']);
         
         // tags context
-        $opt = array('format' => false);
-        $opt_raw = array('format' => false, 'return' => 'raw');
+        $opt     = array('context' => 'save');
+        $opt_fmt = array('context' => 'save', 'format' => false);
+        $opt_raw = array('context' => 'save', 'format' => false, 'return' => 'raw');
         
         // apply tags
-        acfe_apply_tags($action['save']['target'],         $opt);
-        acfe_apply_tags($action['save']['post_type'],      $opt);
-        acfe_apply_tags($action['save']['post_status'],    $opt);
-        acfe_apply_tags($action['save']['post_title']);
-        acfe_apply_tags($action['save']['post_name']);
-        acfe_apply_tags($action['save']['post_content']);
-        acfe_apply_tags($action['save']['post_excerpt']);
-        acfe_apply_tags($action['save']['post_author'],    $opt);
-        acfe_apply_tags($action['save']['post_parent'],    $opt);
-        acfe_apply_tags($action['save']['post_date'],      $opt);
-        acfe_apply_tags($action['save']['post_thumbnail'], $opt);
+        acfe_apply_tags($action['save']['target'],         $opt_fmt);
+        acfe_apply_tags($action['save']['post_type'],      $opt_fmt);
+        acfe_apply_tags($action['save']['post_status'],    $opt_fmt);
+        acfe_apply_tags($action['save']['post_title'],     $opt);
+        acfe_apply_tags($action['save']['post_name'],      $opt);
+        acfe_apply_tags($action['save']['post_content'],   $opt);
+        acfe_apply_tags($action['save']['post_excerpt'],   $opt);
+        acfe_apply_tags($action['save']['post_author'],    $opt_fmt);
+        acfe_apply_tags($action['save']['post_parent'],    $opt_fmt);
+        acfe_apply_tags($action['save']['post_date'],      $opt_fmt);
+        acfe_apply_tags($action['save']['post_thumbnail'], $opt_fmt);
         acfe_apply_tags($action['save']['post_terms'],     $opt_raw);
         
         // if post parent is supposed to have a value but is empty, set it to 0
@@ -409,8 +455,9 @@ class acfe_module_form_action_post extends acfe_module_form_action{
             return false;
         }
         
-        // generated id
-        acfe_add_context('generated_id', $post_id);
+        // context
+        // generated_id
+        acfe_add_context(array('context' => 'save', 'generated_id' => $post_id));
         
         acfe_apply_tags($action['save']['post_title']);
         acfe_apply_tags($action['save']['post_name']);
@@ -418,7 +465,7 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         $save['post_title'] = $action['save']['post_title'];
         $save['post_name'] = $action['save']['post_name'];
         
-        acfe_delete_context('generated_id');
+        acfe_delete_context(array('context', 'generated_id'));
     
         // default post arguments
         $args = array(
@@ -560,7 +607,7 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         $post['admin_url'] = admin_url("post.php?post={$post_id}&action=edit");
         
         // get user array
-        $user = acfe_get_form_action('user')->get_user_array($post['post_author']);
+        $user = acfe_get_form_action_type('user')->get_user_array($post['post_author']);
         
         if($user){
             $post['post_author_data'] = $user;
@@ -578,7 +625,7 @@ class acfe_module_form_action_post extends acfe_module_form_action{
     
     
     /**
-     * update_file_value
+     * update_gallery_value
      *
      * @param $value
      * @param $post_id
@@ -586,51 +633,16 @@ class acfe_module_form_action_post extends acfe_module_form_action{
      *
      * @return mixed
      */
-    function update_file_value($value, $post_id, $field){
+    function update_gallery_value($value, $post_id, $field){
         
-        // globals
-        global $acfe_form_post_id;
-        
-        // validate post id
-        if(!$post_id || !is_numeric($post_id)){
-            return $value;
-        }
-        
-        // empty value
+        // bail early
         if(empty($value)){
             return $value;
         }
         
-        // validate value
-        $attachments = acf_get_array($value);
-        $attachments = array_map('acf_idval', $attachments);
-        
-        foreach($attachments as $attachment_id){
-            
-            // validate attachment
-            if(!$attachment_id || !is_numeric($attachment_id)){
-                continue;
-            }
-            
-            // allow filter
-            if(!apply_filters( 'acf/connect_attachment_to_post', true, $attachment_id, $post_id)){
-                continue;
-            }
-            
-            // get attachment post
-            $post = get_post($attachment_id);
-            
-            // validate post and check if the attachment was uploaded on the "form" page
-            if($post && $post->post_type == 'attachment' && $post->post_parent === $acfe_form_post_id && $post_id !== $acfe_form_post_id){
-                
-                // update
-                wp_update_post(array(
-                    'ID'          => $post->ID,
-                    'post_parent' => $post_id,
-                ));
-                
-            }
-            
+        // loop attachments
+        foreach($value as $attachment_id){
+            acf_connect_attachment_to_post($attachment_id, $post_id);
         }
         
         return $value;
@@ -2158,6 +2170,6 @@ class acfe_module_form_action_post extends acfe_module_form_action{
     
 }
 
-acfe_register_form_action('acfe_module_form_action_post');
+acfe_register_form_action_type('acfe_module_form_action_post');
 
 endif;

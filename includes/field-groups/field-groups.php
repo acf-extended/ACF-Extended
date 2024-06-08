@@ -103,7 +103,6 @@ class ACFE_Field_Groups{
                         'acfe-source'   => __('Source', 'acf'),
                         'acf-count'     => __('Fields', 'acf'),
                         'acfe-location' => __('Location', 'acf'),
-                        'acfe-load'     => __('Load', 'acf'),
                     );
         
                 }else{
@@ -114,16 +113,19 @@ class ACFE_Field_Groups{
                         'acfe-source'   => __('Source', 'acf'),
                         'acf-count'     => __('Fields', 'acf'),
                         'acf-location'  => __('Location', 'acf'),
-                        'acfe-load'     => __('Load', 'acf'),
                     );
         
+                }
+                
+                if(acf_get_setting('acfe/php') || acf_get_setting('acfe/json')){
+                    $columns['acfe-load'] = __('Load', 'acf');
                 }
     
                 if(acf_get_setting('acfe/php')){
                     $columns['acfe-autosync-php'] = __('PHP Sync');
                 }
     
-                if(acf_get_setting('json')){
+                if(acf_get_setting('acfe/json')){
                     $columns['acfe-autosync-json'] = __('Json Sync', 'acf');
                 }
     
@@ -140,13 +142,16 @@ class ACFE_Field_Groups{
                     acfe_unset($columns, 'acf-fg-status');
         
                     $columns['acfe-location'] = __('Location', 'acf');
-                    $columns['acfe-load'] = __('Load', 'acf');
+                    
+                    if(acf_get_setting('acfe/php') || acf_get_setting('acfe/json')){
+                        $columns['acfe-load'] = __('Load', 'acf');
+                    }
         
                     if(acf_get_setting('acfe/php')){
                         $columns['acfe-autosync-php'] = __('PHP');
                     }
         
-                    if(acf_get_setting('json')){
+                    if(acf_get_setting('acfe/json')){
                         $columns['acfe-autosync-json'] = __('Json');
                     }
         
@@ -161,15 +166,17 @@ class ACFE_Field_Groups{
         
                     $columns['acf-count'] = __('Fields', 'acf');
                     $columns['acf-location'] = __('Location', 'acf');
-        
-                    $columns['acfe-load'] = __('Load', 'acf');
+                    
+                    if(acf_get_setting('acfe/php') || acf_get_setting('acfe/json')){
+                        $columns['acfe-load'] = __('Load', 'acf');
+                    }
         
                     if(acf_get_setting('acfe/php')){
                         $columns['acfe-autosync-php'] = __('PHP');
                     }
         
                     if(acf_get_setting('json')){
-                        $columns['acfe-autosync-json'] = __('Json', 'acf');
+                        $columns['acfe-autosync-json'] = __('Json');
                     }
         
                 }
@@ -402,7 +409,7 @@ class ACFE_Field_Groups{
     
         $php = acfe_get_local_php_files();
     
-        if(isset($php[$field_group['key']])){
+        if(isset($php[ $field_group['key'] ])){
         
             $file = $php[$field_group['key']];
             $file_readable = $this->get_human_readable_file_location($file);
@@ -426,14 +433,8 @@ class ACFE_Field_Groups{
         
         }else{
     
-            $path = untrailingslashit(acf_get_setting('acfe/php_save'));
-    
-            $path = apply_filters("acfe/settings/php_save/all",                         $path, $field_group);
-            $path = apply_filters("acfe/settings/php_save/ID={$field_group['ID']}",     $path, $field_group);
-            $path = apply_filters("acfe/settings/php_save/key={$field_group['key']}",   $path, $field_group);
-            
+            $path = acfe_get_php_save_path($field_group);
             $found = (bool) is_dir($path) && wp_is_writable($path);
-            
             $folder = $this->get_human_readable_file_location($path, $found, false);
             
             if(acfe_has_php_sync($field_group)){
@@ -460,8 +461,9 @@ class ACFE_Field_Groups{
             $return['warning'] = false;
             $return['class'] = false;
             
-            if($return['icon'] !== 'yes')
+            if($return['icon'] !== 'yes'){
                 $return['class'] = 'secondary';
+            }
             
         }
         
@@ -540,12 +542,12 @@ class ACFE_Field_Groups{
     
         $json = acf_get_local_json_files();
     
-        if(isset($json[$field_group['key']])){
+        if(isset($json[ $field_group['key'] ])){
         
             $file = $json[$field_group['key']];
             $file_readable = $this->get_human_readable_file_location($file);
         
-            if(isset($this->sync[$field_group['key']])){
+            if(isset($this->sync[ $field_group['key'] ])){
                 
                 // vars
                 $nonce = wp_create_nonce('bulk-posts');
@@ -596,14 +598,8 @@ class ACFE_Field_Groups{
         
         }else{
     
-            $path = untrailingslashit(acf_get_setting('save_json'));
-    
-            $path = apply_filters("acfe/settings/json_save/all",                        $path, $field_group);
-            $path = apply_filters("acfe/settings/json_save/ID={$field_group['ID']}",    $path, $field_group);
-            $path = apply_filters("acfe/settings/json_save/key={$field_group['key']}",  $path, $field_group);
-    
+            $path = acfe_get_json_save_path($field_group);
             $found = (bool) is_dir($path) && wp_is_writable($path);
-    
             $folder = $this->get_human_readable_file_location($path, $found, false);
         
             if(acfe_has_json_sync($field_group)){
@@ -630,8 +626,9 @@ class ACFE_Field_Groups{
             $return['warning'] = false;
             $return['class'] = false;
             
-            if($return['icon'] !== 'yes')
+            if($return['icon'] !== 'yes'){
                 $return['class'] = 'secondary';
+            }
         
         }
         

@@ -320,32 +320,38 @@ class acfe_field_settings{
                 // custom
                 if($property['acfe_settings_setting_type'] === 'custom'){
                     
-                    if(!isset($property['acfe_settings_setting_name']) || empty($property['acfe_settings_setting_name'])){
-                        continue;
+                    if(!empty($property['acfe_settings_setting_name'])){
+                        $property_name = $property['acfe_settings_setting_name'];
                     }
                     
-                    $property_name = $property['acfe_settings_setting_name'];
+                }
+                
+                switch($property['acfe_settings_setting_operator']){
                     
-                }
-                
-                // = value
-                if($property['acfe_settings_setting_operator'] === '='){
-                    $field[$property_name] = $property['acfe_settings_setting_value'];
-                }
-                
-                // = true
-                elseif($property['acfe_settings_setting_operator'] === 'true'){
-                    $field[$property_name] = true;
-                }
-                
-                // = false
-                elseif($property['acfe_settings_setting_operator'] === 'false'){
-                    $field[$property_name] = false;
-                }
-                
-                // = empty
-                elseif($property['acfe_settings_setting_operator'] === 'empty'){
-                    $field[$property_name] = '';
+                    // custom value
+                    case '=': {
+                        acfe_array_set($field, $property_name, $property['acfe_settings_setting_value']);
+                        break;
+                    }
+                    
+                    // true
+                    case 'true': {
+                        acfe_array_set($field, $property_name, true);
+                        break;
+                    }
+                    
+                    // false
+                    case 'false': {
+                        acfe_array_set($field, $property_name, false);
+                        break;
+                    }
+                    
+                    // empty
+                    case 'empty': {
+                        acfe_array_set($field, $property_name, '');
+                        break;
+                    }
+                    
                 }
                 
             }

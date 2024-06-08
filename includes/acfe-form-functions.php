@@ -36,25 +36,26 @@ function acfe_get_pretty_forms($allowed = array()){
 
 
 /**
- * acfe_form_decrypt_args
+ * acfe_get_form_sent
  *
- * Wrapper to decrypt ACF & ACFE Forms arguments
- *
- * @return false|mixed
+ * @return array|false
  */
-function acfe_form_decrypt_args(){
+function acfe_get_form_sent(){
     
-    if(!acf_maybe_get_POST('_acf_form')){
-        return false;
+    // check post data
+    if(!empty($_POST['_acf_form'])){
+        
+        // decode post data
+        $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
+        
+        // validate
+        if(!empty($form) && is_array($form)){
+            return $form;
+        }
+        
     }
     
-    $form = json_decode(acf_decrypt($_POST['_acf_form']), true);
-    
-    if(empty($form)){
-        return false;
-    }
-    
-    return $form;
+    return false;
     
 }
 
@@ -64,114 +65,57 @@ function acfe_form_decrypt_args(){
  *
  * Check if the current page is a success form page
  *
- * @param false $form_name
+ * @param false $args
  *
  * @return bool
  */
-function acfe_is_form_success($form_name = false){
+function acfe_is_form_success($args = false){
     
-    if(!acf_maybe_get_POST('_acf_form')){
-        return false;
-    }
+    // get success form
+    $form = acfe_get_form_sent();
     
-    $form = acfe_form_decrypt_args();
-    
+    // no form found
     if(empty($form)){
         return false;
     }
     
-    if(!empty($form_name) && acf_maybe_get($form, 'name') !== $form_name){
-        return false;
-    }
-    
-    // avoid multiple submissions
-    // this method is already added in js
-    // but it must be added here in case developer use this as conditional on acfe_form()
-    // and thus, prevent the acf javascript from being enqueued
-    if(headers_sent()){
+    // argument
+    if($args){
         
-        // check filter
-        if(!acf_is_filter_enabled('acfe/form/is_success')){
-            ?>
-            <script>
-                if(window.history.replaceState){
-                    window.history.replaceState(null, null, window.location.href);
-                }
-            </script>
-            <?php
+        // name
+        if(is_string($args)){
             
-            // only once
-            acf_enable_filter('acfe/form/is_success');
+            // compare
+            return acf_maybe_get($form, 'name') === $args;
+            
+        // array
+        }elseif(is_array($args)){
+            
+            // cleanup keys that are subject to change (via hook or template tag)
+            unset($form['settings'], $form['attributes'], $form['validation'], $form['success'], $form['render'], $form['uniqid'], $form['cid'], $form['map']);
+            unset($args['settings'], $args['attributes'], $args['validation'], $args['success'], $args['render'], $args['uniqid'], $args['cid'], $args['map']);
+            
+            // compare
+            return $form === $args;
+            
         }
         
     }
     
+    // return
     return true;
     
 }
 
 
 /**
- * acfe_form_is_submitted
- *
- * check if the current page is a success form page
- *
- * @param false $form_name
- *
- * @return bool
- *
- * @deprecated
- */
-function acfe_form_is_submitted($form_name = false){
-    
-    _deprecated_function('ACF Extended: acfe_form_is_submitted()', '0.8.7.5', "acfe_is_form_success()");
-    
-    return acfe_is_form_success($form_name);
-    
-}
-
-
-/**
- * acfe_form_unique_action_id
- *
- * Make actions names unique
- *
- * @param $form
- * @param $type
- *
- * @return string
- */
-function acfe_form_unique_action_id($form, $type){
-    
-    // global
-    global $acfe_form_uniqid;
-    $acfe_form_uniqid = acf_get_array($acfe_form_uniqid);
-    
-    $name = "{$form['name']}-{$type}";
-    
-    if(!isset($acfe_form_uniqid[ $type ])){
-        $acfe_form_uniqid[ $type ] = 1;
-    }
-    
-    if($acfe_form_uniqid[ $type ] > 1){
-        $name = "{$name}-{$acfe_form_uniqid[ $type ]}";
-    }
-    
-    $acfe_form_uniqid[ $type ]++;
-    
-    return $name;
-    
-}
-
-
-/**
- * acfe_form_get_actions
+ * acfe_get_form_actions
  *
  * Retrieve all actions output
  *
- * @return array|false|string[]
+ * @return array
  */
-function acfe_form_get_actions(){
+function acfe_get_form_actions(){
     
     // get actions
     $actions = acf_get_form_data('acfe/form/actions');
@@ -179,76 +123,60 @@ function acfe_form_get_actions(){
     
     // return
     return $actions;
+    
 }
 
-
 /**
- * acfe_form_get_action
+ * acfe_get_form_action
  *
  * Retrieve the latest action output
  *
- * @param false $name
- * @param false $key
+ * @param      $path
+ * @param null $default
  *
- * @return false|mixed|null
+ * @return false|mixed|string|null
  */
-function acfe_form_get_action($name = false, $key = false){
+function acfe_get_form_action($path = null, $default = null){
     
     // get actions
-    $actions = acfe_form_get_actions();
+    $actions = acfe_get_form_actions();
     
     // no action
     if(empty($actions)){
-        return false;
+        return $default;
     }
     
     // get last action
-    $return = end($actions);
+    $action = end($actions);
     
-    // get by action name
-    if(!empty($name)){
-        $return = acf_maybe_get($actions, $name, false);
+    // get by action by path
+    if(!empty($path)){
+        $action = acfe_array_get($actions, $path, $default);
     }
     
-    if($return && !acf_is_empty($key)){
-        $return = acfe_array_get($return, $key);
-    }
-    
-    return $return;
+    return $action;
     
 }
 
 
 /**
- * acfe_form_is_admin
+ * acfe_enqueue_form
  *
- * Check if current screen is back-end
+ * Enqueue ACF scripts and append missing data when form is loaded with ajax
  *
- * @return bool
- *
- * @deprecated
+ * @return void
  */
-function acfe_form_is_admin(){
+function acfe_enqueue_form(){
     
-    _deprecated_function('ACF Extended: acfe_form_is_admin()', '0.8.8', "acfe_is_admin()");
-    return acfe_is_admin();
+    // enqueue acf scripts
+    acf_enqueue_scripts(array(
+        'uploader' => true, // uploader for WYSIWYG field
+    ));
     
-}
-
-
-/**
- * acfe_form_is_front
- *
- * Check if current screen is front-end
- *
- * @return bool
- *
- * @deprecated
- */
-function acfe_form_is_front(){
-    
-    _deprecated_function('ACF Extended: acfe_form_is_front()', '0.8.8', "acfe_is_front()");
-    return acfe_is_front();
+    // append missing data
+    acf_set_form_data('screen', 'acfe_form');
+    acf_set_form_data('post_id', acfe_get_post_id());
+    acf_set_form_data('validation', true);
     
 }
 
@@ -334,5 +262,146 @@ function acfe_import_form($args){
     }
     
     return $result;
+    
+}
+
+
+/**
+ * acfe_form_unique_action_id
+ *
+ * Make actions names unique
+ *
+ * @param $form
+ * @param $type
+ *
+ * @return string
+ *
+ * @deprecated
+ */
+function acfe_form_unique_action_id($form, $type){
+    
+    _deprecated_function('ACF Extended: acfe_form_unique_action_id()', '0.9');
+    
+    // global
+    global $acfe_form_uniqid;
+    $acfe_form_uniqid = acf_get_array($acfe_form_uniqid);
+    
+    $name = "{$form['name']}-{$type}";
+    
+    if(!isset($acfe_form_uniqid[ $type ])){
+        $acfe_form_uniqid[ $type ] = 1;
+    }
+    
+    if($acfe_form_uniqid[ $type ] > 1){
+        $name = "{$name}-{$acfe_form_uniqid[ $type ]}";
+    }
+    
+    $acfe_form_uniqid[ $type ]++;
+    
+    return $name;
+    
+}
+
+
+/**
+ * acfe_form_get_actions
+ *
+ * Retrieve all actions output
+ *
+ * @return array|string[]
+ *
+ * @deprecated
+ */
+function acfe_form_get_actions(){
+    return acfe_get_form_actions();
+}
+
+
+/**
+ * acfe_form_get_action
+ *
+ * Retrieve the latest action output
+ *
+ * @param false $name
+ * @param false $key
+ *
+ * @return false|mixed|null
+ *
+ * @deprecated
+ */
+function acfe_form_get_action($name = false, $key = false){
+    
+    // append key to path
+    $name = !$key ? $name : "{$name}.{$key}";
+    return acfe_get_form_action($name);
+}
+
+
+/**
+ * acfe_form_decrypt_args
+ *
+ * Wrapper to decrypt ACF & ACFE Forms arguments
+ *
+ * @return array|false
+ *
+ * @deprecated
+ */
+function acfe_form_decrypt_args(){
+    
+    _deprecated_function('ACF Extended: acfe_form_decrypt_args()', '0.9.0.5', "acfe_get_form_sent()");
+    return acfe_get_form_sent();
+    
+}
+
+
+/**
+ * acfe_form_is_submitted
+ *
+ * check if the current page is a success form page
+ *
+ * @param false $name
+ *
+ * @return bool
+ *
+ * @deprecated
+ */
+function acfe_form_is_submitted($name = false){
+    
+    _deprecated_function('ACF Extended: acfe_form_is_submitted()', '0.8.7.5', "acfe_is_form_success()");
+    return acfe_is_form_success($name);
+    
+}
+
+
+/**
+ * acfe_form_is_admin
+ *
+ * Check if current screen is back-end
+ *
+ * @return bool
+ *
+ * @deprecated
+ */
+function acfe_form_is_admin(){
+    
+    _deprecated_function('ACF Extended: acfe_form_is_admin()', '0.8.8', "acfe_is_admin()");
+    return acfe_is_admin();
+    
+}
+
+
+/**
+ * acfe_form_is_front
+ *
+ * Check if current screen is front-end
+ *
+ * @return bool
+ *
+ * @deprecated
+ */
+function acfe_form_is_front(){
+    
+    _deprecated_function('ACF Extended: acfe_form_is_front()', '0.8.8', "acfe_is_front()");
+    return acfe_is_front();
     
 }

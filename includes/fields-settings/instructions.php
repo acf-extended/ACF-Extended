@@ -15,7 +15,22 @@ class acfe_instructions{
         
     }
     
+    
+    /**
+     * pre_render_field_group
+     *
+     * @param $field_group
+     * @param $fields
+     * @param $post_id
+     *
+     * @return void
+     */
     function pre_render_field_group($field_group, $fields, $post_id){
+        
+        // bail early on override (acfe_form)
+        if(acf_is_filter_enabled('acfe/override_instruction')){
+            return;
+        }
         
         acf_disable_filter('acfe/instruction_tooltip');
         acf_disable_filter('acfe/instruction_above_field');
@@ -32,24 +47,28 @@ class acfe_instructions{
         
     }
     
+    
+    /**
+     * field_wrapper_attributes
+     *
+     * @param $wrapper
+     * @param $field
+     *
+     * @return mixed
+     */
     function field_wrapper_attributes($wrapper, $field){
         
         if(!acf_maybe_get($field, 'label')){
-            
             $wrapper['class'] .= ' acfe-no-label';
-            
         }
         
         if(acf_maybe_get($field, 'instructions')){
             
             if(acf_is_filter_enabled('acfe/instruction_tooltip')){
-                
                 $wrapper['data-instruction-tooltip'] = acf_esc_html($field['instructions']);
                 
             }elseif(acf_is_filter_enabled('acfe/instruction_above_field')){
-                
                 $wrapper['data-instruction-above-field'] = acf_esc_html($field['instructions']);
-                
             }
             
         }

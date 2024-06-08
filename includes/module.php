@@ -833,7 +833,7 @@ class acfe_module{
     function translate_item($item = array()){
     
         foreach($this->l10n as $k){
-            $item[ $k ] = acf_translate($item[ $k ]);
+            acfe_array_set($item, $k, acf_translate(acfe_array_get($item, $k)));
         }
         
         return $item;

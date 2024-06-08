@@ -53,7 +53,7 @@ class acfe_module_form_action_redirect extends acfe_module_form_action{
     function make_action($form, $action){
         
         // apply tags
-        acfe_apply_tags($action['url']);
+        acfe_apply_tags($action['url'], array('context' => 'display'));
     
         // url
         $url = $action['url'];
@@ -173,6 +173,6 @@ class acfe_module_form_action_redirect extends acfe_module_form_action{
     
 }
 
-acfe_register_form_action('acfe_module_form_action_redirect');
+acfe_register_form_action_type('acfe_module_form_action_redirect');
 
 endif;

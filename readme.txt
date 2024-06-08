@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.9.0.4
+Stable tag: 0.9.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -487,6 +487,51 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.0.5 =
+
+**ACF Extended Pro 0.9.0.5:**
+
+* Field Group Location: Added "Dashboard > Widget" Location
+* Field Group Location: Dashboard Widget allows to update Field Groups from the WP Dashboard
+* Field Group Location: Added "Woocommerce" locations: Cart, Checkout, Account, Shop & Terms
+* Modules: AutoSync - `acfe/php` & `acfe/json` settings now control the AutoSync metabox visbility
+
+**ACF Extended Basic 0.9.0.5:**
+
+* Module: Form - Added ability to load form with ajax
+* Module: Form - Added "Validation > Global Error" settings to customize error messages
+* Module: Form - Added Instruction Placement "Tooltip" & "Above Field" options
+* Module: Form - Cleaned front-end forms HTML markup
+* Module: Form - Enhanced front-end forms JS logic
+* Module: Form - Enhanced compatibility for multiple forms on the same page
+* Module: Form - Enhanced `{field:gallery}` formatted value
+* Module: Form - Enhanced "Validation > Grouped Errors" to use the "Errors Class" setting
+* Module: Form - Fixed missing `l10n` acf setting compatibility for export
+* Module: Form - Fixed Shortcode usage in Success Message
+* Module: Form - Fixed slashed text in Success Message template tags
+* Module: Form - Post - Fixed Image/File/Gallery "Uploaded to" filter in Media Modal
+* Module: Form - Post - Fixed Gallery attachement not being connected to created/updated post
+* Module: Form - Post - Fixed Shortcode usage in Post Content
+* Module: Form - Post - Fixed current post not displaying new data if updated without redirect
+* Module: Form - Email - Fixed Shortcode usage in e-mail content/html
+* Module: Form - User - "Log In" action doesn’t require to redirect on success anymore
+* Module: Form - Added `acfe.renderForm()` & `acfe.renderFormAjax()` JS helpers
+* Module: Form - Added `acfe_enqueue_form()` PHP helper
+* Module: Form - Added `acfe_get_form_action()` allowing dot notation & default arguments
+* Module: Form - Added `acfe/form/submit_success_data` PHP hook to pass data to the JS success hook
+* Module: Form - Added `acfe/form/validation_begin` JS hook to target front-end form validation
+* Module: Form - Added `acfe/form/validation_failure` JS hook to target front-end form validation
+* Module: Form - Added `acfe/form/validation_success` JS hook to target front-end form validation
+* Module: Form - Added `acfe/form/validation_complete` JS hook to target front-end form validation
+* Field Groups: Advanced Settings - Added ability to assign field’s sub array settings using dot notation
+* Field Groups: AutoSync - Added ability to remove existing Json/PHP sync from the Field Group UI
+* Field Groups: AutoSync - `acfe/php` & `acfe/json` settings now control the sync metabox visbility
+* Field Groups: AutoSync - Added `acfe/settings/should_delete_php` hook to control the file removal
+* Field Groups: AutoSync - Added `acfe/settings/should_delete_json` hook to control the file removal
+* Field Groups: AutoSync - Fixed Json files not being correctly deleted when Field Group use a custom path
+* Global: Modal - Renamed `new_modal` js hook into `acfe/new_modal` for consistency
+* Global: Enhanced `acfe_get_post_id()` helper
 
 = 0.9.0.4 =
 

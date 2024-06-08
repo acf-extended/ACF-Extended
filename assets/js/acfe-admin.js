@@ -355,7 +355,7 @@
         wait: 'prepare',
         priority: 1,
         initialize: function() {
-            if (acfe.get('module') && acfe.get('module').screen === 'post') {
+            if (acfe.get('module') && acfe.get('module.screen') === 'post') {
                 new module(acfe.get('module'));
             }
         }
@@ -424,7 +424,7 @@
         wait: 'prepare',
         priority: 1,
         initialize: function() {
-            if (acfe.get('module') && acfe.get('module').name === 'form' && acfe.get('module').screen === 'post') {
+            if (acfe.get('module.name') === 'form' && acfe.get('module.screen') === 'post') {
                 new module();
             }
         }

@@ -17,7 +17,7 @@ if(!defined('ABSPATH')){
  */
 function acfe_array_get($array, $key, $default = null){
     
-    if(empty($key)){
+    if(empty($key) && !is_numeric($key)){
         return $array;
     }
     
@@ -46,23 +46,24 @@ function acfe_array_get($array, $key, $default = null){
     
 }
 
-
 /**
  * acfe_array_set
  *
  * @param $array
- * @param $key
+ * @param $keys
  * @param $value
  *
  * @return array|mixed
  */
-function acfe_array_set(&$array, $key, $value){
+function acfe_array_set(&$array, $keys, $value = null){
     
-    if (is_null($key)){
-        return $array = $value;
+    if(func_num_args() === 2){
+        return $array = $keys;
     }
     
-    $keys = explode('.', $key);
+    if(!is_array($keys)){
+        $keys = explode('.', $keys);
+    }
     
     foreach($keys as $i => $key){
         
@@ -75,15 +76,30 @@ function acfe_array_set(&$array, $key, $value){
         // If the key doesn't exist at this depth, we will just create an empty array
         // to hold the next value, allowing us to create the arrays to hold final
         // values at the correct depth. Then we'll keep digging into the array.
-        if (!isset($array[ $key ]) || !is_array($array[ $key ])) {
-            $array[$key] = array();
+        if(!isset($array[ $key ]) || !is_array($array[ $key ])){
+            
+            if(empty($key) && acf_is_sequential_array($array)){
+                $array[] = array();
+                $key = key(array_slice($array, -1, 1, true));
+                
+            }else{
+                $array[ $key ] = array();
+            }
+            
         }
         
         $array = &$array[ $key ];
         
     }
     
-    $array[ array_shift($keys) ] = $value;
+    // if segment finish with "."
+    $final = array_shift($keys);
+    
+    if(empty($final) && !is_numeric($final) && acf_is_sequential_array($array)){
+        $array[] = $value;
+    }else{
+        $array[ $final ] = $value;
+    }
     
     return $array;
     
@@ -708,7 +724,6 @@ function acfe_parse_args_r(&$a, $b){
     
     foreach($a as $k => &$v){
         
-        //if(is_array($v) && !empty($v) && isset($r[ $k ]) && is_array($r[ $k ]) && acf_is_associative_array($r[ $k ])){
         if(is_array($v) && isset($r[ $k ]) && is_array($r[ $k ]) && acf_is_associative_array($r[ $k ])){
             $r[ $k ] = acfe_parse_args_r($v, $r[ $k ]);
         }else{
@@ -1262,5 +1277,51 @@ function acfe_redirect($location, $status = 302){
         wp_redirect($location);
         exit;
     }
+    
+}
+
+
+/**
+ * acfe_doing_action
+ *
+ * Returns the current priority of a running action.
+ * From acf_doing_action(), but also works with ACF 5.8
+ *
+ * @param $action
+ *
+ * @return false|int
+ */
+function acfe_doing_action($action){
+    global $wp_filter;
+    if(isset($wp_filter[ $action ])){
+        return $wp_filter[ $action ]->current_priority();
+    }
+    return false;
+}
+
+
+/**
+ * acfe_str_replace_first
+ *
+ * @param $search
+ * @param $replace
+ * @param $subject
+ * @param $delete  bool Should delete the other occurrences of the search string
+ *
+ * @return array|mixed|string|string[]
+ */
+function acfe_str_replace_first($search, $replace, $subject, $delete = false){
+    
+    $pos = strpos($subject, $search);
+    
+    if($pos !== false){
+        $subject = substr_replace($subject, $replace, $pos, strlen($search));
+        
+        if($delete){
+            $subject = str_replace($search, '', $subject);
+        }
+    }
+    
+    return $subject;
     
 }

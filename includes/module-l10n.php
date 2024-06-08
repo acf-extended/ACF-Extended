@@ -27,8 +27,11 @@ class acfe_module_l10n{
      */
     function updated_item($item, $module){
         
-        foreach($module->l10n as $k){
-            acfe_register_translate($item[ $k ], ucfirst($k), "ACF Extended: {$module->get_label('name')}");
+        foreach($module->l10n as $key){
+            
+            $name = ucfirst($key);
+            acfe_register_translate(acfe_array_get($item, $key), $name, "ACF Extended: {$module->get_label('name')}");
+            
         }
         
     }
@@ -44,8 +47,11 @@ class acfe_module_l10n{
      */
     function register_item_args($item, $module){
     
-        foreach($module->l10n as $k){
-            $item[ $k ] = acfe_translate($item[ $k ], ucfirst($k), "ACF Extended: {$module->get_label('name')}");
+        foreach($module->l10n as $key){
+            
+            $name = ucfirst($key);
+            acfe_array_set($item, $key, acfe_translate(acfe_array_get($item, $key), ucfirst($name), "ACF Extended: {$module->get_label('name')}"));
+            
         }
         
         return $item;

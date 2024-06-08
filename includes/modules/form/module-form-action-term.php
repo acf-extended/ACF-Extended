@@ -63,7 +63,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         }
         
         // apply template tags
-        acfe_apply_tags($action['load']['source']);
+        acfe_apply_tags($action['load']['source'], array('context' => 'load', 'format' => false));
         
         // vars
         $load = $action['load'];
@@ -217,15 +217,16 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         $has_term_parent = !acf_is_empty($action['save']['parent']);
         
         // tags context
-        $opt = array('format' => false);
+        $opt     = array('context' => 'save');
+        $opt_fmt = array('context' => 'save', 'format' => false);
         
         // apply tags
-        acfe_apply_tags($action['save']['target'],      $opt);
+        acfe_apply_tags($action['save']['target'],      $opt_fmt);
         acfe_apply_tags($action['save']['name'],        $opt);
         acfe_apply_tags($action['save']['slug'],        $opt);
-        acfe_apply_tags($action['save']['taxonomy'],    $opt);
-        acfe_apply_tags($action['save']['parent'],      $opt);
-        acfe_apply_tags($action['save']['description']);
+        acfe_apply_tags($action['save']['taxonomy'],    $opt_fmt);
+        acfe_apply_tags($action['save']['parent'],      $opt_fmt);
+        acfe_apply_tags($action['save']['description'], $opt);
         
         // if post parent is supposed to have a value but is empty, set it to 0
         // parent was most likely removed from the field
@@ -279,7 +280,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         }
         
         // generated id
-        acfe_add_context('generated_id', $term_id);
+        acfe_add_context(array('context' => 'save', 'generated_id' => $term_id));
         
         acfe_apply_tags($action['save']['name']);
         acfe_apply_tags($action['save']['slug']);
@@ -287,7 +288,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         $save['name'] = $action['save']['name'];
         $save['slug'] = $action['save']['slug'];
         
-        acfe_delete_context('generated_id');
+        acfe_delete_context('context', 'generated_id');
         
         // get term
         $term = get_term($term_id);
@@ -1337,6 +1338,6 @@ class acfe_module_form_action_term extends acfe_module_form_action{
     
 }
 
-acfe_register_form_action('acfe_module_form_action_term');
+acfe_register_form_action_type('acfe_module_form_action_term');
 
 endif;
