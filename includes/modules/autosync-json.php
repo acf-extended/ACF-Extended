@@ -47,6 +47,13 @@ class ACFE_AutoSync_Json{
      * @return bool
      */
     function override_json($value){
+        
+        // not very elegant, but it allows
+        // acf_update_setting('json', false) to work mid-page request
+        if($value === false){
+            return false;
+        }
+        
         return (bool) acf_get_setting('acfe/json', $value);
     }
     

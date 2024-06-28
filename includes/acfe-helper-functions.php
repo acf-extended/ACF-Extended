@@ -569,6 +569,10 @@ function acfe_get_value_from_acf_values_by_key($acf, $field_key){
         
     });
     
+    if($is_seamless && empty($value)){
+        $value = null;
+    }
+    
     // return
     return $value;
     

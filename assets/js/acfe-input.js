@@ -4501,6 +4501,7 @@
             acf.doAction('acfe/fields/flexible_content/before_preview', $el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/name=' + name, $el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/key=' + key, $el, $layout, ajaxData);
+            acf.doAction('acfe/fields/flexible_content/before_preview/layout=' + layout, $el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/name=' + name + '&layout=' + layout, $el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/key=' + key + '&layout=' + layout, $el, $layout, ajaxData);
 
@@ -4516,6 +4517,7 @@
                 acf.doAction('acfe/fields/flexible_content/preview', response, $el, $layout, ajaxData);
                 acf.doAction('acfe/fields/flexible_content/preview/name=' + name, response, $el, $layout, ajaxData);
                 acf.doAction('acfe/fields/flexible_content/preview/key=' + key, response, $el, $layout, ajaxData);
+                acf.doAction('acfe/fields/flexible_content/preview/layout=' + layout, response, $el, $layout, ajaxData);
                 acf.doAction('acfe/fields/flexible_content/preview/name=' + name + '&layout=' + layout, response, $el, $layout, ajaxData);
                 acf.doAction('acfe/fields/flexible_content/preview/key=' + key + '&layout=' + layout, response, $el, $layout, ajaxData);
 

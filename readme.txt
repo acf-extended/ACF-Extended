@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.9.0.5
+Stable tag: 0.9.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ If you don't already own [ACF Pro](https://www.advancedcustomfields.com/pro/), y
 * Advanced Fields Validation
 * Flexible Content as Page Builder
 * Optimize metadata with Performance Mode
-* ACF Forms Manager
+* Advanced Front-End Forms Manager
 * ACF Options Pages / Block Types Manager
 * ACF & WordPress Meta Overview
 * WordPress Post Types / Taxonomies Manager
@@ -128,6 +128,9 @@ Display field groups on all post types edition screen.
 **[Location: Attachment List](https://www.acf-extended.com/features/field-groups/locations/attachment-list)** **(PRO)**
 Display field group on attachment admin list screen.
 
+**[Location: Dashboard Widgets](https://www.acf-extended.com/features/field-groups/locations/dashboard)** **(PRO)**
+Display field groups and update ACF Fields from the WP Dashboard.
+
 **[Location: Field Value](https://www.acf-extended.com/features/field-groups/locations/field-value)** **(PRO)**
 Display a field group based on the field value of an another field group.
 
@@ -142,6 +145,9 @@ Display field group on taxonomies admin list screen.
 
 **[Location: User List](https://www.acf-extended.com/features/field-groups/locations/user-list)** **(PRO)**
 Display field group on user admin list screen.
+
+**[Location: Woocommerce](https://www.acf-extended.com/features/field-groups/locations/woocommerce)** **(PRO)**
+Display field groups on Woocommerce pages.
 
 **[Location: WP Settings](https://www.acf-extended.com/features/field-groups/locations/wp-settings)** **(PRO)**
 Display field groups on WP Settings pages: General, Writing, Reading, Discussion, Media and Permalinks.
@@ -488,14 +494,41 @@ The content of the upcoming patch and work in progress features are all listed o
 
 == Changelog ==
 
+= 0.9.0.6 =
+
+**ACF Extended Pro 0.9.0.6:**
+
+* Field: Flexible Content - Grid - Added filter to rename columns (1/12, 2/12, 3/12…)
+* Field: Google Map - Added small UI settings tweaks
+* Field: Payment - Removed Polyfill library dependency
+* Field Settings: Global Condition - Fixed Global Field Condition operators with ACF 6.3
+* Field Settings: Instructions Tooltip - Fixed tooltip always visible when switching tab
+* Module: Force Sync - Fixed sync from Dashboard with Flexible Content Toggle Layout
+* Module: Force Sync - Enhanced Force Delete compatibility with Json and PHP sync
+
+**ACF Extended Basic 0.9.0.6:**
+
+* Field: Flexible Content - Added missing "Copy/Toggle Layout" localized strings
+* Field: Flexible Content - Added JS hook `acfe/flexible/preview/layout=my-layout` variation
+* Field: Flexible Content - Enhanced ACF UI CSS settings with "Tabs Hidden"
+* Field: Forms - Fixed potential warning when switching from Checkbox to Radio
+* Module: Form - Added safe guard logic for ACF fields in "Load" actions
+* Module: Form - Fixed outsourced Clone Seamless Fields values
+* Module: Form - Fixed Template Tags warning with PHP 8
+* Module: Form - User - Builtin Validation now check if email is already used
+* Module: Form - User - Builtin Validation now check the login during the insert
+* Module: Form - User - Builtin Validation now check the `illegal_user_logins` wp filter
+* Module: Form - User - Updating user login now automatically re-log the user
+* Global: Fixed Ajax Nonce verification compatibility with ACF 6.3.2
+
 = 0.9.0.5 =
 
 **ACF Extended Pro 0.9.0.5:**
 
 * Field Group Location: Added "Dashboard > Widget" Location
-* Field Group Location: Dashboard Widget allows to update Field Groups from the WP Dashboard
-* Field Group Location: Added "Woocommerce" locations: Cart, Checkout, Account, Shop & Terms
-* Modules: AutoSync - `acfe/php` & `acfe/json` settings now control the AutoSync metabox visbility
+* Field Group Location: Dashboard Widget allows to update fields from the WP Dashboard
+* Field Group Location: Added "Woocommerce" Cart, Checkout, Account, Shop & Terms
+* Modules: AutoSync - `acfe/php` & `acfe/json` settings control the AutoSync metabox visbility
 
 **ACF Extended Basic 0.9.0.5:**
 
@@ -519,11 +552,11 @@ The content of the upcoming patch and work in progress features are all listed o
 * Module: Form - Added `acfe.renderForm()` & `acfe.renderFormAjax()` JS helpers
 * Module: Form - Added `acfe_enqueue_form()` PHP helper
 * Module: Form - Added `acfe_get_form_action()` allowing dot notation & default arguments
-* Module: Form - Added `acfe/form/submit_success_data` PHP hook to pass data to the JS success hook
-* Module: Form - Added `acfe/form/validation_begin` JS hook to target front-end form validation
-* Module: Form - Added `acfe/form/validation_failure` JS hook to target front-end form validation
-* Module: Form - Added `acfe/form/validation_success` JS hook to target front-end form validation
-* Module: Form - Added `acfe/form/validation_complete` JS hook to target front-end form validation
+* Module: Form - Added `acfe/form/submit_success_data` PHP hook to pass data to the JS
+* Module: Form - Added `acfe/form/validation_begin` JS hook to target front-end validation
+* Module: Form - Added `acfe/form/validation_failure` JS hook to target front-end validation
+* Module: Form - Added `acfe/form/validation_success` JS hook to target front-end validation
+* Module: Form - Added `acfe/form/validation_complete` JS hook to target front-end validation
 * Field Groups: Advanced Settings - Added ability to assign field’s sub array settings using dot notation
 * Field Groups: AutoSync - Added ability to remove existing Json/PHP sync from the Field Group UI
 * Field Groups: AutoSync - `acfe/php` & `acfe/json` settings now control the sync metabox visbility

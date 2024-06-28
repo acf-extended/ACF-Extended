@@ -952,9 +952,14 @@ class acfe_template_tags{
                         
                         if($this->get_context('return') !== 'raw'){
                             
+                            // convert array value into string
                             $replace = acfe_array_to_string($replace);
-                            $replace = str_replace('{', '{ ', $replace);
-                            $replace = str_replace('}', ' }', $replace);
+                            
+                            // escape brackets
+                            if(!empty($replace) && is_string($replace)){
+                                $replace = str_replace('{', '{ ', $replace);
+                                $replace = str_replace('}', ' }', $replace);
+                            }
                             
                         }
                         
@@ -991,6 +996,10 @@ class acfe_template_tags{
                 // stop loop
                 return false;
                 
+            }
+            
+            if($replace === null || $replace === false){
+                $replace = '';
             }
             
             // replace

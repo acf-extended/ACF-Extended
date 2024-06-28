@@ -387,9 +387,18 @@ class acfe_module_form_field_groups{
      * wp_ajax_acfe/form/map_field_groups_ajax
      */
     function ajax_field_groups_choices(){
+        
+        $nonce = acf_request_arg('nonce', '');
+        $key   = acf_request_arg('field_key', '');
+        
+        // Back-compat for field settings.
+        if(!acf_is_field_key($key)){
+            $nonce = '';
+            $key   = '';
+        }
     
         // validate
-        if(!acf_verify_ajax()){
+        if(!acf_verify_ajax($nonce, $key)){
             die();
         }
     
@@ -680,8 +689,17 @@ class acfe_module_form_field_groups{
      */
     function ajax_select_choices(){
         
+        $nonce = acf_request_arg('nonce', '');
+        $key   = acf_request_arg('field_key', '');
+        
+        // Back-compat for field settings.
+        if(!acf_is_field_key($key)){
+            $nonce = '';
+            $key   = '';
+        }
+        
         // validate
-        if(!acf_verify_ajax()){
+        if(!acf_verify_ajax($nonce, $key)){
             die();
         }
     

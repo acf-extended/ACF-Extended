@@ -90,6 +90,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         $user_id = acf_extract_var($load, 'source');
         $user_role = acf_extract_var($load, 'role');
         $acf_fields = acf_extract_var($load, 'acf_fields');
+        $acf_fields = acf_get_array($acf_fields);
         $acf_fields_exclude = array();
         
         // filters
@@ -215,6 +216,11 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                 if(empty($action['save']['user_login'])){
                     $action['save']['user_login'] = $action['save']['user_email'];
                 }
+                
+                // sanitize login
+                $action['save']['user_login'] = sanitize_user($action['save']['user_login'], true);
+                $action['save']['user_login'] = apply_filters('pre_user_login', $action['save']['user_login']);
+                $action['save']['user_login'] = trim($action['save']['user_login']);
     
                 break;
             }
@@ -243,7 +249,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                 // sanitize password
                 $action['save']['user_pass'] = wp_specialchars_decode($action['save']['user_pass']);
                 
-                // check user login exists
+                // check user login is filled
                 if(!empty($action['save']['user_login'])){
                     
                     // sanitize
@@ -353,6 +359,28 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         
             // insert user
             case 'insert_user':{
+                
+                // check user login input is filled
+                if(!empty($action['save']['user_login'])){
+                    
+                    // login too long
+                    if(mb_strlen($action['save']['user_login']) > 60){
+                        return acfe_add_validation_error('', $errors['long_username']);
+                        
+                    // login already exists
+                    // note: username_exists() returns user ID if exists
+                    }elseif(username_exists($action['save']['user_login'])){
+                        return acfe_add_validation_error('', $errors['used_username']);
+                    }
+                    
+                    // illegal login
+                    $illegal_logins = (array) apply_filters('illegal_user_logins', array());
+                    
+                    if(in_array(strtolower($action['save']['user_login']), array_map('strtolower', $illegal_logins), true)){
+                        return acfe_add_validation_error('', $errors['invalid_username']);
+                    }
+                    
+                }
     
                 // empty email
                 if(empty($action['save']['user_email']) || !is_email($action['save']['user_email'])){
@@ -381,7 +409,29 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                     }elseif(username_exists($action['save']['user_login']) && username_exists($action['save']['user_login']) !== (int) $action['save']['target']){
                         return acfe_add_validation_error('', $errors['used_username']);
                     }
+                    
+                    // illegal login
+                    $illegal_logins = (array) apply_filters('illegal_user_logins', array());
+                    
+                    if(in_array(strtolower($action['save']['user_login']), array_map('strtolower', $illegal_logins), true)){
+                        return acfe_add_validation_error('', $errors['invalid_username']);
+                    }
         
+                }
+                
+                // check user email input is filled
+                if(!empty($action['save']['user_email'])){
+                    
+                    // invalid email
+                    if(!is_email($action['save']['user_email'])){
+                        return acfe_add_validation_error('', $errors['invalid_email']);
+                        
+                    // email already exists
+                    // note: email_exists() returns user ID if exists
+                    }elseif(email_exists($action['save']['user_email']) && email_exists($action['save']['user_email']) !== (int) $action['save']['target']){
+                        return acfe_add_validation_error('', $errors['used_email']);
+                    }
+                    
                 }
             
                 break;
@@ -675,33 +725,43 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                 
                 // manually update login & nicename
                 // we must use $wpdb->update() here because WP doesn't allow to change user login
-                if(!empty($args['user_login'])){
+                if(!empty($args['user_login']) && $args['user_login'] !== get_userdata($user_id)->user_login){
                     
+                    // user_login is already sanitized in setup_action()
                     // prepare nicename
-                    $user_nicename = sanitize_user($args['user_login'], true);
+                    $user_nicename = mb_substr($args['user_login'], 0, 50); // max 50 chars
+                    $user_nicename = sanitize_title($user_nicename);
+                    $user_nicename = apply_filters('pre_user_nicename', $user_nicename);
                     
-                    // nicename too long
-                    if(mb_strlen($user_nicename) <= 50){
-                        
-                        $user_nicename = sanitize_title($user_nicename);
-                        $user_nicename = apply_filters('pre_user_nicename', $user_nicename);
-                        
-                        // global wpdb
-                        global $wpdb;
-                        
-                        // manual update
-                        $wpdb->update($wpdb->users,
-                            array(
-                                'user_login'    => $args['user_login'],
-                                'user_nicename' => $user_nicename,
-                            ),
-                            array(
-                                'ID' => $user_id
-                            )
-                        );
-                        
-                    }
+                    // global wpdb
+                    global $wpdb;
                     
+                    // manual update
+                    // this logout the user (because user_login is changed)
+                    $wpdb->update($wpdb->users,
+                        array(
+                            'user_login'    => $args['user_login'], // login
+                            'user_nicename' => $user_nicename,      // url
+                        ),
+                        array(
+                            'ID' => $user_id
+                        )
+                    );
+                    
+                    // we must re-log the user
+                    // catch auth setcookie
+                    // and assign $_COOKIE so we don't need to reload the page
+                    add_action('set_auth_cookie',         array($this, 'set_auth_cookie'));
+                    add_action('set_logged_in_cookie',    array($this, 'set_logged_in_cookie'));
+                    
+                    // we must clear cache since the user is updated above
+                    clean_user_cache($user_id);
+                    wp_clear_auth_cookie();
+                    wp_set_current_user($user_id);
+                    wp_set_auth_cookie($user_id);
+                    
+                    remove_action('set_auth_cookie',      array($this, 'set_auth_cookie'));
+                    remove_action('set_logged_in_cookie', array($this, 'set_logged_in_cookie'));
                 }
                 
                 break;

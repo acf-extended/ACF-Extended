@@ -69,6 +69,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         $load = $action['load'];
         $term_id = acf_extract_var($load, 'source');
         $acf_fields = acf_extract_var($load, 'acf_fields');
+        $acf_fields = acf_get_array($acf_fields);
         $acf_fields_exclude = array();
         
         // filters

@@ -518,7 +518,7 @@ class acfe_field_forms extends acf_field{
         }
         
         // check array
-        if(!$is_array){
+        if(!$is_array || $field['field_type'] === 'radio'){
             $value = acfe_unarray($value);
         }
         

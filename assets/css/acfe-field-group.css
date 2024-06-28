@@ -683,3 +683,11 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
 .acf-admin-6.acf-admin-single-field-group .acf-field-type-settings .acf-field {
     border-top-width: 0
 }
+
+.acf-admin-6.acf-admin-single-field-group #acf-field-group-fields.hide-tabs .acf-field-setting-fc_layout>.acf-input>.acf-fc-meta .acf-field.acfe-flexible-field-setting {
+    margin-bottom: 0
+}
+
+.acf-admin-6.acf-admin-single-field-group #acf-field-group-fields.hide-tabs .acf-field-setting-fc_layout>.acf-input>.acf-fc-meta .acf-field.acfe-flexible-field-setting+li>ul {
+    margin-bottom: 0
+}

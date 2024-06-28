@@ -34,8 +34,10 @@ class acfe_field_clone extends acfe_field_extend{
      */
     function ajax_query(){
         
+        $nonce = acf_request_arg('nonce', '');
+        
         // validate
-        if(!acf_verify_ajax()){
+        if(!acf_verify_ajax($nonce, 'acf/fields/clone/query')){
             die();
         }
         

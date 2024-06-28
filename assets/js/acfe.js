@@ -1787,41 +1787,67 @@
                 return;
             }
 
+            this.toggle(field, $el, title);
+
+        },
+
+        toggle: function(field, $el, title) {
+
             // clear title to avoid default browser tooltip
             $el.attr('title', '');
 
             // open
             if (!this.tooltips[field.cid]) {
-
-                this.tooltips[field.cid] = acf.newTooltip({
-                    text: title,
-                    target: $el
-                });
-
-                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
-                    $el.removeClass('dashicons-info-outline').addClass('dashicons-remove');
-                }
+                this.open(field, $el, title);
 
                 // close
             } else {
-
-                // hide tooltip
-                this.tooltips[field.cid].hide();
-
-                // restore title
-                $el.attr('title', this.tooltips[field.cid].get('text'));
-
-                this.tooltips[field.cid] = false;
-
-                if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
-                    $el.removeClass('dashicons-remove').addClass('dashicons-info-outline');
-                }
-
+                this.close(field, $el, title);
             }
 
         },
 
+        open: function(field, $el, title) {
+
+            this.tooltips[field.cid] = acf.newTooltip({
+                text: title,
+                target: $el
+            });
+
+            if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+                $el.removeClass('dashicons-info-outline').addClass('dashicons-remove');
+            }
+
+        },
+
+        close: function(field, $el, title) {
+
+            // hide tooltip
+            this.tooltips[field.cid].hide();
+
+            // restore title
+            $el.attr('title', this.tooltips[field.cid].get('text'));
+
+            this.tooltips[field.cid] = false;
+
+            if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+                $el.removeClass('dashicons-remove').addClass('dashicons-info-outline');
+            }
+
+        }
+
     });
+
+    new acf.Model({
+        actions: {
+            'hide_field': 'onHideField',
+        },
+        onHideField: function(field) {
+            if (tooltip.tooltips[field.cid]) {
+                tooltip.close(field, field.$el.find('.acfe-field-tooltip:first'));
+            }
+        }
+    })
 
 })(jQuery);
 (function($) {

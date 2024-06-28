@@ -1100,7 +1100,7 @@ input.acfe-flexible-control-title {
 }
 
 .acf-range-wrap input[type=number] {
-    min-width: 3.5em
+    min-width: 4.5em
 }
 
 .acf-fields>.acf-field-group.acfe-field-group-layout-block.acfe-seamless-style:not([data-acfe-group-modal="1"])>.acf-input,
