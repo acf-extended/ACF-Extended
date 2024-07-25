@@ -556,6 +556,16 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.0.7
+
+**ACF Extended Pro 0.9.0.7:**
+
+* Field: Block Editor - Added WP 6.6 compatibility
+
+**ACF Extended Basic 0.9.0.7:**
+
+* General: Updated WP 6.6 metabox order handle positioning
+
 ### 0.9.0.6
 
 **ACF Extended Pro 0.9.0.6:**

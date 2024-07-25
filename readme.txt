@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 0.9.0.6
+Stable tag: 0.9.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -493,6 +493,16 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.0.7 =
+
+**ACF Extended Pro 0.9.0.7:**
+
+* Field: Block Editor - Added WP 6.6 compatibility
+
+**ACF Extended Basic 0.9.0.7:**
+
+* General: Updated WP 6.6 metabox order handle positioning
 
 = 0.9.0.6 =
 

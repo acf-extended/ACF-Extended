@@ -1103,7 +1103,8 @@ html[dir=rtl] .acfe-postbox-left>.inside>.acf-field>.acf-input {
     }
 }
 
-body.branch-6-5 .postbox .handle-actions .acf-hndle-cog {
+body.branch-6-5 .postbox .handle-actions .acf-hndle-cog,
+body.branch-6-6 .postbox .handle-actions .acf-hndle-cog {
     line-height: 28px;
     height: 26px
 }
