@@ -258,3 +258,21 @@ function acfe_get_human_readable_location($path, $prefix = true, $new_line = tru
     return $located;
     
 }
+
+
+/**
+ * acfe_get_file_extension
+ *
+ * @param $file
+ *
+ * @return array|string
+ */
+function acfe_get_file_extension($file){
+    
+    // extract the path component
+    $path = parse_url($file, PHP_URL_PATH);
+    
+    // get the extension of the file
+    return pathinfo($path, PATHINFO_EXTENSION);
+
+}

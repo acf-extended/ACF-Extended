@@ -9,66 +9,28 @@ if(!class_exists('acfe_performance_ultra_revisions')):
 class acfe_performance_ultra_revisions{
     
     /**
+     * ultra engine
+     * revision meta structure (even with save as individual meta):
+     *
+     *  acf = array(
+     *       text     = my value
+     *      _text     = field_6726aa0880d0a,
+     *       textarea = my value
+     *      _textarea = field_6726aa0b80d0b
+     *  )
+     *
+     * this is because acf copy post meta into revision in acf_copy_postmeta()
+     * using acf_update_metadata() which use the logic in ultra_engine->pre_update_metadata()
+     * 'save as individual meta' logic is disallowed in ultra_engine->pre_update_metadata()
+     *
+     */
+    
+    /**
      * construct
      */
     function __construct(){
         
-        add_filter('acf/pre_update_metadata',  array($this, 'revision_pre_update'), 10, 5);
-        add_filter('_wp_post_revision_fields', array($this, 'revision_fields'),     10, 2);
-        
-    }
-    
-    
-    /**
-     * revision_pre_update
-     *
-     * @param $null
-     * @param $revision_id
-     * @param $name
-     * @param $value
-     * @param $hidden
-     *
-     * @return bool|mixed
-     */
-    function revision_pre_update($null, $revision_id, $name, $value, $hidden){
-        
-        // bail early if not acf meta or not revision
-        if($name !== 'acf' || acfe_get_performance_config('engine') !== 'ultra' || !wp_is_post_revision($revision_id)){
-            return $null;
-        }
-        
-        // get parent post id (original post)
-        $post_id = wp_get_post_parent_id($revision_id);
-        
-        // check parent post has performance
-        if(!acfe_is_object_performance_enabled($post_id)){
-            return $null;
-        }
-    
-        // get parent post id values when not in preview
-        if(acf_maybe_get_POST('wp-preview') !== 'dopreview'){
-        
-            // get acf meta
-            $value = acf_get_metadata($post_id, 'acf');
-        
-            // unslash for revision
-            $value = wp_unslash($value);
-        
-        }
-    
-        /**
-         * @var $type
-         * @var $id
-         */
-        extract(acf_decode_post_id($revision_id));
-        
-        $prefix = $hidden ? '_' : '';
-        
-        // update
-        update_metadata($type, $id, "{$prefix}{$name}", $value);
-        
-        // do not save normally (already did it)
-        return true;
+        add_filter('_wp_post_revision_fields', array($this, 'revision_fields'), 10, 2);
         
     }
     
@@ -109,24 +71,85 @@ class acfe_performance_ultra_revisions{
             $post_id = $post->ID;
             
         }
-    
-        // check post has performance
+        
+        // validate engine of parent post_id
         if(acfe_get_object_performance_engine_name($post_id) !== 'ultra'){
             return $fields;
         }
         
         // get all postmeta
-        $meta = get_post_meta($post_id);
+        $acf = get_post_meta($post_id, 'acf', true);
         
         // bail early if no meta
-        if(!$meta || !isset($meta['acf'])){
+        if(!$acf){
             return $fields;
         }
         
-        // hook into specific revision field filter and return local value
-        add_filter('_wp_post_revision_field_acf', array($this, 'revision_field'), 10, 4);
+        // copy from wp_post_revision_fields()
+        // source: /advanced-custom-fields-pro/includes/revisions.php:219
         
-        $fields['acf'] = 'ACF';
+        // loop
+        foreach($acf as $name => $value){
+            
+            // attempt to find key value
+            $key = acf_maybe_get($acf, '_' . $name);
+            
+            // bail early if no key
+            if(!$key){
+                continue;
+            }
+            
+            // Load field.
+            $field = acf_get_field($key);
+            if(!$field){
+                continue;
+            }
+            
+            // get field
+            $field_title = $field['label'] . ' (' . $name . ')';
+            $field_order = $field['menu_order'];
+            $ancestors   = acf_get_field_ancestors( $field );
+            
+            // ancestors
+            if(!empty($ancestors)){
+                
+                // vars
+                $count  = count($ancestors);
+                $oldest = acf_get_field($ancestors[ $count - 1 ]);
+                
+                // update vars
+                $field_title = str_repeat( '- ', $count ) . $field_title;
+                $field_order = $oldest['menu_order'] . '.1';
+            }
+            
+            // append
+            $append[ $name ] = $field_title;
+            $order[ $name ]  = $field_order;
+            
+            // hook into specific revision field filter and return local value
+            add_filter( "_wp_post_revision_field_{$name}", array($this, 'wp_post_revision_field' ), 10, 4 );
+            
+        }
+        
+        // append
+        if(!empty($append)){
+            
+            // vars
+            $prefix = '_';
+            
+            // add prefix
+            $append = acf_add_array_key_prefix( $append, $prefix );
+            $order  = acf_add_array_key_prefix( $order, $prefix );
+            
+            // sort by name (orders sub field values correctly)
+            array_multisort( $order, $append );
+            
+            // remove prefix
+            $append = acf_remove_array_key_prefix( $append, $prefix );
+            
+            // append
+            $fields = $fields + $append;
+        }
         
         // return
         return $fields;
@@ -135,9 +158,12 @@ class acfe_performance_ultra_revisions{
     
     
     /**
-     * revision_field
+     * wp_post_revision_field
      *
      * revision field for acf
+     *
+     * copy from wp_post_revision_field()
+     * source: /advanced-custom-fields-pro/includes/revisions.php:298
      *
      * @param $value
      * @param $field_name
@@ -146,22 +172,35 @@ class acfe_performance_ultra_revisions{
      *
      * @return bool|mixed|string
      */
-    function revision_field($value, $field_name, $post = null, $direction = false){
+    function wp_post_revision_field($value, $field_name, $post = null, $direction = false){
         
-        // bail early
-        if(empty($value)){
-            return $value;
+        $post_id = $post->ID;
+        
+        // get all postmeta
+        $acf = get_post_meta($post_id, 'acf', true);
+        
+        if(!$acf || !isset($acf[ $field_name ])){
+            return '';
         }
         
-        // value has not yet been 'maybe_unserialize'
-        $value = maybe_unserialize($value);
+        $value = $acf[ $field_name ];
         
-        // formatting
-        if(is_array($value)){
-            $value = print_r($value, true);
+        // load field.
+        $field = acf_maybe_get_field( $field_name, $post_id );
+        
+        // default formatting.
+        if ( is_array( $value ) ) {
+            $value = implode( ', ', $value );
+        } elseif ( is_object( $value ) ) {
+            $value = serialize( $value );
         }
         
-        // return
+        // image.
+        if ( is_array( $field ) && isset( $field['type'] ) && ( $field['type'] === 'image' || $field['type'] === 'file' ) ) {
+            $url   = wp_get_attachment_url( $value );
+            $value = $value . ' (' . $url . ')';
+        }
+        
         return $value;
         
     }

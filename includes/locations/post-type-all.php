@@ -46,6 +46,14 @@ class acfe_location_post_type_all{
      */
     function rule_match($match, $rule, $options){
         
+        // rule value might be empty
+        // in case a Field Group use a custom location type from third party plugin
+        // if the third party plugin is disabled, acf will fallback to "Post Type == ''"
+        // and pass thru this rule because it's the first one
+        if(empty($rule['value'])){
+            return $match;
+        }
+        
         if($rule['value'] !== 'all'){
             return $match;
         }

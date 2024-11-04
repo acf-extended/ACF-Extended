@@ -3,9 +3,9 @@ Contributors: hwk-fr
 Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
-Tested up to: 6.5
+Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 0.9.0.7
+Stable tag: 0.9.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -214,7 +214,7 @@ Display an ACF Block Types selector as radio, checkbox or select field type.
 Display a custom submit or button. Built-in ajax call setting. Usage example available in the field administration.
 
 **[Checkbox](https://www.acf-extended.com/features/fields/checkbox)** **(FREE / PRO)**
-Define grouped choices values using `## Title` markup in the field’s choices.
+Define grouped choices values using `## Title` markup in the field's choices.
 
 **[Clone](https://www.acf-extended.com/features/fields/clone)**
 Allow users to edit clone fields in a modal. Choose the edit button text, display close button and the modal size.
@@ -256,7 +256,7 @@ Display an ACF Fields selector as radio, checkbox or select field type.
 Choose the uploader type, enable multi file upload and dropzone.
 
 **[Flexible Content](https://www.acf-extended.com/features/fields/flexible-content)** **(FREE / PRO)**
-Displayed an enhanced version of the native Flexible Content field. Dozens of new settings and settings were added, allowing developers to create the most advanced page builder and fully control the field’s behavior.
+Displayed an enhanced version of the native Flexible Content field. Dozens of new settings and settings were added, allowing developers to create the most advanced page builder and fully control the field's behavior.
 
 **[Forms](https://www.acf-extended.com/features/fields/forms)**
 Select any dynamic form (format: checkbox, radio or select).
@@ -322,7 +322,7 @@ Select any post status (format: checkbox, radio or select)
 Select any post type (format: checkbox, radio or select)
 
 **[Radio](https://www.acf-extended.com/features/fields/radio)** **(FREE / PRO)**
-Define grouped choices values using `## Title` markup in the field’s choices.
+Define grouped choices values using `## Title` markup in the field's choices.
 
 **[Relationship](https://www.acf-extended.com/features/fields/relationship)** **(PRO)**
 The Relationship field includes new settings allowing users to create and edit post on-the-fly from the post edit screen.
@@ -494,6 +494,35 @@ The content of the upcoming patch and work in progress features are all listed o
 
 == Changelog ==
 
+= 0.9.0.8 =
+
+**ACF Extended Pro 0.9.0.8:**
+
+* Field: Phone Number - Fixed data when querying the "Lightweight Phonenumber Library"
+* Field: Image Selector - Fixed images with parameters usage when using "Multiple Select"
+* Field: Image Selector - Enhanced file extension detection when using images with parameters
+* Field: Image Selector - Reworked image rendering using proper `<img />` with `object-fit`
+* Module: Performance - Hybrid - Restoring a revision doesn't append meta references anymore
+
+**ACF Extended Basic 0.9.0.8:**
+
+* Field: Flexible Content - Dynamic Render - Filters can now change `wp_enqueue_style()` args
+* Field: Flexible Content - Dynamic Render - Filters can now change `wp_enqueue_script()` args
+* Field: Flexible Content - Dynamic Render - Added `get_row_index()` usage compatibility
+* Field: Flexible Content - Dynamic Render - Fixed `WP_Query` loop usage with `get_field()`
+* Field: Icon Picker - Fixed "Media Library" image preview
+* Module: Forms - Allowed usage of fields using the same name as fields in the back-end
+* Module: Forms - Fixed field settings nonce verification compatibility with ACF 6.3.10
+* Module: Performance - Ultra - Revisions are now supported when allowing specific post types
+* Module: Performance - Ultra - Revisions are now compatible with "Save as individual meta"
+* Module: Performance - Ultra - Enhanced "Revision Comparison" view with more readable data
+* Module: Performance - Ultra - Enhanced `acf` meta detection when the value is malformed
+* Field Group: Location - Fixed warning when using third party location that is later uninstalled
+* General: Enhanced `acfe_include()` helper
+* General: Fixed potentital PHP 8 warning with `acfe_starts_with()` helper
+* General: Updated WP 6.7 metabox order handle positioning
+* General: Bump WP version up to 6.7
+
 = 0.9.0.7 =
 
 **ACF Extended Pro 0.9.0.7:**
@@ -529,7 +558,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Module: Form - User - Builtin Validation now check the login during the insert
 * Module: Form - User - Builtin Validation now check the `illegal_user_logins` wp filter
 * Module: Form - User - Updating user login now automatically re-log the user
-* Global: Fixed Ajax Nonce verification compatibility with ACF 6.3.2
+* General: Fixed Ajax Nonce verification compatibility with ACF 6.3.2
 
 = 0.9.0.5 =
 
@@ -558,7 +587,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Module: Form - Post - Fixed Shortcode usage in Post Content
 * Module: Form - Post - Fixed current post not displaying new data if updated without redirect
 * Module: Form - Email - Fixed Shortcode usage in e-mail content/html
-* Module: Form - User - "Log In" action doesn’t require to redirect on success anymore
+* Module: Form - User - "Log In" action doesn't require to redirect on success anymore
 * Module: Form - Added `acfe.renderForm()` & `acfe.renderFormAjax()` JS helpers
 * Module: Form - Added `acfe_enqueue_form()` PHP helper
 * Module: Form - Added `acfe_get_form_action()` allowing dot notation & default arguments
@@ -567,14 +596,14 @@ The content of the upcoming patch and work in progress features are all listed o
 * Module: Form - Added `acfe/form/validation_failure` JS hook to target front-end validation
 * Module: Form - Added `acfe/form/validation_success` JS hook to target front-end validation
 * Module: Form - Added `acfe/form/validation_complete` JS hook to target front-end validation
-* Field Groups: Advanced Settings - Added ability to assign field’s sub array settings using dot notation
+* Field Groups: Advanced Settings - Added ability to assign field's sub array settings using dot notation
 * Field Groups: AutoSync - Added ability to remove existing Json/PHP sync from the Field Group UI
 * Field Groups: AutoSync - `acfe/php` & `acfe/json` settings now control the sync metabox visbility
 * Field Groups: AutoSync - Added `acfe/settings/should_delete_php` hook to control the file removal
 * Field Groups: AutoSync - Added `acfe/settings/should_delete_json` hook to control the file removal
 * Field Groups: AutoSync - Fixed Json files not being correctly deleted when Field Group use a custom path
-* Global: Modal - Renamed `new_modal` js hook into `acfe/new_modal` for consistency
-* Global: Enhanced `acfe_get_post_id()` helper
+* General: Modal - Renamed `new_modal` js hook into `acfe/new_modal` for consistency
+* General: Enhanced `acfe_get_post_id()` helper
 
 = 0.9.0.4 =
 
@@ -629,7 +658,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Field Groups: Advanced Locations - Fixed Field Group Location escaping issues
 * Field: Payment - Fixed `{field:payment}` Template Tag output
 * Field: Flexible Content - Grid - Added translatable strings
-* Global: Country/Currency/Language - Added PHP filters to allow customization
+* General: Country/Currency/Language - Added PHP filters to allow customization
 
 **ACF Extended Basic 0.9.0.2:**
 
@@ -640,7 +669,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Module: Form - Added missing `wpautop()` on email content when using "Content Editor"
 * Module: Form - Fixed Taxonomy "Load Terms" & Image "Featured Thumbnail" compatibility
 * Fields Condition - Enhanced `acf.newCondition` closer to native ACF logic
-* Global: Updated French translation
+* General: Updated French translation
 
 = 0.9.0.1 =
 
@@ -830,7 +859,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Module: Post Types - Admin Archive - Deprecated `acfe/post_type_archive_capability` hook
 * Module: Post Types - Admin Archive - Added `show_in_menu`  custom page compatibility
 * Module: Post Types - Admin Archive - Added Post Type `post` "Edit Archive" adminbar compatibility
-* Module: Settings - Fixed warning when using an old ACF version which doesn’t handle newer ACF settings
+* Module: Settings - Fixed warning when using an old ACF version which doesn't handle newer ACF settings
 * Modules: Fixed "Enter" keypress breaking the creating of new item
 * Modules: Enhanced 0.8.9 module upgrade to use `init` action
 * General: Replaced `acf_esc_attrs()` (ACF 5.8.1) usage with `acf_esc_atts()` (ACF 5.8) to meet requirements

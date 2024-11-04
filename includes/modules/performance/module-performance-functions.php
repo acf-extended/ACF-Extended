@@ -258,9 +258,18 @@ function acfe_is_object_type_performance_enabled($type, $object){
                 return true;
             }
             
-            // post type not allowed
-            if(!empty($post_types) && !in_array($object, $post_types)){
-                return false;
+            // array of specific post types
+            if(!empty($post_types)){
+                
+                // always append 'revision' to allowed post types
+                if(!in_array('revision', $post_types)){
+                    $post_types[] = 'revision';
+                }
+                
+                if(!in_array($object, $post_types)){
+                    return false;
+                }
+                
             }
     
             // allowed (empty array)

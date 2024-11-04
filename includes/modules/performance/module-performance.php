@@ -162,6 +162,7 @@ class acfe_performance{
             
             // get meta
             $acf = $this->get_meta($post_id);
+            $acf = acf_get_array($acf);
     
             // set store: acf meta
             $store->set($post_id, $acf);

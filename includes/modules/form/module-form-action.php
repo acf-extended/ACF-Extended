@@ -195,7 +195,7 @@ class acfe_module_form_action{
      */
     function load_acf_values($form, $post_id, $acf_fields, $acf_fields_exclude){
         
-        // get fields
+        // get meta values for $post_id
         $acf = acfe_get_fields($post_id);
     
         // load acf fields
@@ -218,6 +218,15 @@ class acfe_module_form_action{
             // value is null (doesn't exist in database for $post_id)
             // might be a "taxonomy field" with "load values" enabled
             if($field && $value === null){
+                
+                // remove stored field value
+                // values are stored via acfe_get_fields($post_id) above
+                // this workaround allow to use a different field key, but with same name to be loaded
+                // for example when a field group is duplicated, so one field group is used for front-end and the other for back-end
+                $store = acf_get_store('values');
+                if($store->has("{$post_id}:{$field['name']}")){
+                    $store->remove("{$post_id}:{$field['name']}");
+                }
                 
                 // we need to retrieve the taxonomy value via acf_get_value()
                 // so the load_value() method kicks in and "load values" can inject data

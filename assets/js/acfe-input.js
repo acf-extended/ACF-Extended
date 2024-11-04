@@ -4846,6 +4846,28 @@
         return;
     }
 
+    // fix icon picker field
+    // in alignMediaLibraryTabToCurrentValue(), the field update the img src attribute with this.get('mediaLibraryPreviewUrl')
+    // but this will return a value only when an image is actually selected
+    // otherwise, it returns 'undefined' and thus never update the src, because $.attr() ignore 'undefined' values
+    // when using acfe.get() extension, it returns 'null' instead of 'undefined', and $.attr() update the src attribute as 'empty'
+    // alignMediaLibraryTabToCurrentValue() is executed both on field render and when a user select an image (weird design)
+    if (typeof acf.models.IconPickerField !== 'undefined') {
+
+        // rollback to legacy acf.Model.get()
+        acf.models.IconPickerField.prototype.get = function(name) {
+            return this.data[name];
+        };
+
+    }
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
     /**
      * Field: Radio
      */

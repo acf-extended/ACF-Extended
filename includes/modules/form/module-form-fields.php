@@ -336,6 +336,9 @@ class acfe_module_form_field_groups{
             return $field;
         }
         
+        // fix nonce with acf 6.3.10
+        $field['nonce'] = wp_create_nonce($field['key']);
+        
         // append to choices
         foreach(acf_get_field_groups() as $field_group){
             $field['choices'][ $field_group['key'] ] = $field_group['key'];
@@ -577,7 +580,11 @@ class acfe_module_form_field_groups{
             return $field;
         }
         
+        // is load
         $is_load = isset($field['wrapper']['data-related-field']) && !empty($field['wrapper']['data-related-field']);
+        
+        // fix nonce with acf 6.3.10
+        $field['nonce'] = wp_create_nonce($field['key']);
         
         // global
         global $item;

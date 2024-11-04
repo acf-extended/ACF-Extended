@@ -378,6 +378,7 @@ class acfe_field_flexible_content_preview{
         
     }
     
+    var $no_post = false;
     
     /**
      * layout_preview
@@ -437,9 +438,42 @@ class acfe_field_flexible_content_preview{
             while(have_rows($options['field_key'])): the_row();
                 
                 global $post;
-                $_post = $post;
+                if($this->no_post){
+                    $post = null;
+                }
+
+                // context:ajax/taxonomy/user page
+                if(!isset($post)){
+                    
+                    $post_id = acfe_get_post_id('array');
+                    
+                    // ajax
+                    if($post_id['type'] === 'post'){
+                        $post = get_post($post_id['id']);
+                        
+                    // /taxonomy/user page
+                    }else{
+                        
+                        // assign for next call
+                        // this fix the issue where doing new WP_Query() in a taxonomy page
+                        // will setup the last $post as global and break next get_field() calls
+                        $this->no_post = true;
+                    }
+                    
+                }
                 
-                // Deprecated
+                if($this->no_post){
+                    add_action('loop_end', array($this, 'loop_end'));
+                }
+                
+                add_filter('acf/pre_load_post_id', array($this, 'pre_load_post_id'), 2, 2);
+                add_action('loop_start', array($this, 'loop_start'));
+                
+                // update loop for get_row_index
+                $i = (int) $options['i'];
+                acf_update_loop('active', 'i', $i);
+                
+                // deprecated
                 do_action_deprecated("acfe/flexible/preview/name={$name}",                         array($field, $layout), '0.8.6.7');
                 do_action_deprecated("acfe/flexible/preview/key={$key}",                           array($field, $layout), '0.8.6.7');
                 do_action_deprecated("acfe/flexible/layout/preview/layout={$l_name}",              array($field, $layout), '0.8.6.7');
@@ -447,10 +481,15 @@ class acfe_field_flexible_content_preview{
                 do_action_deprecated("acfe/flexible/layout/preview/key={$key}&layout={$l_name}",   array($field, $layout), '0.8.6.7');
                 do_action_deprecated("acfe/flexible/preview",                                      array($field, $layout), '0.8.6.7');
                 
-                // Template
+                // include template
                 acfe_flexible_render_layout_template($layout, $field);
                 
-                $post = $_post;
+                remove_filter('acf/pre_load_post_id', array($this, 'pre_load_post_id'), 2);
+                remove_action('loop_start', array($this, 'loop_start'));
+                
+                if($this->no_post){
+                    remove_action('loop_end', array($this, 'loop_end'));
+                }
             
             endwhile;
         endif;
@@ -458,6 +497,72 @@ class acfe_field_flexible_content_preview{
         acfe_reset_meta();
         
         return $this->return_or_die();
+        
+    }
+    
+    /**
+     * loop_start
+     *
+     * Allow to use new WP_Query() in the layout preview/admin
+     * https://core.trac.wordpress.org/ticket/18408
+     *
+     * @return void
+     */
+    function loop_start(){
+        
+        if(is_admin()){
+            global $wp_query, $post;
+            $wp_query->post = $post;
+        }
+        
+    }
+    
+    
+    /**
+     * loop_end
+     *
+     * Quick hack for taxonomy/user/options page
+     * This reset the global $post after the end of while($q->have_posts()): $q->the_post()
+     * Not ideal, but it works
+     *
+     * @return void
+     */
+    function loop_end(){
+        
+        if(is_admin()){
+            global $post;
+            $post = null;
+        }
+        
+    }
+    
+    
+    /**
+     * pre_load_post_id
+     *
+     * This only affect get_field() in the layout preview/admin
+     *
+     * @param $null
+     * @param $post_id
+     *
+     * @return false|mixed
+     */
+    function pre_load_post_id($null, $post_id){
+        
+        if(!$post_id){
+            
+            global $post;
+            if($post){
+                return null; // let acf find the post id from the $post
+            }
+            
+            // taxonomy/user/options page
+            // retrieve the correct post id dynamically
+            return acfe_get_post_id();
+            
+        }
+        
+        return $null;
         
     }
     
