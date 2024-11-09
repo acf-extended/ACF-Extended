@@ -556,6 +556,29 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.0.9
+
+**ACF Extended Pro 0.9.0.9:**
+
+* Field: Address - Added new Address Field
+* Field: Address - Allows to enter/search an address with autocomplete (Google Places API)
+* Field: Color Picker - Added "Return Format: Slug" setting
+* Field: Color Picker - Added "Slug" & "RGBA Array" into the "Color Array" return format
+* Field: Color Picker - Added compatibility with CSS variables for "Palette" display
+* Field: Color Picker - Added `editor-gradient-presets` theme support
+* Field: Date Range Picker - Enhanced compatibility with custom hooks
+* Field: Date Range Picker - Allowed to clear to input manually when "Allow null" is enabled
+* Field: Date Range Picker - Added "x" icon to clear the input when "Allow null" is enabled
+* Field: Date Range Picker - Added "Prepend" & "Append" settings
+* Field: Google Map - Added `acfe_render_google_map()` helper to display a map on front-end
+* Field: Google Map - Fixed ACF UI settings sync when interacting with the Map Preview
+
+**ACF Extended Basic 0.9.0.9:**
+
+* Field: Flexible Content - Fixed `get_row()` & `get_row_layout()` usage in WP Admin preview
+* Field: Taxonomy Terms - Fixed ajax nonce compatibility with ACF 6.3.10
+* Field Group: Small UI/CSS tweaks
+
 ### 0.9.0.8
 
 **ACF Extended Pro 0.9.0.8:**

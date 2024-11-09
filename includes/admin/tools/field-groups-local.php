@@ -142,7 +142,7 @@ class acfe_field_groups_local_export extends ACF_Admin_Tool{
         unset($field['callback']);
         
         // dyanmic render
-        if($field['type'] === 'acfe_dynamic_render'){
+        if(acf_maybe_get($field, 'type') === 'acfe_dynamic_render'){
             unset($field['render']);
         }
         

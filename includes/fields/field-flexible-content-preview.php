@@ -8,6 +8,8 @@ if(!class_exists('acfe_field_flexible_content_preview')):
 
 class acfe_field_flexible_content_preview{
     
+    var $no_post = false;
+    
     /**
      * construct
      */
@@ -378,7 +380,6 @@ class acfe_field_flexible_content_preview{
         
     }
     
-    var $no_post = false;
     
     /**
      * layout_preview
@@ -421,22 +422,53 @@ class acfe_field_flexible_content_preview{
         global $is_preview;
         
         // Vars
+        $i          = (int) $options['i'];
+        $field_key  = $options['field_key'];
+        $value      = wp_unslash($options['value']);
+        
         $is_preview = true;
-        $name = $field['_name'];
-        $key = $field['key'];
-        $l_name = $layout['name'];
-        $post_id = acf_uniqid('acfe/flexible_content/preview');
+        $name       = $field['_name'];
+        $key        = $field['key'];
+        $l_name     = $layout['name'];
+        $post_id    = acf_uniqid('acfe/flexible_content/preview');
         
-        // Prepare values
-        $meta = array($options['field_key'] => array(
-            wp_unslash($options['value'])
-        ));
+        // prepare meta
+        $meta = array(
+            $field_key => array()
+        );
         
+        // if preview index is higher than 0
+        // add empty layouts to mimic get_row_index()
+        if($i > 0){
+            for($j=0; $j < $i; $j++){
+                $meta[ $field_key ][] = array(
+                    'acf_fc_layout' => $layout['name']
+                );
+            }
+        }
+        
+        // append current layout
+        $meta[ $field_key ][] = $value;
+        
+        // setup meta
         acfe_setup_meta($meta, $post_id, true);
         
-        if(have_rows($options['field_key'])):
-            while(have_rows($options['field_key'])): the_row();
+        if(have_rows($field_key)):
+            while(have_rows($field_key)): the_row();
+            
+                // continue to loop until the correct preview index
+                if(acf_get_loop('active', 'i') !== $i){
+                    
+                    // remove previously created empty layouts
+                    // so acf_get_loop('active', 'value') only return one row (current)
+                    $loop = acf_get_loop('active');
+                    unset($loop['value'][ $loop['i'] ]);
+                    acf_update_loop('active', 'value', $loop['value']);
+                    
+                    continue;
+                }
                 
+                // global post
                 global $post;
                 if($this->no_post){
                     $post = null;
@@ -447,16 +479,15 @@ class acfe_field_flexible_content_preview{
                     
                     $post_id = acfe_get_post_id('array');
                     
-                    // ajax
+                    // context:ajax
                     if($post_id['type'] === 'post'){
                         $post = get_post($post_id['id']);
                         
-                    // /taxonomy/user page
+                    // context:taxonomy/user page
+                    // assign for next call
+                    // this fix the issue where doing new WP_Query() in a taxonomy page
+                    // will setup the last $post as global and break next get_field() calls
                     }else{
-                        
-                        // assign for next call
-                        // this fix the issue where doing new WP_Query() in a taxonomy page
-                        // will setup the last $post as global and break next get_field() calls
                         $this->no_post = true;
                     }
                     
@@ -468,10 +499,6 @@ class acfe_field_flexible_content_preview{
                 
                 add_filter('acf/pre_load_post_id', array($this, 'pre_load_post_id'), 2, 2);
                 add_action('loop_start', array($this, 'loop_start'));
-                
-                // update loop for get_row_index
-                $i = (int) $options['i'];
-                acf_update_loop('active', 'i', $i);
                 
                 // deprecated
                 do_action_deprecated("acfe/flexible/preview/name={$name}",                         array($field, $layout), '0.8.6.7');
@@ -549,20 +576,20 @@ class acfe_field_flexible_content_preview{
      */
     function pre_load_post_id($null, $post_id){
         
-        if(!$post_id){
-            
-            global $post;
-            if($post){
-                return null; // let acf find the post id from the $post
-            }
-            
-            // taxonomy/user/options page
-            // retrieve the correct post id dynamically
-            return acfe_get_post_id();
-            
+        // post id provided
+        if($post_id){
+            return $null;
         }
         
-        return $null;
+        // retrieve global post
+        global $post;
+        if($post){
+            return null; // let acf find the post from the $post
+        }
+        
+        // retrieve the correct post id dynamically
+        // context:taxonomy/user/options page
+        return acfe_get_post_id();
         
     }
     

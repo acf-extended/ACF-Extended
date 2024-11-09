@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2024-06-28 01:55+0200\n"
+"POT-Creation-Date: 2024-11-08 21:38+0100\n"
 "PO-Revision-Date: 2021-07-27 23:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: acf-extended.php\n"
@@ -49,7 +49,7 @@ msgid "Select Image"
 msgstr ""
 
 #: assets/js/acfe-input.js:2094 includes/admin/tools/module-import.php:58
-#: pro/assets/js/acfe-pro-input.js:1438 pro/assets/js/acfe-pro-input.js:1453
+#: pro/assets/js/acfe-pro-input.js:1846 pro/assets/js/acfe-pro-input.js:1861
 #: pro/includes/admin/tools/settings-import.php:40
 msgid "Select File"
 msgstr ""
@@ -70,7 +70,7 @@ msgstr ""
 #: includes/fields/field-flexible-content-settings.php:275
 #: includes/fields/field-flexible-content.php:812
 #: includes/fields/field-flexible-content.php:818
-#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:1001
+#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:1413
 #: pro/includes/field-groups/field-group-ui.php:619
 #: pro/includes/fields/field-payment.php:512
 #: pro/includes/modules/dev/module-dev-clean-meta.php:116
@@ -136,13 +136,13 @@ msgid ""
 msgstr ""
 
 #: includes/acfe-field-functions.php:597 includes/module-legacy.php:534
-#: includes/modules/form/module-form-fields.php:970
+#: includes/modules/form/module-form-fields.php:977
 msgid "no label"
 msgstr ""
 
 #: includes/acfe-field-group-functions.php:468
 #: includes/modules/block-type/module-block-type.php:207
-#: includes/modules/form/module-form-fields.php:1210
+#: includes/modules/form/module-form-fields.php:1217
 #: includes/modules/form/module-form.php:61
 #: includes/modules/form/module-form.php:256
 #: includes/modules/options-page/module-options-page.php:238
@@ -156,9 +156,9 @@ msgid "edit"
 msgstr ""
 
 #: includes/acfe-field-group-functions.php:553
-#: includes/modules/form/module-form-fields.php:1577
-#: pro/includes/fields/field-color-picker.php:67
-#: pro/includes/fields/field-color-picker.php:164
+#: includes/modules/form/module-form-fields.php:1584
+#: pro/includes/fields/field-color-picker.php:69
+#: pro/includes/fields/field-color-picker.php:166
 #: pro/includes/fields/field-menu-locations.php:122
 msgid "Label"
 msgstr ""
@@ -168,12 +168,13 @@ msgstr ""
 #: includes/modules/dev/module-dev.php:436
 #: includes/modules/form/module-form-action-term.php:754
 #: includes/modules/form/module-form-action-term.php:1138
-#: includes/modules/form/module-form-fields.php:1191
+#: includes/modules/form/module-form-fields.php:1198
 #: includes/modules/form/module-form.php:60
 #: includes/modules/option/module-option-table.php:226
 #: includes/modules/option/module-option.php:361
 #: includes/modules/post-type/module-post-type.php:60
 #: includes/modules/taxonomy/module-taxonomy.php:60
+#: pro/includes/fields/field-address.php:40
 #: pro/includes/fields/field-menu-locations.php:121
 #: pro/includes/fields/field-post-field.php:53
 #: pro/includes/modules/dev/module-dev-edit-meta.php:95
@@ -240,7 +241,7 @@ msgstr ""
 #: includes/admin/settings.php:534 includes/admin/settings.php:695
 #: includes/admin/settings.php:705 includes/fields-settings/settings.php:136
 #: includes/fields/field-flexible-content.php:92
-#: includes/modules/form/module-form-fields.php:1257
+#: includes/modules/form/module-form-fields.php:1264
 #: pro/includes/admin/settings.php:316 pro/includes/admin/settings.php:376
 #: pro/includes/module-item.php:52
 msgid "Settings"
@@ -368,7 +369,7 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: includes/assets.php:126 pro/assets/js/acfe-pro-input.js:5345
+#: includes/assets.php:126 pro/assets/js/acfe-pro-input.js:5777
 msgid "Read more"
 msgstr ""
 
@@ -449,12 +450,12 @@ msgid "Block Editor"
 msgstr ""
 
 #: includes/field-groups/field-group-instruction-placement.php:39
-#: includes/modules/form/module-form-fields.php:1942
+#: includes/modules/form/module-form-fields.php:1949
 msgid "Above fields"
 msgstr ""
 
 #: includes/field-groups/field-group-instruction-placement.php:40
-#: includes/modules/form/module-form-fields.php:1580
+#: includes/modules/form/module-form-fields.php:1587
 msgid "Tooltip"
 msgstr ""
 
@@ -816,7 +817,7 @@ msgstr ""
 
 #: includes/fields/field-advanced-link.php:60
 #: includes/fields/field-taxonomies.php:61
-#: includes/fields/field-taxonomy-terms.php:374
+#: includes/fields/field-taxonomy-terms.php:376
 msgid "All taxonomies"
 msgstr ""
 
@@ -970,9 +971,9 @@ msgstr ""
 #: includes/fields/field-flexible-content-controls.php:103
 #: includes/fields/field-flexible-content-edit.php:81
 #: includes/fields/field-flexible-content-hide.php:66
-#: includes/fields/field-flexible-content-preview.php:81
-#: includes/fields/field-flexible-content-preview.php:104
-#: includes/fields/field-flexible-content-preview.php:132
+#: includes/fields/field-flexible-content-preview.php:83
+#: includes/fields/field-flexible-content-preview.php:106
+#: includes/fields/field-flexible-content-preview.php:134
 #: includes/fields/field-flexible-content-select.php:78
 #: includes/fields/field-flexible-content-settings.php:74
 #: includes/fields/field-flexible-content-thumbnail.php:74
@@ -1033,7 +1034,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:80
 #: includes/fields/field-post-types.php:80 includes/fields/field-slug.php:39
 #: includes/fields/field-taxonomies.php:80
-#: includes/fields/field-taxonomy-terms.php:507
+#: includes/fields/field-taxonomy-terms.php:509
 #: includes/fields/field-user-roles.php:78
 #: pro/includes/fields/field-block-types.php:107
 #: pro/includes/fields/field-countries.php:152
@@ -1062,13 +1063,14 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:186
 #: includes/fields/field-post-types.php:186 includes/fields/field-select.php:54
 #: includes/fields/field-taxonomies.php:186
-#: includes/fields/field-taxonomy-terms.php:572
+#: includes/fields/field-taxonomy-terms.php:574
 #: includes/fields/field-user-roles.php:171
+#: pro/includes/fields/field-address.php:86
 #: pro/includes/fields/field-block-types.php:212
 #: pro/includes/fields/field-countries.php:331
 #: pro/includes/fields/field-currencies.php:320
 #: pro/includes/fields/field-date-picker.php:35
-#: pro/includes/fields/field-date-range-picker.php:106
+#: pro/includes/fields/field-date-range-picker.php:110
 #: pro/includes/fields/field-date-time-picker.php:43
 #: pro/includes/fields/field-field-groups.php:221
 #: pro/includes/fields/field-field-types.php:218
@@ -1090,8 +1092,9 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:187
 #: includes/fields/field-post-types.php:187 includes/fields/field-select.php:55
 #: includes/fields/field-slug.php:48 includes/fields/field-taxonomies.php:187
-#: includes/fields/field-taxonomy-terms.php:573
+#: includes/fields/field-taxonomy-terms.php:575
 #: includes/fields/field-user-roles.php:172
+#: pro/includes/fields/field-address.php:87
 #: pro/includes/fields/field-block-types.php:213
 #: pro/includes/fields/field-countries.php:332
 #: pro/includes/fields/field-currencies.php:321
@@ -1173,7 +1176,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:88
 #: includes/fields/field-post-types.php:88
 #: includes/fields/field-taxonomies.php:88
-#: includes/fields/field-taxonomy-terms.php:515
+#: includes/fields/field-taxonomy-terms.php:517
 #: pro/includes/fields/field-block-types.php:115
 #: pro/includes/fields/field-color-picker.php:157
 #: pro/includes/fields/field-countries.php:160
@@ -1217,7 +1220,7 @@ msgid "Define an endpoint for the previous columns to stop."
 msgstr ""
 
 #: includes/fields/field-dynamic-render.php:17
-#: includes/fields/field-flexible-content-preview.php:78
+#: includes/fields/field-flexible-content-preview.php:80
 msgid "Dynamic Render"
 msgstr ""
 
@@ -1278,13 +1281,13 @@ msgstr ""
 #: includes/modules/form/module-form-action-user.php:1754
 #: includes/modules/form/module-form-action-user.php:1805
 #: includes/modules/form/module-form-action-user.php:1965
-#: includes/modules/form/module-form-fields.php:1344
+#: includes/modules/form/module-form-fields.php:1351
 #: pro/includes/fields/field-true-false.php:38
 msgid "Default"
 msgstr ""
 
 #: includes/fields/field-file.php:138 includes/fields/field-image.php:108
-#: includes/modules/form/module-form-fields.php:1346
+#: includes/modules/form/module-form-fields.php:1353
 msgid "Browser"
 msgstr ""
 
@@ -1341,7 +1344,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:300
 #: includes/fields/field-post-types.php:300
 #: includes/fields/field-taxonomies.php:300
-#: includes/fields/field-taxonomy-terms.php:708
+#: includes/fields/field-taxonomy-terms.php:710
 #: includes/fields/field-user-roles.php:285
 #: pro/includes/fields/field-block-types.php:326
 #: pro/includes/fields/field-countries.php:445
@@ -1431,34 +1434,34 @@ msgstr ""
 msgid "Hide Buttons"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:81
+#: includes/fields/field-flexible-content-preview.php:83
 msgid "Render the layout using custom template, style & javascript files"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:101
+#: includes/fields/field-flexible-content-preview.php:103
 msgid "Dynamic Preview"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:104
+#: includes/fields/field-flexible-content-preview.php:106
 msgid ""
 "Use layouts render settings to display a dynamic preview in the "
 "administration"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:129
+#: includes/fields/field-flexible-content-preview.php:131
 msgid "Layouts Placeholder"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:132
+#: includes/fields/field-flexible-content-preview.php:134
 msgid "Display a placeholder with an icon"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:180
-#: includes/modules/form/module-form-fields.php:1698
+#: includes/fields/field-flexible-content-preview.php:182
+#: includes/modules/form/module-form-fields.php:1705
 msgid "Render"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:332
+#: includes/fields/field-flexible-content-preview.php:334
 msgid "Edit layout"
 msgstr ""
 
@@ -1512,7 +1515,7 @@ msgid "Set a thumbnail for each layouts"
 msgstr ""
 
 #: includes/fields/field-flexible-content-thumbnail.php:111
-#: pro/includes/fields/field-block-editor.php:646
+#: pro/includes/fields/field-block-editor.php:654
 msgid "Thumbnail"
 msgstr ""
 
@@ -1547,7 +1550,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:66
 #: includes/fields/field-post-types.php:66
 #: includes/fields/field-taxonomies.php:66
-#: includes/fields/field-taxonomy-terms.php:493
+#: includes/fields/field-taxonomy-terms.php:495
 #: includes/fields/field-user-roles.php:64
 #: pro/includes/fields/field-block-types.php:93
 #: pro/includes/fields/field-countries.php:139
@@ -1569,7 +1572,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:67
 #: includes/fields/field-post-types.php:67
 #: includes/fields/field-taxonomies.php:67
-#: includes/fields/field-taxonomy-terms.php:494
+#: includes/fields/field-taxonomy-terms.php:496
 #: includes/fields/field-user-roles.php:65
 #: pro/includes/fields/field-block-types.php:94
 #: pro/includes/fields/field-countries.php:140
@@ -1591,7 +1594,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:72
 #: includes/fields/field-post-types.php:72
 #: includes/fields/field-taxonomies.php:72
-#: includes/fields/field-taxonomy-terms.php:499
+#: includes/fields/field-taxonomy-terms.php:501
 #: includes/fields/field-user-roles.php:70
 #: pro/includes/fields/field-block-types.php:99
 #: pro/includes/fields/field-countries.php:144
@@ -1614,7 +1617,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:73
 #: includes/fields/field-post-types.php:73
 #: includes/fields/field-taxonomies.php:73
-#: includes/fields/field-taxonomy-terms.php:500
+#: includes/fields/field-taxonomy-terms.php:502
 #: includes/fields/field-user-roles.php:71
 #: pro/includes/fields/field-block-types.php:100
 #: pro/includes/fields/field-countries.php:145
@@ -1636,7 +1639,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:74
 #: includes/fields/field-post-types.php:74
 #: includes/fields/field-taxonomies.php:74
-#: includes/fields/field-taxonomy-terms.php:501
+#: includes/fields/field-taxonomy-terms.php:503
 #: includes/fields/field-user-roles.php:72
 #: pro/includes/fields/field-block-types.php:101
 #: pro/includes/fields/field-countries.php:146
@@ -1659,7 +1662,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:81
 #: includes/fields/field-post-types.php:81
 #: includes/fields/field-taxonomies.php:81
-#: includes/fields/field-taxonomy-terms.php:508
+#: includes/fields/field-taxonomy-terms.php:510
 #: includes/fields/field-user-roles.php:79
 #: pro/includes/fields/field-block-types.php:108
 #: pro/includes/fields/field-countries.php:153
@@ -1691,7 +1694,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:101
 #: includes/fields/field-post-types.php:101
 #: includes/fields/field-taxonomies.php:101
-#: includes/fields/field-taxonomy-terms.php:547
+#: includes/fields/field-taxonomy-terms.php:549
 #: includes/fields/field-user-roles.php:86
 #: pro/includes/fields/field-block-types.php:128
 #: pro/includes/fields/field-countries.php:247
@@ -1715,7 +1718,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:190
 #: includes/fields/field-post-types.php:190 includes/fields/field-select.php:58
 #: includes/fields/field-taxonomies.php:190
-#: includes/fields/field-taxonomy-terms.php:576
+#: includes/fields/field-taxonomy-terms.php:578
 #: includes/fields/field-user-roles.php:175
 #: pro/includes/fields/field-block-types.php:216
 #: pro/includes/fields/field-countries.php:335
@@ -1740,7 +1743,7 @@ msgstr ""
 #: includes/fields/field-post-types.php:253
 #: includes/fields/field-select.php:106
 #: includes/fields/field-taxonomies.php:253
-#: includes/fields/field-taxonomy-terms.php:639
+#: includes/fields/field-taxonomy-terms.php:641
 #: includes/fields/field-user-roles.php:238
 #: pro/includes/fields/field-block-types.php:279
 #: pro/includes/fields/field-countries.php:398
@@ -1764,7 +1767,7 @@ msgstr ""
 #: includes/fields/field-post-types.php:254
 #: includes/fields/field-select.php:107
 #: includes/fields/field-taxonomies.php:254
-#: includes/fields/field-taxonomy-terms.php:640
+#: includes/fields/field-taxonomy-terms.php:642
 #: includes/fields/field-user-roles.php:239
 #: pro/includes/fields/field-block-types.php:280
 #: pro/includes/fields/field-countries.php:399
@@ -1787,7 +1790,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:126
 #: includes/fields/field-post-types.php:126
 #: includes/fields/field-taxonomies.php:126
-#: includes/fields/field-taxonomy-terms.php:667
+#: includes/fields/field-taxonomy-terms.php:669
 #: includes/fields/field-user-roles.php:111
 #: pro/includes/fields/field-block-types.php:153
 #: pro/includes/fields/field-countries.php:272
@@ -1811,7 +1814,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:144
 #: includes/fields/field-post-types.php:144
 #: includes/fields/field-taxonomies.php:144
-#: includes/fields/field-taxonomy-terms.php:529
+#: includes/fields/field-taxonomy-terms.php:531
 #: includes/fields/field-user-roles.php:129
 #: pro/includes/fields/field-block-types.php:171
 #: pro/includes/fields/field-countries.php:290
@@ -1835,7 +1838,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:163
 #: includes/fields/field-post-types.php:163
 #: includes/fields/field-taxonomies.php:163
-#: includes/fields/field-taxonomy-terms.php:685
+#: includes/fields/field-taxonomy-terms.php:687
 #: includes/fields/field-user-roles.php:148
 #: pro/includes/fields/field-block-types.php:189
 #: pro/includes/fields/field-countries.php:308
@@ -1907,7 +1910,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:306
 #: includes/fields/field-post-types.php:306
 #: includes/fields/field-taxonomies.php:306
-#: includes/fields/field-taxonomy-terms.php:714
+#: includes/fields/field-taxonomy-terms.php:716
 #: includes/fields/field-user-roles.php:291
 #: pro/includes/fields/field-block-types.php:332
 #: pro/includes/fields/field-countries.php:451
@@ -1932,7 +1935,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:307
 #: includes/fields/field-post-types.php:307
 #: includes/fields/field-taxonomies.php:307
-#: includes/fields/field-taxonomy-terms.php:715
+#: includes/fields/field-taxonomy-terms.php:717
 #: includes/fields/field-user-roles.php:292
 #: pro/includes/fields/field-block-types.php:333
 #: pro/includes/fields/field-countries.php:452
@@ -1957,7 +1960,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:329
 #: includes/fields/field-post-types.php:329
 #: includes/fields/field-taxonomies.php:329
-#: includes/fields/field-taxonomy-terms.php:737
+#: includes/fields/field-taxonomy-terms.php:739
 #: includes/fields/field-user-roles.php:314
 #: pro/includes/fields/field-block-types.php:355
 #: pro/includes/fields/field-countries.php:474
@@ -1980,7 +1983,7 @@ msgstr ""
 #: includes/fields/field-post-statuses.php:330
 #: includes/fields/field-post-types.php:330
 #: includes/fields/field-taxonomies.php:330
-#: includes/fields/field-taxonomy-terms.php:738
+#: includes/fields/field-taxonomy-terms.php:740
 #: includes/fields/field-user-roles.php:315
 #: pro/includes/fields/field-block-types.php:356
 #: pro/includes/fields/field-countries.php:475
@@ -2050,7 +2053,7 @@ msgid "Save 'custom' values to the field's choices"
 msgstr ""
 
 #: includes/fields/field-hidden.php:17
-#: includes/modules/form/module-form-fields.php:1555
+#: includes/modules/form/module-form-fields.php:1562
 msgid "Hidden"
 msgstr ""
 
@@ -2227,6 +2230,8 @@ msgstr ""
 #: includes/fields/field-slug.php:17
 #: includes/modules/form/module-form-action-term.php:783
 #: includes/modules/form/module-form-action-term.php:1172
+#: pro/includes/fields/field-color-picker.php:68
+#: pro/includes/fields/field-color-picker.php:165
 msgid "Slug"
 msgstr ""
 
@@ -2234,21 +2239,29 @@ msgstr ""
 msgid "Placeholder Text"
 msgstr ""
 
-#: includes/fields/field-slug.php:55 pro/includes/fields/field-select.php:34
+#: includes/fields/field-slug.php:55 pro/includes/fields/field-address.php:146
+#: pro/includes/fields/field-date-range-picker.php:227
+#: pro/includes/fields/field-select.php:34
 msgid "Prepend"
 msgstr ""
 
-#: includes/fields/field-slug.php:56 pro/includes/fields/field-select.php:35
+#: includes/fields/field-slug.php:56 pro/includes/fields/field-address.php:147
+#: pro/includes/fields/field-date-range-picker.php:228
+#: pro/includes/fields/field-select.php:35
 msgid "Appears before the input"
 msgstr ""
 
 #: includes/fields/field-slug.php:63
 #: includes/modules/form/module-form-action-post.php:1621
+#: pro/includes/fields/field-address.php:155
+#: pro/includes/fields/field-date-range-picker.php:236
 #: pro/includes/fields/field-select.php:43
 msgid "Append"
 msgstr ""
 
-#: includes/fields/field-slug.php:64 pro/includes/fields/field-select.php:44
+#: includes/fields/field-slug.php:64 pro/includes/fields/field-address.php:156
+#: pro/includes/fields/field-date-range-picker.php:237
+#: pro/includes/fields/field-select.php:44
 msgid "Appears after the input"
 msgstr ""
 
@@ -2266,7 +2279,7 @@ msgid "Taxonomies"
 msgstr ""
 
 #: includes/fields/field-taxonomies.php:53
-#: includes/fields/field-taxonomy-terms.php:366
+#: includes/fields/field-taxonomy-terms.php:368
 msgid "Allow Taxonomy"
 msgstr ""
 
@@ -2282,19 +2295,19 @@ msgstr ""
 msgid "Taxonomy Terms"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:465
+#: includes/fields/field-taxonomy-terms.php:467
 msgid "Allow Terms"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:474
+#: includes/fields/field-taxonomy-terms.php:476
 msgid "All terms"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:480
+#: includes/fields/field-taxonomy-terms.php:482
 msgid "Terms_level"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:486
+#: includes/fields/field-taxonomy-terms.php:488
 #: includes/locations/post-type-all.php:31
 #: includes/locations/post-type-archive.php:320
 #: includes/locations/post-type-list.php:237
@@ -2305,31 +2318,31 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:520
+#: includes/fields/field-taxonomy-terms.php:522
 msgid "Term object"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:521
+#: includes/fields/field-taxonomy-terms.php:523
 msgid "Term name"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:522
+#: includes/fields/field-taxonomy-terms.php:524
 msgid "Term ID"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:755
+#: includes/fields/field-taxonomy-terms.php:757
 msgid "Save Terms"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:756
+#: includes/fields/field-taxonomy-terms.php:758
 msgid "Connect selected terms to the post"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:764
+#: includes/fields/field-taxonomy-terms.php:766
 msgid "Load Terms"
 msgstr ""
 
-#: includes/fields/field-taxonomy-terms.php:765
+#: includes/fields/field-taxonomy-terms.php:767
 msgid "Load value from posts terms"
 msgstr ""
 
@@ -2355,7 +2368,7 @@ msgstr ""
 msgid "All user roles"
 msgstr ""
 
-#: includes/init.php:174
+#: includes/init.php:179
 msgid ""
 "ACF Extended requires <a href=\"https://www.advancedcustomfields.com/pro/\" "
 "target=\"_blank\">Advanced Custom Fields PRO</a> (minimum: 5.8)."
@@ -2389,7 +2402,7 @@ msgstr ""
 #: includes/module-acf.php:91 includes/module-post.php:130
 #: includes/modules/form/module-form.php:721
 #: pro/includes/fields-settings/required.php:26
-#: pro/includes/fields/field-block-editor.php:564
+#: pro/includes/fields/field-block-editor.php:572
 #, php-format
 msgid "%s value is required"
 msgstr ""
@@ -2406,7 +2419,7 @@ msgid "Export "
 msgstr ""
 
 #: includes/module-legacy.php:256 includes/module-post.php:129
-#: includes/modules/performance/module-performance-functions.php:651
+#: includes/modules/performance/module-performance-functions.php:660
 #: pro/includes/module-item.php:75
 msgid "Active"
 msgstr ""
@@ -2862,10 +2875,10 @@ msgid "Target this action using hooks."
 msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:178
-#: includes/modules/form/module-form-fields.php:457
-#: includes/modules/form/module-form-fields.php:548
-#: includes/modules/form/module-form-fields.php:762
-#: includes/modules/form/module-form-fields.php:935
+#: includes/modules/form/module-form-fields.php:460
+#: includes/modules/form/module-form-fields.php:551
+#: includes/modules/form/module-form-fields.php:769
+#: includes/modules/form/module-form-fields.php:942
 #: pro/includes/locations/menu-item-type.php:22
 msgid "Custom"
 msgstr ""
@@ -3217,6 +3230,7 @@ msgstr ""
 #: includes/modules/form/module-form-action-user.php:2255
 #: includes/modules/form/module-form-action-user.php:2289
 #: includes/modules/form/module-form-action-user.php:2323
+#: pro/includes/fields/field-address.php:117
 msgid "None"
 msgstr ""
 
@@ -3383,7 +3397,7 @@ msgid "Log user"
 msgstr ""
 
 #: includes/modules/form/module-form-action-user.php:1233
-#: includes/modules/form/module-form-fields.php:1740
+#: includes/modules/form/module-form-fields.php:1747
 msgid "Validation"
 msgstr ""
 
@@ -3474,281 +3488,281 @@ msgstr ""
 msgid "Log user once created"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1146
+#: includes/modules/form/module-form-fields.php:1153
 #: includes/modules/form/module-form-shortcode.php:159
 #: includes/modules/form/module-form.php:28
 msgid "Form"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1174
+#: includes/modules/form/module-form-fields.php:1181
 msgid "General"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1234
+#: includes/modules/form/module-form-fields.php:1241
 #: includes/modules/form/module-form.php:62
 msgid "Actions"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1237
+#: includes/modules/form/module-form-fields.php:1244
 msgid "Add actions on form submission"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1247
+#: includes/modules/form/module-form-fields.php:1254
 msgid "Add action"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1273
+#: includes/modules/form/module-form-fields.php:1280
 msgid "Field groups locations rules"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1276
+#: includes/modules/form/module-form-fields.php:1283
 msgid "Apply field groups locations rules on front-end display"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1292
+#: includes/modules/form/module-form-fields.php:1299
 msgid "Honeypot"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1295
+#: includes/modules/form/module-form-fields.php:1302
 msgid ""
 "Whether to include a hidden input field to capture non human form "
 "submission. Defaults to true."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1312
+#: includes/modules/form/module-form-fields.php:1319
 msgid "Kses"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1315
+#: includes/modules/form/module-form-fields.php:1322
 msgid ""
 "Whether or not to sanitize all $_POST data with the wp_kses_post() function. "
 "Defaults to true."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1332
+#: includes/modules/form/module-form-fields.php:1339
 msgid "Uploader"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1335
+#: includes/modules/form/module-form-fields.php:1342
 msgid ""
 "Whether to use the WP uploader or a basic input for image and file fields. "
 "Defaults to 'wp'."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1345
+#: includes/modules/form/module-form-fields.php:1352
 msgid "WordPress"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1362
+#: includes/modules/form/module-form-fields.php:1369
 #: pro/includes/fields/field-post-field.php:45
 msgid "Attributes"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1378
+#: includes/modules/form/module-form-fields.php:1385
 msgid "Form attributes"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1381
+#: includes/modules/form/module-form-fields.php:1388
 msgid "Attributes settings related to the form."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1458
+#: includes/modules/form/module-form-fields.php:1465
 msgid "Fields attributes"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1461
+#: includes/modules/form/module-form-fields.php:1468
 msgid "Attributes settings related to the fields."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1553
+#: includes/modules/form/module-form-fields.php:1560
 #: pro/includes/fields/field-flexible-content-grid.php:191
 msgid "Top"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1554
+#: includes/modules/form/module-form-fields.php:1561
 #: pro/includes/fields/field-flexible-content-grid.php:163
 msgid "Left"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1578
+#: includes/modules/form/module-form-fields.php:1585
 msgid "Field"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1579
+#: includes/modules/form/module-form-fields.php:1586
 msgid "Above field"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1592
-#: includes/modules/form/module-form-fields.php:1640
+#: includes/modules/form/module-form-fields.php:1599
+#: includes/modules/form/module-form-fields.php:1647
 msgid "Submit button"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1595
+#: includes/modules/form/module-form-fields.php:1602
 msgid "Whether or not to create a form submit button. Defaults to true"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1612
+#: includes/modules/form/module-form-fields.php:1619
 msgid "Submit value"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1615
+#: includes/modules/form/module-form-fields.php:1622
 msgid "The text displayed on the submit button"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1643
+#: includes/modules/form/module-form-fields.php:1650
 msgid "HTML used to render the submit button."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1667
+#: includes/modules/form/module-form-fields.php:1674
 msgid "Submit spinner"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1670
+#: includes/modules/form/module-form-fields.php:1677
 msgid "HTML used to render the submit button loading spinner."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1714
+#: includes/modules/form/module-form-fields.php:1721
 msgid "Form render"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1717
+#: includes/modules/form/module-form-fields.php:1724
 msgid "Render customized form HTML. Leave empty to render form normally."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1718
+#: includes/modules/form/module-form-fields.php:1725
 msgid "Render field group:"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1719
+#: includes/modules/form/module-form-fields.php:1726
 msgid "Render field:"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1720
+#: includes/modules/form/module-form-fields.php:1727
 msgid "Render all fields:"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1721
+#: includes/modules/form/module-form-fields.php:1728
 msgid "Render submit button:"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1757
+#: includes/modules/form/module-form-fields.php:1764
 msgid "Hide general error"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1760
+#: includes/modules/form/module-form-fields.php:1767
 msgid ""
 "Hide the general error message: \"Validation failed. 1 field requires "
 "attention\""
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1777
+#: includes/modules/form/module-form-fields.php:1784
 msgid "Hide successful re-validation"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1780
+#: includes/modules/form/module-form-fields.php:1787
 msgid ""
 "Hide \"Validation successful\" notice when an error has been previously "
 "thrown"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1805
+#: includes/modules/form/module-form-fields.php:1812
 msgid "Hide confirmation on exit"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1808
+#: includes/modules/form/module-form-fields.php:1815
 msgid "Do not prompt user on page refresh"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1825
+#: includes/modules/form/module-form-fields.php:1832
 msgid "General error messages"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1828
+#: includes/modules/form/module-form-fields.php:1835
 msgid "Customize general error messages."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1930
+#: includes/modules/form/module-form-fields.php:1937
 msgid "Fields errors position"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1933
+#: includes/modules/form/module-form-fields.php:1940
 msgid "Choose where to display field errors"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1943
+#: includes/modules/form/module-form-fields.php:1950
 msgid "Below fields"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1944
+#: includes/modules/form/module-form-fields.php:1951
 msgid "Group errors"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1945
+#: includes/modules/form/module-form-fields.php:1952
 msgid "Hide errors"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1957
+#: includes/modules/form/module-form-fields.php:1964
 msgid "Fields errors class"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1960
+#: includes/modules/form/module-form-fields.php:1967
 msgid "Add class to the error message"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:1989
+#: includes/modules/form/module-form-fields.php:1996
 msgid "Success"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2005
+#: includes/modules/form/module-form-fields.php:2012
 msgid "Redirection"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2008
+#: includes/modules/form/module-form-fields.php:2015
 msgid "The URL to be redirected to after the form is submitted."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2008
+#: includes/modules/form/module-form-fields.php:2015
 msgid "This setting is deprecated, use the new \"Redirect Action\" instead."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2026
+#: includes/modules/form/module-form-fields.php:2033
 msgid "Hide form"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2029
+#: includes/modules/form/module-form-fields.php:2036
 msgid "Hide form on successful submission"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2053
+#: includes/modules/form/module-form-fields.php:2060
 msgid "Scroll to message"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2056
+#: includes/modules/form/module-form-fields.php:2063
 msgid "Scroll to message on success"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2080
+#: includes/modules/form/module-form-fields.php:2087
 msgid "Success message"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2083
+#: includes/modules/form/module-form-fields.php:2090
 msgid "The message displayed above the form after the submission."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2100
+#: includes/modules/form/module-form-fields.php:2107
 #: includes/modules/form/module-form.php:112
 msgid "Form updated"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2109
+#: includes/modules/form/module-form-fields.php:2116
 msgid "Success wrapper HTML"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2112
+#: includes/modules/form/module-form-fields.php:2119
 msgid "HTML used to render the updated message."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2113
+#: includes/modules/form/module-form-fields.php:2120
 #, php-format
 msgid ""
 "If used, you have to include the following code <code>%s</code> to print the "
@@ -4093,51 +4107,51 @@ msgstr ""
 msgid "This options page slug already exists"
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:651
+#: includes/modules/performance/module-performance-functions.php:660
 msgid "Ready"
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:665
+#: includes/modules/performance/module-performance-functions.php:674
 msgid "Performance Mode is active."
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:665
+#: includes/modules/performance/module-performance-functions.php:674
 #, php-format
 msgid "The '%s' meta was found on this object and is effective."
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:670
+#: includes/modules/performance/module-performance-functions.php:679
 msgid "Performance Mode is ready."
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:670
+#: includes/modules/performance/module-performance-functions.php:679
 #, php-format
 msgid "The '%s' meta will be created when object will be saved."
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:720
+#: includes/modules/performance/module-performance-functions.php:729
 msgid "Hybrid meta found"
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:721
+#: includes/modules/performance/module-performance-functions.php:730
 #, php-format
 msgid "Hybrid engine '%s' meta found."
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:721
+#: includes/modules/performance/module-performance-functions.php:730
 msgid "This meta will be converted to Ultra engine upon save."
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:746
+#: includes/modules/performance/module-performance-functions.php:755
 msgid "Ultra meta found"
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:747
+#: includes/modules/performance/module-performance-functions.php:756
 #, php-format
 msgid "Ultra engine '%s' meta found."
 msgstr ""
 
-#: includes/modules/performance/module-performance-functions.php:747
+#: includes/modules/performance/module-performance-functions.php:756
 msgid "This meta will be converted to Hybrid engine upon save."
 msgstr ""
 
@@ -4813,7 +4827,7 @@ msgstr ""
 msgid "Edit Media"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:4099
+#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:4531
 msgid "Cancel"
 msgstr ""
 
@@ -4857,35 +4871,40 @@ msgstr ""
 msgid "No toggle fields available"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1002
+#: pro/assets/js/acfe-pro-input.js:644 pro/assets/js/acfe-pro-input.js:706
+#, javascript-format
+msgid "Location not found: %s"
+msgstr ""
+
+#: pro/assets/js/acfe-pro-input.js:1414
 #: pro/includes/modules/script/module-script.php:291
 msgid "Clear"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1367
+#: pro/assets/js/acfe-pro-input.js:1775
 msgid "Maximum items reached ({max} items)"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1493
+#: pro/assets/js/acfe-pro-input.js:1901
 msgid "Edit File"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1494
+#: pro/assets/js/acfe-pro-input.js:1902
 msgid "Update File"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1978
+#: pro/assets/js/acfe-pro-input.js:2386
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1979
+#: pro/assets/js/acfe-pro-input.js:2387
 #: pro/includes/fields/field-flexible-content-locations.php:181
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/assets/js/acfe-pro-input.js:4099
+#: pro/assets/js/acfe-pro-input.js:4531
 msgid "OK"
 msgstr ""
 
@@ -5023,6 +5042,150 @@ msgstr ""
 msgid "Field Visibility"
 msgstr ""
 
+#: pro/includes/fields/field-address.php:19
+#: pro/includes/fields/field-address.php:119
+msgid "Address"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:23
+#: pro/includes/fields/field-address.php:90
+msgid "Search for address..."
+msgstr ""
+
+#: pro/includes/fields/field-address.php:39
+msgid "Full Address"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:41
+msgid "Street Number"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:42
+msgid "Street Name"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:43
+msgid "City"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:44
+msgid "State"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:45
+msgid "State (code)"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:46
+msgid "Post code"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:47
+msgid "Country"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:48
+msgid "Country (code)"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:49
+msgid "Place ID"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:50
+msgid "Latitutde"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:51
+msgid "Longitude"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:95
+#: pro/includes/fields/field-countries.php:123
+#: pro/includes/fields/field-phone-number.php:48
+msgid "Allow Countries"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:96
+msgid "Limit the search to specific countries"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:106
+#: pro/includes/fields/field-countries.php:134
+msgid "All Countries"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:111
+msgid "Search Type"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:112
+msgid "Choose the allowed search type"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:118
+msgid "Geocode (non-business)"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:120
+msgid "Regions"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:121
+msgid "Cities"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:122
+msgid "Business"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:128
+msgid "Allow Geolocation"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:129
+msgid "Allow the user to find their current location"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:137
+msgid "Allow Custom Address"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:138
+msgid "Allow the user to enter an address not found in the Google Places API"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:164
+#: pro/includes/fields/field-google-map.php:317
+msgid "API Key"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:172
+msgid "Individual Sub Fields"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:175
+msgid ""
+"Choose which address component should be also saved as an individual sub "
+"field"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:177
+msgid "+ Add Subfield"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:325
+msgid "Search"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:327
+msgid "Clear location"
+msgstr ""
+
+#: pro/includes/fields/field-address.php:329
+msgid "Find current location"
+msgstr ""
+
 #: pro/includes/fields/field-block-editor.php:85
 #: pro/includes/fields/field-block-editor.php:106
 #: pro/includes/fields/field-wysiwyg.php:97
@@ -5114,30 +5277,30 @@ msgstr ""
 msgid "+ Add block"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:614
+#: pro/includes/fields/field-block-editor.php:622
 msgctxt "CSS Font Family for Editor Font"
 msgid "Noto Serif"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:646
+#: pro/includes/fields/field-block-editor.php:654
 msgid "Medium"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:646
+#: pro/includes/fields/field-block-editor.php:654
 msgid "Large"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:646
+#: pro/includes/fields/field-block-editor.php:654
 #: pro/includes/fields/field-image-sizes.php:62
 #: pro/includes/fields/field-image-sizes.php:490
 msgid "Full Size"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:666
+#: pro/includes/fields/field-block-editor.php:674
 msgid "Add title"
 msgstr ""
 
-#: pro/includes/fields/field-block-editor.php:667
+#: pro/includes/fields/field-block-editor.php:675
 msgid "Start writing or type / to choose a block"
 msgstr ""
 
@@ -5162,58 +5325,54 @@ msgid "Toggle All"
 msgstr ""
 
 #: pro/includes/fields/field-color-picker.php:23
-#: pro/includes/fields/field-color-picker.php:176
+#: pro/includes/fields/field-color-picker.php:177
 msgid "Select Color"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:68
-msgid "Color + Label Array"
+#: pro/includes/fields/field-color-picker.php:67
+#: pro/includes/fields/field-color-picker.php:164
+msgid "Color Array"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:142
+#: pro/includes/fields/field-color-picker.php:143
 msgid "Display Style"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:165
-#: pro/includes/fields/field-menu-locations.php:123
-msgid "Both (Array)"
-msgstr ""
-
-#: pro/includes/fields/field-color-picker.php:172
+#: pro/includes/fields/field-color-picker.php:173
 #: pro/includes/fields/field-file.php:240
 msgid "Button Label"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:189
+#: pro/includes/fields/field-color-picker.php:190
 msgid "Color Picker"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:197
+#: pro/includes/fields/field-color-picker.php:198
 msgid "Position Absolute"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:214
+#: pro/includes/fields/field-color-picker.php:215
 msgid "Text Input"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:238
-#: pro/includes/fields/field-date-range-picker.php:253
+#: pro/includes/fields/field-color-picker.php:239
+#: pro/includes/fields/field-date-range-picker.php:275
 msgid "Allow null"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:249
+#: pro/includes/fields/field-color-picker.php:250
 msgid "RGBA"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:259
+#: pro/includes/fields/field-color-picker.php:260
 msgid "Use Theme Colors"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:267
+#: pro/includes/fields/field-color-picker.php:268
 msgid "Custom Colors"
 msgstr ""
 
-#: pro/includes/fields/field-color-picker.php:268
+#: pro/includes/fields/field-color-picker.php:269
 msgid "Enter each choice on a new line."
 msgstr ""
 
@@ -5238,15 +5397,6 @@ msgstr ""
 msgid "Countries"
 msgstr ""
 
-#: pro/includes/fields/field-countries.php:123
-#: pro/includes/fields/field-phone-number.php:48
-msgid "Allow Countries"
-msgstr ""
-
-#: pro/includes/fields/field-countries.php:134
-msgid "All Countries"
-msgstr ""
-
 #: pro/includes/fields/field-countries.php:166
 msgid "Country array"
 msgstr ""
@@ -5261,7 +5411,7 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:186
 #: pro/includes/fields/field-currencies.php:160
-#: pro/includes/fields/field-date-range-picker.php:66
+#: pro/includes/fields/field-date-range-picker.php:70
 #: pro/includes/fields/field-image-sizes.php:127
 #: pro/includes/fields/field-languages.php:253
 #: pro/includes/fields/field-payment-cart.php:98
@@ -5270,7 +5420,7 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:187
 #: pro/includes/fields/field-currencies.php:161
-#: pro/includes/fields/field-date-range-picker.php:67
+#: pro/includes/fields/field-date-range-picker.php:71
 #: pro/includes/fields/field-languages.php:254
 #: pro/includes/fields/field-payment-cart.php:99
 msgid "The format displayed when editing a post"
@@ -5278,8 +5428,8 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:195
 #: pro/includes/fields/field-currencies.php:169
-#: pro/includes/fields/field-date-range-picker.php:75
-#: pro/includes/fields/field-date-range-picker.php:91
+#: pro/includes/fields/field-date-range-picker.php:79
+#: pro/includes/fields/field-date-range-picker.php:95
 #: pro/includes/fields/field-languages.php:262
 #: pro/includes/fields/field-payment-cart.php:106
 msgid "Custom:"
@@ -5339,13 +5489,13 @@ msgid "Group currencies by their continent"
 msgstr ""
 
 #: pro/includes/fields/field-date-picker.php:44
-#: pro/includes/fields/field-date-range-picker.php:176
+#: pro/includes/fields/field-date-range-picker.php:180
 #: pro/includes/fields/field-date-time-picker.php:53
 msgid "Date Restriction"
 msgstr ""
 
 #: pro/includes/fields/field-date-picker.php:70
-#: pro/includes/fields/field-date-range-picker.php:233
+#: pro/includes/fields/field-date-range-picker.php:255
 #: pro/includes/fields/field-date-time-picker.php:105
 msgid "No Weekends"
 msgstr ""
@@ -5354,39 +5504,39 @@ msgstr ""
 msgid "Date Range Picker"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:81
+#: pro/includes/fields/field-date-range-picker.php:85
 msgid "Return Format"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:82
+#: pro/includes/fields/field-date-range-picker.php:86
 msgid "The format returned via template functions"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:97
+#: pro/includes/fields/field-date-range-picker.php:101
 msgid "Week Starts On"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:114
+#: pro/includes/fields/field-date-range-picker.php:118
 msgid "Separator"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:122
+#: pro/includes/fields/field-date-range-picker.php:126
 msgid "Default Date"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:149
+#: pro/includes/fields/field-date-range-picker.php:153
 msgid "Range Restriction"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:206
+#: pro/includes/fields/field-date-range-picker.php:210
 msgid "Custom Ranges"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:223
+#: pro/includes/fields/field-date-range-picker.php:245
 msgid "Show Dropdowns"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:243
+#: pro/includes/fields/field-date-range-picker.php:265
 msgid "Auto Close on Selection"
 msgstr ""
 
@@ -5676,10 +5826,6 @@ msgstr ""
 msgid "View: Map Style"
 msgstr ""
 
-#: pro/includes/fields/field-google-map.php:317
-msgid "API Key"
-msgstr ""
-
 #: pro/includes/fields/field-image-selector.php:50
 msgid "Choices"
 msgstr ""
@@ -5782,6 +5928,10 @@ msgstr ""
 
 #: pro/includes/fields/field-menu-locations.php:89
 msgid "All locations"
+msgstr ""
+
+#: pro/includes/fields/field-menu-locations.php:123
+msgid "Both (Array)"
 msgstr ""
 
 #: pro/includes/fields/field-menus.php:17

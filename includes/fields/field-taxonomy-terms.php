@@ -228,17 +228,19 @@ class acfe_field_taxonomy_terms extends acf_field{
      */
     function ajax_query(){
         
-        $nonce = acf_request_arg('nonce', '');
-        $key   = acf_request_arg('field_key', '');
+        // vars
+        $nonce        = acf_request_arg('nonce', '');
+        $key          = acf_request_arg('field_key', '');
+        $is_field_key = acf_is_field_key($key);
         
-        // Back-compat for field settings.
-        if(!acf_is_field_key($key)){
+        // back-compat for field settings.
+        if(!$is_field_key){
             $nonce = '';
             $key   = '';
         }
         
         // validate
-        if(!acf_verify_ajax($nonce, $key)){
+        if(!acf_verify_ajax($nonce, $key, $is_field_key)){
             die();
         }
         
@@ -912,6 +914,12 @@ class acfe_field_taxonomy_terms extends acf_field{
             // unarray
             $field['value'] = acfe_unarray($field['value']);
         
+        }
+        
+        // fix acf 6.3.10 verify ajax nonce
+        // pass custom 'nonce' as: 'acf_field_select_field_abcde12345'
+        if($field['field_type'] === 'select' && $field['ajax'] && empty($field['nonce']) && acf_is_field_key($field['key'])){
+            $field['nonce'] = wp_create_nonce( 'acf_field_' . $this->name . '_' . $field['key'] );
         }
         
         return $field;

@@ -29,6 +29,7 @@ class acfe_module_form_format{
         add_filter('acfe/form/format_value/type=flexible_content',       array($this, 'format_value_repeater'), 5, 4);
         add_filter('acfe/form/format_value/type=group',                  array($this, 'format_value_group'), 5, 4);
         add_filter('acfe/form/format_value/type=acfe_date_range_picker', array($this, 'format_value_date_range_picker'), 5, 4);
+        add_filter('acfe/form/format_value/type=acfe_address',           array($this, 'format_value_address'), 5, 4);
         
     }
     
@@ -328,6 +329,27 @@ class acfe_module_form_format{
     
             return "{$start} - {$end}";
         
+        }
+        
+        return $formatted;
+        
+    }
+    
+    
+    /**
+     * format_value_address
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     *
+     * @return mixed|string
+     */
+    function format_value_address($formatted, $unformatted, $post_id, $field){
+    
+        if(!empty($formatted) && is_array($formatted)){
+            return acf_maybe_get($formatted, 'address');
         }
         
         return $formatted;

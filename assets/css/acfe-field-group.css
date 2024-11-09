@@ -547,6 +547,10 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     max-width: 930px
 }
 
+.acf-admin-6.acf-admin-single-field-group .acf-field-settings .select2-container.-acf .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+    margin-top: 5px
+}
+
 .acf-admin-6.acf-admin-single-field-group .acf-field-settings .select2-container.-acf .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .acf-selection {
     line-height: 1.5
 }
@@ -600,6 +604,12 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
 
 .acf-admin-6.acf-admin-single-field-group .acfe-field-setting-flex>.acf-input>.acf-fields>.acf-field select {
     min-width: 50px
+}
+
+.acf-admin-6.acf-admin-single-field-group .acf-field-setting-fc_layout>.acf-input>.acf-fc-meta>.acf-fc-meta-name {
+    float: none;
+    margin-left: 0;
+    width: auto
 }
 
 .acf-admin-6.acf-admin-single-field-group .acf-field-setting-fc_layout>.acf-input>.acf-fc-meta .acf-field.acfe-flexible-field-setting {

@@ -46,6 +46,16 @@ class acfe_compatibility{
      */
     function acf_init(){
         
+        /**
+         * acfe/flexible/render/template
+         *
+         * Remove temporary fix for preview get_row() usage provided for ACFE 0.9.0.8
+         */
+        remove_filter('acfe/flexible/render/template', 'acfe_fix_flexible_content_preview_get_row', 0);
+        
+        /***
+         * admin_body_class
+         */
         add_filter('admin_body_class',  array($this, 'admin_body_class'));
     
         // settings list
