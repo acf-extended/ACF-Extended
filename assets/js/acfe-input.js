@@ -1994,195 +1994,143 @@
      * spawner
      */
     new acf.Model({
-        wait: 'prepare',
-        priority: 5,
+        wait: 'ready',
+        priority: 15,
         initialize: function() {
-            if (!acfe.get('is_admin')) {
-                new renderMedia();
-                new overridePrototypes();
+
+            if (!acfe.get('is_admin') && acf.isset(window, 'wp', 'media', 'view', 'settings', 'post')) {
+                new formMedia();
             }
+
         }
     });
 
 
     /**
-     * renderMedia
+     * formMedia
      */
-    var renderMedia = acf.Model.extend({
+    var formMedia = acf.Model.extend({
+
+        defaultPostId: null,
 
         actions: {
             'new_media_popup': 'newMediaPopup',
+            'acfe/before_editor_media_popup': 'beforeEditorPopup',
+            'acfe/open_editor_media_popup': 'openEditorPopup',
+            'acfe/close_editor_media_popup': 'closeEditorPopup',
+        },
+
+        filters: {
+            'acfe/select_media_popup/args': 'mediaPopupArgs',
+            'acfe/select_media_popup/frame_options': 'mediaPopupFrameOptions',
         },
 
         initialize: function() {
-            this.resetMedia();
+            // acf set wp.media.view.settings.post.id on ready:10
+            this.defaultPostId = wp.media.view.settings.post.id;
+        },
+
+        resetPostId: function() {
+            // reset upload post id back to default
+            wp.media.view.settings.post.id = this.defaultPostId;
         },
 
         newMediaPopup: function(popup) {
 
-            // check post id was set in prototypes
-            if (popup.get('post_id')) {
-                if (acf.isset(window, 'wp', 'media', 'view', 'settings', 'post')) {
-                    wp.media.view.settings.post = {
-                        id: popup.get('post_id')
-                    };
-                }
+            // change the post attached to the uploaded file
+            if (popup.get('attachTo') !== null) {
+                wp.media.view.settings.post.id = popup.get('attachTo');
             }
 
-            // reset media modal on close
-            popup.frame.on('close', this.proxy(this.resetMedia));
+            // on close: reset post id
+            popup.frame.on('close', this.proxy(this.resetPostId));
 
         },
 
-        resetMedia: function() {
+        beforeEditorPopup: function(field) {
 
-            // fix image/file/gallery media upload
-            // avoid acf to use current post to determine if the user can upload a file
-            if (acf.isset(window, 'wp', 'media', 'view', 'settings', 'post')) {
-                wp.media.view.settings.post = false;
+            // change the post attached to the uploaded file
+            var attachTo = this.getFieldAttachTo(field);
+            if (attachTo !== false) {
+                wp.media.view.settings.post.id = attachTo;
             }
 
         },
 
-    });
+        openEditorPopup: function(field) {
 
-
-    /**
-     * overridePrototypes
-     */
-    var overridePrototypes = acf.Model.extend({
-
-        initialize: function() {
-
-            /**
-             * Image/File selectAttachment
-             */
-            var selectAttachment = function() {
-
-                // vars
-                var parent = this.parent();
-                var multiple = parent && parent.get('type') === 'repeater';
-
-                // default args
-                var args = {
-                    mode: 'select',
-                    field: this.get('key'),
-                    multiple: multiple,
-                    library: this.get('library'),
-                    allowedTypes: this.get('mime_types'),
-                    select: $.proxy(function(attachment, i) {
-                        if (i > 0) {
-                            this.append(attachment, parent);
-                        } else {
-                            this.render(attachment);
-                        }
-                    }, this)
-                };
-
-                // field type
-                switch (this.get('type')) {
-
-                    // image args
-                    case 'image': {
-                        args.type = 'image';
-                        args.title = acf.__('Select Image');
-                        break;
-                    }
-
-                    // file args
-                    case 'file': {
-                        args.title = acf.__('Select File');
-                        break;
-                    }
-
-                }
-
-                // get form
-                var form = this.getForm();
-
-                if (form && form.get('media.fields') && form.get('media.post_id')) {
-                    if (acfe.inArray(this.get('key'), form.get('media.fields'))) {
-                        args.post_id = form.get('media.post_id');
-                    }
-                }
-
-                // new frame
-                var frame = acf.newMediaPopup(args);
-
-            };
-
-            // assign new function
-            acf.models.ImageField.prototype.selectAttachment = selectAttachment;
-            acf.models.FileField.prototype.selectAttachment = selectAttachment;
-
-
-            /**
-             * Gallery onClickAdd
-             */
-            var onClickAdd = function(e, $el) {
-
-                // validate
-                if (this.isFull()) {
-                    this.showNotice({
-                        text: acf.__('Maximum selection reached'),
-                        type: 'warning'
-                    });
-                    return;
-                }
-
-                // args
-                var args = {
-                    mode: 'select',
-                    title: acf.__('Add Image to Gallery'),
-                    field: this.get('key'),
-                    multiple: 'add',
-                    library: this.get('library'),
-                    allowedTypes: this.get('mime_types'),
-                    selected: this.val(),
-                    select: $.proxy(function(attachment, i) {
-                        this.appendAttachment(attachment, i);
-                    }, this)
-                };
-
-                // get form
-                var form = this.getForm();
-
-                if (form && form.get('media.fields') && form.get('media.post_id')) {
-                    if (acfe.inArray(this.get('key'), form.get('media.fields'))) {
-                        args.post_id = form.get('media.post_id');
-                    }
-                }
-
-                // new frame
-                var frame = acf.newMediaPopup(args);
-
-            };
-
-            acf.models.GalleryField.prototype.onClickAdd = onClickAdd;
-
-
-            /**
-             * MediaPopup getFrameOptions
-             *
-             * @type {function(): *}
-             */
-            var getFrameOptions = acf.models.SelectMediaPopup.prototype.getFrameOptions;
-
-            acf.models.SelectMediaPopup.prototype.getFrameOptions = function() {
-
-                // call original function
-                var options = getFrameOptions.apply(this, arguments);
-
-                // custom library
-                if (this.get('library') === 'uploadedTo' && this.get('post_id')) {
-                    options.library.uploadedTo = this.get('post_id');
-                }
-
-                return options;
-
+            // fix 'uploaded to' filter
+            var attachTo = this.getFieldAttachTo(field);
+            if (attachTo !== false) {
+                wp.media.view.settings.post.id = attachTo;
             }
 
         },
+
+        closeEditorPopup: function(field) {
+
+            // set timeout to let send.attachment use the correct post id
+            this.setTimeout(this.resetPostId, 100);
+
+        },
+
+        mediaPopupArgs: function(args, field) {
+
+            var attachTo = this.getFieldAttachTo(field);
+            if (attachTo !== false) {
+                args.attachTo = attachTo;
+            }
+
+            // return
+            return args;
+
+        },
+
+        mediaPopupFrameOptions: function(options, popup) {
+
+            // change the 'uploaded to' filter
+            // based on 'args.attachTo' set above
+            if (popup.get('library') === 'uploadedTo' && popup.get('attachTo') !== null) {
+                options.library.uploadedTo = popup.get('attachTo');
+            }
+
+            // return
+            return options;
+
+        },
+
+        getFieldAttachTo: function(field) {
+
+            // check if the field is part of an acfe-form
+            var form = field.getForm();
+            if (!form) {
+                return false;
+            }
+
+            // set attachTo 0 by default
+            // this attach a post to the uploaded media (doesn't attach if 0)
+            // this set the library 'uploaded to' filter
+            // it follows the native acf_form logic which doesn't attach when creating a new post (acf.get(post_id) = 0)
+            var attachTo = 0;
+
+            // check if form has 'update_post' action
+            // check if the field (image/file/gallery) is in 'media' array
+            if (form.get('media')) {
+
+                // loop media rows
+                form.get('media').some(function(row) {
+                    if (acfe.inArray(field.get('key'), row.fields)) {
+                        attachTo = row.post_id;
+                        return true; // do not process other rows
+                    }
+                });
+
+            }
+
+            // return
+            return attachTo;
+
+        }
 
     });
 
@@ -2274,6 +2222,319 @@
             }
 
             return false;
+
+        },
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
+     * Image/File
+     *
+     * select attachment
+     */
+    var selectAttachment = function() {
+
+        // vars
+        var parent = this.parent();
+        var multiple = parent && parent.get('type') === 'repeater';
+
+        // default args
+        var args = {
+            mode: 'select',
+            field: this.get('key'),
+            multiple: multiple,
+            library: this.get('library'),
+            allowedTypes: this.get('mime_types'),
+            select: $.proxy(function(attachment, i) {
+                if (i > 0) {
+                    this.append(attachment, parent);
+                } else {
+                    this.render(attachment);
+                }
+            }, this)
+        };
+
+        // field type
+        switch (this.get('type')) {
+
+            // image args
+            case 'image': {
+                args.type = 'image';
+                args.title = acf.__('Select Image');
+                break;
+            }
+
+            // file args
+            case 'file': {
+                args.title = acf.__('Select File');
+                break;
+            }
+
+        }
+
+        // filters
+        args = acf.applyFilters(`acfe/select_media_popup/args`, args, this);
+        args = acf.applyFilters(`acfe/select_media_popup/args/type=${this.get('type')}`, args, this);
+        args = acf.applyFilters(`acfe/select_media_popup/args/name=${this.get('name')}`, args, this);
+        args = acf.applyFilters(`acfe/select_media_popup/args/key=${this.get('key')}`, args, this);
+
+        // new frame
+        var frame = acf.newMediaPopup(args);
+
+    };
+
+    // assign new function
+    acf.models.ImageField.prototype.selectAttachment = selectAttachment;
+    acf.models.FileField.prototype.selectAttachment = selectAttachment;
+
+
+    /**
+     * Image/File
+     *
+     * edit attachment
+     */
+    var editAttachment = function() {
+
+        // vars
+        var val = this.val();
+
+        // bail early if no val
+        if (!val) {
+            return false;
+        }
+
+        // default args
+        var args = {
+            mode: 'edit',
+            attachment: val,
+            field: this.get('key'),
+            select: $.proxy(function(attachment, i) {
+                this.render(attachment);
+            }, this)
+        };
+
+        // field type
+        switch (this.get('type')) {
+
+            // image args
+            case 'image': {
+                args.title = acf.__('Edit File');
+                args.button = acf.__('Update File');
+                break;
+            }
+
+            // file args
+            case 'file': {
+                args.title = acf.__('Edit Image');
+                args.button = acf.__('Update Image');
+                break;
+            }
+
+        }
+
+        // filters
+        args = acf.applyFilters(`acfe/edit_media_popup/args`, args, this);
+        args = acf.applyFilters(`acfe/edit_media_popup/args/type=${this.get('type')}`, args, this);
+        args = acf.applyFilters(`acfe/edit_media_popup/args/name=${this.get('name')}`, args, this);
+        args = acf.applyFilters(`acfe/edit_media_popup/args/key=${this.get('key')}`, args, this);
+
+        // popup
+        var frame = acf.newMediaPopup(args);
+
+    }
+
+    // assign new function
+    acf.models.ImageField.prototype.editAttachment = editAttachment;
+    acf.models.FileField.prototype.editAttachment = editAttachment;
+
+
+    /**
+     * Gallery
+     *
+     * select attachment
+     */
+    var galleryOnClickAdd = function(e, $el) {
+
+        // validate
+        if (this.isFull()) {
+            this.showNotice({
+                text: acf.__('Maximum selection reached'),
+                type: 'warning'
+            });
+            return;
+        }
+
+        // args
+        var args = {
+            mode: 'select',
+            title: acf.__('Add Image to Gallery'),
+            field: this.get('key'),
+            multiple: 'add',
+            library: this.get('library'),
+            allowedTypes: this.get('mime_types'),
+            selected: this.val(),
+            select: $.proxy(function(attachment, i) {
+                this.appendAttachment(attachment, i);
+            }, this)
+        };
+
+        // filters
+        args = acf.applyFilters(`acfe/select_media_popup/args`, args, this);
+        args = acf.applyFilters(`acfe/select_media_popup/args/type=${this.get('type')}`, args, this);
+        args = acf.applyFilters(`acfe/select_media_popup/args/name=${this.get('name')}`, args, this);
+        args = acf.applyFilters(`acfe/select_media_popup/args/key=${this.get('key')}`, args, this);
+
+        // new frame
+        var frame = acf.newMediaPopup(args);
+
+    };
+
+
+    /**
+     * Gallery
+     *
+     * edit attachment
+     */
+    var galleryEditAttachment = function(id) {
+
+        var args = {
+            mode: 'edit',
+            title: acf.__('Edit Image'),
+            button: acf.__('Update Image'),
+            attachment: id,
+            field: this.get('key'),
+            select: $.proxy(function(attachment, i) {
+                this.renderAttachment(attachment);
+            }, this)
+        };
+
+        // filters
+        args = acf.applyFilters(`acfe/edit_media_popup/args`, args, this);
+        args = acf.applyFilters(`acfe/edit_media_popup/args/type=${this.get('type')}`, args, this);
+        args = acf.applyFilters(`acfe/edit_media_popup/args/name=${this.get('name')}`, args, this);
+        args = acf.applyFilters(`acfe/edit_media_popup/args/key=${this.get('key')}`, args, this);
+
+        // new frame
+        var frame = acf.newMediaPopup(args);
+    }
+
+    acf.models.GalleryField.prototype.onClickAdd = galleryOnClickAdd;
+    acf.models.GalleryField.prototype.editAttachment = galleryEditAttachment;
+
+
+    /**
+     * MediaPopup
+     *
+     * getFrameOptions
+     *
+     * @type {function(): *}
+     */
+    var selectGetFrameOptions = acf.models.SelectMediaPopup.prototype.getFrameOptions;
+    acf.models.SelectMediaPopup.prototype.getFrameOptions = function() {
+
+        // call original function
+        var options = selectGetFrameOptions.apply(this, arguments);
+
+        // filters
+        options = acf.applyFilters(`acfe/select_media_popup/frame_options`, options, this);
+
+        // return
+        return options;
+
+    }
+
+    var editGetFrameOptions = acf.models.EditMediaPopup.prototype.getFrameOptions;
+    acf.models.EditMediaPopup.prototype.getFrameOptions = function() {
+
+        // call original function
+        var options = editGetFrameOptions.apply(this, arguments);
+
+        // filters
+        options = acf.applyFilters(`acfe/edit_media_popup/frame_options`, options, this);
+
+        // return
+        return options;
+
+    }
+
+
+    /**
+     * ACF WYSIWYG
+     *
+     * Media Modal
+     */
+    new acf.Model({
+
+        wait: 'prepare',
+        done: [],
+
+        initialize: function() {
+            if (acf.isset(window, 'wp', 'media', 'editor')) {
+                this.customizeEditor();
+            }
+        },
+
+        customizeEditor: function() {
+
+            // vars
+            var self = this;
+            var parent = wp.media.editor.add;
+
+            // editor.add
+            wp.media.editor.add = function(id, options) {
+
+                // check id starts with 'acf-editor' & make sure it's not already done
+                if (typeof id !== 'string' || !id.startsWith('acf-editor') || self.done.includes(id)) {
+                    return parent.apply(this, arguments);
+                }
+
+                // done
+                self.done.push(id);
+
+                // get field
+                var $field = $('#' + id).closest('.acf-field');
+                if (!$field.length) {
+                    return parent.apply(this, arguments);
+                }
+
+                // get field instance
+                var field = acf.getInstance($field);
+                if (!field) {
+                    return parent.apply(this, arguments);
+                }
+
+                // before popup
+                acf.doAction('acfe/before_editor_media_popup', field);
+
+                // call original function
+                // this initialize the uploader which use
+                // wp.media.view.settings.post.id
+                var frame = parent.apply(this, arguments);
+
+                // new popup
+                acf.doAction('acfe/new_editor_media_popup', field, frame);
+
+                // open popup
+                frame.on('open', function() {
+                    acf.doAction('acfe/open_editor_media_popup', field, frame);
+                });
+
+                // close popup
+                frame.on('close', function() {
+                    acf.doAction('acfe/close_editor_media_popup', field, frame);
+                });
+
+                // return
+                return frame;
+
+            }
 
         },
 
@@ -4467,6 +4728,14 @@
             'appendLayout': 'acfePreviewAppendLayout',
         },
 
+        acfePreviewHideLayout: function(e, $el, $layout) {
+            this.acfeLayoutPreview($layout);
+        },
+
+        acfePreviewAppendLayout: function(e, $el, $layout) {
+            this.acfeLayoutPreview($layout);
+        },
+
         acfeLayoutPreview: function($layout) {
 
             // validate
@@ -4498,6 +4767,13 @@
                 value: acf.serialize($layout, prefix)
             };
 
+            ajaxData = acf.applyFilters('acfe/fields/flexible_content/preview_data', ajaxData, $el, $layout);
+            ajaxData = acf.applyFilters('acfe/fields/flexible_content/preview_data/name=' + name, ajaxData, $el, $layout);
+            ajaxData = acf.applyFilters('acfe/fields/flexible_content/preview_data/key=' + key, ajaxData, $el, $layout);
+            ajaxData = acf.applyFilters('acfe/fields/flexible_content/preview_data/layout=' + layout, ajaxData, $el, $layout);
+            ajaxData = acf.applyFilters('acfe/fields/flexible_content/preview_data/name=' + name + '&layout=' + layout, ajaxData, $el, $layout);
+            ajaxData = acf.applyFilters('acfe/fields/flexible_content/preview_data/key=' + key + '&layout=' + layout, ajaxData, $el, $layout);
+
             acf.doAction('acfe/fields/flexible_content/before_preview', $el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/name=' + name, $el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/key=' + key, $el, $layout, ajaxData);
@@ -4505,53 +4781,36 @@
             acf.doAction('acfe/fields/flexible_content/before_preview/name=' + name + '&layout=' + layout, $el, $layout, ajaxData);
             acf.doAction('acfe/fields/flexible_content/before_preview/key=' + key + '&layout=' + layout, $el, $layout, ajaxData);
 
-            // on success
-            var onSuccess = function(response) {
-
-                if (response) {
-                    $placeholder.find('> .acfe-flexible-placeholder').html(response);
-                } else {
-                    $placeholder.removeClass('acfe-fc-preview');
-                }
-
-                acf.doAction('acfe/fields/flexible_content/preview', response, $el, $layout, ajaxData);
-                acf.doAction('acfe/fields/flexible_content/preview/name=' + name, response, $el, $layout, ajaxData);
-                acf.doAction('acfe/fields/flexible_content/preview/key=' + key, response, $el, $layout, ajaxData);
-                acf.doAction('acfe/fields/flexible_content/preview/layout=' + layout, response, $el, $layout, ajaxData);
-                acf.doAction('acfe/fields/flexible_content/preview/name=' + name + '&layout=' + layout, response, $el, $layout, ajaxData);
-                acf.doAction('acfe/fields/flexible_content/preview/key=' + key + '&layout=' + layout, response, $el, $layout, ajaxData);
-
-            };
-
-            // on complete
-            var onComplete = function() {
-
-                $placeholder.find('> .acfe-fc-overlay').removeClass('-hover');
-                $placeholder.removeClass('-loading').find('> .acfe-flexible-placeholder > .spinner').remove();
-
-            };
-
             // ajax
             $.ajax({
                 url: acf.get('ajaxurl'),
                 data: acf.prepareForAjax(ajaxData),
                 dataType: 'html',
                 type: 'post',
-                success: onSuccess,
-                complete: onComplete
+                context: this,
+                success: function(response) {
+
+                    if (response) {
+                        $placeholder.find('> .acfe-flexible-placeholder').html(response);
+                    } else {
+                        $placeholder.removeClass('acfe-fc-preview');
+                    }
+
+                    acf.doAction('acfe/fields/flexible_content/preview', response, $el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/name=' + name, response, $el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/key=' + key, response, $el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/layout=' + layout, response, $el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/name=' + name + '&layout=' + layout, response, $el, $layout, ajaxData);
+                    acf.doAction('acfe/fields/flexible_content/preview/key=' + key + '&layout=' + layout, response, $el, $layout, ajaxData);
+
+                },
+                complete: function() {
+
+                    $placeholder.find('> .acfe-fc-overlay').removeClass('-hover');
+                    $placeholder.removeClass('-loading').find('> .acfe-flexible-placeholder > .spinner').remove();
+
+                }
             });
-
-        },
-
-        acfePreviewHideLayout: function(e, $el, $layout) {
-
-            this.acfeLayoutPreview($layout);
-
-        },
-
-        acfePreviewAppendLayout: function(e, $el, $layout) {
-
-            this.acfeLayoutPreview($layout);
 
         },
 
@@ -4978,7 +5237,17 @@
                 }),
 
                 'error-callback': this.proxy(function() {
-                    this.showError('An error has occured');
+
+                    // add custom error
+                    // this avoid multiple requests with onInvalidField() if keys are wrong
+                    this.$el.addClass('acf-error');
+
+                    this.showNotice({
+                        text: 'An error has occured',
+                        type: 'error',
+                        dismiss: false
+                    });
+
                 }),
 
                 'expired-callback': this.proxy(function() {

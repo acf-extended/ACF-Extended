@@ -826,7 +826,7 @@ body:not(.acf-admin-5-3) .layout>.acfe-fc-placeholder>a span {
 }
 
 .layout>.acfe-fc-placeholder.acfe-fc-preview>.acfe-flexible-placeholder {
-    min-height: 55px;
+    min-height: 24px;
     height: auto
 }
 
@@ -840,7 +840,7 @@ body:not(.acf-admin-5-3) .layout>.acfe-fc-placeholder>a span {
 
 .layout>.acfe-fc-placeholder.acfe-fc-preview.-loading {
     background: #f9f9f9;
-    min-height: 110px
+    min-height: 24px
 }
 
 .layout>.acfe-fc-placeholder.acfe-fc-preview.-loading>.acfe-flexible-placeholder>.spinner {

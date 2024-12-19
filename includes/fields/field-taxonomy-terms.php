@@ -919,7 +919,14 @@ class acfe_field_taxonomy_terms extends acf_field{
         // fix acf 6.3.10 verify ajax nonce
         // pass custom 'nonce' as: 'acf_field_select_field_abcde12345'
         if($field['field_type'] === 'select' && $field['ajax'] && empty($field['nonce']) && acf_is_field_key($field['key'])){
-            $field['nonce'] = wp_create_nonce( 'acf_field_' . $this->name . '_' . $field['key'] );
+            
+            // assign key
+            // handle case where field is a clone
+            $key = !empty($field['_clone']) && isset($field['__key']) ? $field['__key'] : $field['key'];
+            
+            // assign nonce
+            $field['nonce'] = wp_create_nonce('acf_field_' . $this->name . '_' . $key);
+            
         }
         
         return $field;

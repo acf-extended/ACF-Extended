@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2024-11-08 21:38+0100\n"
+"POT-Creation-Date: 2024-12-19 08:49+0100\n"
 "PO-Revision-Date: 2021-07-27 23:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
@@ -44,25 +44,41 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: assets/js/acfe-input.js:2088
+#: assets/js/acfe-input.js:2270
 msgid "Select Image"
 msgstr ""
 
-#: assets/js/acfe-input.js:2094 includes/admin/tools/module-import.php:58
-#: pro/assets/js/acfe-pro-input.js:1846 pro/assets/js/acfe-pro-input.js:1861
+#: assets/js/acfe-input.js:2276 includes/admin/tools/module-import.php:58
+#: pro/assets/js/acfe-pro-input.js:1858 pro/assets/js/acfe-pro-input.js:1873
 #: pro/includes/admin/tools/settings-import.php:40
 msgid "Select File"
 msgstr ""
 
-#: assets/js/acfe-input.js:2127
+#: assets/js/acfe-input.js:2328 pro/assets/js/acfe-pro-input.js:1905
+msgid "Edit File"
+msgstr ""
+
+#: assets/js/acfe-input.js:2329 pro/assets/js/acfe-pro-input.js:1906
+msgid "Update File"
+msgstr ""
+
+#: assets/js/acfe-input.js:2335 assets/js/acfe-input.js:2409
+msgid "Edit Image"
+msgstr ""
+
+#: assets/js/acfe-input.js:2336 assets/js/acfe-input.js:2410
+msgid "Update Image"
+msgstr ""
+
+#: assets/js/acfe-input.js:2368
 msgid "Maximum selection reached"
 msgstr ""
 
-#: assets/js/acfe-input.js:2136
+#: assets/js/acfe-input.js:2377
 msgid "Add Image to Gallery"
 msgstr ""
 
-#: assets/js/acfe-input.js:2790 assets/js/acfe-input.js:4828
+#: assets/js/acfe-input.js:3051 assets/js/acfe-input.js:5087
 #: includes/assets.php:124 includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:94
 #: includes/fields/field-advanced-link.php:100
@@ -70,7 +86,7 @@ msgstr ""
 #: includes/fields/field-flexible-content-settings.php:275
 #: includes/fields/field-flexible-content.php:812
 #: includes/fields/field-flexible-content.php:818
-#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:1413
+#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:1425
 #: pro/includes/field-groups/field-group-ui.php:619
 #: pro/includes/fields/field-payment.php:512
 #: pro/includes/modules/dev/module-dev-clean-meta.php:116
@@ -84,41 +100,41 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: assets/js/acfe-input.js:3353 includes/fields/field-flexible-content.php:38
+#: assets/js/acfe-input.js:3614 includes/fields/field-flexible-content.php:38
 msgid "Layout data has been copied to your clipboard."
 msgstr ""
 
-#: assets/js/acfe-input.js:3353 assets/js/acfe-input.js:3383
+#: assets/js/acfe-input.js:3614 assets/js/acfe-input.js:3644
 #: includes/fields/field-flexible-content.php:42
 msgid ""
 "You can now paste it on another page, using the \"Paste\" button action."
 msgstr ""
 
-#: assets/js/acfe-input.js:3354 assets/js/acfe-input.js:3384
-#: assets/js/acfe.js:2264 includes/assets.php:130
+#: assets/js/acfe-input.js:3615 assets/js/acfe-input.js:3645
+#: assets/js/acfe.js:2330 includes/assets.php:130
 #: includes/fields/field-flexible-content.php:40
 msgid "Please copy the following data to your clipboard."
 msgstr ""
 
-#: assets/js/acfe-input.js:3354 assets/js/acfe-input.js:3384
+#: assets/js/acfe-input.js:3615 assets/js/acfe-input.js:3645
 #: includes/fields/field-flexible-content.php:43
 msgid ""
 "You can then paste it on another page, using the \"Paste\" button action."
 msgstr ""
 
-#: assets/js/acfe-input.js:3383 includes/fields/field-flexible-content.php:39
+#: assets/js/acfe-input.js:3644 includes/fields/field-flexible-content.php:39
 msgid "Layouts data have been copied to your clipboard."
 msgstr ""
 
-#: assets/js/acfe-input.js:3395 includes/fields/field-flexible-content.php:41
+#: assets/js/acfe-input.js:3656 includes/fields/field-flexible-content.php:41
 msgid "Please paste previously copied layout data in the following field:"
 msgstr ""
 
-#: assets/js/acfe-input.js:4112 includes/fields/field-flexible-content.php:320
+#: assets/js/acfe-input.js:4373 includes/fields/field-flexible-content.php:320
 msgid "Add Row"
 msgstr ""
 
-#: assets/js/acfe.js:2263 includes/assets.php:129
+#: assets/js/acfe.js:2329 includes/assets.php:129
 msgid "Data has been copied to your clipboard."
 msgstr ""
 
@@ -369,7 +385,7 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: includes/assets.php:126 pro/assets/js/acfe-pro-input.js:5777
+#: includes/assets.php:126 pro/assets/js/acfe-pro-input.js:6059
 msgid "Read more"
 msgstr ""
 
@@ -635,7 +651,7 @@ msgstr ""
 
 #: includes/field-groups/field-groups.php:103
 #: includes/field-groups/field-groups.php:113
-#: includes/modules/form/module-form-action-post.php:1686
+#: includes/modules/form/module-form-action-post.php:1708
 #: includes/modules/form/module-form-action-term.php:1054
 #: includes/modules/form/module-form-action-user.php:1919
 #: pro/includes/modules/form/module-form-action-option.php:403
@@ -659,7 +675,7 @@ msgstr ""
 #: includes/field-groups/field-groups.php:121
 #: includes/field-groups/field-groups.php:147
 #: includes/field-groups/field-groups.php:171
-#: includes/modules/form/module-form-action-post.php:1650
+#: includes/modules/form/module-form-action-post.php:1672
 #: includes/modules/form/module-form-action-term.php:1017
 #: includes/modules/form/module-form-action-user.php:1872
 #: pro/includes/module-posts.php:498
@@ -858,7 +874,7 @@ msgstr ""
 #: includes/fields/field-advanced-link.php:188
 #: includes/locations/post-type-archive.php:291
 #: includes/locations/post-type-list.php:214
-#: includes/modules/form/module-form-action-post.php:922
+#: includes/modules/form/module-form-action-post.php:944
 #: pro/includes/locations/menu-item-type.php:23
 msgid "Post"
 msgstr ""
@@ -874,7 +890,7 @@ msgid "Link text"
 msgstr ""
 
 #: includes/fields/field-advanced-link.php:247
-#: includes/modules/form/module-form-action-post.php:950
+#: includes/modules/form/module-form-action-post.php:972
 #: includes/modules/form/module-form-action-term.php:670
 #: includes/modules/form/module-form-action-user.php:1433
 #: pro/includes/modules/form/module-form-action-option.php:315
@@ -885,7 +901,7 @@ msgstr ""
 msgid "Open in a new window"
 msgstr ""
 
-#: includes/fields/field-advanced-link.php:724
+#: includes/fields/field-advanced-link.php:732
 msgid "Archives"
 msgstr ""
 
@@ -978,6 +994,8 @@ msgstr ""
 #: includes/fields/field-flexible-content-settings.php:74
 #: includes/fields/field-flexible-content-thumbnail.php:74
 #: pro/includes/fields/field-flexible-content-grid.php:136
+#: pro/includes/fields/field-flexible-content-iframe.php:45
+#: pro/includes/fields/field-flexible-content-iframe.php:78
 #: pro/includes/fields/field-flexible-content-locations.php:247
 msgid "See documentation"
 msgstr ""
@@ -1246,19 +1264,19 @@ msgstr ""
 
 #: includes/fields/field-file.php:136 includes/fields/field-image.php:106
 #: includes/modules/form/module-form-action-email.php:751
-#: includes/modules/form/module-form-action-post.php:996
-#: includes/modules/form/module-form-action-post.php:1048
-#: includes/modules/form/module-form-action-post.php:1077
-#: includes/modules/form/module-form-action-post.php:1110
-#: includes/modules/form/module-form-action-post.php:1137
-#: includes/modules/form/module-form-action-post.php:1182
-#: includes/modules/form/module-form-action-post.php:1255
-#: includes/modules/form/module-form-action-post.php:1327
-#: includes/modules/form/module-form-action-post.php:1398
-#: includes/modules/form/module-form-action-post.php:1470
-#: includes/modules/form/module-form-action-post.php:1544
-#: includes/modules/form/module-form-action-post.php:1595
-#: includes/modules/form/module-form-action-post.php:1732
+#: includes/modules/form/module-form-action-post.php:1018
+#: includes/modules/form/module-form-action-post.php:1070
+#: includes/modules/form/module-form-action-post.php:1099
+#: includes/modules/form/module-form-action-post.php:1132
+#: includes/modules/form/module-form-action-post.php:1159
+#: includes/modules/form/module-form-action-post.php:1204
+#: includes/modules/form/module-form-action-post.php:1277
+#: includes/modules/form/module-form-action-post.php:1349
+#: includes/modules/form/module-form-action-post.php:1420
+#: includes/modules/form/module-form-action-post.php:1492
+#: includes/modules/form/module-form-action-post.php:1566
+#: includes/modules/form/module-form-action-post.php:1617
+#: includes/modules/form/module-form-action-post.php:1754
 #: includes/modules/form/module-form-action-term.php:716
 #: includes/modules/form/module-form-action-term.php:774
 #: includes/modules/form/module-form-action-term.php:802
@@ -1461,7 +1479,7 @@ msgstr ""
 msgid "Render"
 msgstr ""
 
-#: includes/fields/field-flexible-content-preview.php:334
+#: includes/fields/field-flexible-content-preview.php:328
 msgid "Edit layout"
 msgstr ""
 
@@ -2252,7 +2270,7 @@ msgid "Appears before the input"
 msgstr ""
 
 #: includes/fields/field-slug.php:63
-#: includes/modules/form/module-form-action-post.php:1621
+#: includes/modules/form/module-form-action-post.php:1643
 #: pro/includes/fields/field-address.php:155
 #: pro/includes/fields/field-date-range-picker.php:236
 #: pro/includes/fields/field-select.php:43
@@ -2831,8 +2849,8 @@ msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:139
 #: includes/modules/form/module-form-action-email.php:532
-#: includes/modules/form/module-form-action-post.php:864
-#: includes/modules/form/module-form-action-redirect.php:105
+#: includes/modules/form/module-form-action-post.php:886
+#: includes/modules/form/module-form-action-redirect.php:100
 #: includes/modules/form/module-form-action-term.php:582
 #: includes/modules/form/module-form-action-user.php:1186
 #: includes/modules/form/module-form-upgrades.php:1237
@@ -2849,9 +2867,9 @@ msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:148
 #: includes/modules/form/module-form-action-email.php:541
-#: includes/modules/form/module-form-action-post.php:873
-#: includes/modules/form/module-form-action-post.php:890
-#: includes/modules/form/module-form-action-redirect.php:114
+#: includes/modules/form/module-form-action-post.php:895
+#: includes/modules/form/module-form-action-post.php:912
+#: includes/modules/form/module-form-action-redirect.php:109
 #: includes/modules/form/module-form-action-term.php:591
 #: includes/modules/form/module-form-action-term.php:608
 #: includes/modules/form/module-form-action-user.php:1195
@@ -2862,8 +2880,8 @@ msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:165
 #: includes/modules/form/module-form-action-email.php:558
-#: includes/modules/form/module-form-action-post.php:909
-#: includes/modules/form/module-form-action-redirect.php:131
+#: includes/modules/form/module-form-action-post.php:931
+#: includes/modules/form/module-form-action-redirect.php:126
 #: includes/modules/form/module-form-action-term.php:627
 #: includes/modules/form/module-form-action-user.php:1254
 #: pro/includes/modules/form/module-form-action-option.php:275
@@ -2888,8 +2906,8 @@ msgid "Email action"
 msgstr ""
 
 #: includes/modules/form/module-form-action-email.php:561
-#: includes/modules/form/module-form-action-post.php:912
-#: includes/modules/form/module-form-action-redirect.php:134
+#: includes/modules/form/module-form-action-post.php:934
+#: includes/modules/form/module-form-action-redirect.php:129
 #: includes/modules/form/module-form-action-term.php:630
 #: includes/modules/form/module-form-action-user.php:1257
 #: includes/modules/form/module-form-upgrades.php:1342
@@ -2958,8 +2976,8 @@ msgid "Render field value:"
 msgstr ""
 
 #: includes/modules/form/module-form-action-email.php:743
-#: includes/modules/form/module-form-action-post.php:1175
-#: includes/modules/form/module-form-action-post.php:1248
+#: includes/modules/form/module-form-action-post.php:1197
+#: includes/modules/form/module-form-action-post.php:1270
 #: includes/modules/form/module-form-action-term.php:947
 #: includes/modules/form/module-form-action-user.php:1746
 msgid "Content Editor"
@@ -2988,19 +3006,19 @@ msgid "File"
 msgstr ""
 
 #: includes/modules/form/module-form-action-email.php:868
-#: includes/modules/form/module-form-action-post.php:998
-#: includes/modules/form/module-form-action-post.php:1055
-#: includes/modules/form/module-form-action-post.php:1084
-#: includes/modules/form/module-form-action-post.php:1112
-#: includes/modules/form/module-form-action-post.php:1139
-#: includes/modules/form/module-form-action-post.php:1184
-#: includes/modules/form/module-form-action-post.php:1257
-#: includes/modules/form/module-form-action-post.php:1329
-#: includes/modules/form/module-form-action-post.php:1400
-#: includes/modules/form/module-form-action-post.php:1472
-#: includes/modules/form/module-form-action-post.php:1546
-#: includes/modules/form/module-form-action-post.php:1602
-#: includes/modules/form/module-form-action-post.php:1734
+#: includes/modules/form/module-form-action-post.php:1020
+#: includes/modules/form/module-form-action-post.php:1077
+#: includes/modules/form/module-form-action-post.php:1106
+#: includes/modules/form/module-form-action-post.php:1134
+#: includes/modules/form/module-form-action-post.php:1161
+#: includes/modules/form/module-form-action-post.php:1206
+#: includes/modules/form/module-form-action-post.php:1279
+#: includes/modules/form/module-form-action-post.php:1351
+#: includes/modules/form/module-form-action-post.php:1422
+#: includes/modules/form/module-form-action-post.php:1494
+#: includes/modules/form/module-form-action-post.php:1568
+#: includes/modules/form/module-form-action-post.php:1624
+#: includes/modules/form/module-form-action-post.php:1756
 #: includes/modules/form/module-form-action-term.php:718
 #: includes/modules/form/module-form-action-term.php:776
 #: includes/modules/form/module-form-action-term.php:804
@@ -3044,145 +3062,145 @@ msgstr ""
 msgid "Post action"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:902
+#: includes/modules/form/module-form-action-post.php:924
 msgid "Create post"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:903
+#: includes/modules/form/module-form-action-post.php:925
 msgid "Update post"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:933
+#: includes/modules/form/module-form-action-post.php:955
 #: includes/modules/form/module-form-action-term.php:652
 #: includes/modules/form/module-form-action-user.php:1407
 #: pro/includes/modules/form/module-form-action-option.php:299
 msgid "Save"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:987
-#: includes/modules/form/module-form-action-post.php:1535
-#: includes/modules/form/module-form-action-post.php:1723
+#: includes/modules/form/module-form-action-post.php:1009
+#: includes/modules/form/module-form-action-post.php:1557
+#: includes/modules/form/module-form-action-post.php:1745
 msgid "Current Post"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:988
-#: includes/modules/form/module-form-action-post.php:1536
-#: includes/modules/form/module-form-action-post.php:1724
+#: includes/modules/form/module-form-action-post.php:1010
+#: includes/modules/form/module-form-action-post.php:1558
+#: includes/modules/form/module-form-action-post.php:1746
 msgid "Current Post Parent"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:989
-#: includes/modules/form/module-form-action-post.php:1537
-#: includes/modules/form/module-form-action-post.php:1725
+#: includes/modules/form/module-form-action-post.php:1011
+#: includes/modules/form/module-form-action-post.php:1559
+#: includes/modules/form/module-form-action-post.php:1747
 msgid "Post Selector"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1032
-#: includes/modules/form/module-form-action-post.php:1766
+#: includes/modules/form/module-form-action-post.php:1054
+#: includes/modules/form/module-form-action-post.php:1788
 msgid "Post type"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1061
-#: includes/modules/form/module-form-action-post.php:1800
+#: includes/modules/form/module-form-action-post.php:1083
+#: includes/modules/form/module-form-action-post.php:1822
 msgid "Post status"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1091
-#: includes/modules/form/module-form-action-post.php:1834
+#: includes/modules/form/module-form-action-post.php:1113
+#: includes/modules/form/module-form-action-post.php:1856
 msgid "Post title"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1102
-#: includes/modules/form/module-form-action-post.php:1130
+#: includes/modules/form/module-form-action-post.php:1124
+#: includes/modules/form/module-form-action-post.php:1152
 #: includes/modules/form/module-form-action-term.php:765
 #: includes/modules/form/module-form-action-term.php:794
 msgid "Generated ID"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1103
+#: includes/modules/form/module-form-action-post.php:1125
 #: includes/modules/form/module-form-action-term.php:766
 msgid "#Generated ID"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1119
-#: includes/modules/form/module-form-action-post.php:1868
+#: includes/modules/form/module-form-action-post.php:1141
+#: includes/modules/form/module-form-action-post.php:1890
 msgid "Post name"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1146
-#: includes/modules/form/module-form-action-post.php:1902
+#: includes/modules/form/module-form-action-post.php:1168
+#: includes/modules/form/module-form-action-post.php:1924
 msgid "Post content"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1219
-#: includes/modules/form/module-form-action-post.php:1936
+#: includes/modules/form/module-form-action-post.php:1241
+#: includes/modules/form/module-form-action-post.php:1958
 msgid "Post excerpt"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1289
-#: includes/modules/form/module-form-action-post.php:1970
+#: includes/modules/form/module-form-action-post.php:1311
+#: includes/modules/form/module-form-action-post.php:1992
 msgid "Post author"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1318
+#: includes/modules/form/module-form-action-post.php:1340
 #: includes/modules/form/module-form-action-user.php:1470
 #: includes/modules/form/module-form-action-user.php:1956
 msgid "Current User"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1319
+#: includes/modules/form/module-form-action-post.php:1341
 #: includes/modules/form/module-form-action-user.php:1471
 #: includes/modules/form/module-form-action-user.php:1957
 msgid "Current Post Author"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1320
+#: includes/modules/form/module-form-action-post.php:1342
 #: includes/modules/form/module-form-action-user.php:1472
 #: includes/modules/form/module-form-action-user.php:1958
 msgid "User Selector"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1362
-#: includes/modules/form/module-form-action-post.php:2004
+#: includes/modules/form/module-form-action-post.php:1384
+#: includes/modules/form/module-form-action-post.php:2026
 msgid "Post date"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1391
+#: includes/modules/form/module-form-action-post.php:1413
 msgid "Date picker"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1434
-#: includes/modules/form/module-form-action-post.php:2038
+#: includes/modules/form/module-form-action-post.php:1456
+#: includes/modules/form/module-form-action-post.php:2060
 msgid "Post thumbnail"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1463
+#: includes/modules/form/module-form-action-post.php:1485
 #: pro/includes/fields/field-image-selector.php:17
 msgid "Image Selector"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1506
-#: includes/modules/form/module-form-action-post.php:2072
+#: includes/modules/form/module-form-action-post.php:1528
+#: includes/modules/form/module-form-action-post.php:2094
 msgid "Post parent"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1579
-#: includes/modules/form/module-form-action-post.php:2106
+#: includes/modules/form/module-form-action-post.php:1601
+#: includes/modules/form/module-form-action-post.php:2128
 msgid "Post terms"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1608
+#: includes/modules/form/module-form-action-post.php:1630
 msgid "Append terms"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1625
+#: includes/modules/form/module-form-action-post.php:1647
 #: includes/modules/form/module-form-action-term.php:992
 #: includes/modules/form/module-form-action-user.php:1847
 #: pro/includes/modules/form/module-form-action-option.php:341
 msgid "Save ACF fields"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1628
+#: includes/modules/form/module-form-action-post.php:1650
 #: includes/modules/form/module-form-action-term.php:995
 #: includes/modules/form/module-form-action-user.php:1850
 #: includes/modules/form/module-form-fields.php:263
@@ -3190,31 +3208,31 @@ msgstr ""
 msgid "Which ACF fields should be saved as metadata"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1666
+#: includes/modules/form/module-form-action-post.php:1688
 #: includes/modules/form/module-form-action-term.php:1033
 #: includes/modules/form/module-form-action-user.php:1897
 #: pro/includes/modules/form/module-form-action-option.php:384
 msgid "Load Values"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1669
+#: includes/modules/form/module-form-action-post.php:1691
 #: includes/modules/form/module-form-action-term.php:1036
 #: includes/modules/form/module-form-action-user.php:1900
 #: pro/includes/modules/form/module-form-action-option.php:387
 msgid "Fill inputs with values"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1783
-#: includes/modules/form/module-form-action-post.php:1817
-#: includes/modules/form/module-form-action-post.php:1851
-#: includes/modules/form/module-form-action-post.php:1885
-#: includes/modules/form/module-form-action-post.php:1919
-#: includes/modules/form/module-form-action-post.php:1953
-#: includes/modules/form/module-form-action-post.php:1987
-#: includes/modules/form/module-form-action-post.php:2021
-#: includes/modules/form/module-form-action-post.php:2055
-#: includes/modules/form/module-form-action-post.php:2089
-#: includes/modules/form/module-form-action-post.php:2123
+#: includes/modules/form/module-form-action-post.php:1805
+#: includes/modules/form/module-form-action-post.php:1839
+#: includes/modules/form/module-form-action-post.php:1873
+#: includes/modules/form/module-form-action-post.php:1907
+#: includes/modules/form/module-form-action-post.php:1941
+#: includes/modules/form/module-form-action-post.php:1975
+#: includes/modules/form/module-form-action-post.php:2009
+#: includes/modules/form/module-form-action-post.php:2043
+#: includes/modules/form/module-form-action-post.php:2077
+#: includes/modules/form/module-form-action-post.php:2111
+#: includes/modules/form/module-form-action-post.php:2145
 #: includes/modules/form/module-form-action-term.php:1155
 #: includes/modules/form/module-form-action-term.php:1189
 #: includes/modules/form/module-form-action-term.php:1223
@@ -3234,17 +3252,17 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:1785
-#: includes/modules/form/module-form-action-post.php:1819
-#: includes/modules/form/module-form-action-post.php:1853
-#: includes/modules/form/module-form-action-post.php:1887
-#: includes/modules/form/module-form-action-post.php:1921
-#: includes/modules/form/module-form-action-post.php:1955
-#: includes/modules/form/module-form-action-post.php:1989
-#: includes/modules/form/module-form-action-post.php:2023
-#: includes/modules/form/module-form-action-post.php:2057
-#: includes/modules/form/module-form-action-post.php:2091
-#: includes/modules/form/module-form-action-post.php:2125
+#: includes/modules/form/module-form-action-post.php:1807
+#: includes/modules/form/module-form-action-post.php:1841
+#: includes/modules/form/module-form-action-post.php:1875
+#: includes/modules/form/module-form-action-post.php:1909
+#: includes/modules/form/module-form-action-post.php:1943
+#: includes/modules/form/module-form-action-post.php:1977
+#: includes/modules/form/module-form-action-post.php:2011
+#: includes/modules/form/module-form-action-post.php:2045
+#: includes/modules/form/module-form-action-post.php:2079
+#: includes/modules/form/module-form-action-post.php:2113
+#: includes/modules/form/module-form-action-post.php:2147
 #: includes/modules/form/module-form-action-term.php:1157
 #: includes/modules/form/module-form-action-term.php:1191
 #: includes/modules/form/module-form-action-term.php:1225
@@ -3263,14 +3281,14 @@ msgstr ""
 msgid "Select a field or enter a field key"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:2140
+#: includes/modules/form/module-form-action-post.php:2162
 #: includes/modules/form/module-form-action-term.php:1308
 #: includes/modules/form/module-form-action-user.php:2341
 #: pro/includes/modules/form/module-form-action-option.php:437
 msgid "Load ACF fields"
 msgstr ""
 
-#: includes/modules/form/module-form-action-post.php:2143
+#: includes/modules/form/module-form-action-post.php:2165
 #: includes/modules/form/module-form-action-term.php:1311
 #: includes/modules/form/module-form-action-user.php:2344
 msgid "Select which ACF fields should have their values loaded"
@@ -3280,15 +3298,15 @@ msgstr ""
 msgid "Redirect action"
 msgstr ""
 
-#: includes/modules/form/module-form-action-redirect.php:144
+#: includes/modules/form/module-form-action-redirect.php:139
 msgid "Redirect"
 msgstr ""
 
-#: includes/modules/form/module-form-action-redirect.php:151
+#: includes/modules/form/module-form-action-redirect.php:146
 msgid "Action URL"
 msgstr ""
 
-#: includes/modules/form/module-form-action-redirect.php:154
+#: includes/modules/form/module-form-action-redirect.php:149
 msgid "The redirection URL."
 msgstr ""
 
@@ -4827,7 +4845,7 @@ msgstr ""
 msgid "Edit Media"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:4531
+#: pro/assets/js/acfe-pro-admin.js:54 pro/assets/js/acfe-pro-input.js:4813
 msgid "Cancel"
 msgstr ""
 
@@ -4871,40 +4889,32 @@ msgstr ""
 msgid "No toggle fields available"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:644 pro/assets/js/acfe-pro-input.js:706
+#: pro/assets/js/acfe-pro-input.js:656 pro/assets/js/acfe-pro-input.js:718
 #, javascript-format
 msgid "Location not found: %s"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1414
+#: pro/assets/js/acfe-pro-input.js:1426
 #: pro/includes/modules/script/module-script.php:291
 msgid "Clear"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1775
+#: pro/assets/js/acfe-pro-input.js:1787
 msgid "Maximum items reached ({max} items)"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1901
-msgid "Edit File"
-msgstr ""
-
-#: pro/assets/js/acfe-pro-input.js:1902
-msgid "Update File"
-msgstr ""
-
-#: pro/assets/js/acfe-pro-input.js:2386
+#: pro/assets/js/acfe-pro-input.js:2399
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:2387
+#: pro/assets/js/acfe-pro-input.js:2400
 #: pro/includes/fields/field-flexible-content-locations.php:181
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/assets/js/acfe-pro-input.js:4531
+#: pro/assets/js/acfe-pro-input.js:4813
 msgid "OK"
 msgstr ""
 
@@ -5757,6 +5767,38 @@ msgstr ""
 msgid "Resize column"
 msgstr ""
 
+#: pro/includes/fields/field-flexible-content-iframe.php:42
+msgid "Dynamic Preview: Iframe"
+msgstr ""
+
+#: pro/includes/fields/field-flexible-content-iframe.php:45
+msgid "Render dynamic previews in isolated iframes"
+msgstr ""
+
+#: pro/includes/fields/field-flexible-content-iframe.php:75
+msgid "Dynamic Preview: Responsive"
+msgstr ""
+
+#: pro/includes/fields/field-flexible-content-iframe.php:78
+msgid "Render responsive icons to switch the flexible content size"
+msgstr ""
+
+#: pro/includes/fields/field-flexible-content-iframe.php:132
+msgid "Fullscreen"
+msgstr ""
+
+#: pro/includes/fields/field-flexible-content-iframe.php:140
+msgid "Desktop"
+msgstr ""
+
+#: pro/includes/fields/field-flexible-content-iframe.php:145
+msgid "Tablet"
+msgstr ""
+
+#: pro/includes/fields/field-flexible-content-iframe.php:150
+msgid "Mobile"
+msgstr ""
+
 #: pro/includes/fields/field-flexible-content-locations.php:180
 #: pro/includes/fields/field-flexible-content-locations.php:195
 msgid "This field requires at least {min} {label} {identifier}"
@@ -6514,7 +6556,7 @@ msgid "List"
 msgstr ""
 
 #: pro/includes/locations/dashboard.php:14
-msgid "Dashboard"
+msgid "WP Dashboard"
 msgstr ""
 
 #: pro/includes/locations/dashboard.php:22
@@ -6909,11 +6951,11 @@ msgstr ""
 msgid "Which ACF fields should have their values loaded"
 msgstr ""
 
-#: pro/includes/modules/form/module-form-ajax.php:138
+#: pro/includes/modules/form/module-form-ajax.php:149
 msgid "Ajax submission"
 msgstr ""
 
-#: pro/includes/modules/form/module-form-ajax.php:141
+#: pro/includes/modules/form/module-form-ajax.php:152
 msgid "Enable Ajax form submission"
 msgstr ""
 

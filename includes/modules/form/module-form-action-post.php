@@ -214,35 +214,57 @@ class acfe_module_form_action_post extends acfe_module_form_action{
             // vars
             $field_keys = array();
             $all_fields = array_merge(array_values($load), array_values($acf_fields));
+            $all_fields = array_filter($all_fields);
+            $all_fields = array_unique($all_fields);
             
-            // loop post fields
-            foreach($all_fields as $field_key){
+            if(!empty($all_fields)){
                 
-                // get field
-                $field = acf_get_field($field_key);
+                // query fields
+                $query_fields = acfe_query_fields(array(
+                    'context' => $all_fields,
+                    'query'   => array(
+                        array('type' => 'file'),
+                        array('type' => 'image'),
+                        array('type' => 'gallery'),
+                        array('type' => 'wysiwyg'),
+                    )
+                ));
                 
-                // check field type
-                if($field && in_array($field['type'], array('file', 'image', 'gallery'))){
-                    $field_keys[] = $field_key;
+                // retrieve field keys
+                if(!empty($query_fields)){
+                    foreach($query_fields as $query_field){
+                        $key = isset($query_field['__key']) ? $query_field['__key'] : $query_field['key'];
+                        $field_keys[] = $key;
+                    }
                 }
                 
-            }
-            
-            // localize data
-            if(!empty($field_keys)){
-                
-                add_filter('acfe/form/set_form_data', function($data, $displayed_form) use($post_id, $field_keys, $form){
+                // localize data
+                if(!empty($field_keys)){
                     
-                    if($displayed_form['cid'] === $form['cid']){
-                        $data['media'] = array(
-                            'post_id' => $post_id,
-                            'fields'  => $field_keys
-                        );
-                    }
+                    add_filter('acfe/form/set_form_data', function($data, $displayed_form) use($post_id, $field_keys, $form){
+                        
+                        if($displayed_form['cid'] === $form['cid']){
+                            
+                            // retrieve media
+                            $media = acf_maybe_get($data, 'media');
+                            $media = acf_get_array($media);
+                            
+                            // append
+                            $media[] = array(
+                                'post_id' => $post_id,
+                                'fields'  => $field_keys
+                            );
+                            
+                            // assign
+                            $data['media'] = $media;
+                            
+                        }
+                        
+                        return $data;
+                        
+                    }, 10, 2);
                     
-                    return $data;
-                    
-                }, 10, 2);
+                }
                 
             }
             

@@ -314,11 +314,18 @@ class acfe_field_advanced_link extends acf_field{
             return $value;
         }
         
-        // if value is string then set as value
+        // allow to use string value
+        // in case the field was a text converted to advanced link
         if(is_string($value)){
-            $value = array('value' => $value);
+            
+            $value = array(
+                'type'  => 'url',
+                'value' => $value
+            );
+            
         }
         
+        // make sure the value is correctly formed (array)
         if(is_array($value)){
     
             // defaults array
@@ -328,18 +335,19 @@ class acfe_field_advanced_link extends acf_field{
                 'title'     => '',
                 'target'    => false,
             ));
-    
+            
             // handle old args
-            foreach(array('post', 'term') as $arg){
-        
-                if(isset($value[ $arg ])){
-            
-                    $value['value'] = $value[ $arg ];
-                    unset($value[ $arg ]);
-            
+            foreach(array('url', 'post', 'term') as $type){
+                
+                if($value['type'] === $type && isset($value[ $type ])){
+                    $value['value'] = $value[ $type ];
+                    break;
                 }
-        
+                
             }
+            
+            // remove old args
+            unset($value['url'], $value['post'], $value['term']);
             
         }
         
@@ -424,20 +432,20 @@ class acfe_field_advanced_link extends acf_field{
             return $value;
         }
         
-        // compatibility with string
+        // allow to update value with a simple url string
         if(is_string($value)){
-            $value = array('value' => $value);
-        }
-        
-        if($value['type'] === 'url' && !empty($value['value'])){
-            $value['url'] = $value['value'];
+            
+            $value = array(
+                'type'  => 'url',
+                'value' => $value
+            );
+            
         }
     
         // defaults
         $value = wp_parse_args($value, array(
             'type'   => 'url',
             'value'  => '',
-            'url'    => '',
             'title'  => '',
             'target' => '',
         ));

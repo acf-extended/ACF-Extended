@@ -53,20 +53,15 @@ if(!function_exists('get_flexible')){
                     $is_preview = false;
                 }
                 
-                $name = $field['_name'];
-                $key = $field['key'];
-                
-                // Actions
-                do_action("acfe/flexible/enqueue",              $field, $is_preview);
-                do_action("acfe/flexible/enqueue/name={$name}", $field, $is_preview);
-                do_action("acfe/flexible/enqueue/key={$key}",   $field, $is_preview);
+                // Render: Global Enqueue
+                acfe_flexible_render_enqueue($field);
                 
             }
             
-            // Render: Enqueue
+            // Render: Layout Enqueue
             acfe_flexible_render_layout_enqueue($layout, $field);
             
-            // Render: Template
+            // Render: Layout Template
             acfe_flexible_render_layout_template($layout, $field);
         
         endwhile;
@@ -147,17 +142,7 @@ function acfe_flexible_render_layout_template($layout, $field){
     $file = apply_filters_deprecated("acfe/flexible/layout/render/template/key={$key}&layout={$l_name}",   array($file, $field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/template/key={$key}&layout={$l_name}");
     
     // Before Template
-    do_action("acfe/flexible/render/before_template",                                       $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/before_template/name={$name}",                          $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/before_template/key={$key}",                            $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/before_template/layout={$l_name}",                      $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/before_template/name={$name}&layout={$l_name}",         $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/before_template/key={$key}&layout={$l_name}",           $field, $layout, $is_preview);
-    
-    // Deprecated
-    do_action_deprecated("acfe/flexible/layout/render/before_template/layout={$l_name}",               array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/before_template/layout={$l_name}");
-    do_action_deprecated("acfe/flexible/layout/render/before_template/name={$name}&layout={$l_name}",  array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/before_template/name={$name}&layout={$l_name}");
-    do_action_deprecated("acfe/flexible/layout/render/before_template/key={$key}&layout={$l_name}",    array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/before_template/key={$key}&layout={$l_name}");
+    do_action("acfe/flexible/render/before_template", $field, $layout, $is_preview);
     
     // Check file
     if(!empty($file)){
@@ -201,19 +186,74 @@ function acfe_flexible_render_layout_template($layout, $field){
     }
     
     // After Template
-    do_action("acfe/flexible/render/after_template",                                        $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/after_template/name={$name}",                           $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/after_template/key={$key}",                             $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/after_template/layout={$l_name}",                       $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/after_template/name={$name}&layout={$l_name}",          $field, $layout, $is_preview);
-    do_action("acfe/flexible/render/after_template/key={$key}&layout={$l_name}",            $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/after_template", $field, $layout, $is_preview);
     
-    // Deprecated
+}
+
+add_action('acfe/flexible/render/before_template', '_acfe_flexible_render_layout_template_before', 10, 3);
+function _acfe_flexible_render_layout_template_before($field, $layout, $is_preview){
+    
+    // vars
+    $name = $field['_name'];
+    $key = $field['key'];
+    $l_name = $layout['name'];
+    
+    // variations
+    do_action("acfe/flexible/render/before_template/name={$name}",                  $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/before_template/key={$key}",                    $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/before_template/layout={$l_name}",              $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/before_template/name={$name}&layout={$l_name}", $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/before_template/key={$key}&layout={$l_name}",   $field, $layout, $is_preview);
+    
+    // deprecated
+    do_action_deprecated("acfe/flexible/layout/render/before_template/layout={$l_name}",               array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/before_template/layout={$l_name}");
+    do_action_deprecated("acfe/flexible/layout/render/before_template/name={$name}&layout={$l_name}",  array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/before_template/name={$name}&layout={$l_name}");
+    do_action_deprecated("acfe/flexible/layout/render/before_template/key={$key}&layout={$l_name}",    array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/before_template/key={$key}&layout={$l_name}");
+    
+}
+
+add_action('acfe/flexible/render/after_template', '_acfe_flexible_render_layout_template_after', 10, 3);
+function _acfe_flexible_render_layout_template_after($field, $layout, $is_preview){
+    
+    // vars
+    $name = $field['_name'];
+    $key = $field['key'];
+    $l_name = $layout['name'];
+    
+    // variations
+    do_action("acfe/flexible/render/after_template/name={$name}",                  $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/after_template/key={$key}",                    $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/after_template/layout={$l_name}",              $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/after_template/name={$name}&layout={$l_name}", $field, $layout, $is_preview);
+    do_action("acfe/flexible/render/after_template/key={$key}&layout={$l_name}",   $field, $layout, $is_preview);
+    
+    // deprecated
     do_action_deprecated("acfe/flexible/layout/render/after_template/layout={$l_name}",                array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/after_template/layout={$l_name}");
     do_action_deprecated("acfe/flexible/layout/render/after_template/name={$name}&layout={$l_name}",   array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/after_template/name={$name}&layout={$l_name}");
     do_action_deprecated("acfe/flexible/layout/render/after_template/key={$key}&layout={$l_name}",     array($field, $layout, $is_preview), '0.8.6.7', "acfe/flexible/render/after_template/key={$key}&layout={$l_name}");
     
 }
+
+
+/**
+ * acfe_flexible_render_enqueue
+ *
+ * Enqueue global scripts & styles for the Flexible Content
+ *
+ * @param $field
+ */
+function acfe_flexible_render_enqueue($field){
+    
+    // global
+    global $is_preview;
+    
+    // actions
+    do_action("acfe/flexible/enqueue",                        $field, $is_preview);
+    do_action("acfe/flexible/enqueue/name={$field['_name']}", $field, $is_preview);
+    do_action("acfe/flexible/enqueue/key={$field['key']}",    $field, $is_preview);
+    
+}
+
 
 /**
  * acfe_flexible_render_layout_enqueue

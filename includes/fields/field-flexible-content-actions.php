@@ -538,29 +538,46 @@ class acfe_field_flexible_content_actions{
         
         $models = array();
         
-        foreach($field['layouts'] as $layout_key => $layout){
+        foreach($field['layouts'] as $layout){
             
-            $models[$layout['name']] = array(
-                'key'       => $layout['key'],
-                'name'      => $layout['name'],
-                'toggle'    => "field_{$layout['key']}_toggle"
+            $models[ $layout['name'] ] = array(
+                'key'    => $layout['key'],
+                'name'   => $layout['name'],
+                'toggle' => "field_{$layout['key']}_toggle"
             );
             
         }
         
         $value = acf_get_array($value);
         
-        foreach($value as $k => $layout){
+        foreach($value as $k => $row){
             
-            if(!isset($models[$layout['acf_fc_layout']])){
+            if(!isset($models[ $row['acf_fc_layout'] ])){
                 continue;
             }
             
-            if(!acf_maybe_get($layout, $models[$layout['acf_fc_layout']]['toggle'])){
+            if(!acf_maybe_get($row, $models[ $row['acf_fc_layout'] ]['toggle'])){
                 continue;
             }
             
-            unset($value[$k]);
+            // vars
+            $layout = acf_get_field_type('flexible_content')->get_layout($row['acf_fc_layout'], $field);
+            $name = $field['_name'];
+            $key = $field['key'];
+            $l_name = $layout['name'];
+            
+            // filters
+            $toggle = true;
+            $toggle = apply_filters("acfe/flexible/toggle_hide",                               $toggle, $row, $layout, $field);
+            $toggle = apply_filters("acfe/flexible/toggle_hide/name={$name}",                  $toggle, $row, $layout, $field);
+            $toggle = apply_filters("acfe/flexible/toggle_hide/key={$key}",                    $toggle, $row, $layout, $field);
+            $toggle = apply_filters("acfe/flexible/toggle_hide/layout={$l_name}",              $toggle, $row, $layout, $field);
+            $toggle = apply_filters("acfe/flexible/toggle_hide/name={$name}&layout={$l_name}", $toggle, $row, $layout, $field);
+            $toggle = apply_filters("acfe/flexible/toggle_hide/key={$key}&layout={$l_name}",   $toggle, $row, $layout, $field);
+            
+            if($toggle){
+                unset($value[$k]);
+            }
             
         }
         

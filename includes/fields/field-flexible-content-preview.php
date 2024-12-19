@@ -258,24 +258,18 @@ class acfe_field_flexible_content_preview{
         if(!acf_maybe_get($field, 'acfe_flexible_layouts_templates') || !acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
             return;
         }
-    
-        // vars
-        $name = $field['_name'];
-        $key = $field['key'];
-    
+        
         // vars
         global $is_preview;
         $is_preview = true;
     
-        // actions
-        do_action("acfe/flexible/enqueue",              $field, $is_preview);
-        do_action("acfe/flexible/enqueue/name={$name}", $field, $is_preview);
-        do_action("acfe/flexible/enqueue/key={$key}",   $field, $is_preview);
+        // render: global enqueue
+        acfe_flexible_render_enqueue($field);
     
-        // loop
+        // loop layouts
         foreach($field['layouts'] as $layout){
         
-            // Enqueue
+            // render: layout enqueue
             acfe_flexible_render_layout_enqueue($layout, $field);
         
         }

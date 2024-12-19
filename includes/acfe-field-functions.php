@@ -420,9 +420,9 @@ function acfe_query_fields($args = array()){
             }
             
             // query sub fields
-            if(isset($args['context']['sub_fields'])){
+            if(!empty($args['context']['sub_fields'])){
                 $args['_level']++;
-                $fields = acf_get_fields($args['context']);
+                $fields = $args['context']['sub_fields'];
             }
             
         }

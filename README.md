@@ -556,6 +556,30 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.1
+
+**ACF Extended Pro 0.9.1:**
+
+* Field: Flexible Content - Added "Dynamic Preview Iframe" feature
+* Field: Flexible Content - Added "Dynamic Preview Responsive" feature
+* Field: Flexible Content - "Dynamic Preview Iframe" render previews in isolated iframes
+* Field: Flexible Content - "Dynamic Preview Responsive" allows to switch container preview size
+* Field: Address - Cleaned unused argument
+* Field: Google Map - Added `acfe_render_google_map()` compatibility with sub fields
+* Field: Google Map - Enhanced `acfe_render_google_map()` compatibility with Dynamic Preview
+* Field: Radio - Fixed "Custom Choice" render
+* Field: WYSIWYG - Enhanced `source_code` modal reset stylesheet
+* Field Group Location: Renamed "Dashboard" to "WP Dashboard" for consistency
+* Module: Forms - Ajax submission now redraw form on submission
+
+**ACF Extended Basic 0.9.1:**
+
+* Field: Advanced Link - Enhanced malformed values handling
+* Field: Flexible Content - Added `acfe/flexible/toggle_hide` filter to control row visibility
+* Field: reCaptcha - Enhanced error handling when using incorrect API key
+* Field: Taxonomy Terms - Fixed ajax nonce verification when field is cloned
+* Module: Forms - Enhanced File/Image/Gallery "Uploaded To" logic using related Form Action
+
 ### 0.9.0.9
 
 **ACF Extended Pro 0.9.0.9:**
