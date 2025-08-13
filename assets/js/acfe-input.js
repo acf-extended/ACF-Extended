@@ -725,7 +725,7 @@
 
             var icon = acfe.versionCompare(acf.get('wp_version'), '>=', '5.5') ? 'dashicons-info-outline' : 'dashicons-info';
 
-            this.field.$labelWrap().prepend('<span class="acfe-field-tooltip acf-js-tooltip dashicons ' + icon + '" title="' + acf.escHtml(this.field.get('instructionTooltip')) + '"></span>');
+            this.field.$labelWrap().prepend('<span class="acfe-field-tooltip acf-js-tooltip dashicons ' + icon + '" title="' + acf.strEscape(this.field.get('instructionTooltip')) + '"></span>');
             this.field.$labelWrap().find('.description').remove();
 
         },
@@ -830,7 +830,7 @@
 
                 var icon = acfe.versionCompare(acf.get('wp_version'), '>=', '5.5') ? 'dashicons-info-outline' : 'dashicons-info';
 
-                this.field.$labelWrap().prepend($('<span class="acfe-field-tooltip acf-js-tooltip dashicons ' + icon + '" title="' + acf.escHtml($instruction.html()) + '"></span>'));
+                this.field.$labelWrap().prepend($('<span class="acfe-field-tooltip acf-js-tooltip dashicons ' + icon + '" title="' + acf.strEscape($instruction.html()) + '"></span>'));
                 $instruction.remove();
 
             }
@@ -3322,6 +3322,75 @@
     }
 
     /**
+     * Flexible Content: Toggle
+     */
+    var Field = acfe.FieldExtender({
+
+        id: 'fc_acf65',
+
+        type: 'flexible_content',
+
+        condition: function() {
+            return acfe.versionCompare(acf.get('acf_version'), '>=', '6.5');
+        },
+
+        events: {
+            'click [data-name="remove-layout"]': 'acfeOnClickRemove',
+        },
+
+        acfeOnClickRemove: function(e, $el) {
+            var $layout = $el.closest('.layout');
+
+            // Bypass confirmation when holding down "shift" key.
+            if (e.shiftKey) {
+                return this.acfeRemoveLayout($layout);
+            }
+
+            // add class
+            $layout.addClass('-hover');
+
+            // add tooltip
+            var tooltip = acf.newTooltip({
+                confirmRemove: true,
+                target: $el,
+                context: this,
+                confirm: function() {
+                    this.acfeRemoveLayout($layout);
+                },
+                cancel: function() {
+                    $layout.removeClass('-hover');
+                }
+            });
+        },
+        acfeRemoveLayout: function($layout) {
+            // reference
+            var self = this;
+            var endHeight = this.getValue() == 1 ? 60 : 0;
+
+            // remove
+            acf.remove({
+                target: $layout,
+                endHeight: endHeight,
+                complete: function() {
+                    // trigger change to allow attachment save
+                    self.$input().trigger('change');
+
+                    // render
+                    self.render();
+                }
+            });
+        },
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
+    /**
      * Flexible Content: Append
      */
     var Field = acfe.FieldExtender({
@@ -4416,14 +4485,13 @@
                     e.preventDefault();
 
                     // vars
-                    var $activeCategory = $el;
-                    var activeCategory = $activeCategory.data('acfe-flexible-category');
+                    var activeCategory = $el.data('acfe-flexible-category');
 
                     // remove all active
-                    $activeCategory.closest('.acfe-flexible-categories').find('a').removeClass('nav-tab-active');
+                    $el.closest('.acfe-flexible-categories').find('a').removeClass('nav-tab-active');
 
                     // set active on current
-                    $activeCategory.addClass('nav-tab-active');
+                    $el.addClass('nav-tab-active');
 
                     // show all layouts
                     this.$('a[data-layout] span[data-acfe-flexible-category]').closest('li').show();

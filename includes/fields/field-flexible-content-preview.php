@@ -517,6 +517,8 @@ class acfe_field_flexible_content_preview{
         
         acfe_reset_meta();
         
+        $is_preview = false;
+        
         return $this->return_or_die();
         
     }

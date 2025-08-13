@@ -216,6 +216,11 @@ body.acfe-modal-opened.wp-admin.upload-php>div:not([style*="display: none;"])>.m
     max-width: 1400px
 }
 
+.acfe-modal.-open:not(.-full)>.acfe-modal-wrapper {
+    border-radius: 3px;
+    overflow: hidden
+}
+
 .acfe-modal.-open.-full>.acfe-modal-wrapper {
     max-width: 100%;
     -webkit-box-flex: 1;

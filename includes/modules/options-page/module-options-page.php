@@ -23,7 +23,7 @@ class acfe_module_options_page extends acfe_module{
         $this->post_type    = 'acfe-dop';
         $this->args         = array(
             'label'             => __('Options Pages', 'acfe'),
-            'show_in_menu'      => 'edit.php?post_type=acf-field-group',
+            'show_in_menu'      => 'tools.php',
             'hierarchical'      => true,
             'labels'            => array(
                 'name'          => __('Options Pages', 'acfe'),

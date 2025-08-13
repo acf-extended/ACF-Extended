@@ -31,6 +31,89 @@ class acfe_performance_ultra_revisions{
     function __construct(){
         
         add_filter('_wp_post_revision_fields', array($this, 'revision_fields'), 10, 2);
+        add_action('wp_restore_post_revision', array($this, 'wp_restore_post_revision'), 15, 2);
+        
+    }
+    
+    
+    /**
+     * wp_restore_post_revision
+     *
+     * Priority: 15 means after ACF restored metadata from revision > post via acf_copy_postmeta()
+     *
+     * @param $post_id
+     * @param $revision_id
+     *
+     * @return void
+     */
+    function wp_restore_post_revision($post_id, $revision_id){
+        
+        // validate engine of parent post_id
+        if(acfe_get_object_performance_engine_name($post_id) !== 'ultra'){
+            return;
+        }
+        
+        // get all postmeta
+        $meta = acf_get_meta($revision_id);
+        
+        // check meta
+        //
+        // $meta = array(
+        //     text   => value
+        //    _text   => field_6726aa0880d0a
+        //     select => choice1
+        //    _select => field_672a347b74cf5
+        // )
+        if($meta){
+            
+            // slash data
+            // same as acf_copy_postmeta()
+            $meta = wp_slash($meta);
+            
+            // loop
+            foreach($meta as $name => $value){
+                
+                // only process meta names rows (ie: text = value)
+                if(isset($meta[ "_$name" ])){
+                    
+                    // get reference key
+                    $ref_key = "_$name";
+                    $ref_value = $meta[ "_$name" ];
+                    
+                    // get field array
+                    $field = acf_get_field($ref_value);
+                    
+                    // check clone in sub field: field_123456abcdef_field_123456abcfed
+                    if(!$field && substr_count($ref_value, 'field_') > 1){
+                        
+                        // get field key (last key)
+                        $_field_key = substr($ref_value, strrpos($ref_value, 'field_'));
+                        
+                        // get field
+                        $field = acf_get_field($_field_key);
+                        
+                    }
+                    
+                    // found field and save as individual meta enabled
+                    if($field && acf_maybe_get($field, 'acfe_save_meta')){
+                        
+                        // enable filter
+                        acf_enable_filter('acfe/performance_ultra/individual_meta');
+                        
+                        // simulate acf_copy_postmeta()
+                        acf_update_metadata($post_id, $name, $value);
+                        acf_update_metadata($post_id, $ref_key, $ref_value);
+                        
+                        // disable filter
+                        acf_disable_filter('acfe/performance_ultra/individual_meta');
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
         
     }
     

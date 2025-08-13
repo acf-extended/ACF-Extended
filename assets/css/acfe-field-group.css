@@ -547,6 +547,14 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     max-width: 930px
 }
 
+.acf-admin-6.acf-admin-single-field-group .acf-field-settings .acf-field.acf-field-acfe-flexible-modal-col {
+    max-width: 120px
+}
+
+.acf-admin-6.acf-admin-single-field-group .acf-field-settings .acf-field.acf-field-acfe-flexible-grid-wrap {
+    padding-top: 8px !important
+}
+
 .acf-admin-6.acf-admin-single-field-group .acf-field-settings .select2-container.-acf .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
     margin-top: 5px
 }

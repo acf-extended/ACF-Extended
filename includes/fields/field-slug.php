@@ -106,6 +106,7 @@ class acfe_field_slug extends acf_field{
     function validate_value($valid, $value, $field, $input){
         
         // sanitize
+        $value = (string) $value;
         $value = sanitize_title($value);
         
         // check max length
@@ -129,7 +130,10 @@ class acfe_field_slug extends acf_field{
      * @return string
      */
     function update_value($value, $post_id, $field){
+        
+        $value = (string) $value;
         return sanitize_title($value);
+        
     }
     
     

@@ -3,9 +3,9 @@ Contributors: hwk-fr
 Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 0.9.1
+Stable tag: 0.9.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -493,6 +493,30 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.1.1 =
+
+**ACF Extended Pro 0.9.1.1:**
+
+* Field Group: Fixed error in the Field Group UI with ACF 6.5+
+* Field: Payment - Stripe gateway now use the wrapper text color as placeholder color
+* Field: Post Object - Fixed "Inline Post Edit" feature with ACF 6.5+
+
+**ACF Extended Basic 0.9.1.1:**
+
+* Field: Flexible Content - Added compatibility with ACF 6.5+
+* Field: Flexible Content - Legacy render style (ACF 6.4) is enforced to maintain compatibility
+* Field: Flexible Content - New ACF 6.5 render style will be implemented in a future patch
+* Field: Flexible Content - Fixed "Dynamic Preview" when displaying values with `acfe_form()`
+* Field: Slug - Fixed PHP 8 warning during field validation
+* Fields: Instructions Tooltip - Enhanced text sanitization to allow custom HTML
+* Module: Form - Reset `$_FILES` as `array()` to respect PHP standards
+* Module: Options Pages - moved to "Tools" WP admin menu to avoid confusion with ACF Options Pages
+* Module: Performance - Fixed "Save as Individual Meta" regression on post creation
+* Module: Performance - Fixed "Save as Individual Meta" revision restoration on an empty post
+* Global: Fixed PHP 8 warning during initial setup
+* Global: ACFE Modal - Small CSS tweaks
+* Global: Added compatibility with ACF 6.5+
 
 = 0.9.1 =
 

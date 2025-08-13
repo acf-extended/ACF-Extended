@@ -191,18 +191,8 @@ class acfe_performance_ultra extends acfe_performance{
         // use 'save as individual meta' on post only
         if(!wp_is_post_revision($post_id)){
             
-            // try to get meta reference
-            $field = acf_maybe_get_field($name, $post_id);
-            
-            // in case the name was passed as "_textarea" with $hidden = false
-            // like in acf_copy_metadata()
-            // we must search for field key directly through value
-            if(!$field && acfe_starts_with($name, '_') && acf_is_field_key($value)){
-                $field = acf_get_field($value);
-            }
-            
-            // save as individual meta
-            if($field && !empty($field['acfe_save_meta'])){
+            // save normal meta
+            if(acf_is_filter_enabled('acfe/performance_ultra/individual_meta')){
                 return $return;
             }
             
@@ -301,6 +291,31 @@ class acfe_performance_ultra extends acfe_performance{
         // return
         return $return;
     
+    }
+    
+    /**
+     * update_value
+     *
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @function acf_update_value()
+     *
+     * @return mixed
+     */
+    function update_value($value, $post_id, $field){
+        
+        // disabled by default
+        acf_disable_filter('acfe/performance_ultra/individual_meta');
+        
+        // check if save as individual meta
+        if(acf_maybe_get($field, 'acfe_save_meta')){
+            acf_enable_filter('acfe/performance_ultra/individual_meta');
+        }
+        
+        return $value;
+        
     }
     
 }

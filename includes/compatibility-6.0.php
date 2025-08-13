@@ -170,8 +170,6 @@ class acfe_admin_compatibility{
             'edit-acf-field-group-category',
             'edit-acfe-dbt',
             'acfe-dbt',
-            'edit-acfe-dop',
-            'acfe-dop',
             'edit-acfe-template',
             'acfe-template',
             'edit-acfe-form',

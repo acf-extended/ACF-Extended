@@ -45,7 +45,7 @@ class acfe_bidirectional{
             'label'             => __('Bidirectional'),
             'key'               => 'acfe_bidirectional',
             'name'              => 'acfe_bidirectional',
-            'instructions'      => __('Set the field as bidirectional'),
+            'instructions'      => __('ACF Extended: Set the field as bidirectional', 'acfe'),
             'type'              => 'group',
             'required'          => false,
             'conditional_logic' => false,

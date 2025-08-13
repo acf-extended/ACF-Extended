@@ -207,8 +207,8 @@ class acfe_module_form_front{
         // restore save post action
         remove_filter('acf/pre_update_value', '__return_false', 99);
         
-        // unset files to avoid duplicate upload
-        unset($_FILES);
+        // reset files to avoid duplicate upload
+        $_FILES = array();
         
         // remove shortcode temporarly
         // https://github.com/elementor/elementor/issues/10998

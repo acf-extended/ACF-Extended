@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.9.1
+ * Version:     0.9.1.1
  * Author:      ACF Extended
  * Plugin URI:  https://www.acf-extended.com
  * Author URI:  https://www.acf-extended.com
@@ -19,7 +19,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // vars
-    var $version = '0.9.1';
+    var $version = '0.9.1.1';
     
     /**
      * construct
@@ -203,6 +203,12 @@ class ACFE{
         acfe_include('includes/modules/performance/module-performance-functions.php');
         acfe_include('includes/modules/performance/module-performance-ui.php');
         acfe_include('includes/modules/performance/module-performance-upgrades.php');
+        
+        // options page
+        acfe_include('includes/modules/options-page/module-options-page.php');
+        acfe_include('includes/modules/options-page/module-options-page-fields.php');
+        acfe_include('includes/modules/options-page/module-options-page-features.php');
+        acfe_include('includes/modules/options-page/module-options-page-upgrades.php');
     
         // post type
         acfe_include('includes/modules/post-type/module-post-type.php');
@@ -215,12 +221,6 @@ class ACFE{
         acfe_include('includes/modules/taxonomy/module-taxonomy-fields.php');
         acfe_include('includes/modules/taxonomy/module-taxonomy-features.php');
         acfe_include('includes/modules/taxonomy/module-taxonomy-upgrades.php');
-    
-        // options page
-        acfe_include('includes/modules/options-page/module-options-page.php');
-        acfe_include('includes/modules/options-page/module-options-page-fields.php');
-        acfe_include('includes/modules/options-page/module-options-page-features.php');
-        acfe_include('includes/modules/options-page/module-options-page-upgrades.php');
         
         // screens
         acfe_include('includes/screens/screen-attachment.php');

@@ -16,7 +16,7 @@ function acfe_has_acf(){
 }
 
 /**
- * acfe_is_acf_admin_6
+ * acfe_is_acf_6
  *
  * @return bool
  */
@@ -25,12 +25,21 @@ function acfe_is_acf_6(){
 }
 
 /**
- * acfe_is_acf_admin_61
+ * acfe_is_acf_61
  *
  * @return bool
  */
 function acfe_is_acf_61(){
     return acf_version_compare(acf_get_setting('version'),  '>=', '6.1');
+}
+
+/**
+ * acfe_is_acf_65
+ *
+ * @return bool
+ */
+function acfe_is_acf_65(){
+    return acf_version_compare(acf_get_setting('version'),  '>=', '6.5');
 }
 
 /**
