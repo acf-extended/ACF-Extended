@@ -15,6 +15,7 @@ class acfe_module_form_action_post extends acfe_module_form_action{
         
         $this->name = 'post';
         $this->title = __('Post action', 'acfe');
+        $this->title_alt = __('Post', 'acfe');
         
         $this->item = array(
             'action' => 'post',

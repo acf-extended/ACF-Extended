@@ -72,6 +72,11 @@
     overflow: hidden
 }
 
+.acfe-icon-info {
+    -webkit-mask-image: url(../images/icons/icon-info.svg);
+    mask-image: url(../images/icons/icon-info.svg)
+}
+
 body:not(.acf-admin-single-field-group) .acf-tooltip {
     font-size: 13px
 }
@@ -669,6 +674,14 @@ ul.acfe-module-export-choices {
     vertical-align: text-bottom
 }
 
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=actions]>.acf-input>.acf-flexible-content>.acf-actions.acf-fc-top-actions {
+    display: none
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=actions]>.acf-input>.acf-flexible-content>.values>.layout>.acf-fc-layout-actions-wrap [data-name=more-layout-actions] {
+    display: none
+}
+
 .acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=fields]>.acf-input>.acf-fields>.acf-field,
 .acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=form]>.acf-input>.acf-fields>.acf-field {
     border: 0
@@ -720,6 +733,10 @@ ul.acfe-module-export-choices {
     float: none !important;
     width: auto !important;
     padding: 0 !important
+}
+
+.acfe-module.acfe-module-form.acfe-module-post .acf-field[data-type=acfe_dynamic_render][data-key*="_doc"]>.acf-input a:hover {
+    text-decoration: none
 }
 
 .acfe-module.acfe-module-form.acfe-module-post .acf-field[data-type=acfe_dynamic_render][data-key*="_doc"]+.acf-field,
@@ -860,6 +877,14 @@ ul.acfe-module-export-choices {
     text-align: center
 }
 
+.settings_page_acfe-options .acf-field-acfe-options-edit-value .acf-label .description code {
+    font-size: 11px;
+    line-height: 1.2;
+    position: absolute;
+    top: 2px;
+    right: 15px
+}
+
 #acfe-admin-settings .inside>.acf-field {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -930,18 +955,6 @@ ul.acfe-module-export-choices {
 
 .acf-postbox.seamless>.inside>.acf-field {
     padding: 15px 12px
-}
-
-.acf-flexible-content .layout.ui-sortable-helper:first-child {
-    margin-top: 20px
-}
-
-.acf-flexible-content .layout.ui-sortable-helper:first-child+.layout.ui-sortable-placeholder {
-    margin-top: 0
-}
-
-.acf-fields.-top>.acf-field-flexible-content>.acf-input>.acf-flexible-content>.values>.layout.ui-sortable-helper:first-child {
-    margin-top: 10px
 }
 
 .acfe-postbox.acfe-postbox-no-handle h2.hndle {

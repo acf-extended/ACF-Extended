@@ -346,15 +346,6 @@ class acfe_module_options{
             
         }
         
-        $field_group = array(
-            'ID'                    => 0,
-            'key'                   => 'group_acfe_options_edit',
-            'style'                 => 'default',
-            'label_placement'       => 'left',
-            'instruction_placement' => 'label',
-            'fields'                => array()
-        );
-        
         $fields = array();
         
         $fields[] = array(
@@ -382,103 +373,62 @@ class acfe_module_options{
         // serialized || html
         if(is_serialized($option['option_value']) || $option['option_value'] != strip_tags($option['option_value'])){
             
+            $class = 'code';
             $type = 'serialized';
             $instructions = 'Use this <a href="https://duzun.me/playground/serialize" target="_blank">online tool</a> to unserialize/seriliaze data.';
             
             if($option['option_value'] != strip_tags($option['option_value'])){
-                
                 $type = 'HTML';
                 $instructions = '';
-                
             }
             
-            $fields[] = array(
-                'label'             => __('Value', 'acfe') . ' <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>',
-                'key'               => 'field_acfe_options_edit_value',
-                'name'              => 'field_acfe_options_edit_value',
-                'type'              => 'textarea',
-                'prefix'            => 'acf',
-                'instructions'      => $instructions,
-                'required'          => false,
-                'conditional_logic' => false,
-                'default_value'     => '',
-                'placeholder'       => '',
-                'prepend'           => '',
-                'append'            => '',
-                'maxlength'         => '',
-                'value'             => $option['option_value'],
-                'class'             => 'code',
-                'wrapper'           => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                ),
-            );
+            $instructions = '<code>' . $type . '</code>' . $instructions;
             
         }
         
         // json
         elseif(acfe_is_json($option['option_value'])){
             
+            $class = 'code';
             $type = 'json';
             $instructions = 'Use this <a href="http://solutions.weblite.ca/php2json/" target="_blank">online tool</a> to decode/encode json.';
-            
-            $fields[] = array(
-                'label'             => __('Value', 'acfe') . ' <code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">' . $type . '</code>',
-                'key'               => 'field_acfe_options_edit_value',
-                'name'              => 'field_acfe_options_edit_value',
-                'type'              => 'textarea',
-                'prefix'            => 'acf',
-                'instructions'      => $instructions,
-                'required'          => false,
-                'conditional_logic' => false,
-                'default_value'     => '',
-                'placeholder'       => '',
-                'prepend'           => '',
-                'append'            => '',
-                'maxlength'         => '',
-                'value'             => $option['option_value'],
-                'class'             => 'code',
-                'wrapper'           => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                ),
-            );
+            $instructions = '<code>' . $type . '</code>' . $instructions;
             
         }
         
         // string
         else{
             
-            $type = '';
+            $class = '';
+            $instructions = '';
             if(!empty($option['option_value'])){
-                $type = '<code style="font-size:11px;float:right; line-height:1.2; margin-top:1px;">string</code>';
+                $instructions = '<code>string</code>';
             }
             
-            $fields[] = array(
-                'label'             => __('Value', 'acfe') . ' ' . $type,
-                'key'               => 'field_acfe_options_edit_value',
-                'name'              => 'field_acfe_options_edit_value',
-                'type'              => 'textarea',
-                'prefix'            => 'acf',
-                'instructions'      => '',
-                'required'          => false,
-                'conditional_logic' => false,
-                'default_value'     => '',
-                'placeholder'       => '',
-                'prepend'           => '',
-                'append'            => '',
-                'maxlength'         => '',
-                'value'             => $option['option_value'],
-                'wrapper'           => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                ),
-            );
-            
         }
+        
+        $fields[] = array(
+            'label'             => __('Value', 'acfe'),
+            'key'               => 'field_acfe_options_edit_value',
+            'name'              => 'field_acfe_options_edit_value',
+            'type'              => 'textarea',
+            'prefix'            => 'acf',
+            'instructions'      => $instructions,
+            'required'          => false,
+            'conditional_logic' => false,
+            'default_value'     => '',
+            'placeholder'       => '',
+            'prepend'           => '',
+            'append'            => '',
+            'maxlength'         => '',
+            'value'             => $option['option_value'],
+            'class'             => $class,
+            'wrapper'           => array(
+                'width' => '',
+                'class' => '',
+                'id'    => '',
+            ),
+        );
         
         $fields[] = array(
             'label'             => __('Autoload', 'acfe'),
@@ -506,7 +456,16 @@ class acfe_module_options{
             ),
         );
         
-        $field_group['fields'] = $fields;
+        
+        // prepare field group
+        $field_group = array(
+            'ID'                    => 0,
+            'key'                   => 'group_acfe_options_edit',
+            'style'                 => 'default',
+            'label_placement'       => 'left',
+            'instruction_placement' => 'label',
+            'fields'                => $fields,
+        );
         
         $metabox_submit_title = __('Submit', 'acf');
         $metabox_main_title = __('Add Option', 'acfe');

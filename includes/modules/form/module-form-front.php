@@ -21,9 +21,6 @@ class acfe_module_form_front{
         add_filter('acfe/form/load_form',                       array($this, 'load_form'), 19);
         add_filter('acfe/form/set_form_data',                   array($this, 'set_form_data'), 10, 2);
         
-        add_action(       'wp_ajax_acfe/form/render_form_ajax', array($this, 'render_form_ajax'));
-        add_action('wp_ajax_nopriv_acfe/form/render_form_ajax', array($this, 'render_form_ajax'));
-        
     }
     
     
@@ -674,33 +671,6 @@ class acfe_module_form_front{
         }
         </script>
         <?php
-    }
-    
-    
-    /**
-     * render_form_ajax
-     *
-     * @return void
-     */
-    function render_form_ajax(){
-        
-        // validate ajax
-        if(!acf_verify_ajax()){
-            die;
-        }
-        
-        // parse options
-        $options = wp_parse_args($_POST, array(
-            'form' => false,
-        ));
-        
-        // render form
-        if(!empty($options['form'])){
-            acfe_form($options['form']);
-        }
-        
-        die;
-        
     }
     
     

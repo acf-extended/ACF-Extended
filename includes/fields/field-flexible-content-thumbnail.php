@@ -21,9 +21,8 @@ class acfe_field_flexible_content_thumbnail{
         add_action('acfe/flexible/render_layout_settings',      array($this, 'render_layout_settings'), 25, 3);
         add_filter('acfe/flexible/validate_field',              array($this, 'validate_thumbnail'));
         add_filter('acfe/flexible/wrapper_attributes',          array($this, 'wrapper_attributes'), 10, 2);
-        add_filter('acfe/flexible/layouts/label_prepend',       array($this, 'label_prepend'), 10, 3);
-        
-        add_filter('acf/fields/flexible_content/layout_title',  array($this, 'layout_title'), 0, 4);
+        add_filter('acfe/flexible/layouts/select_atts',         array($this, 'select_atts'), 10, 3);
+        add_filter('acfe/flexible/layouts/select_label',        array($this, 'select_label'), 20, 3);
         
     }
     
@@ -99,9 +98,9 @@ class acfe_field_flexible_content_thumbnail{
      * @param $layout
      * @param $prefix
      */
-    function render_layout_settings($flexible, $layout, $prefix){
+    function render_layout_settings($field, $layout, $prefix){
         
-        if(!acf_maybe_get($flexible, 'acfe_flexible_layouts_thumbnails')){
+        if(!$field['acfe_flexible_layouts_thumbnails']){
             return;
         }
         
@@ -189,7 +188,7 @@ class acfe_field_flexible_content_thumbnail{
     function wrapper_attributes($wrapper, $field){
         
         // check setting
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails')){
+        if(!$field['acfe_flexible_layouts_thumbnails']){
             return $wrapper;
         }
     
@@ -201,79 +200,100 @@ class acfe_field_flexible_content_thumbnail{
     
     
     /**
-     * label_prepend
+     * select_atts
      *
-     * @param $prepend
+     * @param $atts
      * @param $layout
      * @param $field
      *
-     * @return mixed|string
+     * @return mixed
      */
-    function label_prepend($prepend, $layout, $field){
-    
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_thumbnails')){
-            return $prepend;
-        }
-
-        $prepend = array(
-            'class' => 'acfe-flexible-layout-thumbnail',
-        );
-    
-        // Modal disabled
-        if(!$field['acfe_flexible_modal']['acfe_flexible_modal_enabled']){
-            $prepend['class'] .= ' acfe-flexible-layout-thumbnail-no-modal';
-        }
-    
-        // Thumbnail
-        $thumbnail = $layout['acfe_flexible_thumbnail'];
-        $has_thumbnail = false;
-    
-        if(!empty($thumbnail)){
+    function select_atts($atts, $layout, $field){
         
-            $has_thumbnail = true;
-            $prepend['style'] = "background-image:url({$thumbnail});";
-        
-            // Attachment ID
-            if(is_numeric($thumbnail)){
-            
-                $has_thumbnail = false;
-            
-                if($thumbnail_src = wp_get_attachment_url($thumbnail)){
-                    $has_thumbnail = true;
-                    $prepend['style'] = "background-image:url({$thumbnail_src});";
-                }
-            
-            }
-        
+        // check setting
+        if(!$field['acfe_flexible_layouts_thumbnails']){
+            return $atts;
         }
-    
-        // Thumbnail not found
-        if(!$has_thumbnail){
-            $prepend['class'] .= ' acfe-flexible-layout-thumbnail-not-found';
-        }
-
-        $prepend = '<div ' . acf_esc_atts($prepend) . '></div>';
         
-        return $prepend;
+        // set thumbnail
+        //$atts['data-thumbnail'] = 1;
+        
+        // return
+        return $atts;
         
     }
     
     
     /**
-     * layout_title
+     * select_label
      *
-     * @param $title
-     * @param $field
+     * @param $label
      * @param $layout
-     * @param $i
+     * @param $field
      *
-     * @return array|string|string[]|null
+     * @return mixed|string
      */
-    function layout_title($title, $field, $layout, $i){
+    function select_label($label, $layout, $field){
         
-        $title = preg_replace('#<div class="acfe-flexible-layout-thumbnail(.*?)</div>#', '', $title);
+        // check setting
+        if(!$field['acfe_flexible_layouts_thumbnails']){
+            return $label;
+        }
         
-        return $title;
+        // thumbnail
+        $thumbnail = $this->get_thumbnail_url($layout);
+        
+        // prepend
+        $prepend = array(
+            'class' => 'acfe-fc-layout-thumb',
+        );
+        
+        // thumbnail not found
+        if(!$thumbnail){
+            $prepend['class'] .= ' -not-found';
+        }
+        
+        $prepend = '<div ' . acf_esc_atts($prepend) . '>';
+        
+        if($thumbnail){
+            $prepend .= '<img src="' . esc_url($thumbnail) . '" />';
+        }
+        
+        $prepend .= '</div>';
+        
+        return $prepend . $label;
+        
+    }
+    
+    
+    /**
+     * get_thumbnail_url
+     *
+     * @param $layout
+     *
+     * @return false|mixed|string
+     */
+    function get_thumbnail_url($layout){
+        
+        // check thumbnail
+        $thumbnail_url = $layout['acfe_flexible_thumbnail'];
+        if(empty($thumbnail_url)){
+            return false;
+        }
+        
+        // attachment id
+        if(is_numeric($thumbnail_url)){
+            
+            // get attachment url
+            $thumbnail_url = wp_get_attachment_url($thumbnail_url);
+            if(empty($thumbnail_url)){
+                return false;
+            }
+            
+        }
+        
+        // return url
+        return $thumbnail_url;
         
     }
     

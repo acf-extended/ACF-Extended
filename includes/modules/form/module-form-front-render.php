@@ -143,17 +143,7 @@ class acfe_module_form_front_render{
             
                 // assign new render
                 $form['render'] = $html;
-            
-            // function render
-            }elseif(is_callable($form['render'])){
-            
-                ob_start();
-                    call_user_func_array($form['render'], array($form));
-                $html = ob_get_clean();
-            
-                // assign new render
-                $form['render'] = $html;
-            
+                
             }
         
             // check render

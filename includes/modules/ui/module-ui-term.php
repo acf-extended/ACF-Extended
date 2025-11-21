@@ -9,6 +9,11 @@ if(!acf_get_setting('acfe/modules/ui')){
     return;
 }
 
+// check setting
+if(!acf_get_setting('acfe/modules/term_ui')){
+    return;
+}
+
 if(!class_exists('acfe_enhanced_ui_term')):
     
 class acfe_enhanced_ui_term extends acfe_enhanced_ui{

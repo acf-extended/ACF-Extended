@@ -16,6 +16,15 @@ function acfe_has_acf(){
 }
 
 /**
+ * acfe_is_acf_59
+ *
+ * @return bool
+ */
+function acfe_is_acf_59(){
+    return acf_version_compare(acf_get_setting('version'),  '>=', '5.9');
+}
+
+/**
  * acfe_is_acf_6
  *
  * @return bool
@@ -34,12 +43,30 @@ function acfe_is_acf_61(){
 }
 
 /**
+ * acfe_is_acf_622
+ *
+ * @return bool
+ */
+function acfe_is_acf_622(){
+    return acf_version_compare(acf_get_setting('version'),  '>=', '6.2.2');
+}
+
+/**
  * acfe_is_acf_65
  *
  * @return bool
  */
 function acfe_is_acf_65(){
     return acf_version_compare(acf_get_setting('version'),  '>=', '6.5');
+}
+
+/**
+ * acfe_is_acf_66
+ *
+ * @return bool
+ */
+function acfe_is_acf_66(){
+    return acf_version_compare(acf_get_setting('version'),  '>=', '6.6');
 }
 
 /**

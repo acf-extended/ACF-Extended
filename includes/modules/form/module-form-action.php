@@ -9,19 +9,26 @@ if(!class_exists('acfe_module_form_action')):
 class acfe_module_form_action{
     
     // vars
-    public $name     = '',
-           $title    = '',
-           $item     = array(),
-           $validate = array(),
-           $fields   = array(),
-           $prefix   = '';
+    public $name      = '',
+           $title     = '',
+           $title_alt = '',
+           $item      = array(),
+           $validate  = array(),
+           $fields    = array(),
+           $prefix    = '';
     
     /**
      * __construct
      */
     function __construct(){
         
+        // initialize
         $this->initialize();
+        
+        // assign title_alt if empty
+        if(empty($this->title_alt)){
+            $this->title_alt = $this->title;
+        }
         
         $this->prefix = "{$this->name}_action";
         

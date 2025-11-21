@@ -26,10 +26,9 @@ class acfe_field_group_display_title{
      */
     function prepare_field_group($field_group){
         
-        if(!acf_maybe_get($field_group, 'acfe_display_title'))
-            return $field_group;
-        
-        $field_group['title'] = $field_group['acfe_display_title'];
+        if(acf_maybe_get($field_group, 'acfe_display_title')){
+            $field_group['title'] = $field_group['acfe_display_title'];
+        }
         
         return $field_group;
         

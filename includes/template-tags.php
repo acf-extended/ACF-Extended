@@ -854,8 +854,8 @@ class acfe_template_tags{
         }
         
         // restore excluded tags
-        $string = str_replace('{!!', '{', $string);
-        $string = str_replace('!!}', '}', $string);
+        $string = str_replace('ACFE_ESCAPE_START', '{', $string);
+        $string = str_replace('ACFE_ESCAPE_END', '}', $string);
         
         // return
         return $string;
@@ -957,8 +957,8 @@ class acfe_template_tags{
                             
                             // escape brackets
                             if(!empty($replace) && is_string($replace)){
-                                $replace = str_replace('{', '{ ', $replace);
-                                $replace = str_replace('}', ' }', $replace);
+                                $replace = str_replace('{', 'ACFE_ESCAPE_START', $replace);
+                                $replace = str_replace('}', 'ACFE_ESCAPE_END', $replace);
                             }
                             
                         }
@@ -980,8 +980,8 @@ class acfe_template_tags{
                 if(!$resolver_executed){
                     
                     $replace = $search;
-                    $replace = str_replace('{', '{!!', $replace);
-                    $replace = str_replace('}', '!!}', $replace);
+                    $replace = str_replace('{', 'ACFE_ESCAPE_START', $replace);
+                    $replace = str_replace('}', 'ACFE_ESCAPE_END', $replace);
                     
                 }
                 

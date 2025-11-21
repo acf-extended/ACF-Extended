@@ -9,6 +9,11 @@ if(!acf_get_setting('acfe/modules/ui')){
     return;
 }
 
+// check setting
+if(!acf_get_setting('acfe/modules/attachment_ui')){
+    return;
+}
+
 if(!class_exists('acfe_enhanced_ui_attachment')):
     
 class acfe_enhanced_ui_attachment extends acfe_enhanced_ui{

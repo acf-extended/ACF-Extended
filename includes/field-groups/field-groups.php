@@ -301,7 +301,7 @@ class ACFE_Field_Groups{
             $file = acf_maybe_get($field_group, 'acfe_local_source');
             $file_readable = $this->get_human_readable_file_location($file);
             
-            $source = '<span class="acf-js-tooltip" title="' . $file_readable . '">AutoSync</span>';
+            $source = '<span class="acfe-js-tooltip" title="' . $file_readable . '">AutoSync</span>';
             
         }
     
@@ -356,7 +356,7 @@ class ACFE_Field_Groups{
     
         if($return['message']){
             
-            $wrapper['class'] .= ' acf-js-tooltip';
+            $wrapper['class'] .= ' acfe-js-tooltip';
             $wrapper['title'] = $return['message'];
             
         }
@@ -490,7 +490,7 @@ class ACFE_Field_Groups{
         }
     
         if($return['message']){
-            $wrapper['class'] .= ' acf-js-tooltip';
+            $wrapper['class'] .= ' acfe-js-tooltip';
             $wrapper['title'] = $return['message'];
         }
     
@@ -721,11 +721,18 @@ class ACFE_Field_Groups{
             
         }
         
-        // alternative title
+        // display title
         $display_title = acf_maybe_get($field_group, 'acfe_display_title');
+        $tooltip_title = __('Display Title', 'acfe');
+        
+        // ACF 6.6+: native display title
+        if(acfe_is_acf_66()){
+            $display_title = acf_maybe_get($field_group, 'display_title');
+            $tooltip_title = __('Display Title', 'acfe');
+        }
         
         if(!empty($display_title)){
-            $states['acfe-title'] = '<span class="acf-js-tooltip" title="' . __('Alternative title', 'acf') . '">' . $display_title . '</span>';
+            $states['acfe-title'] = '<span class="acf-js-tooltip" title="' . $tooltip_title . '">' . $display_title . '</span>';
         }
         
         return $states;

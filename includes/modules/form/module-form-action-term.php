@@ -15,6 +15,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         
         $this->name = 'term';
         $this->title = __('Term action', 'acfe');
+        $this->title_alt = __('Term', 'acfe');
         
         $this->item = array(
             'action' => 'term',

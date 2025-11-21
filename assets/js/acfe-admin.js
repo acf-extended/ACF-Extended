@@ -1040,6 +1040,59 @@
         return;
     }
 
+    var moduleManager = new acf.Model({
+        wait: 'prepare',
+        priority: 1,
+        initialize: function() {
+            if (acfe.get('is_admin') && $('body').hasClass('settings_page_acfe-options')) {
+                new module();
+            }
+        }
+    });
+
+    var module = acf.Model.extend({
+        events: {
+            'click .column-option_name>.row-actions>.delete>a': 'onClickDelete',
+        },
+        onClickDelete: function(e, $el) {
+
+            // prevent
+            e.preventDefault();
+
+            var href = $el.attr('href');
+            if (!href) {
+                return;
+            }
+
+            // bypass confirmation when holding down "shift" key
+            if (e.shiftKey) {
+                return window.location.href = href;
+            }
+
+            // add tooltip
+            acf.newTooltip({
+                target: $el,
+                context: this,
+                textConfirm: acf.__('Delete'),
+                textCancel: acf.__('Cancel'),
+                confirm: function() {
+                    window.location.href = href;
+                },
+                cancel: function() {
+                    // do nothing
+                }
+            });
+        },
+
+    });
+
+})(jQuery);
+(function($) {
+
+    if (typeof acf === 'undefined' || typeof acfe === 'undefined') {
+        return;
+    }
+
     /**
      * Postboxes: ACFE Class
      */

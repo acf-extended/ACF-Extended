@@ -15,6 +15,7 @@ class acfe_module_form_action_custom extends acfe_module_form_action{
         
         $this->name = 'custom';
         $this->title = __('Custom action', 'acfe');
+        $this->title_alt = __('Custom', 'acfe');
         
         $this->item = array(
             'action' => 'custom',

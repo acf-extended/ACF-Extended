@@ -15,6 +15,7 @@ class acfe_module_form_action_redirect extends acfe_module_form_action{
         
         $this->name = 'redirect';
         $this->title = __('Redirect action', 'acfe');
+        $this->title_alt = __('Redirect', 'acfe');
         
         $this->item = array(
             'action' => 'redirect',

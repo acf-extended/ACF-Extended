@@ -278,16 +278,14 @@
         initialize: function() {
 
             // ACF 6.0 changed #acf-field-group-locations to .field-group-locations
-            this.$el = $('#acf-field-group-locations, .field-group-locations');
+            this.$el = $('#acf-field-group-locations, .field-group-locations, .acfe-layout-locations');
         },
 
         onAppend: function($el) {
 
-            if (!$el.is('.rule-group') && !$el.parent().parent().parent().is('.rule-group')) {
-                return;
+            if ($el.is('.rule-group') || $el.parent().parent().parent().is('.rule-group')) {
+                this.refreshFields();
             }
-
-            this.refreshFields();
 
         },
 

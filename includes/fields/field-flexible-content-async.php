@@ -16,8 +16,6 @@ class acfe_field_flexible_content_async{
         // Hooks
         add_filter('acfe/flexible/defaults_field',          array($this, 'defaults_field'), 5);
         add_action('acfe/flexible/render_field_settings',   array($this, 'render_field_settings'), 5);
-    
-        add_filter('acfe/flexible/validate_field',          array($this, 'validate_async'));
         add_filter('acfe/flexible/wrapper_attributes',      array($this, 'wrapper_attributes'), 10, 2);
         add_filter('acfe/flexible/layouts/model',           array($this, 'layout_model'), 10, 3);
         
@@ -38,7 +36,6 @@ class acfe_field_flexible_content_async{
     function defaults_field($field){
         
         $field['acfe_flexible_async'] = array();
-        
         return $field;
         
     }
@@ -51,13 +48,6 @@ class acfe_field_flexible_content_async{
      */
     function render_field_settings($field){
     
-        /**
-         * old settings:
-         *
-         * acfe_flexible_disable_ajax_title
-         * acfe_flexible_layouts_ajax
-         */
-    
         acf_render_field_setting($field, array(
             'label'         => __('Asynchronous Settings', 'acfe'),
             'name'          => 'acfe_flexible_async',
@@ -67,8 +57,8 @@ class acfe_field_flexible_content_async{
             'default_value'     => '',
             'layout'            => 'horizontal',
             'choices'           => array(
-                'title'     => 'Disable Title Ajax',
-                'layout'    => 'Asynchronous Layout',
+                'title'     => __('Disable Title Ajax', 'acfe'),
+                'layout'    => __('Asynchronous Layout', 'acfe'),
             ),
             'conditional_logic' => array(
                 array(
@@ -80,40 +70,6 @@ class acfe_field_flexible_content_async{
                 )
             )
         ));
-        
-    }
-    
-    
-    /**
-     * validate_async
-     *
-     * @param $field
-     *
-     * @return mixed
-     */
-    function validate_async($field){
-        
-        $async = acf_get_array($field['acfe_flexible_async']);
-        
-        // acfe_flexible_disable_ajax_title
-        if(acf_maybe_get($field, 'acfe_flexible_disable_ajax_title')){
-            
-            if(!in_array('title', $async)) $async[] = 'title';
-            acfe_unset($field, 'acfe_flexible_disable_ajax_title');
-            
-        }
-        
-        // acfe_flexible_layouts_ajax
-        if(acf_maybe_get($field, 'acfe_flexible_layouts_ajax')){
-            
-            if(!in_array('layout', $async)) $async[] = 'layout';
-            acfe_unset($field, 'acfe_flexible_layouts_ajax');
-            
-        }
-        
-        $field['acfe_flexible_async'] = $async;
-        
-        return $field;
         
     }
     
@@ -174,9 +130,9 @@ class acfe_field_flexible_content_async{
         $l_name = $layout['name'];
     
         $div = array(
-            'class'         => 'layout acf-clone',
-            'data-id'       => 'acfcloneindex',
-            'data-layout'   => $layout['name']
+            'class'       => 'layout acf-clone',
+            'data-id'     => 'acfcloneindex',
+            'data-layout' => $layout['name']
         );
     
         $div = apply_filters("acfe/flexible/layouts/div",                               $div, $layout, $field, $i, $value, $prefix);
@@ -204,22 +160,22 @@ class acfe_field_flexible_content_async{
             'layout'    => '',
         ));
         
+        // get field
         $field = acf_get_field($options['field_key']);
         if(!$field){
             die;
         }
-    
-        $acfe_instance = acf_get_instance('acfe_field_flexible_content');
+        
+        // prepare field
         $field = acf_prepare_field($field);
         
+        // loop available layouts
         foreach($field['layouts'] as $k => $layout){
             
-            if($layout['name'] !== $options['layout']){
-                continue;
+            if($layout['name'] === $options['layout']){
+                acf_get_instance('acfe_field_flexible_content')->render_layout($field, $layout, 'acfcloneindex', array()); // render layout
+                die;
             }
-    
-            $acfe_instance->render_layout($field, $layout, 'acfcloneindex', array());
-            die;
             
         }
         

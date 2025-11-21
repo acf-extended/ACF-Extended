@@ -47,10 +47,15 @@ class acfe_admin_plugins{
         
         global $paged;
         
+        // cast array (might be false)
+        $args = acf_get_array($args);
+        
+        // add arguments
         $args['search'] = 'acf';
         $args['page'] = $paged;
         $args['per_page'] = 12;
         
+        // return
         return $args;
         
     }

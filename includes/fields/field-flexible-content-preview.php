@@ -358,16 +358,13 @@ class acfe_field_flexible_content_preview{
         }
         
         ?>
-        
         <div <?php echo acf_esc_atts($placeholder); ?>>
             <a href="#" class="button">
                 <span class="dashicons dashicons-edit"></span>
             </a>
-            
             <div class="acfe-fc-overlay"></div>
             <div class="acfe-flexible-placeholder -preview"><?php echo $html; ?></div>
         </div>
-        
         <?php
         
         return $layout;

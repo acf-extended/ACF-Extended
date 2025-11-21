@@ -15,6 +15,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
         
         $this->name = 'email';
         $this->title = __('Email action', 'acfe');
+        $this->title_alt = __('Email', 'acfe');
         
         $this->item = array(
             'action'      => 'email',

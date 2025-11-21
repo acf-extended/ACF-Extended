@@ -830,19 +830,41 @@ class acfe_module_form extends acfe_module{
     /**
      * edit_column_acfe_actions
      *
-     * @param $item
+     * @param $form
      */
-    function edit_column_acfe_actions($item){
+    function edit_column_acfe_actions($form){
         
         $text = '—';
-        $actions = array();
+        $render = array();
         
-        foreach($item['actions'] as $item){
-            $actions[] = ucfirst($item['action']);
+        // loop actions
+        foreach($form['actions'] as $action){
+            
+            // default label (action type not found)
+            $label = ucfirst($action['action']);
+            
+            // get action type
+            $action_type = acfe_get_form_action_type($action['action']);
+            
+            // use title alt if exists
+            if(!empty($action_type)){
+                $label = $action_type->title_alt;
+            }
+            
+            // filters
+            $label = apply_filters("acfe/form/admin_column/action_label",                            $label, $action, $action_type, $form);
+            $label = apply_filters("acfe/form/admin_column/action_label/form={$form['name']}",       $label, $action, $action_type, $form);
+            $label = apply_filters("acfe/form/admin_column/action_label/action={$action['action']}", $label, $action, $action_type, $form);
+            
+            // do not show if empty label
+            if(!empty($label)){
+                $render[] = $action_type->title_alt;
+            }
+            
         }
         
-        if($actions){
-            $text = implode(', ', $actions);
+        if($render){
+            $text = implode(', ', $render);
         }
         
         echo $text;

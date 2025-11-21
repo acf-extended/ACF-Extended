@@ -68,8 +68,8 @@ class acfe_field_flexible_content extends acfe_field_extend{
      */
     function _render_field_settings($field){
         
-        // Action
-        do_action("acfe/flexible/render_field_settings", $field);
+        // action
+        do_action('acfe/flexible/render_field_settings', $field);
         
     }
     
@@ -114,7 +114,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
         // Prefix
         $prefix = $field['prefix'];
         
-        // Black magic
+        // black magic
         parse_str($prefix, $output);
         $keys = acfe_array_keys_r($output);
         
@@ -122,27 +122,19 @@ class acfe_field_flexible_content extends acfe_field_extend{
         $_field_id = $keys[1];
         $_layout_key = $keys[3];
         
-        // Profit!
+        // profit!
         $flexible = acf_get_field($_field_id);
         
+        // bail early
         if(!acf_maybe_get($flexible, 'layouts')){
             return;
         }
         
-        $layout = $flexible['layouts'][$_layout_key];
+        // get layout
+        $layout = $flexible['layouts'][ $_layout_key ];
         
-        // Vars
-        $name = $flexible['name'];
-        $key = $flexible['key'];
-        $l_name = $layout['name'];
-        
-        // Do Actions
-        do_action("acfe/flexible/render_layout_settings",                               $flexible, $layout, $prefix);
-        do_action("acfe/flexible/render_layout_settings/name={$name}",                  $flexible, $layout, $prefix);
-        do_action("acfe/flexible/render_layout_settings/key={$key}",                    $flexible, $layout, $prefix);
-        do_action("acfe/flexible/render_layout_settings/layout={$l_name}",              $flexible, $layout, $prefix);
-        do_action("acfe/flexible/render_layout_settings/name={$name}&layout={$l_name}", $flexible, $layout, $prefix);
-        do_action("acfe/flexible/render_layout_settings/key={$key}&layout={$l_name}",   $flexible, $layout, $prefix);
+        // actions (with variations)
+        do_action('acfe/flexible/render_layout_settings', $flexible, $layout, $prefix);
         
     }
     
@@ -155,26 +147,22 @@ class acfe_field_flexible_content extends acfe_field_extend{
      * @return mixed|null
      */
     function validate_field($field){
-        
-        // Defaults
-        $_field = array();
-        $_layout = array();
     
-        // Filters
-        $_field = apply_filters("acfe/flexible/defaults_field", $_field);
-        $_layout = apply_filters("acfe/flexible/defaults_layout", $_layout);
-    
-        foreach($_field as $k => $v){
+        // default filter
+        $defaults_field = apply_filters('acfe/flexible/defaults_field', array());
         
-            if(!isset($field[$k])){
-                $field[$k] = $v;
+        // loop field keys
+        foreach($defaults_field as $default_k => $default_v){
+        
+            if(!isset($field[ $default_k ])){
+                $field[ $default_k ] = $default_v;
             }
             
-            if(is_array($v)){
-                foreach($v as $ak => $av){
+            if(is_array($default_v)){
+                foreach($default_v as $default_ak => $default_av){
     
-                    if(!isset($field[$k][$ak])){
-                        $field[$k][$ak] = $av;
+                    if(!isset($field[ $default_k ][ $default_ak ])){
+                        $field[ $default_k ][ $default_ak ] = $default_av;
                     }
                     
                 }
@@ -182,29 +170,59 @@ class acfe_field_flexible_content extends acfe_field_extend{
         
         }
         
-        foreach($field['layouts'] as &$layout){
-            foreach($_layout as $k => $v){
-        
-                if(!isset($layout[$k])){
-                    $layout[$k] = $v;
-                }
-        
-                if(is_array($v)){
-                    foreach($v as $ak => $av){
-                        
-                        if(!isset($layout[$k][$ak])){
-                            $layout[$k][$ak] = $av;
-                        }
-                        
-                    }
-                }
-        
+        // loop layouts
+        if(!empty($field['layouts'])){
+            foreach(array_keys($field['layouts']) as $l_key){
+                $field['layouts'][ $l_key ] = $this->validate_layout($field['layouts'][ $l_key ], $field);
             }
         }
         
+        // validate
         $field = apply_filters('acfe/flexible/validate_field', $field);
         
+        // return
         return $field;
+        
+    }
+    
+    
+    /**
+     * validate_layout
+     *
+     * @param $layout
+     * @param $field
+     *
+     * @return mixed|null
+     */
+    function validate_layout($layout, $field){
+        
+        // defaults filter
+        $defaults_layout = apply_filters('acfe/flexible/defaults_layout', array(), $field);
+        
+        // loop layout keys
+        foreach($defaults_layout as $default_k => $default_v){
+            
+            if(!isset($layout[ $default_k ])){
+                $layout[ $default_k ] = $default_v;
+            }
+            
+            if(is_array($default_v)){
+                foreach($default_v as $default_ak => $default_av){
+                    
+                    if(!isset($layout[ $default_k ][$default_ak])){
+                        $layout[ $default_k ][$default_ak] = $default_av;
+                    }
+                    
+                }
+            }
+            
+        }
+        
+        // validate
+        $layout = apply_filters('acfe/flexible/validate_layout', $layout, $field);
+        
+        // return
+        return $layout;
         
     }
     
@@ -218,36 +236,29 @@ class acfe_field_flexible_content extends acfe_field_extend{
      */
     function prepare_field($field){
         
-        // Vars
-        $name = $field['_name'];
-        $key = $field['key'];
+        // bail early
+        if(empty($field['layouts'])){
+            return $field;
+        }
         
+        // loop layouts
         foreach($field['layouts'] as &$layout){
+        
+            // filters (with variations)
+            $prepend = apply_filters('acfe/flexible/layouts/label_prepend', '', $layout, $field);
+            $atts    = apply_filters('acfe/flexible/layouts/label_atts', array(), $layout, $field);
+        
+            // save label
+            $label = $layout['label'];
             
-            // Vars
-            $l_name = $layout['name'];
+            // new label
+            $layout['label'] = '';
+            $layout['label'] .= $prepend;
             
-            // Prepend
-            $prepend = '';
-            $prepend = apply_filters("acfe/flexible/layouts/label_prepend",                                 $prepend, $layout, $field);
-            $prepend = apply_filters("acfe/flexible/layouts/label_prepend/name={$name}",                    $prepend, $layout, $field);
-            $prepend = apply_filters("acfe/flexible/layouts/label_prepend/key={$key}",                      $prepend, $layout, $field);
-            $prepend = apply_filters("acfe/flexible/layouts/label_prepend/layout={$l_name}",                $prepend, $layout, $field);
-            $prepend = apply_filters("acfe/flexible/layouts/label_prepend/name={$name}&layout={$l_name}",   $prepend, $layout, $field);
-            $prepend = apply_filters("acfe/flexible/layouts/label_prepend/key={$key}&layout={$l_name}",     $prepend, $layout, $field);
-            
-            // Atts
-            $atts = array();
-            $atts = apply_filters("acfe/flexible/layouts/label_atts",                               $atts, $layout, $field);
-            $atts = apply_filters("acfe/flexible/layouts/label_atts/name={$name}",                  $atts, $layout, $field);
-            $atts = apply_filters("acfe/flexible/layouts/label_atts/key={$key}",                    $atts, $layout, $field);
-            $atts = apply_filters("acfe/flexible/layouts/label_atts/layout={$l_name}",              $atts, $layout, $field);
-            $atts = apply_filters("acfe/flexible/layouts/label_atts/name={$name}&layout={$l_name}", $atts, $layout, $field);
-            $atts = apply_filters("acfe/flexible/layouts/label_atts/key={$key}&layout={$l_name}",   $atts, $layout, $field);
-            
-            // Label
-            $layout['label'] = $prepend . '<span ' . acf_esc_atts($atts) . '>' . $layout['label'] . '</span>';
-            
+            if(!empty($atts)){$layout['label'] .= '<span ' . acf_esc_atts($atts) . '>';}
+            $layout['label'] .= $label;
+            if(!empty($atts)){$layout['label'] .= '</span>';}
+        
         }
         
         return $field;
@@ -274,13 +285,8 @@ class acfe_field_flexible_content extends acfe_field_extend{
             return $fields;
         }
         
-        // vars
-        $name = $field['name'];
-        $key = $field['key'];
-    
-        $fields = apply_filters("acfe/flexible/load_fields",                $fields, $field);
-        $fields = apply_filters("acfe/flexible/load_fields/name={$name}",   $fields, $field);
-        $fields = apply_filters("acfe/flexible/load_fields/key={$key}",     $fields, $field);
+        // filter (with variations)
+        $fields = apply_filters('acfe/flexible/load_fields', $fields, $field);
         
         return $fields;
         
@@ -311,27 +317,17 @@ class acfe_field_flexible_content extends acfe_field_extend{
      */
     function render_field($field){
         
-        // Vars
-        $name = $field['_name'];
-        $key = $field['key'];
-        
         // defaults
         if(empty($field['button_label'])){
-            $field['button_label'] = __('Add Row', 'acf');
-        }
-        
-        // sort layouts into names
-        $layouts = array();
-        
-        foreach($field['layouts'] as $k => $layout){
-            $layouts[$layout['name']] = $layout;
+            $field['button_label'] = $this->instance->defaults['button_label'];
         }
         
         // vars
         $div = array(
-            'class'     => 'acf-flexible-content',
-            'data-min'  => $field['min'],
-            'data-max'  => $field['max']
+            'class'             => 'acf-flexible-content',
+            'data-min'          => $field['min'],
+            'data-max'          => $field['max'],
+            'data-button-label' => $field['button_label'],
         );
         
         // empty
@@ -339,160 +335,152 @@ class acfe_field_flexible_content extends acfe_field_extend{
             $div['class'] .= ' -empty';
         }
         
+        echo '<div ' . acf_esc_atts($div) . '>';
+        
+        acf_hidden_input(array(
+            'name' => $field['name']
+        ));
+        
+        $this->render_actions($field, 'top');
+        $this->render_no_value_message($field);
+        $this->render_clones($field);
+        $this->render_layouts($field);
+        $this->render_actions($field);
+        $this->render_popup($field);
+        
+        echo '</div>';
+    
+    }
+    
+    
+    /**
+     * render_no_value_message
+     *
+     * @param $field
+     *
+     * @return void
+     */
+    function render_no_value_message($field){
+        
         // no value message
         $no_value_message = __('Click the "%s" button below to start creating your layout', 'acf');
         $no_value_message = apply_filters('acf/fields/flexible_content/no_value_message', $no_value_message, $field);
+        $no_value_message = sprintf($no_value_message, $field['button_label']);
         
-        $values = array(
-            'class' => 'values'
-        );
+        echo '<div class="no-value-message">' . acf_esc_html($no_value_message) . '</div>';
+        
+    }
     
-        $values = apply_filters("acfe/flexible/div_values",                 $values, $field);
-        $values = apply_filters("acfe/flexible/div_values/name={$name}",    $values, $field);
-        $values = apply_filters("acfe/flexible/div_values/key={$key}",      $values, $field);
-
-    ?>
-    <div <?php echo acf_esc_atts($div); ?>>
-
-        <?php acf_hidden_input(array('name' => $field['name'])); ?>
-
-        <div class="no-value-message">
-            <?php printf($no_value_message, $field['button_label']); ?>
-        </div>
-
-        <div class="clones">
-            <?php foreach($layouts as $layout):
+    
+    /**
+     * render_clones
+     *
+     * @param $field
+     *
+     * @return void
+     */
+    function render_clones($field){
+        
+        echo '<div class="clones">';
+        
+        foreach($field['layouts'] as $layout){
+            
+            // filter (with variations)
+            $model = apply_filters('acfe/flexible/layouts/model', false, $field, $layout);
+            
+            // allow bypass
+            if(!$model){
+                $this->render_layout($field, $layout, 'acfcloneindex', array());
+            }
+        
+        }
+        
+        echo '</div>';
+        
+    }
+    
+    
+    /**
+     * render_layouts
+     *
+     * @param $field
+     *
+     * @return void
+     */
+    function render_layouts($field){
+        
+        // filter (with variations)
+        $values = array('class' => 'values');
+        $values = apply_filters('acfe/flexible/div_values', $values, $field);
+        
+        // wrapper
+        echo '<div '. acf_esc_atts($values) .'>';
+        
+        if(!empty($field['value'])){
+            foreach($field['value'] as $i => $value){
                 
-                // Vars
-                $l_name = $layout['name'];
-                
-                // Models
-                $model = false;
-                $model = apply_filters("acfe/flexible/layouts/model",                               $model, $field, $layout);
-                $model = apply_filters("acfe/flexible/layouts/model/name={$name}",                  $model, $field, $layout);
-                $model = apply_filters("acfe/flexible/layouts/model/key={$key}",                    $model, $field, $layout);
-                $model = apply_filters("acfe/flexible/layouts/model/layout={$l_name}",              $model, $field, $layout);
-                $model = apply_filters("acfe/flexible/layouts/model/name={$name}&layout={$l_name}", $model, $field, $layout);
-                $model = apply_filters("acfe/flexible/layouts/model/key={$key}&layout={$l_name}",   $model, $field, $layout);
-                
-                if(!$model){
-                    $this->render_layout($field, $layout, 'acfcloneindex', array());
+                if(!empty($this->instance->get_layout($value['acf_fc_layout'], $field))){
+                    $this->render_layout($field, $this->instance->get_layout($value['acf_fc_layout'], $field), $i, $value);
                 }
                 
-            endforeach; ?>
-        </div>
-
-        <div <?php echo acf_esc_atts($values); ?>>
-            <?php if(!empty($field['value'])): 
-                
-                foreach($field['value'] as $i => $value):
-                    
-                    // validate
-                    if(empty($layouts[$value['acf_fc_layout']]))
-                        continue;
-                    
-                    // render
-                    $this->render_layout($field, $layouts[$value['acf_fc_layout']], $i, $value);
-                    
-                endforeach;
-                
-            endif; ?>
-        </div>
-
-        <?php
-        
-        // Remove actions
-        $remove_actions = false;
-        $remove_actions = apply_filters("acfe/flexible/remove_actions",                 $remove_actions, $field);
-        $remove_actions = apply_filters("acfe/flexible/remove_actions/name={$name}",    $remove_actions, $field);
-        $remove_actions = apply_filters("acfe/flexible/remove_actions/key={$key}",      $remove_actions, $field);
-        
-        if(!$remove_actions){
-            
-            // Wrapper
-            $wrapper = array();
-            $wrapper = apply_filters('acfe/flexible/action_wrapper', $wrapper, $field);
-            
-            // Button
-            $button = array(
-                'class'     => 'acf-button button',
-                'href'      => '#',
-                'data-name' => 'add-layout',
-            );
-            
-            $button = apply_filters('acfe/flexible/action_button', $button, $field);
-            
-            if(!empty($wrapper)){
-                echo '<div ' . acf_esc_atts($wrapper) . '>';
             }
-            
-            ?>
-            
-            <div class="acf-actions">
-                <a <?php echo acf_esc_atts($button); ?>><?php echo $field['button_label']; ?></a>
-                
-                <?php
-                
-                $secondary_actions = array();
-                $secondary_actions = apply_filters("acfe/flexible/secondary_actions",               $secondary_actions, $field);
-                $secondary_actions = apply_filters("acfe/flexible/secondary_actions/name={$name}",  $secondary_actions, $field);
-                $secondary_actions = apply_filters("acfe/flexible/secondary_actions/key={$key}",    $secondary_actions, $field);
-                
-                if(!empty($secondary_actions)){
-                    
-                    $button_secondary = array(
-                        'class'     => 'button',
-                        'style'     => 'padding-left:5px;padding-right:5px; margin-left:3px;',
-                        'href'      => '#',
-                        'data-name' => 'acfe-flexible-control-button',
-                    );
+        }
+        
+        echo '</div>';
+        
+    }
     
-                    $button_secondary = apply_filters('acfe/flexible/action_button_secondary', $button_secondary, $field);
-                    ?>
-                
-                    <a <?php echo acf_esc_atts($button_secondary); ?>>
-                       <span class="dashicons dashicons-arrow-down-alt2" style="vertical-align:text-top;width:auto;height:auto;font-size:13px;line-height:20px;"></span>
-                    </a>
-                    
-                    <script type="text-html" class="tmpl-acfe-flexible-control-popup">
-                        <ul>
-                            <?php foreach($secondary_actions as $secondary_action){ ?>
-                                <li><?php echo $secondary_action; ?></li>
-                            <?php } ?>
-                        </ul>
-                    </script>
-                
-                <?php } ?>
-                
-            </div>
-            
-            <?php
-            if(!empty($wrapper)){
-                echo '</div>';
-            }
-            ?>
-
-            <script type="text-html" class="tmpl-popup">
-                <ul>
-                <?php foreach($layouts as $layout):
-                    
-                    $atts = array(
-                        'href'          => '#',
-                        'data-layout'   => $layout['name'],
-                        'data-min'      => $layout['min'],
-                        'data-max'      => $layout['max'],
-                    );
-                    
-                    ?><li><a <?php echo acf_esc_atts($atts); ?>><?php echo $layout['label']; ?></a></li><?php
-                
-                endforeach; ?>
-                </ul>
-            </script>
+    
+    /**
+     * render_actions
+     *
+     * @param $field
+     * @param $position
+     *
+     * @return void
+     */
+    function render_actions($field, $position = 'bottom'){
         
-        <?php } ?>
-
-    </div>
-    <?php
+        // filter (with variations)
+        $should_hide = apply_filters('acfe/flexible/remove_actions', false, $field, $position);
+        if($should_hide){
+            return;
+        }
+        
+        // get buttons
+        $buttons = $this->get_actions_buttons($field, $position);
+        if(empty($buttons)){
+            return;
+        }
+        
+        // filter (with variations)
+        $wrapper = array('class' => "acf-actions acf-fc-{$position}-actions");
+        $wrapper = apply_filters('acfe/flexible/action_wrapper', $wrapper, $field, $position);
+        
+        // wrapper
+        echo '<div ' . acf_esc_atts($wrapper) . '>';
+        
+        // loop buttons
+        foreach($buttons as $button){
+            echo $button;
+        }
+            
+        echo '</div>';
+    
+    }
+    
+    
+    /**
+     * render_popup
+     *
+     * @param $field
+     *
+     * @return void
+     */
+    function render_popup($field){
+        
+        // action (with variations)
+        do_action("acfe/flexible/render_popup", $field);
     
     }
     
@@ -507,31 +495,97 @@ class acfe_field_flexible_content extends acfe_field_extend{
      */
     function render_layout($field, $layout, $i, $value){
         
+        // attributes
+        $id    = "row-$i";
+        $class = 'layout';
+        
+        // layout clone
+        if($i === 'acfcloneindex'){
+            $id     = 'acfcloneindex';
+            $class .= ' acf-clone';
+        }
+        
         // vars
-        $id = ($i === 'acfcloneindex') ? 'acfcloneindex' : "row-$i";
         $prefix = $field['name'] . '[' . $id .  ']';
-        $name = $field['_name'];
-        $key = $field['key'];
-        $l_name = $layout['name'];
         
         // div
         $div = array(
-            'class'         => 'layout',
-            'data-id'       => $id,
-            'data-layout'   => $layout['name']
+            'class'        => $class,
+            'data-id'      => $id,
+            'data-layout'  => $layout['name'],
+            'data-label'   => $layout['label'],
+            'data-min'     => $layout['min'],
+            'data-max'     => $layout['max'],
+            'data-enabled' => $this->get_layout_disabled($field, $i) ? 0 : 1,
+            'data-renamed' => empty($this->get_layout_renamed($field, $i)) ? 0 : 1,
         );
         
-        // is clone?
-        if(!is_numeric($i)){
-            $div['class'] .= ' acf-clone';
-        }
+        // filter (with variations)
+        $div = apply_filters('acfe/flexible/layouts/div', $div, $layout, $field, $i, $value, $prefix);
         
-        $div = apply_filters("acfe/flexible/layouts/div",                               $div, $layout, $field, $i, $value, $prefix);
-        $div = apply_filters("acfe/flexible/layouts/div/name={$name}",                  $div, $layout, $field, $i, $value, $prefix);
-        $div = apply_filters("acfe/flexible/layouts/div/key={$key}",                    $div, $layout, $field, $i, $value, $prefix);
-        $div = apply_filters("acfe/flexible/layouts/div/layout={$l_name}",              $div, $layout, $field, $i, $value, $prefix);
-        $div = apply_filters("acfe/flexible/layouts/div/name={$name}&layout={$l_name}", $div, $layout, $field, $i, $value, $prefix);
-        $div = apply_filters("acfe/flexible/layouts/div/key={$key}&layout={$l_name}",   $div, $layout, $field, $i, $value, $prefix);
+        // wrapper
+        echo '<div ' . acf_esc_atts($div) . '>';
+            
+            acf_hidden_input(array(
+                'name'  => $prefix . '[acf_fc_layout]',
+                'value' => $layout['name'],
+            ));
+            
+            acf_hidden_input(array(
+                'class' => 'acf-fc-layout-disabled',
+                'name'  => $prefix . '[acf_fc_layout_disabled]',
+                'value' => $this->get_layout_disabled($field, $i) ? 1 : 0,
+            ));
+            
+            acf_hidden_input(array(
+                'class' => 'acf-fc-layout-custom-label',
+                'name'  => $prefix . '[acf_fc_layout_custom_label]',
+                'value' => $this->get_layout_renamed($field, $i),
+            ));
+            
+            echo '<div class="acf-fc-layout-actions-wrap">';
+                $this->render_layout_handle($field, $layout, $i, $value, $prefix);
+                $this->render_layout_controls($field, $layout, $i, $value, $prefix);
+            echo '</div>';
+            
+            
+            // filter (with variations)
+            $layout = apply_filters('acfe/flexible/prepare_layout', $layout, $field, $i, $value, $prefix);
+            
+            // action (with variations)
+            do_action('acfe/flexible/pre_render_layout', $layout, $field, $i, $value, $prefix);
+            
+            // render fields: table
+            if($layout['display'] == 'table'){
+                $this->render_layout_table($layout, $field, $i, $value, $prefix);
+                
+            // render fields: div
+            }else{
+                $this->render_layout_div($layout, $field, $i, $value, $prefix);
+            }
+            
+            // action (with variations)
+            do_action('acfe/flexible/render_layout', $layout, $field, $i, $value, $prefix);
+        
+        echo '</div>';
+        
+    }
+    
+    
+    /**
+     * render_layout_handle
+     *
+     * @param $field
+     * @param $layout
+     * @param $i
+     * @param $value
+     *
+     * @return void
+     */
+    function render_layout_handle($field, $layout, $i, $value, $prefix){
+        
+        // get elements
+        $elements = $this->get_layout_handle_elements($layout, $field, $i, $value, $prefix);
         
         // handle
         $handle = array(
@@ -540,62 +594,323 @@ class acfe_field_flexible_content extends acfe_field_extend{
             'data-name' => 'collapse-layout',
         );
         
-        $handle = apply_filters("acfe/flexible/layouts/handle",                                 $handle, $layout, $field, $i, $value, $prefix);
-        $handle = apply_filters("acfe/flexible/layouts/handle/name={$name}",                    $handle, $layout, $field, $i, $value, $prefix);
-        $handle = apply_filters("acfe/flexible/layouts/handle/key={$key}",                      $handle, $layout, $field, $i, $value, $prefix);
-        $handle = apply_filters("acfe/flexible/layouts/handle/layout={$l_name}",                $handle, $layout, $field, $i, $value, $prefix);
-        $handle = apply_filters("acfe/flexible/layouts/handle/name={$name}&layout={$l_name}",   $handle, $layout, $field, $i, $value, $prefix);
-        $handle = apply_filters("acfe/flexible/layouts/handle/key={$key}&layout={$l_name}",     $handle, $layout, $field, $i, $value, $prefix);
+        // filter (with variations)
+        $handle = apply_filters('acfe/flexible/layouts/handle', $handle, $layout, $field, $i, $value, $prefix);
         
-        // remove row
-        // This makes Flexible Content in ACFE Form buggy in a Flexible Content Preview
-        //reset_rows();
+        // wrapper
+        echo '<div ' . acf_esc_atts($handle) . '>';
+        
+        // loop elements
+        if(!empty($elements)){
+            foreach($elements as $element){
+                echo $element;
+            }
+        }
+        
+        echo '</div>';
+        
+    }
+    
+    
+    /**
+     * render_layout_controls
+     *
+     * @param $field
+     * @param $layout
+     * @param $i
+     * @param $value
+     * @param $prefix
+     *
+     * @return void
+     */
+    function render_layout_controls($field, $layout, $i, $value, $prefix){
+        
+        // actions (with variations)
+        do_action('acfe/flexible/layouts/controls', $layout, $field, $i, $value, $prefix);
+        
+        // get buttons
+        $buttons = $this->get_layout_controls_buttons($field, $layout);
+        if(empty($buttons)){
+            return;
+        }
+        
+        // controls
+        echo '<div class="acf-fc-layout-controls">';
+        
+        // loop buttons
+        foreach($buttons as $button){
+            echo $button;
+        }
+        
+        echo '</div>';
+        
+    }
+    
+    
+    /**
+     * render_layout_table
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     */
+    function render_layout_table($layout, $field, $i, $value, $prefix){
+        
+        // bail early
+        if(empty($layout['sub_fields'])){
+            return;
+        }
         
         ?>
-        <div <?php echo acf_esc_atts($div); ?>>
+        <table class="acf-table">
+            <thead>
+                <tr>
+                <?php foreach($layout['sub_fields'] as $sub_field):
                     
-            <?php acf_hidden_input(array('name' => $prefix.'[acf_fc_layout]', 'value' => $layout['name'])); ?>
+                    // prepare field (allow subfields to be removed)
+                    $sub_field = acf_prepare_field($sub_field);
+                    
+                    // bail ealry if no field
+                    if(!$sub_field){
+                        continue;
+                    }
+                    
+                    // vars
+                    $atts = array();
+                    $atts['class'] = 'acf-th';
+                    $atts['data-name'] = $sub_field['_name'];
+                    $atts['data-type'] = $sub_field['type'];
+                    $atts['data-key'] = $sub_field['key'];
+                    
+                    // Add custom width
+                    if($sub_field['wrapper']['width']){
+                        $atts['data-width'] = $sub_field['wrapper']['width'];
+                        $atts['style'] = 'width: ' . $sub_field['wrapper']['width'] . '%;';
+                    }
+                    
+                    ?>
+                    <th <?php echo acf_esc_atts($atts); ?>>
+                        <?php echo acf_get_field_label($sub_field); ?>
+                        <?php if($sub_field['instructions']): ?>
+                            <p class="description"><?php echo $sub_field['instructions']; ?></p>
+                        <?php endif; ?>
+                    </th>
+                
+                <?php endforeach; ?>
+                </tr>
+            </thead>
             
-            <div <?php echo acf_esc_atts($handle); ?>>
-                <?php echo $this->get_layout_title($field, $layout, $i, $value); ?>
-            </div>
+            <tbody>
+                <tr class="acf-row">
+                    <?php $this->render_sub_fields($layout, $field, $i, $value, $prefix); ?>
+                </tr>
+            </tbody>
             
-            <?php
-            
-            $layout = apply_filters("acfe/flexible/prepare_layout",                                 $layout, $field, $i, $value, $prefix);
-            $layout = apply_filters("acfe/flexible/prepare_layout/name={$name}",                    $layout, $field, $i, $value, $prefix);
-            $layout = apply_filters("acfe/flexible/prepare_layout/key={$key}",                      $layout, $field, $i, $value, $prefix);
-            $layout = apply_filters("acfe/flexible/prepare_layout/layout={$l_name}",                $layout, $field, $i, $value, $prefix);
-            $layout = apply_filters("acfe/flexible/prepare_layout/name={$name}&layout={$l_name}",   $layout, $field, $i, $value, $prefix);
-            $layout = apply_filters("acfe/flexible/prepare_layout/key={$key}&layout={$l_name}",     $layout, $field, $i, $value, $prefix);
-            
-            do_action("acfe/flexible/pre_render_layout",                                            $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/pre_render_layout/name={$name}",                               $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/pre_render_layout/key={$key}",                                 $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/pre_render_layout/layout={$l_name}",                           $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/pre_render_layout/name={$name}&layout={$l_name}",              $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/pre_render_layout/key={$key}&layout={$l_name}",                $layout, $field, $i, $value, $prefix);
-            
-            // Prepare Editor
-            add_filter('acf/prepare_field/type=wysiwyg',                                            array($this, 'prepare_layout_editor'));
-
-            // Render Layout Fields
-            $this->render_layout_fields($layout, $field, $i, $value, $prefix);
-            
-            // Unprepare Editor
-            remove_filter('acf/prepare_field/type=wysiwyg',                                         array($this, 'prepare_layout_editor'));
-            
-            do_action("acfe/flexible/render_layout",                                                $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/render_layout/name={$name}",                                   $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/render_layout/key={$key}",                                     $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/render_layout/layout={$l_name}",                               $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/render_layout/name={$name}&layout={$l_name}",                  $layout, $field, $i, $value, $prefix);
-            do_action("acfe/flexible/render_layout/key={$key}&layout={$l_name}",                    $layout, $field, $i, $value, $prefix);
-            
-            ?>
-
-        </div>
+            <?php if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'] && in_array('close', $field['acfe_flexible_add_actions'])){ ?>
+                <?php $close_label = !empty($field['acfe_flexible_close_button_label']) ? $field['acfe_flexible_close_button_label'] : __('Close', 'acfe'); ?>
+                <tfoot>
+                <tr class="acfe-tfoot-row">
+                    <td colspan="<?php echo count($layout['sub_fields']); ?>">
+                        <div class="acfe-flexible-opened-actions"><a href="#" class="button"><?php echo $close_label; ?></button></a></div>
+                    </td>
+                </tr>
+                </tfoot>
+            <?php } ?>
+        </table>
         <?php
+        
+    }
+    
+    
+    /**
+     * render_layout_div
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     */
+    function render_layout_div($layout, $field, $i, $value, $prefix){
+        
+        // bail early
+        if(empty($layout['sub_fields'])){
+            return;
+        }
+        
+        // wrapper
+        $div = array(
+            'class' => 'acf-fields'
+        );
+        
+        if($layout['display'] === 'row'){
+            $div['class'] .= ' -left';
+        }
+        
+        // wrapper
+        echo '<div ' . acf_esc_atts($div) . '>';
+        
+        // render fields
+        $this->render_sub_fields($layout, $field, $i, $value, $prefix);
+        
+        // close button
+        if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'] && in_array('close', $field['acfe_flexible_add_actions'])){
+            
+            $close_label = !empty($field['acfe_flexible_close_button_label']) ? $field['acfe_flexible_close_button_label'] : __('Close', 'acfe');
+            echo '<div class="acfe-flexible-opened-actions"><a href="#" class="button">' . $close_label . '</button></a></div>';
+            
+        }
+        
+        echo '</div>';
+        
+    }
+    
+    
+    /**
+     * render_sub_fields
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     *
+     * @return void
+     */
+    function render_sub_fields($layout, $field, $i, $value, $prefix){
+        
+        // loop though sub fields
+        foreach($layout['sub_fields'] as $sub_field){
+            
+            // add value
+            if(isset($value[$sub_field['key']])){
+                $sub_field['value'] = $value[$sub_field['key']];
+                
+            }elseif(isset($sub_field['default_value'])){
+                $sub_field['value'] = $sub_field['default_value'];
+            }
+            
+            // update prefix to allow for nested values
+            $sub_field['prefix'] = $prefix;
+            
+            // render input
+            $el = $layout['display'] === 'table' ? 'td' : 'div';
+            acf_render_field_wrap($sub_field, $el);
+            
+        }
+        
+    }
+    
+    
+    /**
+     * get_actions_buttons
+     *
+     * @param $field
+     * @param $position
+     *
+     * @return mixed|null
+     */
+    function get_actions_buttons($field, $position = 'bottom'){
+        
+        // prepare buttons
+        $buttons = array();
+        
+        // top actions buttons
+        if($position === 'top'){
+            $buttons['expand'] = '<button class="acf-btn acf-btn-clear acf-fc-expand-all">' . esc_html__('Expand All', 'acf') . '</button>';
+            $buttons['collapse'] = '<button class="acf-btn acf-btn-clear acf-fc-collapse-all">' . esc_html__('Collapse All', 'acf') . '</button>';
+            $buttons['separator'] = '<span class="acf-separator"></span>';
+        }
+        
+        // button add
+        $button_add = array(
+            'href'         => '#',
+            'class'        => 'acf-button button',
+            'data-name'    => 'add-layout',
+            'data-context' => "{$position}-actions",
+        );
+        
+        // filter (with variations)
+        $button_add = apply_filters('acfe/flexible/action_button', $button_add, $field, $position);
+        
+        // button add
+        $buttons['add'] = '<a ' . acf_esc_atts($button_add) . '>' . acf_esc_html($field['button_label']) . '</a>';
+        
+        // filter (with variations)
+        $buttons = apply_filters('acfe/flexible/action_buttons', $buttons, $field, $position);
+        
+        return $buttons;
+        
+    }
+    
+    
+    /**
+     * get_layout_handle_elements
+     *
+     * @param $layout
+     * @param $field
+     * @param $i
+     * @param $value
+     * @param $prefix
+     *
+     * @return mixed|null
+     */
+    function get_layout_handle_elements($layout, $field, $i, $value, $prefix){
+        
+        // filter (with variations)
+        $attrs = array('class' => 'acf-fc-layout-title');
+        $attrs = apply_filters('acf/fields/flexible_content/layout_attrs', $attrs, $field, $layout, $i);
+        
+        // vars
+        $title = $this->get_layout_title($field, $layout, $i, $value);
+        $order = is_numeric($i) ? $i + 1 : 0;
+        $order = (int) $order;
+        $renamed = $this->get_layout_renamed($field, $i);
+        
+        // handle elements
+        $elements = array(
+            'order'          => '<span class="acf-fc-layout-order">' . $order . '</span>',
+            'drag'           => '<span class="acf-fc-layout-draggable-icon"></span>',
+            'title'          => '<span ' . acf_esc_atts($attrs) . '>' . (!empty($renamed) ? esc_html($renamed) : $title) . '</span>',
+            'original_title' => '<span class="acf-fc-layout-original-title">(' . $title . ')</span>',
+            'disabled'       => '<span class="acf-layout-disabled">' . esc_html__('Disabled', 'acf') . '</span>',
+        );
+        
+        // filters
+        $elements = apply_filters('acfe/flexible/layouts/handle_elements', $elements, $layout, $field, $i, $value, $prefix);
+        
+        // return
+        return $elements;
+        
+    }
+    
+    
+    /**
+     * get_layout_controls_buttons
+     *
+     * @param $field
+     * @param $layout
+     *
+     * @return mixed|null
+     */
+    function get_layout_controls_buttons($field, $layout){
+        
+        // default icons
+        $icons = array(
+            'add'       => '<a class="acf-js-tooltip" href="#" data-name="add-layout" data-context="layout" title="' . esc_attr__('Add layout','acf') . '"><span class="acf-icon -plus-alt "></span></a>',
+            'duplicate' => '<a class="acf-js-tooltip" href="#" data-name="duplicate-layout" title="' . esc_attr__('Duplicate','acf') . '"><span class="acf-icon -duplicate-alt"></span></a>',
+            'delete'    => '<a class="acf-js-tooltip" href="#" data-name="remove-layout" title="' . esc_attr__('Delete','acf') . '"><span class="acf-icon -trash-alt"></span></a>',
+            'more'      => '<a class="acf-js-tooltip" aria-haspopup="menu" href="#" data-name="more-layout-actions" title="' . esc_attr__('More layout actions...','acf') . '"><span class="acf-icon -more-actions"></span></a>',
+            'collapse'  => '<div class="acf-layout-collapse"><a class="acf-icon -collapse -clear" href="#" data-name="collapse-layout" aria-label="' . esc_attr__('Toggle layout','acf') . '"></a></div>'
+        );
+        
+        // filters (with variations)
+        $icons = apply_filters('acfe/flexible/layouts/icons', $icons, $layout, $field);
+        
+        // return
+        return $icons;
         
     }
     
@@ -619,14 +934,12 @@ class acfe_field_flexible_content extends acfe_field_extend{
         
         // load field
         $field = acf_get_field($options['field_key']);
-        
         if(!$field){
             die();
         }
         
         // vars
         $layout = $this->instance->get_layout($options['layout'], $field);
-        
         if(!$layout){
             die();
         }
@@ -658,184 +971,88 @@ class acfe_field_flexible_content extends acfe_field_extend{
         $rows[ $i ] = $value;
         
         // add loop
-        acf_add_loop(
-            array(
-                'selector' => $field['name'],
-                'name'     => $field['name'],
-                'value'    => $rows,
-                'field'    => $field,
-                'i'        => $i,
-                'post_id'  => 0,
-            )
-        );
+        acf_add_loop(array(
+            'selector' => $field['name'],
+            'name'     => $field['name'],
+            'value'    => $rows,
+            'field'    => $field,
+            'i'        => $i,
+            'post_id'  => 0,
+        ));
         
         // vars
-        $_title = $layout['label'];
         $title = $layout['label'];
+        $name = $field['_name'];
+        $key = $layout['key'];
         
-        // filters
-        $title = apply_filters("acf/fields/flexible_content/layout_title",                        $title, $field, $layout, $i);
-        $title = apply_filters("acf/fields/flexible_content/layout_title/name={$field['_name']}", $title, $field, $layout, $i);
-        $title = apply_filters("acf/fields/flexible_content/layout_title/key={$field['key']}",    $title, $field, $layout, $i);
-    
-        if(in_array('title', $field['acfe_flexible_add_actions'])){
-    
-            // Get Layout Title
-            $value = get_sub_field('acfe_flexible_layout_title');
-        
-            if(!empty($value)){
-                $title = wp_unslash($value);
-            }
-        
-            $title = '<span class="acfe-layout-title-text">' . $title . '</span>';
-            
-        }
-        
-        $attrs = array(
-            'class' => 'acfe-layout-title'
-        );
-    
-        $attrs = apply_filters("acf/fields/flexible_content/layout_attrs",                        $attrs, $field, $layout, $i);
-        $attrs = apply_filters("acf/fields/flexible_content/layout_attrs/name={$field['_name']}", $attrs, $field, $layout, $i);
-        $attrs = apply_filters("acf/fields/flexible_content/layout_attrs/key={$field['key']}",    $attrs, $field, $layout, $i);
+        // filters (default ACF filters)
+        $title = apply_filters("acf/fields/flexible_content/layout_title",              $title, $field, $layout, $i);
+        $title = apply_filters("acf/fields/flexible_content/layout_title/name={$name}", $title, $field, $layout, $i);
+        $title = apply_filters("acf/fields/flexible_content/layout_title/key={$key}",   $title, $field, $layout, $i);
         
         // remove loop
         acf_remove_loop();
         
-        // prepend order
-        $order = is_numeric($i) ? $i + 1 : 0;
-        $title = '<span class="acf-fc-layout-order">' . $order . '</span> <span ' . acf_esc_atts($attrs). '>' . acf_esc_html($title) . '</span>';
-        
         // return
-        return $title;
+        return acf_esc_html($title);
         
     }
     
     
     /**
-     * render_layout_fields
+     * get_layout_disabled
      *
-     * @param $layout
+     * Proxy function for ACF 6.5 disable layout feature
+     *
      * @param $field
      * @param $i
-     * @param $value
-     * @param $prefix
+     *
+     * @return bool
      */
-    function render_layout_fields($layout, $field, $i, $value, $prefix){
+    function get_layout_disabled($field, $i){
         
-        // vars
-        $sub_fields = $layout['sub_fields'];
-        $el = $layout['display'] === 'table' ? 'td' : 'div';
+        // default (all acf versions)
+        $disabled_layouts = array();
         
-        if(empty($sub_fields)){
-            return;
+        // ACF 6.5+
+        if(acfe_is_acf_65()){
+            $disabled_layouts = $this->instance->get_disabled_layouts($this->instance->post_id, $field);
         }
         
-        if($layout['display'] == 'table'): ?>
-            <table class="acf-table">
-            <thead>
-                <tr>
-                    <?php foreach($sub_fields as $sub_field):
-                        
-                        // prepare field (allow sub fields to be removed)
-                        $sub_field = acf_prepare_field($sub_field);
-                    
-                        // bail ealry if no field
-                        if(!$sub_field)
-                            continue;
-                        
-                        // vars
-                        $atts = array();
-                        $atts['class'] = 'acf-th';
-                        $atts['data-name'] = $sub_field['_name'];
-                        $atts['data-type'] = $sub_field['type'];
-                        $atts['data-key'] = $sub_field['key'];
-                        
-                        // Add custom width
-                        if($sub_field['wrapper']['width']){
-                            
-                            $atts['data-width'] = $sub_field['wrapper']['width'];
-                            $atts['style'] = 'width: ' . $sub_field['wrapper']['width'] . '%;';
-                            
-                        }
-                        
-                        ?>
-                        <th <?php echo acf_esc_atts($atts); ?>>
-                            <?php echo acf_get_field_label($sub_field); ?>
-                            <?php if($sub_field['instructions']): ?>
-                                <p class="description"><?php echo $sub_field['instructions']; ?></p>
-                            <?php endif; ?>
-                        </th>
-                    
-                    <?php endforeach; ?>
-                </tr>
-            </thead>
-    
-            <tbody>
-            <tr class="acf-row">
-        <?php else: ?>
-            <div class="acf-fields <?php if($layout['display'] == 'row'): ?>-left<?php endif; ?>">
-        <?php endif; ?>
+        // get disabled
+        $disabled = in_array($i, $disabled_layouts, true);
+        $disabled = apply_filters('acfe/flexible/layout_disabled', $disabled, $field, $i); // (with variations)
         
-        <?php
-        
-        // loop though sub fields
-        foreach($sub_fields as $sub_field){
-            
-            // add value
-            if(isset($value[$sub_field['key']])){
-                
-                $sub_field['value'] = $value[$sub_field['key']];
-                
-            }elseif(isset($sub_field['default_value'])){
-                
-                $sub_field['value'] = $sub_field['default_value'];
-                
-            }
-            
-            // update prefix to allow for nested values
-            $sub_field['prefix'] = $prefix;
-            
-            // render input
-            acf_render_field_wrap($sub_field, $el);
-            
-        }
-        
-        ?>
-        
-        <?php if($layout['display'] == 'table'): ?>
-            </tr>
-            </tbody>
-            </table>
-    
-            <?php if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'] && in_array('close', $field['acfe_flexible_add_actions'])){ ?>
-                <div class="acfe-flexible-opened-actions"><a href="javascript:void(0);" class="button"><?php _e('Close', 'acf'); ?></button></a></div>
-            <?php } ?>
-        
-        <?php else: ?>
-    
-            <?php if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'] && in_array('close', $field['acfe_flexible_add_actions'])){ ?>
-                <div class="acfe-flexible-opened-actions"><a href="javascript:void(0);" class="button"><?php _e('Close', 'acf'); ?></button></a></div>
-            <?php } ?>
-        
-            </div>
-        <?php endif;
+        return $disabled;
         
     }
     
     
     /**
-     * prepare_layout_editor
+     * get_layout_renamed
+     *
+     * Proxy function for ACF 6.5 rename layout feature
      *
      * @param $field
+     * @param $i
      *
-     * @return mixed
+     * @return mixed|string
      */
-    function prepare_layout_editor($field){
+    function get_layout_renamed($field, $i){
         
-        $field['delay'] = 1;
-        $field['acfe_wysiwyg_auto_init'] = 1;
-        return $field;
+        // default (all acf versions)
+        $renamed_layouts = array();
+        
+        // ACF 6.5+
+        if(acfe_is_acf_65()){
+            $renamed_layouts  = $this->instance->get_renamed_layouts($this->instance->post_id, $field);
+        }
+        
+        // get renamed
+        $renamed = !empty($renamed_layouts[ $i ]) ? $renamed_layouts[ $i ] : '';
+        $renamed = apply_filters('acfe/flexible/layout_renamed', $renamed, $field, $i); // (with variations)
+        
+        return $renamed;
         
     }
     
@@ -850,10 +1067,17 @@ class acfe_field_flexible_content extends acfe_field_extend{
         if(isset($field['acfe_flexible_modal']['acfe_flexible_modal_title'])){
             $field['acfe_flexible_modal']['acfe_flexible_modal_title'] = acf_translate($field['acfe_flexible_modal']['acfe_flexible_modal_title']);
         }
+        
+        if(isset($field['acfe_flexible_close_button_label'])){
+            $field['acfe_flexible_close_button_label'] = acf_translate($field['acfe_flexible_close_button_label']);
+        }
+        
+        if(isset($field['acfe_flexible_modal_settings']['acfe_flexible_modal_settings_close_label'])){
+            $field['acfe_flexible_modal_settings']['acfe_flexible_modal_settings_close_label'] = acf_translate($field['acfe_flexible_modal_settings']['acfe_flexible_modal_settings_close_label']);
+        }
     
         // loop
         if(!empty($field['layouts'])){
-        
             foreach($field['layouts'] as &$layout){
             
                 if(isset($layout['acfe_flexible_category'])){
@@ -861,7 +1085,6 @@ class acfe_field_flexible_content extends acfe_field_extend{
                 }
             
             }
-            
         }
     
         // return
@@ -877,12 +1100,18 @@ endif;
 
 // includes
 acfe_include('includes/fields/field-flexible-content-actions.php');
+acfe_include('includes/fields/field-flexible-content-actions-title.php');
+acfe_include('includes/fields/field-flexible-content-actions-toggle.php');
 acfe_include('includes/fields/field-flexible-content-async.php');
 acfe_include('includes/fields/field-flexible-content-controls.php');
-acfe_include('includes/fields/field-flexible-content-edit.php');
+acfe_include('includes/fields/field-flexible-content-compatibility.php');
 acfe_include('includes/fields/field-flexible-content-hide.php');
+acfe_include('includes/fields/field-flexible-content-hooks.php');
+acfe_include('includes/fields/field-flexible-content-popup.php');
 acfe_include('includes/fields/field-flexible-content-preview.php');
-acfe_include('includes/fields/field-flexible-content-select.php');
-acfe_include('includes/fields/field-flexible-content-settings.php');
+acfe_include('includes/fields/field-flexible-content-modal-edit.php');
+acfe_include('includes/fields/field-flexible-content-modal-select.php');
+acfe_include('includes/fields/field-flexible-content-modal-settings.php');
 acfe_include('includes/fields/field-flexible-content-state.php');
 acfe_include('includes/fields/field-flexible-content-thumbnail.php');
+acfe_include('includes/fields/field-flexible-content-wysiwyg.php');

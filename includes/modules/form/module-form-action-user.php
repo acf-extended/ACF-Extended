@@ -17,6 +17,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         
         $this->name = 'user';
         $this->title = __('User action', 'acfe');
+        $this->title_alt = __('User', 'acfe');
         
         $this->item = array(
             'action' => 'user',

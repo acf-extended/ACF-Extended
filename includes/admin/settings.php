@@ -436,7 +436,35 @@ class acfe_admin_settings{
                     'label'         => 'UI Enhancements',
                     'name'          => 'acfe/modules/ui',
                     'type'          => 'true_false',
-                    'description'   => 'Show/hide the UI enhancements module. Defaults to true',
+                    'description'   => 'Show/hide All UI enhancements module. Defaults to true',
+                    'category'      => 'modules',
+                ),
+                array(
+                    'label'         => 'UI Enhancements: Attachment',
+                    'name'          => 'acfe/modules/attachment_ui',
+                    'type'          => 'true_false',
+                    'description'   => 'Show/hide the Attachment UI enhancements module. Defaults to true',
+                    'category'      => 'modules',
+                ),
+                array(
+                    'label'         => 'UI Enhancements: Settings',
+                    'name'          => 'acfe/modules/settings_ui',
+                    'type'          => 'true_false',
+                    'description'   => 'Show/hide the WP Settings UI enhancements module. Defaults to true',
+                    'category'      => 'modules',
+                ),
+                array(
+                    'label'         => 'UI Enhancements: Term',
+                    'name'          => 'acfe/modules/term_ui',
+                    'type'          => 'true_false',
+                    'description'   => 'Show/hide the Term UI enhancements module. Defaults to true',
+                    'category'      => 'modules',
+                ),
+                array(
+                    'label'         => 'UI Enhancements: User',
+                    'name'          => 'acfe/modules/user_ui',
+                    'type'          => 'true_false',
+                    'description'   => 'Show/hide the User UI enhancements module. Defaults to true',
                     'category'      => 'modules',
                 ),
         
@@ -797,7 +825,7 @@ class acfe_admin_settings_ui{
 
                     <div class="acf-field">
                         <div class="acf-label">
-                            <span class="acfe-field-tooltip acf-js-tooltip dashicons <?php echo $icon; ?>" title="<?php echo $field['name']; ?>"></span>
+                            <span class="acfe-field-tooltip acfe-js-tooltip dashicons <?php echo $icon; ?>" title="<?php echo $field['name']; ?>"></span>
                             <label><?php echo $field['label']; ?></label>
                             <?php if($field['description']){ ?>
                                 <p class="description"><?php echo $field['description']; ?></p>
