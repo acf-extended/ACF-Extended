@@ -515,6 +515,13 @@ class acfe_admin_settings{
                     'description'   => 'Show/hide reCaptcha v3 logo',
                     'category'      => 'fields',
                 ),
+                array(
+                    'label'         => 'Compatibility: Title/Toggle',
+                    'name'          => 'acfe/compatibility/legacy_title_toggle',
+                    'type'          => 'true_false',
+                    'description'   => 'Enforce legacy Flexible Content Title/Toggle settings migration',
+                    'category'      => 'fields',
+                ),
         
             ),
     

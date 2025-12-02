@@ -983,7 +983,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
         // vars
         $title = $layout['label'];
         $name = $field['_name'];
-        $key = $layout['key'];
+        $key = $field['key'];
         
         // filters (default ACF filters)
         $title = apply_filters("acf/fields/flexible_content/layout_title",              $title, $field, $layout, $i);

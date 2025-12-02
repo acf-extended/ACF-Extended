@@ -52,6 +52,15 @@ function acfe_is_acf_622(){
 }
 
 /**
+ * acfe_is_acf_64
+ *
+ * @return bool
+ */
+function acfe_is_acf_64(){
+    return acf_version_compare(acf_get_setting('version'),  '>=', '6.4');
+}
+
+/**
  * acfe_is_acf_65
  *
  * @return bool

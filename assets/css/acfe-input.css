@@ -868,15 +868,15 @@ body.-loading * {
     background: 0 0
 }
 
-.acf-flexible-content .layout.active-layout .acf-fc-layout-actions-wrap .acf-fc-layout-controls .-copy,
-.acf-flexible-content .layout.active-layout .acf-fc-layout-actions-wrap .acf-fc-layout-controls .-settings {
+.acf-flexible-content .layout.active-layout>.acf-fc-layout-actions-wrap>.acf-fc-layout-controls .-copy,
+.acf-flexible-content .layout.active-layout>.acf-fc-layout-actions-wrap>.acf-fc-layout-controls .-settings {
     background: #fff
 }
 
-.acf-flexible-content .layout.-hover .acf-fc-layout-actions-wrap .acf-fc-layout-controls .-copy,
-.acf-flexible-content .layout.-hover .acf-fc-layout-actions-wrap .acf-fc-layout-controls .-settings,
-.acf-flexible-content .layout:hover .acf-fc-layout-actions-wrap .acf-fc-layout-controls .-copy,
-.acf-flexible-content .layout:hover .acf-fc-layout-actions-wrap .acf-fc-layout-controls .-settings {
+.acf-flexible-content .layout.-hover>.acf-fc-layout-actions-wrap>.acf-fc-layout-controls .-copy,
+.acf-flexible-content .layout.-hover>.acf-fc-layout-actions-wrap>.acf-fc-layout-controls .-settings,
+.acf-flexible-content .layout:hover>.acf-fc-layout-actions-wrap>.acf-fc-layout-controls .-copy,
+.acf-flexible-content .layout:hover>.acf-fc-layout-actions-wrap>.acf-fc-layout-controls .-settings {
     visibility: visible
 }
 
@@ -1047,6 +1047,12 @@ body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-ta
 
 .acf-fc-top-actions .button[data-name=acfe-secondary-actions] {
     margin-left: -17px
+}
+
+@container flexible-content (max-width:400px) {
+    .acf-fc-top-actions .button[data-name=acfe-secondary-actions] {
+        margin-left: 0
+    }
 }
 
 .acf-flexible-content .layout>.acf-fc-layout-actions-wrap>.acf-fc-layout-controls>.acf-layout-collapse>.acf-icon[data-action=acfe-flexible-modal-edit] {
@@ -1319,11 +1325,11 @@ body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-ta
     border-bottom-color: #e1e1e1
 }
 
-#acf-popup .bg {
+body:not(.post-type-acf-field-group) #acf-popup .bg {
     background: rgba(0, 0, 0, .7)
 }
 
-#acf-popup .acf-popup-box {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box {
     border-radius: 3px;
     overflow: hidden;
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .7);
@@ -1332,7 +1338,7 @@ body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-ta
     min-height: 130px
 }
 
-#acf-popup .acf-popup-box .title {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title {
     display: block;
     height: 50px;
     line-height: 50px;
@@ -1347,14 +1353,14 @@ body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-ta
     text-align: left
 }
 
-#acf-popup .acf-popup-box .title h3 {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title h3 {
     display: inline;
     font-size: inherit;
     line-height: inherit;
     color: inherit
 }
 
-#acf-popup .acf-popup-box .title a[data-event=close] {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close] {
     float: right;
     height: 50px;
     width: 50px;
@@ -1368,51 +1374,51 @@ body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-ta
     text-align: center
 }
 
-#acf-popup .acf-popup-box .title a[data-event=close]::before {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close]::before {
     height: 50px;
     width: 50px;
     font: normal 20px/50px dashicons;
     content: "\f158"
 }
 
-#acf-popup .acf-popup-box .title a[data-event=close]:hover {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close]:hover {
     color: #00a0d2
 }
 
-#acf-popup .acf-popup-box .title a[data-event=close]:focus {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close]:focus {
     border-radius: 0;
     -webkit-box-shadow: none;
     box-shadow: none
 }
 
-#acf-popup .acf-popup-box .title a[data-event=close] .acf-icon.-close {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close] .acf-icon.-close {
     display: none
 }
 
-#acf-popup .acf-popup-box .inner {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner {
     margin: 0;
     padding: 0
 }
 
-#acf-popup .acf-popup-box .inner>p {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner>p {
     margin: 15px
 }
 
-#acf-popup .acf-popup-box .inner .acf-field {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner .acf-field {
     padding: 15px;
     margin: 0
 }
 
-#acf-popup .acf-popup-box .inner .acf-field .acf-label {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner .acf-field .acf-label {
     text-transform: unset;
     font-size: 13px
 }
 
-#acf-popup .acf-popup-box .inner .acf-field input[type=text] {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner .acf-field input[type=text] {
     border-radius: 4px
 }
 
-#acf-popup .acf-popup-box .inner .acf-actions {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner .acf-actions {
     color: #23282d;
     background: #fcfcfc;
     padding: 10px 16px;
@@ -1421,25 +1427,25 @@ body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-ta
     pointer-events: auto
 }
 
-#acf-popup .acf-popup-box.acf-confirm-popup .inner .acf-actions .acf-btn {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup .inner .acf-actions .acf-btn {
     line-height: 1.2;
     min-height: 32px;
     padding: 6px 12px
 }
 
-#acf-popup .acf-popup-box.acf-confirm-popup .inner .acf-actions .acf-btn.acf-btn-primary {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup .inner .acf-actions .acf-btn.acf-btn-primary {
     background-color: #b32d2e !important
 }
 
-#acf-popup .acf-popup-box.acf-confirm-popup .inner .acf-actions .acf-btn.acf-btn-primary:hover {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup .inner .acf-actions .acf-btn.acf-btn-primary:hover {
     background-color: #a02829 !important
 }
 
-#acf-popup .acf-popup-box.acf-confirm-popup.acf-rename-layout-popup .inner .acf-actions .acf-btn.acf-btn-primary {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup.acf-rename-layout-popup .inner .acf-actions .acf-btn.acf-btn-primary {
     background-color: #2271b1 !important
 }
 
-#acf-popup .acf-popup-box.acf-confirm-popup.acf-rename-layout-popup .inner .acf-actions .acf-btn.acf-btn-primary:hover {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup.acf-rename-layout-popup .inner .acf-actions .acf-btn.acf-btn-primary:hover {
     background-color: #135e96 !important
 }
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.9.2
+ * Version:     0.9.2.1
  * Author:      ACF Extended
  * Plugin URI:  https://www.acf-extended.com
  * Author URI:  https://www.acf-extended.com
@@ -19,7 +19,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // vars
-    var $version = '0.9.2';
+    var $version = '0.9.2.1';
     
     /**
      * construct
@@ -91,52 +91,53 @@ class ACFE{
         $this->settings(array(
             
             // general
-            'url'                           => plugin_dir_url(__FILE__),
-            'theme_path'                    => $theme_path,
-            'theme_url'                     => $theme_url,
-            'theme_folder'                  => parse_url($theme_url, PHP_URL_PATH),
-            'reserved_post_types'           => array('acf-field', 'acf-field-group'),
-            'reserved_taxonomies'           => array('acf-field-group-category'),
-            'reserved_field_groups'         => array(),
+            'url'                               => plugin_dir_url(__FILE__),
+            'theme_path'                        => $theme_path,
+            'theme_url'                         => $theme_url,
+            'theme_folder'                      => parse_url($theme_url, PHP_URL_PATH),
+            'reserved_post_types'               => array('acf-field', 'acf-field-group'),
+            'reserved_taxonomies'               => array('acf-field-group-category'),
+            'reserved_field_groups'             => array(),
             
             // php
-            'php'                           => true,
-            'php_save'                      => "{$theme_path}/acfe-php",
-            'php_load'                      => array("{$theme_path}/acfe-php"),
-            'php_found'                     => false,
+            'php'                               => true,
+            'php_save'                          => "{$theme_path}/acfe-php",
+            'php_load'                          => array("{$theme_path}/acfe-php"),
+            'php_found'                         => false,
             
             // json
-            'json'                          => acf_get_setting('json'),
-            'json_save'                     => acf_get_setting('save_json'),
-            'json_load'                     => acf_get_setting('load_json'),
-            'json_found'                    => false,
+            'json'                              => acf_get_setting('json'),
+            'json_save'                         => acf_get_setting('save_json'),
+            'json_load'                         => acf_get_setting('load_json'),
+            'json_found'                        => false,
             
             // modules
-            'dev'                           => false,
-            'modules/author'                => true,
-            'modules/categories'            => true,
-            'modules/block_types'           => true,
-            'modules/forms'                 => true,
-            'modules/forms/top_level'       => false,
-            'modules/options_pages'         => true,
-            'modules/post_types'            => true,
-            'modules/taxonomies'            => true,
-            'modules/multilang'             => true,
-            'modules/options'               => true,
-            'modules/performance'           => false,
-            'modules/ui'                    => true,
-            'modules/attachment_ui'         => true,
-            'modules/settings_ui'           => true,
-            'modules/term_ui'               => true,
-            'modules/user_ui'               => true,
+            'dev'                               => false,
+            'modules/author'                    => true,
+            'modules/categories'                => true,
+            'modules/block_types'               => true,
+            'modules/forms'                     => true,
+            'modules/forms/top_level'           => false,
+            'modules/options_pages'             => true,
+            'modules/post_types'                => true,
+            'modules/taxonomies'                => true,
+            'modules/multilang'                 => true,
+            'modules/options'                   => true,
+            'modules/performance'               => false,
+            'modules/ui'                        => true,
+            'modules/attachment_ui'             => true,
+            'modules/settings_ui'               => true,
+            'modules/term_ui'                   => true,
+            'modules/user_ui'                   => true,
             
             // fields
-            'field/recaptcha/site_key'      => '',
-            'field/recaptcha/secret_key'    => '',
-            'field/recaptcha/version'       => '',
-            'field/recaptcha/v2/theme'      => '',
-            'field/recaptcha/v2/size'       => '',
-            'field/recaptcha/v3/hide_logo'  => '',
+            'field/recaptcha/site_key'          => '',
+            'field/recaptcha/secret_key'        => '',
+            'field/recaptcha/version'           => '',
+            'field/recaptcha/v2/theme'          => '',
+            'field/recaptcha/v2/size'           => '',
+            'field/recaptcha/v3/hide_logo'      => '',
+            'compatibility/legacy_title_toggle' => false,
             
         ));
     
@@ -152,6 +153,7 @@ class ACFE{
         
         // compatibility
         acfe_include('includes/compatibility-acf-6.0.php');
+        acfe_include('includes/compatibility-acf-6.4.php');
         acfe_include('includes/compatibility-acf-6.5.php');
         
         // admin

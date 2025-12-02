@@ -556,6 +556,28 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.2.1
+
+**ACF Extended Pro 0.9.2.1:**
+
+* Field: Flexible Content - Grid System - Fixed Copy/Paste "Secondary Button" in small columns
+* Field: Flexible Content - Grid System - Fixed multi-level Flexible Content icons in small columns
+* Field: Phone Number - Intl Tel Input JS library is now loaded on-demand
+* Field: Phone Number - Added initialization safe guard logic
+
+**ACF Extended Basic 0.9.2.1:**
+
+* Field: Flexible Content - Legacy Title/Toggle settings are now passed on Field Group update
+* Field: Flexible Content - Added `acfe/compatibility/legacy_title_toggle` to enforce migration
+* Field: Flexible Content - Added js action `acfe/fields/flexible_content/click_action_button`
+* Field: Flexible Content - Added js filter `acfe/fields/flexible_content/prevent_action_button`
+* Field: Flexible Content - Fixed `acf/fields/flexible_content/layout_title` `key` variation
+* Field: Flexible Content - Fixed "Copy/Paste" icon visibility in multi-level Flexible Content
+* Module: Performance Ultra - Fixed Post Revisions saving uncompressed meta with ACF 6.4+
+* Module: Form - Fixed Form render in the Flexible Content Dynamic Preview
+* Field Group: Fixed ACF popup box style on the Field Group screen
+* Global: Bump WP version up to 6.9
+
 ### 0.9.2
 
 **Upgrade Notice:**

@@ -13,97 +13,117 @@ class acfe_compatibility_acf_65{
      */
     function __construct(){
         
-        add_filter('acfe/flexible/layout_disabled',          array($this, 'layout_disabled'), 15, 3);
-        add_filter('acfe/flexible/layout_renamed',           array($this, 'layout_renamed'), 15, 3);
+        add_filter('acf/validate_field/type=flexible_content', array($this, 'validate_field'), 20);
+        add_filter('acf/update_field/type=flexible_content',   array($this, 'update_field'), 20);
+        add_filter('acf/load_value/type=flexible_content',     array($this, 'load_value_assign_legacy_value'), 10, 3);
+        add_filter('acf/load_value/type=flexible_content',     array($this, 'load_value_compat_toggle'), 15, 3);
+        add_filter('acf/update_value/type=flexible_content',   array($this, 'update_value_cleanup_legacy'), 15, 3);
         
-        add_filter('acf/load_value/type=flexible_content',   array($this, 'load_value_assign_legacy_value'), 10, 3);
-        add_filter('acf/load_value/type=flexible_content',   array($this, 'load_value_compat_toggle'), 15, 3);
-        add_filter('acf/update_value/type=flexible_content', array($this, 'update_value_cleanup_legacy'), 15, 3);
-        
-    }
-    
-    
-    /**
-     * layout_disabled
-     *
-     * Pre ACF 6.5 back-compatibility
-     * Check if new layout_meta was ever saved
-     * If not, try to get legacy ACFE disabled layout value
-     *
-     * @param $disabled
-     * @param $field
-     * @param $i
-     *
-     * @return bool|mixed
-     */
-    function layout_disabled($disabled, $field, $i){
-        
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $disabled;
-        }
-        
-        // disabled already set
-        if(!empty($disabled)){
-            return $disabled;
-        }
-        
-        // check legacy ACFE setting
-        if(!in_array('toggle', $field['acfe_flexible_add_actions'])){
-            return $disabled;
-        }
-        
-        // get legacy ACFE toggle value
-        // note: $i can be acfcloneindex here
-        if(!empty($field['value'][ $i ]['_acfe_flexible_toggle'])){
-            $disabled = (bool) $field['value'][ $i ]['_acfe_flexible_toggle'];
-            //acf_log('backcompat: load layout disabled', true);
-        }
-        
-        return $disabled;
+        add_filter('acfe/flexible/layout_disabled',            array($this, 'layout_disabled'), 15, 3);
+        add_filter('acfe/flexible/layout_renamed',             array($this, 'layout_renamed'), 15, 3);
         
     }
     
     
     /**
-     * layout_renamed
+     * validate_field
      *
-     * Pre ACF 6.5 back-compatibility
-     * Check if new layout_meta was ever saved
-     * If not, try to get legacy ACFE renamed layout value
-     *
-     * @param $renamed
      * @param $field
-     * @param $i
      *
      * @return mixed
      */
-    function layout_renamed($renamed, $field, $i){
+    function validate_field($field){
         
         // pre-ACF 6.5+: bail early
         if(!acfe_is_acf_65()){
-            return $renamed;
+            return $field;
         }
         
-        // disabled already set
-        if(!empty($renamed)){
-            return $renamed;
+        // check if setting is enabled
+        if(!acfe_get_setting('compatibility/legacy_title_toggle')){
+            return $field;
         }
         
-        // check legacy ACFE setting
-        if(!in_array('title', $field['acfe_flexible_add_actions'])){
-            return $renamed;
+        // get acfe flexible content actions
+        $actions = acf_maybe_get($field, 'acfe_flexible_add_actions');
+        $actions = acf_get_array($actions); // cast as array
+        
+        // enable legacy title + toggle
+        if(!in_array('title', $actions))  $actions[] = 'title';
+        if(!in_array('toggle', $actions)) $actions[] = 'toggle';
+        
+        // assign
+        $field['acfe_flexible_add_actions'] = $actions;
+        
+        // return
+        return $field;
+        
+    }
+    
+    
+    /**
+     * update_field
+     *
+     * This logic ensure to pass the legacy title + toggle settings
+     * when updating an already existing field group with a flexible content which used to have these settings
+     *
+     * @param $field
+     *
+     * @return void
+     */
+    function update_field($field){
+        
+        // pre-ACF 6.5+: bail early
+        if(!acfe_is_acf_65()){
+            return $field;
         }
         
-        // get legacy ACFE title value
-        // note: $i can be acfcloneindex here
-        if(!empty($field['value'][ $i ]['_acfe_flexible_layout_title'])){
-            $renamed = $field['value'][ $i ]['_acfe_flexible_layout_title'];
-            //acf_log('backcompat: load layout renamed', $renamed);
+        // get original field
+        $original_field = acf_get_field($field['key']);
+        if(!$original_field){
+            return $field;
         }
         
-        return $renamed;
+        // get original acfe actions
+        $original_actions = acf_maybe_get($original_field, 'acfe_flexible_add_actions');
+        $original_actions = acf_get_array($original_actions); // cast as array
         
+        // no original actions
+        if(empty($original_actions)){
+            return $field;
+        }
+        
+        // vars
+        $pass_actions = array();
+        
+        // pass legacy title + toggle if they were already set
+        if(in_array('title', $original_actions))  $pass_actions[] = 'title';
+        if(in_array('toggle', $original_actions)) $pass_actions[] = 'toggle';
+        
+        // nothing to pass
+        if(empty($pass_actions)){
+            return $field;
+        }
+        
+        // get new acfe actions
+        $new_actions = acf_maybe_get($field, 'acfe_flexible_add_actions');
+        $new_actions = acf_get_array($new_actions); // cast as array
+        
+        // loop on pass actions (title + toggle)
+        foreach($pass_actions as $pass_action){
+            
+            // check if title/toggle doesn't already exist
+            if(!in_array($pass_action, $new_actions)){
+                $new_actions[] = $pass_action;
+            }
+        }
+        
+        // set new actions
+        $field['acfe_flexible_add_actions'] = $new_actions;
+        
+        // return field
+        return $field;
+    
     }
     
     
@@ -131,7 +151,7 @@ class acfe_compatibility_acf_65{
         }
         
         // check inline title + toggle
-        if(!in_array('title', $field['acfe_flexible_add_actions']) && !in_array('toggle', $field['acfe_flexible_add_actions'])){
+        if(!$this->has_title_action($field) && !$this->has_toggle_action($field)){
             return $value;
         }
         
@@ -139,15 +159,13 @@ class acfe_compatibility_acf_65{
         foreach(array_keys($value) as $i){
             
             // cleanup legacy ACFE title
-            if(in_array('title', $field['acfe_flexible_add_actions'])){
-                //acf_log('backcompat: delete title');
+            if($this->has_title_action($field)){
                 acf_delete_metadata($post_id, "{$field['name']}_{$i}_acfe_flexible_layout_title");
                 acf_delete_metadata($post_id, "_{$field['name']}_{$i}_acfe_flexible_layout_title");
             }
             
             // cleanup legacy ACFE toggle
-            if(in_array('toggle', $field['acfe_flexible_add_actions'])){
-                //acf_log('backcompat: delete toggle');
+            if($this->has_toggle_action($field)){
                 acf_delete_metadata($post_id, "{$field['name']}_{$i}_acfe_flexible_toggle");
                 acf_delete_metadata($post_id, "_{$field['name']}_{$i}_acfe_flexible_toggle");
             }
@@ -191,7 +209,7 @@ class acfe_compatibility_acf_65{
         }
         
         // check inline title + toggle
-        if(!in_array('title', $field['acfe_flexible_add_actions']) && !in_array('toggle', $field['acfe_flexible_add_actions'])){
+        if(!$this->has_title_action($field) && !$this->has_toggle_action($field)){
             return $value;
         }
         
@@ -203,7 +221,7 @@ class acfe_compatibility_acf_65{
             
             // assign legacy ACFE inline title value
             // this later used in get_layout_renamed() to fallback to this value
-            if(in_array('title', $field['acfe_flexible_add_actions'])){
+            if($this->has_title_action($field)){
                 
                 // get layout
                 $layout = $this->get_layout($value[ $i ]['acf_fc_layout'], $field);
@@ -214,7 +232,6 @@ class acfe_compatibility_acf_65{
                 // check legacy ACFE inline title is different from layout label
                 // inline title always saved the title, event when default
                 if($_acfe_flexible_layout_title !== $layout['label']){
-                    //acf_log('backcompat: assign title', $value[ $i ]['acf_fc_layout'], $_acfe_flexible_layout_title);
                     $value[ $i ]['_acfe_flexible_layout_title'] = $_acfe_flexible_layout_title;
                 }
                 
@@ -222,8 +239,7 @@ class acfe_compatibility_acf_65{
             
             // assign legacy ACFE toggle value
             // this later used in get_layout_disabled() to fallback to this value
-            if(in_array('toggle', $field['acfe_flexible_add_actions'])){
-                //acf_log('backcompat: assign toggle', $value[ $i ]['acf_fc_layout'], true);
+            if($this->has_toggle_action($field)){
                 $value[ $i ]['_acfe_flexible_toggle'] = acf_get_metadata($post_id, $field['name'] . '_' . $i . '_acfe_flexible_toggle');
             }
             
@@ -252,6 +268,11 @@ class acfe_compatibility_acf_65{
             return $value;
         }
         
+        // check setting
+        if(!$this->has_toggle_action($field)){
+            return $value;
+        }
+        
         // bail early in admin
         if(is_admin() && !wp_doing_ajax()){
             return $value;
@@ -269,11 +290,6 @@ class acfe_compatibility_acf_65{
         
         // bail early in preview
         if(acf_maybe_get_POST('action') === 'acfe/flexible/layout_preview'){
-            return $value;
-        }
-        
-        // check setting
-        if(!in_array('toggle', $field['acfe_flexible_add_actions'])){
             return $value;
         }
         
@@ -316,6 +332,112 @@ class acfe_compatibility_acf_65{
         // return value
         return $value;
         
+    }
+    
+    
+    /**
+     * layout_disabled
+     *
+     * Pre ACF 6.5 back-compatibility
+     * Check if new layout_meta was ever saved
+     * If not, try to get legacy ACFE disabled layout value
+     *
+     * @param $disabled
+     * @param $field
+     * @param $i
+     *
+     * @return bool|mixed
+     */
+    function layout_disabled($disabled, $field, $i){
+        
+        // pre-ACF 6.5+: bail early
+        if(!acfe_is_acf_65()){
+            return $disabled;
+        }
+        
+        // disabled already set
+        if(!empty($disabled)){
+            return $disabled;
+        }
+        
+        // check legacy ACFE setting
+        if(!$this->has_toggle_action($field)){
+            return $disabled;
+        }
+        
+        // get legacy ACFE toggle value
+        // note: $i can be acfcloneindex here
+        if(!empty($field['value'][ $i ]['_acfe_flexible_toggle'])){
+            $disabled = (bool) $field['value'][ $i ]['_acfe_flexible_toggle'];
+        }
+        
+        return $disabled;
+        
+    }
+    
+    
+    /**
+     * layout_renamed
+     *
+     * Pre ACF 6.5 back-compatibility
+     * Check if new layout_meta was ever saved
+     * If not, try to get legacy ACFE renamed layout value
+     *
+     * @param $renamed
+     * @param $field
+     * @param $i
+     *
+     * @return mixed
+     */
+    function layout_renamed($renamed, $field, $i){
+        
+        // pre-ACF 6.5+: bail early
+        if(!acfe_is_acf_65()){
+            return $renamed;
+        }
+        
+        // disabled already set
+        if(!empty($renamed)){
+            return $renamed;
+        }
+        
+        // check legacy ACFE setting
+        if(!$this->has_title_action($field)){
+            return $renamed;
+        }
+        
+        // get legacy ACFE title value
+        // note: $i can be acfcloneindex here
+        if(!empty($field['value'][ $i ]['_acfe_flexible_layout_title'])){
+            $renamed = $field['value'][ $i ]['_acfe_flexible_layout_title'];
+        }
+        
+        return $renamed;
+        
+    }
+    
+    
+    /**
+     * has_legacy_title
+     *
+     * @param $field
+     *
+     * @return bool
+     */
+    function has_title_action($field){
+        return in_array('title', $field['acfe_flexible_add_actions']);
+    }
+    
+    
+    /**
+     * has_legacy_toggle
+     *
+     * @param $field
+     *
+     * @return bool
+     */
+    function has_toggle_action($field){
+        return in_array('toggle', $field['acfe_flexible_add_actions']);
     }
     
     

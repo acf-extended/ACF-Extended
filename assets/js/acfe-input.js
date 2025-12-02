@@ -3275,12 +3275,86 @@
         // run original
         TooltipConfirmInitialize.apply(this, arguments);
 
+        // only pre-ACF 6.5
         if (!acfe.isACF65()) {
-            // add "-legacy" class
+
             if (this.$el.hasClass('acf-fc-popup')) {
-                this.$el.addClass('-legacy');
+                this.$el.addClass('-legacy'); // add "-legacy" class
             }
         }
+
+    };
+
+
+    /**
+     * Flexible Content: More Layouts Actions
+     *
+     * Adds hooks to let developers handle custom action buttons in the "more layout actions" popup
+     */
+    var TooltipConfirmOnConfirm = acf.models.TooltipConfirm.prototype.onConfirm;
+    acf.models.TooltipConfirm.prototype.onConfirm = function(e, $el) {
+
+        // bail early pre-ACF 6.5
+        if (!acfe.isACF65()) {
+            TooltipConfirmOnConfirm.apply(this, arguments); // run original
+            return;
+        }
+
+        // check we are in "more layout actions" popup
+        if (!this.$el.hasClass('acf-more-layout-actions')) {
+            TooltipConfirmOnConfirm.apply(this, arguments); // run original
+            return;
+        }
+
+        // check the element clicked is data-action="my-copy-layout"
+        if (!$el.is('[data-action]')) {
+            TooltipConfirmOnConfirm.apply(this, arguments); // run original
+            return;
+        }
+
+        // get button (three dots) and the parent .layout
+        var $dots = this.get('target');
+        var $layout = $dots.closest('.layout');
+
+        // get the parent flexible content
+        var $field = $layout.closest('.acf-field');
+
+        // get flexible content instance
+        var field = acf.getInstance($field);
+        if (!field) {
+            TooltipConfirmOnConfirm.apply(this, arguments); // run original
+            return;
+        }
+
+        // vars
+        var key = field.get('key');
+        var name = field.get('name');
+        var layout = $layout.data('layout');
+        var action = $el.data('action');
+
+        // should we prevent default?
+        // this filter allow to prevent default "rename/disable layout" triggers
+        var prevent = false;
+        prevent = acf.applyFilters(`acfe/fields/flexible_content/prevent_action_button`, prevent, $el, action, layout, $layout, field);
+        prevent = acf.applyFilters(`acfe/fields/flexible_content/prevent_action_button/name=${name}`, prevent, $el, action, layout, $layout, field);
+        prevent = acf.applyFilters(`acfe/fields/flexible_content/prevent_action_button/key=${key}`, prevent, $el, action, layout, $layout, field);
+        prevent = acf.applyFilters(`acfe/fields/flexible_content/prevent_action_button/layout=${layout}`, prevent, $el, action, layout, $layout, field);
+        prevent = acf.applyFilters(`acfe/fields/flexible_content/prevent_action_button/action=${action}`, prevent, $el, action, layout, $layout, field);
+        prevent = acf.applyFilters(`acfe/fields/flexible_content/prevent_action_button/name=${name}&layout=${layout}`, prevent, $el, action, layout, $layout, field);
+
+        // not prevented, run original
+        if (!prevent) {
+            TooltipConfirmOnConfirm.apply(this, arguments);
+        }
+
+        // actions
+        acf.doAction(`acfe/fields/flexible_content/click_action_button`, $el, action, layout, $layout, field);
+        acf.doAction(`acfe/fields/flexible_content/click_action_button/name=${name}`, $el, action, layout, $layout, field);
+        acf.doAction(`acfe/fields/flexible_content/click_action_button/key=${key}`, $el, action, layout, $layout, field);
+        acf.doAction(`acfe/fields/flexible_content/click_action_button/layout=${layout}`, $el, action, layout, $layout, field);
+        acf.doAction(`acfe/fields/flexible_content/click_action_button/action=${action}`, $el, action, layout, $layout, field);
+        acf.doAction(`acfe/fields/flexible_content/click_action_button/name=${name}&layout=${layout}`, $el, action, layout, $layout, field);
+        acf.doAction(`acfe/fields/flexible_content/click_action_button/key=${key}&layout=${layout}`, $el, action, layout, $layout, field);
 
     };
 

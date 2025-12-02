@@ -174,6 +174,11 @@ class acfe_module_form_front_render{
         
         }
         
+        // flexible content dynamic preview
+        if(acfe_is_dynamic_preview()){
+            $form['attributes']['form']['element'] = 'div';
+        }
+        
         return $form;
         
     }
@@ -203,13 +208,6 @@ class acfe_module_form_front_render{
         // form id
         if($form['attributes']['form']['id']){
             $atts['id'] = $form['attributes']['form']['id'];
-        }
-        
-        /**
-         * form wrapper open
-         */
-        if(acfe_is_dynamic_preview()){
-            $form['attributes']['form']['element'] = 'div';
         }
         
         $element = $form['attributes']['form']['element'];
