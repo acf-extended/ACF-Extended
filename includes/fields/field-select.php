@@ -128,6 +128,25 @@ class acfe_field_select extends acfe_field_extend{
     
     
     /**
+     * load_field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function load_field($field){
+        
+        // ajax enabled
+        if(!empty($field['ajax'])){
+            $field = acfe_strip_choices_label($field); // strip '## title' grouping for ajax
+        }
+        
+        return $field;
+        
+    }
+    
+    
+    /**
      * prepare_field
      *
      * @param $field
@@ -135,13 +154,9 @@ class acfe_field_select extends acfe_field_extend{
      * @return mixed
      */
     function prepare_field($field){
-        
-        // vars
-        $allow_custom = acf_maybe_get($field, 'allow_custom');
-        $ajax = acf_maybe_get($field, 'ajax');
     
         // allow custom
-        if($allow_custom){
+        if(!empty($field['allow_custom'])){
         
             $value = acf_maybe_get($field, 'value');
             $value = acf_get_array($value);
@@ -158,41 +173,8 @@ class acfe_field_select extends acfe_field_extend{
         }
         
         // group choices using '## title'
-        if(!$ajax && is_array($field['choices'])){
-    
-            $found = false;
-            $choices = array();
-            
-            // loop choices
-            foreach($field['choices'] as $k => $choice){
-        
-                if(is_string($choice)){
-            
-                    $choice = trim($choice);
-            
-                    if(strpos($choice, '##') === 0){
-                
-                        $choice = substr($choice, 2);
-                        $choice = trim($choice);
-                
-                        $found = $choice;
-                        $choices[ $choice ] = array();
-                
-                    }elseif(!empty($found)){
-    
-                        $choices[ $found ][ $k ] = $choice;
-                
-                    }
-            
-                }
-        
-            }
-            
-            // assign found choices
-            if(!empty($choices)){
-                $field['choices'] = $choices;
-            }
-
+        if(empty($field['ajax'])){
+            $field = acfe_decode_choices_label($field);
         }
         
         // return
@@ -223,6 +205,89 @@ class acfe_field_select extends acfe_field_extend{
         
         // return
         return $wrapper;
+        
+    }
+    
+    
+    /**
+     * validate_front_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     * @param $form
+     *
+     * @return false
+     */
+    function validate_front_value($valid, $value, $field, $input, $form){
+        
+        // bail early
+        if(!$this->pre_validate_front_value($valid, $value, $field, $form)){
+            return $valid;
+        }
+        
+        // custom value allowed
+        if(!empty($field['create_options']) || !empty($field['allow_custom'])){
+            return $valid;
+        }
+        
+        // vars
+        $value = acf_get_array($value);
+        $choices = acf_get_array($field['choices']);
+        
+        // handle ajax choices
+        if(!empty($field['ajax'])){
+            
+            if(method_exists($this->instance, 'get_ajax_query')){
+                
+                // perform select ajax query
+                $query = $this->instance->get_ajax_query(array(
+                    'field_key' => $field['key'],
+                    'post_id'   => $form['post_id'],
+                ));
+                
+                // empty query
+                if(empty($query)){
+                    return false;
+                }
+                
+                // get results
+                // expecting array('results' => array( array('id' => '', 'text' => '') ))
+                $results = acf_maybe_get($query, 'results');
+                $results = acf_get_array($results);
+                
+                // no results
+                if(empty($results)){
+                    return false;
+                }
+                
+                // reset choices
+                $choices = array();
+                
+                // loop results and assign choices
+                foreach($results as $result){
+                    if(isset($result['id'], $result['text'])){
+                        $choices[ $result['id'] ] = $result['text'];
+                    }
+                }
+                
+            }
+            
+        }
+        
+        // empty choices
+        if(empty($choices)){
+            return false; // value is always invalid as there no choice is allowed
+        }
+        
+        // check values against choices
+        if(!empty(array_diff($value, array_keys($choices)))){
+            return false;
+        }
+        
+        // return
+        return $valid;
         
     }
     

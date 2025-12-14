@@ -6,7 +6,7 @@ if(!defined('ABSPATH')){
 
 if(!class_exists('acfe_field_user_roles')):
 
-class acfe_field_user_roles extends acf_field{
+class acfe_field_user_roles extends acfe_field{
     
     /**
      * initialize
@@ -30,6 +30,7 @@ class acfe_field_user_roles extends acf_field{
             'layout'                => '',
             'toggle'                => 0,
             'allow_custom'          => 0,
+            'other_choice'          => 0,
         );
         
     }
@@ -418,6 +419,48 @@ class acfe_field_user_roles extends acf_field{
         }
         
         return $field;
+        
+    }
+    
+    
+    /**
+     * validate_front_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     * @param $form
+     *
+     * @return false
+     */
+    function validate_front_value($valid, $value, $field, $input, $form){
+        
+        // bail early
+        if(!$this->pre_validate_front_value($valid, $value, $field, $form)){
+            return $valid;
+        }
+        
+        // custom value allowed
+        if(!empty($field['allow_custom']) || !empty($field['other_choice'])){
+            return $valid;
+        }
+        
+        $value = acf_get_array($value);
+        $choices = acf_get_array($field['user_role']);
+        
+        // empty choices
+        if(empty($choices)){
+            return $valid;
+        }
+        
+        // check values against choices
+        if(!empty(array_diff($value, $choices))){
+            return false;
+        }
+        
+        // return
+        return $valid;
         
     }
     

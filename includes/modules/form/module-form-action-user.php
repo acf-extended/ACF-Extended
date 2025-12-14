@@ -330,14 +330,10 @@ class acfe_module_form_action_user extends acfe_module_form_action{
      */
     function validate_action($form, $action){
         
-        // check built-in validation
-        if(empty($action['validation'])){
-            return false;
-        }
-        
         // errors
         $errors = array(
-            'empty_user_pass'           => __('An error has occured. Please try again', 'acfe'),
+            'generic'                   => __('An error has occured. Please try again', 'acfe'),
+            'empty_user_pass'           => __('Invalid username or password', 'acfe'),
             'invalid_email'             => __('Invalid e-mail', 'acfe'),
             'invalid_email_password'    => __('Invalid e-mail or password', 'acfe'),
             'invalid_username'          => __('Invalid username', 'acfe'),
@@ -354,6 +350,36 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         
         // apply tags
         $action = $this->setup_action($action, $form);
+        
+        // security measure
+        // check 'promote_users' capability for insert/update administrator role
+        if($action['type'] === 'insert_user' || $action['type'] === 'update_user'){
+            
+            // get role as array
+            $role = acf_get_array($action['save']['role']);
+            
+            // check capability
+            if((in_array('administrator', $role, true) || in_array('super_admin', $role, true)) && !current_user_can('promote_users')){
+                
+                // filters
+                $validate = true;
+                $validate = apply_filters("acfe/form/validate_user_admin_role",                          $validate, $form, $action);
+                $validate = apply_filters("acfe/form/validate_user_admin_role/form={$form['name']}",     $validate, $form, $action);
+                $validate = apply_filters("acfe/form/validate_user_admin_role/action={$action['name']}", $validate, $form, $action);
+                
+                // should validate
+                if($validate){
+                    return acfe_add_validation_error('', $errors['generic']);
+                }
+                
+            }
+            
+        }
+        
+        // check built-in validation
+        if(empty($action['validation'])){
+            return false;
+        }
     
         // switch type
         switch($action['type']){
@@ -1234,7 +1260,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                 'label' => __('Validation', 'acfe'),
                 'name' => 'validation',
                 'type' => 'true_false',
-                'instructions' => __('(Optional) Automatically validate fields', 'acfe'),
+                'instructions' => __('(Optional) Validate username and email fields.', 'acfe'),
                 'required' => 0,
                 'wrapper' => array(
                     'width' => '',
@@ -1243,7 +1269,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                     'data-instruction-placement' => 'field'
                 ),
                 'message' => __('Built-in validation', 'acfe'),
-                'default_value' => 0,
+                'default_value' => 1,
                 'ui' => false,
                 'ui_on_text' => '',
                 'ui_off_text' => '',

@@ -6,7 +6,7 @@ if(!defined('ABSPATH')){
 
 if(!class_exists('acfe_field_taxonomies')):
 
-class acfe_field_taxonomies extends acf_field{
+class acfe_field_taxonomies extends acfe_field{
     
     /**
      * initialize
@@ -480,6 +480,48 @@ class acfe_field_taxonomies extends acf_field{
     
         // return
         return $value;
+        
+    }
+    
+    
+    /**
+     * validate_front_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     * @param $form
+     *
+     * @return false
+     */
+    function validate_front_value($valid, $value, $field, $input, $form){
+        
+        // bail early
+        if(!$this->pre_validate_front_value($valid, $value, $field, $form)){
+            return $valid;
+        }
+        
+        // custom value allowed
+        if(!empty($field['allow_custom']) || !empty($field['other_choice'])){
+            return $valid;
+        }
+        
+        $value = acf_get_array($value);
+        $choices = acf_get_array($field['taxonomy']);
+        
+        // empty choices
+        if(empty($choices)){
+            return $valid;
+        }
+        
+        // check values against choices
+        if(!empty(array_diff($value, $choices))){
+            return false;
+        }
+        
+        // return
+        return $valid;
         
     }
     

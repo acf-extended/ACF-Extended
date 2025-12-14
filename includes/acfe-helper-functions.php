@@ -1361,3 +1361,36 @@ function acfe_str_replace_first($search, $replace, $subject, $delete = false){
     return $subject;
     
 }
+
+
+/**
+ * acfe_get_array_flatten
+ *
+ * @param $array
+ * @param $flattened
+ *
+ * @return array|mixed
+ */
+function acfe_get_array_flatten($array = array(), $flattened = array()){
+    
+    // bail early if no array
+    if(empty($array) || !is_array($array)){
+        return $flattened;
+    }
+    
+    // loop choices
+    foreach($array as $key => $value){
+        
+        // value must be an array
+        if(is_array($value)){
+            $flattened = acfe_get_array_flatten($value, $flattened);
+        }else{
+            $flattened[ $key ] = $value;
+        }
+        
+    }
+    
+    // return
+    return $flattened;
+    
+}

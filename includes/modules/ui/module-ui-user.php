@@ -137,7 +137,17 @@ class acfe_enhanced_ui_user extends acfe_enhanced_ui{
         $screen = 'user'; // new
         
         if($args['view'] == 'edit'){
+            
+            // define screen for metabox
             $screen = IS_PROFILE_PAGE ? 'profile' : 'user-edit';
+            
+            // if the screen is profile but we are on user-edit.php
+            // we need to set screen to user-edit
+            global $pagenow;
+            if($screen == 'profile' && $pagenow == 'user-edit.php'){
+                $screen = 'user-edit';
+            }
+            
         }
         
         // post id

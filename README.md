@@ -556,6 +556,23 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.2.2
+
+**ACF Extended Pro 0.9.2.2:**
+
+* Field: Fields - Added "Group by field group" setting
+* Field: Field Types - Added "Group by category" setting
+* Fields: Fixed missing "Add choice" button when using "Display: Checkbox" and "Allow Custom"
+
+**ACF Extended Basic 0.9.2.2:**
+
+* Module: Forms - Enforced front-end fields validation against their respective "Choices" settings
+* Module: Forms - Added security measure for forms allowing user role selection
+* Module: Forms - Added `acfe/form/validate_value` hook to validate fields individually on front
+* Module: Forms - Added `acfe/form/pre_validate_value` hook to bypass enforced validation
+* Module: Enhanced UI - Fixed missing metabox when visiting its own profile via `user-edit.php`
+* Field Group - Fixed "Display Title" not being displayed on screens with Enhanced UI (ACF 6.6+)
+
 ### 0.9.2.1
 
 **ACF Extended Pro 0.9.2.1:**
@@ -582,9 +599,11 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 **Upgrade Notice:**
 
-In case of customised WP Admin style with CSS rules overriding ACF/ACF Extended Flexible Content classes, please check your build before migrating to production.
+This patch implements ACF 6.5+ Flexible Content render style. In case of customized WP Admin style with CSS rules overriding the Flexible Content style, please check your setup.
 
-ACF has new markup for Flexible Content since ACF 6.5+, and ACF Extended 0.9.2 has been updated to implement these changes. This update also cleanup/rename various ACF Extended CSS classes related to Flexible Content.
+**Security Notice:**
+
+This patch fixes a vulnerability affecting users running versions 0.9.0.5 through 0.9.1.1. Please update your plugin to ensure continued security and stability.
 
 **ACF Extended Pro 0.9.2:**
 

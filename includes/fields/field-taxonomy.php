@@ -65,6 +65,51 @@ class acfe_field_taxonomy extends acfe_field_extend{
         
     }
     
+    
+    /**
+     * validate_front_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     * @param $form
+     *
+     * @return false
+     */
+    function validate_front_value($valid, $value, $field, $input, $form){
+        
+        // bail early
+        if(!$this->pre_validate_front_value($valid, $value, $field, $form)){
+            return $valid;
+        }
+        
+        // cast array
+        $value = acf_get_array($value);
+        
+        // loop values
+        foreach($value as $v){
+            
+            // get post
+            $term = get_term($v);
+            
+            // check term exists
+            if(!$term || is_wp_error($term)){
+                return false;
+            }
+            
+            // check if term is part of $field['taxonomy']
+            if(!in_array($term->taxonomy, (array) $field['taxonomy'], true)){
+                return false;
+            }
+            
+        }
+        
+        // return
+        return $valid;
+        
+    }
+    
 }
 
 acf_new_instance('acfe_field_taxonomy');

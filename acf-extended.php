@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.9.2.1
+ * Version:     0.9.2.2
  * Author:      ACF Extended
  * Plugin URI:  https://www.acf-extended.com
  * Author URI:  https://www.acf-extended.com
@@ -19,7 +19,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // vars
-    var $version = '0.9.2.1';
+    var $version = '0.9.2.2';
     
     /**
      * construct
@@ -261,15 +261,19 @@ class ACFE{
         acfe_include('includes/fields/field-flexible-content.php');
         acfe_include('includes/fields/field-group.php');
         acfe_include('includes/fields/field-image.php');
+        acfe_include('includes/fields/field-relationship.php');
         acfe_include('includes/fields/field-post-object.php');
+        acfe_include('includes/fields/field-radio.php');
         acfe_include('includes/fields/field-repeater.php');
         acfe_include('includes/fields/field-select.php');
         acfe_include('includes/fields/field-textarea.php');
         acfe_include('includes/fields/field-taxonomy.php');
+        acfe_include('includes/fields/field-user.php');
         acfe_include('includes/fields/field-wysiwyg.php');
         
         // fields settings
         acfe_include('includes/fields-settings/bidirectional.php');
+        acfe_include('includes/fields-settings/choices-label.php');
         acfe_include('includes/fields-settings/data.php');
         acfe_include('includes/fields-settings/instructions.php');
         acfe_include('includes/fields-settings/permissions.php');

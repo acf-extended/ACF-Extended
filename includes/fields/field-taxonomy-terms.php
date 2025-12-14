@@ -6,7 +6,7 @@ if(!defined('ABSPATH')){
 
 if(!class_exists('acfe_field_taxonomy_terms')):
 
-class acfe_field_taxonomy_terms extends acf_field{
+class acfe_field_taxonomy_terms extends acfe_field{
     
     // vars
     var $save_post_terms = array();
@@ -267,7 +267,8 @@ class acfe_field_taxonomy_terms extends acf_field{
             'post_id'   => 0,
             's'         => '',
             'field_key' => '',
-            'paged'     => 0
+            'paged'     => 0,
+            'include'   => '',
         ));
         
         // load field
@@ -282,9 +283,14 @@ class acfe_field_taxonomy_terms extends acf_field{
         
         // vars
         $results = array();
+        
+        // include
+        if(!empty($options['include'])){
+            $args['include'] = $options['include'];
+        }
     
         // search
-        if($options['s'] !== '') {
+        if($options['s'] !== ''){
         
             // strip slashes (search may be integer)
             $s = wp_unslash(strval($options['s']));
@@ -292,6 +298,12 @@ class acfe_field_taxonomy_terms extends acf_field{
             // update vars
             $args['search'] = $s;
         
+        }
+        
+        // if there is an include set
+        // we will unset search to avoid attempting to further filter by the search term.
+        if(isset($args['include'])){
+            unset($args['s']);
         }
         
         //vars
@@ -1136,6 +1148,76 @@ class acfe_field_taxonomy_terms extends acf_field{
     
         // Return
         return $value;
+        
+    }
+    
+    
+    /**
+     * validate_front_value
+     *
+     * @param $valid
+     * @param $value
+     * @param $field
+     * @param $input
+     * @param $form
+     *
+     * @return false
+     */
+    function validate_front_value($valid, $value, $field, $input, $form){
+        
+        // bail early
+        if(!$this->pre_validate_front_value($valid, $value, $field, $form)){
+            return $valid;
+        }
+        
+        // cast array
+        $value = acf_get_array($value);
+        
+        // loop values
+        foreach($value as $v){
+            
+            // get term
+            $term = get_term($v);
+            
+            // check post exists
+            if(!$term || is_wp_error($term)){
+                return false;
+            }
+            
+            // query terms
+            $query = $this->get_ajax_query(array(
+                'field_key' => $field['key'],
+                'post_id'   => $form['post_id'],
+                'include'   => $v,
+            ));
+            
+            // bail early
+            if(empty($query)){
+                return false;
+            }
+            
+            // get results
+            $results = acf_maybe_get($query, 'results');
+            $results = acf_get_array($results);
+            
+            // loop results
+            $found = false;
+            foreach($results as $result){
+                if((int) $result['id'] === (int) $v){
+                    $found = true;
+                    break;
+                }
+            }
+            
+            // term not found
+            if(!$found){
+                return false;
+            }
+            
+        }
+        
+        // return
+        return $valid;
         
     }
     
