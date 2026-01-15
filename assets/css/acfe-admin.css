@@ -674,6 +674,12 @@ ul.acfe-module-export-choices {
     vertical-align: text-bottom
 }
 
+.acfe-module.acfe-module-form.acfe-module-post .layout[data-layout=email] .acf-field[data-name=content_shortcode] {
+    border-left: none;
+    padding-top: 18px;
+    padding-left: 0
+}
+
 .acfe-module.acfe-module-form.acfe-module-post .acf-field[data-name=actions]>.acf-input>.acf-flexible-content>.acf-actions.acf-fc-top-actions {
     display: none
 }

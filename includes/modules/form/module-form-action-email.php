@@ -28,7 +28,8 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                 'bcc'      => '',
                 'subject'  => '',
                 'content'  => '',
-                'html'     => false,
+                'html'     => false, // content as raw html
+                'shortcode'=> false, // apply shortcodes
             ),
             'attachments' => array(
             ),
@@ -106,13 +107,37 @@ class acfe_module_form_action_email extends acfe_module_form_action{
         
         acfe_delete_context(array('context'));
         
-        // html: apply shortcodes
+        // content: html
         if($action['email']['html']){
-            $action['email']['content'] = do_shortcode($action['email']['content']);
             
-        // wysiwyg: apply the_content filters (autop, shortcode, etc.)
+            // should apply shortcodes
+            if($action['email']['shortcode']){
+                $action['email']['content'] = do_shortcode($action['email']['content']);
+            }
+            
+        // content: wysiwyg
         }else{
+            
+            // flag
+            $shortcode_disabled = false;
+            
+            // check if shortcodes should be disabled
+            // and check if acf_the_content has do_shortcode filter
+            if(empty($action['email']['shortcode']) && has_filter('acf_the_content', 'do_shortcode', 11)){
+                
+                $shortcode_disabled = true; // set flag
+                remove_filter('acf_the_content', 'do_shortcode', 11);
+                
+            }
+            
+            // apply the_content filters (autop, etc.)
             $action['email']['content'] = apply_filters('acf_the_content', $action['email']['content']);
+            
+            // re-add shortcode filter
+            if($shortcode_disabled){
+                add_filter('acf_the_content', 'do_shortcode', 11);
+            }
+            
         }
         
         // args
@@ -404,7 +429,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
             $action["email_{$k}"] = $action['email'][ $k ];
         }
         
-        // save: target
+        // content group
         $value = $action['email']['content'];
         
         if($action['email']['html']){
@@ -414,6 +439,9 @@ class acfe_module_form_action_email extends acfe_module_form_action{
             $action['email_content_group']['email_content_type'] = 'editor';
             $action['email_content_group']['email_content_editor'] = $value;
         }
+        
+        // content shortcode
+        $action['email_content_group']['email_content_shortcode'] = $action['email']['shortcode'];
         
         // clone var
         $attachments = $action['attachments'];
@@ -484,6 +512,9 @@ class acfe_module_form_action_email extends acfe_module_form_action{
             $save['email']['content'] = $group['content_html'];
             $save['email']['html'] = true;
         }
+        
+        // content shortcode
+        $save['email']['shortcode'] = $group['content_shortcode'];
         
         // files
         $action['files'] = acf_get_array($action['files']);
@@ -736,7 +767,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                         'required' => 0,
                         'conditional_logic' => 0,
                         'wrapper' => array(
-                            'width' => '',
+                            'width' => '65%',
                             'class' => '',
                             'id' => '',
                         ),
@@ -752,6 +783,24 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                         'placeholder' => __('Default', 'acfe'),
                         'ajax' => 0,
                         'allow_custom' => 0,
+                    ),
+                    array(
+                        'key' => 'field_email_content_shortcode',
+                        'label' => '',
+                        'name' => 'content_shortcode',
+                        'type' => 'true_false',
+                        'instructions' => '',
+                        'required' => 0,
+                        'wrapper' => array(
+                            'width' => '35%',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'message' => __('Apply shortcodes', 'acfe'),
+                        'default_value' => 0,
+                        'ui' => false,
+                        'ui_on_text' => '',
+                        'ui_off_text' => '',
                     ),
                     array(
                         'key' => 'field_email_content_editor',

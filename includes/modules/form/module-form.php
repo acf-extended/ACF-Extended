@@ -109,6 +109,7 @@ class acfe_module_form extends acfe_module{
             'success'       => array(
                 'hide_form' => false,
                 'scroll'    => false,
+                'shortcode' => true,
                 'message'   => __('Form updated', 'acfe'),
                 'wrapper'   => '<div id="message" class="updated">%s</div>',
             ),

@@ -30,9 +30,26 @@ class acfe_module_form_front_render{
         
         // success message
         if($message){
-            
+
+            // flag
+            $shortcode_disabled = false;
+
+            // check if shortcodes should be disabled
+            // and check if acf_the_content has do_shortcode filter
+            if(empty($form['success']['shortcode']) && has_filter('acf_the_content', 'do_shortcode', 11)){
+
+                $shortcode_disabled = true; // set flag
+                remove_filter('acf_the_content', 'do_shortcode', 11);
+
+            }
+
             // apply the_content filters (autop, shortcode, etc.)
             $message = apply_filters('acf_the_content', $message);
+
+            // re-add shortcode filter
+            if($shortcode_disabled){
+                add_filter('acf_the_content', 'do_shortcode', 11);
+            }
             
             // html message
             if($form['success']['wrapper']){

@@ -3697,25 +3697,44 @@
         },
         acfeCopyLayout: function(e, $el) {
 
-            // Vars
-            var $layout = $el.closest('.layout').clone();
-            var source = this.$control().find('> input[type=hidden]').attr('name');
+            // vars
+            var $layout = $el.closest('.layout');
 
-            // Fix inputs
-            this.acfeFixInputs($layout);
-
-            // Clean layout
-            this.acfeCleanLayouts($layout);
-
-            // Get layout data
-            var data = JSON.stringify({
-                source: source,
-                layouts: $layout[0].outerHTML
+            // mark selected options
+            $layout.find('option').each(function() {
+                if (this.selected) {
+                    $(this).attr('selected', 'selected');
+                } else {
+                    $(this).attr('selected', false);
+                }
             });
 
+            // clone layout & input name
+            var $clone = $layout.clone();
+            var input = this.$control().find('> input[type=hidden]').attr('name');
+
+            // fix inputs
+            this.acfeFixInputs($clone);
+
+            // clean layout
+            this.acfeCleanLayouts($clone);
+
+            // get layout data
+            var data = JSON.stringify({
+                source: input,
+                layouts: $clone[0].outerHTML
+            });
+
+            // copy to clipboard
             acfe.copyClipboard(data, {
-                auto: acf.__('Layout data has been copied to your clipboard.') + "\n" + acf.__('You can now paste it on another page, using the "Paste" button action.'),
-                manual: acf.__('Please copy the following data to your clipboard.') + "\n" + acf.__('You can then paste it on another page, using the "Paste" button action.'),
+                auto: {
+                    title: acf.__('Layout copied to clipboard'),
+                    text: acf.__('You can now paste it anywhere using the "Paste Layout" secondary action.'),
+                },
+                manual: {
+                    title: acf.__('Layout ready to be copied'),
+                    text: acf.__('Please copy the following data to your clipboard.') + "<br /><br />" + acf.__('You can then paste it anywhere using the "Paste Layout" secondary action.'),
+                },
             });
 
         }
@@ -3753,7 +3772,7 @@
                 confirm: function(e, $el) {
 
                     if ($el.attr('data-name') === 'acfe-paste-layouts') {
-                        this.acfePasteLayouts();
+                        this.acfePasteLayoutsModal();
 
                     } else if ($el.attr('data-name') === 'acfe-copy-layouts') {
                         this.acfeCopyLayouts();
@@ -3767,34 +3786,93 @@
         },
         acfeCopyLayouts: function() {
 
-            // Get layouts
-            var $layouts = this.$layoutsWrap().clone();
-            var source = this.$control().find('> input[type=hidden]').attr('name');
+            // vet layouts
+            var $layouts = this.$layoutsWrap();
 
-            // Fix inputs
-            this.acfeFixInputs($layouts);
+            // mark selected options
+            $layouts.find('option').each(function() {
+                if (this.selected) {
+                    $(this).attr('selected', 'selected');
+                } else {
+                    $(this).attr('selected', false);
+                }
+            });
 
-            // Clean layout
-            this.acfeCleanLayouts($layouts);
+            var $clones = $layouts.clone();
+            var input = this.$control().find('> input[type=hidden]').attr('name');
 
-            // Get layouts data
+            // fix inputs
+            this.acfeFixInputs($clones);
+
+            // clean layout
+            this.acfeCleanLayouts($clones);
+
+            // get layouts data
             var data = JSON.stringify({
-                source: source,
-                layouts: $layouts.html()
+                source: input,
+                layouts: $clones.html()
             });
 
             acfe.copyClipboard(data, {
-                auto: acf.__('Layouts data have been copied to your clipboard.') + "\n" + acf.__('You can now paste it on another page, using the "Paste" button action.'),
-                manual: acf.__('Please copy the following data to your clipboard.') + "\n" + acf.__('You can then paste it on another page, using the "Paste" button action.'),
+                auto: {
+                    title: acf.__('Layouts copied to clipboard'),
+                    text: acf.__('You can now paste them anywhere using the "Paste Layout" secondary action.'),
+                },
+                manual: {
+                    title: acf.__('Layouts ready to be copied'),
+                    text: acf.__('Please copy the following data to your clipboard.') + "<br /><br />" + acf.__('You can then paste it anywhere using the "Paste Layout" secondary action.'),
+                },
             });
 
         },
-        acfePasteLayouts: function() {
+
+
+        acfePasteLayoutsModal: function() {
+
+            // Get Flexible
+            var self = this;
+
+            acfe.newModal({
+                title: acf.__('Paste layouts data'),
+                destroy: true,
+                width: 470,
+                class: 'acfe-modal-fc-paste-layout',
+                events: {
+                    'click .apply': 'onClickApply',
+                },
+                content: function() {
+                    var html = '';
+
+                    html += `<div class="acfe-modal-spacer">`;
+                    html += `<div>${acf.__('Paste the layouts data from your clipboard to apply it to this page.')}</div>`;
+                    html += `<textarea></textarea>`;
+                    html += `</div>`;
+
+                    return html;
+
+                },
+                footer: function() {
+                    return `<a href="#" class="button button-large close cancel">${acf.__('Cancel')}</a> <a href="#" class="button button-large button-primary apply">${acf.__('Apply')}</a>`;
+                },
+                onOpen: function() {
+                    this.$('textarea').focus();
+                },
+                onClickApply: function(e, $el) {
+
+                    e.preventDefault();
+                    var value = this.$('textarea').val();
+                    self.acfePasteLayouts(value);
+                    this.close();
+
+                }
+            });
+
+        },
+
+        acfePasteLayouts: function(paste = null) {
 
             // Get Flexible
             var flexible = this;
-
-            var paste = prompt(acf.__('Please paste previously copied layout data in the following field:'));
 
             // No input
             if (paste == null || paste === '') {
@@ -4148,7 +4226,12 @@
                 var $color_picker = $input.find('> input');
                 var $color_picker_proxy = $input.find('.wp-picker-container input.wp-color-picker').clone();
 
-                $color_picker.after($color_picker_proxy);
+                if ($input.find('.acf-color-picker-palette').length) {
+                    $input.find('.acf-color-picker-palette').append($color_picker_proxy);
+                } else {
+                    $color_picker.after($color_picker_proxy);
+                }
+
 
                 $input.find('.wp-picker-container').remove();
 
@@ -4178,6 +4261,8 @@
                 var $input = $(this);
                 $input.find('> .acf-input span').remove();
                 $input.find('> .acf-input select').removeAttr('tabindex aria-hidden').removeClass();
+                $input.find('> .acf-input select').removeAttr('data-select2-id'); // fix select2 multiple values
+                $input.find('> .acf-input input[type=hidden], select').removeAttr('id'); // fix select2 multiple values
 
             });
 

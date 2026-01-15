@@ -298,6 +298,35 @@ body.acfe-modal-opened.wp-admin.upload-php>div:not([style*="display: none;"])>.m
     width: 80%
 }
 
+.acfe-modal-fc-copy-layout .acfe-modal-spacer,
+.acfe-modal-fc-paste-layout .acfe-modal-spacer {
+    padding: 16px
+}
+
+.acfe-modal-fc-copy-layout .acfe-modal-spacer>div,
+.acfe-modal-fc-paste-layout .acfe-modal-spacer>div {
+    font-size: 14px;
+    line-height: 21px
+}
+
+.acfe-modal-fc-copy-layout textarea,
+.acfe-modal-fc-paste-layout textarea {
+    width: 100%;
+    height: 80px;
+    margin-top: 25px
+}
+
+.acfe-modal-fc-copy-layout .close.cancel,
+.acfe-modal-fc-paste-layout .close.cancel {
+    background: 0 0 !important;
+    border: none !important
+}
+
+.acfe-modal-fc-copy-layout .close.cancel:hover,
+.acfe-modal-fc-paste-layout .close.cancel:hover {
+    text-decoration: underline
+}
+
 body.block-editor-page.acfe-modal-opened .edit-post-sidebar__panel-tabs {
     visibility: hidden
 }

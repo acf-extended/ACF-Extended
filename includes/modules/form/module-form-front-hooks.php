@@ -159,12 +159,66 @@ class acfe_module_form_front_render_hooks{
      */
     function validate_form($form){
         
+        // validate recaptcha
+        $this->validate_recaptcha($form);
+        
         // validate form
         add_action("acfe/form/validate_form/form={$form['name']}", array($this, 'validate_actions'), 9);
         do_action("acfe/form/validate_form/form={$form['name']}", $form);
         
         // validate value
         add_filter('acf/validate_value', array($this, 'validate_value'), 10, 4);
+        
+    }
+    
+    
+    /**
+     * validate_recaptcha
+     *
+     * @param $form
+     *
+     * @return void
+     */
+    function validate_recaptcha($form){
+        
+        // vars
+        $has_recaptcha = false;
+        
+        // get form mapped field groups
+        $field_groups = acf_get_array($form['field_groups']);
+        if(empty($field_groups)){
+            return;
+        }
+        
+        // loop field groups
+        foreach($field_groups as $field_group_key){
+            
+            // get field group fields
+            $fields = acf_get_fields($field_group_key);
+            if(empty($fields)){
+                continue;
+            }
+            
+            // get field details
+            $fields_details = acfe_get_fields_details_recursive($fields);
+            if(empty($fields_details)){
+                continue;
+            }
+            
+            // loop fields details
+            foreach($fields_details as $details){
+                if($details['field']['type'] === 'acfe_recaptcha'){
+                    $has_recaptcha = true;
+                    break 2;
+                }
+            }
+            
+        }
+        
+        // has recaptcha: check recaptcha flag
+        if($has_recaptcha && empty(acf_get_form_data('acfe/form/recaptcha'))){
+            acfe_add_validation_error('', __('Invalid reCaptcha, please try again', 'acfe'));
+        }
         
     }
     

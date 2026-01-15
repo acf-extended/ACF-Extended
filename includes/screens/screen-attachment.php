@@ -227,6 +227,6 @@ class acfe_screen_attachment{
     
 }
 
-new acfe_screen_attachment();
+acf_new_instance('acfe_screen_attachment');
 
 endif;

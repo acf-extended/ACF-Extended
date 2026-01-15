@@ -32,15 +32,19 @@ class acfe_field_flexible_content extends acfe_field_extend{
      * input_admin_enqueue_scripts
      */
     function input_admin_enqueue_scripts(){
-        
+
         // localize
         acf_localize_text(array(
-            'Layout data has been copied to your clipboard.'                          => __('Layout data has been copied to your clipboard.', 'acfe'),
-            'Layouts data have been copied to your clipboard.'                        => __('Layouts data have been copied to your clipboard.', 'acfe'),
-            'Please copy the following data to your clipboard.'                       => __('Please copy the following data to your clipboard.', 'acfe'),
-            'Please paste previously copied layout data in the following field:'      => __('Please paste previously copied layout data in the following field:', 'acfe'),
-            'You can now paste it on another page, using the "Paste" button action.'  => __('You can now paste it on another page, using the "Paste" button action.', 'acfe'),
-            'You can then paste it on another page, using the "Paste" button action.' => __('You can then paste it on another page, using the "Paste" button action.', 'acfe'),
+            'Layout copied to clipboard'                                                 => __('Layout copied to clipboard', 'acfe'),
+            'Layouts copied to clipboard'                                                => __('Layouts copied to clipboard', 'acfe'),
+            'Layout ready to be copied'                                                  => __('Layout ready to be copied', 'acfe'),
+            'Layouts ready to be copied'                                                 => __('Layouts ready to be copied', 'acfe'),
+            'Paste layouts data'                                                         => __('Paste layouts data', 'acfe'),
+            'Paste the layouts data from your clipboard to apply it to this page.'       => __('Paste the layouts data from your clipboard to apply it to this page.', 'acfe'),
+            'You can now paste it anywhere using the "Paste Layout" secondary action.'   => __('You can now paste it anywhere using the "Paste Layout" secondary action.', 'acfe'),
+            'Please copy the following data to your clipboard.'                          => __('Please copy the following data to your clipboard.', 'acfe'),
+            'You can then paste it anywhere using the "Paste Layout" secondary action.'  => __('You can then paste it anywhere using the "Paste Layout" secondary action.', 'acfe'),
+            'You can now paste them anywhere using the "Paste Layout" secondary action.' => __('You can now paste them anywhere using the "Paste Layout" secondary action.', 'acfe'),
         ));
         
     }

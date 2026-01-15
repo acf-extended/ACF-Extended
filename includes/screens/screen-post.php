@@ -197,6 +197,6 @@ class acfe_screen_post{
     
 }
 
-new acfe_screen_post();
+acf_new_instance('acfe_screen_post');
 
 endif;

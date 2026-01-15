@@ -1922,9 +1922,10 @@ body:not(.acf-admin-5-3) .acf-repeater.-row>table>tbody>tr>td:last-of-type {
     float: none;
     position: absolute;
     left: 50%;
-    -webkit-transform: translate(-50%);
-    -ms-transform: translate(-50%);
-    transform: translate(-50%)
+    top: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%)
 }
 
 .acf-field-repeater>.acf-input>.acf-repeater>.acfe-repeater-stylised-button .acf-tablenav {

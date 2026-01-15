@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2025-12-14 20:30+0100\n"
+"POT-Creation-Date: 2026-01-15 02:50+0100\n"
 "PO-Revision-Date: 2021-07-27 23:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: assets/js/acfe-admin.js:1076 includes/fields/field-flexible-content.php:904
+#: assets/js/acfe-admin.js:1076 includes/fields/field-flexible-content.php:908
 #: includes/modules/dev/module-dev-delete-meta.php:60
 #: includes/modules/dev/module-dev-delete-meta.php:93
 #: includes/modules/option/module-option-table.php:209
@@ -52,7 +52,8 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: assets/js/acfe-admin.js:1077 pro/assets/js/acfe-pro-admin.js:54
+#: assets/js/acfe-admin.js:1077 assets/js/acfe-input.js:3855
+#: assets/js/acfe.js:2342 pro/assets/js/acfe-pro-admin.js:54
 #: pro/assets/js/acfe-pro-input.js:5046
 msgid "Cancel"
 msgstr ""
@@ -91,16 +92,17 @@ msgstr ""
 msgid "Add Image to Gallery"
 msgstr ""
 
-#: assets/js/acfe-input.js:3003 assets/js/acfe-input.js:5161
-#: includes/assets.php:124 includes/field-groups/field-group-meta.php:160
+#: assets/js/acfe-input.js:3003 assets/js/acfe-input.js:5246
+#: assets/js/acfe.js:2345 includes/assets.php:124
+#: includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:94
 #: includes/fields/field-advanced-link.php:100
 #: includes/fields/field-flexible-content-actions.php:97
 #: includes/fields/field-flexible-content-modal-edit.php:266
 #: includes/fields/field-flexible-content-modal-settings.php:171
 #: includes/fields/field-flexible-content-modal-settings.php:400
-#: includes/fields/field-flexible-content.php:712
-#: includes/fields/field-flexible-content.php:761
+#: includes/fields/field-flexible-content.php:716
+#: includes/fields/field-flexible-content.php:765
 #: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:1467
 #: pro/includes/field-groups/field-group-ui.php:625
 #: pro/includes/fields/field-payment.php:512
@@ -115,38 +117,58 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: assets/js/acfe-input.js:3717 includes/fields/field-flexible-content.php:38
-msgid "Layout data has been copied to your clipboard."
+#: assets/js/acfe-input.js:3731 includes/fields/field-flexible-content.php:38
+msgid "Layout copied to clipboard"
 msgstr ""
 
-#: assets/js/acfe-input.js:3717 assets/js/acfe-input.js:3787
-#: includes/fields/field-flexible-content.php:42
+#: assets/js/acfe-input.js:3732 includes/fields/field-flexible-content.php:44
 msgid ""
-"You can now paste it on another page, using the \"Paste\" button action."
+"You can now paste it anywhere using the \"Paste Layout\" secondary action."
 msgstr ""
 
-#: assets/js/acfe-input.js:3718 assets/js/acfe-input.js:3788
-#: assets/js/acfe.js:2297 includes/assets.php:130
-#: includes/fields/field-flexible-content.php:40
+#: assets/js/acfe-input.js:3735 includes/fields/field-flexible-content.php:40
+msgid "Layout ready to be copied"
+msgstr ""
+
+#: assets/js/acfe-input.js:3736 assets/js/acfe-input.js:3823
+#: includes/assets.php:130 includes/fields/field-flexible-content.php:45
 msgid "Please copy the following data to your clipboard."
 msgstr ""
 
-#: assets/js/acfe-input.js:3718 assets/js/acfe-input.js:3788
-#: includes/fields/field-flexible-content.php:43
+#: assets/js/acfe-input.js:3736 assets/js/acfe-input.js:3823
+#: includes/fields/field-flexible-content.php:46
 msgid ""
-"You can then paste it on another page, using the \"Paste\" button action."
+"You can then paste it anywhere using the \"Paste Layout\" secondary action."
 msgstr ""
 
-#: assets/js/acfe-input.js:3787 includes/fields/field-flexible-content.php:39
-msgid "Layouts data have been copied to your clipboard."
+#: assets/js/acfe-input.js:3818 includes/fields/field-flexible-content.php:39
+msgid "Layouts copied to clipboard"
 msgstr ""
 
-#: assets/js/acfe-input.js:3797 includes/fields/field-flexible-content.php:41
-msgid "Please paste previously copied layout data in the following field:"
+#: assets/js/acfe-input.js:3819 includes/fields/field-flexible-content.php:47
+msgid ""
+"You can now paste them anywhere using the \"Paste Layout\" secondary action."
 msgstr ""
 
-#: assets/js/acfe.js:2296 includes/assets.php:129
-msgid "Data has been copied to your clipboard."
+#: assets/js/acfe-input.js:3822 includes/fields/field-flexible-content.php:41
+msgid "Layouts ready to be copied"
+msgstr ""
+
+#: assets/js/acfe-input.js:3836 includes/fields/field-flexible-content.php:42
+msgid "Paste layouts data"
+msgstr ""
+
+#: assets/js/acfe-input.js:3847 includes/fields/field-flexible-content.php:43
+msgid "Paste the layouts data from your clipboard to apply it to this page."
+msgstr ""
+
+#: assets/js/acfe-input.js:3855
+#: includes/modules/dev/module-dev-delete-meta.php:96
+msgid "Apply"
+msgstr ""
+
+#: assets/js/acfe.js:2342
+msgid "Copy and close"
 msgstr ""
 
 #: includes/acfe-deprecated-functions.php:112
@@ -171,7 +193,7 @@ msgstr ""
 #: includes/modules/block-type/module-block-type.php:207
 #: includes/modules/form/module-form-fields.php:1217
 #: includes/modules/form/module-form.php:61
-#: includes/modules/form/module-form.php:256
+#: includes/modules/form/module-form.php:257
 #: includes/modules/options-page/module-options-page.php:238
 #: pro/includes/fields/field-field-groups.php:17
 #: pro/includes/modules/template/module-template.php:59
@@ -270,7 +292,7 @@ msgstr ""
 #: includes/fields/field-flexible-content-compatibility.php:115
 #: includes/fields/field-flexible-content-modal-settings.php:441
 #: includes/fields/field-flexible-content-modal-settings.php:445
-#: includes/fields/field-flexible-content.php:92
+#: includes/fields/field-flexible-content.php:96
 #: includes/modules/form/module-form-fields.php:1264
 #: pro/includes/admin/settings.php:316 pro/includes/admin/settings.php:376
 #: pro/includes/module-item.php:52
@@ -410,6 +432,10 @@ msgstr ""
 #: includes/assets.php:128 pro/assets/js/acfe-pro-admin.js:615
 #: pro/assets/js/acfe-pro-admin.js:616
 msgid "Debug"
+msgstr ""
+
+#: includes/assets.php:129
+msgid "Data has been copied to your clipboard."
 msgstr ""
 
 #: includes/field-groups/field-group-advanced.php:51
@@ -924,7 +950,7 @@ msgstr ""
 msgid "Archives"
 msgstr ""
 
-#: includes/fields/field-button.php:17 includes/fields/field-button.php:92
+#: includes/fields/field-button.php:17 includes/fields/field-button.php:97
 msgid "Button"
 msgstr ""
 
@@ -934,72 +960,72 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: includes/fields/field-button.php:78
+#: includes/fields/field-button.php:83
 #: pro/includes/fields/field-payment.php:161
 msgid "Button value"
 msgstr ""
 
-#: includes/fields/field-button.php:79
+#: includes/fields/field-button.php:84
 #: pro/includes/fields/field-payment.php:162
 msgid "Set a default button value"
 msgstr ""
 
-#: includes/fields/field-button.php:86
+#: includes/fields/field-button.php:91
 msgid "Button type"
 msgstr ""
 
-#: includes/fields/field-button.php:87
+#: includes/fields/field-button.php:92
 msgid "Choose the button type"
 msgstr ""
 
-#: includes/fields/field-button.php:93
+#: includes/fields/field-button.php:98
 msgid "Input"
 msgstr ""
 
-#: includes/fields/field-button.php:99
+#: includes/fields/field-button.php:104
 #: pro/includes/fields/field-payment.php:176
 msgid "Button attributes"
 msgstr ""
 
-#: includes/fields/field-button.php:103
+#: includes/fields/field-button.php:108
 #: pro/includes/fields/field-payment.php:180
 msgid "class"
 msgstr ""
 
-#: includes/fields/field-button.php:112
+#: includes/fields/field-button.php:117
 #: pro/includes/fields/field-payment.php:196
 msgid "id"
 msgstr ""
 
-#: includes/fields/field-button.php:118
+#: includes/fields/field-button.php:123
 #: pro/includes/fields/field-payment.php:209
 msgid "Before HTML"
 msgstr ""
 
-#: includes/fields/field-button.php:119
+#: includes/fields/field-button.php:124
 #: pro/includes/fields/field-payment.php:210
 msgid "Custom HTML before the button"
 msgstr ""
 
-#: includes/fields/field-button.php:127
+#: includes/fields/field-button.php:132
 #: pro/includes/fields/field-payment.php:225
 msgid "After HTML"
 msgstr ""
 
-#: includes/fields/field-button.php:128
+#: includes/fields/field-button.php:133
 #: pro/includes/fields/field-payment.php:226
 msgid "Custom HTML after the button"
 msgstr ""
 
-#: includes/fields/field-button.php:136
+#: includes/fields/field-button.php:141
 msgid "Ajax Request"
 msgstr ""
 
-#: includes/fields/field-button.php:137
+#: includes/fields/field-button.php:142
 msgid "Trigger ajax event on click"
 msgstr ""
 
-#: includes/fields/field-button.php:137
+#: includes/fields/field-button.php:142
 #: includes/fields/field-flexible-content-actions.php:73
 #: includes/fields/field-flexible-content-async.php:55
 #: includes/fields/field-flexible-content-controls.php:74
@@ -1105,7 +1131,7 @@ msgstr ""
 #: pro/includes/fields/field-countries.php:331
 #: pro/includes/fields/field-currencies.php:320
 #: pro/includes/fields/field-date-picker.php:35
-#: pro/includes/fields/field-date-range-picker.php:110
+#: pro/includes/fields/field-date-range-picker.php:123
 #: pro/includes/fields/field-date-time-picker.php:43
 #: pro/includes/fields/field-field-groups.php:221
 #: pro/includes/fields/field-field-types.php:251
@@ -1283,7 +1309,7 @@ msgstr ""
 #: includes/fields/field-file.php:136
 #: includes/fields/field-flexible-content-modal-settings.php:287
 #: includes/fields/field-image.php:106
-#: includes/modules/form/module-form-action-email.php:752
+#: includes/modules/form/module-form-action-email.php:784
 #: includes/modules/form/module-form-action-post.php:1019
 #: includes/modules/form/module-form-action-post.php:1071
 #: includes/modules/form/module-form-action-post.php:1100
@@ -1358,7 +1384,7 @@ msgstr ""
 
 #: includes/fields/field-flexible-content-actions-toggle.php:220
 #: includes/fields/field-flexible-content-modal-edit.php:351
-#: includes/fields/field-flexible-content.php:906
+#: includes/fields/field-flexible-content.php:910
 msgid "Toggle layout"
 msgstr ""
 
@@ -1429,7 +1455,7 @@ msgid "Asynchronous Layout"
 msgstr ""
 
 #: includes/fields/field-flexible-content-compatibility.php:75
-#: includes/fields/field-flexible-content.php:902
+#: includes/fields/field-flexible-content.php:906
 msgid "Add layout"
 msgstr ""
 
@@ -1606,7 +1632,7 @@ msgstr ""
 
 #: includes/fields/field-flexible-content-modal-select.php:208
 #: includes/fields/field-flexible-content-modal-settings.php:145
-#: includes/fields/field-flexible-content.php:878
+#: includes/fields/field-flexible-content.php:882
 msgid "Disabled"
 msgstr ""
 
@@ -1724,29 +1750,29 @@ msgstr ""
 msgid "Thumbnail"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:366
+#: includes/fields/field-flexible-content.php:370
 #, php-format
 msgid "Click the \"%s\" button below to start creating your layout"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:593
+#: includes/fields/field-flexible-content.php:597
 msgid "Drag to reorder"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:822
+#: includes/fields/field-flexible-content.php:826
 msgid "Expand All"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:823
+#: includes/fields/field-flexible-content.php:827
 msgid "Collapse All"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:903
+#: includes/fields/field-flexible-content.php:907
 #: pro/includes/module-posts.php:357 pro/includes/module-posts.php:377
 msgid "Duplicate"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:905
+#: includes/fields/field-flexible-content.php:909
 msgid "More layout actions..."
 msgstr ""
 
@@ -1754,7 +1780,7 @@ msgstr ""
 #: includes/modules/form/module-form.php:22
 #: includes/modules/form/module-form.php:27
 #: includes/modules/form/module-form.php:29
-#: includes/modules/form/module-form.php:299
+#: includes/modules/form/module-form.php:300
 #: pro/includes/locations/settings.php:77
 #: pro/includes/modules/template/module-template-features.php:44
 msgid "Forms"
@@ -2427,16 +2453,10 @@ msgid ""
 "target=\"_blank\">reCaptcha API Admin</a>"
 msgstr ""
 
-#: includes/fields/field-recaptcha.php:256
-#: includes/fields/field-recaptcha.php:265
-#: pro/includes/fields/field-payment.php:55
-#: pro/includes/fields/field-payment.php:56
-#: pro/includes/fields/field-payment.php:57
-#: pro/includes/fields/field-payment.php:59
-msgid "An error has occured"
-msgstr ""
-
-#: includes/fields/field-recaptcha.php:270
+#: includes/fields/field-recaptcha.php:255
+#: includes/fields/field-recaptcha.php:264
+#: includes/fields/field-recaptcha.php:269
+#: includes/modules/form/module-form-front-hooks.php:220
 msgid "Invalid reCaptcha, please try again"
 msgstr ""
 
@@ -2457,13 +2477,13 @@ msgid "Placeholder Text"
 msgstr ""
 
 #: includes/fields/field-slug.php:55 pro/includes/fields/field-address.php:146
-#: pro/includes/fields/field-date-range-picker.php:227
+#: pro/includes/fields/field-date-range-picker.php:240
 #: pro/includes/fields/field-select.php:34
 msgid "Prepend"
 msgstr ""
 
 #: includes/fields/field-slug.php:56 pro/includes/fields/field-address.php:147
-#: pro/includes/fields/field-date-range-picker.php:228
+#: pro/includes/fields/field-date-range-picker.php:241
 #: pro/includes/fields/field-select.php:35
 msgid "Appears before the input"
 msgstr ""
@@ -2471,13 +2491,13 @@ msgstr ""
 #: includes/fields/field-slug.php:63
 #: includes/modules/form/module-form-action-post.php:1644
 #: pro/includes/fields/field-address.php:155
-#: pro/includes/fields/field-date-range-picker.php:236
+#: pro/includes/fields/field-date-range-picker.php:249
 #: pro/includes/fields/field-select.php:43
 msgid "Append"
 msgstr ""
 
 #: includes/fields/field-slug.php:64 pro/includes/fields/field-address.php:156
-#: pro/includes/fields/field-date-range-picker.php:237
+#: pro/includes/fields/field-date-range-picker.php:250
 #: pro/includes/fields/field-select.php:44
 msgid "Appears after the input"
 msgstr ""
@@ -2617,7 +2637,7 @@ msgid "Taxonomy List"
 msgstr ""
 
 #: includes/module-acf.php:91 includes/module-post.php:130
-#: includes/modules/form/module-form.php:721
+#: includes/modules/form/module-form.php:722
 #: pro/includes/fields-settings/required.php:26
 #: pro/includes/fields/field-block-editor.php:572
 #, php-format
@@ -2981,10 +3001,6 @@ msgstr ""
 msgid "Bulk Actions"
 msgstr ""
 
-#: includes/modules/dev/module-dev-delete-meta.php:96
-msgid "Apply"
-msgstr ""
-
 #: includes/modules/dev/module-dev.php:320
 msgid "WP Options Meta"
 msgstr ""
@@ -3050,7 +3066,7 @@ msgid "This action name is reserved"
 msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:140
-#: includes/modules/form/module-form-action-email.php:533
+#: includes/modules/form/module-form-action-email.php:565
 #: includes/modules/form/module-form-action-post.php:887
 #: includes/modules/form/module-form-action-redirect.php:101
 #: includes/modules/form/module-form-action-term.php:583
@@ -3062,13 +3078,13 @@ msgstr ""
 #: includes/modules/form/module-form-upgrades.php:2988
 #: includes/modules/form/module-form-upgrades.php:3777
 #: includes/modules/form/module-form-upgrades.php:5356
-#: includes/modules/form/module-form.php:293
+#: includes/modules/form/module-form.php:294
 #: pro/includes/modules/form/module-form-action-option.php:250
 msgid "Documentation"
 msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:149
-#: includes/modules/form/module-form-action-email.php:542
+#: includes/modules/form/module-form-action-email.php:574
 #: includes/modules/form/module-form-action-post.php:896
 #: includes/modules/form/module-form-action-post.php:913
 #: includes/modules/form/module-form-action-redirect.php:110
@@ -3081,7 +3097,7 @@ msgid "Action"
 msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:166
-#: includes/modules/form/module-form-action-email.php:559
+#: includes/modules/form/module-form-action-email.php:591
 #: includes/modules/form/module-form-action-post.php:932
 #: includes/modules/form/module-form-action-redirect.php:127
 #: includes/modules/form/module-form-action-term.php:628
@@ -3099,14 +3115,14 @@ msgid "Email action"
 msgstr ""
 
 #: includes/modules/form/module-form-action-email.php:18
-#: includes/modules/form/module-form-action-email.php:572
-#: includes/modules/form/module-form-action-email.php:583
+#: includes/modules/form/module-form-action-email.php:604
+#: includes/modules/form/module-form-action-email.php:615
 #: includes/modules/form/module-form-action-user.php:1541
 #: includes/modules/form/module-form-action-user.php:2027
 msgid "Email"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:562
+#: includes/modules/form/module-form-action-email.php:594
 #: includes/modules/form/module-form-action-post.php:935
 #: includes/modules/form/module-form-action-redirect.php:130
 #: includes/modules/form/module-form-action-term.php:631
@@ -3117,59 +3133,59 @@ msgstr ""
 msgid "(Optional) Target this action using hooks."
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:599
+#: includes/modules/form/module-form-action-email.php:631
 msgid "From"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:611
-#: includes/modules/form/module-form-action-email.php:648
+#: includes/modules/form/module-form-action-email.php:643
+#: includes/modules/form/module-form-action-email.php:680
 msgid "Name <email@domain.com>"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:618
+#: includes/modules/form/module-form-action-email.php:650
 msgid "To"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:630
-#: includes/modules/form/module-form-action-email.php:667
-#: includes/modules/form/module-form-action-email.php:686
+#: includes/modules/form/module-form-action-email.php:662
+#: includes/modules/form/module-form-action-email.php:699
+#: includes/modules/form/module-form-action-email.php:718
 msgid "email@domain.com"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:636
+#: includes/modules/form/module-form-action-email.php:668
 msgid "Reply to"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:655
+#: includes/modules/form/module-form-action-email.php:687
 msgid "Cc"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:674
+#: includes/modules/form/module-form-action-email.php:706
 msgid "Bcc"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:693
+#: includes/modules/form/module-form-action-email.php:725
 msgid "Subject"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:713
+#: includes/modules/form/module-form-action-email.php:745
 #: pro/includes/fields/field-post-field.php:48
 msgid "Content"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:716
+#: includes/modules/form/module-form-action-email.php:748
 msgid "Render customized email content."
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:717
+#: includes/modules/form/module-form-action-email.php:749
 msgid "Render all fields values:"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:718
+#: includes/modules/form/module-form-action-email.php:750
 msgid "Render field value:"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:744
+#: includes/modules/form/module-form-action-email.php:776
 #: includes/modules/form/module-form-action-post.php:1198
 #: includes/modules/form/module-form-action-post.php:1271
 #: includes/modules/form/module-form-action-term.php:948
@@ -3177,29 +3193,34 @@ msgstr ""
 msgid "Content Editor"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:745
+#: includes/modules/form/module-form-action-email.php:777
 msgid "Raw HTML"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:815
+#: includes/modules/form/module-form-action-email.php:800
+#: includes/modules/form/module-form-fields.php:2087
+msgid "Apply shortcodes"
+msgstr ""
+
+#: includes/modules/form/module-form-action-email.php:865
 msgid "Attachments"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:831
+#: includes/modules/form/module-form-action-email.php:881
 msgid "Dynamic files"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:846
-#: includes/modules/form/module-form-action-email.php:910
+#: includes/modules/form/module-form-action-email.php:896
+#: includes/modules/form/module-form-action-email.php:960
 msgid "Add file"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:850
-#: includes/modules/form/module-form-action-email.php:914
+#: includes/modules/form/module-form-action-email.php:900
+#: includes/modules/form/module-form-action-email.php:964
 msgid "File"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:869
+#: includes/modules/form/module-form-action-email.php:919
 #: includes/modules/form/module-form-action-post.php:1021
 #: includes/modules/form/module-form-action-post.php:1078
 #: includes/modules/form/module-form-action-post.php:1107
@@ -3240,15 +3261,15 @@ msgstr ""
 msgid "Select a field or enter a custom value/template tag."
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:875
+#: includes/modules/form/module-form-action-email.php:925
 msgid "Delete file"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:885
+#: includes/modules/form/module-form-action-email.php:935
 msgid "Delete file once sent"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:895
+#: includes/modules/form/module-form-action-email.php:945
 msgid "Static files"
 msgstr ""
 
@@ -3956,40 +3977,44 @@ msgstr ""
 msgid "Scroll to message on success"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2087
+#: includes/modules/form/module-form-fields.php:2090
+msgid "Apply shortcodes to success message"
+msgstr ""
+
+#: includes/modules/form/module-form-fields.php:2114
 msgid "Success message"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2090
+#: includes/modules/form/module-form-fields.php:2117
 msgid "The message displayed above the form after the submission."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2107
-#: includes/modules/form/module-form.php:112
+#: includes/modules/form/module-form-fields.php:2134
+#: includes/modules/form/module-form.php:113
 msgid "Form updated"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2116
+#: includes/modules/form/module-form-fields.php:2143
 msgid "Success wrapper HTML"
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2119
+#: includes/modules/form/module-form-fields.php:2146
 msgid "HTML used to render the updated message."
 msgstr ""
 
-#: includes/modules/form/module-form-fields.php:2120
+#: includes/modules/form/module-form-fields.php:2147
 #, php-format
 msgid ""
 "If used, you have to include the following code <code>%s</code> to print the "
 "actual \"Success message\" above."
 msgstr ""
 
-#: includes/modules/form/module-form-front-hooks.php:266
+#: includes/modules/form/module-form-front-hooks.php:320
 #: includes/modules/form/module-form.php:103
 msgid "Validation failed"
 msgstr ""
 
-#: includes/modules/form/module-form-front-render.php:290
+#: includes/modules/form/module-form-front-render.php:308
 msgid "Validate Email"
 msgstr ""
 
@@ -4078,52 +4103,52 @@ msgstr ""
 msgid "%d fields require attention"
 msgstr ""
 
-#: includes/modules/form/module-form.php:261
-#: includes/modules/form/module-form.php:300
+#: includes/modules/form/module-form.php:262
+#: includes/modules/form/module-form.php:301
 msgid "Integration"
 msgstr ""
 
-#: includes/modules/form/module-form.php:301
+#: includes/modules/form/module-form.php:302
 msgid "Template Tags"
 msgstr ""
 
-#: includes/modules/form/module-form.php:302
+#: includes/modules/form/module-form.php:303
 msgid "Hooks"
 msgstr ""
 
-#: includes/modules/form/module-form.php:303
+#: includes/modules/form/module-form.php:304
 msgid "Helpers"
 msgstr ""
 
-#: includes/modules/form/module-form.php:309
+#: includes/modules/form/module-form.php:310
 msgid "Guides"
 msgstr ""
 
-#: includes/modules/form/module-form.php:315
+#: includes/modules/form/module-form.php:316
 msgid "Dummy Title & Content Fields"
 msgstr ""
 
-#: includes/modules/form/module-form.php:316
+#: includes/modules/form/module-form.php:317
 msgid "Hide a Field on Front-End"
 msgstr ""
 
-#: includes/modules/form/module-form.php:317
+#: includes/modules/form/module-form.php:318
 msgid "Passing Data to a Form"
 msgstr ""
 
-#: includes/modules/form/module-form.php:318
+#: includes/modules/form/module-form.php:319
 msgid "Using Actions Output Data"
 msgstr ""
 
-#: includes/modules/form/module-form.php:330
+#: includes/modules/form/module-form.php:331
 msgid "Shortcodes"
 msgstr ""
 
-#: includes/modules/form/module-form.php:345
+#: includes/modules/form/module-form.php:346
 msgid "PHP code"
 msgstr ""
 
-#: includes/modules/form/module-form.php:761
+#: includes/modules/form/module-form.php:762
 msgid "This form name already exists"
 msgstr ""
 
@@ -5594,7 +5619,7 @@ msgid "Show the text input allowing to enter a custom color"
 msgstr ""
 
 #: pro/includes/fields/field-color-picker.php:371
-#: pro/includes/fields/field-date-range-picker.php:275
+#: pro/includes/fields/field-date-range-picker.php:288
 msgid "Allow null"
 msgstr ""
 
@@ -5663,7 +5688,7 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:186
 #: pro/includes/fields/field-currencies.php:160
-#: pro/includes/fields/field-date-range-picker.php:70
+#: pro/includes/fields/field-date-range-picker.php:71
 #: pro/includes/fields/field-image-sizes.php:173
 #: pro/includes/fields/field-languages.php:253
 #: pro/includes/fields/field-payment-cart.php:98
@@ -5672,7 +5697,7 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:187
 #: pro/includes/fields/field-currencies.php:161
-#: pro/includes/fields/field-date-range-picker.php:71
+#: pro/includes/fields/field-date-range-picker.php:72
 #: pro/includes/fields/field-languages.php:254
 #: pro/includes/fields/field-payment-cart.php:99
 msgid "The format displayed when editing a post"
@@ -5680,8 +5705,8 @@ msgstr ""
 
 #: pro/includes/fields/field-countries.php:195
 #: pro/includes/fields/field-currencies.php:169
-#: pro/includes/fields/field-date-range-picker.php:79
-#: pro/includes/fields/field-date-range-picker.php:95
+#: pro/includes/fields/field-date-range-picker.php:80
+#: pro/includes/fields/field-date-range-picker.php:96
 #: pro/includes/fields/field-languages.php:262
 #: pro/includes/fields/field-payment-cart.php:106
 msgid "Custom:"
@@ -5741,13 +5766,13 @@ msgid "Group currencies by their continent"
 msgstr ""
 
 #: pro/includes/fields/field-date-picker.php:44
-#: pro/includes/fields/field-date-range-picker.php:180
+#: pro/includes/fields/field-date-range-picker.php:193
 #: pro/includes/fields/field-date-time-picker.php:53
 msgid "Date Restriction"
 msgstr ""
 
 #: pro/includes/fields/field-date-picker.php:70
-#: pro/includes/fields/field-date-range-picker.php:255
+#: pro/includes/fields/field-date-range-picker.php:268
 #: pro/includes/fields/field-date-time-picker.php:105
 msgid "No Weekends"
 msgstr ""
@@ -5756,39 +5781,47 @@ msgstr ""
 msgid "Date Range Picker"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:85
+#: pro/includes/fields/field-date-range-picker.php:86
 msgid "Return Format"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:86
+#: pro/includes/fields/field-date-range-picker.php:87
 msgid "The format returned via template functions"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:101
+#: pro/includes/fields/field-date-range-picker.php:102
+msgid "Return Type"
+msgstr ""
+
+#: pro/includes/fields/field-date-range-picker.php:103
+msgid "The type of value to return in template functions"
+msgstr ""
+
+#: pro/includes/fields/field-date-range-picker.php:114
 msgid "Week Starts On"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:118
+#: pro/includes/fields/field-date-range-picker.php:131
 msgid "Separator"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:126
+#: pro/includes/fields/field-date-range-picker.php:139
 msgid "Default Date"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:153
+#: pro/includes/fields/field-date-range-picker.php:166
 msgid "Range Restriction"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:210
+#: pro/includes/fields/field-date-range-picker.php:223
 msgid "Custom Ranges"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:245
+#: pro/includes/fields/field-date-range-picker.php:258
 msgid "Show Dropdowns"
 msgstr ""
 
-#: pro/includes/fields/field-date-range-picker.php:265
+#: pro/includes/fields/field-date-range-picker.php:278
 msgid "Auto Close on Selection"
 msgstr ""
 
@@ -6091,7 +6124,7 @@ msgid "Allow users to find layouts using text search."
 msgstr ""
 
 #: pro/includes/fields/field-flexible-content-search.php:103
-#: pro/includes/fields/field-flexible-content-search.php:184
+#: pro/includes/fields/field-flexible-content-search.php:183
 msgid "Search layouts..."
 msgstr ""
 
@@ -6100,7 +6133,7 @@ msgid "Not found message"
 msgstr ""
 
 #: pro/includes/fields/field-flexible-content-search.php:127
-#: pro/includes/fields/field-flexible-content-search.php:188
+#: pro/includes/fields/field-flexible-content-search.php:189
 msgid "No results found."
 msgstr ""
 
@@ -6362,6 +6395,13 @@ msgstr ""
 
 #: pro/includes/fields/field-payment.php:54
 msgid "Amount cannot be null"
+msgstr ""
+
+#: pro/includes/fields/field-payment.php:55
+#: pro/includes/fields/field-payment.php:56
+#: pro/includes/fields/field-payment.php:57
+#: pro/includes/fields/field-payment.php:59
+msgid "An error has occured"
 msgstr ""
 
 #: pro/includes/fields/field-payment.php:58

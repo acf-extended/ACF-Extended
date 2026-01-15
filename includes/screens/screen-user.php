@@ -252,6 +252,6 @@ class acfe_screen_user{
     
 }
 
-new acfe_screen_user();
+acf_new_instance('acfe_screen_user');
 
 endif;

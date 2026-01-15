@@ -2083,6 +2083,33 @@ class acfe_module_form_field_groups{
                     'group_with' => 'success',
                 ),
                 array(
+                    'key' => 'field_success_shortcode',
+                    'label' => __('Apply shortcodes', 'acfe'),
+                    'name' => 'success_shortcode',
+                    'type' => 'true_false',
+                    'instructions' => __('Apply shortcodes to success message', 'acfe'),
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_success_return',
+                                'operator' => '==',
+                                'value' => '',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'message' => '',
+                    'default_value' => 0,
+                    'ui' => 1,
+                    'ui_on_text' => '',
+                    'ui_off_text' => '',
+                    'group_with' => 'success',
+                ),
+                array(
                     'key' => 'field_success_message',
                     'label' => __('Success message', 'acfe'),
                     'name' => 'success_message',

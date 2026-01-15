@@ -1394,3 +1394,67 @@ function acfe_get_array_flatten($array = array(), $flattened = array()){
     return $flattened;
     
 }
+
+
+/**
+ * acfe_log
+ *
+ * Similar to acf_log(), but better handle true/false/null inside arrays
+ *
+ * @return void
+ */
+function acfe_log(){
+    
+    // vars
+    $args = func_get_args();
+    
+    // loop
+    foreach($args as $i => $arg){
+        
+        $arg = acfe_parse_log($arg);
+        
+        // array | object
+        if(is_array($arg) || is_object($arg)){
+            $arg = print_r($arg, true);
+        }
+        
+        // update
+        $args[ $i ] = $arg;
+        
+    }
+    
+    // log
+    error_log(implode( ' ', $args));
+    
+}
+
+
+/**
+ * acfe_parse_log
+ *
+ * @param $arg
+ *
+ * @return mixed|string
+ */
+function acfe_parse_log($arg){
+    
+    // array
+    if(is_array($arg)){
+        
+        foreach($arg as &$value){
+            $value = acfe_parse_log($value);
+        }
+        
+    // boolean
+    }elseif($arg === true || $arg === false){
+        $arg = $arg ? '(true)' : '(false)';
+        
+    // null
+    }elseif($arg === null){
+        $arg = '(null)';
+    }
+    
+    // return
+    return $arg;
+    
+}

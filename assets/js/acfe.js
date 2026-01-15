@@ -2290,45 +2290,131 @@
      * @param message
      */
     acfe.copyClipboard = function(data, message) {
-
-        // default message
-        message = acf.parseArgs(message, {
-            auto: acf.__('Data has been copied to your clipboard.'),
-            manual: acf.__('Please copy the following data to your clipboard.'),
-        });
-
-        // fallback for browsers that don't support navigator.clipboard
-        var fallbackCopy = function(data, message) {
-
-            var $input = $('<input type="text" style="clip:rect(0,0,0,0);clip-path:none;position:absolute;" value="" />').appendTo($('body'));
-            $input.attr('value', data).select();
-
-            if (document.execCommand('copy')) {
-                alert(message.auto);
-            } else {
-                prompt(message.manual, data);
-            }
-
-            $input.remove();
-
-        }
-
-        // navigator clipboard
-        if (navigator.clipboard) {
-
-            navigator.clipboard.writeText(data).then(function() {
-                alert(message.auto);
-                return true;
-            }).catch(function() {
-                fallbackCopy(data, message);
-            });
-
-            // fallback
-        } else {
-            fallbackCopy(data, message);
-        }
-
+        new copyClipboard(data, message);
     }
+
+
+    /**
+     * copyClipboard
+     */
+    var copyClipboard = acf.Model.extend({
+
+        data: null,
+        title: null,
+        message: null,
+
+        setup: function(data, message) {
+            this.data = data;
+            this.message = message;
+        },
+
+        initialize: function() {
+
+            var args = {
+                title: this.message.auto.title,
+                destroy: true,
+                width: 400,
+                text: this.message.auto.text,
+                class: 'acfe-modal-fc-copy-layout',
+                input: false,
+                events: {
+                    'click textarea': 'onClickTextarea',
+                    'click .copy': 'onClickCopy',
+                },
+                content: function() {
+                    var html = '';
+
+                    html += `<div class="acfe-modal-spacer">`;
+                    html += `<div>${this.text}</div>`;
+
+                    if (this.input) {
+                        html += `<textarea readonly></textarea>`;
+                    }
+
+                    html += `</div>`;
+
+                    return html;
+
+                },
+                footer: function() {
+
+                    if (this.input) {
+                        return `<a href="#" class="button button-large close">${acf.__('Cancel')}</a> <a href="#" class="button button-large button-primary copy">${acf.__('Copy and close')}</a>`;
+                    }
+
+                    return `<a href="#" class="button button-large button-primary close">${acf.__('Close')}</a>`;
+                },
+                onOpen: function() {
+                    if (this.input) {
+                        var $textarea = this.$el.find('textarea');
+                        $textarea.val(this.input);
+                        $textarea.select();
+                    }
+                },
+                onClickTextarea: function(e, $el) {
+                    $el.select();
+                },
+                onClickCopy: function(e, $el) {
+
+                    e.preventDefault();
+
+                    var $textarea = this.$el.find('textarea');
+                    $textarea.select();
+                    document.execCommand("copy");
+                    this.close();
+
+                },
+            };
+
+
+            this.tryCopy().then(this.proxy(function(success) {
+                if (success) {
+                    acfe.newModal(args);
+                } else {
+                    args.title = this.message.manual.title;
+                    args.text = this.message.manual.text;
+                    args.input = this.data;
+                    acfe.newModal(args);
+                }
+            }));
+
+        },
+
+        tryCopy: function() {
+
+            var data = this.data;
+            var tryFallback = this.proxy(this.tryFallback);
+
+            return new Promise(function(resolve) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(data).then(function() {
+                        resolve(true);
+                    }).catch(function() {
+                        resolve(tryFallback());
+                    });
+                } else {
+                    resolve(tryFallback());
+                }
+            });
+        },
+
+        tryFallback: function() {
+
+            var $textarea = $('<textarea style="position:absolute;left:-9999px;top:0;" />').appendTo('body');
+            $textarea.val(this.data).select();
+
+            var success = false;
+            try {
+                success = document.execCommand('copy');
+            } catch (e) {
+                success = false;
+            }
+            $textarea.remove();
+            return success;
+        },
+
+
+    });
 
 
     /**

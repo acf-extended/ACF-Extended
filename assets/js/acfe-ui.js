@@ -80,7 +80,22 @@
 
         },
 
+        userEditLoad: function() {
+
+            // RankMath
+            // RankMath add a <h2> next to the Contact Info > Website, with new fields like twitter/facebook etc
+            // we want to remove that ugly <h2>
+            var $rankMath_title = this.$('.user-url-wrap').closest('table').find('h2:contains("Rank Math SEO")');
+            if ($rankMath_title.length) {
+                $rankMath_title.closest('tr').remove();
+            }
+
+
+        },
+
         userEdit: function() {
+
+            this.addAction('load', 'userEditLoad');
 
             // Vars
             var $main = this.$main;

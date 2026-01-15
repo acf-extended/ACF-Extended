@@ -556,6 +556,28 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.2.3
+
+**ACF Extended Pro 0.9.2.3:**
+
+* Field: Color Picker - Fixed "Color Palette" when copy/pasting with a Flexible Content
+* Field: Date Range Picker - Added "Return Type: Array (default) / String" setting
+* Field: Date Range Picker - Fixed popup priority when displayed inside a modal
+* Field: Flexible Content - Fixed "Search layouts" & "No layouts found" custom text display
+* Field: Flexible Content - Fixed render issue on multilingual setup with custom textdomain
+
+**ACF Extended Basic 0.9.2.3:**
+
+* Field: Flexible Content - Enhanced "Copy/Paste" feature to display a proper modal
+* Field: Repeater - Minor CSS tweaks to the "Stylised Button" setting
+* Field: Select - Fixed selected options when copy/pasting with a Flexible Content
+* Field: Select - Fixed Select2 becoming disabled when copy/pasting with a Flexible Content
+* Module: Enhanced UI - Fixed minor issue with Rankmath on the User Edit screen
+* Module: Forms - Enforced global reCaptcha validation if the field is present in a field group
+* Module: Forms - Added "Success message: Apply shortcodes" setting (enabled by default)
+* Module: Forms - Email - Shortcodes are now disabled by default in the email content
+* Module: Forms - Email - Added "Apply shortcodes" setting to enable shortcodes in the content
+
 ### 0.9.2.2
 
 **ACF Extended Pro 0.9.2.2:**

@@ -37,6 +37,11 @@ class acfe_field_button extends acf_field{
      */
     function ajax_request(){
         
+        // bail early
+        if(!acf_verify_ajax()){
+            die;
+        }
+        
         // vars
         $field_key = acf_maybe_get_POST('field_key', '');
         $post_id = acf_maybe_get_POST('post_id', 0);

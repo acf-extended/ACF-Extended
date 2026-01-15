@@ -79,6 +79,6 @@ class acfe_screen_settings{
     
 }
 
-new acfe_screen_settings();
+acf_new_instance('acfe_screen_settings');
 
 endif;
