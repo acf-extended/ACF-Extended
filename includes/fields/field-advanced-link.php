@@ -72,8 +72,8 @@ class acfe_field_advanced_link extends acf_field{
         
         // vars
         $div = array(
-            'id'    => $field['id'],
-            'class' => $field['class'] . ' acf-link',
+            'id'        => $field['id'],
+            'class'     => $field['class'] . ' acf-link',
         );
     
         // subfields
@@ -194,6 +194,7 @@ class acfe_field_advanced_link extends acf_field{
             'ajax'              => 1,
             'ajax_action'       => 'acfe/fields/advanced_link/post_query',
             'choices'           => $this->get_post_choices($field),
+            'nonce'             => wp_create_nonce('acf_field_' . $field['type'] . '_' . $field['key']),
             'value'             => isset($value['type']) && $value['type'] === 'post' ? $value['value'] : '', // inject value based on type
             'conditional_logic' => array(
                 array(
@@ -602,12 +603,16 @@ class acfe_field_advanced_link extends acf_field{
      * ajax_query
      */
     function ajax_query(){
-        
+
+        $nonce        = acf_request_arg('nonce', '');
+        $key          = acf_request_arg('field_key', '');
+        $is_field_key = acf_is_field_key($key);
+
         // validate
-        if(!acf_verify_ajax()){
+        if(!acf_verify_ajax($nonce, $key, $is_field_key)){
             die();
         }
-        
+
         // get choices
         $response = $this->get_ajax_query($_POST);
         
@@ -642,6 +647,10 @@ class acfe_field_advanced_link extends acf_field{
         // load field
         $field = acf_get_field($options['field_key']);
         if(!$field){
+            return false;
+        }
+
+        if($field['type'] !== $this->name){
             return false;
         }
         
