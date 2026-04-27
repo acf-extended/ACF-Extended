@@ -40,7 +40,6 @@ class acfe_field_post_object extends acfe_field_extend{
             'name'          => 'save_custom',
             'type'          => 'true_false',
             'ui'            => 1,
-            'message'       => __("Save 'custom' values as new post", 'acf'),
         ));
     
         // save post_type
@@ -190,6 +189,42 @@ class acfe_field_post_object extends acfe_field_extend{
         
         // return
         return $value;
+        
+    }
+    
+    
+    /**
+     * format_front_value
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     * @param $form
+     *
+     * @return string
+     */
+    function format_front_value($formatted, $unformatted, $post_id, $field, $form){
+        
+        // vars
+        $value = acf_get_array($unformatted);
+        $array = array();
+        
+        // loop values
+        foreach($value as $p_id){
+            
+            // get post
+            $post = get_post($p_id);
+            
+            // validate
+            if($post && !is_wp_error($post)){
+                $array[] = get_the_title($post->ID);
+            }
+            
+        }
+        
+        // merge
+        return implode(', ', $array);
         
     }
     

@@ -552,10 +552,10 @@ class acfe_field_advanced_link extends acf_field{
     function get_post_choices($field){
         
         // vars
-        $value = $field['value'];
+        $value = acf_get_array($field['value']);
         $choices = array();
-        
-        if(empty($value)){
+
+        if(empty($value) || !isset($value['value'])){
             return $choices;
         }
         

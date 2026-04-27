@@ -67,6 +67,42 @@ class acfe_field_taxonomy extends acfe_field_extend{
     
     
     /**
+     * format_front_value
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     * @param $form
+     *
+     * @return string
+     */
+    function format_front_value($formatted, $unformatted, $post_id, $field, $form){
+        
+        // vars
+        $value = acf_get_array($unformatted);
+        $array = array();
+        
+        // loop values
+        foreach($value as $term_id){
+            
+            // get term
+            $term = get_term($term_id);
+            
+            // validate
+            if($term && !is_wp_error($term)){
+                $array[] = $term->name;
+            }
+            
+        }
+        
+        // merge
+        return implode(', ', $array);
+        
+    }
+    
+    
+    /**
      * validate_front_value
      *
      * @param $valid

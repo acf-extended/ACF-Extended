@@ -52,6 +52,7 @@ class acfe_field_extend{
             array('filter', 'acf/translate_field',           array($this, 'translate_field'),          10, 1),
             
             // acfe
+            array('filter', 'acfe/form/format_value',        array($this, 'format_front_value'),       10, 5),
             array('filter', 'acfe/form/validate_value',      array($this, 'validate_front_value'),     10, 5),
             array('filter', 'acfe/field_wrapper_attributes', array($this, 'field_wrapper_attributes'), 10, 2),
             array('filter', 'acfe/load_fields',              array($this, 'load_fields'),              10, 2),

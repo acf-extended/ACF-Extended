@@ -8,11 +8,44 @@ if(!class_exists('acfe_module_form_compatibility')):
 
 class acfe_module_form_compatibility{
     
+    /**
+     * construct
+     */
     function __construct(){
+        
+        // pre validate item
+        add_filter('acfe/module/validate_item/module=form',           array($this, 'validate_item'), 10, 2);
         
         // import
         add_filter('acfe/module/prepare_item_for_import/module=form', array($this, 'import_0_9'),   20);
         add_filter('acfe/module/prepare_item_for_import/module=form', array($this, 'import_0_8_5'), 10);
+        
+    }
+    
+    
+    /**
+     * pre_validate_item
+     *
+     * @param $item
+     * @param $module
+     *
+     * @return array|mixed
+     */
+    function validate_item($item, $module){
+        
+        // get raw item
+        $raw_item = $module->get_raw_item($item);
+        if(!$raw_item){
+            return $item;
+        }
+        
+        // back-compatibility for old items that weren't updated
+        if(isset($raw_item['success']) && !isset($raw_item['success']['shortcode'])){
+            $item['success']['shortcode'] = true;
+        }
+        
+        // return
+        return $item;
         
     }
     

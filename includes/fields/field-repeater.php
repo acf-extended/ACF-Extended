@@ -87,6 +87,63 @@ class acfe_field_repeater extends acfe_field_extend{
         
     }
     
+    
+    /**
+     * format_front_value
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     * @param $form
+     *
+     * @return string
+     */
+    function format_front_value($formatted, $unformatted, $post_id, $field, $form){
+        
+        // vars
+        $value = acf_get_array($unformatted);
+        $return = '';
+        
+        // loop values
+        foreach($value as $i => $sub_fields){
+            
+            $array = array();
+            $return .= "<br/>\n- ";
+            
+            // loop subfields keys
+            foreach($sub_fields as $key => $val){
+                
+                // get subfield
+                $sub_field = acf_get_field($key);
+                
+                // validate
+                if($sub_field){
+                    
+                    // label
+                    $label = !empty($sub_field['label']) ? $sub_field['label'] : $sub_field['name'];
+                    
+                    // value
+                    $sub_field['name'] = $field['name'] . '_' . $i . '_' . $sub_field['name'];
+                    $val = acfe_form_format_value($val, $sub_field);
+                    
+                    // append
+                    $array[] = "{$label}: {$val}";
+                    
+                }
+                
+            }
+            
+            // merge
+            $return .= implode('. ', $array);
+            
+        }
+        
+        // return
+        return $return;
+        
+    }
+    
 }
 
 acf_new_instance('acfe_field_repeater');

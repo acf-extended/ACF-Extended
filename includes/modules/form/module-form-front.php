@@ -158,53 +158,32 @@ class acfe_module_form_front{
      */
     function get_form($form){
         
-        // allow non array argument
+        // allow name/ID
         if(!is_array($form)){
-            
-            $arg = $form;
-            $form = array(
-                'ID'   => is_numeric($arg) ? $arg : 0,
-                'name' => !is_numeric($arg) ? $arg : '',
-            );
-            
+            $form = is_numeric($form) ? array('ID' => $form) : array('name' => $form);
         }
-    
-        // check lowercase id
+
+        // cast as array
+        $form = acf_get_array($form);
+
+        // sanitize lowercase id
         if(isset($form['id'])){
             $form['ID'] = acf_extract_var($form, 'id');
         }
-    
-        // get module
-        $module = acfe_get_module('form');
-        
-        // get by name or ID
-        $selector = !empty($form['name']) ? $form['name'] : acf_maybe_get($form, 'ID');
-        
-        if($selector){
-        
-            // get item
-            $item = $module->get_item($selector);
-        
-            // merge arrays
-            if($item){
-                
-                // assign item vars
-                $form['ID'] = $item['ID'];
-                $form['name'] = $item['name'];
-                $form = acfe_parse_args_r($form, $item);
-                
-                // allow validate_item again
-                acf_extract_vars($form, array('_valid'));
-            
-            }
-        
+
+        // get item
+        $item = acfe_get_module('form')->get_item($form);
+        if($item){
+
+            // cleanup vars (use item ID & name)
+            acf_extract_vars($form, array('ID', 'name'));
+            $form = acfe_parse_args_r($form, $item);
+
+        }else{
+            $form = acfe_get_module('form')->validate_item($form);
         }
-    
-        // validate form (set alias)
-        // also add settings in case there is no form found
-        $form = $module->validate_item($form);
         
-        // cleanup keys
+        // cleanup vars
         acf_extract_vars($form, array('label', 'modified', 'local', 'local_file', '_valid'));
         
         // add post id
@@ -514,11 +493,11 @@ function acfe_form($form = array()){
 /**
  * acfe_get_form
  *
- * @param array $form
+ * @param $form
  *
  * @return mixed
  */
-function acfe_get_form(array $form = array()){
+function acfe_get_form($form = array()){
     return acf_get_instance('acfe_module_form_front')->get_form($form);
 }
 

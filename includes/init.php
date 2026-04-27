@@ -16,6 +16,25 @@ function acfe_has_acf(){
 }
 
 /**
+ * acfe_is_acf
+ *
+ * @param $v1
+ * @param $v2
+ *
+ * @return bool
+ */
+function acfe_is_acf($v1, $v2 = ''){
+
+    // check only one version
+    if(empty($v2)){
+        return acf_version_compare(acf_get_setting('version'), '>=', $v1);
+    }
+
+    // check both versions
+    return acf_version_compare(acf_get_setting('version'), '>=', $v1) && acf_version_compare(acf_get_setting('version'), '<', $v2);
+}
+
+/**
  * acfe_is_acf_59
  *
  * @return bool

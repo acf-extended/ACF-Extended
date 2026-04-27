@@ -4,35 +4,31 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// check version
-if(!acfe_is_acf_6()){
-    return;
-}
+if(!class_exists('acfe_admin')):
 
-if(!class_exists('acfe_compatibility_acf_6')):
-
-class acfe_compatibility_acf_6{
+class acfe_admin{
     
     /**
      * construct
      */
     function __construct(){
-    
+
+        // acf-updates & acf-tools pages
         add_action('admin_menu',                                    array($this, 'admin_menu'));
         
-        // acf-field groups (6.0)
+        // acf-field-groups (ACF 6.0)
         add_action('acfe/load_posts/post_type=acf-field-group',     array($this, 'load_posts'));
         add_action('acfe/load_post/post_type=acf-field-group',      array($this, 'load_post'));
         
-        // acf-post type (6.1)
+        // acf-post-type (ACF 6.1)
         add_action('acfe/load_posts/post_type=acf-post-type',       array($this, 'load_posts'));
         add_action('acfe/load_post/post_type=acf-post-type',        array($this, 'load_post'));
         
-        // acf-taxonomy (6.1)
+        // acf-taxonomy (ACF 6.1)
         add_action('acfe/load_posts/post_type=acf-taxonomy',        array($this, 'load_posts'));
         add_action('acfe/load_post/post_type=acf-taxonomy',         array($this, 'load_post'));
         
-        // acf-ui-options-page (6.2)
+        // acf-ui-options-page (ACF 6.2)
         add_action('acfe/load_posts/post_type=acf-ui-options-page', array($this, 'load_posts'));
         add_action('acfe/load_post/post_type=acf-ui-options-page',  array($this, 'load_post'));
         
@@ -123,7 +119,16 @@ class acfe_compatibility_acf_6{
      * Adds acf-admin-6 class to body
      */
     function admin_body_class($classes){
-        $classes .= ' acf-admin-6';
+
+        // filter
+        $new_class = apply_filters('acfe/acf_admin_body_class', 'acf-admin-6');
+
+        // append class
+        if(!empty($new_class)){
+            $classes .= ' ' . $new_class;
+        }
+
+        // return
         return $classes;
     }
     
@@ -178,9 +183,11 @@ class acfe_compatibility_acf_6{
         
         // check screen
         if(acfe_maybe_get($screen, 'post_type') === 'acf-field-group' || acf_is_screen($allowed)){
-            
+
+            // add top menu icons
             add_action('admin_head', array($this, 'admin_head_navigation'));
-            
+
+            // remove the topbar "white banner" with the page title
             if(acf_is_screen($allowed)){
                 global $acf_page_title;
                 $acf_page_title = '';
@@ -189,20 +196,38 @@ class acfe_compatibility_acf_6{
         }
         
         // acf 6.1 removed topbar for third party submenu
-        if(acf_is_screen($allowed)){
+        // checking $screen[post_type] to avoid adding the global navigation twice (throws: Cannot redeclare acf_print_menu_section())
+        // this fix an issue when visiting custom admin url like: edit-tags.php?taxonomy=acf-field-group-category&post_type=acf-field-group
+        if(acf_is_screen($allowed) && acfe_maybe_get($screen, 'post_type') !== 'acf-field-group'){
             add_action('in_admin_header', array($this, 'in_admin_header'));
         }
         
     }
-    
-    
+
+
+    /**
+     * in_admin_header
+     *
+     * @return void
+     */
     function in_admin_header(){
-        acf_get_view('global/navigation');
+
+        // safeguard: bail early in case global navigation is already loaded
+        if(function_exists('acf_print_menu_section')){
+            return;
+        }
+
+        // load view
+        acf_get_view(apply_filters('acfe/acf_admin_navigation_page', 'global/navigation'));
+
     }
     
     
     /**
      * admin_head_navigation
+     *
+     * ACF >= 6.0 && <= 6.1 Add ACF admin head navigation icons to ACFE modules
+     * Starting ACF 6.1, ACF add custom submenus into a "More" menu, which doesn't show icons anymore
      */
     function admin_head_navigation(){
         
@@ -267,6 +292,6 @@ class acfe_compatibility_acf_6{
     
 }
 
-acf_new_instance('acfe_compatibility_acf_6');
+acf_new_instance('acfe_admin');
 
 endif;

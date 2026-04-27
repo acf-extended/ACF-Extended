@@ -3538,6 +3538,7 @@
                 action: 'acfe/flexible/models',
                 field_key: this.get('key'),
                 layout: args.layout,
+                nonce: this.get('nonce')
             };
 
             // beforeSend callback

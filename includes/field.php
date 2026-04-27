@@ -17,6 +17,7 @@ class acfe_field extends acf_field{
         parent::__construct();
         
         // custom filters
+        $this->add_field_filter('acfe/form/format_value',        array($this, 'format_front_value'),       10, 5);
         $this->add_field_filter('acfe/form/validate_value',      array($this, 'validate_front_value'),     10, 5);
         $this->add_field_filter('acfe/field_wrapper_attributes', array($this, 'field_wrapper_attributes'), 10, 2);
         $this->add_field_filter('acfe/load_fields',              array($this, 'load_fields'),              10, 2);

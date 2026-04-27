@@ -4,27 +4,32 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-if(!class_exists('acfe_location_post_type_list')):
+if(!class_exists('acfe_form_post_type_list')):
 
-class acfe_location_post_type_list{
+class acfe_form_post_type_list{
     
     // vars
     var $post_id;
     var $post_type;
     var $field_groups = array();
-    
+
+    /**
+     * construct
+     */
     function __construct(){
-        
-        // load
-        add_action('acfe/load_posts',                           array($this, 'load_posts'));
-        
-        // locations
-        add_filter('acf/location/rule_types',                   array($this, 'rule_types'));
-        add_filter('acf/location/rule_values/post_type_list',   array($this, 'rule_values'));
-        add_filter('acf/location/rule_match/post_type_list',    array($this, 'rule_match'), 10, 3);
+
+        add_action('acfe/load_posts', array($this, 'load_posts'));
         
     }
-    
+
+
+    /**
+     * load_posts
+     *
+     * @param $post_type
+     *
+     * @return void
+     */
     function load_posts($post_type){
         
         // bail early if restricted
@@ -87,7 +92,13 @@ class acfe_location_post_type_list{
         add_action('acfe/add_posts_meta_boxes', array($this, 'add_posts_meta_boxes'));
         
     }
-    
+
+
+    /**
+     * add_posts_meta_boxes
+     *
+     * @return void
+     */
     function add_posts_meta_boxes(){
     
         // Storage for localized postboxes.
@@ -96,9 +107,7 @@ class acfe_location_post_type_list{
     
         // merge field groups with their position
         foreach($this->field_groups as $field_group){
-        
             $field_groups[ $field_group['position'] ][] = $field_group;
-        
         }
     
         // loop
@@ -151,7 +160,16 @@ class acfe_location_post_type_list{
         ));
         
     }
-    
+
+
+    /**
+     * render_meta_box
+     *
+     * @param $post_type
+     * @param $metabox
+     *
+     * @return void
+     */
     function render_meta_box($post_type, $metabox){
     
         // vars
@@ -209,60 +227,8 @@ class acfe_location_post_type_list{
         
     }
     
-    function rule_types($choices){
-        
-        $name = __('Post', 'acf');
-        $choices[ $name ] = acfe_array_insert_after($choices[ $name ], 'post_type', 'post_type_list', __('Post Type List'));
-
-        return $choices;
-        
-    }
-
-    
-    function rule_values($choices){
-        
-        $post_types = acf_get_post_types(array(
-            'show_ui'    => 1,
-            'exclude'    => array('attachment')
-        ));
-        
-        $pretty_post_types = array();
-        
-        if(!empty($post_types)){
-            
-            $pretty_post_types = acf_get_pretty_post_types($post_types);
-            
-        }
-        
-        $choices = array('all' => __('All', 'acf'));
-        $choices = array_merge($choices, $pretty_post_types);
-        
-        return $choices;
-        
-    }
-    
-    function rule_match($match, $rule, $screen){
-        
-        if(!acf_maybe_get($screen, 'post_type_list') || !acf_maybe_get($rule, 'value')){
-            return $match;
-        }
-        
-        $match = ($screen['post_type_list'] === $rule['value']);
-        
-        if($rule['value'] === 'all'){
-            $match = true;
-        }
-        
-        if($rule['operator'] === '!='){
-            $match = !$match;
-        }
-        
-        return $match;
-
-    }
-    
 }
 
-new acfe_location_post_type_list();
+acf_new_instance('acfe_form_post_type_list');
 
 endif;

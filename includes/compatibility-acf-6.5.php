@@ -425,7 +425,7 @@ class acfe_compatibility_acf_65{
      * @return bool
      */
     function has_title_action($field){
-        return in_array('title', $field['acfe_flexible_add_actions']);
+        return in_array('title', acf_get_array($field['acfe_flexible_add_actions']));
     }
     
     
@@ -437,7 +437,7 @@ class acfe_compatibility_acf_65{
      * @return bool
      */
     function has_toggle_action($field){
-        return in_array('toggle', $field['acfe_flexible_add_actions']);
+        return in_array('toggle', acf_get_array($field['acfe_flexible_add_actions']));
     }
     
     

@@ -126,7 +126,7 @@ class ACFE_Field_Group{
             <div class="acf-field" data-name="acfe_sync_available">
                 <div class="acf-label">
                     <label><?php _e('Sync available', 'acf'); ?></label>
-                    <p class="description"><?php _e('Local json file is different from the version in database.', 'acf'); ?></p>
+                    <p class="description"><?php _e('Local file is different from the version in database.', 'acfe'); ?></p>
                 </div>
                 <div class="acf-input">
                     

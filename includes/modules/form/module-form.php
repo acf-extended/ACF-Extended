@@ -109,7 +109,7 @@ class acfe_module_form extends acfe_module{
             'success'       => array(
                 'hide_form' => false,
                 'scroll'    => false,
-                'shortcode' => true,
+                'shortcode' => false,
                 'message'   => __('Form updated', 'acfe'),
                 'wrapper'   => '<div id="message" class="updated">%s</div>',
             ),
@@ -379,46 +379,13 @@ class acfe_module_form extends acfe_module{
     
     
     /**
-     * validate_item
+     * validated_item
      *
      * @param $item
      *
      * @return array|mixed
      */
-    function validate_item($item = array()){
-        
-        // process parent
-        // $item = parent::validate_item($item);
-        
-        // already valid
-        if(is_array($item) && !empty($item['_valid'])){
-            return $item;
-        }
-        
-        // convert
-        $item['ID']     = (int) acf_maybe_get($item, 'ID', 0);
-        $item['active'] = (bool) acf_maybe_get($item, 'active', true);
-        $item['_valid'] = true;
-        
-        // default item
-        $defaults = wp_parse_args($this->item, array(
-            'ID'    => 0,
-            'name'  => '',
-            'label' => '',
-        ));
-        
-        // parse defaults
-        $item = acfe_parse_args_r($item, $defaults);
-        
-        // process alias
-        foreach($this->alias as $k => $alias){
-            if(!empty($item[ $alias ])){
-                
-                // set 'page_title' = 'label'
-                $item[ $k ] = $item[ $alias ];
-                
-            }
-        }
+    function validated_item($item = array()){
         
         // validate keys types
         $item['field_groups'] = acf_get_array($item['field_groups']);
@@ -426,10 +393,8 @@ class acfe_module_form extends acfe_module{
         
         // validate actions
         $item = $this->validate_actions($item);
-        
-        // filters
-        $item = $this->apply_module_filters('acfe/module/validate_item', $item);
-        
+
+        // return
         return $item;
         
     }

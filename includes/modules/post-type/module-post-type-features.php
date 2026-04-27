@@ -31,25 +31,28 @@ class acfe_module_post_type_features{
      * admin_footer-edit.php
      */
     function admin_footer(){
-        
+
+        // verify permissions
         if(!acf_current_user_can_admin()){
             return;
         }
-        
+
+        // get current post type
         global $typenow;
         if(!$typenow){
             return;
         }
-        
+
+        // get post type object
         $post_type_object = get_post_type_object($typenow);
         
-        // check acfe custom feature
+        // check if it's a post type managed by acfe
         if(!isset($post_type_object->acfe_archive_ppp)){
             return;
         }
-        
-        // get raw item
-        $item = acfe_get_module('post_type')->get_raw_item($typenow);
+
+        // get item
+        $item = acfe_get_module('post_type')->get_item($typenow, 'db');
         if(!$item){
             return;
         }

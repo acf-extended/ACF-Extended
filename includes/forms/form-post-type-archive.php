@@ -4,22 +4,22 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-if(!class_exists('acfe_location_post_type_archive')):
+if(!class_exists('acfe_form_post_type_archive')):
 
-class acfe_location_post_type_archive{
-    
+class acfe_form_post_type_archive{
+
+    // vars
     public $post_type = false;
-    
+
+    /**
+     * construct
+     */
     function __construct(){
         
-        add_action('init',                                          array($this, 'init'), 99);
-        add_action('current_screen',                                array($this, 'current_screen'));
-        add_action('admin_bar_menu',                                array($this, 'admin_bar_menu'), 90);
-        
-        add_filter('acf/get_options_pages',                         array($this, 'get_options_pages'));
-        add_filter('acf/location/rule_types',                       array($this, 'location_types'));
-        add_filter('acf/location/rule_values/post_type_archive',    array($this, 'location_values'));
-        add_filter('acf/location/rule_match/post_type_archive',     array($this, 'location_match'), 10, 3);
+        add_action('init',                  array($this, 'init'), 99);
+        add_action('current_screen',        array($this, 'current_screen'));
+        add_action('admin_bar_menu',        array($this, 'admin_bar_menu'), 90);
+        add_filter('acf/get_options_pages', array($this, 'get_options_pages'));
         
     }
     
@@ -278,86 +278,6 @@ class acfe_location_post_type_archive{
     
     
     /**
-     * location_types
-     *
-     * acf/location/rule_types
-     *
-     * @param $choices
-     *
-     * @return mixed
-     */
-    function location_types($choices){
-        
-        $name = __('Post', 'acf');
-        $choices[ $name ] = acfe_array_insert_after($choices[ $name ], 'post_type', 'post_type_archive', __('Post Type Archive'));
-
-        return $choices;
-        
-    }
-    
-    
-    /**
-     * location_values
-     *
-     * acf/location/rule_values/post_type_archive
-     *
-     * @param $choices
-     *
-     * @return array
-     */
-    function location_values($choices){
-        
-        $post_types = acf_get_post_types(array(
-            'acfe_admin_archive' => true
-        ));
-        
-        $pretty_post_types = array();
-        
-        if(!empty($post_types)){
-            $pretty_post_types = acf_get_pretty_post_types($post_types);
-        }
-        
-        $choices = array('all' => __('All', 'acf'));
-        $choices = array_merge($choices, $pretty_post_types);
-        
-        return $choices;
-        
-    }
-    
-    
-    /**
-     * location_match
-     *
-     * acf/location/rule_match/post_type_archive
-     *
-     * @param $match
-     * @param $rule
-     * @param $screen
-     *
-     * @return bool|mixed
-     */
-    function location_match($match, $rule, $screen){
-        
-        if(!acf_maybe_get($screen, 'options_page') || !acf_maybe_get($screen, 'acfe_post_type_archive') || !acf_maybe_get($rule, 'value')){
-            return $match;
-        }
-        
-        $match = $screen['options_page'] === "{$rule['value']}-archive";
-        
-        if($rule['value'] === 'all'){
-            $match = true;
-        }
-        
-        if($rule['operator'] === '!='){
-            $match = !$match;
-        }
-        
-        return $match;
-
-    }
-    
-    
-    /**
      * get_menu_parent_slug
      *
      * @param $object
@@ -384,6 +304,6 @@ class acfe_location_post_type_archive{
     
 }
 
-new acfe_location_post_type_archive();
+acf_new_instance('acfe_form_post_type_archive');
 
 endif;

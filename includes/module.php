@@ -45,7 +45,8 @@ class acfe_module{
         // todo move 'local-any-post_type' store outside module
         acf_register_store("local-{$this->post_type}");
         acf_register_store("local-any-{$this->post_type}");
-        acf_register_store($this->post_type)->prop('multisite', true);
+        acf_register_store("{$this->post_type}:db")->prop('multisite', true);
+        acf_register_store("{$this->post_type}:local")->prop('multisite', true);
         
         $this->add_module_filter('acfe/module/register_field_groups', array($this, 'register_field_groups'), 9);
         $this->add_module_filter('acfe/module/register_items',        array($this, 'register_items'), 9);
@@ -63,7 +64,8 @@ class acfe_module{
         $this->add_module_action('acfe/module/untrashed_item',        array($this, 'untrashed_item'), 9);
         $this->add_module_action('acfe/module/deleted_item',          array($this, 'deleted_item'), 9);
         $this->add_module_action('acfe/module/imported_item',         array($this, 'imported_item'), 9);
-        $this->add_module_filter('acfe/module/validate_item',         array($this, 'validate_item'), 9);
+        $this->add_module_filter('acfe/module/pre_validate_item',     array($this, 'pre_validate_item'), 9);
+        $this->add_module_filter('acfe/module/validate_item',         array($this, 'validated_item'), 9);
         $this->add_module_filter('acfe/module/load_item',             array($this, 'load_item'), 9);
         $this->add_module_filter('acfe/module/load_items',            array($this, 'load_items'), 9);
         
@@ -116,17 +118,20 @@ class acfe_module{
      * @return array|mixed
      */
     function validate_item($item = array()){
-    
+        
         // already valid
         if(is_array($item) && !empty($item['_valid'])){
             return $item;
         }
-    
+        
         // convert
         $item['ID']     = (int) acf_maybe_get($item, 'ID', 0);
         $item['active'] = (bool) acf_maybe_get($item, 'active', true);
         $item['_valid'] = true;
-    
+        
+        // filters
+        $item = $this->apply_module_filters('acfe/module/pre_validate_item', $item);
+        
         // default item
         $defaults = wp_parse_args($this->item, array(
             'ID'    => 0,
@@ -267,11 +272,8 @@ class acfe_module{
      */
     function trash_item($id){
         
-        // disable filters to get from db
-        acf_disable_filters();
-        
         // get
-        $item = $this->get_item($id);
+        $item = $this->get_item($id, 'db');
         
         // bail early
         if(!$item || !$item['ID']){
@@ -302,11 +304,8 @@ class acfe_module{
      */
     function untrash_item($id){
         
-        // disable filters to get from db
-        acf_disable_filters();
-        
-        // get raw item (to avoid validate_item)
-        $item = $this->get_raw_item($id);
+        // get db item
+        $item = $this->get_item($id, 'db');
         
         // bail early
         if(!$item || !$item['ID']){
@@ -339,11 +338,8 @@ class acfe_module{
      */
     function delete_item($id){
         
-        // disable filters to get from db
-        acf_disable_filters();
-        
         // get
-        $item = $this->get_item($id);
+        $item = $this->get_item($id, 'db');
         
         // bail early
         if(!$item || !$item['ID']){
@@ -408,8 +404,8 @@ class acfe_module{
      */
     function duplicate_item($id = 0, $new_post_id = 0){
         
-        // get raw item
-        $item = $this->get_raw_item($id);
+        // get db item
+        $item = $this->get_item($id, 'db');
         
         // bail early if item was not found
         if(!$item || !$item['ID']){
@@ -439,33 +435,36 @@ class acfe_module{
     /**
      * get_item
      *
+     * Get db or local item
+     *
      * @param $id
      *
      * @return array|false|mixed|null
      */
-    function get_item($id = 0){
+    function get_item($id, $source = 'any'){
         
-        // allow wp object
+        // object
         if(is_object($id)){
             $id = $id->ID;
+            
+        // array
+        }elseif(is_array($id)){
+            $id = !empty($id['name']) ? $id['name'] : acf_maybe_get($id, 'ID', 0);
+        }
+        
+        // source: any
+        if($source === 'any'){
+            $source = $this->is_local_item($id) ? 'local' : 'db';
         }
         
         // check store
-        $store = acf_get_store($this->post_type);
+        $store = acf_get_store("{$this->post_type}:{$source}");
         if($store->has($id)){
             return $store->get($id);
         }
         
-        // check local
-        if($this->is_local_item($id)){
-            $item = $this->get_local_item($id);
-            
-        // Then check db
-        }else{
-            $item = $this->get_raw_item($id);
-        }
-        
-        // bail early
+        // get raw item
+        $item = $this->get_raw_item($id, $source);
         if(!$item){
             return false;
         }
@@ -487,50 +486,57 @@ class acfe_module{
     
     
     /**
-     * get_local_item
-     *
-     * @param $name
-     *
-     * @return array|false|mixed
-     */
-    function get_local_item($name = ''){
-        
-        $item = acf_get_local_store($this->post_type)->get($name);
-        
-        if(!$item){
-            return false;
-        }
-    
-        // validate item
-        $item = $this->validate_item($item);
-        
-        return $item;
-    }
-    
-    
-    /**
      * get_raw_item
      *
-     * @param $id
+     * Get raw item
      *
-     * @return array|false|mixed
+     * @param $id
+     * @param $source
+     *
+     * @return array|false
      */
-    function get_raw_item($id = 0){
-    
-        // get raw
+    function get_raw_item($id, $source = 'any'){
+        
+        // object
+        if(is_object($id)){
+            $id = $id->ID;
+        
+        // array
+        }elseif(is_array($id)){
+            $id = !empty($id['name']) ? $id['name'] : acf_maybe_get($id, 'ID', 0);
+        }
+        
+        // source: any
+        if($source === 'any'){
+            $source = $this->is_local_item($id) ? 'local' : 'db';
+        }
+        
+        // source: local
+        if($source === 'local'){
+            
+            $item = acf_get_local_store($this->post_type)->get($id);
+            if(!$item){
+                return false;
+            }
+            
+            return $item;
+            
+        }
+        
+        // source: db
         $post = $this->get_item_post($id);
-    
         if(!$post){
             return false;
         }
-    
+        
         // bail early if incorrect post type
         if($post->post_type !== $this->post_type){
             return false;
         }
-    
+        
         // unserialize post content
-        $item = acf_get_array(maybe_unserialize($post->post_content));
+        $item = maybe_unserialize($post->post_content);
+        $item = acf_get_array($item); // cast as array
         
         // prepend id
         $item = wp_parse_args($item, array(
@@ -538,9 +544,6 @@ class acfe_module{
             'name'  => $post->post_name,
             'label' => $post->post_title,
         ));
-        
-        // validate item
-        $item = $this->validate_item($item);
         
         // return
         return $item;
@@ -593,7 +596,7 @@ class acfe_module{
                 
             }
             
-            // check psot id and return psot when possible
+            // check post id and return post when possible
             if($post_id){
                 return get_post($post_id);
             }
@@ -608,62 +611,31 @@ class acfe_module{
     /**
      * get_items
      *
-     * retrieve raw + local items
+     * @param $source
+     *
+     * retrieve db + local items
      *
      * @return mixed
      */
-    function get_items(){
+    function get_items($source = 'any'){
         
         // vars
         $items = array();
         
-        // raw items
-        foreach($this->get_raw_items() as $raw_item){
-            $items[] = $this->get_item($raw_item['ID']);
-        }
-        
-        // check local filter
-        $is_local = acf_is_filter_enabled('local');
-        
-        // enable filter
-        if(!$is_local){
-            acf_enable_filter('local');
-        }
-    
-        // get local items
-        $local = $this->get_local_items();
-        
-        if($local){
-        
-            // generate map of 'index' => 'name' data.
-            $map = wp_list_pluck($items, 'name');
-        
-            // loop over items and update/append local
-            foreach($local as $item){
+        // loop raw items and validate
+        foreach($this->get_raw_items($source) as $raw_item){
             
-                // update
-                $i = array_search($item['name'], $map);
-                if($i !== false){
-                    unset($item['ID']);
-                    $items[ $i ] = array_merge($items[ $i ], $item);
+            $item = $this->get_item($raw_item, $source);
+            if($item){
                 
-                // append
-                }else{
-                    $items[] = $this->get_item($item['name']);
+                if(!empty($raw_item['ID'])){
+                    $item['ID'] = $raw_item['ID'];
                 }
                 
+                $items[] = $item;
+                
             }
-        
-            // sort list via name
-            $items = wp_list_sort($items, array(
-                'name' => 'ASC',
-            ));
             
-        }
-        
-        // disable filter
-        if(!$is_local){
-            acf_disable_filter('local');
         }
     
         // filters
@@ -676,71 +648,108 @@ class acfe_module{
     
     
     /**
-     * get_local_items
-     *
-     * @return array
-     */
-    function get_local_items(){
-        
-        // vars
-        $items = array();
-        $local_items = acf_get_local_store($this->post_type)->get();
-        
-        foreach($local_items as $local_item){
-            $items[] = $this->validate_item($local_item);
-        }
-        
-        return $items;
-        
-    }
-    
-    
-    /**
      * get_raw_items
      *
      * @return array
      */
-    function get_raw_items(){
-    
-        // try cache
-        $cache_key = acf_cache_key($this->post_type);
-        $post_ids  = wp_cache_get($cache_key, 'acfe');
-    
-        if($post_ids === false){
+    function get_raw_items($source = 'any'){
         
-            // query
-            $posts = get_posts(array(
-                'posts_per_page'         => -1,
-                'post_type'              => $this->post_type,
-                'orderby'                => 'menu_order title',
-                'order'                  => 'ASC',
-                'suppress_filters'       => false, // Allow WPML to modify the query
-                'cache_results'          => true,
-                'update_post_meta_cache' => false,
-                'update_post_term_cache' => false,
-                'post_status'            => array('publish', 'acf-disabled'),
-            ));
-        
-            // update post ids with non false values
-            $post_ids = array();
-            foreach($posts as $post){
-                $post_ids[] = $post->ID;
-            }
-        
-            // update cache
-            wp_cache_set($cache_key, $post_ids, 'acfe');
-        
-        }
-    
-        // loop and get raw
+        // vars
         $items = array();
-    
-        foreach($post_ids as $post_id){
+        
+        // source: any or db
+        if($source === 'any' || $source === 'db'){
             
-            $raw_item = $this->get_raw_item($post_id);
+            // try cache
+            $cache_key = acf_cache_key($this->post_type);
+            $post_ids  = wp_cache_get($cache_key, 'acfe');
             
-            if($raw_item){
-                $items[] = $raw_item;
+            if($post_ids === false){
+                
+                // query
+                $posts = get_posts(array(
+                    'posts_per_page'         => -1,
+                    'post_type'              => $this->post_type,
+                    'orderby'                => 'menu_order title',
+                    'order'                  => 'ASC',
+                    'suppress_filters'       => false, // Allow WPML to modify the query
+                    'cache_results'          => true,
+                    'update_post_meta_cache' => false,
+                    'update_post_term_cache' => false,
+                    'post_status'            => array('publish', 'acf-disabled'),
+                ));
+                
+                // update post ids with non false values
+                $post_ids = array();
+                foreach($posts as $post){
+                    $post_ids[] = $post->ID;
+                }
+                
+                // update cache
+                wp_cache_set($cache_key, $post_ids, 'acfe');
+                
+            }
+            
+            // loop post ids
+            foreach($post_ids as $post_id){
+                
+                // get raw item
+                $raw_item = $this->get_raw_item($post_id, 'db');
+                
+                // append
+                if($raw_item){
+                    $items[] = $raw_item;
+                }
+                
+            }
+            
+        }
+        
+        // source: any or local
+        if($source === 'any' || $source === 'local'){
+            
+            // check local filter
+            $is_local = acf_is_filter_enabled('local');
+            
+            // enable filter
+            if(!$is_local){
+                acf_enable_filter('local');
+            }
+            
+            // vars
+            $local_items = acf_get_local_store($this->post_type)->get();
+            
+            if($local_items){
+                
+                // generate map of 'index' => 'name' data.
+                $map = wp_list_pluck($items, 'name');
+                
+                // loop over items and update/append local
+                foreach($local_items as $local_item){
+                    
+                    // update
+                    $i = array_search($local_item['name'], $map);
+                    if($i !== false){
+                        unset($local_item['ID']);
+                        $items[ $i ] = array_merge($items[ $i ], $local_item);
+                        
+                    // append
+                    }else{
+                        $items[] = $local_item;
+                    }
+                    
+                }
+                
+                // sort list via name
+                $items = wp_list_sort($items, array(
+                    'name' => 'ASC',
+                ));
+                
+            }
+            
+            // disable filter
+            if(!$is_local){
+                acf_disable_filter('local');
             }
             
         }
@@ -759,7 +768,8 @@ class acfe_module{
     function flush_cache($item){
         
         // delete stored data.
-        acf_get_store($this->post_type)->remove($item['name']);
+        acf_get_store("{$this->post_type}:db")->remove($item['name']);
+        acf_get_store("{$this->post_type}:local")->remove($item['name']);
         
         // flush cached post_id for this item name
         wp_cache_delete(acf_cache_key("{$this->post_type}_post:name:{$item['name']}"), 'acfe');
@@ -1051,13 +1061,13 @@ class acfe_module{
         acfe_update_setting('php', false);
         acfe_update_setting('json', false);
         
-        // get raw items
-        $items = $this->get_raw_items();
+        // get db items
+        $items = $this->get_items('db');
         
         if(!empty($items)){
     
             foreach($items as $item){
-        
+                
                 // update db local
                 // do not use module->update_item() to avoid changing post date
                 $this->do_module_action('acfe/module/updated_item', $item);
@@ -1201,6 +1211,38 @@ class acfe_module{
         
         $tag .= "/module={$this->name}";
         $this->add_filter($tag, $function_to_add, $priority, $accepted_args);
+        
+    }
+    
+    
+    /**
+     * get_local_item
+     *
+     * @param $name
+     *
+     * @deprecated
+     *
+     * @return array|false|mixed
+     */
+    function get_local_item($name = ''){
+        
+        acfe_deprecated_function(__METHOD__, '0.9.2.4', '$module->get_item($name, \'local\')');
+        return $this->get_item($name, 'local');
+        
+    }
+    
+    
+    /**
+     * get_local_items
+     *
+     * @deprecated
+     *
+     * @return array
+     */
+    function get_local_items(){
+        
+        acfe_deprecated_function(__METHOD__, '0.9.2.4', '$module->get_items(\'local\')');
+        return $this->get_items('local');
         
     }
     

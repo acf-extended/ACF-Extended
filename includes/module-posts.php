@@ -140,15 +140,19 @@ class acfe_module_posts{
      * @param $post_id
      */
     function manage_columns_html($column, $post_id){
-    
+        
+        // get module
         global $module;
         
-        $item = $module->get_raw_item($post_id);
-    
-        $column_underscore = str_replace('-', '_', $column);
-    
-        if(method_exists($module, "edit_column_{$column_underscore}")){
-            $module->{"edit_column_{$column_underscore}"}($item);
+        // get item using post id
+        $item = $module->get_item($post_id);
+        
+        // format column name with underscore
+        $column_method = str_replace('-', '_', $column);
+        
+        // check column method exists in the module
+        if(method_exists($module, "edit_column_{$column_method}")){
+            $module->{"edit_column_{$column_method}"}($item); // pass item as argument
         }
     
         // actions

@@ -564,8 +564,13 @@ class ACFE_Field_Groups{
     
                     $url = admin_url('edit.php?post_type=acf-field-group&acfsync=' . $field_group['key'] . '&_wpnonce=' . $nonce);
                     $text = $field_group['ID'] ? __('Review', 'acf') : __('Import', 'acf');
-    
-                    $wrapper_start = '<a href="#" data-event="review-sync" data-id="' . esc_attr($field_group['ID']) . '" data-href="' . esc_url($url) . '">';
+
+                    if($field_group['ID']){
+                        $wrapper_start = '<a href="#" data-event="review-sync" data-id="' . esc_attr($field_group['ID']) . '" data-href="' . esc_url($url) . '">';
+                    }else{
+                        $wrapper_start = '<a href="' . esc_url($url) . '">';
+                    }
+
                     $wrapper_end = '<div class="row-actions"><span class="review" style="color:#006799;">' . $text . '</span></div></a>';
                     
                 }
@@ -580,9 +585,9 @@ class ACFE_Field_Groups{
                 
                 }else{
     
-                    $return['message'] = __('Sync available', 'acf') . '. ' . $file_readable;
+                    $return['message'] = __('Import', 'acf') . '. ' . $file_readable;
                     $return['file'] = $file_readable;
-                    $return['icon'] = 'update';
+                    $return['icon'] = 'download';
                     $return['wrapper_start'] = $wrapper_start;
                     $return['wrapper_end'] = $wrapper_end;
                 

@@ -62,6 +62,14 @@ class acfe_performance_ultra extends acfe_performance{
         if(empty($acf)){
             return $return;
         }
+        
+        // unslash values if required
+        // this filter is enabled in pre_update_metadata()
+        // it is used when page is not reloaded on save (ie: wp admin menu screen)
+        // this also fix an issue with post meta copied to revisions with slashes
+        if(acf_is_filter_enabled('acfe/performance_ultra/unslash')){
+            $acf = wp_unslash($acf);
+        }
     
         // return store data
         return $acf;

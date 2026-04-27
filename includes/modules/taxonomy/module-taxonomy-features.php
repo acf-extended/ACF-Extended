@@ -80,17 +80,20 @@ class acfe_module_taxonomy_features{
      * admin_footer-edit-tags.php
      */
     function admin_footer(){
-        
+
+        // verify permissions
         if(!acf_current_user_can_admin()){
             return;
         }
-        
+
+        // get current taxonomy
         global $taxnow;
         if(!$taxnow){
             return;
         }
-        
-        $item = acfe_get_module('taxonomy')->get_raw_item($taxnow);
+
+        // get item
+        $item = acfe_get_module('taxonomy')->get_item($taxnow, 'db');
         if(!$item){
             return;
         }

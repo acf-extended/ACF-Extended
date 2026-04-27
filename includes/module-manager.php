@@ -48,7 +48,7 @@ class acfe_module_manager{
             }
             
             // get loaded items
-            $items = $module->get_local_items();
+            $items = $module->get_items('local');
             $items = $module->apply_module_filters('acfe/module/register_items', $items);
             
             // loop items

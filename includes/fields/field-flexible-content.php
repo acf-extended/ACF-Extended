@@ -332,6 +332,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
             'data-min'          => $field['min'],
             'data-max'          => $field['max'],
             'data-button-label' => $field['button_label'],
+            'data-nonce'        => wp_create_nonce('acf_field_' . $field['type'] . '_' . $field['key'] )
         );
         
         // empty
@@ -637,7 +638,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
         if(empty($buttons)){
             return;
         }
-        
+
         // controls
         echo '<div class="acf-fc-layout-controls">';
         
@@ -909,10 +910,10 @@ class acfe_field_flexible_content extends acfe_field_extend{
             'more'      => '<a class="acf-js-tooltip" aria-haspopup="menu" href="#" data-name="more-layout-actions" title="' . esc_attr__('More layout actions...','acf') . '"><span class="acf-icon -more-actions"></span></a>',
             'collapse'  => '<div class="acf-layout-collapse"><a class="acf-icon -collapse -clear" href="#" data-name="collapse-layout" aria-label="' . esc_attr__('Toggle layout','acf') . '"></a></div>'
         );
-        
+
         // filters (with variations)
         $icons = apply_filters('acfe/flexible/layouts/icons', $icons, $layout, $field);
-        
+
         // return
         return $icons;
         
@@ -935,6 +936,11 @@ class acfe_field_flexible_content extends acfe_field_extend{
             'layout'    => '',
             'value'     => array(),
         ));
+
+        // verify nonce
+        if(!acf_verify_ajax($options['nonce'], $options['field_key'], true)){
+            die();
+        }
         
         // load field
         $field = acf_get_field($options['field_key']);
@@ -1058,6 +1064,63 @@ class acfe_field_flexible_content extends acfe_field_extend{
         
         return $renamed;
         
+    }
+
+
+    /**
+     * format_front_value
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     * @param $form
+     *
+     * @return string
+     */
+    function format_front_value($formatted, $unformatted, $post_id, $field, $form){
+
+        // vars
+        $value = acf_get_array($unformatted);
+        $return = '';
+
+        // loop values
+        foreach($value as $i => $sub_fields){
+
+            $array = array();
+            $return .= "<br/>\n- ";
+
+            // loop subfields keys
+            foreach($sub_fields as $key => $val){
+
+                // get subfield
+                $sub_field = acf_get_field($key);
+
+                // validate
+                if($sub_field){
+
+                    // label
+                    $label = !empty($sub_field['label']) ? $sub_field['label'] : $sub_field['name'];
+
+                    // value
+                    $sub_field['name'] = $field['name'] . '_' . $i . '_' . $sub_field['name'];
+                    $val = acfe_form_format_value($val, $sub_field);
+
+                    // append
+                    $array[] = "{$label}: {$val}";
+
+                }
+
+            }
+
+            // merge
+            $return .= implode('. ', $array);
+
+        }
+
+        // return
+        return $return;
+
     }
     
     

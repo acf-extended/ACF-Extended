@@ -1408,9 +1408,10 @@ function acfe_log(){
     // vars
     $args = func_get_args();
     
-    // loop
+    // loop arguments
     foreach($args as $i => $arg){
         
+        // parse log
         $arg = acfe_parse_log($arg);
         
         // array | object
@@ -1452,6 +1453,10 @@ function acfe_parse_log($arg){
     // null
     }elseif($arg === null){
         $arg = '(null)';
+        
+    // empty string
+    }elseif($arg === ''){
+        $arg = '""';
     }
     
     // return

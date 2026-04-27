@@ -70,6 +70,6 @@ class acfe_admin_plugins{
     
 }
 
-new acfe_admin_plugins();
+acf_new_instance('acfe_admin_plugins');
 
 endif;

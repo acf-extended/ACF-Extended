@@ -267,6 +267,119 @@ function acfe_import_form($args){
 
 
 /**
+ * acfe_form_format_value
+ *
+ * @param $raw_value
+ * @param $field
+ * @param $deprecated
+ *
+ * @return mixed
+ */
+function acfe_form_format_value($raw_value, $field, $deprecated = null){
+    
+    /**
+     * deprecated backwards compatibility
+     *
+     * @since 0.8.8
+     */
+    if($deprecated !== null){
+        
+        // second argument was $post_id
+        $field = $deprecated;
+        
+        // deprecated warning
+        _deprecated_function('ACF Extended: acfe_form_format_value($raw_value, $field, $deprecated) 3rd argument', '0.8.8', 'pass field array as 2nd argument');
+        
+    }
+    
+    // vars
+    $form = acfe_get_context('form');
+    $post_id = $form['post_id'];
+    
+    // check & delete store
+    // this fix an issue where different group subfields with same name will output same value
+    // this is because group subfields have singular name. ie: 'textarea' instead of 'group_textarea'
+    $store = acf_get_store('values');
+    if($store->has("{$post_id}:{$field['name']}:formatted")){
+        $store->remove("{$post_id}:{$field['name']}:formatted");
+    }
+    
+    // default format value
+    $value = acf_format_value($raw_value, $post_id, $field);
+    
+    // filters
+    $value = apply_filters("acfe/form/format_value", $value, $raw_value, $post_id, $field, $form);
+    
+    // return
+    return $value;
+    
+}
+
+
+/**
+ * acfe_form_format_value_array
+ *
+ * @param $value
+ *
+ * @return mixed|string
+ */
+function acfe_form_format_value_array($value){
+    
+    // bail early
+    if(!is_array($value)){
+        return $value;
+    }
+    
+    // vars
+    $return = array();
+    
+    // loop value
+    foreach($value as $i => $v){
+        
+        $key = !is_numeric($i) ? "$i: " : '';
+        
+        if(is_object($v)){
+            $v = (array) $v;
+        }
+        
+        $return[] = $key . acfe_form_format_value_array($v);
+        
+    }
+    
+    return implode(', ', $return);
+    
+}
+
+
+/**
+ * _acfe_form_format_value_variations
+ *
+ * @hook acfe/form/format_value
+ */
+add_filter('acfe/form/format_value', '_acfe_form_format_value_variations', 9, 5);
+function _acfe_form_format_value_variations($value, $raw_value, $post_id, $field, $form){
+    
+    $value = apply_filters("acfe/form/format_value/form={$form['name']}",  $value, $raw_value, $post_id, $field, $form);
+    $value = apply_filters("acfe/form/format_value/type={$field['type']}", $value, $raw_value, $post_id, $field, $form);
+    $value = apply_filters("acfe/form/format_value/key={$field['key']}",   $value, $raw_value, $post_id, $field, $form);
+    $value = apply_filters("acfe/form/format_value/name={$field['name']}", $value, $raw_value, $post_id, $field, $form);
+    
+    // format object value
+    if(is_object($value)){
+        $value = (array) $value;
+    }
+    
+    // format array value
+    if(is_array($value)){
+        $value = acfe_form_format_value_array($value);
+    }
+    
+    return $value;
+    
+}
+
+
+/**
  * acfe_form_unique_action_id
  *
  * Make actions names unique

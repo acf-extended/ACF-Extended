@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Extended\n"
-"POT-Creation-Date: 2026-01-15 02:50+0100\n"
+"POT-Creation-Date: 2026-04-27 02:32+0200\n"
 "PO-Revision-Date: 2021-07-27 23:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: https://www.acf-extended.com\n"
@@ -21,13 +21,13 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: .build\n"
 
-#: acf-extended.php:462
+#: acf-extended.php:474
 msgid ""
 "An another version of ACF Extended has been detected. Please activate only "
 "one version."
 msgstr ""
 
-#: acf-extended.php:464
+#: acf-extended.php:476
 msgid "ACF Extended Pro has been detected. Please activate only one version."
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: assets/js/acfe-admin.js:1076 includes/fields/field-flexible-content.php:908
+#: assets/js/acfe-admin.js:1076 includes/fields/field-flexible-content.php:909
 #: includes/modules/dev/module-dev-delete-meta.php:60
 #: includes/modules/dev/module-dev-delete-meta.php:93
 #: includes/modules/option/module-option-table.php:209
@@ -52,9 +52,9 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: assets/js/acfe-admin.js:1077 assets/js/acfe-input.js:3855
+#: assets/js/acfe-admin.js:1077 assets/js/acfe-input.js:3856
 #: assets/js/acfe.js:2342 pro/assets/js/acfe-pro-admin.js:54
-#: pro/assets/js/acfe-pro-input.js:5046
+#: pro/assets/js/acfe-pro-input.js:5073
 msgid "Cancel"
 msgstr ""
 
@@ -63,16 +63,16 @@ msgid "Select Image"
 msgstr ""
 
 #: assets/js/acfe-input.js:2228 includes/admin/tools/module-import.php:58
-#: pro/assets/js/acfe-pro-input.js:1900 pro/assets/js/acfe-pro-input.js:1915
+#: pro/assets/js/acfe-pro-input.js:1907 pro/assets/js/acfe-pro-input.js:1922
 #: pro/includes/admin/tools/settings-import.php:40
 msgid "Select File"
 msgstr ""
 
-#: assets/js/acfe-input.js:2280 pro/assets/js/acfe-pro-input.js:1947
+#: assets/js/acfe-input.js:2280 pro/assets/js/acfe-pro-input.js:1954
 msgid "Edit File"
 msgstr ""
 
-#: assets/js/acfe-input.js:2281 pro/assets/js/acfe-pro-input.js:1948
+#: assets/js/acfe-input.js:2281 pro/assets/js/acfe-pro-input.js:1955
 msgid "Update File"
 msgstr ""
 
@@ -92,8 +92,8 @@ msgstr ""
 msgid "Add Image to Gallery"
 msgstr ""
 
-#: assets/js/acfe-input.js:3003 assets/js/acfe-input.js:5246
-#: assets/js/acfe.js:2345 includes/assets.php:124
+#: assets/js/acfe-input.js:3003 assets/js/acfe-input.js:5247
+#: assets/js/acfe.js:2345 includes/assets.php:125
 #: includes/field-groups/field-group-meta.php:160
 #: includes/fields-settings/data.php:94
 #: includes/fields/field-advanced-link.php:100
@@ -101,9 +101,9 @@ msgstr ""
 #: includes/fields/field-flexible-content-modal-edit.php:266
 #: includes/fields/field-flexible-content-modal-settings.php:171
 #: includes/fields/field-flexible-content-modal-settings.php:400
-#: includes/fields/field-flexible-content.php:716
-#: includes/fields/field-flexible-content.php:765
-#: pro/assets/js/acfe-pro-admin.js:616 pro/assets/js/acfe-pro-input.js:1467
+#: includes/fields/field-flexible-content.php:717
+#: includes/fields/field-flexible-content.php:766
+#: pro/assets/js/acfe-pro-admin.js:643 pro/assets/js/acfe-pro-input.js:1469
 #: pro/includes/field-groups/field-group-ui.php:625
 #: pro/includes/fields/field-payment.php:512
 #: pro/includes/modules/dev/module-dev-clean-meta.php:116
@@ -117,52 +117,52 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: assets/js/acfe-input.js:3731 includes/fields/field-flexible-content.php:38
+#: assets/js/acfe-input.js:3732 includes/fields/field-flexible-content.php:38
 msgid "Layout copied to clipboard"
 msgstr ""
 
-#: assets/js/acfe-input.js:3732 includes/fields/field-flexible-content.php:44
+#: assets/js/acfe-input.js:3733 includes/fields/field-flexible-content.php:44
 msgid ""
 "You can now paste it anywhere using the \"Paste Layout\" secondary action."
 msgstr ""
 
-#: assets/js/acfe-input.js:3735 includes/fields/field-flexible-content.php:40
+#: assets/js/acfe-input.js:3736 includes/fields/field-flexible-content.php:40
 msgid "Layout ready to be copied"
 msgstr ""
 
-#: assets/js/acfe-input.js:3736 assets/js/acfe-input.js:3823
-#: includes/assets.php:130 includes/fields/field-flexible-content.php:45
+#: assets/js/acfe-input.js:3737 assets/js/acfe-input.js:3824
+#: includes/fields/field-flexible-content.php:45
 msgid "Please copy the following data to your clipboard."
 msgstr ""
 
-#: assets/js/acfe-input.js:3736 assets/js/acfe-input.js:3823
+#: assets/js/acfe-input.js:3737 assets/js/acfe-input.js:3824
 #: includes/fields/field-flexible-content.php:46
 msgid ""
 "You can then paste it anywhere using the \"Paste Layout\" secondary action."
 msgstr ""
 
-#: assets/js/acfe-input.js:3818 includes/fields/field-flexible-content.php:39
+#: assets/js/acfe-input.js:3819 includes/fields/field-flexible-content.php:39
 msgid "Layouts copied to clipboard"
 msgstr ""
 
-#: assets/js/acfe-input.js:3819 includes/fields/field-flexible-content.php:47
+#: assets/js/acfe-input.js:3820 includes/fields/field-flexible-content.php:47
 msgid ""
 "You can now paste them anywhere using the \"Paste Layout\" secondary action."
 msgstr ""
 
-#: assets/js/acfe-input.js:3822 includes/fields/field-flexible-content.php:41
+#: assets/js/acfe-input.js:3823 includes/fields/field-flexible-content.php:41
 msgid "Layouts ready to be copied"
 msgstr ""
 
-#: assets/js/acfe-input.js:3836 includes/fields/field-flexible-content.php:42
+#: assets/js/acfe-input.js:3837 includes/fields/field-flexible-content.php:42
 msgid "Paste layouts data"
 msgstr ""
 
-#: assets/js/acfe-input.js:3847 includes/fields/field-flexible-content.php:43
+#: assets/js/acfe-input.js:3848 includes/fields/field-flexible-content.php:43
 msgid "Paste the layouts data from your clipboard to apply it to this page."
 msgstr ""
 
-#: assets/js/acfe-input.js:3855
+#: assets/js/acfe-input.js:3856 includes/assets.php:124
 #: includes/modules/dev/module-dev-delete-meta.php:96
 msgid "Apply"
 msgstr ""
@@ -241,6 +241,7 @@ msgstr ""
 
 #: includes/acfe-field-group-functions.php:556
 #: includes/fields/field-advanced-link.php:153
+#: pro/includes/locations/location-menu-item-type.php:37
 #: pro/includes/modules/dev/module-dev-metabox.php:82
 msgid "Type"
 msgstr ""
@@ -331,33 +332,33 @@ msgid ""
 msgstr ""
 
 #: includes/admin/tools/field-groups-local.php:226
-#: includes/admin/tools/module-export.php:210
+#: includes/admin/tools/module-export.php:207
 #: pro/includes/admin/tools/rewrite-rules-export.php:116
 #: pro/includes/admin/tools/settings-export.php:147
 msgid "Copy to clipboard"
 msgstr ""
 
 #: includes/admin/tools/field-groups-local.php:254
-#: includes/admin/tools/module-export.php:265
+#: includes/admin/tools/module-export.php:262
 #: pro/includes/admin/tools/rewrite-rules-export.php:144
 #: pro/includes/admin/tools/settings-export.php:203
 msgid "Copied"
 msgstr ""
 
-#: includes/admin/tools/module-export.php:126
-#: includes/admin/tools/module-export.php:315
+#: includes/admin/tools/module-export.php:123
+#: includes/admin/tools/module-export.php:312
 #: pro/includes/admin/tools/settings-export.php:59
 msgid "Export File"
 msgstr ""
 
-#: includes/admin/tools/module-export.php:130
-#: includes/admin/tools/module-export.php:319
+#: includes/admin/tools/module-export.php:127
+#: includes/admin/tools/module-export.php:316
 #: pro/includes/admin/tools/rewrite-rules-export.php:58
 #: pro/includes/admin/tools/settings-export.php:60
 msgid "Generate PHP"
 msgstr ""
 
-#: includes/admin/tools/module-export.php:166
+#: includes/admin/tools/module-export.php:163
 msgid ""
 "You can copy and paste the following code to your theme's "
 "<code>functions.php</code> file or include it within an external file."
@@ -405,37 +406,49 @@ msgid "Options"
 msgstr ""
 
 #: includes/admin/views/html-options-list.php:4
-#: pro/includes/locations/post-screen.php:22
+#: pro/includes/locations/location-post-screen.php:36
 msgid "Add New"
 msgstr ""
 
-#: includes/assets.php:125 includes/locations/post-type-list.php:199
-#: includes/locations/taxonomy-list.php:199
+#: includes/assets.php:126 includes/forms/form-post-type-list.php:217
+#: includes/forms/form-taxonomy-list.php:219
 #: includes/modules/option/module-option.php:500
 #: includes/modules/options-page/module-options-page.php:79
-#: pro/assets/js/acfe-pro-admin.js:54 pro/includes/admin/dashboard.php:185
-#: pro/includes/admin/settings.php:358
-#: pro/includes/locations/attachment-list.php:191
-#: pro/includes/locations/user-list.php:189
+#: pro/assets/js/acfe-pro-admin.js:54 pro/includes/admin/settings.php:358
+#: pro/includes/forms/form-attachment-list.php:210
+#: pro/includes/forms/form-dashboard.php:185
+#: pro/includes/forms/form-user-list.php:207
 #: pro/includes/modules/dev/module-dev-metabox.php:688
 msgid "Update"
 msgstr ""
 
-#: includes/assets.php:126 pro/assets/js/acfe-pro-input.js:6292
+#: includes/assets.php:127 pro/assets/js/acfe-pro-input.js:6319
 msgid "Read more"
 msgstr ""
 
-#: includes/assets.php:127
+#: includes/assets.php:128
 msgid "Details"
 msgstr ""
 
-#: includes/assets.php:128 pro/assets/js/acfe-pro-admin.js:615
-#: pro/assets/js/acfe-pro-admin.js:616
+#: includes/assets.php:129 pro/assets/js/acfe-pro-admin.js:642
+#: pro/assets/js/acfe-pro-admin.js:643
 msgid "Debug"
 msgstr ""
 
-#: includes/assets.php:129
-msgid "Data has been copied to your clipboard."
+#: includes/assets.php:130 includes/field-groups/field-group.php:129
+#: pro/assets/js/acfe-pro-admin.js:150
+msgid "Local file is different from the version in database."
+msgstr ""
+
+#: includes/assets.php:131 pro/assets/js/acfe-pro-admin.js:150
+msgid "Do you want to replace the local file with the current settings?"
+msgstr ""
+
+#: includes/compatibility-acf-5.8.php:62
+msgid ""
+"Support of ACF Pro 5.8 (2019) will be dropped on September 2026. Please "
+"upgrade to ACF Pro 5.9 or higher to maintain compatibility with future "
+"versions of ACF Extended."
 msgstr ""
 
 #: includes/field-groups/field-group-advanced.php:51
@@ -619,10 +632,6 @@ msgstr ""
 msgid "Sync available"
 msgstr ""
 
-#: includes/field-groups/field-group.php:129
-msgid "Local json file is different from the version in database."
-msgstr ""
-
 #: includes/field-groups/field-group.php:140
 msgid "Synchronize"
 msgstr ""
@@ -636,7 +645,7 @@ msgid "Auto Sync"
 msgstr ""
 
 #: includes/field-groups/field-group.php:187
-#: includes/fields-settings/permissions.php:23
+#: includes/fields-settings/permissions.php:43
 #: pro/includes/field-groups/field-group-ui.php:151
 #: pro/includes/field-groups/field-group-ui.php:300
 #: pro/includes/field-groups/field-group-ui.php:309
@@ -715,7 +724,7 @@ msgstr ""
 #: includes/modules/form/module-form-action-post.php:1673
 #: includes/modules/form/module-form-action-term.php:1018
 #: includes/modules/form/module-form-action-user.php:1899
-#: pro/includes/module-posts.php:498
+#: pro/includes/module-posts.php:497
 #: pro/includes/modules/form/module-form-action-option.php:369
 msgid "Load"
 msgstr ""
@@ -729,13 +738,13 @@ msgid "Json Sync"
 msgstr ""
 
 #: includes/field-groups/field-groups.php:151
-#: includes/field-groups/field-groups.php:175 pro/includes/module-posts.php:502
+#: includes/field-groups/field-groups.php:175 pro/includes/module-posts.php:501
 msgid "PHP"
 msgstr ""
 
 #: includes/field-groups/field-groups.php:155
 #: includes/field-groups/field-groups.php:179
-#: includes/fields/field-code-editor.php:77 pro/includes/module-posts.php:506
+#: includes/fields/field-code-editor.php:77 pro/includes/module-posts.php:505
 msgid "Json"
 msgstr ""
 
@@ -786,7 +795,7 @@ msgstr ""
 
 #: includes/field-groups/field-groups.php:711
 #: includes/field-groups/field-groups.php:719 includes/module-legacy.php:371
-#: includes/module-posts.php:171 pro/includes/module-posts.php:449
+#: includes/module-posts.php:175 pro/includes/module-posts.php:449
 msgctxt "post status"
 msgid "Disabled"
 msgstr ""
@@ -820,7 +829,7 @@ msgstr ""
 msgid "Field Data"
 msgstr ""
 
-#: includes/fields-settings/permissions.php:26
+#: includes/fields-settings/permissions.php:46
 msgid "Restrict user roles that are allowed to view and edit this field"
 msgstr ""
 
@@ -891,14 +900,14 @@ msgstr ""
 #: includes/fields/field-clone.php:164 includes/fields/field-clone.php:228
 #: includes/fields/field-flexible-content-compatibility.php:147
 #: includes/fields/field-group.php:97 includes/fields/field-group.php:156
-#: includes/locations/post-type-archive.php:236
+#: includes/forms/form-post-type-archive.php:236
 #: includes/modules/option/module-option-table.php:208
 #: includes/modules/option/module-option.php:475
 #: includes/modules/ui/module-ui-settings.php:75
 #: includes/modules/ui/module-ui-term.php:107
 #: includes/modules/ui/module-ui-user.php:181
 #: pro/includes/fields/field-file.php:540
-#: pro/includes/locations/post-screen.php:23
+#: pro/includes/locations/location-post-screen.php:37
 #: pro/includes/modules/dev/module-dev-edit-meta.php:56
 msgid "Edit"
 msgstr ""
@@ -915,11 +924,9 @@ msgstr ""
 
 #: includes/fields/field-advanced-link.php:159
 #: includes/fields/field-advanced-link.php:188
-#: includes/locations/post-type-archive.php:291
-#: includes/locations/post-type-list.php:214
+#: includes/locations/location-post-type-list.php:35
 #: includes/modules/form/module-form-action-post.php:18
 #: includes/modules/form/module-form-action-post.php:945
-#: pro/includes/locations/menu-item-type.php:23
 msgid "Post"
 msgstr ""
 
@@ -1110,7 +1117,7 @@ msgstr ""
 #: pro/includes/fields/field-menus.php:108
 #: pro/includes/fields/field-options-pages.php:110
 #: pro/includes/fields/field-payment-cart.php:90
-#: pro/includes/fields/field-phone-number.php:165
+#: pro/includes/fields/field-phone-number.php:293
 #: pro/includes/fields/field-post-formats.php:119
 #: pro/includes/fields/field-templates.php:115
 msgid "Default Value"
@@ -1143,7 +1150,7 @@ msgstr ""
 #: pro/includes/fields/field-menus.php:215
 #: pro/includes/fields/field-options-pages.php:216
 #: pro/includes/fields/field-payment-cart.php:186
-#: pro/includes/fields/field-phone-number.php:173
+#: pro/includes/fields/field-phone-number.php:301
 #: pro/includes/fields/field-post-formats.php:211
 #: pro/includes/fields/field-templates.php:221
 #: pro/includes/fields/field-time-picker.php:40
@@ -1252,7 +1259,7 @@ msgstr ""
 #: pro/includes/fields/field-menu-locations.php:116
 #: pro/includes/fields/field-menus.php:116
 #: pro/includes/fields/field-options-pages.php:118
-#: pro/includes/fields/field-phone-number.php:193
+#: pro/includes/fields/field-phone-number.php:321
 #: pro/includes/fields/field-templates.php:123
 msgid "Return Value"
 msgstr ""
@@ -1309,7 +1316,7 @@ msgstr ""
 #: includes/fields/field-file.php:136
 #: includes/fields/field-flexible-content-modal-settings.php:287
 #: includes/fields/field-image.php:106
-#: includes/modules/form/module-form-action-email.php:784
+#: includes/modules/form/module-form-action-email.php:783
 #: includes/modules/form/module-form-action-post.php:1019
 #: includes/modules/form/module-form-action-post.php:1071
 #: includes/modules/form/module-form-action-post.php:1100
@@ -1384,7 +1391,7 @@ msgstr ""
 
 #: includes/fields/field-flexible-content-actions-toggle.php:220
 #: includes/fields/field-flexible-content-modal-edit.php:351
-#: includes/fields/field-flexible-content.php:910
+#: includes/fields/field-flexible-content.php:911
 msgid "Toggle layout"
 msgstr ""
 
@@ -1455,7 +1462,7 @@ msgid "Asynchronous Layout"
 msgstr ""
 
 #: includes/fields/field-flexible-content-compatibility.php:75
-#: includes/fields/field-flexible-content.php:906
+#: includes/fields/field-flexible-content.php:907
 msgid "Add layout"
 msgstr ""
 
@@ -1632,7 +1639,7 @@ msgstr ""
 
 #: includes/fields/field-flexible-content-modal-select.php:208
 #: includes/fields/field-flexible-content-modal-settings.php:145
-#: includes/fields/field-flexible-content.php:882
+#: includes/fields/field-flexible-content.php:883
 msgid "Disabled"
 msgstr ""
 
@@ -1750,39 +1757,37 @@ msgstr ""
 msgid "Thumbnail"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:370
+#: includes/fields/field-flexible-content.php:371
 #, php-format
 msgid "Click the \"%s\" button below to start creating your layout"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:597
+#: includes/fields/field-flexible-content.php:598
 msgid "Drag to reorder"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:826
+#: includes/fields/field-flexible-content.php:827
 msgid "Expand All"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:827
+#: includes/fields/field-flexible-content.php:828
 msgid "Collapse All"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:907
+#: includes/fields/field-flexible-content.php:908
 #: pro/includes/module-posts.php:357 pro/includes/module-posts.php:377
 msgid "Duplicate"
 msgstr ""
 
-#: includes/fields/field-flexible-content.php:909
+#: includes/fields/field-flexible-content.php:910
 msgid "More layout actions..."
 msgstr ""
 
-#: includes/fields/field-forms.php:17 includes/locations/taxonomy-list.php:214
-#: includes/modules/form/module-form.php:22
+#: includes/fields/field-forms.php:17 includes/modules/form/module-form.php:22
 #: includes/modules/form/module-form.php:27
 #: includes/modules/form/module-form.php:29
 #: includes/modules/form/module-form.php:300
-#: pro/includes/locations/settings.php:77
-#: pro/includes/modules/template/module-template-features.php:44
+#: pro/includes/modules/template/module-template-features.php:49
 msgid "Forms"
 msgstr ""
 
@@ -2321,15 +2326,11 @@ msgstr ""
 msgid "Allow & Save Custom value"
 msgstr ""
 
-#: includes/fields/field-post-object.php:43
-msgid "Save 'custom' values as new post"
-msgstr ""
-
-#: includes/fields/field-post-object.php:48
+#: includes/fields/field-post-object.php:47
 msgid "New Post Arguments"
 msgstr ""
 
-#: includes/fields/field-post-object.php:49
+#: includes/fields/field-post-object.php:48
 msgid ""
 "See available hooks in the <a href=\"https://www.acf-extended.com/features/"
 "fields/post-object#custom-value-hooks\" target=\"_blank\">documentation</a>."
@@ -2545,12 +2546,12 @@ msgid "Terms_level"
 msgstr ""
 
 #: includes/fields/field-taxonomy-terms.php:500
-#: includes/locations/post-type-all.php:31
-#: includes/locations/post-type-archive.php:320
-#: includes/locations/post-type-list.php:237
-#: includes/locations/taxonomy-list.php:223
-#: pro/includes/locations/post-author-role.php:24
-#: pro/includes/locations/settings.php:87
+#: includes/locations/location-post-type-all.php:32
+#: includes/locations/location-post-type-archive.php:48
+#: includes/locations/location-post-type-list.php:63
+#: includes/locations/location-taxonomy-list.php:35
+#: pro/includes/locations/location-post-author-role.php:40
+#: pro/includes/locations/location-settings.php:36
 #: pro/includes/modules/script/module-script-table.php:148
 msgid "All"
 msgstr ""
@@ -2605,39 +2606,42 @@ msgstr ""
 msgid "All user roles"
 msgstr ""
 
-#: includes/init.php:224
+#: includes/forms/form-post-type-archive.php:44
+#: pro/includes/locations/location-menu-item-type.php:63
+#, php-format
+msgid "Archive <span class=\"count\">(%s)</span>"
+msgstr ""
+
+#: includes/forms/form-post-type-archive.php:139
+msgid "Permalink:"
+msgstr ""
+
+#: includes/forms/form-post-type-archive.php:236
+msgid "Archive"
+msgstr ""
+
+#: includes/init.php:243
 msgid ""
 "ACF Extended requires <a href=\"https://www.advancedcustomfields.com/pro/\" "
 "target=\"_blank\">Advanced Custom Fields PRO</a> (minimum: 5.8)."
 msgstr ""
 
-#: includes/locations/post-type-archive.php:44
-#, php-format
-msgid "Archive <span class=\"count\">(%s)</span>"
-msgstr ""
-
-#: includes/locations/post-type-archive.php:139
-msgid "Permalink:"
-msgstr ""
-
-#: includes/locations/post-type-archive.php:236
-msgid "Archive"
-msgstr ""
-
-#: includes/locations/post-type-archive.php:292
+#: includes/locations/location-post-type-archive.php:19
+#: pro/includes/locations/location-menu-item-type.php:40
 msgid "Post Type Archive"
 msgstr ""
 
-#: includes/locations/post-type-list.php:215
+#: includes/locations/location-post-type-list.php:19
+#: includes/locations/location-post-type-list.php:36
 msgid "Post Type List"
 msgstr ""
 
-#: includes/locations/taxonomy-list.php:215
+#: includes/locations/location-taxonomy-list.php:19
 msgid "Taxonomy List"
 msgstr ""
 
 #: includes/module-acf.php:91 includes/module-post.php:130
-#: includes/modules/form/module-form.php:722
+#: includes/modules/form/module-form.php:687
 #: pro/includes/fields-settings/required.php:26
 #: pro/includes/fields/field-block-editor.php:572
 #, php-format
@@ -2666,7 +2670,7 @@ msgstr ""
 msgid "Inactive"
 msgstr ""
 
-#: includes/module-post.php:151 includes/module-posts.php:233
+#: includes/module-post.php:151 includes/module-posts.php:237
 msgid "Export"
 msgstr ""
 
@@ -2706,7 +2710,7 @@ msgstr ""
 msgid "%s draft updated."
 msgstr ""
 
-#: includes/module-posts.php:204 pro/includes/fields/field-payment.php:511
+#: includes/module-posts.php:208 pro/includes/fields/field-payment.php:511
 #: pro/includes/modules/dev/module-dev-clean-meta.php:112
 #: pro/includes/modules/dev/module-dev-metabox.php:87
 #: pro/includes/modules/dev/module-dev-metabox.php:179
@@ -2719,11 +2723,11 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: includes/module.php:424
+#: includes/module.php:420
 msgid "copy"
 msgstr ""
 
-#: includes/module.php:1068
+#: includes/module.php:1078
 msgid "Reset"
 msgstr ""
 
@@ -3057,7 +3061,6 @@ msgstr ""
 #: includes/modules/form/module-form-fields.php:551
 #: includes/modules/form/module-form-fields.php:769
 #: includes/modules/form/module-form-fields.php:942
-#: pro/includes/locations/menu-item-type.php:22
 msgid "Custom"
 msgstr ""
 
@@ -3066,7 +3069,7 @@ msgid "This action name is reserved"
 msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:140
-#: includes/modules/form/module-form-action-email.php:565
+#: includes/modules/form/module-form-action-email.php:564
 #: includes/modules/form/module-form-action-post.php:887
 #: includes/modules/form/module-form-action-redirect.php:101
 #: includes/modules/form/module-form-action-term.php:583
@@ -3084,7 +3087,7 @@ msgid "Documentation"
 msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:149
-#: includes/modules/form/module-form-action-email.php:574
+#: includes/modules/form/module-form-action-email.php:573
 #: includes/modules/form/module-form-action-post.php:896
 #: includes/modules/form/module-form-action-post.php:913
 #: includes/modules/form/module-form-action-redirect.php:110
@@ -3097,7 +3100,7 @@ msgid "Action"
 msgstr ""
 
 #: includes/modules/form/module-form-action-custom.php:166
-#: includes/modules/form/module-form-action-email.php:591
+#: includes/modules/form/module-form-action-email.php:590
 #: includes/modules/form/module-form-action-post.php:932
 #: includes/modules/form/module-form-action-redirect.php:127
 #: includes/modules/form/module-form-action-term.php:628
@@ -3115,14 +3118,14 @@ msgid "Email action"
 msgstr ""
 
 #: includes/modules/form/module-form-action-email.php:18
-#: includes/modules/form/module-form-action-email.php:604
-#: includes/modules/form/module-form-action-email.php:615
+#: includes/modules/form/module-form-action-email.php:603
+#: includes/modules/form/module-form-action-email.php:614
 #: includes/modules/form/module-form-action-user.php:1541
 #: includes/modules/form/module-form-action-user.php:2027
 msgid "Email"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:594
+#: includes/modules/form/module-form-action-email.php:593
 #: includes/modules/form/module-form-action-post.php:935
 #: includes/modules/form/module-form-action-redirect.php:130
 #: includes/modules/form/module-form-action-term.php:631
@@ -3133,59 +3136,59 @@ msgstr ""
 msgid "(Optional) Target this action using hooks."
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:631
+#: includes/modules/form/module-form-action-email.php:630
 msgid "From"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:643
-#: includes/modules/form/module-form-action-email.php:680
+#: includes/modules/form/module-form-action-email.php:642
+#: includes/modules/form/module-form-action-email.php:679
 msgid "Name <email@domain.com>"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:650
+#: includes/modules/form/module-form-action-email.php:649
 msgid "To"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:662
-#: includes/modules/form/module-form-action-email.php:699
-#: includes/modules/form/module-form-action-email.php:718
+#: includes/modules/form/module-form-action-email.php:661
+#: includes/modules/form/module-form-action-email.php:698
+#: includes/modules/form/module-form-action-email.php:717
 msgid "email@domain.com"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:668
+#: includes/modules/form/module-form-action-email.php:667
 msgid "Reply to"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:687
+#: includes/modules/form/module-form-action-email.php:686
 msgid "Cc"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:706
+#: includes/modules/form/module-form-action-email.php:705
 msgid "Bcc"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:725
+#: includes/modules/form/module-form-action-email.php:724
 msgid "Subject"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:745
+#: includes/modules/form/module-form-action-email.php:744
 #: pro/includes/fields/field-post-field.php:48
 msgid "Content"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:748
+#: includes/modules/form/module-form-action-email.php:747
 msgid "Render customized email content."
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:749
+#: includes/modules/form/module-form-action-email.php:748
 msgid "Render all fields values:"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:750
+#: includes/modules/form/module-form-action-email.php:749
 msgid "Render field value:"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:776
+#: includes/modules/form/module-form-action-email.php:775
 #: includes/modules/form/module-form-action-post.php:1198
 #: includes/modules/form/module-form-action-post.php:1271
 #: includes/modules/form/module-form-action-term.php:948
@@ -3193,34 +3196,34 @@ msgstr ""
 msgid "Content Editor"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:777
+#: includes/modules/form/module-form-action-email.php:776
 msgid "Raw HTML"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:800
+#: includes/modules/form/module-form-action-email.php:799
 #: includes/modules/form/module-form-fields.php:2087
 msgid "Apply shortcodes"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:865
+#: includes/modules/form/module-form-action-email.php:864
 msgid "Attachments"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:881
+#: includes/modules/form/module-form-action-email.php:880
 msgid "Dynamic files"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:896
-#: includes/modules/form/module-form-action-email.php:960
+#: includes/modules/form/module-form-action-email.php:895
+#: includes/modules/form/module-form-action-email.php:959
 msgid "Add file"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:900
-#: includes/modules/form/module-form-action-email.php:964
+#: includes/modules/form/module-form-action-email.php:899
+#: includes/modules/form/module-form-action-email.php:963
 msgid "File"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:919
+#: includes/modules/form/module-form-action-email.php:918
 #: includes/modules/form/module-form-action-post.php:1021
 #: includes/modules/form/module-form-action-post.php:1078
 #: includes/modules/form/module-form-action-post.php:1107
@@ -3261,15 +3264,15 @@ msgstr ""
 msgid "Select a field or enter a custom value/template tag."
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:925
+#: includes/modules/form/module-form-action-email.php:924
 msgid "Delete file"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:935
+#: includes/modules/form/module-form-action-email.php:934
 msgid "Delete file once sent"
 msgstr ""
 
-#: includes/modules/form/module-form-action-email.php:945
+#: includes/modules/form/module-form-action-email.php:944
 msgid "Static files"
 msgstr ""
 
@@ -3562,7 +3565,8 @@ msgstr ""
 #: includes/modules/taxonomy/module-taxonomy.php:29
 #: pro/includes/fields/field-post-field.php:59
 #: pro/includes/fields/field-post-field.php:68
-#: pro/includes/locations/menu-item-type.php:24
+#: pro/includes/locations/location-menu-item-type.php:41
+#: pro/includes/locations/location-menu-item-type.php:79
 #: pro/includes/modules/dev/module-dev-metabox.php:174
 msgid "Taxonomy"
 msgstr ""
@@ -4014,7 +4018,7 @@ msgstr ""
 msgid "Validation failed"
 msgstr ""
 
-#: includes/modules/form/module-form-front-render.php:308
+#: includes/modules/form/module-form-front-render.php:307
 msgid "Validate Email"
 msgstr ""
 
@@ -4148,7 +4152,7 @@ msgstr ""
 msgid "PHP code"
 msgstr ""
 
-#: includes/modules/form/module-form.php:762
+#: includes/modules/form/module-form.php:727
 msgid "This form name already exists"
 msgstr ""
 
@@ -4192,7 +4196,7 @@ msgid "Option has been added"
 msgstr ""
 
 #: includes/modules/option/module-option.php:523
-#: pro/includes/admin/dashboard.php:144
+#: pro/includes/forms/form-dashboard.php:144
 msgid "Edit field group"
 msgstr ""
 
@@ -4435,31 +4439,34 @@ msgstr ""
 msgid "Save the field as an individual meta."
 msgstr ""
 
-#: includes/modules/post-type/module-post-type-features.php:291
+#: includes/modules/post-type/module-post-type-features.php:294
 msgid "View post"
 msgstr ""
 
-#: includes/modules/post-type/module-post-type-features.php:292
+#: includes/modules/post-type/module-post-type-features.php:295
 msgid "Preview post"
 msgstr ""
 
-#: includes/modules/post-type/module-post-type-features.php:306
+#: includes/modules/post-type/module-post-type-features.php:309
 #, php-format
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: includes/modules/post-type/module-post-type-features.php:307
+#: includes/modules/post-type/module-post-type-features.php:310
 msgctxt "publish box date format"
 msgid "M j, Y"
 msgstr ""
 
-#: includes/modules/post-type/module-post-type-features.php:308
+#: includes/modules/post-type/module-post-type-features.php:311
 msgctxt "publish box time format"
 msgid "H:i"
 msgstr ""
 
 #: includes/modules/post-type/module-post-type-fields.php:33
 #: includes/modules/post-type/module-post-type.php:29
+#: pro/includes/locations/location-menu-item-type.php:39
+#: pro/includes/locations/location-menu-item-type.php:54
+#: pro/includes/locations/location-menu-item-type.php:66
 msgid "Post Type"
 msgstr ""
 
@@ -5115,32 +5122,28 @@ msgstr ""
 msgid "Location not found: %s"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1468
+#: pro/assets/js/acfe-pro-input.js:1470
 #: pro/includes/modules/script/module-script.php:291
 msgid "Clear"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:1829
+#: pro/assets/js/acfe-pro-input.js:1836
 msgid "Maximum items reached ({max} items)"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:2439
+#: pro/assets/js/acfe-pro-input.js:2446
 msgid "This field has a limit of {max} {label} {identifier}"
 msgstr ""
 
-#: pro/assets/js/acfe-pro-input.js:2440
+#: pro/assets/js/acfe-pro-input.js:2447
 #: pro/includes/fields/field-flexible-content-locations.php:336
 msgid "layout"
 msgid_plural "layouts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/assets/js/acfe-pro-input.js:5046
+#: pro/assets/js/acfe-pro-input.js:5073
 msgid "OK"
-msgstr ""
-
-#: pro/includes/admin/dashboard.php:184 pro/includes/admin/dashboard.php:232
-msgid "Widget updated."
 msgstr ""
 
 #: pro/includes/admin/tools/rewrite-rules-export.php:15
@@ -5333,7 +5336,7 @@ msgstr ""
 
 #: pro/includes/fields/field-address.php:95
 #: pro/includes/fields/field-countries.php:123
-#: pro/includes/fields/field-phone-number.php:48
+#: pro/includes/fields/field-phone-number.php:176
 msgid "Allow Countries"
 msgstr ""
 
@@ -5928,7 +5931,7 @@ msgstr ""
 #: pro/includes/fields/field-file.php:20 pro/includes/fields/field-file.php:194
 #: pro/includes/fields/field-payment-cart.php:119
 #: pro/includes/fields/field-payment-selector.php:96
-#: pro/includes/fields/field-phone-number.php:67
+#: pro/includes/fields/field-phone-number.php:195
 msgid "Select"
 msgstr ""
 
@@ -6562,74 +6565,74 @@ msgid "Payment Object"
 msgstr ""
 
 #: pro/includes/fields/field-phone-number.php:19
-#: pro/includes/fields/field-phone-number.php:181
+#: pro/includes/fields/field-phone-number.php:309
 msgid "Phone Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:54
+#: pro/includes/fields/field-phone-number.php:182
 msgid "All countries"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:61
+#: pro/includes/fields/field-phone-number.php:189
 msgid "Preferred Countries"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:74
+#: pro/includes/fields/field-phone-number.php:202
 msgid "Default Country"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:95
+#: pro/includes/fields/field-phone-number.php:223
 msgid "Geolocation"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:96
+#: pro/includes/fields/field-phone-number.php:224
 msgid ""
 "Lookup the user's country based on their IP address using <a href='https://"
 "ipinfo.io/' target='_blank'>IPinfo.io</a>"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:103
+#: pro/includes/fields/field-phone-number.php:231
 msgid "Geolocation API token"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:104
+#: pro/includes/fields/field-phone-number.php:232
 msgid ""
 "<a href=\"https://ipinfo.io/\" target=\"_blank\">IPinfo.io</a> API token"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:120
+#: pro/includes/fields/field-phone-number.php:248
 msgid "Native Names"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:129
+#: pro/includes/fields/field-phone-number.php:257
 msgid "National Mode"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:147
+#: pro/includes/fields/field-phone-number.php:275
 msgid "Allow Dropdown"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:156
+#: pro/includes/fields/field-phone-number.php:284
 msgid "Separate Dial Code"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:180
+#: pro/includes/fields/field-phone-number.php:308
 msgid "Phone Array"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:186
+#: pro/includes/fields/field-phone-number.php:314
 msgid "National Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:187
+#: pro/includes/fields/field-phone-number.php:315
 msgid "International Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:205
+#: pro/includes/fields/field-phone-number.php:333
 msgid "Additional Settings"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:209
+#: pro/includes/fields/field-phone-number.php:337
 msgid ""
 "Additional settings such as \"National Number\", \"International Number\" "
 "return formats and phone number server validation are available when using "
@@ -6640,32 +6643,32 @@ msgid ""
 "target=\"_blank\">ACF Extended: Phone Number Library Addon</a> plugin."
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:229
+#: pro/includes/fields/field-phone-number.php:358
 msgctxt "Phone Number JS invalidPhoneNumber"
 msgid "Invalid Phone Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:230
+#: pro/includes/fields/field-phone-number.php:359
 msgctxt "Phone Number JS invalidCountry"
 msgid "Invalid Country"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:231
+#: pro/includes/fields/field-phone-number.php:360
 msgctxt "Phone Number JS phoneNumberTooShort"
 msgid "Phone Number is too short"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:232
+#: pro/includes/fields/field-phone-number.php:361
 msgctxt "Phone Number JS phoneNumberTooLong"
 msgid "Phone Number is too long"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:325
-#: pro/includes/fields/field-phone-number.php:342
+#: pro/includes/fields/field-phone-number.php:458
+#: pro/includes/fields/field-phone-number.php:475
 msgid "Invalid Phone Number"
 msgstr ""
 
-#: pro/includes/fields/field-phone-number.php:336
+#: pro/includes/fields/field-phone-number.php:469
 msgid "Invalid Country"
 msgstr ""
 
@@ -6678,7 +6681,7 @@ msgid "Comments"
 msgstr ""
 
 #: pro/includes/fields/field-post-field.php:50
-#: pro/includes/locations/settings.php:91
+#: pro/includes/locations/location-settings.php:40
 msgid "Discussion"
 msgstr ""
 
@@ -6862,237 +6865,284 @@ msgstr ""
 msgid "Custom Toolbar Buttons"
 msgstr ""
 
-#: pro/includes/locations/attachment-list.php:206
-#: pro/includes/locations/user-list.php:204
+#: pro/includes/forms/form-dashboard.php:184
+#: pro/includes/forms/form-dashboard.php:232
+msgid "Widget updated."
+msgstr ""
+
+#: pro/includes/locations/location-attachment-list.php:31
+#: pro/includes/locations/location-user-list.php:32
 msgid "List"
 msgstr ""
 
-#: pro/includes/locations/dashboard.php:14
+#: pro/includes/locations/location-dashboard.php:19
 msgid "WP Dashboard"
 msgstr ""
 
-#: pro/includes/locations/dashboard.php:22
-msgid "Widget"
+#: pro/includes/locations/location-dashboard.php:35
+#: pro/includes/modules/template/module-template-features.php:66
+msgid "is equal to"
 msgstr ""
 
-#: pro/includes/locations/menu-item-depth.php:14
+#: pro/includes/locations/location-dashboard.php:50
+#, php-format
+msgid "Widget %s"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-depth.php:19
 msgid "Menu Item Depth"
 msgstr ""
 
-#: pro/includes/locations/menu-item-depth.php:54
-#: pro/includes/locations/post-date-time.php:68
-#: pro/includes/locations/post-date.php:68
-#: pro/includes/locations/post-time.php:68
+#: pro/includes/locations/location-menu-item-depth.php:54
+#: pro/includes/locations/location-menu-item-order.php:54
+#: pro/includes/locations/location-post-date-time.php:60
+#: pro/includes/locations/location-post-date.php:60
+#: pro/includes/locations/location-post-time.php:60
 #: pro/includes/modules/global-field-condition.php:267
 msgid "is less than"
 msgstr ""
 
-#: pro/includes/locations/menu-item-depth.php:55
-#: pro/includes/locations/post-date-time.php:69
-#: pro/includes/locations/post-date.php:69
-#: pro/includes/locations/post-time.php:69
+#: pro/includes/locations/location-menu-item-depth.php:55
+#: pro/includes/locations/location-menu-item-order.php:55
+#: pro/includes/locations/location-post-date-time.php:61
+#: pro/includes/locations/location-post-date.php:61
+#: pro/includes/locations/location-post-time.php:61
 #: pro/includes/modules/global-field-condition.php:268
 msgid "is less or equal to"
 msgstr ""
 
-#: pro/includes/locations/menu-item-depth.php:56
-#: pro/includes/locations/post-date-time.php:70
-#: pro/includes/locations/post-date.php:70
-#: pro/includes/locations/post-time.php:70
+#: pro/includes/locations/location-menu-item-depth.php:56
+#: pro/includes/locations/location-menu-item-order.php:56
+#: pro/includes/locations/location-post-date-time.php:62
+#: pro/includes/locations/location-post-date.php:62
+#: pro/includes/locations/location-post-time.php:62
 #: pro/includes/modules/global-field-condition.php:269
 msgid "is greater than"
 msgstr ""
 
-#: pro/includes/locations/menu-item-depth.php:57
-#: pro/includes/locations/post-date-time.php:71
-#: pro/includes/locations/post-date.php:71
-#: pro/includes/locations/post-time.php:71
+#: pro/includes/locations/location-menu-item-depth.php:57
+#: pro/includes/locations/location-menu-item-order.php:57
+#: pro/includes/locations/location-post-date-time.php:63
+#: pro/includes/locations/location-post-date.php:63
+#: pro/includes/locations/location-post-time.php:63
 #: pro/includes/modules/global-field-condition.php:270
 msgid "is greater or equal to"
 msgstr ""
 
-#: pro/includes/locations/menu-item-type.php:14
+#: pro/includes/locations/location-menu-item-order.php:19
+msgid "Menu Item Order"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-type.php:19
 msgid "Menu Item Type"
 msgstr ""
 
-#: pro/includes/locations/post-author-role.php:14
+#: pro/includes/locations/location-menu-item-type.php:38
+msgid "Custom Link"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-type.php:42
+msgid "Front Page"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-type.php:43
+msgid "Posts Page"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-type.php:84
+msgid "Level"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-type.php:85
+msgid "Top Level Item (no parent)"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-type.php:86
+msgid "Parent Item (has children)"
+msgstr ""
+
+#: pro/includes/locations/location-menu-item-type.php:87
+msgid "Child Item (has parent)"
+msgstr ""
+
+#: pro/includes/locations/location-post-author-role.php:19
 msgid "Post Author Role"
 msgstr ""
 
-#: pro/includes/locations/post-author.php:14
+#: pro/includes/locations/location-post-author.php:19
 msgid "Post Author"
 msgstr ""
 
-#: pro/includes/locations/post-date-time.php:14
+#: pro/includes/locations/location-post-date-time.php:19
 msgid "Post Date Time"
 msgstr ""
 
-#: pro/includes/locations/post-date.php:14
+#: pro/includes/locations/location-post-date.php:19
 msgid "Post Date"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:14
+#: pro/includes/locations/location-post-path.php:19
 msgid "Post Path"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:53
-#: pro/includes/locations/post-slug.php:53
-#: pro/includes/locations/post-title.php:53
-#: pro/includes/locations/taxonomy-term-name.php:53
-#: pro/includes/locations/taxonomy-term-slug.php:53
+#: pro/includes/locations/location-post-path.php:48
+#: pro/includes/locations/location-post-slug.php:48
+#: pro/includes/locations/location-post-title.php:48
+#: pro/includes/locations/location-taxonomy-term-name.php:49
+#: pro/includes/locations/location-taxonomy-term-slug.php:49
 msgid "contains"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:54
-#: pro/includes/locations/post-slug.php:54
-#: pro/includes/locations/post-title.php:54
-#: pro/includes/locations/taxonomy-term-name.php:54
-#: pro/includes/locations/taxonomy-term-slug.php:54
+#: pro/includes/locations/location-post-path.php:49
+#: pro/includes/locations/location-post-slug.php:49
+#: pro/includes/locations/location-post-title.php:49
+#: pro/includes/locations/location-taxonomy-term-name.php:50
+#: pro/includes/locations/location-taxonomy-term-slug.php:50
 msgid "doesn't contains"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:55
-#: pro/includes/locations/post-slug.php:55
-#: pro/includes/locations/post-title.php:55
-#: pro/includes/locations/taxonomy-term-name.php:55
-#: pro/includes/locations/taxonomy-term-slug.php:55
+#: pro/includes/locations/location-post-path.php:50
+#: pro/includes/locations/location-post-slug.php:50
+#: pro/includes/locations/location-post-title.php:50
+#: pro/includes/locations/location-taxonomy-term-name.php:51
+#: pro/includes/locations/location-taxonomy-term-slug.php:51
 msgid "starts with"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:56
-#: pro/includes/locations/post-slug.php:56
-#: pro/includes/locations/post-title.php:56
-#: pro/includes/locations/taxonomy-term-name.php:56
-#: pro/includes/locations/taxonomy-term-slug.php:56
+#: pro/includes/locations/location-post-path.php:51
+#: pro/includes/locations/location-post-slug.php:51
+#: pro/includes/locations/location-post-title.php:51
+#: pro/includes/locations/location-taxonomy-term-name.php:52
+#: pro/includes/locations/location-taxonomy-term-slug.php:52
 msgid "doesn't starts with"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:57
-#: pro/includes/locations/post-slug.php:57
-#: pro/includes/locations/post-title.php:57
-#: pro/includes/locations/taxonomy-term-name.php:57
-#: pro/includes/locations/taxonomy-term-slug.php:57
+#: pro/includes/locations/location-post-path.php:52
+#: pro/includes/locations/location-post-slug.php:52
+#: pro/includes/locations/location-post-title.php:52
+#: pro/includes/locations/location-taxonomy-term-name.php:53
+#: pro/includes/locations/location-taxonomy-term-slug.php:53
 msgid "ends with"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:58
-#: pro/includes/locations/post-slug.php:58
-#: pro/includes/locations/post-title.php:58
-#: pro/includes/locations/taxonomy-term-name.php:58
-#: pro/includes/locations/taxonomy-term-slug.php:58
+#: pro/includes/locations/location-post-path.php:53
+#: pro/includes/locations/location-post-slug.php:53
+#: pro/includes/locations/location-post-title.php:53
+#: pro/includes/locations/location-taxonomy-term-name.php:54
+#: pro/includes/locations/location-taxonomy-term-slug.php:54
 msgid "doesn't ends with"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:59
-#: pro/includes/locations/post-slug.php:59
-#: pro/includes/locations/post-title.php:59
-#: pro/includes/locations/taxonomy-term-name.php:59
-#: pro/includes/locations/taxonomy-term-slug.php:59
+#: pro/includes/locations/location-post-path.php:54
+#: pro/includes/locations/location-post-slug.php:54
+#: pro/includes/locations/location-post-title.php:54
+#: pro/includes/locations/location-taxonomy-term-name.php:55
+#: pro/includes/locations/location-taxonomy-term-slug.php:55
 msgid "matches regex"
 msgstr ""
 
-#: pro/includes/locations/post-path.php:60
-#: pro/includes/locations/post-slug.php:60
-#: pro/includes/locations/post-title.php:60
-#: pro/includes/locations/taxonomy-term-name.php:60
-#: pro/includes/locations/taxonomy-term-slug.php:60
+#: pro/includes/locations/location-post-path.php:55
+#: pro/includes/locations/location-post-slug.php:55
+#: pro/includes/locations/location-post-title.php:55
+#: pro/includes/locations/location-taxonomy-term-name.php:56
+#: pro/includes/locations/location-taxonomy-term-slug.php:56
 msgid "doesn't matches regex"
 msgstr ""
 
-#: pro/includes/locations/post-screen.php:14
+#: pro/includes/locations/location-post-screen.php:19
 msgid "Post Screen"
 msgstr ""
 
-#: pro/includes/locations/post-slug.php:14
+#: pro/includes/locations/location-post-slug.php:19
 msgid "Post Slug"
 msgstr ""
 
-#: pro/includes/locations/post-time.php:14
+#: pro/includes/locations/location-post-time.php:19
 msgid "Post Time"
 msgstr ""
 
-#: pro/includes/locations/post-title.php:14
+#: pro/includes/locations/location-post-title.php:19
 msgid "Post Title"
 msgstr ""
 
-#: pro/includes/locations/settings.php:78
+#: pro/includes/locations/location-settings.php:19
 msgid "WP Settings"
 msgstr ""
 
-#: pro/includes/locations/settings.php:88
+#: pro/includes/locations/location-settings.php:37
 msgctxt "settings screen"
 msgid "General"
 msgstr ""
 
-#: pro/includes/locations/settings.php:89
+#: pro/includes/locations/location-settings.php:38
 msgid "Writing"
 msgstr ""
 
-#: pro/includes/locations/settings.php:90
+#: pro/includes/locations/location-settings.php:39
 msgid "Reading"
 msgstr ""
 
-#: pro/includes/locations/settings.php:92
+#: pro/includes/locations/location-settings.php:41
 msgid "Media"
 msgstr ""
 
-#: pro/includes/locations/settings.php:93
+#: pro/includes/locations/location-settings.php:42
 msgid "Permalinks"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term-name.php:14
+#: pro/includes/locations/location-taxonomy-term-name.php:19
 msgid "Taxonomy Term Name"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term-parent.php:14
+#: pro/includes/locations/location-taxonomy-term-parent.php:19
 msgid "Taxonomy Term Parent"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term-slug.php:14
+#: pro/includes/locations/location-taxonomy-term-slug.php:19
 msgid "Taxonomy Term Slug"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term-type.php:14
+#: pro/includes/locations/location-taxonomy-term-type.php:19
 msgid "Taxonomy Term Type"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term-type.php:22
+#: pro/includes/locations/location-taxonomy-term-type.php:37
 msgid "Top Level Term (no parent)"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term-type.php:23
+#: pro/includes/locations/location-taxonomy-term-type.php:38
 msgid "Parent Term (has children)"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term-type.php:24
+#: pro/includes/locations/location-taxonomy-term-type.php:39
 msgid "Child Term (has parent)"
 msgstr ""
 
-#: pro/includes/locations/taxonomy-term.php:14
+#: pro/includes/locations/location-taxonomy-term.php:19
 msgid "Taxonomy Term"
 msgstr ""
 
-#: pro/includes/locations/woocommerce.php:14
+#: pro/includes/locations/location-woocommerce.php:19
 msgid "Woocommerce"
 msgstr ""
 
-#: pro/includes/locations/woocommerce.php:22
+#: pro/includes/locations/location-woocommerce.php:36
 msgid "Cart page"
 msgstr ""
 
-#: pro/includes/locations/woocommerce.php:23
+#: pro/includes/locations/location-woocommerce.php:37
 msgid "Checkout page"
 msgstr ""
 
-#: pro/includes/locations/woocommerce.php:24
+#: pro/includes/locations/location-woocommerce.php:38
 msgid "My account page"
 msgstr ""
 
-#: pro/includes/locations/woocommerce.php:25
+#: pro/includes/locations/location-woocommerce.php:39
 msgid "Shop page"
 msgstr ""
 
-#: pro/includes/locations/woocommerce.php:26
+#: pro/includes/locations/location-woocommerce.php:40
 msgid "Terms and conditions"
 msgstr ""
 
@@ -7323,17 +7373,13 @@ msgstr ""
 msgid "Timer"
 msgstr ""
 
-#: pro/includes/modules/template/module-template-features.php:45
+#: pro/includes/modules/template/module-template-features.php:50
 #: pro/includes/modules/template/module-template-fields.php:33
 #: pro/includes/modules/template/module-template.php:26
 msgid "Template"
 msgstr ""
 
-#: pro/includes/modules/template/module-template-features.php:61
-msgid "is equal to"
-msgstr ""
-
-#: pro/includes/modules/template/module-template-features.php:78
+#: pro/includes/modules/template/module-template-features.php:83
 msgid "No templates found"
 msgstr ""
 

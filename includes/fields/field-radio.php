@@ -19,6 +19,34 @@ class acfe_field_radio extends acfe_field_extend{
     
     
     /**
+     * format_front_value
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     * @param $form
+     *
+     * @return string
+     */
+    function format_front_value($formatted, $unformatted, $post_id, $field, $form){
+        
+        // vars
+        $value = acf_get_array($unformatted);
+        $array = array();
+        
+        // loop values
+        foreach($value as $v){
+            $array[] = acf_maybe_get($field['choices'], $v, $v);
+        }
+        
+        // merge
+        return implode(', ', $array);
+        
+    }
+    
+    
+    /**
      * validate_front_value
      *
      * @param $valid

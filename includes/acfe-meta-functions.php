@@ -397,3 +397,60 @@ function acfe_get_orphan_meta($post_id = 0){
     return $orphan;
     
 }
+
+
+/**
+ * acfe_save_post_revision
+ *
+ * This function will copy meta from a post to it's latest revision
+ * This is a copy from native ACF function before ACF 6.4.
+ *
+ * Since ACF 6.4, ACF use different meta_location logic
+ *
+ * @param $post_id
+ *
+ * @return void
+ */
+function acfe_save_post_revision($post_id = 0){
+
+	// get latest revision
+	$revision = acf_get_post_latest_revision($post_id);
+
+	// save
+	if($revision){
+		acfe_copy_postmeta($post_id, $revision->ID);
+	}
+}
+
+
+/**
+ * acfe_copy_postmeta
+ *
+ * Copies meta from one post to another. Useful for saving and restoring revisions.
+ * This is a copy from native ACF function before ACF 6.4.
+ *
+ * Since ACF 6.4, ACF use different meta_location logic
+ *
+ * @param $from_post_id
+ * @param $to_post_id
+ *
+ * @return void
+ */
+function acfe_copy_postmeta($from_post_id = 0, $to_post_id = 0){
+
+	// Get all postmeta.
+	$meta = acf_get_meta($from_post_id);
+
+	// Check meta.
+	if($meta){
+
+		// Slash data. WP expects all data to be slashed and will unslash it (fixes '\' character issues).
+		$meta = wp_slash($meta);
+
+		// Loop over meta.
+		foreach($meta as $name => $value){
+			acf_update_metadata($to_post_id, $name, $value);
+		}
+  
+	}
+}

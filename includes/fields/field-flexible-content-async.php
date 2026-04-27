@@ -158,12 +158,23 @@ class acfe_field_flexible_content_async{
         $options = acf_parse_args($_POST, array(
             'field_key' => '',
             'layout'    => '',
+            'nonce'     => '',
         ));
+        
+        // verify nonce
+        if(!acf_verify_ajax($options['nonce'], $options['field_key'], true)){
+            die();
+        }
         
         // get field
         $field = acf_get_field($options['field_key']);
         if(!$field){
-            die;
+            die();
+        }
+        
+        // check setting
+        if(!in_array('layout', $field['acfe_flexible_async'])){
+            die();
         }
         
         // prepare field
@@ -174,12 +185,12 @@ class acfe_field_flexible_content_async{
             
             if($layout['name'] === $options['layout']){
                 acf_get_instance('acfe_field_flexible_content')->render_layout($field, $layout, 'acfcloneindex', array()); // render layout
-                die;
+                die();
             }
             
         }
         
-        die;
+        die();
         
     }
     

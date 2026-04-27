@@ -166,6 +166,56 @@ class acfe_field_group_field extends acfe_field_extend{
     
     
     /**
+     * format_front_value
+     *
+     * @param $formatted
+     * @param $unformatted
+     * @param $post_id
+     * @param $field
+     * @param $form
+     *
+     * @return string
+     */
+    function format_front_value($formatted, $unformatted, $post_id, $field, $form){
+        
+        // vars
+        $value = acf_get_array($unformatted);
+        $array = array();
+        $return = '';
+        
+        // loop subfields keys
+        foreach($value as $key => $val){
+            
+            // get sub field
+            $sub_field = acf_get_field($key);
+            
+            // validate
+            if($sub_field){
+                
+                // label
+                $label = !empty($sub_field['label']) ? $sub_field['label'] : $sub_field['name'];
+                
+                // format value
+                $sub_field['name'] = $field['name'] . '_' . $sub_field['name'];
+                $val = acfe_form_format_value($val, $sub_field);
+                
+                // append
+                $array[] = "{$label}: {$val}";
+                
+            }
+            
+        }
+        
+        // merge
+        $return .= implode(', ', $array);
+        
+        // return
+        return $return;
+        
+    }
+    
+    
+    /**
      * translate_field
      *
      * @param $field

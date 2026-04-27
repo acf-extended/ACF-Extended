@@ -481,6 +481,10 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     display: inline-flex
 }
 
+.acf-admin-6.acf-admin-single-field-group #acf-field-group-options .acf-field[data-type=number] input {
+    max-width: 100%
+}
+
 .acf-admin-6.acf-admin-single-field-group #acf-field-group-acfe .acf-label {
     display: block
 }

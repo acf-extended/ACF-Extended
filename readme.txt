@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 0.9.2.3
+Stable tag: 0.9.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -493,6 +493,53 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.2.4 =
+
+**Deprecation Notice:**
+
+Support of ACF Pro 5.8 (2019) will be dropped on September 2026. Please upgrade to ACF Pro 5.9 or higher to maintain compatibility with future versions of ACF Extended.
+
+**ACF Extended Pro 0.9.2.4:**
+
+* Field: Phone Number - Reworked Geolocation request and moved to server-side
+* Field: Phone Number - Updated Geolocation IPInfo.io API endpoint
+* Field: Phone Number - Intl Tel Input Utils is now loaded locally (instead of CDN)
+* Field: Phone Number - Fixed country dropdown on mobile
+* Field: Phone Number - Fixed country dropdown compatibility with other Select2 fields
+* Field: Phone Number - Added `acfe/fields/phone_number/geolocation/api_params` hook
+* Field: Phone Number - Added `acfe/fields/phone_number/geolocation/custom_query` hook
+* Field: Phone Number - Added `acfe/fields/phone_number/geolocation/args` JS hook
+* Field: Phone Number - Added `acfe/fields/phone_number/geolocation/init` JS hook
+* Location: Advanced Locations - Fixed PHP notice in custom location rules
+* Location: Nav Menu item Type - Added "Post Type Archive", "Front Page" & "Posts Page"
+* Location: Nav Menu item Type - Added "Post Type" & "Taxonomy" selection
+* Location: Nav Menu item Type - Added "Top Level", "Parent" & "Children"
+* Location: Nav Menu item Order - Added Location Rule Type
+* Location: Post Screen - Fixed compatibility with ACF Taxonomy Field "Save Terms" setting
+* Module: Auto Sync - Fixed "Load Source" tooltip HTML
+* Module: Auto Sync - Fixed "Sync Available" screen columns render
+* Module: Auto Sync - Added missing text translation
+* Module: Scripts - Performance Converter - Fixed "Individual meta" setting being ignored
+* Module: Templates - Added compatibility with `get_field()` & `get_fields()` to retrieve values
+
+**ACF Extended Basic 0.9.2.4:**
+
+* Field: Clone - Added Role Permissions compatibility with "Display: Seamless"
+* Field: Tab - Added Role Permissions compatibility
+* Field: Flexible Content - Fixed missing "Apply" translation in copy/paste modal
+* Field: Flexible Content - Added "Async Layouts" nonce check
+* Field: Flexible Content - Added "Rename Layout" nonce check
+* Field Group: Category - Fixed error when using a custom admin url in some edge case
+* Field Group: Category - Removed listed item in the Appearance > Menus UI
+* Field Group: Local Tab - Fixed "Import" function when a Json file also exists
+* Module: Forms - Success > Apply Shortcode setting is now disabled by default
+* Module: Forms - Added `$form` argument in the `acfe/form/format_value` hook
+* Module: Performance Ultra - Fixed slashes in Post Revisions
+* Global: Added `acfe/ready` hook triggered once everything is loaded after `acfe/init`
+* Global: Added ACF Pro 5.8 support drop warning on WP Admin > Plugins page
+* Global: Fixed ACF Taxonomy "Create Term" modal style
+* Global: Updated Translation
 
 = 0.9.2.3 =
 

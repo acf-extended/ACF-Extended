@@ -1377,8 +1377,9 @@ body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-eve
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close]::before {
     height: 50px;
     width: 50px;
-    font: normal 20px/50px dashicons;
-    content: "\f158"
+    font: normal 20px/51px dashicons;
+    content: "\f158";
+    margin: 0
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close]:hover {
@@ -1389,6 +1390,16 @@ body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-eve
     border-radius: 0;
     -webkit-box-shadow: none;
     box-shadow: none
+}
+
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close].acf-icon.-cancel.grey {
+    background: 0 0;
+    position: static;
+    color: #666 !important
+}
+
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close].acf-icon.-cancel.grey:hover {
+    color: #00a0d2 !important
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close] .acf-icon.-close {
@@ -1418,13 +1429,32 @@ body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner .acf-field
     border-radius: 4px
 }
 
-body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner .acf-actions {
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner .acf-actions,
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner p.acf-submit {
     color: #23282d;
     background: #fcfcfc;
     padding: 10px 16px;
     position: relative;
     border-top: 1px solid #ddd;
     pointer-events: auto
+}
+
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner p.acf-submit {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    margin: 0
+}
+
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner p.acf-submit button:last-of-type {
+    margin-right: 0
+}
+
+body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .inner>form .acf-notice:first-child {
+    margin: 15px 15px 0
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup .inner .acf-actions .acf-btn {

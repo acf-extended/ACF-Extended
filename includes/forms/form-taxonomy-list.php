@@ -4,27 +4,32 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-if(!class_exists('acfe_location_taxonomy_list')):
+if(!class_exists('acfe_form_taxonomy_list')):
 
-class acfe_location_taxonomy_list{
+class acfe_form_taxonomy_list{
     
     // vars
     var $post_id;
     var $taxonomy;
     var $field_groups = array();
-    
+
+    /**
+     * construct
+     */
     function __construct(){
-        
-        // load
-        add_action('acfe/load_terms',                           array($this, 'load_terms'));
-        
-        // locations
-        add_filter('acf/location/rule_types',                   array($this, 'rule_types'));
-        add_filter('acf/location/rule_values/taxonomy_list',    array($this, 'rule_values'));
-        add_filter('acf/location/rule_match/taxonomy_list',     array($this, 'rule_match'), 10, 3);
+
+        add_action('acfe/load_terms', array($this, 'load_terms'));
         
     }
-    
+
+
+    /**
+     * load_terms
+     *
+     * @param $taxonomy
+     *
+     * @return void
+     */
     function load_terms($taxonomy){
         
         // bail early if restricted
@@ -87,7 +92,13 @@ class acfe_location_taxonomy_list{
         add_action('acfe/add_terms_meta_boxes', array($this, 'add_terms_meta_boxes'));
         
     }
-    
+
+
+    /**
+     * add_terms_meta_boxes
+     *
+     * @return void
+     */
     function add_terms_meta_boxes(){
     
         // Storage for localized postboxes.
@@ -151,7 +162,16 @@ class acfe_location_taxonomy_list{
         ));
         
     }
-    
+
+
+    /**
+     * render_meta_box
+     *
+     * @param $post_type
+     * @param $metabox
+     *
+     * @return void
+     */
     function render_meta_box($post_type, $metabox){
         
         // vars
@@ -209,43 +229,8 @@ class acfe_location_taxonomy_list{
         
     }
     
-    function rule_types($choices){
-        
-        $name = __('Forms', 'acf');
-        $choices[ $name ] = acfe_array_insert_after($choices[ $name ], 'taxonomy', 'taxonomy_list', __('Taxonomy List'));
-
-        return $choices;
-        
-    }
-    
-    function rule_values($choices){
-        
-        $choices = array('all' => __('All', 'acf'));
-        $choices = array_merge($choices, acf_get_taxonomy_labels());
-        
-        return $choices;
-        
-    }
-    
-    function rule_match($match, $rule, $screen){
-        
-        if(!acf_maybe_get($screen, 'taxonomy_list') || !acf_maybe_get($rule, 'value'))
-            return $match;
-        
-        $match = ($screen['taxonomy_list'] === $rule['value']);
-        
-        if($rule['value'] === 'all')
-            $match = true;
-        
-        if($rule['operator'] === '!=')
-            $match = !$match;
-        
-        return $match;
-
-    }
-    
 }
 
-new acfe_location_taxonomy_list();
+acf_new_instance('acfe_form_taxonomy_list');
 
 endif;

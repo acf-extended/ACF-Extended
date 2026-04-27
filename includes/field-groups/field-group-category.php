@@ -48,7 +48,7 @@ class acfe_field_group_category{
             'show_ui'           => 'ACFE',
             'show_admin_column' => true,
             'show_in_menu'      => true,
-            'show_in_nav_menus' => true,
+            'show_in_nav_menus' => false,
             'show_tagcloud'     => false,
             'rewrite'           => false,
             'labels'            => array(
