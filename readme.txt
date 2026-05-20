@@ -3,9 +3,9 @@ Contributors: hwk-fr
 Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 0.9.2.4
+Stable tag: 0.9.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -494,6 +494,24 @@ The content of the upcoming patch and work in progress features are all listed o
 
 == Changelog ==
 
+= 0.9.2.5 =
+
+**ACF Extended Pro 0.9.2.5:**
+
+* Field: Select - Enhanced "Stylised UI" compatibility on Woocommerce admin pages
+* Field: Select - This fix also applies to Countries, Currencies, Languages fields
+* Field: Phone Number - Fixed JS error on screen resize
+* Field: Phone Number - Fixed IP geoloation detection issues
+
+**ACF Extended Basic 0.9.2.5:**
+
+* Field: Image - Fixed Conditional Logic compatibility issue with ACF 6.8.1
+* Field: File - Fixed Conditional Logic compatibility issue with ACF 6.8.1
+* Module: Enhanced UI - Added compatibility layer for WP 7.0
+* Module: Enhanced UI - Added `acfe/modules/wp7_ui` setting for WP 7.0
+* General: Fixed various styling issues for WP 7.0
+* General: Enhanced helpers and version detection
+
 = 0.9.2.4 =
 
 **Deprecation Notice:**
@@ -509,8 +527,8 @@ Support of ACF Pro 5.8 (2019) will be dropped on September 2026. Please upgrade 
 * Field: Phone Number - Fixed country dropdown compatibility with other Select2 fields
 * Field: Phone Number - Added `acfe/fields/phone_number/geolocation/api_params` hook
 * Field: Phone Number - Added `acfe/fields/phone_number/geolocation/custom_query` hook
-* Field: Phone Number - Added `acfe/fields/phone_number/geolocation/args` JS hook
-* Field: Phone Number - Added `acfe/fields/phone_number/geolocation/init` JS hook
+* Field: Phone Number - Added `acfe/fields/phone_number/args` JS hook
+* Field: Phone Number - Added `acfe/fields/phone_number/init` JS hook
 * Location: Advanced Locations - Fixed PHP notice in custom location rules
 * Location: Nav Menu item Type - Added "Post Type Archive", "Front Page" & "Posts Page"
 * Location: Nav Menu item Type - Added "Post Type" & "Taxonomy" selection

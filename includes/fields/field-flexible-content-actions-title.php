@@ -36,7 +36,7 @@ class acfe_field_flexible_content_actions_title{
     function wrapper_attributes($wrapper, $field){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $wrapper;
         }
         
@@ -61,7 +61,7 @@ class acfe_field_flexible_content_actions_title{
     function load_fields($fields, $field){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $fields;
         }
         
@@ -118,7 +118,7 @@ class acfe_field_flexible_content_actions_title{
     function prepare_layout($layout, $field, $i, $value, $prefix){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $layout;
         }
         
@@ -175,7 +175,7 @@ class acfe_field_flexible_content_actions_title{
     function layout_div($div, $layout, $field, $i, $value, $prefix){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $div;
         }
         
@@ -203,7 +203,7 @@ class acfe_field_flexible_content_actions_title{
     function layout_title($title, $field, $layout, $i){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $title;
         }
         
@@ -237,7 +237,7 @@ class acfe_field_flexible_content_actions_title{
     function layout_attrs($attrs, $field, $layout, $i){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $attrs;
         }
         

@@ -5,97 +5,62 @@ if(!defined('ABSPATH')){
 }
 
 /**
- * acfe_has_acf
- *
- * Checks ACF version
- *
- * @return bool
- */
-function acfe_has_acf(){
-    return class_exists('ACF') && defined('ACF_PRO') && defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.8', '>=');
-}
-
-/**
  * acfe_is_acf
  *
- * @param $v1
- * @param $v2
+ * Check the ACF version
+ *
+ * @param $min
+ * @param $max
  *
  * @return bool
  */
-function acfe_is_acf($v1, $v2 = ''){
+function acfe_is_acf($min = '', $max = ''){
+
+    // no version to check
+    if(empty($min) && empty($max)){
+        return class_exists('ACF') && defined('ACF_PRO') && defined('ACF_VERSION') && version_compare(ACF_VERSION, '5.8', '>=');
+    }
+
+    // get version
+    $version = (string) acf_get_setting('version');
+    $version = preg_replace('/[^0-9.].*$/', '', $version); // remove any non-numeric characters (e.g. -beta)
 
     // check only one version
-    if(empty($v2)){
-        return acf_version_compare(acf_get_setting('version'), '>=', $v1);
+    if(empty($max)){
+        return acf_version_compare($version, '>=', $min);
     }
 
     // check both versions
-    return acf_version_compare(acf_get_setting('version'), '>=', $v1) && acf_version_compare(acf_get_setting('version'), '<', $v2);
+    return acf_version_compare($version, '>=', $min) && acf_version_compare($version, '<', $max);
 }
 
+
 /**
- * acfe_is_acf_59
+ * acfe_is_wp
+ *
+ * Check the WP version
+ *
+ * @param $min
+ * @param $max
  *
  * @return bool
  */
-function acfe_is_acf_59(){
-    return acf_version_compare(acf_get_setting('version'),  '>=', '5.9');
+function acfe_is_wp($min = '', $max = ''){
+
+    // get version
+    global $wp_version;
+    $version = (string) $wp_version;
+    $version = preg_replace('/[^0-9.].*$/', '', $version); // remove any non-numeric characters (e.g. -beta)
+
+    // check only one version
+    if(empty($max)){
+        return acf_version_compare($version, '>=', $min);
+    }
+
+    // check both versions
+    return acf_version_compare($version, '>=', $min) && acf_version_compare($version, '<', $max);
 }
 
-/**
- * acfe_is_acf_6
- *
- * @return bool
- */
-function acfe_is_acf_6(){
-    return acf_version_compare(acf_get_setting('version'),  '>=', '6.0');
-}
-
-/**
- * acfe_is_acf_61
- *
- * @return bool
- */
-function acfe_is_acf_61(){
-    return acf_version_compare(acf_get_setting('version'),  '>=', '6.1');
-}
-
-/**
- * acfe_is_acf_622
- *
- * @return bool
- */
-function acfe_is_acf_622(){
-    return acf_version_compare(acf_get_setting('version'),  '>=', '6.2.2');
-}
-
-/**
- * acfe_is_acf_64
- *
- * @return bool
- */
-function acfe_is_acf_64(){
-    return acf_version_compare(acf_get_setting('version'),  '>=', '6.4');
-}
-
-/**
- * acfe_is_acf_65
- *
- * @return bool
- */
-function acfe_is_acf_65(){
-    return acf_version_compare(acf_get_setting('version'),  '>=', '6.5');
-}
-
-/**
- * acfe_is_acf_66
- *
- * @return bool
- */
-function acfe_is_acf_66(){
-    return acf_version_compare(acf_get_setting('version'),  '>=', '6.6');
-}
 
 /**
  * acfe_include
@@ -217,7 +182,7 @@ add_action('after_plugin_row_' . ACFE_BASENAME, 'acfe_after_plugin_row', 5, 3);
 function acfe_after_plugin_row($plugin_file, $plugin_data, $status){
     
     // bail early
-    if(acfe_has_acf()){
+    if(acfe_is_acf()){
         return;
     }
     
@@ -246,4 +211,94 @@ function acfe_after_plugin_row($plugin_file, $plugin_data, $status){
     </tr>
     <?php
     
+}
+
+/**
+ * acfe_has_acf
+ *
+ * Checks ACF version
+ *
+ * @depecated
+ * @return bool
+ */
+function acfe_has_acf(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf()");
+    return acfe_is_acf();
+}
+
+/**
+ * acfe_is_acf_59
+ *
+ * @deprecated
+ * @return bool
+ */
+function acfe_is_acf_59(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf('5.9')");
+    return acfe_is_acf('5.9');
+}
+
+/**
+ * acfe_is_acf_6
+ *
+ * @deprecated
+ * @return bool
+ */
+function acfe_is_acf_6(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf('6.0')");
+    return acfe_is_acf('6.0');
+}
+
+/**
+ * acfe_is_acf_61
+ *
+ * @deprecated
+ * @return bool
+ */
+function acfe_is_acf_61(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf('6.1')");
+    return acfe_is_acf('6.1');
+}
+
+/**
+ * acfe_is_acf_622
+ *
+ * @deprecated
+ * @return bool
+ */
+function acfe_is_acf_622(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf('6.2.2')");
+    return acfe_is_acf('6.2.2');
+}
+
+/**
+ * acfe_is_acf_64
+ *
+ * @deprecated
+ * @return bool
+ */
+function acfe_is_acf_64(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf('6.4')");
+    return acfe_is_acf('6.4');
+}
+
+/**
+ * acfe_is_acf_65
+ *
+ * @deprecated
+ * @return bool
+ */
+function acfe_is_acf_65(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf('6.5')");
+    return acfe_is_acf('6.5');
+}
+
+/**
+ * acfe_is_acf_66
+ *
+ * @deprecated
+ * @return bool
+ */
+function acfe_is_acf_66(){
+    acfe_deprecated_function(__FUNCTION__, '0.9.2.5', "acfe_is_acf('6.6')");
+    return acfe_is_acf('6.6');
 }

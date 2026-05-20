@@ -48,7 +48,7 @@ class acfe_field_flexible_content_popup{
     function render_popup_actions($field){
         
         // ACF 6.5+ only
-        if(!acfe_is_acf_65()){
+        if(!acfe_is_acf('6.5')){
             return;
         }
         

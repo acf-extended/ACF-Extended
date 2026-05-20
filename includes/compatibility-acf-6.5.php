@@ -4,6 +4,11 @@ if(!defined('ABSPATH')){
     exit;
 }
 
+// check version
+if(!acfe_is_acf('6.5')){
+    return;
+}
+
 if(!class_exists('acfe_compatibility_acf_65')):
 
 class acfe_compatibility_acf_65{
@@ -33,11 +38,6 @@ class acfe_compatibility_acf_65{
      * @return mixed
      */
     function validate_field($field){
-        
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $field;
-        }
         
         // check if setting is enabled
         if(!acfe_get_setting('compatibility/legacy_title_toggle')){
@@ -72,11 +72,6 @@ class acfe_compatibility_acf_65{
      * @return void
      */
     function update_field($field){
-        
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $field;
-        }
         
         // get original field
         $original_field = acf_get_field($field['key']);
@@ -140,11 +135,6 @@ class acfe_compatibility_acf_65{
      */
     function update_value_cleanup_legacy($value, $post_id, $field){
         
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $value;
-        }
-        
         // check value
         if(empty($value)){
             return $value;
@@ -192,11 +182,6 @@ class acfe_compatibility_acf_65{
      * @return array|mixed
      */
     function load_value_assign_legacy_value($value, $post_id, $field){
-        
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $value;
-        }
         
         // check value
         if(empty($value)){
@@ -262,11 +247,6 @@ class acfe_compatibility_acf_65{
      * @return array|mixed
      */
     function load_value_compat_toggle($value, $post_id, $field){
-        
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $value;
-        }
         
         // check setting
         if(!$this->has_toggle_action($field)){
@@ -350,11 +330,6 @@ class acfe_compatibility_acf_65{
      */
     function layout_disabled($disabled, $field, $i){
         
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $disabled;
-        }
-        
         // disabled already set
         if(!empty($disabled)){
             return $disabled;
@@ -390,11 +365,6 @@ class acfe_compatibility_acf_65{
      * @return mixed
      */
     function layout_renamed($renamed, $field, $i){
-        
-        // pre-ACF 6.5+: bail early
-        if(!acfe_is_acf_65()){
-            return $renamed;
-        }
         
         // disabled already set
         if(!empty($renamed)){

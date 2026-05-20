@@ -604,6 +604,7 @@ class acfe_field_advanced_link extends acf_field{
      */
     function ajax_query(){
 
+        // vars
         $nonce        = acf_request_arg('nonce', '');
         $key          = acf_request_arg('field_key', '');
         $is_field_key = acf_is_field_key($key);

@@ -74,7 +74,7 @@ class acfe_module_export extends ACF_Admin_Tool{
         
         ?>
         
-        <?php if(acfe_is_acf_6()): ?>
+        <?php if(acfe_is_acf('6.0')): ?>
         
             <div class="acf-postbox-header">
                 <h2 class="acf-postbox-title"><?php echo $this->module->get_message('export_description'); ?></h2>
@@ -129,7 +129,7 @@ class acfe_module_export extends ACF_Admin_Tool{
             
         </p>
         
-        <?php if(acfe_is_acf_6()): ?>
+        <?php if(acfe_is_acf('6.0')): ?>
             </div>
         <?php endif; ?>
         
@@ -149,7 +149,7 @@ class acfe_module_export extends ACF_Admin_Tool{
         
         ?>
         
-        <?php if(acfe_is_acf_6()): ?>
+        <?php if(acfe_is_acf('6.0')): ?>
             <div class="acf-postbox-header">
                 <h2 class="acf-postbox-title"><?php echo $this->module->get_message('export_description'); ?></h2>
             </div>

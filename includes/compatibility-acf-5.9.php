@@ -41,17 +41,17 @@ class acfe_compatibility_acf_59{
      *
      * @param $new_class
      *
-     * @return mixed|string
+     * @return string
      */
     function acf_admin_body_class($new_class){
         
-        // ACF 6.0+ bail early
-        if(acfe_is_acf('6.0')){
-            return $new_class;
+        // remove class before acf 6.0
+        if(!acfe_is_acf('6.0')){
+            return '';
         }
         
-        // remove acf 6.0 class
-        return '';
+        // return normally
+        return $new_class;
         
     }
     

@@ -38,7 +38,7 @@ class acfe_module_import extends ACF_Admin_Tool{
     function html(){
         
         ?>
-        <?php if(acfe_is_acf_6()): ?>
+        <?php if(acfe_is_acf('6.0')): ?>
 
             <div class="acf-postbox-header">
                 <h2 class="acf-postbox-title"><?php echo $this->module->get_message('import_description'); ?></h2>
@@ -69,7 +69,7 @@ class acfe_module_import extends ACF_Admin_Tool{
             <button type="submit" name="action" class="button button-primary"><?php _e('Import File', 'acf'); ?></button>
         </p>
         
-        <?php if(acfe_is_acf_6()): ?>
+        <?php if(acfe_is_acf('6.0')): ?>
             </div>
         <?php endif; ?>
         

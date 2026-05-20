@@ -718,7 +718,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
                 <tfoot>
                 <tr class="acfe-tfoot-row">
                     <td colspan="<?php echo count($layout['sub_fields']); ?>">
-                        <div class="acfe-flexible-opened-actions"><a href="#" class="button"><?php echo $close_label; ?></button></a></div>
+                        <div class="acfe-flexible-opened-actions"><a href="#" class="acf-button button"><?php echo $close_label; ?></button></a></div>
                     </td>
                 </tr>
                 </tfoot>
@@ -764,7 +764,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
         if(!$field['acfe_flexible_modal_edit']['acfe_flexible_modal_edit_enabled'] && in_array('close', $field['acfe_flexible_add_actions'])){
             
             $close_label = !empty($field['acfe_flexible_close_button_label']) ? $field['acfe_flexible_close_button_label'] : __('Close', 'acfe');
-            echo '<div class="acfe-flexible-opened-actions"><a href="#" class="button">' . $close_label . '</button></a></div>';
+            echo '<div class="acfe-flexible-opened-actions"><a href="#" class="acf-button button">' . $close_label . '</button></a></div>';
             
         }
         
@@ -1025,7 +1025,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
         $disabled_layouts = array();
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             $disabled_layouts = $this->instance->get_disabled_layouts($this->instance->post_id, $field);
         }
         
@@ -1054,7 +1054,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
         $renamed_layouts = array();
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             $renamed_layouts  = $this->instance->get_renamed_layouts($this->instance->post_id, $field);
         }
         

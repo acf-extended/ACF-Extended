@@ -413,14 +413,67 @@
 
 
     /**
+     * acfe.isACF
+     *
+     * @param min
+     * @param max
+     *
+     * @returns {false|0|boolean|number}
+     */
+    acfe.isACF = function(min, max) {
+
+        // get version
+        var version = String(acf.get('acf_version'));
+        version = version.replace(/[^0-9.].*$/, ''); // remove any non-numeric characters (e.g. -beta)
+
+        // check only one version
+        if (typeof max === 'undefined') {
+            return acfe.versionCompare(version, '>=', min);
+        }
+
+        // check both versions
+        return acfe.versionCompare(version, '>=', min) && acfe.versionCompare(version, '<', max);
+
+    }
+
+
+    /**
+     * acfe.isWP
+     *
+     * @param min
+     * @param max
+     *
+     * @returns {false|0|boolean|number}
+     */
+    acfe.isWP = function(min, max) {
+
+        // get version
+        var version = String(acf.get('wp_version'));
+        version = version.replace(/[^0-9.].*$/, ''); // remove any non-numeric characters (e.g. -beta)
+
+        // check only one version
+        if (typeof max === 'undefined') {
+            return acfe.versionCompare(version, '>=', min);
+        }
+
+        // check both versions
+        return acfe.versionCompare(version, '>=', min) && acfe.versionCompare(version, '<', max);
+
+    }
+
+
+    /**
      * acfe.isACF65
      *
      * Check if ACF version is 6.5+
      *
+     * @deprecated since 0.9.2.5
+     *
      * @returns {boolean|number}
      */
     acfe.isACF65 = function() {
-        return acfe.versionCompare(acf.get('acf_version'), '>=', '6.5');
+        acfe.deprecatedFunction('acfe.isACF65()', '0.9.2.5', "acfe.isACF('6.5')");
+        return acfe.isACF('6.5');
     }
 
 })(jQuery);
@@ -1296,19 +1349,21 @@
 
         renderContent: function() {
 
-            // title
+            // append title html
             if (!this.$title().length && this.title) {
                 this.$wrapper().prepend('<div class="acfe-modal-title"><span class="title"></span><button class="close"></button></div>');
 
-            } else if (!this.title) {
+                // remove title html
+            } else if (this.title === false) {
                 this.$title().remove();
             }
 
-            // footer
+            // append footer html
             if (!this.$footer().length && this.footer) {
                 this.$wrapper().append('<div class="acfe-modal-footer"></div>');
 
-            } else if (!this.footer) {
+                // remove footer html
+            } else if (this.footer === false) {
                 this.$footer().remove();
             }
 
@@ -1321,7 +1376,9 @@
             }
 
             // footer
-            this.$footer(acfe.isFunction(this.footer) ? this.footer.apply(this) : '<button class="button button-large button-primary close">' + this.footer + '</button>');
+            if (this.footer) {
+                this.$footer(acfe.isFunction(this.footer) ? this.footer.apply(this) : '<button class="button button-large button-primary close">' + this.footer + '</button>');
+            }
 
         },
 
@@ -1847,7 +1904,7 @@
                 target: $el
             });
 
-            if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+            if (acfe.isWP('5.5')) {
                 $el.removeClass('dashicons-info-outline').addClass('dashicons-remove');
             }
 
@@ -1863,7 +1920,7 @@
 
             this.tooltips[field.cid] = false;
 
-            if (acfe.versionCompare(acf.get('wp_version'), '>=', '5.5')) {
+            if (acfe.isWP('5.5')) {
                 $el.removeClass('dashicons-remove').addClass('dashicons-info-outline');
             }
 
@@ -2288,24 +2345,54 @@
      *
      * @param data
      * @param message
+     * @param callback
      */
-    acfe.copyClipboard = function(data, message) {
-        new copyClipboard(data, message);
+    acfe.copyClipboard = function(data, message, callback) {
+        new copyClipboard(data, message, callback);
     }
 
 
     /**
      * copyClipboard
+     *
+     * message = {
+     *     auto: {
+     *         title: acf.__('Layout copied to clipboard'),
+     *         text: acf.__('You can now paste it anywhere using the "Paste Layout" secondary action.'),
+     *     },
+     *     manual: {
+     *         title: acf.__('Layout ready to be copied'),
+     *         text: acf.__('Please copy the following data to your clipboard.') + "<br /><br />" + acf.__('You can then paste it anywhere using the "Paste Layout" secondary action.'),
+     *     },
+     * }
      */
     var copyClipboard = acf.Model.extend({
 
         data: null,
-        title: null,
-        message: null,
+        message: {
+            auto: {
+                title: acf.__('Content copied clipboard'),
+                text: '',
+            },
+            manual: {
+                title: acf.__('Content ready to be copied'),
+                text: acf.__('Please copy the following data to your clipboard:')
+            },
+        },
+        callback: acfe.newModal,
 
-        setup: function(data, message) {
+        setup: function(data, message, callback) {
+
             this.data = data;
-            this.message = message;
+
+            if (message) {
+                this.message = message;
+            }
+
+            if (callback) {
+                this.callback = callback;
+            }
+
         },
 
         initialize: function() {
@@ -2322,6 +2409,11 @@
                     'click .copy': 'onClickCopy',
                 },
                 content: function() {
+
+                    if (!this.input && !this.text) {
+                        return;
+                    }
+
                     var html = '';
 
                     html += `<div class="acfe-modal-spacer">`;
@@ -2369,7 +2461,12 @@
 
             this.tryCopy().then(this.proxy(function(success) {
                 if (success) {
-                    acfe.newModal(args);
+
+                    // use callback
+                    if (this.callback) {
+                        this.callback(args);
+                    }
+
                 } else {
                     args.title = this.message.manual.title;
                     args.text = this.message.manual.text;
@@ -2406,9 +2503,8 @@
             var success = false;
             try {
                 success = document.execCommand('copy');
-            } catch (e) {
-                success = false;
-            }
+            } catch (e) {}
+
             $textarea.remove();
             return success;
         },

@@ -94,7 +94,7 @@ class ACFE_Field_Group{
         if(!$this->has_enhanced_ui()){
             
             // pre-ACF 6.6
-            if(!acfe_is_acf_66()){
+            if(!acfe_is_acf('6.6')){
                 
                 acf_render_field_wrap(array(
                     'label'         => __('Display title', 'acfe'),

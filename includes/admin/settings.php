@@ -467,6 +467,13 @@ class acfe_admin_settings{
                     'description'   => 'Show/hide the User UI enhancements module. Defaults to true',
                     'category'      => 'modules',
                 ),
+                array(
+                    'label'         => 'UI Enhancements: WP 7.0',
+                    'name'          => 'acfe/modules/wp7_ui',
+                    'type'          => 'true_false',
+                    'description'   => 'Enable the WordPress 7.0 UI enhancements module. Defaults to true',
+                    'category'      => 'modules',
+                ),
         
             ),
         

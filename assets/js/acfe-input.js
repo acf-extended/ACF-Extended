@@ -730,7 +730,7 @@
 
         setTooltip: function() {
 
-            var icon = acfe.versionCompare(acf.get('wp_version'), '>=', '5.5') ? 'dashicons-info-outline' : 'dashicons-info';
+            var icon = acfe.isWP('5.5') ? 'dashicons-info-outline' : 'dashicons-info';
 
             this.field.$labelWrap().prepend('<span class="acfe-field-tooltip acfe-js-tooltip dashicons ' + icon + '" title="' + acf.strEscape(this.field.get('instructionTooltip')) + '"></span>');
             this.field.$labelWrap().find('.description').remove();
@@ -835,7 +835,7 @@
 
             } else if (target === 'tooltip') {
 
-                var icon = acfe.versionCompare(acf.get('wp_version'), '>=', '5.5') ? 'dashicons-info-outline' : 'dashicons-info';
+                var icon = acfe.isWP('5.5') ? 'dashicons-info-outline' : 'dashicons-info';
 
                 this.field.$labelWrap().prepend($('<span class="acfe-field-tooltip acfe-js-tooltip dashicons ' + icon + '" title="' + acf.strEscape($instruction.html()) + '"></span>'));
                 $instruction.remove();
@@ -1034,7 +1034,7 @@
                 };
 
                 // fix old ACF 5.9 version which doesn't escape markup
-                if (acfe.versionCompare(acf.get('acf_version'), '<', '5.10')) {
+                if (!acfe.isACF('5.10')) {
 
                     options.escapeMarkup = function(markup) {
                         if (typeof markup !== 'string') {
@@ -2208,7 +2208,14 @@
                 if (i > 0) {
                     this.append(attachment, parent);
                 } else {
+
+                    // fix for ACF 6.8.1
+                    if (acfe.isACF('6.8.1') && this.get('type') === 'image') {
+                        acf.val(this.$input(), String(attachment.id || attachment.attributes?.id || ''));
+                    }
+
                     this.render(attachment);
+
                 }
             }, this)
         };
@@ -2268,7 +2275,14 @@
             attachment: val,
             field: this.get('key'),
             select: $.proxy(function(attachment, i) {
+
+                // fix for ACF 6.8.1
+                if (acfe.isACF('6.8.1') && this.get('type') === 'image') {
+                    acf.val(this.$input(), String(attachment.id || attachment.attributes?.id || ''));
+                }
+
                 this.render(attachment);
+
             }, this)
         };
 
@@ -3276,7 +3290,7 @@
         TooltipConfirmInitialize.apply(this, arguments);
 
         // only pre-ACF 6.5
-        if (!acfe.isACF65()) {
+        if (!acfe.isACF('6.5')) {
 
             if (this.$el.hasClass('acf-fc-popup')) {
                 this.$el.addClass('-legacy'); // add "-legacy" class
@@ -3295,7 +3309,7 @@
     acf.models.TooltipConfirm.prototype.onConfirm = function(e, $el) {
 
         // bail early pre-ACF 6.5
-        if (!acfe.isACF65()) {
+        if (!acfe.isACF('6.5')) {
             TooltipConfirmOnConfirm.apply(this, arguments); // run original
             return;
         }
@@ -3369,7 +3383,7 @@
         id: 'fc_pre_acf65',
         type: 'flexible_content',
         condition: function() {
-            return !acfe.isACF65();
+            return !acfe.isACF('6.5');
         },
         renderLayout: function($layout) {
 
@@ -4025,7 +4039,7 @@
             }
 
             // pre ACF 5.9
-            if (acfe.versionCompare(acf.get('acf_version'), '<', '5.9')) {
+            if (!acfe.isACF('5.9')) {
                 var $el = acf.duplicate(duplicate_args);
 
                 // newest ACF
@@ -4545,7 +4559,7 @@
                 onOpen: function() {
 
                     // add icon info class
-                    var icon = acfe.versionCompare(acf.get('wp_version'), '>=', '5.5') ? 'dashicons-info-outline' : 'dashicons-info';
+                    var icon = acfe.isWP('5.5') ? 'dashicons-info-outline' : 'dashicons-info';
                     this.$('li a span.badge').addClass('acf-js-tooltip dashicons ' + icon).appendTo(this.$('li a span.badge').prev('.acfe-fc-layout-label'));
 
                     // autofocus fix

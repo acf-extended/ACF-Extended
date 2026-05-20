@@ -483,7 +483,7 @@ body:not(.acf-admin-5-3) .acf-field-acfe-code-editor>.acf-input>.acf-input-wrap>
 .acf-ui-datepicker .ui-datepicker .ui-datepicker-next-hover,
 .acf-ui-datepicker .ui-datepicker .ui-datepicker-prev-hover {
     background: 0 0 !important;
-    color: #007cba !important
+    color: var(--wp-admin-theme-color, #007cba) !important
 }
 
 .acf-ui-datepicker .ui-datepicker .ui-datepicker-next {
@@ -566,7 +566,7 @@ body:not(.acf-admin-5-3) .acf-field-acfe-code-editor>.acf-input>.acf-input-wrap>
 
 .acf-ui-datepicker .ui-datepicker td .ui-state-active,
 .acf-ui-datepicker .ui-datepicker td .ui-state-hover {
-    background: #007cba;
+    background: var(--wp-admin-theme-color, #007cba);
     color: #fff;
     -webkit-box-shadow: none;
     box-shadow: none
@@ -588,13 +588,13 @@ body:not(.acf-admin-5-3) .acf-field-acfe-code-editor>.acf-input>.acf-input-wrap>
 .acf-ui-datepicker .ui-state-highlight.ui-state-active,
 .acf-ui-datepicker .ui-state-highlight.ui-state-hover {
     border: none !important;
-    background: #007cba !important;
+    background: var(--wp-admin-theme-color, #007cba) !important;
     font-weight: 400 !important;
     color: #fff !important
 }
 
 .acf-ui-datepicker .ui-state-highlight.ui-state-hover.ui-state-active {
-    background: #007cba !important
+    background: var(--wp-admin-theme-color, #007cba) !important
 }
 
 .acf-ui-datepicker .ui-timepicker-div {
@@ -773,6 +773,14 @@ body.-loading * {
     clear: both
 }
 
+body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-fc-layout-actions-wrap {
+    background: var(--wp-admin-theme-color, #2271b1)
+}
+
+.acf-flexible-content>.acf-actions.acf-fc-top-actions .acf-btn-clear {
+    color: var(--wp-admin-theme-color, #0783be) !important
+}
+
 .acf-flexible-content .layout .acf-fc-layout-actions-wrap .acf-fc-layout-controls a .acf-icon {
     height: 26px;
     width: 26px;
@@ -848,8 +856,8 @@ body.-loading * {
 }
 
 .acf-icon.-edit:focus {
-    -webkit-box-shadow: 0 0 0 2px #2271b1;
-    box-shadow: 0 0 0 2px #2271b1;
+    -webkit-box-shadow: 0 0 0 2px var(--wp-admin-theme-color, #2271b1);
+    box-shadow: 0 0 0 2px var(--wp-admin-theme-color, #2271b1);
     outline: 2px solid transparent
 }
 
@@ -899,7 +907,7 @@ body.-loading * {
 }
 
 .acf-field-flexible-content:not([data-acfe-flexible-placeholder="1"], [data-acfe-legacy])>.acf-input>.acf-flexible-content>.values>.layout.active-layout>.acf-fc-layout-actions-wrap {
-    background: #2271b1
+    background: var(--wp-admin-theme-color, #2271b1)
 }
 
 .acf-flexible-content .layout {
@@ -936,7 +944,7 @@ body.-loading * {
 }
 
 .acf-flexible-content .layout.active-layout>.acf-fc-layout-actions-wrap {
-    border: 1px solid #2271b1
+    border: 1px solid var(--wp-admin-theme-color, #2271b1)
 }
 
 .acf-flexible-content .layout.active-layout>.acf-fc-layout-actions-wrap .acf-fc-layout-controls .disabled .acf-icon {
@@ -1186,8 +1194,8 @@ body:not(.block-editor-page) .acf-flexible-content .layout.active-layout>.acf-ta
 }
 
 .acfe-fc-layouts>ul>li>a:hover {
-    background: #007cba;
-    border-color: #007cba;
+    background: var(--wp-admin-theme-color, #007cba);
+    border-color: var(--wp-admin-theme-color, #007cba);
     color: #fff;
     -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, .05);
     box-shadow: 0 2px 0 rgba(0, 0, 0, .05)
@@ -1383,7 +1391,7 @@ body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-eve
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close]:hover {
-    color: #00a0d2
+    color: var(--wp-admin-theme-color, #00a0d2)
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close]:focus {
@@ -1399,7 +1407,7 @@ body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-eve
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close].acf-icon.-cancel.grey:hover {
-    color: #00a0d2 !important
+    color: var(--wp-admin-theme-color, #00a0d2) !important
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box .title a[data-event=close] .acf-icon.-close {
@@ -1472,11 +1480,11 @@ body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup.acf-rename-layout-popup .inner .acf-actions .acf-btn.acf-btn-primary {
-    background-color: #2271b1 !important
+    background-color: var(--wp-admin-theme-color, #2271b1) !important
 }
 
 body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup.acf-rename-layout-popup .inner .acf-actions .acf-btn.acf-btn-primary:hover {
-    background-color: #135e96 !important
+    background-color: var(--wp-admin-theme-color-darker-10, #135e96) !important
 }
 
 .layout>.acfe-fc-placeholder {
@@ -1533,6 +1541,7 @@ body:not(.post-type-acf-field-group) #acf-popup .acf-popup-box.acf-confirm-popup
     box-shadow: none
 }
 
+.layout>.acfe-fc-placeholder>a .dashicons,
 .layout>.acfe-fc-placeholder>a span {
     width: 29px;
     height: 30px;

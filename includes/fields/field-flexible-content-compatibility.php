@@ -39,7 +39,7 @@ class acfe_field_flexible_content_compatibility{
     function handle_elements($elements, $layout, $field, $i, $value, $prefix){
         
         // pre-ACf 6.5
-        if(!acfe_is_acf_65()){
+        if(!acfe_is_acf('6.5')){
             
             // remove elements
             acfe_unset($elements, 'drag');
@@ -64,7 +64,7 @@ class acfe_field_flexible_content_compatibility{
     function layouts_icons($icons, $layout, $field){
         
         // ACF 6.5+: bail early
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $icons;
         }
         
@@ -80,7 +80,7 @@ class acfe_field_flexible_content_compatibility{
         
         // pre-ACF 5.9
         // duplicate was introduced in ACF 5.9, before that ACFE added a custom "clone" button
-        if(!acfe_is_acf_59()){
+        if(!acfe_is_acf('5.9')){
             acfe_unset($icons, 'duplicate');
         }
         
@@ -101,7 +101,7 @@ class acfe_field_flexible_content_compatibility{
     function layouts_icons_settings($icons, $layout, $field){
         
         // ACF 6.5+: bail early
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $icons;
         }
         
@@ -133,7 +133,7 @@ class acfe_field_flexible_content_compatibility{
     function layouts_icons_edit($icons, $layout, $field){
         
         // ACF 6.5+: bail early
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $icons;
         }
         
@@ -166,7 +166,7 @@ class acfe_field_flexible_content_compatibility{
         
         // pre-ACF 6.5: do not display top actions
         // this was introduced in ACF 6.5+
-        if(!acfe_is_acf_65() && $position === 'top'){
+        if(!acfe_is_acf('6.5') && $position === 'top'){
             $should_hide = true;
         }
         
@@ -186,7 +186,7 @@ class acfe_field_flexible_content_compatibility{
     function wrapper_attributes($wrapper, $field){
         
         // pre-ACF 6.5: add legacy attribute for css compatibility
-        if(!acfe_is_acf_65()){
+        if(!acfe_is_acf('6.5')){
             $wrapper['data-acfe-legacy'] = 1;
         }
         

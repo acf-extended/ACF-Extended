@@ -370,11 +370,10 @@ class acfe_field_forms extends acfe_field{
         // Checkbox: other_choice
         acf_render_field_setting($field, array(
             'label'         => __('Allow Custom','acf'),
-            'instructions'  => '',
+            'instructions'  => __("Allow 'custom' values to be added", 'acf'),
             'name'          => 'allow_custom',
             'type'          => 'true_false',
             'ui'            => 1,
-            'message'       => __("Allow 'custom' values to be added", 'acf'),
             'conditions'    => array(
                 array(
                     array(

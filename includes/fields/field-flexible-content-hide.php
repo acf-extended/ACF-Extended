@@ -77,14 +77,14 @@ class acfe_field_flexible_content_hide{
         );
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             $hide_choices['rename'] = __('Hide "Rename"', 'acfe');
             $hide_choices['disable'] = __('Hide "Disable"', 'acfe');
             $hide_choices['top_actions'] = __('Hide "Top Actions"', 'acfe');
         }
         
         // pre ACF-5.9
-        if(!acfe_is_acf_59()){
+        if(!acfe_is_acf('5.9')){
             acfe_unset($hide_choices, 'duplicate');
         }
     
@@ -110,7 +110,7 @@ class acfe_field_flexible_content_hide{
         ));
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             
             // Hide Top Actions
             acf_render_field_setting($field, array(

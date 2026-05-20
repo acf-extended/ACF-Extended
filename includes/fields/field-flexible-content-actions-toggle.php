@@ -36,7 +36,7 @@ class acfe_field_flexible_content_actions_toggle{
     function wrapper_attributes($wrapper, $field){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $wrapper;
         }
         
@@ -61,7 +61,7 @@ class acfe_field_flexible_content_actions_toggle{
     function load_fields($fields, $field){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $fields;
         }
         
@@ -111,7 +111,7 @@ class acfe_field_flexible_content_actions_toggle{
     function layout_div($div, $layout, $field, $i, $value, $prefix){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $div;
         }
         
@@ -149,7 +149,7 @@ class acfe_field_flexible_content_actions_toggle{
     function prepare_layout($layout, $field, $i, $value, $prefix){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $layout;
         }
         
@@ -206,7 +206,7 @@ class acfe_field_flexible_content_actions_toggle{
     function layout_icons($icons, $layout, $field){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $icons;
         }
         
@@ -239,7 +239,7 @@ class acfe_field_flexible_content_actions_toggle{
     function load_value($value, $post_id, $field){
         
         // ACF 6.5+
-        if(acfe_is_acf_65()){
+        if(acfe_is_acf('6.5')){
             return $value;
         }
         

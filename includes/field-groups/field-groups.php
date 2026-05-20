@@ -731,7 +731,7 @@ class ACFE_Field_Groups{
         $tooltip_title = __('Display Title', 'acfe');
         
         // ACF 6.6+: native display title
-        if(acfe_is_acf_66()){
+        if(acfe_is_acf('6.6')){
             $display_title = acf_maybe_get($field_group, 'display_title');
             $tooltip_title = __('Display Title', 'acfe');
         }

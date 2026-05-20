@@ -104,15 +104,22 @@ class acfe_compatibility{
      */
     function admin_body_class($classes){
         
+        // validate
         if(!is_string($classes)){
             return $classes;
         }
         
-        $version = (float) get_bloginfo('version');
-        if(acf_version_compare($version, '>=', '6.5')){
-            $classes .= ' acfe-fix-postboxes';
+        // wp 6.5+
+        if(acfe_is_wp('6.5')){
+            $classes .= ' acfe-wp-6-5';
         }
         
+        // wp 7.0+
+        if(acfe_is_wp('7.0') && acfe_get_setting('modules/wp7_ui')){
+            $classes .= ' acfe-wp-7-0';
+        }
+        
+        // return
         return $classes;
         
     }
@@ -230,7 +237,7 @@ class acfe_compatibility{
     function field_group_display_title($field_group){
         
         // ACFE 6.6+
-        if(acfe_is_acf_66() && isset($field_group['acfe_display_title'])){
+        if(acfe_is_acf('6.6') && isset($field_group['acfe_display_title'])){
             
             // check display title wasn't already set
             if(empty($field_group['display_title'])){

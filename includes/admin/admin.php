@@ -35,10 +35,6 @@ class acfe_admin{
         // additional hooks
         add_action('current_screen',                                array($this, 'current_screen'));
         add_filter('acf/validate_field',                            array($this, 'validate_field'));
-    
-        // re-add sidebar submitdiv metabox
-        acfe_replace_action('load-post.php',     array('ACF_Form_Post', 'initialize'), array($this, 'acf_load_post'));
-        acfe_replace_action('load-post-new.php', array('ACF_Form_Post', 'initialize'), array($this, 'acf_load_post'));
         
     }
     
@@ -48,7 +44,7 @@ class acfe_admin{
      */
     function admin_menu(){
         
-        // get pages
+        // get updates/tools pages
         $updates = get_plugin_page_hookname('acf-settings-updates', 'edit.php?post_type=acf-field-group');
         $tools = get_plugin_page_hookname('acf-tools', 'edit.php?post_type=acf-field-group');
         
@@ -63,6 +59,12 @@ class acfe_admin{
      * load_acf_page
      */
     function load_acf_page(){
+
+        // add marker for acfe-admin-input assets
+        if(acfe_is_acf('6.0')){
+            acf_enable_filter('acfe/acf_internal_page');
+        }
+
         add_filter('admin_body_class', array($this, 'admin_body_class'));
     }
     
@@ -71,6 +73,12 @@ class acfe_admin{
      * load_posts
      */
     function load_posts(){
+
+        // add marker for acfe-admin-input assets
+        if(acfe_is_acf('6.0')){
+            acf_enable_filter('acfe/acf_internal_page');
+        }
+
         add_filter('admin_body_class', array($this, 'admin_body_class'));
     }
     
@@ -79,49 +87,27 @@ class acfe_admin{
      * load_post
      */
     function load_post(){
+
+        // add marker for acfe-admin-input assets
+        if(acfe_is_acf('6.0')){
+            acf_enable_filter('acfe/acf_internal_page');
+        }
+
         add_filter('admin_body_class',     array($this, 'admin_body_class'));
         add_action('acf/input/admin_head', array($this, 'admin_head'), 20);
-    }
-    
-    
-    /**
-     * acf_load_post
-     *
-     * Rewrites the ACF_Form_Post initialize which remove the submitdiv metabox
-     *
-     * advanced-custom-fields-pro/includes/forms/form-post.php:48
-     */
-    function acf_load_post(){
-        
-        // globals
-        global $typenow;
-    
-        // restrict specific post types
-        $restricted = array('acf-field-group', 'acf-post-type', 'acf-taxonomy', 'acf-ui-options-page', 'attachment');
-        if(in_array($typenow, $restricted)){
-            return;
-        }
-    
-        // enqueue scripts
-        acf_enqueue_scripts(array(
-            'uploader' => true,
-        ));
-    
-        // actions
-        add_action('add_meta_boxes', array(acf_get_instance('ACF_Form_Post'), 'add_meta_boxes'), 10, 2);
-        
+
     }
     
     
     /**
      * admin_body_class
      *
-     * Adds acf-admin-6 class to body
+     * Adds acfe-acf-6-0 class to body
      */
     function admin_body_class($classes){
 
         // filter
-        $new_class = apply_filters('acfe/acf_admin_body_class', 'acf-admin-6');
+        $new_class = apply_filters('acfe/acf_admin_body_class', 'acfe-acf-6-0');
 
         // append class
         if(!empty($new_class)){

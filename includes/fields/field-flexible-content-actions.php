@@ -53,7 +53,7 @@ class acfe_field_flexible_content_actions{
         
         $choices = array();
         
-        if(!acfe_is_acf_65()){
+        if(!acfe_is_acf('6.5')){
             $choices['title'] = __('Inline Title Edit', 'acfe');
             $choices['toggle'] = __('Toggle Layout', 'acfe');
         }
@@ -62,7 +62,7 @@ class acfe_field_flexible_content_actions{
         $choices['lock'] = __('Lock Layouts', 'acfe');
         $choices['close'] = __('Close Layout Button', 'acfe');
     
-        if(!acfe_is_acf_59()){
+        if(!acfe_is_acf('5.9')){
             $choices['clone'] = __('Clone', 'acfe');
         }
     
@@ -175,7 +175,7 @@ class acfe_field_flexible_content_actions{
         if(in_array('copy', $actions)){
             
             // default icons
-            if(acfe_is_acf_65()){
+            if(acfe_is_acf('6.5')){
                 
                 // try to insert after 'add' icon
                 if(isset($icons['add'])){
@@ -203,7 +203,7 @@ class acfe_field_flexible_content_actions{
         if(in_array('clone', $actions)){
             
             // pre ACF 5.9
-            if(!acfe_is_acf_59()){
+            if(!acfe_is_acf('5.9')){
                 
                 $icons = array_merge($icons, array(
                     'clone' => '<a class="acf-icon small light acf-js-tooltip dashicons dashicons-admin-page" href="#" data-name="acfe-clone-layout" title="'. __('Clone layout', 'acfe'). '"></a>'

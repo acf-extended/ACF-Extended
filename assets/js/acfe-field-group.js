@@ -377,7 +377,7 @@
 
         onAppend: function($el, $el2) {
 
-            if (acfe.versionCompare(acf.get('acf_version'), '>=', '6.0')) {
+            if (acfe.isACF('6.0')) {
 
                 // do not use acf.getClosestField() in order to not instantiate the field
                 // otherwise, this would create a bug when duplicating a flexible content layout:

@@ -33,11 +33,10 @@ class acfe_field_select extends acfe_field_extend{
         // allow custom
         acf_render_field_setting($field, array(
             'label'             => __('Allow Custom','acf'),
-            'instructions'      => '',
+            'instructions'      => __("Allow 'custom' values to be added", 'acf'),
             'name'              => 'allow_custom',
             'type'              => 'true_false',
             'ui'                => 1,
-            'message'           => __("Allow 'custom' values to be added", 'acf'),
             'conditional_logic' => array(
                 array(
                     array(

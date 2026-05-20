@@ -33,7 +33,7 @@ class ACFE_Field_Group_Field_Types{
         }
         
         // before acf 6.1 category was 'jQuery'
-        $category = acfe_is_acf_61() ? 'Advanced' : 'jQuery';
+        $category = acfe_is_acf('6.1') ? 'Advanced' : 'jQuery';
         
         if(isset($groups['E-Commerce'])){
             $groups = acfe_array_insert_after($groups, $category, 'E-Commerce', $groups['E-Commerce']);
