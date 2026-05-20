@@ -501,7 +501,7 @@ The content of the upcoming patch and work in progress features are all listed o
 * Field: Select - Enhanced "Stylised UI" compatibility on Woocommerce admin pages
 * Field: Select - This fix also applies to Countries, Currencies, Languages fields
 * Field: Phone Number - Fixed JS error on screen resize
-* Field: Phone Number - Fixed IP geoloation detection issues
+* Field: Phone Number - Fixed IP geolocation detection issues
 
 **ACF Extended Basic 0.9.2.5:**
 
