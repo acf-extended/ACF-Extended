@@ -345,7 +345,16 @@ function acfe_get_local_php_files(){
  * @return bool
  */
 function acfe_has_php_sync($item){
-    return in_array('php', (array) acf_maybe_get($item, 'acfe_autosync', array()));
+    
+    // default item sync path
+    $path = 'acfe_autosync';
+    
+    // exception: field group use acfe.autosync
+    if(!empty($item['key']) && acf_is_field_group_key($item['key'])){
+        $path = 'acfe.autosync';
+    }
+    
+    return in_array('php', (array) acfe_get($item, $path, array()));
 }
 
 

@@ -122,12 +122,12 @@ class acfe_field_post_object extends acfe_field_extend{
         }
     
         // new post args
-        $post_type = acf_maybe_get($field, 'save_post_type', 'post');
-        $post_status = acf_maybe_get($field, 'save_post_status', 'publish');
+        $post_type = acfe_get($field, 'save_post_type', 'post');
+        $post_status = acfe_get($field, 'save_post_status', 'publish');
         
         // vars
         $is_array = is_array($value);
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         // loop
         foreach($value as $k => $v){
@@ -207,7 +207,7 @@ class acfe_field_post_object extends acfe_field_extend{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
         
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $array = array();
         
         // loop values
@@ -253,7 +253,7 @@ class acfe_field_post_object extends acfe_field_extend{
         }
         
         // vars
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         // loop values
         foreach($value as $v){

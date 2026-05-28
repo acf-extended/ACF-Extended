@@ -45,8 +45,8 @@ class acfe_compatibility_acf_65{
         }
         
         // get acfe flexible content actions
-        $actions = acf_maybe_get($field, 'acfe_flexible_add_actions');
-        $actions = acf_get_array($actions); // cast as array
+        $actions = acfe_get($field, 'acfe_flexible_add_actions');
+        $actions = acfe_as_array($actions); // cast as array
         
         // enable legacy title + toggle
         if(!in_array('title', $actions))  $actions[] = 'title';
@@ -80,8 +80,8 @@ class acfe_compatibility_acf_65{
         }
         
         // get original acfe actions
-        $original_actions = acf_maybe_get($original_field, 'acfe_flexible_add_actions');
-        $original_actions = acf_get_array($original_actions); // cast as array
+        $original_actions = acfe_get($original_field, 'acfe_flexible_add_actions');
+        $original_actions = acfe_as_array($original_actions); // cast as array
         
         // no original actions
         if(empty($original_actions)){
@@ -101,8 +101,8 @@ class acfe_compatibility_acf_65{
         }
         
         // get new acfe actions
-        $new_actions = acf_maybe_get($field, 'acfe_flexible_add_actions');
-        $new_actions = acf_get_array($new_actions); // cast as array
+        $new_actions = acfe_get($field, 'acfe_flexible_add_actions');
+        $new_actions = acfe_as_array($new_actions); // cast as array
         
         // loop on pass actions (title + toggle)
         foreach($pass_actions as $pass_action){
@@ -199,7 +199,7 @@ class acfe_compatibility_acf_65{
         }
         
         // sanitize
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         // loop value
         foreach(array_keys($value) as $i){
@@ -274,7 +274,7 @@ class acfe_compatibility_acf_65{
         }
         
         // vars
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         // loop value
         foreach($value as $k => $row){
@@ -395,7 +395,7 @@ class acfe_compatibility_acf_65{
      * @return bool
      */
     function has_title_action($field){
-        return in_array('title', acf_get_array($field['acfe_flexible_add_actions']));
+        return in_array('title', acfe_as_array($field['acfe_flexible_add_actions']));
     }
     
     
@@ -407,7 +407,7 @@ class acfe_compatibility_acf_65{
      * @return bool
      */
     function has_toggle_action($field){
-        return in_array('toggle', acf_get_array($field['acfe_flexible_add_actions']));
+        return in_array('toggle', acfe_as_array($field['acfe_flexible_add_actions']));
     }
     
     

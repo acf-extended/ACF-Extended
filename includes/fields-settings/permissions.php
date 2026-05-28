@@ -12,9 +12,18 @@ class acfe_permissions{
      * construct
      */
     function __construct(){
-    
-        add_action('acf/render_field_settings', array($this, 'render_field_settings'));
-        add_filter('acf/prepare_field',         array($this, 'prepare_field'));
+        
+        // hook name
+        $render_field_settings = acfe_is_acf('6.0') ? 'render_field_validation_settings' : 'render_field_settings';
+        
+        // loop field types
+        foreach(acf_get_field_types() as $field_type){
+            if(!empty($field_type->name)){
+                add_action("acf/{$render_field_settings}/type={$field_type->name}", array($this, 'render_field_settings'));
+            }
+        }
+        
+        add_filter('acf/prepare_field', array($this, 'prepare_field'));
         
     }
     
@@ -28,15 +37,13 @@ class acfe_permissions{
      */
     function render_field_settings($field){
         
-        if(acf_is_filter_enabled('acfe/field_group/advanced') || acf_maybe_get($field, 'acfe_permissions')){
-            
-            // default "data-after"
-            $placement_after = 'instructions';
-            
-            // exception: tab field
-            if($field['type'] === 'tab'){
-                $placement_after = 'label';
-            }
+        $field_type = acf_get_field_type($field['type']);
+        
+        if(
+            acf_is_filter_enabled('acfe/field_group/advanced')
+            || acfe_get($field, 'acfe_permissions')
+            || ($field_type && !empty($field_type->defaults['acfe_permissions']))
+        ){
             
             // render permissions setting
             acf_render_field_setting($field, array(
@@ -49,10 +56,7 @@ class acfe_permissions{
                 'default_value' => false,
                 'choices'       => acfe_get_roles(),
                 'layout'        => 'horizontal',
-                'wrapper'       => array(
-                    'data-after' => $placement_after
-                )
-            ), true);
+            ));
             
         }
         
@@ -84,33 +88,16 @@ class acfe_permissions{
             
         }
         
-        // check permissions setting
+        // empty permissions: always render field
         if(empty($target_field['acfe_permissions'])){
             return $field;
         }
         
-        // vars
-        $should_render = false;
-        $field_roles = $target_field['acfe_permissions'];
-        $user_roles = acfe_get_current_user_roles();
-        
-        // cast as array
-        $field_roles = acf_get_array($field_roles);
-        $user_roles = acf_get_array($user_roles);
-        
-        // loop current user roles
-        foreach($user_roles as $user_role){
-            
-            // current user role is in field roles, render field
-            if(in_array($user_role, $field_roles, true)){
-                $should_render = true;
-                break;
-            }
-            
-        }
+        // check current user permissions
+        $has_role = acfe_has_current_user_role($target_field['acfe_permissions']);
         
         // bail early
-        if(!$should_render){
+        if(!$has_role){
             return false;
         }
         

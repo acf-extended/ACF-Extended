@@ -38,10 +38,10 @@ class acfe_field_choices_label{
         $field_types = array('radio', 'checkbox', 'select');
     
         // check field type
-        if(in_array(acf_maybe_get($field['wrapper'], 'data-setting'), $field_types, true)){
+        if(in_array(acfe_get($field['wrapper'], 'data-setting'), $field_types, true)){
             
             $text = "<br/><br/>" . __('You may use "## Title" to create a group of options.', 'acfe');
-            $key = acf_maybe_get($field, 'hint') ? 'hint' : 'instructions'; // handle hint / instructions
+            $key = acfe_get($field, 'hint') ? 'hint' : 'instructions'; // handle hint / instructions
             
             // add instructions
             $field[ $key ] .= $text;

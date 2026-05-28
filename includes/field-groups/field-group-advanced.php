@@ -4,11 +4,6 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// check setting
-if(acfe_get_setting('modules/field_group_ui')){
-    return;
-}
-
 if(!class_exists('acfe_field_group_advanced')):
 
 class acfe_field_group_advanced{
@@ -19,7 +14,7 @@ class acfe_field_group_advanced{
     function __construct(){
     
         add_action('acf/field_group/admin_head',      array($this, 'admin_head'), 5);
-        add_action('acf/render_field_group_settings', array($this, 'render_settings'));
+        add_action('acf/render_field_group_settings', array($this, 'render_field_group_settings'));
         
     }
     
@@ -31,8 +26,8 @@ class acfe_field_group_advanced{
         
         global $field_group;
         
-        // field group advanced settings
-        if(acf_maybe_get($field_group, 'acfe_form')){
+        // enable field group advanced filter
+        if(acfe_get($field_group, 'acfe.advanced')){
             acf_enable_filter('acfe/field_group/advanced');
         }
         
@@ -40,26 +35,28 @@ class acfe_field_group_advanced{
     
     
     /**
-     * render_settings
+     * render_field_group_settings
      *
      * @param $field_group
      */
-    function render_settings($field_group){
+    function render_field_group_settings($field_group){
         
-        // Form settings
-        acf_render_field_wrap(array(
-            'label'         => __('Advanced settings', 'acfe'),
-            'name'          => 'acfe_form',
-            'prefix'        => 'acf_field_group',
-            'type'          => 'true_false',
-            'ui'            => 1,
-            'instructions'  => __('Enable advanced fields settings & validation', 'acfe'),
-            'value'         => (isset($field_group['acfe_form'])) ? $field_group['acfe_form'] : '',
-            'required'      => false,
-            'wrapper'       => array(
-                'data-after' => 'active'
-            )
-        ), 'div', 'label', true);
+        if(!acfe_get_setting('modules/field_group_ui')){
+            
+            // advanced settings
+            acfe_render_group_setting($field_group, array(
+                'label'         => __('Advanced settings', 'acfe'),
+                'name'          => 'acfe.advanced',
+                'type'          => 'true_false',
+                'ui'            => 1,
+                'instructions'  => __('Enable advanced fields settings & validation', 'acfe'),
+                'required'      => false,
+                'wrapper'       => array(
+                    'data-after' => 'active'
+                )
+            ), 'div', 'label', true);
+            
+        }
         
     }
     

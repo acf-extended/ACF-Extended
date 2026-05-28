@@ -261,7 +261,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                 
                 // files
                 $file_id = acfe_parse_tags($file_id, array('context' => 'save', 'format' => false, 'return' => 'raw')); // parse tags (unformatted + raw)
-                $files = acf_get_array($file_id);
+                $files = acfe_as_array($file_id);
             
                 // deprecated
                 // just in case someone pass a file array in filters
@@ -368,7 +368,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
             
             // vars
             $action_value = $action['email'][ $slug ]; // get $action['email']['from']
-            $args_value = acf_maybe_get($args, $slug); // get $args['from']
+            $args_value = acfe_get($args, $slug); // get $args['from']
         
             // check args value changed compared to action value
             if($args_value && $args_value !== $action_value){
@@ -494,7 +494,7 @@ class acfe_module_form_action_email extends acfe_module_form_action{
         foreach(array_keys($save['email']) as $k){
             
             // from => email_from
-            if(acf_maybe_get($action, "email_{$k}")){
+            if(acfe_get($action, "email_{$k}")){
                 $save['email'][ $k ] = $action["email_{$k}"];
             }
             
@@ -517,8 +517,8 @@ class acfe_module_form_action_email extends acfe_module_form_action{
         $save['email']['shortcode'] = $group['content_shortcode'];
         
         // files
-        $action['files'] = acf_get_array($action['files']);
-        $action['files_static'] = acf_get_array($action['files_static']);
+        $action['files'] = acfe_as_array($action['files']);
+        $action['files_static'] = acfe_as_array($action['files_static']);
         
         foreach($action['files'] as $row){
             $save['attachments'][] = $row;

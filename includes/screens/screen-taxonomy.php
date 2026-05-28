@@ -242,10 +242,10 @@ class acfe_screen_taxonomy{
     function location_screen($screen){
     
         // add taxonomy term id and check term_id doesn't exist
-        if(acf_maybe_get($screen, 'taxonomy') && !acf_maybe_get($screen, 'term_id')){
+        if(acfe_get($screen, 'taxonomy') && !acfe_get($screen, 'term_id')){
             
             global $tag;
-            $screen['term_id'] = acfe_maybe_get($tag, 'term_id');
+            $screen['term_id'] = acfe_get($tag, 'term_id');
         
         }
         

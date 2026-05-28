@@ -125,8 +125,8 @@ class acfe_module{
         }
         
         // convert
-        $item['ID']     = (int) acf_maybe_get($item, 'ID', 0);
-        $item['active'] = (bool) acf_maybe_get($item, 'active', true);
+        $item['ID']     = (int) acfe_get($item, 'ID', 0);
+        $item['active'] = (bool) acfe_get($item, 'active', true);
         $item['_valid'] = true;
         
         // filters
@@ -449,7 +449,7 @@ class acfe_module{
             
         // array
         }elseif(is_array($id)){
-            $id = !empty($id['name']) ? $id['name'] : acf_maybe_get($id, 'ID', 0);
+            $id = !empty($id['name']) ? $id['name'] : acfe_get($id, 'ID', 0);
         }
         
         // source: any
@@ -503,7 +503,7 @@ class acfe_module{
         
         // array
         }elseif(is_array($id)){
-            $id = !empty($id['name']) ? $id['name'] : acf_maybe_get($id, 'ID', 0);
+            $id = !empty($id['name']) ? $id['name'] : acfe_get($id, 'ID', 0);
         }
         
         // source: any
@@ -536,7 +536,7 @@ class acfe_module{
         
         // unserialize post content
         $item = maybe_unserialize($post->post_content);
-        $item = acf_get_array($item); // cast as array
+        $item = acfe_as_array($item); // cast as array
         
         // prepend id
         $item = wp_parse_args($item, array(
@@ -843,7 +843,7 @@ class acfe_module{
     function translate_item($item = array()){
     
         foreach($this->l10n as $k){
-            acfe_array_set($item, $k, acf_translate(acfe_array_get($item, $k)));
+            acfe_set($item, $k, acf_translate(acfe_get($item, $k)));
         }
         
         return $item;
@@ -964,7 +964,7 @@ class acfe_module{
      */
     function get_export_url($action, $item){
         
-        $name = acf_maybe_get($item, 'name', $item);
+        $name = acfe_get($item, 'name', $item);
         $tool = $this->get_export_tool();
         return admin_url("edit.php?post_type=acf-field-group&page=acf-tools&tool={$tool}&action={$action}&keys={$name}");
         
@@ -982,7 +982,7 @@ class acfe_module{
      */
     function get_export_link($action, $item, $text = ''){
     
-        $name = acf_maybe_get($item, 'name', $item);
+        $name = acfe_get($item, 'name', $item);
         $text = !empty($text) ? $text : $this->get_export_action_label($action);
         return '<a href="' . $this->get_export_url($action, $name) . '">' . $text . '</a>';
         
@@ -1029,13 +1029,13 @@ class acfe_module{
      */
     function get_label($type = 'singular_name'){
         
-        $labels = acfe_maybe_get($this->args, 'labels');
+        $labels = acfe_get($this->args, 'labels');
         
         if(!empty($labels)){
-            return acf_maybe_get($labels, $type);
+            return acfe_get($labels, $type);
         }
         
-        return acfe_maybe_get($this->args, 'label');
+        return acfe_get($this->args, 'label');
         
     }
     
@@ -1048,7 +1048,7 @@ class acfe_module{
      * @return mixed|null
      */
     function get_message($name){
-        return acf_maybe_get($this->messages, $name);
+        return acfe_get($this->messages, $name);
     }
     
     
@@ -1352,7 +1352,7 @@ function acfe_get_module_by_item($id){
     
     // check array/object
     if(is_array($id) || is_object($id)){
-        $id = acfe_maybe_get($id, 'ID');
+        $id = acfe_get($id, 'ID');
     }
     
     $id = absint($id);
@@ -1431,7 +1431,7 @@ function acfe_is_module_v2_item($post_id){
     
     // get post content
     $post_content = maybe_unserialize($post->post_content);
-    $post_content = acf_get_array($post_content);
+    $post_content = acfe_as_array($post_content);
     
     // post content already set
     if($post_content){

@@ -316,7 +316,7 @@ class ACFE_Field_Groups_Local{
         foreach($local_field_groups as $field_group){
             
             // local PHP
-            if(acf_maybe_get($field_group, 'local') !== 'php'){
+            if(acfe_get($field_group, 'local') !== 'php'){
                 continue;
             }
             

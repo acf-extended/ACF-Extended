@@ -282,7 +282,7 @@ class acfe_bidirectional{
             return $field;
         }
         
-        $values = acf_get_array($field['value']);
+        $values = acfe_as_array($field['value']);
         $r_fields = array();
         $r_field_update = false;
         
@@ -339,7 +339,7 @@ class acfe_bidirectional{
         if($this->has_field_bidirectional($_field) && !$this->has_field_bidirectional($field)){
             
             // get related bidirectional related
-            $r_fields = acf_get_array($_field['acfe_bidirectional']['acfe_bidirectional_related']);
+            $r_fields = acfe_as_array($_field['acfe_bidirectional']['acfe_bidirectional_related']);
             
             foreach($r_fields as $r_field_key){
                 
@@ -349,7 +349,7 @@ class acfe_bidirectional{
                     continue;
                 }
                 
-                $r_field_related = acf_get_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
+                $r_field_related = acfe_as_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
                 
                 if(in_array($field['key'], $r_field_related)){
                     
@@ -393,7 +393,7 @@ class acfe_bidirectional{
         elseif(($this->has_field_bidirectional($_field) && $this->has_field_bidirectional($field)) || (!$this->has_field_bidirectional($_field) && $this->has_field_bidirectional($field))){
             
             // get related bidirectional related
-            $r_fields = acf_get_array($field['acfe_bidirectional']['acfe_bidirectional_related']);
+            $r_fields = acfe_as_array($field['acfe_bidirectional']['acfe_bidirectional_related']);
             
             foreach($r_fields as $r_field_key){
                 
@@ -405,7 +405,7 @@ class acfe_bidirectional{
                 $r_field_related = array();
     
                 if(isset($r_field['acfe_bidirectional']['acfe_bidirectional_related'])){
-                    $r_field_related = acf_get_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
+                    $r_field_related = acfe_as_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
                 }
                 
                 if(!in_array($field['key'], $r_field_related)){
@@ -449,7 +449,7 @@ class acfe_bidirectional{
         }
         
         // get related bidirectional related
-        $r_fields = acf_get_array($field['acfe_bidirectional']['acfe_bidirectional_related']);
+        $r_fields = acfe_as_array($field['acfe_bidirectional']['acfe_bidirectional_related']);
         
         foreach($r_fields as $r_field_key){
             
@@ -459,7 +459,7 @@ class acfe_bidirectional{
                 continue;
             }
             
-            $r_field_related = acf_get_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
+            $r_field_related = acfe_as_array($r_field['acfe_bidirectional']['acfe_bidirectional_related']);
             
             if(in_array($field['key'], $r_field_related)){
                 
@@ -531,8 +531,8 @@ class acfe_bidirectional{
         $request = acf_decode_post_id($post_id);
         
         // values
-        $old_values = acf_get_array(acf_get_metadata($post_id, $field['name']));
-        $new_values = acf_get_array($value);
+        $old_values = acfe_as_array(acf_get_metadata($post_id, $field['name']));
+        $new_values = acfe_as_array($value);
         
         // bail early if no difference
         // if($old_values === $new_values)
@@ -601,7 +601,7 @@ class acfe_bidirectional{
     function relationship($type, $r_id, $p_field, $p_value){
         
         // get Related Field Configuration
-        $r_fields = acf_get_array($p_field['acfe_bidirectional']['acfe_bidirectional_related']);
+        $r_fields = acfe_as_array($p_field['acfe_bidirectional']['acfe_bidirectional_related']);
         
         foreach($r_fields as $r_field_key){
             
@@ -630,10 +630,10 @@ class acfe_bidirectional{
                 
                 // get top ancestor
                 $r_ref_field = $r_field_ancestors_fields[0];
-                $r_ref_values = acf_get_array(acf_get_value($r_mtype.$r_id, $r_ref_field));
+                $r_ref_values = acfe_as_array(acf_get_value($r_mtype.$r_id, $r_ref_field));
                 
                 // get values
-                $r_values = acf_get_array($this->get_value_from_ancestor($r_ref_values, $r_field));
+                $r_values = acfe_as_array($this->get_value_from_ancestor($r_ref_values, $r_field));
                 
                 // unset top ancestor for update (not needed)
                 unset($r_field_ancestors_fields[0]);
@@ -662,7 +662,7 @@ class acfe_bidirectional{
                 $r_ref_field = $r_field;
                 
                 // values
-                $r_values = acf_get_array(acf_get_value($r_mtype.$r_id, $r_field));
+                $r_values = acfe_as_array(acf_get_value($r_mtype.$r_id, $r_field));
                 
             }
             

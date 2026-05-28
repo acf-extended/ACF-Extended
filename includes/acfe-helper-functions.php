@@ -5,182 +5,6 @@ if(!defined('ABSPATH')){
 }
 
 /**
- * acfe_array_get
- *
- * Search within array using dot mapping
- *
- * @param $array
- * @param $key
- * @param $default
- *
- * @return mixed|null
- */
-function acfe_array_get($array, $key, $default = null){
-    
-    if(empty($key) && !is_numeric($key)){
-        return $array;
-    }
-    
-    if(!is_array($key)){
-        $key = explode('.', $key);
-    }
-    
-    $count = count($key);
-    $i=-1; foreach($key as $segment){ $i++;
-        
-        if(isset($array[ $segment ])){
-            
-            if($i+1 === $count){
-                return $array[ $segment ];
-            }
-            
-            unset($key[ $i ]);
-            
-            return acfe_array_get($array[ $segment ], $key, $default);
-            
-        }
-        
-    }
-    
-    return $default;
-    
-}
-
-/**
- * acfe_array_set
- *
- * @param $array
- * @param $keys
- * @param $value
- *
- * @return array|mixed
- */
-function acfe_array_set(&$array, $keys, $value = null){
-    
-    if(func_num_args() === 2){
-        return $array = $keys;
-    }
-    
-    if(!is_array($keys)){
-        $keys = explode('.', $keys);
-    }
-    
-    foreach($keys as $i => $key){
-        
-        if(count($keys) === 1){
-            break;
-        }
-        
-        unset($keys[ $i ]);
-        
-        // If the key doesn't exist at this depth, we will just create an empty array
-        // to hold the next value, allowing us to create the arrays to hold final
-        // values at the correct depth. Then we'll keep digging into the array.
-        if(!isset($array[ $key ]) || !is_array($array[ $key ])){
-            
-            if(empty($key) && acf_is_sequential_array($array)){
-                $array[] = array();
-                $key = key(array_slice($array, -1, 1, true));
-                
-            }else{
-                $array[ $key ] = array();
-            }
-            
-        }
-        
-        $array = &$array[ $key ];
-        
-    }
-    
-    // if segment finish with "."
-    $final = array_shift($keys);
-    
-    if(empty($final) && !is_numeric($final) && acf_is_sequential_array($array)){
-        $array[] = $value;
-    }else{
-        $array[ $final ] = $value;
-    }
-    
-    return $array;
-    
-}
-
-
-/**
- * acfe_array_unset
- *
- * @param $array
- * @param $keys
- *
- * @return array|mixed
- */
-function acfe_array_unset(&$array, $keys){
-    
-    $original = &$array;
-    
-    $keys = (array) $keys;
-    
-    if(count($keys) === 0){
-        return $array;
-    }
-    
-    foreach($keys as $key){
-        
-        // if the exact key exists in the top-level, remove it
-        if(array_key_exists($key, $array)){
-            unset($array[ $key ]);
-            continue;
-        }
-        
-        $parts = explode('.', $key);
-        
-        // clean up before each pass
-        $array = &$original;
-        
-        while(count($parts) > 1){
-            
-            $part = array_shift($parts);
-            
-            if (isset($array[$part]) && is_array($array[$part])) {
-                $array = &$array[$part];
-            } else {
-                continue 2;
-            }
-            
-        }
-        
-        unset($array[ array_shift($parts) ]);
-        
-    }
-    
-    return $array;
-    
-}
-
-
-/**
- * acfe_maybe_get
- *
- * Similar to acf_maybe_get() but also works with OBJECTS
- *
- * @param array $array
- * @param int   $key
- * @param null  $default
- *
- * @return mixed|null
- */
-function acfe_maybe_get($array = array(), $key = 0, $default = null){
-    
-    if(is_object($array)){
-        return isset($array->{$key}) ? $array->{$key} : $default;
-    }
-    
-    return acf_maybe_get($array, $key, $default);
-    
-}
-
-
-/**
  * acfe_maybe_get_REQUEST
  *
  * Similar to acf_maybe_get_POST() but works with $_REQUEST
@@ -196,302 +20,19 @@ function acfe_maybe_get_REQUEST($key = '', $default = null){
 
 
 /**
- * acfe_is_json
- *
- * Check if the string is a json input
- * https://stackoverflow.com/a/6041773
- *
- * @param $string
- *
- * @return bool
- */
-function acfe_is_json($string){
-    
-    // in case string = 1 or not string
-    if(is_numeric($string) || !is_string($string)){
-        return false;
-    }
-    
-    // decode
-    json_decode($string);
-    
-    // check if decode has errors
-    return json_last_error() == JSON_ERROR_NONE;
-    
-}
-
-
-/**
- * acfe_is_html
- *
- * Check if string is html
- * https://subinsb.com/php-check-if-string-is-html/
- *
- * @param $string
- *
- * @return bool
- */
-function acfe_is_html($string){
-    return $string !== strip_tags($string);
-}
-
-
-/**
- * acfe_array_keys_r
- *
- * Array Keys Recursive
- *
- * @param $array
- *
- * @return int[]|string[]
- */
-function acfe_array_keys_r($array){
-
-    $keys = array_keys($array);
-
-    foreach($array as $i){
-        if(is_array($i)){
-            $keys = array_merge($keys, acfe_array_keys_r($i));
-        }
-    }
-
-    return $keys;
-    
-}
-
-/**
- * acfe_starts_with
- *
- * Check if a strings starts with something
- *
- * @param $haystack
- * @param $needle
- *
- * @return bool
- */
-function acfe_starts_with($haystack, $needle){
-    
-    // make sure $haystack is a string
-    // substr deprecated non-string since php 8.0
-    if(!is_string($haystack)){
-        return false;
-    }
-        
-    $length = strlen($needle);
-    return substr($haystack, 0, $length) === $needle;
-
-}
-
-/**
- * acfe_ends_with
- *
- * Check if a strings ends with something
- *
- * @param $haystack
- * @param $needle
- *
- * @return bool
- */
-function acfe_ends_with($haystack, $needle){
-        
-    $length = strlen($needle);
-    
-    if($length === 0){
-        return true;
-    }
-    
-    // make sure $haystack is a string
-    // substr deprecated non-string since php 8.0
-    if(!is_string($haystack)){
-        return false;
-    }
-
-    return substr($haystack, -$length) === $needle;
-    
-}
-
-/**
- * acfe_prefix_array_keys
- *
- * Prefix array keys recursively ignoring numeric keys
- *
- * @param $array
- * @param $prefix
- * @param $ignore
- *
- * @return array
- */
-function acfe_prefix_array_keys($array, $prefix, $ignore = array(), $recursive = true){
-    
-    // vars
-    $array2 = array();
-    
-    // loop
-    foreach($array as $k => $v){
-        
-        if(is_numeric($k)){
-            
-            $k2 = $k;
-            $array2[ $k2 ] = $v;
-            
-        }else{
-            
-            $k2 = $prefix . $k;
-            
-            // ignore
-            if($ignore && in_array($k, $ignore)){
-                $k2 = $k;
-            }
-            
-            $array2[ $k2 ] = $v;
-            
-        }
-        
-        // recursive sub array
-        if($recursive){
-            if(is_array($array2[ $k2 ])){
-                $array2[ $k2 ] = acfe_prefix_array_keys($array2[ $k2 ], $prefix, $ignore, $recursive);
-            }
-        }
-        
-    }
-    
-    // return
-    return $array2;
-    
-}
-
-/**
- * acfe_unprefix_array_keys
- *
- * Prefix array keys recursively ignoring numeric keys
- *
- * @param $array
- * @param $prefix
- * @param $ignore
- *
- * @return array
- */
-function acfe_unprefix_array_keys($array, $prefix, $ignore = array(), $recursive = true){
-    
-    // vars
-    $array2 = array();
-    
-    // loop
-    foreach($array as $k => $v){
-        
-        if(is_numeric($k)){
-            
-            $k2 = $k;
-            $array2[ $k2 ] = $v;
-            
-        }else{
-            
-            $k2 = acfe_starts_with($k, $prefix) ? substr($k, strlen($prefix)) : $k;
-    
-            if($ignore && in_array($k, $ignore)){
-                $k2 = $k;
-            }
-            
-            $array2[ $k2 ] = $v;
-            
-        }
-    
-        // recursive sub array
-        if($recursive){
-            if(is_array($array2[ $k2 ])){
-                $array2[ $k2 ] = acfe_unprefix_array_keys($array2[ $k2 ], $prefix, $ignore, $recursive);
-            }
-        }
-        
-    }
-    
-    // return
-    return $array2;
-    
-}
-
-
-/**
- * acfe_map_array_keys
- *
- * Map array keys recursively, allowing to update a row key.
- * Return false in callback to remove the row.
- *
- * @param $array
- * @param $func
- *
- * @return array|false
- */
-function acfe_map_array_keys($array, $func){
-    
-    // validate array
-    if(!is_array($array)){
-        return $array;
-    }
-    
-    // vars
-    $array2 = false;
-    
-    // loop
-    foreach($array as $k => $v){
-        
-        // callback
-        $k2 = call_user_func($func, $k, $v);
-        
-        // remove the row
-        if($k2 === false){
-            continue;
-            
-        // allow row and don't process sub array
-        }elseif($k2 === true){
-            
-            $array2 = acf_get_array($array2);
-            $array2[ $k ] = $v;
-            
-        // allow row and process sub array
-        }else{
-            
-            $array2 = acf_get_array($array2);
-            $array2[ $k2 ] = $v;
-            
-            // recursive sub array
-            if(is_array($array2[ $k2 ])){
-                
-                $array2[ $k2 ] = acfe_map_array_keys($array2[ $k2 ], $func);
-                
-                if($array2[ $k2 ] === false){
-                    unset($array2[ $k2 ]);
-                }
-                
-                if(is_array($array2) && empty($array2)){
-                    $array2 = false;
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    // return
-    return $array2;
-    
-}
-
-
-/**
  * acfe_filter_acf_values_by_keys
+ *
+ * This is used when value is saved as post meta, during a Post Action creation for example
  *
  * @param $acf
  * @param $field_keys
  *
- * @return array|false
+ * @return array
  */
 function acfe_filter_acf_values_by_keys($acf, $field_keys){
     
-    $acf = acf_get_array($acf);
-    $field_keys = acf_get_array($field_keys);
+    $acf = acfe_as_array($acf);
+    $field_keys = acfe_as_array($field_keys);
     $filtered_keys = $field_keys;
     
     foreach($field_keys as $field_key){
@@ -511,25 +52,27 @@ function acfe_filter_acf_values_by_keys($acf, $field_keys){
         
     }
     
-    $acf = acfe_map_array_keys($acf, function($key, $value) use($filtered_keys){
+    // cleanup acf array, only allowing field keys and their sub fields if available
+    $acf = acfe_array_rewrite($acf, function($value, $key) use($filtered_keys){
         
         // top level key found
-        // allow row and ignore sub array
-        if(in_array($key, $filtered_keys, true)){
+        // allow row and ignore child array
+        if(acfe_contains($filtered_keys, $key)){
             return true;
         }
         
-        // sub array key not found and value is not array (so no sub array available)
-        // do not allow row and ignore sub array
-        if(!is_array($value) && !in_array($key, $filtered_keys, true)){
+        // child array key not found and value is not array (so no child array available)
+        // do not allow row and ignore child array
+        if(!acfe_contains($filtered_keys, $key) && !is_array($value)){
             return false;
         }
         
-        // process sub array
-        return $key;
+        // continue loop, and process child array if available
+        return array($key => $value);
         
-    });
+    }, true);
     
+    // return
     return $acf;
     
 }
@@ -537,6 +80,9 @@ function acfe_filter_acf_values_by_keys($acf, $field_keys){
 
 /**
  * acfe_get_value_from_acf_values_by_key
+ *
+ * This is used to load value from template tags.
+ * For example in the Mail action, when using {fields} template tag
  *
  * @param $acf
  * @param $field_key
@@ -547,7 +93,7 @@ function acfe_get_value_from_acf_values_by_key($acf, $field_key){
     
     // vars
     $value = null;
-    $acf = acf_get_array($acf);
+    $acf = acfe_as_array($acf);
     
     // seamless clone rule
     $field = acf_get_field($field_key);
@@ -559,28 +105,29 @@ function acfe_get_value_from_acf_values_by_key($acf, $field_key){
     }
     
     // loop values
-    acfe_map_array_keys($acf, function($k, $v) use($field_key, $is_seamless, &$value){
+    acfe_array_rewrite($acf, function($val, $key) use($field_key, $is_seamless, &$value){
         
         if($is_seamless){
             
-            if(acfe_starts_with($k, "{$field_key}_")){
-                $value[ $k ] = $v;
+            if(acfe_starts_with($key, "{$field_key}_")){
+                $value[ $key ] = $val;
             }
             
         }else{
             
             // found key
-            if($k === $field_key){
-                $value = $v;
+            if($key === $field_key){
+                $value = $val;
             }
             
         }
         
         // continue loop
-        return $k;
-        
-    });
+        return array($key => $val);
     
+    }, true);
+    
+    // reset value back to null
     if($is_seamless && empty($value)){
         $value = null;
     }
@@ -590,167 +137,6 @@ function acfe_get_value_from_acf_values_by_key($acf, $field_key){
     
 }
 
-
-/**
- * acfe_array_insert_before
- *
- * Insert data before a specific array key
- *
- * @param       $key
- * @param array $array
- * @param       $new_key
- * @param       $new_value
- *
- * @return array
- */
-function acfe_array_insert_before($array, $key, $new_key, $new_value = null){
-    
-    if(!is_array($array) || !isset($array[ $key ])){
-        return $array;
-    }
-    
-    $is_sequential = acf_is_sequential_array($array);
-    $new_array = array();
-    
-    foreach($array as $k => $value){
-        
-        if($k === $key){
-            
-            if($is_sequential){
-                
-                $new_value = $new_value === null ? $new_key : $new_value;
-                $new_array[] = $new_value;
-                
-            }else{
-                
-                if($new_value === null && is_array($new_key)){
-                    reset($new_key);
-                    $new_value = current($new_key);
-                    $new_key = key($new_key);
-                }
-                
-                $new_array[ $new_key ] = $new_value;
-                
-            }
-            
-        }
-    
-        if($is_sequential){
-            $new_array[] = $value;
-        
-        }else{
-            $new_array[ $k ] = $value;
-        }
-        
-    }
-    
-    return $new_array;
-    
-}
-
-/**
- * acfe_array_insert_after
- *
- * Insert data after a specific array key
- *
- * @param       $key
- * @param array $array
- * @param       $new_key
- * @param       $new_value
- *
- * @return array
- */
-function acfe_array_insert_after($array, $key, $new_key, $new_value = null){
-    
-    if(!is_array($array) || !isset($array[ $key ])){
-        return $array;
-    }
-    
-    $is_sequential = acf_is_sequential_array($array);
-    $new_array = array();
-    
-    foreach($array as $k => $value){
-    
-        if($is_sequential){
-            $new_array[] = $value;
-        
-        }else{
-            $new_array[ $k ] = $value;
-        }
-        
-        if($k === $key){
-            
-            if($is_sequential){
-                
-                $new_value = $new_value === null ? $new_key : $new_value;
-                $new_array[] = $new_value;
-                
-            }else{
-                
-                if($new_value === null && is_array($new_key)){
-                    reset($new_key);
-                    $new_value = current($new_key);
-                    $new_key = key($new_key);
-                }
-                
-                $new_array[ $new_key ] = $new_value;
-                
-            }
-            
-        }
-        
-    }
-    
-    return $new_array;
-    
-}
-
-/**
- * acfe_array_move
- *
- * Move the array key from position $a to $b
- *
- * @param $array
- * @param $a
- * @param $b
- */
-function acfe_array_move(&$array, $a, $b){
-    
-    $out = array_splice($array, $a, 1);
-    array_splice($array, $b, 0, $out);
-    
-}
-
-
-/**
- * acfe_parse_args_r
- *
- * parse arguments recursively
- *
- * @param $a
- * @param $b
- *
- * @return array
- */
-function acfe_parse_args_r(&$a, $b){
-    
-    $a = (array) $a;
-    $b = (array) $b;
-    $r = $b;
-    
-    foreach($a as $k => &$v){
-        
-        if(is_array($v) && isset($r[ $k ]) && is_array($r[ $k ]) && acf_is_associative_array($r[ $k ])){
-            $r[ $k ] = acfe_parse_args_r($v, $r[ $k ]);
-        }else{
-            $r[ $k ] = $v;
-        }
-        
-    }
-    
-    return $r;
-    
-}
 
 /**
  * acfe_add_validation_error
@@ -787,7 +173,7 @@ function acfe_add_validation_error($selector = '', $message = ''){
         
         // vars
         $fields = array();
-        $field_groups = acf_get_array($form['field_groups']);
+        $field_groups = acfe_as_array($form['field_groups']);
     
         // loop field groups
         foreach($field_groups as $key){
@@ -813,7 +199,7 @@ function acfe_add_validation_error($selector = '', $message = ''){
     $row = acf_get_loop();
     
     // exclude acfe form actions
-    if($row && acf_maybe_get($row, 'selector') !== 'acfe_form_actions'){
+    if($row && acfe_get($row, 'selector') !== 'acfe_form_actions'){
         
         // get sub field
         $field = acf_get_sub_field($selector, $row['field']);
@@ -834,61 +220,6 @@ function acfe_add_validation_error($selector = '', $message = ''){
     
 }
 
-/**
- * acfe_number_suffix
- *
- * Adds 1"st", 2"nd", 3"rd" to number
- *
- * @param $num
- *
- * @return string
- */
-function acfe_number_suffix($num){
-    
-    if(!in_array(($num % 100), array(11, 12, 13))){
-        
-        switch($num % 10){
-            case 1:  return $num . 'st';
-            case 2:  return $num . 'nd';
-            case 3:  return $num . 'rd';
-        }
-        
-    }
-    
-    return $num . 'th';
-    
-}
-
-/**
- * acfe_array_to_string
- *
- * Convert an array to string
- *
- * @param array $array
- *
- * @return array|false|mixed|string
- */
-function acfe_array_to_string($array = array()){
-    
-    // check type
-    if(is_array($array)){
-        
-        // loop
-        foreach($array as $val){
-            if(is_string($val) || is_numeric($val) || is_bool($val)){
-                return $val;
-            }
-        }
-        
-        // no valid value
-        return false;
-        
-    }
-    
-    // default
-    return $array;
-    
-}
 
 /**
  * acfe_is_dev
@@ -1012,7 +343,7 @@ function acfe_is_taxonomy_reserved_dev($taxonomy){
  * @param $name
  * @param $value
  *
- * @return bool|true
+ * @return mixed
  */
 function acfe_update_setting($name, $value){
     return acf_update_setting("acfe/{$name}", $value);
@@ -1026,7 +357,7 @@ function acfe_update_setting($name, $value){
  * @param $name
  * @param $value
  *
- * @return bool|true
+ * @return mixed
  */
 function acfe_append_setting($name, $value){
     return acf_append_setting("acfe/{$name}", $value);
@@ -1040,26 +371,10 @@ function acfe_append_setting($name, $value){
  * @param      $name
  * @param null $value
  *
- * @return mixed|void
+ * @return mixed
  */
 function acfe_get_setting($name, $value = null){
     return acf_get_setting("acfe/{$name}", $value);
-}
-
-/**
- * acfe_unset
- *
- * Safely remove an array key
- *
- * @param $array
- * @param $key
- */
-function acfe_unset(&$array, $key){
-
-    if(isset($array[ $key ])){
-        unset($array[ $key ]);
-    }
-
 }
 
 /**
@@ -1191,7 +506,7 @@ function acfe_var_export($code, $esc = true){
 function acfe_parse_types($v, $filters = array('trim', 'int', 'bool', 'null')){
     
     // validate filters
-    $filters = acf_get_array($filters);
+    $filters = acfe_as_array($filters);
     
     // check array
     if(is_array($v) && !empty($v)){
@@ -1246,7 +561,7 @@ function acfe_parse_types($v, $filters = array('trim', 'int', 'bool', 'null')){
 function acfe_unparse_types($v, $filters = array('int', 'bool', 'null')){
     
     // validate filters
-    $filters = acf_get_array($filters);
+    $filters = acfe_as_array($filters);
     
     // check array
     if(is_array($v) && !empty($v)){
@@ -1340,66 +655,6 @@ function acfe_doing_action($action){
         return $wp_filter[ $action ]->current_priority();
     }
     return false;
-}
-
-
-/**
- * acfe_str_replace_first
- *
- * @param $search
- * @param $replace
- * @param $subject
- * @param $delete  bool Should delete the other occurrences of the search string
- *
- * @return array|mixed|string|string[]
- */
-function acfe_str_replace_first($search, $replace, $subject, $delete = false){
-    
-    $pos = strpos($subject, $search);
-    
-    if($pos !== false){
-        $subject = substr_replace($subject, $replace, $pos, strlen($search));
-        
-        if($delete){
-            $subject = str_replace($search, '', $subject);
-        }
-    }
-    
-    return $subject;
-    
-}
-
-
-/**
- * acfe_get_array_flatten
- *
- * @param $array
- * @param $flattened
- *
- * @return array|mixed
- */
-function acfe_get_array_flatten($array = array(), $flattened = array()){
-    
-    // bail early if no array
-    if(empty($array) || !is_array($array)){
-        return $flattened;
-    }
-    
-    // loop choices
-    foreach($array as $key => $value){
-        
-        // value must be an array
-        if(is_array($value)){
-            $flattened = acfe_get_array_flatten($value, $flattened);
-        }else{
-            $flattened[ $key ] = $value;
-        }
-        
-    }
-    
-    // return
-    return $flattened;
-    
 }
 
 

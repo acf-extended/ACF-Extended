@@ -556,6 +556,33 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.2.6
+
+**ACF Extended Pro 0.9.2.6:**
+
+* Field: AI Chat - Added new field to render an LLM chat interface (WP 7.0+)
+* Field: AI Chat - The interface can generate text and images at the moment
+* Field: AI Chat - The field uses the new WP 7.0 Connectors core API
+* Field: AI Chat - Added various settings (preferred model, system prompt, max tokens etc...)
+* Field Settings: AI Fill - Added "Fill with AI" setting that display a link to open a chat modal
+* Field Settings: AI Fill - Any response can be applied or appended as value to the related field
+* Field Settings: AI Fill - Compatible with Code Editor, Text, Textarea and WYSIWYG fields
+
+**ACF Extended Basic 0.9.2.6:**
+
+* Module: Forms - Fixed security issue that could bypass the validation
+* Module: Forms - Fixed security issue when the form allows the user to choose their own role
+* Field Group: Moved `acfe_` settings into an array of `field_group[acfe]`
+* Field Group: Added `acfe/compatibility/legacy_field_group` setting to keep both structures
+* Field Group: This new structure keeps the Field Group array cleaner and more organized
+* Field Group: The same logic will be applied to ACF Fields progressively in future updates
+* Field Settings: Permissions - Added "Guest" option to target non-logged users specifically
+* Field Settings: Permissions - Moved the Permissions field setting into the "Validation" tab
+* General: Added `acfe_get()`, `acfe_set()`, `acfe_unset()`, `acfe_has()` helper functions
+* General: Added more helpers for array / object / string manipulation using dot notation
+* General: Cleaned and migrated old helpers into the new set of helper functions
+* General: More CSS tweaks to enhance compatibility with WP 7.0
+
 ### 0.9.2.5
 
 **ACF Extended Pro 0.9.2.5:**

@@ -99,7 +99,7 @@ class acfe_module_db{
         }
         
         // get db settings
-        $settings = acf_get_array($this->get_settings($module));
+        $settings = acfe_as_array($this->get_settings($module));
         
         // loop
         foreach($settings as $key => $item){

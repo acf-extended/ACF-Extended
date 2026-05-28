@@ -82,7 +82,7 @@ class acfe_author{
         
         // get postboxes
         // $data = acf_get_instance('ACF_Assets')->data;
-        // $acf_postboxes = acf_maybe_get($data, 'postboxes', array());
+        // $acf_postboxes = acfe_get($data, 'postboxes', array());
         // $acf_postboxes = array_merge($acf_postboxes, $postboxes);
         
         // localize postboxes
@@ -125,13 +125,13 @@ class acfe_author{
     function wp_insert_post_data($data, $post_array){
         
         // check field exists
-        if(!acf_maybe_get($post_array, 'field_acfe_author')){
+        if(!acfe_get($post_array, 'field_acfe_author')){
             return $data;
         }
     
         // authors
-        $post_author = (int) acf_maybe_get($post_array, 'field_acfe_author');
-        $_post_author = (int) acf_maybe_get($post_array, 'post_author');
+        $post_author = (int) acfe_get($post_array, 'field_acfe_author');
+        $_post_author = (int) acfe_get($post_array, 'post_author');
     
         // check if author has been changed
         if($_post_author === $post_author){

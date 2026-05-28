@@ -179,21 +179,23 @@ class acfe_field_flexible_content_actions{
                 
                 // try to insert after 'add' icon
                 if(isset($icons['add'])){
-                    $icons = acfe_array_insert_after($icons, 'add', 'copy', '<a class="acf-js-tooltip" href="#" data-name="acfe-copy-layout" title="'. __('Copy Layout', 'acfe') .'"><span class="acf-icon -copy"></span></a>');
+                    $icons = acfe_after($icons, 'add', array(
+                        'copy' => '<a class="acf-js-tooltip" href="#" data-name="acfe-copy-layout" title="'. __('Copy Layout', 'acfe') .'"><span class="acf-icon -copy"></span></a>'
+                    ));
                     
                 // otherwise, prepend it at the beginning
                 }else{
-                    $icons = array_merge(array(
+                    $icons = acfe_prepend($icons, array(
                         'copy' => '<a class="acf-js-tooltip" href="#" data-name="acfe-copy-layout" title="'. __('Copy Layout', 'acfe') .'"><span class="acf-icon -copy"></span></a>',
-                    ), $icons);
+                    ));
                 }
                 
                 
             }else{
                 
-                $icons = array_merge(array(
+                $icons = acfe_prepend($icons, array(
                     'copy' => '<a class="acf-icon small light acf-js-tooltip dashicons dashicons-upload" href="#" data-name="acfe-copy-layout" title="'. __('Copy layout', 'acfe') .'"></a>'
-                ), $icons);
+                ));
                 
             }
         
@@ -205,7 +207,7 @@ class acfe_field_flexible_content_actions{
             // pre ACF 5.9
             if(!acfe_is_acf('5.9')){
                 
-                $icons = array_merge($icons, array(
+                $icons = acfe_append($icons, array(
                     'clone' => '<a class="acf-icon small light acf-js-tooltip dashicons dashicons-admin-page" href="#" data-name="acfe-clone-layout" title="'. __('Clone layout', 'acfe'). '"></a>'
                 ));
                 

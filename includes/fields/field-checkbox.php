@@ -32,12 +32,12 @@ class acfe_field_checkbox extends acfe_field_extend{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
         
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $array = array();
         
         // loop values
         foreach($value as $v){
-            $array[] = acf_maybe_get($field['choices'], $v, $v);
+            $array[] = acfe_get($field['choices'], $v, $v);
         }
         
         // merge
@@ -70,8 +70,8 @@ class acfe_field_checkbox extends acfe_field_extend{
         }
         
         // vars
-        $value = acf_get_array($value);
-        $choices = acf_get_array($field['choices']);
+        $value = acfe_as_array($value);
+        $choices = acfe_as_array($field['choices']);
         
         // empty choices
         if(empty($choices)){

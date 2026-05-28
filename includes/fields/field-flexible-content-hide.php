@@ -54,8 +54,8 @@ class acfe_field_flexible_content_hide{
      */
     function validate_hide($field){
         
-        $field['acfe_flexible_remove_button'] = acf_get_array($field['acfe_flexible_remove_button']);
-        $field['acfe_flexible_remove_top_actions'] = acf_get_array($field['acfe_flexible_remove_top_actions']);
+        $field['acfe_flexible_remove_button'] = acfe_as_array($field['acfe_flexible_remove_button']);
+        $field['acfe_flexible_remove_top_actions'] = acfe_as_array($field['acfe_flexible_remove_top_actions']);
         
         return $field;
         

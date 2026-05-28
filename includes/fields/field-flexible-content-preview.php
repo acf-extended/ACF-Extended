@@ -166,7 +166,7 @@ class acfe_field_flexible_content_preview{
      */
     function render_layout_settings($flexible, $layout, $prefix){
         
-        if(!acf_maybe_get($flexible, 'acfe_flexible_layouts_templates')){
+        if(!acfe_get($flexible, 'acfe_flexible_layouts_templates')){
             return;
         }
         
@@ -255,7 +255,7 @@ class acfe_field_flexible_content_preview{
     function render_field($field){
         
         // check setting
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_templates') || !acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
+        if(!acfe_get($field, 'acfe_flexible_layouts_templates') || !acfe_get($field, 'acfe_flexible_layouts_previews')){
             return;
         }
         
@@ -287,11 +287,11 @@ class acfe_field_flexible_content_preview{
      */
     function wrapper_attributes($wrapper, $field){
         
-        if(acf_maybe_get($field, 'acfe_flexible_layouts_placeholder')){
+        if(acfe_get($field, 'acfe_flexible_layouts_placeholder')){
             $wrapper['data-acfe-flexible-placeholder'] = 1;
         }
         
-        if(acf_maybe_get($field, 'acfe_flexible_layouts_templates') && acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
+        if(acfe_get($field, 'acfe_flexible_layouts_templates') && acfe_get($field, 'acfe_flexible_layouts_previews')){
             $wrapper['data-acfe-flexible-placeholder'] = 1;
             $wrapper['data-acfe-flexible-preview'] = 1;
         }
@@ -314,7 +314,7 @@ class acfe_field_flexible_content_preview{
      */
     function prepare_layout($layout, $field, $i, $value, $prefix){
         
-        if(!acf_maybe_get($field, 'acfe_flexible_layouts_placeholder') && !acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
+        if(!acfe_get($field, 'acfe_flexible_layouts_placeholder') && !acfe_get($field, 'acfe_flexible_layouts_previews')){
             return $layout;
         }
         
@@ -337,7 +337,7 @@ class acfe_field_flexible_content_preview{
         
         $html = false;
         
-        if(!empty($value) && acf_maybe_get($field, 'acfe_flexible_layouts_previews')){
+        if(!empty($value) && acfe_get($field, 'acfe_flexible_layouts_previews')){
             
             ob_start();
             

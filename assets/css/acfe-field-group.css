@@ -480,7 +480,7 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     width: auto
 }
 
-.acfe-acf-6-0.acf-admin-single-field-group #acf-field-group-options .acf-field[data-name=acfe_form] .acf-label {
+.acfe-acf-6-0.acf-admin-single-field-group #acf-field-group-options .acf-field[data-name="acfe.advanced"] .acf-label {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex
@@ -490,7 +490,7 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
     max-width: 100%
 }
 
-.acfe-acf-6-0.acf-admin-single-field-group #acf-field-group-acfe .acf-label {
+.acfe-acf-6-0.acf-admin-single-field-group #acf-field-group-acfe-extra .acf-label {
     display: block
 }
 
@@ -774,4 +774,26 @@ body.acf-admin-5-3 .acf-field-setting-fc_layout .acf-input-wrap.select select {
 
 .acfe-acf-6-0.acf-admin-single-field-group #acf-field-group-fields.hide-tabs .acf-field-setting-fc_layout>.acf-input>.acf-fc-meta .acf-field.acfe-flexible-field-setting+li>ul {
     margin-bottom: 0
+}
+
+body.acfe-wp-7-0 .misc-pub-acfe-object-category::before,
+body.acfe-wp-7-0 .misc-pub-acfe-object-data::before,
+body.acfe-wp-7-0 .misc-pub-acfe-object-id::before,
+body.acfe-wp-7-0 .misc-pub-acfe-object-meta::before,
+body.acfe-wp-7-0 .misc-pub-acfe-object-performance::before,
+body.acfe-wp-7-0 .misc-pub-acfe-object-role::before,
+body.acfe-wp-7-0 .misc-pub-acfe-object-type::before,
+body.acfe-wp-7-0 .misc-pub-acfe-object::before {
+    color: currentColor
+}
+
+body.acfe-wp-7-0 #post-body #visibility::before,
+body.acfe-wp-7-0 #post-body .misc-pub-comment-status::before,
+body.acfe-wp-7-0 #post-body .misc-pub-post-status::before,
+body.acfe-wp-7-0 #post-body .misc-pub-response-to::before,
+body.acfe-wp-7-0 #post-body .misc-pub-revisions::before,
+body.acfe-wp-7-0 #post-body .misc-pub-uploadedby::before,
+body.acfe-wp-7-0 #post-body .misc-pub-uploadedto::before,
+body.acfe-wp-7-0 .curtime #timestamp::before {
+    color: currentColor
 }

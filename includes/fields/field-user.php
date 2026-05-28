@@ -33,7 +33,7 @@ class acfe_field_user extends acfe_field_extend{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
         
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $array = array();
         
         // loop values
@@ -74,7 +74,7 @@ class acfe_field_user extends acfe_field_extend{
         }
         
         // vars
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         // loop value
         foreach($value as $user_id){
@@ -119,7 +119,7 @@ class acfe_field_user extends acfe_field_extend{
         
         // role
         if(!empty($field['role'])){
-            $args['role__in'] = acf_get_array($field['role']);
+            $args['role__in'] = acfe_as_array($field['role']);
         }
         
         // filter

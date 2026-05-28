@@ -29,7 +29,7 @@ class acfe_admin_menu{
         global $submenu;
         
         // bail early
-        if(!acf_maybe_get($submenu, 'edit.php?post_type=acf-field-group')){
+        if(!acfe_get($submenu, array('edit.php?post_type=acf-field-group'))){
             return;
         }
         

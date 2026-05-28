@@ -3120,6 +3120,13 @@
 
         },
 
+        setValue: function(val) {
+            if (this.editor.codemirror) {
+                this.editor.codemirror.setValue(val);
+                this.onEditorChange();
+            }
+        },
+
         onShow: function() {
             if (this.editor.codemirror) {
                 this.editor.codemirror.refresh();
@@ -5997,6 +6004,15 @@
                 this.initializeEditor();
             }
 
+        },
+
+        /**
+         * Fix an issue when we apply field.val('my value'), it add the value to all textarea within the same .acf-field > .acf-input
+         *
+         * @returns {*}
+         */
+        $input: function() {
+            return this.$('textarea:first');
         }
 
     });

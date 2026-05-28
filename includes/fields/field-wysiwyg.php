@@ -29,7 +29,7 @@ class acfe_field_wysiwyg extends acfe_field_extend{
     function field_wrapper_attributes($wrapper, $field){
     
         // auto init
-        if(acf_maybe_get($field, 'acfe_wysiwyg_auto_init')){
+        if(acfe_get($field, 'acfe_wysiwyg_auto_init')){
             $wrapper['data-acfe-wysiwyg-auto-init'] = $field['acfe_wysiwyg_auto_init'];
         }
         

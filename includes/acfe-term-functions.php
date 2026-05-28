@@ -51,7 +51,7 @@ function acfe_get_taxonomy_objects($args = array()){
 function acfe_get_taxonomy_terms_ids($taxonomies = array()){
     
     // force array
-    $taxonomies = acf_get_array($taxonomies);
+    $taxonomies = acfe_as_array($taxonomies);
     
     // get pretty taxonomy names
     $taxonomies = acf_get_taxonomy_labels($taxonomies);

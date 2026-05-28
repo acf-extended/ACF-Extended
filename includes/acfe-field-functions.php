@@ -21,7 +21,7 @@ function acfe_get_field_group_from_field($field){
     }
     
     // check parent exists
-    if(!acf_maybe_get($field, 'parent')){
+    if(!acfe_get($field, 'parent')){
         return false;
     }
     
@@ -188,17 +188,17 @@ function acfe_map_fields($field, $callback){
     
     // subfields
     // repeater, group...
-    if(acf_maybe_get($field, 'sub_fields')){
+    if(acfe_get($field, 'sub_fields')){
         $field['sub_fields'] = acfe_map_fields($field['sub_fields'], $callback);
     }
     
     // layouts
     // flexible content
-    if(acf_maybe_get($field, 'layouts')){
+    if(acfe_get($field, 'layouts')){
         
         foreach(array_keys($field['layouts']) as $l){
             
-            if(acf_maybe_get($field['layouts'][ $l ], 'sub_fields')){
+            if(acfe_get($field['layouts'][ $l ], 'sub_fields')){
                 $field['layouts'][ $l ]['sub_fields'] = acfe_map_fields($field['layouts'][ $l ]['sub_fields'], $callback);
             }
         }
@@ -266,10 +266,10 @@ function acfe_query_fields($args = array()){
     ));
     
     // validate context
-    $args['context'] = acf_get_array($args['context']);
+    $args['context'] = acfe_as_array($args['context']);
     
     // validate query
-    $args['query'] = acf_get_array($args['query']);
+    $args['query'] = acfe_as_array($args['query']);
     
     // top-level call
     if(!$args['_depth']){
@@ -563,7 +563,7 @@ function acfe_query_fields($args = array()){
  */
 function acfe_get_fields_details_recursive($fields, $callback = false){
     
-    $fields = acf_get_array($fields);
+    $fields = acfe_as_array($fields);
     $return = array();
     
     foreach($fields as $field){
@@ -583,7 +583,7 @@ function acfe_get_fields_details_recursive($fields, $callback = false){
         
         // pass clone subfields parent as field key (instead of field group)
         if($field['type'] === 'clone'){
-            if(acf_maybe_get($field, 'sub_fields')){
+            if(acfe_get($field, 'sub_fields')){
                 foreach($field['sub_fields'] as &$sub_field){
                     $sub_field['parent'] = $field['key'];
                 }
@@ -608,7 +608,7 @@ function acfe_get_fields_details_recursive($fields, $callback = false){
             'field' => $field,
         );
     
-        if(acf_maybe_get($field, 'sub_fields')){
+        if(acfe_get($field, 'sub_fields')){
             $return = array_merge($return, acfe_get_fields_details_recursive($field['sub_fields'], $callback));
         }
         
@@ -631,7 +631,7 @@ function acfe_get_pretty_field_label($field, $with_key = false){
     
     // vars
     $name = isset($field['_name']) ? $field['_name'] : $field['name'];
-    $label = acf_maybe_get($field, 'label', $name);
+    $label = acfe_get($field, 'label', $name);
     
     if($with_key){
         $label .= " ({$field['key']})";

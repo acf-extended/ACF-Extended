@@ -257,7 +257,7 @@ class acfe_performance_connector{
                             case 'ultra': {
         
                                 // check if field has 'save as individual meta' and already in 'acf' meta
-                                if(!acf_maybe_get($field, 'acfe_save_meta') || !isset($acf[ $name ])){
+                                if(!acfe_get($field, 'acfe_save_meta') || !isset($acf[ $name ])){
             
                                     // delete
                                     if($confirm){

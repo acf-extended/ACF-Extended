@@ -95,7 +95,7 @@ class acfe_performance_ultra_revisions{
                     }
                     
                     // found field and save as individual meta enabled
-                    if($field && acf_maybe_get($field, 'acfe_save_meta')){
+                    if($field && acfe_get($field, 'acfe_save_meta')){
                         
                         // enable filter
                         acf_enable_filter('acfe/performance_ultra/individual_meta');
@@ -145,7 +145,7 @@ class acfe_performance_ultra_revisions{
         }
         
         // vars
-        $post_id = acf_maybe_get($post, 'ID', false);
+        $post_id = acfe_get($post, 'ID', false);
         
         // compatibility with WP < 4.5 (test)
         if(!$post_id){
@@ -175,7 +175,7 @@ class acfe_performance_ultra_revisions{
         foreach($acf as $name => $value){
             
             // attempt to find key value
-            $key = acf_maybe_get($acf, '_' . $name);
+            $key = acfe_get($acf, '_' . $name);
             
             // bail early if no key
             if(!$key){

@@ -8,10 +8,14 @@ if(!class_exists('ACFE_Field_Group_Field_Types')):
 
 class ACFE_Field_Group_Field_Types{
     
+    var $categories = array();
+    
     /**
      * construct
      */
     function __construct(){
+        
+        $this->categories = array('E-Commerce', 'ACF', 'WordPress');
         
         add_filter('acf/get_field_types',            array($this, 'get_field_types'));
         add_filter('acf/localized_field_categories', array($this, 'localized_field_categories'));
@@ -21,32 +25,34 @@ class ACFE_Field_Group_Field_Types{
     /**
      * get_field_types
      *
+     * Reorder groups in "Add Field" dropdown and sort fields by name ASC
+     *
      * @param $groups
      *
      * @return array|mixed
      */
     function get_field_types($groups){
         
-        // sort fields
+        // sort fields by name ASC
         foreach($groups as $group => &$fields){
             asort($fields);
         }
         
         // before acf 6.1 category was 'jQuery'
-        $category = acfe_is_acf('6.1') ? 'Advanced' : 'jQuery';
+        $advanced = acfe_is_acf('6.1') ? 'Advanced' : 'jQuery';
         
-        if(isset($groups['E-Commerce'])){
-            $groups = acfe_array_insert_after($groups, $category, 'E-Commerce', $groups['E-Commerce']);
+        // extract custom groups
+        $custom_groups = acfe_extract($groups, $this->categories);
+        
+        // loop custom groups
+        foreach($custom_groups as $custom_group => $custom_fields){
+            
+            // insert custom groups after 'advanced'
+            $groups = acfe_after($groups, $advanced, array($custom_group => $custom_fields));
+            
         }
         
-        if(isset($groups['ACF'])){
-            $groups = acfe_array_insert_after($groups, $category, 'ACF', $groups['ACF']);
-        }
-        
-        if(isset($groups['WordPress'])){
-            $groups = acfe_array_insert_after($groups, $category, 'WordPress', $groups['WordPress']);
-        }
-        
+        // return groups
         return $groups;
         
     }
@@ -55,21 +61,26 @@ class ACFE_Field_Group_Field_Types{
     /**
      * localized_field_categories
      *
-     * Added in ACF 6.1
+     * "Browse Fields" categories modal in ACF Field Group
      *
-     * @param $categories_i18n
+     * @since ACF 6.1
+     *
+     * @param $categories
      *
      * @return array
      */
-    function localized_field_categories($categories_i18n){
-    
-        $categories_i18n = acfe_array_insert_after($categories_i18n, 'advanced', 'E-Commerce', 'E-Commerce');
-        $categories_i18n = acfe_array_insert_after($categories_i18n, 'advanced', 'ACF',        'ACF');
-        $categories_i18n = acfe_array_insert_after($categories_i18n, 'advanced', 'WordPress',  'WordPress');
+    function localized_field_categories($categories){
         
-        unset($categories_i18n['pro']);
+        // loop categories
+        foreach($this->categories as $category){
+            $categories = acfe_after($categories, 'advanced', array($category => $category));
+        }
         
-        return $categories_i18n;
+        // remvove useless pro category
+        unset($categories['pro']);
+        
+        // return
+        return $categories;
         
     }
     

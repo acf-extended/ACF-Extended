@@ -20,6 +20,8 @@ class acfe_compatibility{
         // fields
         add_filter('acf/validate_field_group',                      array($this, 'field_group_location_list'), 20);
         add_filter('acf/validate_field_group',                      array($this, 'field_group_instruction_tooltip'), 20);
+        add_filter('acf/validate_field_group',                      array($this, 'field_group_nested_settings'), 20);
+        add_filter('acf/validate_field_group',                      array($this, 'field_group_nested_settings_legacy'), 20);
         add_filter('acf/validate_field_group',                      array($this, 'field_group_display_title'), 20);
         add_filter('acf/validate_field',                            array($this, 'field_acfe_update'), 20);
         add_filter('acf/validate_field/type=group',                 array($this, 'field_seamless_style'), 20);
@@ -164,7 +166,7 @@ class acfe_compatibility{
      */
     function field_group_location_list($field_group){
         
-        if(!acf_maybe_get($field_group, 'location')){
+        if(!acfe_get($field_group, 'location')){
             return $field_group;
         }
         
@@ -214,10 +216,105 @@ class acfe_compatibility{
      */
     function field_group_instruction_tooltip($field_group){
         
-        if(acf_maybe_get($field_group, 'instruction_placement') === 'acfe_instructions_tooltip'){
+        if(acfe_get($field_group, 'instruction_placement') === 'acfe_instructions_tooltip'){
             $field_group['instruction_placement'] = 'tooltip';
         }
     
+        return $field_group;
+        
+    }
+    
+    
+    /**
+     * field_group_nested_settings
+     *
+     * Migrate old ACFE settings to new nested group settings
+     *
+     * @param $field_group
+     *
+     * @since 0.9.2.6
+     *
+     * @return array
+     */
+    function field_group_nested_settings($field_group){
+        
+        if(!empty($field_group['acfe_meta'])){
+            $field_group['acfe_meta'] = acfe_as_array($field_group['acfe_meta']);
+            $field_group['acfe_meta'] = acfe_array_rewrite($field_group['acfe_meta'], function($row, $key){
+                return  array($key => array(
+                    'key'   => acfe_get($row, 'acfe_meta_key'),
+                    'value' => acfe_get($row, 'acfe_meta_value'),
+                ));
+            });
+        }
+        
+        
+        if(isset($field_group['acfe_form']) && !acfe_has($field_group, 'acfe.advanced')){
+            acfe_set($field_group, 'acfe.advanced', $field_group['acfe_form']);
+        }
+        unset($field_group['acfe_form']);
+        
+        if(isset($field_group['acfe_meta']) && !acfe_has($field_group, 'acfe.meta')){
+            acfe_set($field_group, 'acfe.meta', $field_group['acfe_meta']);
+        }
+        unset($field_group['acfe_meta']);
+        
+        if(isset($field_group['acfe_note']) && !acfe_has($field_group, 'acfe.note')){
+            acfe_set($field_group, 'acfe.note', $field_group['acfe_note']);
+        }
+        unset($field_group['acfe_note']);
+        
+        if(isset($field_group['acfe_permissions']) && !acfe_has($field_group, 'acfe.permissions')){
+            acfe_set($field_group, 'acfe.permissions', $field_group['acfe_permissions']);
+        }
+        unset($field_group['acfe_permissions']);
+        
+        if(isset($field_group['acfe_autosync']) && !acfe_has($field_group, 'acfe.autosync')){
+            acfe_set($field_group, 'acfe.autosync', $field_group['acfe_autosync']);
+        }
+        unset($field_group['acfe_autosync']);
+        
+        if(isset($field_group['acfe_display_title']) && !acfe_has($field_group, 'acfe.display_title')){
+            acfe_set($field_group, 'acfe.display_title', $field_group['acfe_display_title']);
+        }
+        unset($field_group['acfe_display_title']);
+        
+        // return
+        return $field_group;
+        
+    }
+    
+    
+    /**
+     * field_group_nested_settings_legacy
+     *
+     * @param $field_group
+     *
+     * @return mixed
+     */
+    function field_group_nested_settings_legacy($field_group){
+        
+        // check if setting is enabled
+        if(!acfe_get_setting('compatibility/legacy_field_group')){
+            return $field_group;
+        }
+        
+        $field_group['acfe_form'] = acfe_get($field_group, 'acfe.advanced');
+        $field_group['acfe_meta'] = acfe_get($field_group, 'acfe.meta');
+        $field_group['acfe_note'] = acfe_get($field_group, 'acfe.note');
+        $field_group['acfe_permissions'] = acfe_get($field_group, 'acfe.permissions');
+        $field_group['acfe_autosync'] = acfe_get($field_group, 'acfe.autosync');
+        
+        if(!empty($field_group['acfe_meta'])){
+            $field_group['acfe_meta'] = acfe_as_array($field_group['acfe_meta']);
+            $field_group['acfe_meta'] = acfe_array_rewrite($field_group['acfe_meta'], function($row, $key){
+                return array($key => array(
+                    'acfe_meta_key'   => acfe_get($row, 'key'),
+                    'acfe_meta_value' => acfe_get($row, 'value'),
+                ));
+            });
+        }
+        
         return $field_group;
         
     }
@@ -237,17 +334,17 @@ class acfe_compatibility{
     function field_group_display_title($field_group){
         
         // ACFE 6.6+
-        if(acfe_is_acf('6.6') && isset($field_group['acfe_display_title'])){
+        if(acfe_is_acf('6.6') && acfe_has($field_group, 'acfe.display_title')){
             
             // check display title wasn't already set
             if(empty($field_group['display_title'])){
-                $field_group['display_title'] = $field_group['acfe_display_title']; // assign old ACFE setting to new ACF setting
+                $field_group['display_title'] = acfe_get($field_group, 'acfe.display_title'); // assign old ACFE setting to new ACF setting
             }
             
             // unset old setting in all case
-            unset($field_group['acfe_display_title']);
+            acfe_unset($field_group, 'acfe.display_title');
         }
-    
+        
         return $field_group;
         
     }
@@ -285,7 +382,7 @@ class acfe_compatibility{
      */
     function field_seamless_style($field){
         
-        if($seamless = acf_maybe_get($field, 'acfe_seemless_style', false)){
+        if($seamless = acfe_get($field, 'acfe_seemless_style', false)){
             $field['acfe_seamless_style'] = $seamless;
             unset($field['acfe_seemless_style']);
         }
@@ -379,7 +476,7 @@ class acfe_compatibility{
      */
     function field_image($field){
         
-        if(acf_maybe_get($field, 'acfe_uploader')){
+        if(acfe_get($field, 'acfe_uploader')){
     
             $field['uploader'] = $field['acfe_uploader'];
             unset($field['acfe_uploader']);
@@ -452,7 +549,7 @@ class acfe_compatibility{
      */
     function field_code_editor($field){
         
-        if(acf_maybe_get($field, 'return_entities')){
+        if(acfe_get($field, 'return_entities')){
             
             if(!in_array('htmlentities', $field['return_format'])){
                 $field['return_format'][] = 'htmlentities';
@@ -486,7 +583,7 @@ class acfe_compatibility{
         foreach($fields as $_k => $_field){
             
             // field name
-            $_field_name = acf_maybe_get($_field, 'name');
+            $_field_name = acfe_get($_field, 'name');
             
             // check 'acfe_flexible_layout_title' & 'layout_settings'
             if($_field_name !== 'acfe_flexible_layout_title' && $_field_name !== 'layout_settings'){
@@ -514,7 +611,7 @@ class acfe_compatibility{
      */
     function field_flexible_layout_categories($field){
         
-        $value = acf_maybe_get($field, 'value');
+        $value = acfe_get($field, 'value');
         
         if(empty($value)){
             return $field;

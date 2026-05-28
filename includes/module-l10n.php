@@ -30,7 +30,7 @@ class acfe_module_l10n{
         foreach($module->l10n as $key){
             
             $name = ucfirst($key);
-            acfe_register_translate(acfe_array_get($item, $key), $name, "ACF Extended: {$module->get_label('name')}");
+            acfe_register_translate(acfe_get($item, $key), $name, "ACF Extended: {$module->get_label('name')}");
             
         }
         
@@ -50,7 +50,7 @@ class acfe_module_l10n{
         foreach($module->l10n as $key){
             
             $name = ucfirst($key);
-            acfe_array_set($item, $key, acfe_translate(acfe_array_get($item, $key), ucfirst($name), "ACF Extended: {$module->get_label('name')}"));
+            acfe_set($item, $key, acfe_translate(acfe_get($item, $key), ucfirst($name), "ACF Extended: {$module->get_label('name')}"));
             
         }
         

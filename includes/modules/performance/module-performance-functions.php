@@ -52,7 +52,7 @@ function acfe_get_performance_config($key = ''){
     
     // return key
     if(!empty($key)){
-        return acf_maybe_get($config, $key);
+        return acfe_get($config, $key);
     }
     
     // return
@@ -183,7 +183,7 @@ function acfe_is_object_performance_enabled($post_id = 0){
             }
     
             // get roles
-            $roles = acf_get_array($user->roles);
+            $roles = acfe_as_array($user->roles);
     
             // array of users
             foreach($roles as $role){

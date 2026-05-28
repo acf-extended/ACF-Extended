@@ -140,38 +140,7 @@ class acfe_settings{
      * @return mixed|null
      */
     function array_get($array, $key, $default = null){
-        
-        if(empty($key)){
-            return $array;
-        }
-        
-        if(!is_array($key)){
-            $key = explode('.', $key);
-        }
-        
-        $count = count($key);
-        $i=-1;
-        
-        foreach($key as $segment){
-            
-            $i++;
-            
-            if(!isset($array[ $segment ])){
-                continue;
-            }
-            
-            if($i+1 === $count){
-                return $array[ $segment ];
-            }
-            
-            unset($key[$i]);
-            
-            return $this->array_get($array[ $segment ], $key, $default);
-            
-        }
-        
-        return $default;
-        
+        return acfe_get($array, $key, $default);
     }
     
     
@@ -182,32 +151,10 @@ class acfe_settings{
      * @param $key
      * @param $value
      *
-     * @return array|mixed
+     * @return void
      */
     function array_set(&$array, $key, $value){
-        
-        if(empty($key)){
-            return $array = $value;
-        }
-        
-        $keys = explode('.', $key);
-        
-        while(count($keys) > 1){
-            
-            $key = array_shift($keys);
-            
-            if(!isset($array[ $key ]) || !is_array($array[ $key ])){
-                $array[ $key ] = array();
-            }
-            
-            $array =& $array[ $key ];
-            
-        }
-        
-        $array[ array_shift($keys) ] = $value;
-        
-        return $array;
-        
+        acfe_set($array, $key, $value);
     }
     
     
@@ -224,8 +171,8 @@ class acfe_settings{
         
         $get = $this->array_get($array, $key);
         
-        $old = acf_get_array($get);
-        $value = acf_get_array($value);
+        $old = acfe_as_array($get);
+        $value = acfe_as_array($value);
         
         $value = array_merge($old, $value);
         

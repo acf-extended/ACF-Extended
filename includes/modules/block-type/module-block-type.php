@@ -283,9 +283,9 @@ class acfe_module_block_type extends acfe_module{
         }elseif($item['icon'] && is_array($item['icon'])){
             
             $item['icon_type'] = 'colors';
-            $item['icon_background'] = acf_maybe_get($item['icon'], 'background');
-            $item['icon_foreground'] = acf_maybe_get($item['icon'], 'foreground');
-            $item['icon_src'] = acf_maybe_get($item['icon'], 'src');
+            $item['icon_background'] = acfe_get($item['icon'], 'background');
+            $item['icon_foreground'] = acfe_get($item['icon'], 'foreground');
+            $item['icon_src'] = acfe_get($item['icon'], 'src');
             
         }
         
@@ -306,7 +306,7 @@ class acfe_module_block_type extends acfe_module{
     function prepare_save_item($item){
         
         // general: post types
-        $item['post_types'] = acf_get_array($item['post_types']);
+        $item['post_types'] = acfe_as_array($item['post_types']);
         
         // supports
         $supports = array('anchor', 'jsx', 'align', 'align_text', 'align_content', 'full_height', 'mode', 'multiple');

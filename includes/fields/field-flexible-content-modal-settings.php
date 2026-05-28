@@ -312,8 +312,8 @@ class acfe_field_flexible_content_settings{
         // Loop
         foreach($field['layouts'] as $i => $layout){
             
-            $field_groups = acf_maybe_get($layout, 'acfe_flexible_settings', array());
-            $field_groups = acf_get_array($field_groups);
+            $field_groups = acfe_get($layout, 'acfe_flexible_settings', array());
+            $field_groups = acfe_as_array($field_groups);
             
             // Check
             if(empty($field_groups)){
@@ -438,7 +438,9 @@ class acfe_field_flexible_content_settings{
         
         // try to before after 'collapse' icon
         if(isset($icons['collapse'])){
-            $icons = acfe_array_insert_before($icons, 'collapse', 'settings', '<a class="acf-js-tooltip" href="#" data-name="acfe-settings" title="' . esc_attr__('Settings', 'acfe') . '"><span class="acf-icon -settings"></span></a>');
+            $icons = acfe_before($icons, 'collapse', array(
+                'settings' => '<a class="acf-js-tooltip" href="#" data-name="acfe-settings" title="' . esc_attr__('Settings', 'acfe') . '"><span class="acf-icon -settings"></span></a>'
+            ));
             
         // otherwise, append at the end
         }else{

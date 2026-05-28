@@ -209,35 +209,35 @@ class acfe_field_flexible_content_compatibility{
         /**
          * Actions
          */
-        $actions = acf_get_array($field['acfe_flexible_add_actions']);
+        $actions = acfe_as_array($field['acfe_flexible_add_actions']);
         
         // acfe_flexible_title_edition
-        if(acf_maybe_get($field, 'acfe_flexible_title_edition')){
+        if(acfe_get($field, 'acfe_flexible_title_edition')){
             acfe_unset($field, 'acfe_flexible_title_edition'); $actions[] = 'title';
         }
         
         // acfe_flexible_toggle
-        if(acf_maybe_get($field, 'acfe_flexible_toggle')){
+        if(acfe_get($field, 'acfe_flexible_toggle')){
             acfe_unset($field, 'acfe_flexible_toggle'); $actions[] = 'toggle';
         }
         
         // acfe_flexible_copy_paste
-        if(acf_maybe_get($field, 'acfe_flexible_copy_paste')){
+        if(acfe_get($field, 'acfe_flexible_copy_paste')){
             acfe_unset($field, 'acfe_flexible_copy_paste'); $actions[] = 'copy';
         }
         
         // acfe_flexible_lock
-        if(acf_maybe_get($field, 'acfe_flexible_lock')){
+        if(acfe_get($field, 'acfe_flexible_lock')){
             acfe_unset($field, 'acfe_flexible_lock'); $actions[] = 'lock';
         }
         
         // acfe_flexible_close_button
-        if(acf_maybe_get($field, 'acfe_flexible_close_button')){
+        if(acfe_get($field, 'acfe_flexible_close_button')){
             acfe_unset($field, 'acfe_flexible_close_button'); $actions[] = 'close';
         }
         
         // acfe_flexible_clone
-        if(acf_maybe_get($field, 'acfe_flexible_clone')){
+        if(acfe_get($field, 'acfe_flexible_clone')){
             acfe_unset($field, 'acfe_flexible_clone'); $actions[] = 'clone';
         }
         
@@ -249,15 +249,15 @@ class acfe_field_flexible_content_compatibility{
         /**
          * Async Loading
          */
-        $async = acf_get_array($field['acfe_flexible_async']);
+        $async = acfe_as_array($field['acfe_flexible_async']);
         
         // acfe_flexible_disable_ajax_title
-        if(acf_maybe_get($field, 'acfe_flexible_disable_ajax_title')){
+        if(acfe_get($field, 'acfe_flexible_disable_ajax_title')){
             acfe_unset($field, 'acfe_flexible_disable_ajax_title'); $async[] = 'title';
         }
         
         // acfe_flexible_layouts_ajax
-        if(acf_maybe_get($field, 'acfe_flexible_layouts_ajax')){
+        if(acfe_get($field, 'acfe_flexible_layouts_ajax')){
             acfe_unset($field, 'acfe_flexible_layouts_ajax'); $async[] = 'layout';
         }
         
@@ -269,20 +269,20 @@ class acfe_field_flexible_content_compatibility{
         /**
          * Remove Buttons
          */
-        $hide = acf_get_array($field['acfe_flexible_remove_button']);
+        $hide = acfe_as_array($field['acfe_flexible_remove_button']);
         
         // acfe_flexible_remove_add_button
-        if(acf_maybe_get($field, 'acfe_flexible_remove_add_button')){
+        if(acfe_get($field, 'acfe_flexible_remove_add_button')){
             acfe_unset($field, 'acfe_flexible_remove_add_button'); $hide[] = 'add';
         }
         
         // acfe_flexible_remove_duplicate_button
-        if(acf_maybe_get($field, 'acfe_flexible_remove_duplicate_button')){
+        if(acfe_get($field, 'acfe_flexible_remove_duplicate_button')){
             acfe_unset($field, 'acfe_flexible_remove_duplicate_button'); $hide[] = 'duplicate';
         }
         
         // acfe_flexible_remove_delete_button
-        if(acf_maybe_get($field, 'acfe_flexible_remove_delete_button')){
+        if(acfe_get($field, 'acfe_flexible_remove_delete_button')){
             acfe_unset($field, 'acfe_flexible_remove_delete_button'); $hide[] = 'delete';
         }
         
@@ -294,7 +294,7 @@ class acfe_field_flexible_content_compatibility{
         /**
          * Layouts State
          */
-        if(acf_maybe_get($field, 'acfe_flexible_layouts_remove_collapse')){
+        if(acfe_get($field, 'acfe_flexible_layouts_remove_collapse')){
             $field['acfe_flexible_layouts_state'] = 'force_open';
             acfe_unset($field, 'acfe_flexible_layouts_remove_collapse');
         }

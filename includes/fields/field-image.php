@@ -59,7 +59,7 @@ class acfe_field_image extends acfe_field_extend{
     function prepare_library($field){
         
         // check if field group ui setting
-        if(acf_maybe_get($field['wrapper'], 'data-setting') === 'image'){
+        if(acfe_get($field['wrapper'], 'data-setting') === 'image'){
             
             // add conditional logic
             $field['conditional_logic'] = array(
@@ -266,7 +266,7 @@ class acfe_field_image extends acfe_field_extend{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
         
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $array = array();
         
         // loop values

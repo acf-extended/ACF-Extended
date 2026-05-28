@@ -80,7 +80,7 @@ class acfe_field_taxonomy extends acfe_field_extend{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
         
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $array = array();
         
         // loop values
@@ -121,7 +121,7 @@ class acfe_field_taxonomy extends acfe_field_extend{
         }
         
         // cast array
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         // loop values
         foreach($value as $v){

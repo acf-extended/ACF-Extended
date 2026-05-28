@@ -39,7 +39,7 @@ class acfe_admin_settings{
      */
     function acf_post_init(){
         
-        $settings = acf_get_array(acf()->settings);
+        $settings = acfe_as_array(acf()->settings);
         
         foreach($settings as $name => $value){
             
@@ -523,10 +523,17 @@ class acfe_admin_settings{
                     'category'      => 'fields',
                 ),
                 array(
+                    'label'         => 'Compatibility: Field Group',
+                    'name'          => 'acfe/compatibility/legacy_field_group',
+                    'type'          => 'true_false',
+                    'description'   => 'Enforce legacy Field Group settings structure when migrating to ACFE 0.9.2.6+',
+                    'category'      => 'fields',
+                ),
+                array(
                     'label'         => 'Compatibility: Title/Toggle',
                     'name'          => 'acfe/compatibility/legacy_title_toggle',
                     'type'          => 'true_false',
-                    'description'   => 'Enforce legacy Flexible Content Title/Toggle settings migration',
+                    'description'   => 'Enforce legacy Flexible Content Title/Toggle settings when migrating to ACF 6.5+',
                     'category'      => 'fields',
                 ),
         

@@ -388,8 +388,8 @@ class acfe_module_form extends acfe_module{
     function validated_item($item = array()){
         
         // validate keys types
-        $item['field_groups'] = acf_get_array($item['field_groups']);
-        $item['actions'] = acf_get_array($item['actions']);
+        $item['field_groups'] = acfe_as_array($item['field_groups']);
+        $item['actions'] = acfe_as_array($item['actions']);
         
         // validate actions
         $item = $this->validate_actions($item);
@@ -550,7 +550,7 @@ class acfe_module_form extends acfe_module{
         // extract actions
         $actions = $item['actions'];
         $item['actions'] = array();
-        
+
         // loop actions
         foreach($actions as $action){
             
@@ -567,7 +567,23 @@ class acfe_module_form extends acfe_module{
                 
                 // prefix all array keys
                 if($instance->prefix){
-                    $action = acfe_prefix_array_keys($action, "{$instance->prefix}_", array('acf_fc_layout'));
+
+                    // vars
+                    $prefix = "{$instance->prefix}_";
+
+                    // rewrite keys with prefix
+                    $action = acfe_array_rewrite($action, function($value, $key, $row) use($prefix){
+
+                        // ignore numeric and acf_fc_layout keys
+                        if(is_numeric($key) || $key === 'acf_fc_layout'){
+                            return array($key => $value);
+                        }
+
+                        // return
+                        return array("{$prefix}{$key}" => $value);
+
+                    }, true);
+
                 }
                 
                 // append
@@ -593,7 +609,7 @@ class acfe_module_form extends acfe_module{
      */
     function prepare_save_item($item){
         
-        $item['actions'] = acf_get_array($item['actions']);
+        $item['actions'] = acfe_as_array($item['actions']);
     
         // attributes: submit
         if($item['attributes']['submit']){

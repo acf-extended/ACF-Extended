@@ -446,7 +446,7 @@ class acfe_multilang{
         }
     
         // get acf options pages
-        $options_pages = acf_get_array(acf_get_options_pages());
+        $options_pages = acfe_as_array(acf_get_options_pages());
         $list = wp_list_pluck($options_pages, 'post_id', true);
     
         // add 'post type list' location

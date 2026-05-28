@@ -275,7 +275,7 @@ class acfe_module_post_type extends acfe_module{
     function prepare_save_item($item){
         
         // general: taxonomies
-        $item['taxonomies'] = acf_get_array($item['taxonomies']);
+        $item['taxonomies'] = acfe_as_array($item['taxonomies']);
         
         // general: supports
         if(empty($item['supports'])){

@@ -7,65 +7,169 @@ if(!defined('ABSPATH')){
 /**
  * acfe_get_roles
  *
- * Retrieve all available roles (working with WPMU)
+ * Retrieve all available roles.
+ * Multisite super admin role will be included as 'super_admin'.
+ * 'guest' role will be included for not logged in users.
  *
- * @param array $filtered_user_roles
+ * @param array $filter_roles
  *
  * @return array
  */
-function acfe_get_roles($filtered_user_roles = array()){
+function acfe_get_roles($filter_roles = array()){
     
-    $list = array();
-    
+    // vars
     global $wp_roles;
+    $roles = array();
     
+    // multisite: prepend super admin role
     if(is_multisite()){
-        $list['super_admin'] = __('Super Admin');
+        $roles['super_admin'] = __('Super Admin');
     }
     
-    foreach($wp_roles->roles as $role => $settings){
-        $list[ $role ] = $settings['name'];
+    // loop roles
+    foreach(acfe_as_array($wp_roles->roles) as $role => $settings){
+        $roles[ $role ] = $settings['name'];
     }
     
-    $user_roles = $list;
+    // append guest role (not logged in)
+    $roles['guest'] = __('Guest', 'acfe');
     
-    if(!empty($filtered_user_roles)){
-        
-        $user_roles = array();
-        
-        foreach($list as $role => $role_label){
-            if(in_array($role, $filtered_user_roles)){
-                $user_roles[$role] = $role_label;
-            }
-        }
-        
+    // filter roles
+    $filter_roles = acfe_as_array($filter_roles);
+    if(!empty($filter_roles)){
+        $roles = array_intersect_key($roles, array_flip($filter_roles)); // only keep roles in filter
     }
     
-    return $user_roles;
+    // return
+    return $roles;
     
 }
 
 /**
  * acfe_get_current_user_roles
  *
- * Retrieve currently logged user roles
+ * Retrieve currently logged user roles.
+ * Not logged users will return 'guest' role.
+ * Multisite super admin will return 'super_admin' role in addition to their regular roles.
  *
- * @return false|string[]
+ * @return array
  */
 function acfe_get_current_user_roles(){
     
-    global $current_user;
+    // get current user
+    $current_user = wp_get_current_user();
     
-    if(!is_object($current_user) || !isset($current_user->roles)){
-        return false;
+    // not logged in
+    if(empty($current_user->ID)){
+        return array('guest');
     }
     
-    $roles = $current_user->roles;
+    // get roles
+    $roles = acfe_get_user_roles($current_user);
     
+    // filter
+    $roles = apply_filters('acfe/load_current_user_roles', $roles);
+    
+    // return
+    return $roles;
+    
+}
+
+
+/**
+ * acfe_get_user_roles
+ *
+ * @param $user_or_id
+ *
+ * @return array
+ */
+function acfe_get_user_roles($user_or_id){
+    
+    // default
+    $roles = array();
+    
+    // prepare user
+    $user = $user_or_id;
+    
+    // get user object
+    if(is_numeric($user)){
+        $user = get_user_by('id', $user);
+    }
+    
+    // validate
+    if(!$user instanceof WP_User){
+        return $roles;
+    }
+    
+    // get roles
+    $roles = acfe_as_array($user->roles);
+    
+    // multisite: append super admin role if user is super admin
     if(is_multisite() && current_user_can('setup_network')){
         $roles[] = 'super_admin';
     }
     
+    // filter
+    $roles = apply_filters('acfe/load_user_roles', $roles, $user);
+    
+    // return
     return $roles;
+
+
+}
+
+
+/**
+ * acfe_has_current_user_role
+ *
+ * @param $filter_roles
+ *
+ * @return bool
+ */
+function acfe_has_current_user_role($filter_roles){
+    
+    // get current user roles
+    $user_roles = acfe_get_current_user_roles();
+    
+    // normalize roles as array
+    $filter_roles = acfe_as_array($filter_roles);
+    
+    // check if role is in user roles
+    foreach($filter_roles as $filter_role){
+        if(in_array($filter_role, $user_roles, true)){
+            return true;
+        }
+    }
+    
+    // not found
+    return false;
+}
+
+
+/**
+ * acfe_has_user_role
+ *
+ * @param $user_or_id
+ * @param $filter_roles
+ *
+ * @return bool
+ */
+function acfe_has_user_role($user_or_id, $filter_roles){
+    
+    // get user roles
+    $user_roles = acfe_get_user_roles($user_or_id);
+    
+    // normalize roles as array
+    $filter_roles = acfe_as_array($filter_roles);
+    
+    // check if role is in user roles
+    foreach($filter_roles as $filter_role){
+        if(in_array($filter_role, $user_roles, true)){
+            return true;
+        }
+    }
+    
+    // not found
+    return false;
     
 }

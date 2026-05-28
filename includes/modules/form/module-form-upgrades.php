@@ -359,9 +359,9 @@ class acfe_module_form_upgrades{
                         
                         foreach($data as $i => $row){
                             
-                            $group = acf_maybe_get($row, 'group');
-                            $sub_field = acf_maybe_get($row, 'sub_field');
-                            $sub_field_custom = acf_maybe_get($row, 'sub_field_custom');
+                            $group = acfe_get($row, 'group');
+                            $sub_field = acfe_get($row, 'sub_field');
+                            $sub_field_custom = acfe_get($row, 'sub_field_custom');
                             
                             if($sub_field){
                                 
@@ -579,8 +579,8 @@ class acfe_module_form_upgrades{
     function upgrade_v2_item_to_v3($item, $args = array()){
     
         // form attributes
-        $form_attributes = acf_maybe_get($args, 'acfe_form_attributes');
-        $fields_attributes = acf_maybe_get($args, 'acfe_form_fields_attributes');
+        $form_attributes = acfe_get($args, 'acfe_form_attributes');
+        $fields_attributes = acfe_get($args, 'acfe_form_fields_attributes');
     
         // new item
         $item = array(
@@ -588,60 +588,60 @@ class acfe_module_form_upgrades{
             'name'          => $item['name'],
             'label'         => $item['label'],
             'title'         => $item['title'],
-            'active'        => acf_maybe_get($args, 'acfe_form_active', true),
-            'field_groups'  => acf_maybe_get($args, 'acfe_form_field_groups'),
+            'active'        => acfe_get($args, 'acfe_form_active', true),
+            'field_groups'  => acfe_get($args, 'acfe_form_field_groups'),
             'settings'      => array(
-                'location'              => acf_maybe_get($args, 'acfe_form_field_groups_rules'),
-                'honeypot'              => acf_maybe_get($args, 'acfe_form_honeypot'),
-                'kses'                  => acf_maybe_get($args, 'acfe_form_kses'),
-                'uploader'              => acf_maybe_get($args, 'acfe_form_uploader'),
+                'location'              => acfe_get($args, 'acfe_form_field_groups_rules'),
+                'honeypot'              => acfe_get($args, 'acfe_form_honeypot'),
+                'kses'                  => acfe_get($args, 'acfe_form_kses'),
+                'uploader'              => acfe_get($args, 'acfe_form_uploader'),
             ),
             'attributes'    => array(
                 'form' => array(
-                    'element' => acf_maybe_get($args, 'acfe_form_form_element') ? 'form' : 'div',
-                    'class'   => acf_maybe_get($form_attributes, 'field_acfe_form_attributes_class'),
-                    'id'      => acf_maybe_get($form_attributes, 'field_acfe_form_attributes_id'),
+                    'element' => acfe_get($args, 'acfe_form_form_element') ? 'form' : 'div',
+                    'class'   => acfe_get($form_attributes, 'field_acfe_form_attributes_class'),
+                    'id'      => acfe_get($form_attributes, 'field_acfe_form_attributes_id'),
                 ),
                 'fields' => array(
-                    'element'       => acf_maybe_get($args, 'acfe_form_form_field_el'),
-                    'wrapper_class' => acf_maybe_get($fields_attributes, 'field_acfe_form_fields_wrapper_class'),
-                    'class'         => acf_maybe_get($fields_attributes, 'field_acfe_form_fields_class'),
-                    'label'         => acf_maybe_get($args, 'acfe_form_label_placement'),
-                    'instruction'   => acf_maybe_get($args, 'acfe_form_instruction_placement'),
+                    'element'       => acfe_get($args, 'acfe_form_form_field_el'),
+                    'wrapper_class' => acfe_get($fields_attributes, 'field_acfe_form_fields_wrapper_class'),
+                    'class'         => acfe_get($fields_attributes, 'field_acfe_form_fields_class'),
+                    'label'         => acfe_get($args, 'acfe_form_label_placement'),
+                    'instruction'   => acfe_get($args, 'acfe_form_instruction_placement'),
                 ),
                 'submit' => array(
-                    'value'   => acf_maybe_get($args, 'acfe_form_submit_value'),
-                    'button'  => acf_maybe_get($args, 'acfe_form_html_submit_button'),
-                    'spinner' => acf_maybe_get($args, 'acfe_form_html_submit_spinner'),
+                    'value'   => acfe_get($args, 'acfe_form_submit_value'),
+                    'button'  => acfe_get($args, 'acfe_form_html_submit_button'),
+                    'spinner' => acfe_get($args, 'acfe_form_html_submit_spinner'),
                 )
             ),
             'validation'    => array(
-                'hide_error'        => acf_maybe_get($args, 'acfe_form_hide_error'),
-                'hide_revalidation' => acf_maybe_get($args, 'acfe_form_hide_revalidation'),
-                'hide_unload'       => acf_maybe_get($args, 'acfe_form_hide_unload'),
-                'errors_position'   => acf_maybe_get($args, 'acfe_form_errors_position'),
-                'errors_class'      => acf_maybe_get($args, 'acfe_form_errors_class'),
+                'hide_error'        => acfe_get($args, 'acfe_form_hide_error'),
+                'hide_revalidation' => acfe_get($args, 'acfe_form_hide_revalidation'),
+                'hide_unload'       => acfe_get($args, 'acfe_form_hide_unload'),
+                'errors_position'   => acfe_get($args, 'acfe_form_errors_position'),
+                'errors_class'      => acfe_get($args, 'acfe_form_errors_class'),
             ),
             'success'       => array(
-                'hide_form' => acf_maybe_get($args, 'acfe_form_updated_hide_form'),
-                'message'   => acf_maybe_get($args, 'acfe_form_updated_message'),
-                'wrapper'   => acf_maybe_get($args, 'acfe_form_html_updated_message'),
+                'hide_form' => acfe_get($args, 'acfe_form_updated_hide_form'),
+                'message'   => acfe_get($args, 'acfe_form_updated_message'),
+                'wrapper'   => acfe_get($args, 'acfe_form_html_updated_message'),
             ),
             'actions'       => array(),
             'render'        => '',
         );
         
         // submit disabled
-        if(!acf_maybe_get($args, 'acfe_form_form_submit')){
+        if(!acfe_get($args, 'acfe_form_form_submit')){
             $item['attributes']['submit'] = false;
         }
     
         // render
         $render               = '';
-        $old_render           = acf_maybe_get($args, 'acfe_form_custom_html');
-        $old_render_enabled   = acf_maybe_get($args, 'acfe_form_custom_html_enable');
-        $before_render        = acf_maybe_get($args, 'acfe_form_html_before_fields');
-        $after_render         = acf_maybe_get($args, 'acfe_form_html_after_fields');
+        $old_render           = acfe_get($args, 'acfe_form_custom_html');
+        $old_render_enabled   = acfe_get($args, 'acfe_form_custom_html_enable');
+        $before_render        = acfe_get($args, 'acfe_form_html_before_fields');
+        $after_render         = acfe_get($args, 'acfe_form_html_after_fields');
         
         // old render
         if($old_render_enabled && $old_render){
@@ -678,7 +678,7 @@ class acfe_module_form_upgrades{
         $item['render'] = $render;
     
         // loop actions
-        foreach(acf_get_array($args['acfe_form_actions']) as $row){
+        foreach(acfe_as_array($args['acfe_form_actions']) as $row){
         
             switch($row['acf_fc_layout']){
             
@@ -689,7 +689,7 @@ class acfe_module_form_upgrades{
                 
                     $action = array(
                         'action' => 'custom',
-                        'name'   => acf_maybe_get($row, 'field_acfe_form_custom_action'),
+                        'name'   => acfe_get($row, 'field_acfe_form_custom_action'),
                     );
                 
                     // append action
@@ -705,30 +705,30 @@ class acfe_module_form_upgrades{
                 
                     $action = array(
                         'action'      => 'email',
-                        'name'        => acf_maybe_get($row, 'field_acfe_form_email_custom_alias'),
+                        'name'        => acfe_get($row, 'field_acfe_form_email_custom_alias'),
                         'email'       => array(
-                            'from'        => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_email_from')),
-                            'to'          => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_email_to')),
-                            'reply_to'    => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_email_reply_to')),
-                            'cc'          => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_email_cc')),
-                            'bcc'         => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_email_bcc')),
-                            'subject'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_email_subject')),
-                            'content'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_email_content')),
+                            'from'        => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_email_from')),
+                            'to'          => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_email_to')),
+                            'reply_to'    => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_email_reply_to')),
+                            'cc'          => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_email_cc')),
+                            'bcc'         => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_email_bcc')),
+                            'subject'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_email_subject')),
+                            'content'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_email_content')),
                         ),
                         'attachments' => array(),
                     );
                 
                     // files dynamic
-                    foreach(acf_get_array($row['field_acfe_form_email_files']) as $file){
+                    foreach(acfe_as_array($row['field_acfe_form_email_files']) as $file){
                         $action['attachments'][] = array(
-                            'file'   => $this->handle_field_tags(acf_maybe_get($file, 'field_acfe_form_email_file')),
-                            'delete' => acf_maybe_get($file, 'field_acfe_form_email_file_delete'),
+                            'file'   => $this->handle_field_tags(acfe_get($file, 'field_acfe_form_email_file')),
+                            'delete' => acfe_get($file, 'field_acfe_form_email_file_delete'),
                         );
                     }
                 
                     // files static
-                    foreach(acf_get_array($row['field_acfe_form_email_files_static']) as $file){
-                        $action['attachments'][] = acf_maybe_get($file, 'field_acfe_form_email_file_static');
+                    foreach(acfe_as_array($row['field_acfe_form_email_files_static']) as $file){
+                        $action['attachments'][] = acfe_get($file, 'field_acfe_form_email_file_static');
                     }
                 
                     // append action
@@ -744,19 +744,19 @@ class acfe_module_form_upgrades{
                 
                     $action = array(
                         'action' => 'option',
-                        'name'   => acf_maybe_get($row, 'field_acfe_form_option_custom_alias'),
+                        'name'   => acfe_get($row, 'field_acfe_form_option_custom_alias'),
                         'save'   => array(
-                            'target'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_option_save_target')),
-                            'acf_fields' => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_option_save_meta')),
+                            'target'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_option_save_target')),
+                            'acf_fields' => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_option_save_meta')),
                         ),
                         'load'   => array(
-                            'source'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_option_load_source')),
-                            'acf_fields' => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_option_load_meta')),
+                            'source'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_option_load_source')),
+                            'acf_fields' => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_option_load_meta')),
                         ),
                     );
                 
                     // load
-                    $load_values = acf_maybe_get($row, 'field_acfe_form_option_load_values');
+                    $load_values = acfe_get($row, 'field_acfe_form_option_load_values');
                 
                     // reset load if disabled
                     if(!$load_values){
@@ -776,43 +776,43 @@ class acfe_module_form_upgrades{
                 
                     $action = array(
                         'action' => 'post',
-                        'type'   => acf_maybe_get($row, 'field_acfe_form_post_action'), // insert_post | update_post
-                        'name'   => acf_maybe_get($row, 'field_acfe_form_post_custom_alias'),
+                        'type'   => acfe_get($row, 'field_acfe_form_post_action'), // insert_post | update_post
+                        'name'   => acfe_get($row, 'field_acfe_form_post_custom_alias'),
                         'save'   => array(
-                            'target'         => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_target')),
-                            'post_type'      => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_post_type')),
-                            'post_status'    => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_post_status')),
-                            'post_title'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_post_title')),
-                            'post_name'      => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_post_name')),
+                            'target'         => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_target')),
+                            'post_type'      => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_post_type')),
+                            'post_status'    => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_post_status')),
+                            'post_title'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_post_title')),
+                            'post_name'      => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_post_name')),
                             'post_content'   => '',
                             'post_excerpt'   => '',
-                            'post_author'    => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_post_author')),
-                            'post_parent'    => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_post_parent')),
+                            'post_author'    => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_post_author')),
+                            'post_parent'    => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_post_parent')),
                             'post_date'      => '',
                             'post_thumbnail' => '',
-                            'post_terms'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_save_post_terms')),
+                            'post_terms'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_save_post_terms')),
                             'append_terms'   => '',
-                            'acf_fields'     => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_post_save_meta')),
+                            'acf_fields'     => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_post_save_meta')),
                         ),
                         'load'   => array(
-                            'source'         => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_post_load_source')),
-                            'post_type'      => acf_maybe_get($row, 'field_acfe_form_post_map_post_type'),
-                            'post_status'    => acf_maybe_get($row, 'field_acfe_form_post_map_post_status'),
-                            'post_title'     => acf_maybe_get($row, 'field_acfe_form_post_map_post_title'),
-                            'post_name'      => acf_maybe_get($row, 'field_acfe_form_post_map_post_name'),
-                            'post_content'   => acf_maybe_get($row, 'field_acfe_form_post_map_post_content'),
-                            'post_excerpt'   => acf_maybe_get($row, 'field_acfe_form_post_map_post_excerpt'),
-                            'post_author'    => acf_maybe_get($row, 'field_acfe_form_post_map_post_author'),
-                            'post_parent'    => acf_maybe_get($row, 'field_acfe_form_post_map_post_parent'),
+                            'source'         => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_post_load_source')),
+                            'post_type'      => acfe_get($row, 'field_acfe_form_post_map_post_type'),
+                            'post_status'    => acfe_get($row, 'field_acfe_form_post_map_post_status'),
+                            'post_title'     => acfe_get($row, 'field_acfe_form_post_map_post_title'),
+                            'post_name'      => acfe_get($row, 'field_acfe_form_post_map_post_name'),
+                            'post_content'   => acfe_get($row, 'field_acfe_form_post_map_post_content'),
+                            'post_excerpt'   => acfe_get($row, 'field_acfe_form_post_map_post_excerpt'),
+                            'post_author'    => acfe_get($row, 'field_acfe_form_post_map_post_author'),
+                            'post_parent'    => acfe_get($row, 'field_acfe_form_post_map_post_parent'),
                             'post_date'      => '',
                             'post_thumbnail' => '',
-                            'post_terms'     => acf_maybe_get($row, 'field_acfe_form_post_map_post_terms'),
-                            'acf_fields'     => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_post_load_meta')),
+                            'post_terms'     => acfe_get($row, 'field_acfe_form_post_map_post_terms'),
+                            'acf_fields'     => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_post_load_meta')),
                         ),
                     );
                 
                     // post content
-                    $group = acf_maybe_get($row, 'field_acfe_form_post_save_post_content_group');
+                    $group = acfe_get($row, 'field_acfe_form_post_save_post_content_group');
                     $post_content = $group['field_acfe_form_post_save_post_content'];
                     $post_content_custom = $group['field_acfe_form_post_save_post_content_custom'];
                 
@@ -821,7 +821,7 @@ class acfe_module_form_upgrades{
                     }
                 
                     // post excerpt
-                    $group = acf_maybe_get($row, 'field_acfe_form_post_save_post_excerpt_group');
+                    $group = acfe_get($row, 'field_acfe_form_post_save_post_excerpt_group');
                     $post_excerpt = $group['field_acfe_form_post_save_post_excerpt'];
                     $post_excerpt_custom = $group['field_acfe_form_post_save_post_excerpt_custom'];
                 
@@ -834,7 +834,7 @@ class acfe_module_form_upgrades{
                     $action['save']['post_excerpt'] = $this->handle_field_tags($post_excerpt);
                     
                     // load
-                    $load_values = acf_maybe_get($row, 'field_acfe_form_post_load_values');
+                    $load_values = acfe_get($row, 'field_acfe_form_post_load_values');
                     
                     // reset load if disabled
                     if(!$load_values){
@@ -869,8 +869,8 @@ class acfe_module_form_upgrades{
                 
                     $action = array(
                         'action' => 'redirect',
-                        'name'   => acf_maybe_get($row, 'field_acfe_form_redirect_custom_alias'),
-                        'url'    => acf_maybe_get($row, 'field_acfe_form_redirect_url'),
+                        'name'   => acfe_get($row, 'field_acfe_form_redirect_custom_alias'),
+                        'url'    => acfe_get($row, 'field_acfe_form_redirect_url'),
                     );
                 
                     // append action
@@ -886,30 +886,30 @@ class acfe_module_form_upgrades{
                 
                     $action = array(
                         'action' => 'term',
-                        'type'   => acf_maybe_get($row, 'field_acfe_form_term_action'), // insert_term | update_term
-                        'name'   => acf_maybe_get($row, 'field_acfe_form_term_custom_alias'),
+                        'type'   => acfe_get($row, 'field_acfe_form_term_action'), // insert_term | update_term
+                        'name'   => acfe_get($row, 'field_acfe_form_term_custom_alias'),
                         'save'   => array(
-                            'target'      => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_term_save_target')),
-                            'name'        => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_term_save_name')),
-                            'slug'        => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_term_save_slug')),
-                            'taxonomy'    => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_term_save_taxonomy')),
-                            'parent'      => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_term_save_parent')),
+                            'target'      => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_term_save_target')),
+                            'name'        => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_term_save_name')),
+                            'slug'        => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_term_save_slug')),
+                            'taxonomy'    => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_term_save_taxonomy')),
+                            'parent'      => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_term_save_parent')),
                             'description' => '',
-                            'acf_fields'  => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_term_save_meta')),
+                            'acf_fields'  => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_term_save_meta')),
                         ),
                         'load'   => array(
-                            'source'      => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_term_load_source')),
-                            'name'        => acf_maybe_get($row, 'field_acfe_form_term_map_name'),
-                            'slug'        => acf_maybe_get($row, 'field_acfe_form_term_map_slug'),
-                            'taxonomy'    => acf_maybe_get($row, 'field_acfe_form_term_map_taxonomy'),
-                            'parent'      => acf_maybe_get($row, 'field_acfe_form_term_map_parent'),
-                            'description' => acf_maybe_get($row, 'field_acfe_form_term_map_description'),
-                            'acf_fields'  => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_term_load_meta')),
+                            'source'      => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_term_load_source')),
+                            'name'        => acfe_get($row, 'field_acfe_form_term_map_name'),
+                            'slug'        => acfe_get($row, 'field_acfe_form_term_map_slug'),
+                            'taxonomy'    => acfe_get($row, 'field_acfe_form_term_map_taxonomy'),
+                            'parent'      => acfe_get($row, 'field_acfe_form_term_map_parent'),
+                            'description' => acfe_get($row, 'field_acfe_form_term_map_description'),
+                            'acf_fields'  => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_term_load_meta')),
                         ),
                     );
                 
                     // description
-                    $group = acf_maybe_get($row, 'field_acfe_form_term_save_description_group');
+                    $group = acfe_get($row, 'field_acfe_form_term_save_description_group');
                     $description = $group['field_acfe_form_term_save_description'];
                     $description_custom = $group['field_acfe_form_term_save_description_custom'];
                 
@@ -921,7 +921,7 @@ class acfe_module_form_upgrades{
                     $action['save']['description'] = $this->handle_field_tags($description);
                     
                     // load
-                    $load_values = acf_maybe_get($row, 'field_acfe_form_term_load_values');
+                    $load_values = acfe_get($row, 'field_acfe_form_term_load_values');
                     
                     // reset load if disabled
                     if(!$load_values){
@@ -956,47 +956,47 @@ class acfe_module_form_upgrades{
                 
                     $action = array(
                         'action' => 'user',
-                        'type'   => acf_maybe_get($row, 'field_acfe_form_user_action'), // insert_user | update_user | log_user
-                        'name'   => acf_maybe_get($row, 'field_acfe_form_user_custom_alias'),
+                        'type'   => acfe_get($row, 'field_acfe_form_user_action'), // insert_user | update_user | log_user
+                        'name'   => acfe_get($row, 'field_acfe_form_user_custom_alias'),
                         'login'   => array(
-                            'type'         => acf_maybe_get($row, 'field_acfe_form_user_log_type'),
-                            'user'         => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_login_user')),
-                            'pass'         => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_login_pass')),
-                            'remember'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_login_remember')),
+                            'type'         => acfe_get($row, 'field_acfe_form_user_log_type'),
+                            'user'         => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_login_user')),
+                            'pass'         => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_login_pass')),
+                            'remember'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_login_remember')),
                         ),
                         'save'   => array(
-                            'target'       => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_target')),
-                            'user_email'   => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_email')),
-                            'user_login'   => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_username')),
-                            'user_pass'    => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_password')),
-                            'first_name'   => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_first_name')),
-                            'last_name'    => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_last_name')),
-                            'nickname'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_nickname')),
-                            'display_name' => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_display_name')),
-                            'user_url'     => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_website')),
+                            'target'       => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_target')),
+                            'user_email'   => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_email')),
+                            'user_login'   => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_username')),
+                            'user_pass'    => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_password')),
+                            'first_name'   => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_first_name')),
+                            'last_name'    => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_last_name')),
+                            'nickname'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_nickname')),
+                            'display_name' => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_display_name')),
+                            'user_url'     => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_website')),
                             'description'  => '',
-                            'role'         => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_save_role')),
+                            'role'         => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_save_role')),
                             'log_user'     => false,
-                            'acf_fields'   => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_user_save_meta')),
+                            'acf_fields'   => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_user_save_meta')),
                         ),
                         'load'   => array(
-                            'source'       => $this->handle_field_tags(acf_maybe_get($row, 'field_acfe_form_user_load_source')),
-                            'user_email'   => acf_maybe_get($row, 'field_acfe_form_user_map_email'),
-                            'user_login'   => acf_maybe_get($row, 'field_acfe_form_user_map_username'),
-                            'user_pass'    => acf_maybe_get($row, 'field_acfe_form_user_map_password'),
-                            'first_name'   => acf_maybe_get($row, 'field_acfe_form_user_map_first_name'),
-                            'last_name'    => acf_maybe_get($row, 'field_acfe_form_user_map_last_name'),
-                            'nickname'     => acf_maybe_get($row, 'field_acfe_form_user_map_nickname'),
-                            'display_name' => acf_maybe_get($row, 'field_acfe_form_user_map_display_name'),
-                            'user_url'     => acf_maybe_get($row, 'field_acfe_form_user_map_website'),
-                            'description'  => acf_maybe_get($row, 'field_acfe_form_user_map_description'),
-                            'role'         => acf_maybe_get($row, 'field_acfe_form_user_map_role'),
-                            'acf_fields'   => $this->handle_acf_fields(acf_maybe_get($row, 'field_acfe_form_user_load_meta')),
+                            'source'       => $this->handle_field_tags(acfe_get($row, 'field_acfe_form_user_load_source')),
+                            'user_email'   => acfe_get($row, 'field_acfe_form_user_map_email'),
+                            'user_login'   => acfe_get($row, 'field_acfe_form_user_map_username'),
+                            'user_pass'    => acfe_get($row, 'field_acfe_form_user_map_password'),
+                            'first_name'   => acfe_get($row, 'field_acfe_form_user_map_first_name'),
+                            'last_name'    => acfe_get($row, 'field_acfe_form_user_map_last_name'),
+                            'nickname'     => acfe_get($row, 'field_acfe_form_user_map_nickname'),
+                            'display_name' => acfe_get($row, 'field_acfe_form_user_map_display_name'),
+                            'user_url'     => acfe_get($row, 'field_acfe_form_user_map_website'),
+                            'description'  => acfe_get($row, 'field_acfe_form_user_map_description'),
+                            'role'         => acfe_get($row, 'field_acfe_form_user_map_role'),
+                            'acf_fields'   => $this->handle_acf_fields(acfe_get($row, 'field_acfe_form_user_load_meta')),
                         ),
                     );
                 
                     // description
-                    $group = acf_maybe_get($row, 'field_acfe_form_user_save_description_group');
+                    $group = acfe_get($row, 'field_acfe_form_user_save_description_group');
                     $description = $group['field_acfe_form_user_save_description'];
                     $description_custom = $group['field_acfe_form_user_save_description_custom'];
                 
@@ -1008,7 +1008,7 @@ class acfe_module_form_upgrades{
                     $action['save']['description'] = $this->handle_field_tags($description);
                     
                     // load
-                    $load_values = acf_maybe_get($row, 'field_acfe_form_user_load_values');
+                    $load_values = acfe_get($row, 'field_acfe_form_user_load_values');
                     
                     // reset load if disabled
                     if(!$load_values){

@@ -126,7 +126,7 @@ function acfe_flexible_render_layout_template($layout, $field){
     $l_name = $layout['name'];
     
     // File
-    $file = acf_maybe_get($layout, 'acfe_flexible_render_template');
+    $file = acfe_get($layout, 'acfe_flexible_render_template');
     
     // Filters
     $file = apply_filters("acfe/flexible/render/template",                                      $file, $field, $layout, $is_preview);
@@ -275,8 +275,8 @@ function acfe_flexible_render_layout_enqueue($layout, $field){
     $handle = acf_slugify($name) . '-layout-' . acf_slugify($l_name);
     
     // Files
-    $style = acf_maybe_get($layout, 'acfe_flexible_render_style');
-    $script = acf_maybe_get($layout, 'acfe_flexible_render_script');
+    $style = acfe_get($layout, 'acfe_flexible_render_style');
+    $script = acfe_get($layout, 'acfe_flexible_render_script');
     
     /**
      * Actions
@@ -542,7 +542,7 @@ if(!function_exists('have_archive')){
                 return false;
             }
             
-            if(!acfe_maybe_get($post_type_object, 'acfe_admin_archive')){
+            if(!acfe_get($post_type_object, 'acfe_admin_archive')){
                 return false;
             }
             

@@ -35,11 +35,11 @@ class acfe_instructions{
         acf_disable_filter('acfe/instruction_tooltip');
         acf_disable_filter('acfe/instruction_above_field');
         
-        if(acf_maybe_get($field_group, 'instruction_placement') === 'tooltip'){
+        if(acfe_get($field_group, 'instruction_placement') === 'tooltip'){
             
             acf_enable_filter('acfe/instruction_tooltip');
             
-        }elseif(acf_maybe_get($field_group, 'instruction_placement') === 'above_field'){
+        }elseif(acfe_get($field_group, 'instruction_placement') === 'above_field'){
             
             acf_enable_filter('acfe/instruction_above_field');
             
@@ -58,11 +58,11 @@ class acfe_instructions{
      */
     function field_wrapper_attributes($wrapper, $field){
         
-        if(!acf_maybe_get($field, 'label')){
+        if(!acfe_get($field, 'label')){
             $wrapper['class'] .= ' acfe-no-label';
         }
         
-        if(acf_maybe_get($field, 'instructions')){
+        if(acfe_get($field, 'instructions')){
             
             if(acf_is_filter_enabled('acfe/instruction_tooltip')){
                 $wrapper['data-instruction-tooltip'] = acf_esc_html($field['instructions']);

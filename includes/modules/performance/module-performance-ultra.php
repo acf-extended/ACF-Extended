@@ -318,7 +318,7 @@ class acfe_performance_ultra extends acfe_performance{
         acf_disable_filter('acfe/performance_ultra/individual_meta');
         
         // check if save as individual meta
-        if(acf_maybe_get($field, 'acfe_save_meta')){
+        if(acfe_get($field, 'acfe_save_meta')){
             acf_enable_filter('acfe/performance_ultra/individual_meta');
         }
         

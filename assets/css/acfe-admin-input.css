@@ -277,6 +277,31 @@ body.acfe-wp-7-0:not(.block-editor-page).index-php #dashboard-widgets .postbox-h
     padding: 9px 12px
 }
 
+body.acfe-wp-7-0:not(.block-editor-page).index-php #dashboard-widgets .postbox-container .empty-container,
+body.acfe-wp-7-0:not(.block-editor-page).index-php .sortable-placeholder:not(.empty-container .sortable-placeholder) {
+    border-radius: 0
+}
+
+body.acfe-wp-7-0:not(.block-editor-page) #your-profile .button {
+    line-height: 2.30769231;
+    min-height: 32px
+}
+
+body.acfe-wp-7-0:not(.block-editor-page).options-general-php .site-icon-action-buttons .upload-button {
+    line-height: 2.30769231;
+    min-height: 32px
+}
+
+body.acfe-wp-7-0:not(.block-editor-page).options-permalink-php .available-structure-tags .button {
+    line-height: 2.30769231;
+    min-height: 32px
+}
+
+body.acfe-wp-7-0:not(.block-editor-page).options-privacy-php .tools-privacy-policy-page .button {
+    line-height: 2.30769231;
+    min-height: 32px
+}
+
 body.acfe-wp-7-0:not(.block-editor-page) .button-large {
     line-height: 2.30769231;
     min-height: 32px;
@@ -330,6 +355,12 @@ body.acfe-wp-7-0:not(.block-editor-page) .acf-field input[type=url],
 body.acfe-wp-7-0:not(.block-editor-page) .acf-field input[type=week],
 body.acfe-wp-7-0:not(.block-editor-page) .acf-field select {
     padding: 2px 8px
+}
+
+body.acfe-wp-7-0:not(.block-editor-page) .acf-input-append,
+body.acfe-wp-7-0:not(.block-editor-page) .acf-input-prepend {
+    min-height: 32px;
+    line-height: 1.6
 }
 
 body.acfe-wp-7-0:not(.block-editor-page) .acf-field .select2-container.-acf.select2-container--open .select2-selection--multiple,
@@ -443,6 +474,17 @@ body.acfe-wp-7-0:not(.block-editor-page) .select2-dropdown .select2-results .sel
     background-color: var(--wp-admin-theme-color, #5897fb)
 }
 
+body.acfe-wp-7-0:not(.block-editor-page) .wp-media-buttons .button {
+    line-height: 2.30769231;
+    min-height: 32px
+}
+
+body.acfe-wp-7-0:not(.block-editor-page) #minor-publishing-actions .preview {
+    line-height: 2.30769231;
+    min-height: 32px
+}
+
+body.acfe-wp-7-0:not(.block-editor-page) .acfe-misc-export .dashicons-editor-code,
 body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object-category::before,
 body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object-data::before,
 body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object-id::before,
@@ -452,4 +494,19 @@ body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object-role::before,
 body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object-type::before,
 body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object::before {
     color: currentColor
+}
+
+body.acfe-wp-7-0:not(.block-editor-page) #post-body #visibility::before,
+body.acfe-wp-7-0:not(.block-editor-page) #post-body .misc-pub-comment-status::before,
+body.acfe-wp-7-0:not(.block-editor-page) #post-body .misc-pub-post-status::before,
+body.acfe-wp-7-0:not(.block-editor-page) #post-body .misc-pub-response-to::before,
+body.acfe-wp-7-0:not(.block-editor-page) #post-body .misc-pub-revisions::before,
+body.acfe-wp-7-0:not(.block-editor-page) #post-body .misc-pub-uploadedby::before,
+body.acfe-wp-7-0:not(.block-editor-page) #post-body .misc-pub-uploadedto::before,
+body.acfe-wp-7-0:not(.block-editor-page) .curtime #timestamp::before {
+    color: currentColor
+}
+
+body.acfe-wp-7-0:not(.block-editor-page).post-type-attachment #delete-action {
+    width: 100%
 }

@@ -202,22 +202,22 @@ class acfe_module_form_compatibility{
         
         );
         
-        foreach(acf_get_array($args['acfe_form_actions']) as &$row){
+        foreach(acfe_as_array($args['acfe_form_actions']) as &$row){
             
             foreach($rules as $rule){
                 
-                if(!acf_maybe_get($row, $rule['group'])){
+                if(!acfe_get($row, $rule['group'])){
                     continue;
                 }
                 
                 $value = null;
                 $group = $row[$rule['group']];
                 
-                if(acf_maybe_get($group, $rule['sub_field']) === 'custom'){
-                    $value = acf_maybe_get($group, $rule['sub_field_custom']);
+                if(acfe_get($group, $rule['sub_field']) === 'custom'){
+                    $value = acfe_get($group, $rule['sub_field_custom']);
                     
                 }else{
-                    $value = acf_maybe_get($group, $rule['sub_field']);
+                    $value = acfe_get($group, $rule['sub_field']);
                 }
                 
                 unset($row[$rule['group']]);
@@ -280,11 +280,11 @@ class acfe_module_form_compatibility{
             
             );
             
-            foreach(acf_get_array($args['acfe_form_actions']) as &$row){
+            foreach(acfe_as_array($args['acfe_form_actions']) as &$row){
                 
                 foreach($rules as $rule){
                     
-                    $load_values = acf_maybe_get($row, $rule['load_values']);
+                    $load_values = acfe_get($row, $rule['load_values']);
                     $fields = $rule['fields'];
                     
                     if(!empty($load_values)){
@@ -293,7 +293,7 @@ class acfe_module_form_compatibility{
                     
                     foreach($fields as $map => $save){
                         
-                        $map_value = acf_maybe_get($row, $map);
+                        $map_value = acfe_get($row, $map);
                         
                         if(empty($map_value)){
                             continue;

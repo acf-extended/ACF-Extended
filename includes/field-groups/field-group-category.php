@@ -42,10 +42,11 @@ class acfe_field_group_category{
      */
     function init(){
         
-        register_taxonomy('acf-field-group-category', array('acf-field-group'), array(
+        // default args
+        $args = array(
             'hierarchical'      => true,
             'public'            => false,
-            'show_ui'           => 'ACFE',
+            'show_ui'           => 'ACFE', // placeholder
             'show_admin_column' => true,
             'show_in_menu'      => true,
             'show_in_nav_menus' => false,
@@ -64,7 +65,13 @@ class acfe_field_group_category{
                 'new_item_name'     => __('New category name', 'acfe'),
                 'menu_name'         => __('category', 'acfe'),
             ),
-        ));
+        );
+        
+        // filter
+        $args = apply_filters('acfe/field_group_category/args', $args);
+        
+        // register taxonomy
+        register_taxonomy('acf-field-group-category', array('acf-field-group'), $args);
         
     }
     
@@ -114,14 +121,17 @@ class acfe_field_group_category{
      */
     function admin_head(){
         
+        // get terms
         $count = get_terms(array(
             'taxonomy'   => 'acf-field-group-category',
             'hide_empty' => false,
             'fields'     => 'count',
         ));
         
+        // cast to int
         $count = intval($count);
         
+        // hide field group sidebar taxonomy metabox if no term has been added yet
         if($count === 0){
             remove_meta_box('acf-field-group-categorydiv', 'acf-field-group', 'side');
         }
@@ -275,7 +285,7 @@ class acfe_field_group_category{
             return $field_group;
         }
         
-        if(!acf_maybe_get($_field_group, 'ID')){
+        if(!acfe_get($_field_group, 'ID')){
             return $field_group;
         }
         
@@ -307,7 +317,7 @@ class acfe_field_group_category{
      */
     function import_field_group($field_group){
         
-        if(!$categories = acf_maybe_get($field_group, 'acfe_categories')){
+        if(!$categories = acfe_get($field_group, 'acfe_categories')){
             return;
         }
         

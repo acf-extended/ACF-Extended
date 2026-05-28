@@ -56,7 +56,7 @@ class acfe_location_rules{
 
                 // validate location type and move using "after" prop
                 if(!empty($location_type) && !empty($location_type->after) && isset($groups[ $group ][ $location_type->after ])){
-                    $groups[ $group ] = acfe_array_insert_after($groups[ $group ], $location_type->after, $location_name, $location_label);
+                    $groups[ $group ] = acfe_after($groups[ $group ], $location_type->after, array($location_name => $location_label));
                 }
 
             }

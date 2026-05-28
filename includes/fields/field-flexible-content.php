@@ -115,22 +115,38 @@ class acfe_field_flexible_content extends acfe_field_extend{
             return;
         }
         
-        // Prefix
+        // prefix
         $prefix = $field['prefix'];
-        
-        // black magic
+
+        /**
+         * black magic:
+         * turns "acf_fields[10358][layouts][layout_69cbeefca6905]"
+         *
+         * into: array(
+         *     [0] => acf_fields
+         *     [1] => 10358
+         *     [2] => layouts
+         *     [3] => layout_69cbeefca6905
+         * )
+         */
         parse_str($prefix, $output);
-        $keys = acfe_array_keys_r($output);
-        
+
+        // flatten keys
+        $keys = acfe_array_keys_dot($output);
+        $keys = acfe_array_map($keys, function($value){
+            $explode = explode('.', $value);
+            return array_pop($explode);
+        });
+
         // ...
-        $_field_id = $keys[1];
-        $_layout_key = $keys[3];
+        $_field_id = $keys[1];   // 10358
+        $_layout_key = $keys[3]; // layout_69cbeefca6905
         
         // profit!
         $flexible = acf_get_field($_field_id);
         
         // bail early
-        if(!acf_maybe_get($flexible, 'layouts')){
+        if(!acfe_get($flexible, 'layouts')){
             return;
         }
         
@@ -1081,7 +1097,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
 
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $return = '';
 
         // loop values

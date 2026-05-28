@@ -89,10 +89,10 @@ class acfe_module_post_type_features{
         $post_type = $query->get('post_type');
         $object = get_post_type_object($post_type);
         
-        $admin_order_by = acfe_maybe_get($object, 'acfe_admin_orderby');
-        $admin_order = acfe_maybe_get($object, 'acfe_admin_order');
-        $admin_meta_key = acfe_maybe_get($object, 'acfe_admin_meta_key');
-        $admin_meta_type = acfe_maybe_get($object, 'acfe_admin_meta_type');
+        $admin_order_by = acfe_get($object, 'acfe_admin_orderby');
+        $admin_order = acfe_get($object, 'acfe_admin_order');
+        $admin_meta_key = acfe_get($object, 'acfe_admin_meta_key');
+        $admin_meta_type = acfe_get($object, 'acfe_admin_meta_type');
         
         if($admin_order_by && !acfe_maybe_get_REQUEST('orderby')){
             $query->set('orderby', $admin_order_by);
@@ -131,7 +131,7 @@ class acfe_module_post_type_features{
         }
         
         $object = get_post_type_object($post_type);
-        $admin_ppp = acfe_maybe_get($object, 'acfe_admin_ppp');
+        $admin_ppp = acfe_get($object, 'acfe_admin_ppp');
         $user_ppp = get_user_option("edit_{$post_type}_per_page");
         
         if(!$admin_ppp || !empty($user_ppp)){
@@ -159,11 +159,11 @@ class acfe_module_post_type_features{
         $post_type = $query->get('post_type');
         $object = get_post_type_object($post_type);
         
-        $archive_ppp = acfe_maybe_get($object, 'acfe_archive_ppp');
-        $archive_orderby = acfe_maybe_get($object, 'acfe_archive_orderby');
-        $archive_order = acfe_maybe_get($object, 'acfe_archive_order');
-        $archive_meta_key = acfe_maybe_get($object, 'acfe_archive_meta_key');
-        $archive_meta_type = acfe_maybe_get($object, 'acfe_archive_meta_type');
+        $archive_ppp = acfe_get($object, 'acfe_archive_ppp');
+        $archive_orderby = acfe_get($object, 'acfe_archive_orderby');
+        $archive_order = acfe_get($object, 'acfe_archive_order');
+        $archive_meta_key = acfe_get($object, 'acfe_archive_meta_key');
+        $archive_meta_type = acfe_get($object, 'acfe_archive_meta_type');
         
         if($archive_ppp){
             $query->set('posts_per_page', $archive_ppp);

@@ -70,7 +70,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         $load = $action['load'];
         $term_id = acf_extract_var($load, 'source');
         $acf_fields = acf_extract_var($load, 'acf_fields');
-        $acf_fields = acf_get_array($acf_fields);
+        $acf_fields = acfe_as_array($acf_fields);
         $acf_fields_exclude = array();
         
         // filters
@@ -105,7 +105,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         foreach($load as $term_field => $field_key){
             
             // check field is not hidden and has no value set in 'acfe/form/load_form'
-            if(acf_maybe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
+            if(acfe_get($form['map'], $field_key) !== false && !isset($form['map'][ $field_key ]['value'])){
                 
                 // check key exists in WP_Term and is field key
                 if(in_array($term_field, $this->fields) && !empty($field_key) && is_string($field_key) && acf_is_field_key($field_key)){
@@ -467,7 +467,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         foreach(array_keys($save['save']) as $k){
             
             // taxonomy => save_taxonomy
-            if(acf_maybe_get($action, "save_{$k}")){
+            if(acfe_get($action, "save_{$k}")){
                 $save['save'][ $k ] = $action["save_{$k}"];
             }
             
@@ -499,7 +499,7 @@ class acfe_module_form_action_term extends acfe_module_form_action{
             foreach(array_keys($save['load']) as $k){
         
                 // taxonomy => load_taxonomy
-                if(acf_maybe_get($action, "load_{$k}")){
+                if(acfe_get($action, "load_{$k}")){
                     
                     $value = $action["load_{$k}"];
                     $save['load'][ $k ] = $value;

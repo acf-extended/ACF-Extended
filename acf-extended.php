@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Custom Fields: Extended
  * Description: All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
- * Version:     0.9.2.5
+ * Version:     0.9.2.6
  * Author:      ACF Extended
  * Plugin URI:  https://www.acf-extended.com
  * Author URI:  https://www.acf-extended.com
@@ -19,7 +19,7 @@ if(!class_exists('ACFE')):
 class ACFE{
     
     // vars
-    var $version = '0.9.2.5';
+    var $version = '0.9.2.6';
     
     /**
      * construct
@@ -53,6 +53,9 @@ class ACFE{
         acfe_include('includes/acfe-file-functions.php');
         acfe_include('includes/acfe-form-functions.php');
         acfe_include('includes/acfe-helper-functions.php');
+        acfe_include('includes/acfe-helper-array-functions.php');
+        acfe_include('includes/acfe-helper-multi-functions.php');
+        acfe_include('includes/acfe-helper-string-functions.php');
         acfe_include('includes/acfe-meta-functions.php');
         acfe_include('includes/acfe-post-functions.php');
         acfe_include('includes/acfe-screen-functions.php');
@@ -139,6 +142,7 @@ class ACFE{
             'field/recaptcha/v2/size'           => '',
             'field/recaptcha/v3/hide_logo'      => '',
             'compatibility/legacy_title_toggle' => false,
+            'compatibility/legacy_field_group'  => false,
 
         ));
     
@@ -255,7 +259,9 @@ class ACFE{
         // core
         acfe_include('includes/assets.php');
         acfe_include('includes/hooks.php');
-        
+        acfe_include('includes/media.php');
+        acfe_include('includes/screen.php');
+
         // fields
         acfe_include('includes/fields/field-checkbox.php');
         acfe_include('includes/fields/field-clone.php');
@@ -287,11 +293,12 @@ class ACFE{
         // field groups
         acfe_include('includes/field-groups/field-group.php');
         acfe_include('includes/field-groups/field-group-advanced.php');
+        acfe_include('includes/field-groups/field-group-autosync.php');
         acfe_include('includes/field-groups/field-group-category.php');
         acfe_include('includes/field-groups/field-group-display-title.php');
+        acfe_include('includes/field-groups/field-group-extra.php');
         acfe_include('includes/field-groups/field-group-hide-on-screen.php');
         acfe_include('includes/field-groups/field-group-instruction-placement.php');
-        acfe_include('includes/field-groups/field-group-meta.php');
         acfe_include('includes/field-groups/field-group-permissions.php');
         acfe_include('includes/field-groups/field-groups.php');
         acfe_include('includes/field-groups/field-groups-local.php');

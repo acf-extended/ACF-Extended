@@ -150,7 +150,7 @@ class acfe_field_code_editor extends acf_field{
      */
     function update_field($field){
         
-        $field['return_format'] = acf_get_array($field['return_format']);
+        $field['return_format'] = acfe_as_array($field['return_format']);
         
         return $field;
         
@@ -232,7 +232,7 @@ class acfe_field_code_editor extends acf_field{
     function format_value($value, $post_id, $field){
         
         // force array
-        $field['return_format'] = acf_get_array($field['return_format']);
+        $field['return_format'] = acfe_as_array($field['return_format']);
         
         // htmlentities
         if(in_array('htmlentities', $field['return_format'])){

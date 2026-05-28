@@ -242,7 +242,7 @@ function acfe_get_orphan_meta($post_id = 0){
         $field_key = $row['key'];
         
         // get clone
-        if(acf_maybe_get($field, 'type') === 'clone'){
+        if(acfe_get($field, 'type') === 'clone'){
             
             // add to collection
             $clones[] = $field;
@@ -264,7 +264,7 @@ function acfe_get_orphan_meta($post_id = 0){
                 $clone = acf_get_field($_clone_key);
         
                 // check type & add to collection
-                if(acf_maybe_get($clone, 'type') === 'clone'){
+                if(acfe_get($clone, 'type') === 'clone'){
                     $clones[] = $clone;
                 }
         
@@ -297,7 +297,7 @@ function acfe_get_orphan_meta($post_id = 0){
             if($is_allowed_field || $is_allowed_field_group){
                 
                 // get cloned fields/field groups and sub fields to allowed list
-                foreach(acf_get_array($field['clone']) as $cloned_key){
+                foreach(acfe_as_array($field['clone']) as $cloned_key){
                     
                     // group_60e52a459bea4
                     if(acf_is_field_group_key($cloned_key)){

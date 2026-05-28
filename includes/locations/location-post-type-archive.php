@@ -79,7 +79,7 @@ class acfe_location_post_type_archive extends acfe_location{
     function rule_match($result, $rule, $screen){
         
         // validate screen & rule
-        if(!acf_maybe_get($screen, 'options_page') || !acf_maybe_get($screen, 'acfe_post_type_archive') || !acf_maybe_get($rule, 'value')){
+        if(!acfe_get($screen, 'options_page') || !acfe_get($screen, 'acfe_post_type_archive') || !acfe_get($rule, 'value')){
             return $result;
         }
         

@@ -547,7 +547,7 @@ class acfe_field_flexible_content_select{
         }
         
         // sanitize
-        $categories = acf_get_array($categories);
+        $categories = acfe_as_array($categories);
         $categories = array_filter($categories);
         
         $storage = array();

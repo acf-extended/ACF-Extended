@@ -268,7 +268,7 @@ class acfe_module_options_page extends acfe_module{
         }
         
         // check existing options pages
-        $options_pages = acf_get_array(acf_get_options_pages());
+        $options_pages = acfe_as_array(acf_get_options_pages());
         
         foreach($options_pages as $slug => $options_page){
             

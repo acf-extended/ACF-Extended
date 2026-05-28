@@ -523,8 +523,8 @@ function acf_get_local_json_files(){
  */
 function acfe_is_sync_available($field_group){
     
-    $key = acf_maybe_get($field_group, 'key');
-    $id = acf_maybe_get($field_group, 'ID');
+    $key = acfe_get($field_group, 'key');
+    $id = acfe_get($field_group, 'ID');
     
     // bail early
     if(empty($key) || empty($id)){
@@ -541,9 +541,9 @@ function acfe_is_sync_available($field_group){
         return false;
     }
     
-    $private = acf_maybe_get($field_group, 'private', false);
-    $local = acf_maybe_get($field_group, 'local', false);
-    $modified = acf_maybe_get($field_group, 'modified', 0);
+    $private = acfe_get($field_group, 'private', false);
+    $local = acfe_get($field_group, 'local', false);
+    $modified = acfe_get($field_group, 'modified', 0);
     
     if($private || $local !== 'json'){
         return false;
@@ -566,7 +566,16 @@ function acfe_is_sync_available($field_group){
  * @return bool
  */
 function acfe_has_json_sync($item){
-    return in_array('json', (array) acf_maybe_get($item, 'acfe_autosync', array()));
+    
+    // default item sync path
+    $path = 'acfe_autosync';
+    
+    // exception: field group use acfe.autosync
+    if(!empty($item['key']) && acf_is_field_group_key($item['key'])){
+        $path = 'acfe.autosync';
+    }
+    
+    return in_array('json', (array) acfe_get($item, $path, array()));
 }
 
 

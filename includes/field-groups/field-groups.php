@@ -296,12 +296,12 @@ class ACFE_Field_Groups{
         
             $source = 'Advanced Forms';
         
-        }elseif(acf_maybe_get($field_group, 'acfe_local_source')){
+        }elseif(acfe_get($field_group, 'acfe_local_source')){
             
-            $file = acf_maybe_get($field_group, 'acfe_local_source');
+            $file = acfe_get($field_group, 'acfe_local_source');
             $file_readable = $this->get_human_readable_file_location($file);
             
-            $source = '<span class="acfe-js-tooltip" title="' . $file_readable . '">AutoSync</span>';
+            $source = '<span class="acfe-js-tooltip" title="' . $file_readable . '">' . __('AutoSync', 'acfe') . '</span>';
             
         }
     
@@ -323,11 +323,11 @@ class ACFE_Field_Groups{
         $local_field_group = acf_get_local_field_group($field_group['key']);
         
         // PHP
-        if(isset($php[$field_group['key']]) || acf_maybe_get($local_field_group, 'local') === 'php'){
+        if(isset($php[$field_group['key']]) || acfe_get($local_field_group, 'local') === 'php'){
             echo '<span>php</span>';
         
         // Json
-        }elseif(acf_maybe_get($local_field_group, 'local') === 'json'){
+        }elseif(acfe_get($local_field_group, 'local') === 'json'){
             echo '<span>Json</span>';
         
         // DB
@@ -416,7 +416,7 @@ class ACFE_Field_Groups{
             
             $local_field_group = acf_get_local_field_group($field_group['key']);
             
-            if(acf_maybe_get($local_field_group, 'local') === 'php'){
+            if(acfe_get($local_field_group, 'local') === 'php'){
                 
                 $return['message'] = __('Synchronized', 'acf') . '. ' . $file_readable . '<br/><br/>' . __('Warning: Duplicated PHP code found in theme/plugin.', 'acf');
                 $return['file'] = $file_readable . '<br/><br/>' . __('Warning: Duplicated PHP code found in theme/plugin.', 'acf');
@@ -727,12 +727,12 @@ class ACFE_Field_Groups{
         }
         
         // display title
-        $display_title = acf_maybe_get($field_group, 'acfe_display_title');
+        $display_title = acfe_get($field_group, 'acfe_display_title');
         $tooltip_title = __('Display Title', 'acfe');
         
         // ACF 6.6+: native display title
         if(acfe_is_acf('6.6')){
-            $display_title = acf_maybe_get($field_group, 'display_title');
+            $display_title = acfe_get($field_group, 'display_title');
             $tooltip_title = __('Display Title', 'acfe');
         }
         
@@ -966,9 +966,9 @@ class ACFE_Field_Groups{
         foreach($field_groups as $field_group){
         
             // Vars
-            $local = acf_maybe_get($field_group, 'local');
-            $modified = acf_maybe_get($field_group, 'modified');
-            $private = acf_maybe_get($field_group, 'private');
+            $local = acfe_get($field_group, 'local');
+            $modified = acfe_get($field_group, 'modified');
+            $private = acfe_get($field_group, 'private');
             
             // Bail early
             if($private || $local !== 'json'){

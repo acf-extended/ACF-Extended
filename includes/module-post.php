@@ -56,6 +56,7 @@ class acfe_module_post{
     
         add_filter('admin_body_class',                  array($this, 'admin_body_class'));
         add_action('acf/input/admin_enqueue_scripts',   array($this, 'admin_enqueue_scripts'));
+        add_action('acf/input/form_data',               array($this, 'form_data'));
         add_filter('acfe/localize_data',                array($this, 'localize_data'));
         add_action('post_submitbox_misc_actions',       array($this, 'post_submitbox_misc_actions'));
         add_filter('submenu_file',                      array($this, 'submenu_file'));
@@ -106,6 +107,24 @@ class acfe_module_post{
         global $post;
         $post->post_status = 'publish';
         
+    }
+
+
+    /**
+     * form_data
+     *
+     * @param $data
+     *
+     * @return void
+     */
+    function form_data($data){
+
+        acf_hidden_input(array(
+            'id'    => '_acfe_module_nonce',
+            'name'  => '_acfe_module_nonce',
+            'value' => wp_create_nonce('acfe_module'),
+        ));
+
     }
     
     

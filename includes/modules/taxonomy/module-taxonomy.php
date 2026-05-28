@@ -262,7 +262,7 @@ class acfe_module_taxonomy extends acfe_module{
     function prepare_save_item($item){
         
         // general: post types
-        $item['post_types'] = acf_get_array($item['post_types']);
+        $item['post_types'] = acfe_as_array($item['post_types']);
         
         // general: meta_box_cb
         if($item['meta_box_cb'] === 'custom'){

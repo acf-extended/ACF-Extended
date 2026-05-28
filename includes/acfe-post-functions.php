@@ -20,7 +20,7 @@ function acfe_get_post_types($args = array()){
     
     // extract special args
     $include = acf_extract_var($args, 'include');
-    $include = acf_get_array($include);
+    $include = acfe_as_array($include);
     
     // get post types
     $posts_types = acf_get_post_types($args);

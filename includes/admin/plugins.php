@@ -48,7 +48,7 @@ class acfe_admin_plugins{
         global $paged;
         
         // cast array (might be false)
-        $args = acf_get_array($args);
+        $args = acfe_as_array($args);
         
         // add arguments
         $args['search'] = 'acf';

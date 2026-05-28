@@ -553,7 +553,7 @@ class acfe_field_advanced_link extends acf_field{
     function get_post_choices($field){
         
         // vars
-        $value = acf_get_array($field['value']);
+        $value = acfe_as_array($field['value']);
         $choices = array();
 
         if(empty($value) || !isset($value['value'])){
@@ -680,7 +680,7 @@ class acfe_field_advanced_link extends acf_field{
         $args['post_type'] = acf_get_post_types();
         
         if(!empty($field['post_type'])){
-            $args['post_type'] = acf_get_array($field['post_type']);
+            $args['post_type'] = acfe_as_array($field['post_type']);
         }
         
         // taxonomy
@@ -778,7 +778,7 @@ class acfe_field_advanced_link extends acf_field{
         }
         
         // optgroup or single
-        $post_type = acf_get_array($args['post_type']);
+        $post_type = acfe_as_array($args['post_type']);
         if(count($post_type) === 1 && empty($post_types_archives)){
             $results = $results[0]['children'];
         }

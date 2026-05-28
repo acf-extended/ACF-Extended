@@ -9,7 +9,6 @@ if(!class_exists('acfe_hooks')):
 class acfe_hooks{
     
     public $field_group;
-    public $upload_field = false;
     
     /**
      * construct
@@ -31,15 +30,6 @@ class acfe_hooks{
         add_filter('acf/load_fields',                              array($this, 'load_fields'), 10, 2);
         add_filter('acf/load_field',                               array($this, 'load_field'));
         
-        // form data
-        add_filter('acf/location/screen',                          array($this, 'acf_location_screen'), 99);
-        add_action('acf/input/form_data',                          array($this, 'acf_form_data'));
-        add_action('acf/validate_save_post',                       array($this, 'acf_save_post_form_data'), 0);
-        add_action('acf/save_post',                                array($this, 'acf_save_post_form_data'), 0);
-        
-        // upload
-        add_filter('acf/upload_prefilter',                         array($this, 'attachment_upload'), 10, 3);
-        
         // hooks variations
         acf_add_filter_variations('acfe/prepare_field_group',      array('ID', 'key'), 0);
         acf_add_action_variations('acfe/pre_render_field_group',   array('ID', 'key'), 0);
@@ -48,8 +38,6 @@ class acfe_hooks{
         acf_add_filter_variations('acfe/field_wrapper_attributes', array('type', 'name', 'key'), 1);
         acf_add_filter_variations('acfe/load_fields',              array('type', 'name', 'key'), 1);
         acf_add_filter_variations('acfe/load_field',               array('type', 'name', 'key'), 0);
-        acf_add_filter_variations('acfe/upload_dir',               array('type', 'name', 'key'), 1);
-        acf_add_filter_variations('acfe/upload_file',              array('type', 'name', 'key'), 1);
         
     }
     
@@ -158,8 +146,7 @@ class acfe_hooks{
         
         if(!empty($acf)){
     
-            $post_id = acf_maybe_get_POST('_acf_post_id');
-            
+            $post_id = acf_get_form_data('post_id');
             if($post_id){
                 $rows[ $post_id ] = $acf;
             }
@@ -232,160 +219,6 @@ class acfe_hooks{
     
     
     /**
-     * decode_object
-     *
-     * @param $post_id
-     *
-     * @return array|false
-     */
-    function decode_object($post_id){
-    
-        //data
-        $data = array(
-            'id'     => false,
-            'type'   => false,
-            'object' => false,
-            'hooks'  => array(),
-        );
-    
-        /**
-         * @string  $post_id  12   | term_46 | user_22 | my-option | comment_89 | widget_56 | menu_74 | menu_item_96 | block_my-block | blog_55 | site_36 | attachment_24
-         * @string  $id       12   | 46      | 22      | my-option | 89         | widget_56 | 74      | 96           | block_my-block | 55      | 36      | 24
-         * @string  $type     post | term    | user    | option    | comment    | option    | term    | post         | block          | blog    | blog    | post
-         */
-    
-        /**
-         * @var $type
-         * @var $id
-         */
-        extract(acf_decode_post_id($post_id));
-        
-        // validate id
-        if(!$id){
-            return false;
-        }
-        
-        // assign default
-        $data['id'] = $id;
-        $data['type'] = $type;
-        
-        switch($type){
-            
-            // post
-            case 'post': {
-    
-                $post = get_post($id);
-                if($post && !is_wp_error($post)){
-        
-                    $data['object'] = $post;
-        
-                    if(isset($post->post_type) && post_type_exists($post->post_type)){
-                        $data['hooks'][] = "post_type={$post->post_type}";
-                    }
-        
-                }
-                
-                break;
-            }
-            
-            // term
-            case 'term': {
-    
-                $term = get_term($id);
-                if($term && !is_wp_error($term)){
-        
-                    $data['object'] = $term;
-        
-                    if(isset($term->taxonomy) && taxonomy_exists($term->taxonomy)){
-                        $data['hooks'][] = "taxonomy={$term->taxonomy}";
-                    }
-        
-                }
-        
-                break;
-            }
-            
-            // user
-            case 'user': {
-    
-                $user = get_user_by('id', $id);
-                if($user && !is_wp_error($user)){
-        
-                    $data['object'] = $user;
-        
-                    if(isset($user->roles) && !empty($user->roles)){
-                        foreach($user->roles as $role){
-                            $data['hooks'][] = "role={$role}";
-                        }
-                    }
-        
-                }
-        
-                break;
-            }
-            
-            // option
-            case 'option': {
-    
-                $location = acf_get_form_data('location');
-                $options_page = acf_maybe_get($location, 'options_page');
-    
-                if($options_page){
-        
-                    $data['object'] = acf_get_options_page($options_page);
-                    $data['hooks'][] = "slug={$options_page}";
-        
-                }
-        
-                break;
-            }
-            
-            // comment
-            case 'comment': {
-    
-                $comment = get_comment($id);
-                if($comment && !is_wp_error($comment)){
-                    $data['object'] = $comment;
-                }
-        
-                break;
-            }
-            
-            // block
-            case 'block': {
-    
-                $block = acf_get_block_type("acf/$id");
-                if($block){
-                    $data['object'] = $block;
-                }
-        
-                break;
-            }
-            
-            // blog
-            case 'blog': {
-    
-                if(function_exists('get_blog_details')){
-        
-                    $blog = get_blog_details($id);
-                    if($blog){
-                        $data['object'] = $blog;
-                    }
-        
-                }
-        
-                break;
-            }
-            
-        }
-        
-        // return
-        return $data;
-        
-    }
-    
-    
-    /**
      * load_field_groups
      *
      * acf/load_field_groups:100
@@ -444,7 +277,7 @@ class acfe_hooks{
             return $fields;
         }
         
-        if(!acf_maybe_get($fields[0], 'parent')){
+        if(!acfe_get($fields[0], 'parent')){
             return $fields;
         }
         
@@ -572,147 +405,160 @@ class acfe_hooks{
     
     
     /**
-     * acf_location_screen
+     * decode_object
      *
-     * acf/location/screen:99
+     * @param $post_id
      *
-     * @param $screen
-     *
-     * @return mixed
+     * @return array|false
      */
-    function acf_location_screen($screen){
-        
-        // clone var
-        $_screen = $screen;
-        acf_extract_vars($_screen, array('lang', 'ajax'));
-        
-        // set form data for later use in acf_form_data()
-        acf_set_form_data('location', $_screen);
-        
-        return $screen;
-        
-    }
+    function decode_object($post_id){
     
+        //data
+        $data = array(
+            'id'     => false,
+            'type'   => false,
+            'object' => false,
+            'hooks'  => array(),
+        );
     
-    /**
-     * acf_form_data
-     *
-     * acf/input/form_data
-     */
-    function acf_form_data(){
+        /**
+         * @string  $post_id  12   | term_46 | user_22 | my-option | comment_89 | widget_56 | menu_74 | menu_item_96 | block_my-block | blog_55 | site_36 | attachment_24
+         * @string  $id       12   | 46      | 22      | my-option | 89         | widget_56 | 74      | 96           | block_my-block | 55      | 36      | 24
+         * @string  $type     post | term    | user    | option    | comment    | option    | term    | post         | block          | blog    | blog    | post
+         */
+    
+        /**
+         * @var $type
+         * @var $id
+         */
+        extract(acf_decode_post_id($post_id));
         
-        // retrieve location from screen filter
-        $location = acf_get_form_data('location');
+        // validate id
+        if(!$id){
+            return false;
+        }
         
-        // generate hidden input
-        if($location){
+        // assign default
+        $data['id'] = $id;
+        $data['type'] = $type;
+        
+        switch($type){
             
-            foreach($location as $name => $value){
+            // post
+            case 'post': {
+    
+                $post = get_post($id);
+                if($post && !is_wp_error($post)){
+        
+                    $data['object'] = $post;
+        
+                    if(isset($post->post_type) && post_type_exists($post->post_type)){
+                        $data['hooks'][] = "post_type={$post->post_type}";
+                    }
+        
+                }
                 
-                // generate hidden input
-                acf_hidden_input(array(
-                    'id'	=> "_acf_location[$name]",
-                    'name'	=> "_acf_location[$name]",
-                    'value'	=> $value
-                ));
-                
+                break;
+            }
+            
+            // term
+            case 'term': {
+    
+                $term = get_term($id);
+                if($term && !is_wp_error($term)){
+        
+                    $data['object'] = $term;
+        
+                    if(isset($term->taxonomy) && taxonomy_exists($term->taxonomy)){
+                        $data['hooks'][] = "taxonomy={$term->taxonomy}";
+                    }
+        
+                }
+        
+                break;
+            }
+            
+            // user
+            case 'user': {
+    
+                $user = get_user_by('id', $id);
+                if($user && !is_wp_error($user)){
+        
+                    $data['object'] = $user;
+        
+                    if(isset($user->roles) && !empty($user->roles)){
+                        foreach($user->roles as $role){
+                            $data['hooks'][] = "role={$role}";
+                        }
+                    }
+        
+                }
+        
+                break;
+            }
+            
+            // option
+            case 'option': {
+    
+                $location = acf_get_form_data('location');
+                $options_page = acfe_get($location, 'options_page');
+    
+                if($options_page){
+        
+                    $data['object'] = acf_get_options_page($options_page);
+                    $data['hooks'][] = "slug={$options_page}";
+        
+                }
+        
+                break;
+            }
+            
+            // comment
+            case 'comment': {
+    
+                $comment = get_comment($id);
+                if($comment && !is_wp_error($comment)){
+                    $data['object'] = $comment;
+                }
+        
+                break;
+            }
+            
+            // block
+            case 'block': {
+    
+                $block = acf_get_block_type("acf/$id");
+                if($block){
+                    $data['object'] = $block;
+                }
+        
+                break;
+            }
+            
+            // blog
+            case 'blog': {
+    
+                if(function_exists('get_blog_details')){
+        
+                    $blog = get_blog_details($id);
+                    if($blog){
+                        $data['object'] = $blog;
+                    }
+        
+                }
+        
+                break;
             }
             
         }
-    
-    }
-    
-    
-    /**
-     * acf_save_post_form_data
-     *
-     * acf/validate_save_post:0
-     * acf/save_post:0
-     */
-    function acf_save_post_form_data(){
-        
-        // vars
-        $screen = acf_maybe_get_POST('_acf_screen', 'post');
-        $post_id = acf_maybe_get_POST('_acf_post_id', 0);
-        $location = acf_maybe_get_POST('_acf_location', array());
-        
-        // set form data
-        acf_set_form_data(array(
-            'screen'    => $screen,
-            'post_id'   => $post_id,
-            'location'  => $location,
-        ));
-        
-    }
-    
-    
-    /**
-     * attachment_upload
-     *
-     * acf/upload_prefilter
-     *
-     * @param $errors
-     * @param $file
-     * @param $field
-     *
-     * @return mixed
-     */
-    function attachment_upload($errors, $file, $field){
-        
-        // vars
-        $this->upload_field = $field;
-        
-        // filters
-        add_filter('upload_dir',                 array($this, 'handle_upload_dir'), 20);
-        add_filter('wp_handle_upload_prefilter', array($this, 'handle_upload_file'), 20);
         
         // return
-        return $errors;
-        
-    }
-    
-    
-    /**
-     * handle_upload_dir
-     *
-     * upload_dir:20
-     *
-     * @param $uploads
-     *
-     * @return mixed|void
-     */
-    function handle_upload_dir($uploads){
-        
-        // vars
-        $field = $this->upload_field;
-        
-        // return
-        return apply_filters('acfe/upload_dir', $uploads, $field);
-        
-    }
-    
-    
-    /**
-     * handle_upload_file
-     *
-     * wp_handle_upload_prefilter:20
-     *
-     * @param $file
-     *
-     * @return mixed|void
-     */
-    function handle_upload_file($file){
-        
-        // vars
-        $field = $this->upload_field;
-        
-        // return
-        return apply_filters('acfe/upload_file', $file, $field);
+        return $data;
         
     }
     
 }
 
-new acfe_hooks();
+acf_new_instance('acfe_hooks');
 
 endif;

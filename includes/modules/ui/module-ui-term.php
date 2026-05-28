@@ -130,7 +130,7 @@ class acfe_enhanced_ui_term extends acfe_enhanced_ui{
         
         ?>
         <div class="permalink">
-            <?php if(acfe_maybe_get($tax, 'publicly_queryable')){ ?>
+            <?php if(acfe_get($tax, 'publicly_queryable')){ ?>
                 <div id="edit-slug-box">
                     <strong>Permalink:</strong> <a href="<?php echo get_term_link($tag, $tax); ?>"><?php echo get_term_link($tag, $tax); ?></a>
                 </div>

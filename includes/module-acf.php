@@ -20,8 +20,8 @@ class acfe_module_acf{
         add_action('acf/include_fields',      array($this, 'include_fields'));
         add_action('acf/validate_save_post',  array($this, 'validate_save_post'), 1);
         add_action('acf/validate_save_post',  array($this, 'after_validate_save_post'));
-        add_filter('acf/pre_load_value',      array($this, 'pre_load_value'), 10, 3);
         add_action('acf/save_post',           array($this, 'save_post'), 1);
+        add_filter('acf/pre_load_value',      array($this, 'pre_load_value'), 10, 3);
         add_action('acf/include_admin_tools', array($this, 'include_admin_tools'), 15);
         add_action('acf/include_admin_tools', array($this, 'include_admin_tools_sort'), 99);
         add_filter('acf/get_post_types',      array($this, 'get_post_types'), 10, 2);
@@ -53,12 +53,17 @@ class acfe_module_acf{
      */
     function validate_save_post(){
         
+        // validate
+        if(!acf_current_user_can_admin() || !$this->verify_nonce()){
+            return;
+        }
+        
         // get form data
         $post_id = acf_get_form_data('post_id');
     
         // get module
         $module = acfe_get_module_by_item($post_id);
-    
+        
         // validate module
         if(!$module){
             return;
@@ -117,6 +122,11 @@ class acfe_module_acf{
      * disable errors on module validation to avoid collision with user field validation names
      */
     function after_validate_save_post(){
+        
+        // validate
+        if(!acf_current_user_can_admin() || !$this->verify_nonce()){
+            return;
+        }
     
         // get form data
         $post_id = acf_get_form_data('post_id');
@@ -130,122 +140,23 @@ class acfe_module_acf{
         }
         
         // get errors
-        $errors = acf_get_array(acf()->validation->get_errors());
+        $errors = acfe_as_array(acf()->validation->get_errors());
         
         // remove non acfe errors
         // this will remove errors set by developers that use field name such as "name"
         // note that this will also remove native acf validation message such as "required value"
         foreach(array_keys($errors) as $key){
             
-            if(!acfe_starts_with($errors[ $key ]['message'], 'acfe:')){
+            if(acfe_starts_with($errors[ $key ]['message'], 'acfe:')){
+                $errors[ $key ]['message'] = str_replace('acfe:', '', $errors[ $key ]['message']);
+            }else{
                 unset($errors[ $key ]);
             }
             
         }
         
-        // cleanup acfe error messages
-        foreach(array_keys($errors) as $key){
-            $errors[ $key ]['message'] = str_replace('acfe:', '', $errors[ $key ]['message']);
-        }
-        
         // add new errors
         acf()->validation->errors = $errors;
-        
-    }
-    
-    /**
-     * pre_load_value
-     *
-     * acf/pre_load_value
-     *
-     * @param $null
-     * @param $post_id
-     * @param $field
-     *
-     * @return mixed|null
-     */
-    function pre_load_value($null, $post_id, $field){
-        
-        // get module
-        $module = acfe_get_module_by_item($post_id);
-    
-        // validate module
-        if(!$module){
-            return $null;
-        }
-        
-        // load only one time
-        if(empty($this->values)){
-            
-            // item
-            $item = $module->get_item($post_id);
-            
-            // validate item
-            if(empty($item)){
-                return $null;
-            }
-            
-            // remove unused keys
-            acf_extract_vars($item, array('ID', '_valid'));
-    
-            foreach(array_keys($item) as $k){
-                
-                $v = $item[ $k ];
-                $_field = acf_get_field($k);
-        
-                if(!$_field){
-                    continue;
-                }
-        
-                // encode value
-                if(acf_maybe_get($_field, 'encode_value')){
-                    $with_keys = !acf_is_sequential_array($v);
-                    $item[ $k ] = acf_encode_choices($v, $with_keys);
-                }
-        
-                // unparse type
-                if(acf_maybe_get($_field, 'unparse_type')){
-                    $item[ $k ] = acfe_unparse_types($v);
-                }
-        
-            }
-            
-            // filters
-            $item = $module->apply_module_filters('acfe/module/prepare_load_item', $item);
-            
-            // prefix keys like "name" with "field_name" for acf loading values
-            $acf = acfe_prefix_array_keys($item, 'field_', array('acf_fc_layout'));
-            
-            // set values
-            $this->values = $acf;
-            
-        }
-        
-        return acf_maybe_get($this->values, $field['key'], $null);
-        
-    }
-    
-    
-    /**
-     * pre_format_value
-     *
-     * acf/pre_format_value:10
-     *
-     * @param $null
-     * @param $value
-     * @param $post_id
-     * @param $field
-     *
-     * @return false|mixed
-     */
-    function pre_format_value($null, $value, $post_id, $field){
-        
-        // do not format value for wysiwyg fields
-        if($field['type'] === 'wysiwyg'){
-            return $value;
-        }
-        
-        return $null;
         
     }
     
@@ -258,6 +169,11 @@ class acfe_module_acf{
      * @param $post_id
      */
     function save_post($post_id){
+        
+        // validate
+        if(!acf_current_user_can_admin() || !$this->verify_nonce()){
+            return;
+        }
     
         // get module
         $module = acfe_get_module_by_item($post_id);
@@ -294,13 +210,13 @@ class acfe_module_acf{
                 $meta[ $k ] = $field['value'];
             
                 // encode value
-                if(acf_maybe_get($field, 'encode_value')){
+                if(acfe_get($field, 'encode_value')){
                     $with_keys = strpos($field['value'], ' : ') === false;
                     $meta[ $k ] = acf_decode_choices($field['value'], $with_keys);
                 }
                 
                 // group with
-                if(acf_maybe_get($field, 'group_with')){
+                if(acfe_get($field, 'group_with')){
                     $meta[ $field['group_with'] ][ $k ] = $field['value'];
                 }
             
@@ -317,12 +233,12 @@ class acfe_module_acf{
             foreach($fields as $k => $field){
             
                 // cleanup key
-                if(acf_maybe_get($field, 'cleanup_key')){
+                if(acfe_get($field, 'cleanup_key')){
                     unset($item[ $k ]);
                 }
                 
                 // group with
-                if(acf_maybe_get($field, 'group_with')){
+                if(acfe_get($field, 'group_with')){
                     unset($item[ $k ]);
                 }
             
@@ -349,6 +265,118 @@ class acfe_module_acf{
         
         // bypass acf native values update
         $_POST['acf'] = array();
+        
+    }
+    
+    
+    /**
+     * pre_load_value
+     *
+     * acf/pre_load_value
+     *
+     * @param $null
+     * @param $post_id
+     * @param $field
+     *
+     * @return mixed|null
+     */
+    function pre_load_value($null, $post_id, $field){
+        
+        // validate capability
+        if(!acf_current_user_can_admin()){
+            return $null;
+        }
+        
+        // get module
+        $module = acfe_get_module_by_item($post_id);
+    
+        // validate module
+        if(!$module){
+            return $null;
+        }
+        
+        // load only one time
+        if(empty($this->values)){
+            
+            // item
+            $item = $module->get_item($post_id);
+            
+            // validate item
+            if(empty($item)){
+                return $null;
+            }
+            
+            // remove unused keys
+            acf_extract_vars($item, array('ID', '_valid'));
+    
+            foreach(array_keys($item) as $k){
+                
+                $v = $item[ $k ];
+                $_field = acf_get_field($k);
+        
+                if(!$_field){
+                    continue;
+                }
+        
+                // encode value
+                if(acfe_get($_field, 'encode_value')){
+                    $with_keys = !acf_is_sequential_array($v);
+                    $item[ $k ] = acf_encode_choices($v, $with_keys);
+                }
+        
+                // unparse type
+                if(acfe_get($_field, 'unparse_type')){
+                    $item[ $k ] = acfe_unparse_types($v);
+                }
+        
+            }
+            
+            // filters
+            $item = $module->apply_module_filters('acfe/module/prepare_load_item', $item);
+            
+            // prefix keys like "name" with "field_name" for acf loading values
+            $acf = acfe_array_rewrite($item, function($value, $key, $row){
+                
+                // ignore numeric and acf_fc_layout keys
+                if(is_numeric($key) || $key === 'acf_fc_layout'){
+                    return array($key => $value);
+                }
+                
+                // return
+                return array("field_{$key}" => $value);
+                
+            }, true);
+            
+            // set values
+            $this->values = $acf;
+            
+        }
+        
+        return acfe_get($this->values, $field['key'], $null);
+        
+    }
+    
+    
+    /**
+     * pre_format_value
+     *
+     * acf/pre_format_value:10
+     *
+     * @param $null
+     * @param $value
+     * @param $post_id
+     * @param $field
+     *
+     * @return false|mixed
+     */
+    function pre_format_value($null, $value, $post_id, $field){
+        
+        // do not format value for wysiwyg fields
+        if($field['type'] === 'wysiwyg'){
+            return $value;
+        }
+        
+        return $null;
         
     }
     
@@ -447,7 +475,7 @@ class acfe_module_acf{
     function wp_insert_post_data($args, $post_array){
         
         // get post id
-        $post_id = acf_maybe_get($post_array, 'ID');
+        $post_id = acfe_get($post_array, 'ID');
         
         // get module
         $module = acfe_get_module_by_item($post_id);
@@ -461,10 +489,26 @@ class acfe_module_acf{
             return $args;
         }
         
-        $name = acf_maybe_get($post_array['acf'], 'field_name');
+        $name = acfe_get($post_array['acf'], 'field_name');
         $args['post_name'] = sanitize_title($name);
         
         return $args;
+        
+    }
+    
+    
+    /**
+     * verify_nonce
+     *
+     * @return bool
+     */
+    function verify_nonce(){
+        
+        // get nonce
+        $nonce = acf_maybe_get_POST('_acfe_module_nonce');
+        
+        // verify nonce
+        return $nonce && wp_verify_nonce($nonce, 'acfe_module');
         
     }
     

@@ -51,7 +51,7 @@ class acfe_location_taxonomy_list extends acfe_location{
      */
     function rule_match($match, $rule, $screen){
         
-        if(!acf_maybe_get($screen, 'taxonomy_list') || !acf_maybe_get($rule, 'value')){
+        if(!acfe_get($screen, 'taxonomy_list') || !acfe_get($rule, 'value')){
             return $match;
         }
         

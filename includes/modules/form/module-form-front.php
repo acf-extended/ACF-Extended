@@ -26,19 +26,18 @@ class acfe_module_form_front{
      * acf/validate_save_post:1
      */
     function validate_save_post(){
-    
+
         // get form
         $form = $this->get_form_validation();
-    
-        // bail early
         if(!$form){
             return;
         }
-        
+
         // set form data
         // used in validation with acfe_add_validation_error()
         acf_set_form_data('acfe/form', $form);
-        
+        acf_set_form_data('post_id', $form['post_id']);
+
         // tags context
         acfe_add_context('form', $form);
         acfe_add_context('method', 'validate');
@@ -61,15 +60,13 @@ class acfe_module_form_front{
      * wp
      */
     function save_post(){
-        
+
         // get form
         $form = $this->get_form_submission();
-    
-        // bail early
         if(!$form){
             return;
         }
-        
+
         // default acf
         if(empty($_POST['acf'])){
             $_POST['acf'] = array();
@@ -88,19 +85,23 @@ class acfe_module_form_front{
         $show_errors = true;
         $show_errors = apply_filters("acfe/form/submit_show_errors",                      $show_errors, $form);
         $show_errors = apply_filters("acfe/form/submit_show_errors/form={$form['name']}", $show_errors, $form);
-        
+
         // validate save post
         // pass thru $this->validate_save_post()
         $valid = acf_validate_save_post($show_errors);
-        
+
+        // consume the nonce
+        acf_verify_nonce('acfe_form');
+
         // invalid form
         if(!$valid){
             return;
         }
-        
+
         // set form data
         acf_set_form_data('acfe/form', $form);
-        
+        acf_set_form_data('post_id', $form['post_id']);
+
         // tags context
         acfe_add_context('form', $form);
         acfe_add_context('method', 'submit');
@@ -142,7 +143,7 @@ class acfe_module_form_front{
         add_action('wp_print_footer_scripts', array($this, 'prevent_refresh'));
         
         // return (deprecated)
-        if($return = acf_maybe_get($form, 'return')){
+        if($return = acfe_get($form, 'return')){
             acfe_redirect($return);
         }
         
@@ -164,7 +165,7 @@ class acfe_module_form_front{
         }
 
         // cast as array
-        $form = acf_get_array($form);
+        $form = acfe_as_array($form);
 
         // sanitize lowercase id
         if(isset($form['id'])){
@@ -363,15 +364,23 @@ class acfe_module_form_front{
      * @return array|false
      */
     function get_form_validation(){
-        
-        $valid_screen = acfe_is_front() && acf_maybe_get_POST('_acf_screen') === 'acfe_form';
-        $form = acfe_get_form_sent();
-        
-        if($valid_screen && $form){
-            return $form;
+
+        // get nonce
+        $nonce = acf_maybe_get_POST('_acf_nonce');
+
+        // verify nonce
+        if(!acfe_is_front() || !$nonce || !wp_verify_nonce($nonce, 'acfe_form')){
+            return false;
         }
-        
-        return false;
+
+        // get form
+        $form = acfe_get_form_sent();
+        if(!$form){
+            return false;
+        }
+
+        // return
+        return $form;
     }
     
     
@@ -381,15 +390,23 @@ class acfe_module_form_front{
      * @return array|false
      */
     function get_form_submission(){
-        
-        $valid_screen = acf_verify_nonce('acfe_form');
-        $form = acfe_get_form_sent();
-        
-        if($valid_screen && $form){
-            return $form;
+
+        // get nonce
+        $nonce = acf_maybe_get_POST('_acf_nonce');
+
+        // verify nonce
+        if(!acfe_is_front() || !$nonce || !wp_verify_nonce($nonce, 'acfe_form')){
+            return false;
         }
-        
-        return false;
+
+        // get form
+        $form = acfe_get_form_sent();
+        if(!$form){
+            return false;
+        }
+
+        // return
+        return $form;
         
     }
     

@@ -23,15 +23,7 @@ function acfe_is_admin(){
  * @return bool
  */
 function acfe_is_front(){
-    
-    // todo: use acf_get_form_data('screen')
-    
-    if(!is_admin() || (is_admin() && wp_doing_ajax() && (acf_maybe_get_POST('_acf_screen') === 'acfe_form' || acf_maybe_get_POST('_acf_screen') === 'acf_form'))){
-        return true;
-    }
-    
-    return false;
-    
+    return !is_admin() || (is_admin() && wp_doing_ajax() && (acf_maybe_get_POST('_acf_screen') === 'acfe_form' || acf_maybe_get_POST('_acf_screen') === 'acf_form'));
 }
 
 
@@ -174,7 +166,7 @@ function acfe_is_dynamic_preview(){
         
         $query = acf_maybe_get_POST('query');
         
-        if(acf_maybe_get($query, 'preview')){
+        if(acfe_get($query, 'preview')){
             $return = true;
         }
         

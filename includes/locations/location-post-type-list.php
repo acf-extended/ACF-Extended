@@ -33,7 +33,7 @@ class acfe_location_post_type_list extends acfe_location{
     function rule_types($choices){
         
         $name = __('Post', 'acf');
-        $choices[ $name ] = acfe_array_insert_after($choices[ $name ], 'post_type', 'post_type_list', __('Post Type List'));
+        $choices[ $name ] = acfe_after($choices[ $name ], 'post_type', array('post_type_list' => __('Post Type List')));
 
         return $choices;
         
@@ -79,7 +79,7 @@ class acfe_location_post_type_list extends acfe_location{
      */
     function rule_match($match, $rule, $screen){
         
-        if(!acf_maybe_get($screen, 'post_type_list') || !acf_maybe_get($rule, 'value')){
+        if(!acfe_get($screen, 'post_type_list') || !acfe_get($rule, 'value')){
             return $match;
         }
         

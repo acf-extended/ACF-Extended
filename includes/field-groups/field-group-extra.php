@@ -4,14 +4,9 @@ if(!defined('ABSPATH')){
     exit;
 }
 
-// check setting
-if(acfe_get_setting('modules/field_group_ui')){
-    return;
-}
+if(!class_exists('acfe_field_group_extra')):
 
-if(!class_exists('acfe_field_group_meta')):
-
-class acfe_field_group_meta{
+class acfe_field_group_extra{
     
     /**
      * construct
@@ -19,7 +14,6 @@ class acfe_field_group_meta{
     function __construct(){
         
         add_action('acf/field_group/admin_head', array($this, 'admin_head'));
-        add_action('acf/field_group/admin_head', array($this, 'prepare_meta'));
         
     }
     
@@ -28,42 +22,41 @@ class acfe_field_group_meta{
      * admin_head
      */
     function admin_head(){
-        
-        add_action('acf/render_field/name=acfe_data', array($this, 'render_data'));
-        
-        add_meta_box('acf-field-group-acfe', __('Field group', 'acf'), array($this, 'render_metabox'), 'acf-field-group', 'normal');
-        
+
+        // extra metabox
+        add_action('acfe/field_group/render_extra_metabox', array($this, 'render_extra_metabox'));
+
+        // acfe data
+        add_action('acf/render_field/name=acfe.data', array($this, 'render_data'));
+
     }
     
     
     /**
-     * render_metabox
+     * render_extra_metabox
      */
-    function render_metabox(){
+    function render_extra_metabox(){
         
         global $field_group;
         
         // meta
-        acf_render_field_wrap(array(
-            'label'         => __('Custom meta data'),
-            'name'          => 'acfe_meta',
-            'key'           => 'acfe_meta',
-            'instructions'  => __('Add custom meta data to the field group.'),
-            'prefix'        => 'acf_field_group',
+        acfe_render_group_setting($field_group, array(
+            'label'         => __('Custom meta data', 'acfe'),
+            'name'          => 'acfe.meta',
+            'instructions'  => __('Add custom meta data to the field group.', 'acfe'),
             'type'          => 'repeater',
             'button_label'  => __('+ Meta'),
             'required'      => false,
             'layout'        => 'table',
-            'value'         => (isset($field_group['acfe_meta'])) ? $field_group['acfe_meta'] : array(),
             'wrapper'       => array(
                 'data-enable-switch' => true
             ),
             'sub_fields'    => array(
                 array(
                     'ID'            => false,
-                    'label'         => __('Key'),
-                    'name'          => 'acfe_meta_key',
-                    'key'           => 'acfe_meta_key',
+                    'label'         => __('Key', 'acfe'),
+                    'name'          => 'acfe.meta.key',
+                    'key'           => 'key',
                     'prefix'        => '',
                     '_name'         => '',
                     '_prepare'      => '',
@@ -78,9 +71,9 @@ class acfe_field_group_meta{
                 ),
                 array(
                     'ID'            => false,
-                    'label'         => __('Value'),
-                    'name'          => 'acfe_meta_value',
-                    'key'           => 'acfe_meta_value',
+                    'label'         => __('Value', 'acfe'),
+                    'name'          => 'acfe.meta.value',
+                    'key'           => 'value',
                     'prefix'        => '',
                     '_name'         => '',
                     '_prepare'      => '',
@@ -94,37 +87,34 @@ class acfe_field_group_meta{
                     ),
                 ),
             )
-        ));
-    
+        ), 'div', 'label');
+
         // note
-        acf_render_field_wrap(array(
-            'label'         => __('Note'),
-            'name'          => 'acfe_note',
-            'prefix'        => 'acf_field_group',
+        acfe_render_group_setting($field_group, array(
+            'label'         => __('Note', 'acfe'),
+            'name'          => 'acfe.note',
             'type'          => 'textarea',
-            'instructions'  => __('Add personal note. Only visible to administrators'),
-            'value'         => (isset($field_group['acfe_note'])) ? $field_group['acfe_note'] : '',
+            'instructions'  => __('Add personal note. Only visible to administrators', 'acfe'),
             'required'      => false,
             'wrapper'       => array(
                 'data-enable-switch' => true
             ),
-        ));
+        ), 'div', 'label');
         
         // data
-        acf_render_field_wrap(array(
-            'label'         => __('Field group data'),
-            'instructions'  => __('View raw field group data, for development use'),
+        acfe_render_group_setting($field_group, array(
+            'label'         => __('Field group data', 'acfe'),
+            'instructions'  => __('View raw field group data, for development use', 'acfe'),
+            'name'          => 'acfe.data',
             'type'          => 'acfe_dynamic_render',
-            'name'          => 'acfe_data',
-            'prefix'        => 'acf_field_group',
             'value'         => $field_group['key'],
-        ));
+        ), 'div', 'label');
         
         ?>
         <script type="text/javascript">
             if(typeof acf !== 'undefined'){
                 acf.postbox.render({
-                    'id':       'acf-field-group-acfe',
+                    'id':       'acf-field-group-acfe-extra',
                     'label':    'left'
                 });
             }
@@ -167,32 +157,9 @@ class acfe_field_group_meta{
         
     }
     
-    
-    /**
-     * prepare_meta
-     */
-    function prepare_meta(){
-        
-        $names = array('acfe_meta', 'acfe_meta_key', 'acfe_meta_value');
-        
-        foreach($names as $name){
-            
-            add_filter("acf/prepare_field/name={$name}", function($field){
-                
-                $field['prefix'] = str_replace('row-', '', $field['prefix']);
-                $field['name'] = str_replace('row-', '', $field['name']);
-                
-                return $field;
-                
-            });
-            
-        }
-        
-    }
-    
 }
 
 // initialize
-new acfe_field_group_meta();
+acf_new_instance('acfe_field_group_extra');
 
 endif;

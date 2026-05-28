@@ -41,7 +41,7 @@ class acfe_module_form_shortcode{
     function render_shortcode($atts){
         
         // attributes array
-        $atts = acf_get_array($atts);
+        $atts = acfe_as_array($atts);
         
         // parse int|true|false|null
         $atts = acfe_parse_types($atts);
@@ -83,7 +83,7 @@ class acfe_module_form_shortcode{
                 }
                 
                 // set attribute
-                acfe_array_set($atts, "{$path}.{$path_key}", $value);
+                acfe_set($atts, "{$path}.{$path_key}", $value);
                 
             }
             
@@ -93,7 +93,7 @@ class acfe_module_form_shortcode{
         unset($atts['html_submit_button'], $atts['html_submit_spinner'], $atts['html_updated_message']);
         
         // disallowed shortcode settings
-        acfe_array_unset($atts, array('attributes.submit.button', 'attributes.submit.spinner', 'success.wrapper'));
+        acfe_unset($atts, array('attributes.submit.button', 'attributes.submit.spinner', 'success.wrapper'));
         
         // render
         ob_start();
@@ -145,8 +145,8 @@ class acfe_module_form_shortcode{
         
         // loop thru args
         foreach(array('name', 'id') as $key){
-            if(acf_maybe_get($args, $key)){
-                $title = acf_maybe_get($args, $key);
+            if(acfe_get($args, $key)){
+                $title = acfe_get($args, $key);
                 break;
             }
         }

@@ -53,7 +53,7 @@ class acfe_module_form_front_render{
             
             // html message
             if($form['success']['wrapper']){
-                $message = acfe_str_replace_first('%s', $message, $form['success']['wrapper'], true);
+                $message = acfe_str_replace($form['success']['wrapper'], '%s', $message, 0, 1, true);
             }
             
             echo $message;
@@ -553,7 +553,7 @@ class acfe_module_form_front_render{
     
         // post field groups
         // deprecated
-        if(acf_maybe_get($form, 'post_field_groups')){
+        if(acfe_get($form, 'post_field_groups')){
     
             _deprecated_function('ACF Extended: "Post Field Groups" Form setting', '0.8.7.5');
         

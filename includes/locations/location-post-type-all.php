@@ -58,7 +58,7 @@ class acfe_location_post_type_all{
             return $match;
         }
         
-        if(!acf_maybe_get($options, 'post_type')){
+        if(!acfe_get($options, 'post_type')){
             return $match;
         }
         

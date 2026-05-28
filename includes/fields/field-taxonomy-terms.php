@@ -390,7 +390,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
         
         // Allow Terms
         $choices = array();
-        $field['taxonomy'] = acf_get_array($field['taxonomy']);
+        $field['taxonomy'] = acfe_as_array($field['taxonomy']);
         
         if(!empty($field['allow_terms'])){
             
@@ -815,8 +815,8 @@ class acfe_field_taxonomy_terms extends acfe_field{
     function prepare_field($field){
         
         // value
-        $value = acf_maybe_get($field, 'value');
-        $value = acf_get_array($value);
+        $value = acfe_get($field, 'value');
+        $value = acfe_as_array($value);
         
         // choices
         $field['choices'] = array();
@@ -911,7 +911,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
         // unarray values if radio
         if($field['type'] === 'radio'){
             
-            $values = acf_get_array($field['value']);
+            $values = acfe_as_array($field['value']);
             
             // check if value exists in choices and select it (in case of allowed terms)
             foreach($values as $value){
@@ -976,7 +976,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
         if($field['load_terms']){
             
             // get valid terms
-            $value = acf_get_array($value);
+            $value = acfe_as_array($value);
             
             $taxonomy = $field['taxonomy'];
             
@@ -1059,7 +1059,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
             }
             
             // force value to array
-            $term_ids = acf_get_array($value);
+            $term_ids = acfe_as_array($value);
             
             // convert to int
             $term_ids = array_map('intval', $term_ids);
@@ -1120,7 +1120,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
     
         // Vars
         $is_array = is_array($value);
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
     
         // Loop
         foreach($value as &$v){
@@ -1166,7 +1166,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
         
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $array = array();
         
         // loop values
@@ -1207,7 +1207,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
         }
         
         // cast array
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         // loop values
         foreach($value as $v){
@@ -1233,8 +1233,8 @@ class acfe_field_taxonomy_terms extends acfe_field{
             }
             
             // get results
-            $results = acf_maybe_get($query, 'results');
-            $results = acf_get_array($results);
+            $results = acfe_get($query, 'results');
+            $results = acfe_as_array($results);
             
             // loop results
             $found = false;
@@ -1298,7 +1298,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
     function get_terms($field, $args = array()){
         
         // taxonomy
-        $field['taxonomy'] = acf_get_array($field['taxonomy']);
+        $field['taxonomy'] = acfe_as_array($field['taxonomy']);
         
         // choices
         $choices = array();
@@ -1462,7 +1462,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
                     // sort into hierachial order
                     if(is_taxonomy_hierarchical($taxonomy)){
                         $keep = _get_term_children($id, $keep, $taxonomy);
-                        $keep = acf_get_array($keep);
+                        $keep = acfe_as_array($keep);
                     }
                     
                     $terms = array_merge($terms, $keep);

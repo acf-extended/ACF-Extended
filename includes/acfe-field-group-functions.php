@@ -349,7 +349,7 @@ function acfe_get_locations_array($locations){
     
     foreach($locations as $group){
         
-        if(!acf_maybe_get($rules, $group['param']) || !acf_maybe_get($group, 'value')){
+        if(!acfe_get($rules, $group['param']) || !acfe_get($group, 'value')){
             continue;
         }
         
@@ -581,4 +581,68 @@ function acfe_render_field_groups_details($field_groups){
 
     <?php }
     
+}
+
+
+/**
+ * acfe_render_group_setting
+ *
+ * Render field group settings, compatible with dot notation and nested settings
+ *
+ * @param $field_group
+ * @param $setting
+ * @param $element
+ * @param $instruction
+ * @param $is_field_setting
+ *
+ * @return void
+ */
+function acfe_render_group_setting($field_group, $setting, $element = 'div', $instruction = 'label', $is_field_setting = false){
+
+    // use key as name
+    if(isset($setting['key']) && !isset($setting['name'])){
+        $setting['name'] = $setting['key'];
+    }
+
+    // default vars
+    $key = $setting['name'];
+    $parents = array();
+
+    // name has path
+    if(acfe_has($setting['name'], '.')){
+        $parents = explode('.', $setting['name']); // retrieve parents
+        $key = array_pop($parents);                // key is last part
+    }
+
+    // default key
+    if(!isset($setting['key']) && isset($setting['name'])){
+        $setting['key'] = $key;
+    }
+
+    // default prefix
+    if(!isset($setting['prefix'])){
+
+        $setting['prefix'] = 'acf_field_group';
+        if($parents){
+            foreach($parents as $parent){
+                $setting['prefix'] .= "[{$parent}]";
+            }
+        }
+
+    }
+
+    // default value
+    if(!isset($setting['value']) && isset($setting['key'])){
+
+        $path = implode('.', $parents);
+        $path = !empty($path) ? "{$path}." : '';
+        $path = $path . $setting['key'];
+
+        $setting['value'] = acfe_get($field_group, $path);
+
+    }
+
+    // render field setting
+    acf_render_field_wrap($setting, $element, $instruction, $is_field_setting);
+
 }

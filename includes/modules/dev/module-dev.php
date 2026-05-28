@@ -510,14 +510,14 @@ class acfe_dev{
         
             case 'field-type': {
         
-                echo acf_maybe_get($meta, 'field_type');
+                echo acfe_get($meta, 'field_type');
                 break;
             
             }
         
             case 'field-group': {
         
-                echo acf_maybe_get($meta, 'field_group');
+                echo acfe_get($meta, 'field_group');
                 break;
             
             }
@@ -673,7 +673,7 @@ class acfe_dev{
                 
                 // Field type
                 $field_type = acf_get_field_type($field['type']);
-                $field_type = acfe_maybe_get($field_type, 'label', '<em>Undefined</em>');
+                $field_type = acfe_get($field_type, 'label', '<em>Undefined</em>');
                 
                 // Field Group
                 $field_group = acfe_get_field_group_from_field($field);

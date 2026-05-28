@@ -185,7 +185,7 @@ class acfe_module_form_front_render_hooks{
         $has_recaptcha = false;
         
         // get form mapped field groups
-        $field_groups = acf_get_array($form['field_groups']);
+        $field_groups = acfe_as_array($form['field_groups']);
         if(empty($field_groups)){
             return;
         }
@@ -233,7 +233,7 @@ class acfe_module_form_front_render_hooks{
     function validate_actions($form){
         
         // force array
-        $form['actions'] = acf_get_array($form['actions']);
+        $form['actions'] = acfe_as_array($form['actions']);
         
         // validate actions
         foreach($form['actions'] as $action){
@@ -349,7 +349,7 @@ class acfe_module_form_front_render_hooks{
     function submit_actions($form){
         
         // force array
-        $form['actions'] = acf_get_array($form['actions']);
+        $form['actions'] = acfe_as_array($form['actions']);
         
         // submit actions
         foreach($form['actions'] as $action){

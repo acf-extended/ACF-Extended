@@ -43,6 +43,11 @@ class acfe_field_validation{
      */
     function load_ajax(){
         
+        // verify request
+        if(!acf_verify_ajax() || !acf_current_user_can_admin()){
+            wp_send_json_error();
+        }
+        
         $post_id = acf_maybe_get_POST('post_id');
         $field_group = acf_get_field_group($post_id);
         
@@ -50,7 +55,7 @@ class acfe_field_validation{
             return;
         }
         
-        if(!acf_maybe_get($field_group, 'acfe_form')){
+        if(!acfe_get($field_group, 'acfe_form')){
             return;
         }
         
@@ -420,7 +425,7 @@ class acfe_field_validation{
             return $valid;
         }
         
-        if(!acf_maybe_get($field, 'acfe_validate')){
+        if(!acfe_get($field, 'acfe_validate')){
             return $valid;
         }
         
@@ -454,7 +459,7 @@ class acfe_field_validation{
                 continue;
             }
             
-            if(!acf_maybe_get($rule, 'acfe_validate_rules_and')){
+            if(!acfe_get($rule, 'acfe_validate_rules_and')){
                 continue;
             }
             
@@ -507,7 +512,7 @@ class acfe_field_validation{
                 
                 // vars
                 $operator = $function['acfe_validate_operator'];
-                $match = acf_maybe_get($function, 'acfe_validate_match');
+                $match = acfe_get($function, 'acfe_validate_match');
                 
                 if($operator === '==' && $result == $match){
                     $rule_match = true;

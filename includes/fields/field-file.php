@@ -57,7 +57,7 @@ class acfe_field_file extends acfe_field_extend{
      */
     function prepare_size($field){
         
-        if(acf_maybe_get($field['wrapper'], 'data-setting') === 'file'){
+        if(acfe_get($field['wrapper'], 'data-setting') === 'file'){
             
             switch($field['_name']){
                 
@@ -96,7 +96,7 @@ class acfe_field_file extends acfe_field_extend{
     function prepare_library($field){
     
         // check if field group ui setting
-        if(acf_maybe_get($field['wrapper'], 'data-setting') === 'file'){
+        if(acfe_get($field['wrapper'], 'data-setting') === 'file'){
         
             // add conditional logic
             $field['conditional_logic'] = array(
@@ -194,7 +194,7 @@ class acfe_field_file extends acfe_field_extend{
     function format_front_value($formatted, $unformatted, $post_id, $field, $form){
         
         // vars
-        $value = acf_get_array($unformatted);
+        $value = acfe_as_array($unformatted);
         $array = array();
         
         // loop values

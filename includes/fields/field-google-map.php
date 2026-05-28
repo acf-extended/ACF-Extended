@@ -35,9 +35,9 @@ class acfe_field_google_map extends acfe_field_extend{
             $formatted = json_decode(wp_unslash($formatted), true);
         }
         
-        $formatted = acf_get_array($formatted);
+        $formatted = acfe_as_array($formatted);
         
-        return acf_maybe_get($formatted, 'address');
+        return acfe_get($formatted, 'address');
         
     }
     

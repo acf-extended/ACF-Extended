@@ -100,7 +100,7 @@ class acfe_form_post_type_archive{
             // get object
             $post_type_obj = get_post_type_object($this->post_type);
     
-            if(acfe_maybe_get($post_type_obj, 'has_archive') || $post_type_obj->name === 'post'){
+            if(acfe_get($post_type_obj, 'has_archive') || $post_type_obj->name === 'post'){
         
                 // add permalink under title
                 add_action('admin_footer', array($this, 'admin_footer'));
@@ -191,8 +191,8 @@ class acfe_form_post_type_archive{
         $object = get_post_type_object($post_type);
         
         // check has archive
-        $has_archive = acfe_maybe_get($object, 'has_archive') || $object->name === 'post';
-        $has_archive_page = acfe_maybe_get($object, 'acfe_admin_archive');
+        $has_archive = acfe_get($object, 'has_archive') || $object->name === 'post';
+        $has_archive_page = acfe_get($object, 'acfe_admin_archive');
         
         if(!$has_archive || !$has_archive_page){
             return;
@@ -211,7 +211,7 @@ class acfe_form_post_type_archive{
         foreach($options_pages as $page){
             
             // validate page
-            if(acfe_maybe_get($page, 'acfe_post_type_archive') === $post_type){
+            if(acfe_get($page, 'acfe_post_type_archive') === $post_type){
                 $options_page = $page;
                 break;
                 
@@ -264,7 +264,7 @@ class acfe_form_post_type_archive{
             foreach($pages as $page => $args){
                 
                 // unset options page
-                if(acf_maybe_get($args, 'acfe_post_type_archive')){
+                if(acfe_get($args, 'acfe_post_type_archive')){
                     unset($pages[ $page ]);
                 }
                 

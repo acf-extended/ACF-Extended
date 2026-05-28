@@ -165,7 +165,7 @@ class acfe_assets{
      * @return array|mixed|null
      */
     function get_data($path = null, $default = null){
-        return !$path ? $this->data : acfe_array_get($this->data, $path, $default);
+        return !$path ? $this->data : acfe_get($this->data, $path, $default);
     }
     
     
@@ -187,7 +187,7 @@ class acfe_assets{
         if(!$path){
             $this->data = array_merge($this->data, $value);
         }else{
-            acfe_array_set($this->data, $path, $value);
+            acfe_set($this->data, $path, $value);
         }
         
     }
@@ -205,7 +205,7 @@ class acfe_assets{
         if(!$path){
             $this->data = array();
         }else{
-            acfe_array_unset($this->data, $path);
+            acfe_unset($this->data, $path);
         }
         
     }

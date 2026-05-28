@@ -43,24 +43,26 @@ class acfe_field_group_hide_on_screen{
      * @return mixed
      */
     function prepare_hide_on_screen($field){
-    
+        
+        // vars
         $choices = array();
-    
+        
+        // loop choices
         foreach($field['choices'] as $key => $value){
-        
+            
+            // prepend block editor choice before content editor
             if($key === 'the_content'){
-            
                 $choices['block_editor'] = __('Block Editor');
-            
             }
-        
-        
-            $choices[$key] = $value;
+            
+            $choices[ $key ] = $value;
         
         }
-    
+        
+        // assign choices
         $field['choices'] = $choices;
-    
+        
+        // return
         return $field;
         
     }
@@ -78,16 +80,16 @@ class acfe_field_group_hide_on_screen{
      */
     function acf_add_meta_boxes($post_type, $post, $field_groups){
         
+        // vars
+        $styles = '';
         $instance = acf_get_instance('ACF_Form_Post');
         
-        $styles = '';
-        
+        // loop through field groups
         foreach($field_groups as $field_group){
-        
             $styles .= acf_get_field_group_style($field_group);
-            
         }
-    
+        
+        // assign styles to ACF_Form_Post instance
         $instance->style = $styles;
         
     }
@@ -121,13 +123,12 @@ class acfe_field_group_hide_on_screen{
         // loop through field groups
         if($field_groups){
             
+            // reset style to merge all field groups styles instead of using the first one only
             $response['style'] = '';
             
+            // merge styles instead of using only the first field group rules
             foreach($field_groups as $i => $field_group){
-    
-                // merge styles instead of using only the first field group rules
                 $response['style'] .= acf_get_field_group_style($field_group);
-                
             }
             
         }
@@ -152,42 +153,47 @@ class acfe_field_group_hide_on_screen{
         // globals
         global $typenow;
         
-        // Restrict
+        // restricted post types
         $restricted = array('acf-field-group', 'attachment');
-        
         if(in_array($typenow, $restricted)){
             return;
         }
         
-        $post_type = $typenow;
+        // vars
         $post_id = 0;
+        $post_type = $typenow;
         
-        if(isset( $_GET['post'])){
+        if(isset($_GET['post'])){
             $post_id = (int) $_GET['post'];
             
         }elseif(isset($_POST['post_ID'])){
             $post_id = (int) $_POST['post_ID'];
         }
         
+        // get field groups
         $field_groups = acf_get_field_groups(array(
             'post_id'   => $post_id,
             'post_type' => $post_type
         ));
         
+        // default var
         $hide_block_editor = false;
         
+        // loop field groups
         foreach($field_groups as $field_group){
             
-            $hide_on_screen = acf_get_array($field_group['hide_on_screen']);
+            // get hide on screen value
+            $hide_on_screen = acfe_as_array($field_group['hide_on_screen']);
             
-            if(!in_array('block_editor', $hide_on_screen))
-                continue;
-            
-            $hide_block_editor = true;
-            break;
+            // check if block editor is hidden
+            if(in_array('block_editor', $hide_on_screen, true)){
+                $hide_block_editor = true;
+                break;
+            }
             
         }
         
+        // hide block editor
         if($hide_block_editor){
             add_filter('use_block_editor_for_post_type', '__return_false');
         }

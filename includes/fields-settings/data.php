@@ -26,7 +26,7 @@ class acfe_field_data{
     function render_field_settings($field){
         
         // get field ID
-        $id = acf_maybe_get($field, 'ID');
+        $id = acfe_get($field, 'ID');
         
         // validate
         if(!$id || $id === 'acfcloneindex'){
@@ -82,8 +82,8 @@ class acfe_field_data{
         // field label
         if($field){
             
-            $label = acf_maybe_get($field, 'label');
-            $name = acf_maybe_get($field, 'name');
+            $label = acfe_get($field, 'label');
+            $name = acfe_get($field, 'name');
             
             $title = $label ? $label : $name;
             

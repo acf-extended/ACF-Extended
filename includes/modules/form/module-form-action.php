@@ -118,7 +118,7 @@ class acfe_module_form_action{
         foreach(array_keys($item) as $k){
         
             // post_type => save_post_type
-            if(acf_maybe_get($action, $k)){
+            if(acfe_get($action, $k)){
                 $item[ $k ] = $action[ $k ];
             }
         
@@ -174,7 +174,7 @@ class acfe_module_form_action{
         
         // get actions
         $actions = acf_get_form_data('acfe/form/actions');
-        $actions = acf_get_array($actions);
+        $actions = acfe_as_array($actions);
         
         // add action type (post)
         $actions[ $action['action'] ] = $data;
@@ -214,7 +214,7 @@ class acfe_module_form_action{
             }
             
             // check field is not hidden and has no value set in 'acfe/form/load_form'
-            if(acf_maybe_get($form['map'], $field_key) === false || isset($form['map'][ $field_key ]['value'])){
+            if(acfe_get($form['map'], $field_key) === false || isset($form['map'][ $field_key ]['value'])){
                 continue;
             }
         
@@ -246,7 +246,7 @@ class acfe_module_form_action{
             
             if($field && $field['type'] === 'clone' && $field['display'] === 'seamless'){
                 
-                foreach(acf_get_array($value) as $sub_field_key => $sub_field_value){
+                foreach(acfe_as_array($value) as $sub_field_key => $sub_field_value){
                     $form['map'][ $sub_field_key ]['value'] = $sub_field_value;
                 }
                 
@@ -270,14 +270,14 @@ class acfe_module_form_action{
         
         // acf fields
         $acf_fields = acf_extract_var($action['save'], 'acf_fields');
-        $acf_fields = acf_get_array($acf_fields);
+        $acf_fields = acfe_as_array($acf_fields);
         
         // see: /includes/modules/form/module-form-front.php:152
         // $acf = acf_maybe_get_POST('acf');
         
         // backup original acf
         $acf = $_POST['acf'];
-        $acf = acf_get_array($acf);
+        $acf = acfe_as_array($acf);
         
         // check if fields to save are in the $_POST['acf'] dataset
         $values = acfe_filter_acf_values_by_keys($acf, $acf_fields);
@@ -339,7 +339,7 @@ class acfe_module_form_action{
         // vars
         $prefix_ = $prefix ? "{$prefix}_" : '';
     
-        if(acf_maybe_get($layout, 'sub_fields')){
+        if(acfe_get($layout, 'sub_fields')){
             
             // loop
             foreach($layout['sub_fields'] as &$field){
@@ -354,7 +354,7 @@ class acfe_module_form_action{
                 }
     
                 // check conditional logic
-                if(acf_maybe_get($field, 'conditional_logic')){
+                if(acfe_get($field, 'conditional_logic')){
                     foreach($field['conditional_logic'] as &$group){
                         foreach($group as &$rule){
                             $rule['field'] = $this->do_prefix($rule['field'], $prefix_);
@@ -368,7 +368,7 @@ class acfe_module_form_action{
                 }
                 
                 // check sub fields
-                if(acf_maybe_get($field, 'sub_fields')){
+                if(acfe_get($field, 'sub_fields')){
                     $field = $this->prefix_fields_keys($field, $prefix);
                 }
                 

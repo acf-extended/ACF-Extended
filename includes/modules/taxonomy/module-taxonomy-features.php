@@ -57,7 +57,7 @@ class acfe_module_taxonomy_features{
         }
     
         $object = get_taxonomy($taxonomy);
-        $acfe_admin_ppp = acfe_maybe_get($object, 'acfe_admin_ppp');
+        $acfe_admin_ppp = acfe_get($object, 'acfe_admin_ppp');
     
         // setting not set
         if(!$acfe_admin_ppp){
@@ -133,10 +133,10 @@ class acfe_module_taxonomy_features{
         $taxonomy = array_shift($taxonomies);
         $object = get_taxonomy($taxonomy);
         
-        $acfe_admin_orderby = acfe_maybe_get($object, 'acfe_admin_orderby');
-        $acfe_admin_order = acfe_maybe_get($object, 'acfe_admin_order');
-        $acfe_admin_meta_key = acfe_maybe_get($object, 'acfe_admin_meta_key');
-        $acfe_admin_meta_type = acfe_maybe_get($object, 'acfe_admin_meta_type');
+        $acfe_admin_orderby = acfe_get($object, 'acfe_admin_orderby');
+        $acfe_admin_order = acfe_get($object, 'acfe_admin_order');
+        $acfe_admin_meta_key = acfe_get($object, 'acfe_admin_meta_key');
+        $acfe_admin_meta_type = acfe_get($object, 'acfe_admin_meta_type');
         
         if($acfe_admin_orderby && !acfe_maybe_get_REQUEST('orderby')){
             $args['orderby'] = $acfe_admin_orderby;
@@ -180,11 +180,11 @@ class acfe_module_taxonomy_features{
         
         $object = get_taxonomy($term->taxonomy);
         
-        $acfe_single_ppp = acfe_maybe_get($object, 'acfe_single_ppp');
-        $acfe_single_orderby = acfe_maybe_get($object, 'acfe_single_orderby');
-        $acfe_single_order = acfe_maybe_get($object, 'acfe_single_order');
-        $acfe_single_meta_key = acfe_maybe_get($object, 'acfe_single_meta_key');
-        $acfe_single_meta_type = acfe_maybe_get($object, 'acfe_single_meta_type');
+        $acfe_single_ppp = acfe_get($object, 'acfe_single_ppp');
+        $acfe_single_orderby = acfe_get($object, 'acfe_single_orderby');
+        $acfe_single_order = acfe_get($object, 'acfe_single_order');
+        $acfe_single_meta_key = acfe_get($object, 'acfe_single_meta_key');
+        $acfe_single_meta_type = acfe_get($object, 'acfe_single_meta_type');
         
         if($acfe_single_ppp){
             $query->set('posts_per_page', $acfe_single_ppp);

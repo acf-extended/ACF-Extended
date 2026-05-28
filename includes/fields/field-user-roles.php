@@ -403,8 +403,8 @@ class acfe_field_user_roles extends acfe_field{
         // allow custom
         if($field['allow_custom']){
         
-            $value = acf_maybe_get($field, 'value');
-            $value = acf_get_array($value);
+            $value = acfe_get($field, 'value');
+            $value = acfe_as_array($value);
         
             foreach($value as $v){
             
@@ -445,8 +445,8 @@ class acfe_field_user_roles extends acfe_field{
             return $valid;
         }
         
-        $value = acf_get_array($value);
-        $choices = acf_get_array($field['user_role']);
+        $value = acfe_as_array($value);
+        $choices = acfe_as_array($field['user_role']);
         
         // empty choices
         if(empty($choices)){

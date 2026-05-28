@@ -29,7 +29,7 @@ class acfe_field_textarea extends acfe_field_extend{
         add_filter('acf/prepare_field/name=new_lines', function($field){
             
             // check setting
-            if(acf_maybe_get($field['wrapper'], 'data-setting') === 'textarea'){
+            if(acfe_get($field['wrapper'], 'data-setting') === 'textarea'){
                 
                 $field['conditional_logic'] = array(
                     array(

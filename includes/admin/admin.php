@@ -168,7 +168,7 @@ class acfe_admin{
         );
         
         // check screen
-        if(acfe_maybe_get($screen, 'post_type') === 'acf-field-group' || acf_is_screen($allowed)){
+        if(acfe_get($screen, 'post_type') === 'acf-field-group' || acf_is_screen($allowed)){
 
             // add top menu icons
             add_action('admin_head', array($this, 'admin_head_navigation'));
@@ -184,7 +184,7 @@ class acfe_admin{
         // acf 6.1 removed topbar for third party submenu
         // checking $screen[post_type] to avoid adding the global navigation twice (throws: Cannot redeclare acf_print_menu_section())
         // this fix an issue when visiting custom admin url like: edit-tags.php?taxonomy=acf-field-group-category&post_type=acf-field-group
-        if(acf_is_screen($allowed) && acfe_maybe_get($screen, 'post_type') !== 'acf-field-group'){
+        if(acf_is_screen($allowed) && acfe_get($screen, 'post_type') !== 'acf-field-group'){
             add_action('in_admin_header', array($this, 'in_admin_header'));
         }
         
@@ -267,7 +267,7 @@ class acfe_admin{
      */
     function validate_field($field){
     
-        if(acf_maybe_get($field, '_appended') && acf_maybe_get($field, 'instructions')){
+        if(acfe_get($field, '_appended') && acfe_get($field, 'instructions')){
             $field['hint'] = $field['instructions'];
             $field['instructions'] = '';
         }

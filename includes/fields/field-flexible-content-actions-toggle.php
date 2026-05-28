@@ -264,7 +264,7 @@ class acfe_field_flexible_content_actions_toggle{
         
         // vars
         $layouts = array();
-        $value = acf_get_array($value);
+        $value = acfe_as_array($value);
         
         /**
          * construct layouts array with the virtual toggle field key
@@ -283,7 +283,7 @@ class acfe_field_flexible_content_actions_toggle{
                 continue;
             }
             
-            if(!acf_maybe_get($row, $layouts[ $row['acf_fc_layout'] ])){
+            if(!acfe_get($row, $layouts[ $row['acf_fc_layout'] ])){
                 continue;
             }
             
