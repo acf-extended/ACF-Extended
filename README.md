@@ -560,10 +560,10 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 **ACF Extended Pro 0.9.2.6:**
 
-* Field: AI Chat - Added new field to render an LLM chat interface (WP 7.0+)
-* Field: AI Chat - The interface can generate text and images at the moment
-* Field: AI Chat - The field uses the new WP 7.0 Connectors core API
-* Field: AI Chat - Added various settings (preferred model, system prompt, max tokens etc...)
+* Field: AI Chat - New field that render a fully customizable LLM chat interface (WP 7.0+)
+* Field: AI Chat - Compatible with Text and Images generation at the moment
+* Field: AI Chat - The field is fully integrated with the new WP 7.0 Connectors core API
+* Field: AI Chat - More than a dozen settings (Model preference, Agent instruction, Max tokens...)
 * Field Settings: AI Fill - Added "Fill with AI" setting that display a link to open a chat modal
 * Field Settings: AI Fill - Any response can be applied or appended as value to the related field
 * Field Settings: AI Fill - Compatible with Code Editor, Text, Textarea and WYSIWYG fields
