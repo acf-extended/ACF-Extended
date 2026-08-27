@@ -93,7 +93,12 @@ class acfe_module_form_shortcode{
         unset($atts['html_submit_button'], $atts['html_submit_spinner'], $atts['html_updated_message']);
         
         // disallowed shortcode settings
-        acfe_unset($atts, array('attributes.submit.button', 'attributes.submit.spinner', 'success.wrapper'));
+        acfe_unset($atts, array('attributes.submit.button', 'attributes.submit.spinner', 'success.wrapper', 'render', 'map', 'map_default'));
+
+        // escape submit value
+        if(!empty($atts['attributes']['submit']['value'])){
+            $atts['attributes']['submit']['value'] =  esc_attr($atts['attributes']['submit']['value']);
+        }
         
         // render
         ob_start();

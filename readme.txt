@@ -3,9 +3,9 @@ Contributors: hwk-fr
 Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 0.9.2.6
+Stable tag: 0.9.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -493,6 +493,22 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.2.7 =
+
+**ACF Extended Pro 0.9.2.7:**
+
+* Module: Forms - Fixed security issue with shortcode preview
+
+**ACF Extended Basic 0.9.2.7:**
+
+* Module: Forms - Fixed security issue with Email Attachment deletion feature
+* Module: Forms - Added security check when updating an admin user (Thanks to Khaled Alenazi)
+* Module: Forms - Enhanced user role detection & safeguard logic when updating a user
+* Module: Forms - Fixed security issue with shortcode attributes
+* Module: Ajax Author Box - Added capability check on post author change
+* Field: Button Group - Added Enforced Form Validation logic
+* General: Enhanced CSS integration with ACF 6.8.6+ and WP 7.0+
 
 = 0.9.2.6 =
 

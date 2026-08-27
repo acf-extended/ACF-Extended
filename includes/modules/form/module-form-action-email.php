@@ -273,9 +273,11 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                 
                     $attachment_id = false;
                     $attachment_path = false;
+                    $is_numeric = false;
                 
                     // numeric
                     if(is_numeric($file)){
+                        $is_numeric = true;
                         $attachment_id = $file;
                         $attachment_path = get_attached_file($file);
                     
@@ -302,7 +304,14 @@ class acfe_module_form_action_email extends acfe_module_form_action{
                         $attachments[] = $attachment_path;
                     
                         if($delete){
+                            
+                            // check the current user can delete the attachment
+                            if($is_numeric && !current_user_can('delete_post', $attachment_id)){
+                                continue;
+                            }
+                            
                             $delete_files[] = $attachment_id;
+                            
                         }
                     }
                 

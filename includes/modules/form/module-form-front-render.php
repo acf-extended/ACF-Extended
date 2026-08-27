@@ -228,6 +228,11 @@ class acfe_module_form_front_render{
         }
         
         $element = $form['attributes']['form']['element'];
+
+        // validate element
+        if(!in_array($element, array('form', 'div'))){
+            $element = 'form';
+        }
         
         // unset method & action for <div> element
         if($element === 'div'){
@@ -382,6 +387,11 @@ class acfe_module_form_front_render{
          * form wrapper close
          */
         $element = $form['attributes']['form']['element'];
+
+        // validate element
+        if(!in_array($element, array('form', 'div'))){
+            $element = 'form';
+        }
         
         // </form>
         echo "</{$element}>";

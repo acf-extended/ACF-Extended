@@ -556,6 +556,22 @@ Manage WordPress Options from the Settings > Options page. Options value (string
 
 ## 📋 Changelog
 
+### 0.9.2.7
+
+**ACF Extended Pro 0.9.2.7:**
+
+* Module: Forms - Fixed security issue with shortcode preview
+
+**ACF Extended Basic 0.9.2.7:**
+
+* Module: Forms - Fixed security issue with Email Attachment deletion feature
+* Module: Forms - Added security check when updating an admin user (Thanks to Khaled Alenazi)
+* Module: Forms - Enhanced user role detection & safeguard logic when updating a user
+* Module: Forms - Fixed security issue with shortcode attributes
+* Module: Ajax Author Box - Added capability check on post author change
+* Field: Button Group - Added Enforced Form Validation logic
+* General: Enhanced CSS integration with ACF 6.8.6+ and WP 7.0+
+
 ### 0.9.2.6
 
 **ACF Extended Pro 0.9.2.6:**

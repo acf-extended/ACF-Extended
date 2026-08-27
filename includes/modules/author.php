@@ -128,6 +128,14 @@ class acfe_author{
         if(!acfe_get($post_array, 'field_acfe_author')){
             return $data;
         }
+        
+        // get post type object
+        $post_type_object = get_post_type_object($data['post_type']);
+        
+        // check permission
+        if(!current_user_can($post_type_object->cap->edit_others_posts)){
+            return $data;
+        }
     
         // authors
         $post_author = (int) acfe_get($post_array, 'field_acfe_author');

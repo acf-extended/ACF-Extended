@@ -351,15 +351,21 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         // apply tags
         $action = $this->setup_action($action, $form);
         
-        // security measure
-        // check 'promote_users' capability for insert/update administrator role
+        // security measures
         if($action['type'] === 'insert_user' || $action['type'] === 'update_user'){
             
-            // get role as array
-            $role = acfe_as_array($action['save']['role']);
+            // get submitted roles
+            $save_roles = acfe_as_array($action['save']['role']);
             
-            // check capability
-            if((in_array('administrator', $role, true) || in_array('super_admin', $role, true)) && !current_user_can('promote_users')){
+            // check if submitted role exist in WP
+            foreach($save_roles as $r){
+                if(!wp_roles()->is_role($r)){
+                    return acfe_add_validation_error('', $errors['generic']);
+                }
+            }
+            
+            // check 'promote_users' capability for insert/update administrator role
+            if((in_array('administrator', $save_roles, true) || in_array('super_admin', $save_roles, true)) && !current_user_can('promote_users')){
                 
                 // filters
                 $validate = true;
@@ -373,6 +379,38 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                 }
                 
             }
+            
+            // security check when updating an administrator user
+            if($action['type'] === 'update_user'){
+                
+                // get target user ID
+                $target_user_id = (int) $action['save']['target'];
+                
+                if(!empty($target_user_id)){
+                    
+                    // get target user
+                    $target_user = get_userdata($target_user_id);
+                    
+                    // check if target user is administrator and current user cant edit user
+                    if($target_user && (in_array('administrator', $target_user->roles, true) || in_array('super_admin', $target_user->roles, true)) && !current_user_can('edit_user', $target_user_id)){
+                        
+                        // filters
+                        $validate = true;
+                        $validate = apply_filters("acfe/form/validate_user_admin_role",                          $validate, $form, $action);
+                        $validate = apply_filters("acfe/form/validate_user_admin_role/form={$form['name']}",     $validate, $form, $action);
+                        $validate = apply_filters("acfe/form/validate_user_admin_role/action={$action['name']}", $validate, $form, $action);
+                        
+                        // should validate
+                        if($validate){
+                            return acfe_add_validation_error('', $errors['generic']);
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
             
         }
         
