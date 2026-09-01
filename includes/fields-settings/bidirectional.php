@@ -671,9 +671,14 @@ class acfe_bidirectional{
             
             // add Value
             if($type === 'add'){
+                $unshift = apply_filters( 'acfe/bidirectional/prepend', false );
                 
                 if(!in_array($p_value, $r_values)){
-                    $r_values[] = $p_value;
+                    if($unshift){
+                        array_unshift($r_values, $p_value);
+                    }else{
+                        $r_values[] = $p_value;
+                    }    
                 }
                 
             }
