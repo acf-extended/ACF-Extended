@@ -446,6 +446,49 @@ class acfe_module_form_action_post extends acfe_module_form_action{
     
     
     /**
+     * validate_action
+     *
+     * acfe/form/validate_post:9
+     *
+     * @param $form
+     * @param $action
+     */
+    function validate_action($form, $action){
+        
+        // apply tags
+        $action = $this->setup_action($action, $form);
+        
+        // vars
+        $post_id = (int) acf_extract_var($action['save'], 'target');
+        $post_type = acf_extract_var($action['save'], 'post_type');
+        $is_reserved = false;
+        
+        // check if updating reserved post type
+        if($post_type && acfe_is_post_type_reserved($post_type)){
+            $is_reserved = true;
+        }
+        
+        // get target post id
+        if(!empty($post_id)){
+            
+            // get target post type
+            $post_type = get_post_type($post_id);
+            
+            // check if updating reserved post type
+            if($post_type && acfe_is_post_type_reserved($post_type)){
+                $is_reserved = true;
+            }
+        }
+        
+        // check permission
+        if($is_reserved && !current_user_can(acf_get_setting('capability'))){
+            return acfe_add_validation_error('', __('An error has occured. Please try again', 'acfe'));
+        }
+    
+    }
+    
+    
+    /**
      * process
      *
      * @param $form
@@ -479,17 +522,9 @@ class acfe_module_form_action_post extends acfe_module_form_action{
             return false;
         }
         
-        // context
         // generated_id
-        acfe_add_context(array('context' => 'save', 'generated_id' => $post_id));
-        
-        acfe_apply_tags($action['save']['post_title']);
-        acfe_apply_tags($action['save']['post_name']);
-        
-        $save['post_title'] = $action['save']['post_title'];
-        $save['post_name'] = $action['save']['post_name'];
-        
-        acfe_delete_context(array('context', 'generated_id'));
+        $save['post_title'] = str_replace('{generated_id}', $post_id, $action['save']['post_title']);
+        $save['post_name'] = str_replace('{generated_id}', $post_id, $action['save']['post_name']);
     
         // default post arguments
         $args = array(
@@ -750,10 +785,9 @@ class acfe_module_form_action_post extends acfe_module_form_action{
     /**
      * prepare_save_action
      *
-     * acfe/module/prepare_save_action
+     * acfe/module/prepare_save_item > prepare_save_action
      *
      * @param $action
-     * @param $item
      *
      * @return mixed
      */

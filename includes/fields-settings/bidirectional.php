@@ -26,7 +26,6 @@ class acfe_bidirectional{
         }
     
         add_action('wp_ajax_acfe/fields_settings/bidirectional/query',        array($this, 'ajax_query'));
-        add_action('wp_ajax_nopriv_acfe/fields_settings/bidirectional/query', array($this, 'ajax_query'));
         
         add_filter('acf/prepare_field/name=acfe_bidirectional_related',       array($this, 'field_settings_default_value'));
         
@@ -118,7 +117,7 @@ class acfe_bidirectional{
     function ajax_query(){
     
         // validate
-        if(!acf_verify_ajax()){
+        if(!acfe_verify_ajax() || !acf_current_user_can_admin()){
             die();
         }
     

@@ -44,7 +44,7 @@ class acfe_field_validation{
     function load_ajax(){
         
         // verify request
-        if(!acf_verify_ajax() || !acf_current_user_can_admin()){
+        if(!acfe_verify_ajax() || !acf_current_user_can_admin()){
             wp_send_json_error();
         }
         
@@ -91,20 +91,23 @@ class acfe_field_validation{
     
     
     /**
-     * render_field_settings
+     * get_choices
      *
      * @param $field
+     * @param $grouped
+     *
+     * @return array
      */
-    function render_field_settings($field){
-    
-        $functions = array(
+    function get_choices($field, $grouped = true){
         
+        $choices = array(
+            
             'General' => array(
                 'value'                 => 'If value',
                 'strlen'                => 'If value length - strlen(value)',
                 'count'                 => 'If count value - count(value)',
             ),
-        
+            
             'Exists' => array(
                 'email_exists'          => 'If email exists - email_exists(value)',
                 'post_type_exists'      => 'If post type exists - post_type_exists(value)',
@@ -112,7 +115,7 @@ class acfe_field_validation{
                 'term_exists'           => 'If term exists - term_exists(value)',
                 'username_exists'       => 'If username exists - username_exists(value)',
             ),
-        
+            
             'Is' => array(
                 'is_email'              => 'If is email - is_email(value)',
                 'is_user_logged_in'     => 'If is user logged in - is_user_logged_in()',
@@ -120,14 +123,14 @@ class acfe_field_validation{
                 'is_string'             => 'If is string - is_string(value)',
                 'is_numeric'            => 'If is numeric - is_numeric(value)',
             ),
-        
+            
             'Post' => array(
                 'get_post_type'         => 'If get post type - get_post_type(value)',
                 'get_post_by_id'        => 'If post id exists - get_post_by_id(value)',
                 'get_post_by_slug'      => 'If post slug exists - get_post_by_slug(value)',
                 'get_post_by_title'     => 'If post title exists - get_post_by_title(value)',
             ),
-        
+            
             'Sanitize' => array(
                 'sanitize_email'        => 'If sanitize email - sanitize_email(value)',
                 'sanitize_file_name'    => 'If sanitize file name - sanitize_file_name(value)',
@@ -140,18 +143,44 @@ class acfe_field_validation{
                 'sanitize_title'        => 'If sanitize title - sanitize_title(value)',
                 'sanitize_user'         => 'If sanitize user - sanitize_user(value)',
             ),
-        
+            
             'User' => array(
                 'get_user_by_id'        => 'If get user by id - get_user_by(\'id\', value)',
                 'get_user_by_slug'      => 'If get user by slug - get_user_by(\'slug\', value)',
                 'get_user_by_email'     => 'If get user by email - get_user_by(\'email\', value)',
                 'get_user_by_login'     => 'If get user by login - get_user_by(\'login\', value)',
             )
-    
+        
         );
         
-        $choices = apply_filters('acfe/validate/functions', $functions, $field);
+        // filters
+        $choices = apply_filters("acfe/validate/allowed_functions",                       $choices, $field);
+        $choices = apply_filters("acfe/validate/allowed_functions/type={$field['type']}", $choices, $field);
+        $choices = apply_filters("acfe/validate/allowed_functions/name={$field['name']}", $choices, $field);
+        $choices = apply_filters("acfe/validate/allowed_functions/key={$field['key']}",   $choices, $field);
         
+        // remove groups
+        if(!$grouped){
+            $choices = acfe_array_flatten($choices, true);
+        }
+        
+        // return
+        return acfe_as_array($choices);
+        
+    }
+    
+    
+    /**
+     * render_field_settings
+     *
+     * @param $field
+     */
+    function render_field_settings($field){
+        
+        // get choices
+        $choices = $this->get_choices($field);
+        
+        // validate
         if(empty($choices)){
             return;
         }
@@ -429,6 +458,7 @@ class acfe_field_validation{
             return $valid;
         }
         
+        // loop on rules
         foreach($field['acfe_validate'] as $k => $rule){
             
             // fix possible acf clone index
@@ -475,10 +505,10 @@ class acfe_field_validation{
                 
                 // check filters
                 $filters = array(
-                    'acfe/validate/function/' . $function['acfe_validate_function'] . '/key=' . $field['key'],
-                    'acfe/validate/function/' . $function['acfe_validate_function'] . '/name=' . $field['name'],
-                    'acfe/validate/function/' . $function['acfe_validate_function'] . '/type=' . $field['type'],
-                    'acfe/validate/function/' . $function['acfe_validate_function'],
+                    "acfe/validate/function/{$function['acfe_validate_function']}/key={$field['key']}",
+                    "acfe/validate/function/{$function['acfe_validate_function']}/name={$field['name']}",
+                    "acfe/validate/function/{$function['acfe_validate_function']}/type={$field['type']}",
+                    "acfe/validate/function/{$function['acfe_validate_function']}",
                 );
                 
                 $filter_call = false;
@@ -490,24 +520,35 @@ class acfe_field_validation{
                     
                 }
                 
-                // filter
+                // filter call
                 if($filter_call){
                     $result = apply_filters($filter_call, false, $value, $field);
-                }
-                
-                // class
-                elseif(is_callable(array($this, $function['acfe_validate_function']))){
-                    $result = call_user_func(array($this, $function['acfe_validate_function']), $value);
-                }
-                
-                // function
-                elseif(is_callable($function['acfe_validate_function'])){
-                    $result = call_user_func($function['acfe_validate_function'], $value);
-                }
-                
-                // nothing
-                else{
-                    continue;
+                    
+                // function call
+                }else{
+                    
+                    // get choices
+                    $choices = $this->get_choices($field, false);
+                    $fnc_str = (string) $function['acfe_validate_function'];
+                    
+                    // not allowed
+                    if(!isset($choices[ $fnc_str ])){
+                        continue;
+                    }
+                    
+                    // this class helpers
+                    if(is_callable(array($this, $function['acfe_validate_function']))){
+                        $result = call_user_func(array($this, $function['acfe_validate_function']), $value);
+                        
+                    // user function
+                    }elseif(is_callable($function['acfe_validate_function'])){
+                        $result = call_user_func($function['acfe_validate_function'], $value);
+                        
+                    // nonce
+                    }else{
+                        continue;
+                    }
+                    
                 }
                 
                 // vars

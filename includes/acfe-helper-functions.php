@@ -5,6 +5,64 @@ if(!defined('ABSPATH')){
 }
 
 /**
+ * acfe_verify_ajax
+ *
+ * Backport for ACF < 6.3.2
+ * This is a copy of acf_verify_ajax() from ACF 6.8.10
+ *
+ * Returns true if the current AJAX request is valid.
+ * It's action will also allow WPML to set the lang and avoid AJAX get_posts issues
+ *
+ * @since   5.2.3
+ *
+ * @param string  $nonce               The nonce to check.
+ * @param string  $action              The action of the nonce.
+ * @param boolean $action_is_field     If the action is a field, modify the action to match validate the field type.
+ * @param string  $expected_field_type Optional field type the resolved field must be when $action_is_field is true. Prevents a nonce minted for one field type from being accepted by an AJAX handler that expects a different one. Defaults to empty (no type validation).
+ * @return boolean
+ */
+function acfe_verify_ajax($nonce = '', $action = '', $action_is_field = false, $expected_field_type = ''){
+    
+    // Bail early if we don't have a nonce to check.
+    if ( empty( $nonce ) && empty( $_REQUEST['nonce'] ) ) {
+        return false;
+    }
+    
+    // Build the action if we're trying to validate a specific field nonce.
+    if ( $action_is_field ) {
+        if ( ! acf_is_field_key( $action ) ) {
+            return false;
+        }
+        
+        $field = acf_get_field( $action );
+        
+        if ( empty( $field['type'] ) ) {
+            return false;
+        }
+        
+        if ( ! empty( $expected_field_type ) && $field['type'] !== $expected_field_type ) {
+            return false;
+        }
+        
+        $action = 'acf_field_' . $field['type'] . '_' . $action;
+    }
+    
+    $nonce_to_check = ! empty( $nonce ) ? $nonce : $_REQUEST['nonce']; // phpcs:ignore WordPress.Security -- We're verifying a nonce here.
+    $nonce_action   = ! empty( $action ) ? $action : 'acf_nonce';
+    
+    // Bail if nonce can't be verified.
+    if ( ! wp_verify_nonce( sanitize_text_field( $nonce_to_check ), $nonce_action ) ) {
+        return false;
+    }
+    
+    // Action for 3rd party customization (WPML).
+    do_action( 'acf/verify_ajax' );
+    
+    return true;
+}
+
+
+/**
  * acfe_maybe_get_REQUEST
  *
  * Similar to acf_maybe_get_POST() but works with $_REQUEST

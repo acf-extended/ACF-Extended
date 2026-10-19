@@ -132,27 +132,6 @@ class acfe_module_form_action_term extends acfe_module_form_action{
     
     
     /**
-     * validate_action
-     *
-     * acfe/form/validate_term:9
-     *
-     * @param $form
-     * @param $action
-     */
-    function validate_action($form, $action){
-        
-//        if(empty($action['save']['name'])){
-//            acfe_add_validation_error('', __('Term name is empty', 'acfe'));
-//        }
-//
-//        if(empty($action['save']['taxonomy'])){
-//            acfe_add_validation_error('', __('Term taxonomy is empty', 'acfe'));
-//        }
-        
-    }
-    
-    
-    /**
      * prepare_action
      *
      * acfe/form/prepare_term:9
@@ -243,6 +222,55 @@ class acfe_module_form_action_term extends acfe_module_form_action{
     
     
     /**
+     * validate_action
+     *
+     * acfe/form/validate_term:9
+     *
+     * @param $form
+     * @param $action
+     */
+    function validate_action($form, $action){
+        
+        // apply tags
+        $action = $this->setup_action($action, $form);
+        
+        // vars
+        $term_id = (int) acf_extract_var($action['save'], 'target');
+        $taxonomy = acf_extract_var($action['save'], 'taxonomy');
+        $is_reserved = false;
+        
+        // check if updating reserved taxonomy
+        if($taxonomy && acfe_is_taxonomy_reserved($taxonomy)){
+            $is_reserved = true;
+        }
+        
+        // get target term id
+        if(!empty($term_id)){
+            
+            // get target term
+            $term = get_term($term_id);
+            
+            // get target taxonomy
+            if($term && !is_wp_error($term)){
+                
+                // check if updating reserved taxonomy
+                if($term->taxonomy && acfe_is_taxonomy_reserved($term->taxonomy)){
+                    $is_reserved = true;
+                }
+                
+            }
+            
+        }
+        
+        // check permission
+        if($is_reserved && !current_user_can(acf_get_setting('capability'))){
+            return acfe_add_validation_error('', __('An error has occured. Please try again', 'acfe'));
+        }
+        
+    }
+    
+    
+    /**
      * process
      *
      * @param $form
@@ -282,15 +310,8 @@ class acfe_module_form_action_term extends acfe_module_form_action{
         }
         
         // generated id
-        acfe_add_context(array('context' => 'save', 'generated_id' => $term_id));
-        
-        acfe_apply_tags($action['save']['name']);
-        acfe_apply_tags($action['save']['slug']);
-        
-        $save['name'] = $action['save']['name'];
-        $save['slug'] = $action['save']['slug'];
-        
-        acfe_delete_context('context', 'generated_id');
+        $save['name'] = str_replace('{generated_id}', $term_id, $action['save']['name']);
+        $save['slug'] = str_replace('{generated_id}', $term_id, $action['save']['slug']);
         
         // get term
         $term = get_term($term_id);
@@ -448,10 +469,9 @@ class acfe_module_form_action_term extends acfe_module_form_action{
     /**
      * prepare_save_action
      *
-     * acfe/module/prepare_save_action
+     * acfe/module/prepare_save_item > prepare_save_action
      *
      * @param $action
-     * @param $item
      *
      * @return mixed
      */

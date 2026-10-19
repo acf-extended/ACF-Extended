@@ -2837,6 +2837,7 @@
             var data = {
                 action: 'acfe/fields/button',
                 field_key: this.get('key'),
+                nonce: this.get('nonce'),
                 acf: acf.serialize(this.$el.closest('form'), 'acf')
             };
 
@@ -4960,6 +4961,7 @@
             var ajaxData = {
                 action: 'acfe/flexible/layout_preview',
                 field_key: key,
+                nonce: this.get('nonce'),
                 i: index,
                 layout: layout,
                 value: acf.serialize($layout, prefix)
@@ -5624,6 +5626,7 @@
 
         filters: {
             'select2_args': 'args',
+            'select2_ajax_data': 'ajaxData',
         },
 
         newSelect: function(field) {
@@ -5805,6 +5808,28 @@
             return options;
 
         },
+
+
+        ajaxData: function(data, args, $input, field, select2) {
+
+            // ACF < 6.3.2
+            if (acfe.isACF('6.3.2')) {
+                return data;
+            }
+
+            if (!field) {
+                return data;
+            }
+
+            // get the nonce added in the field wrapper 'data-nonce' attribute
+            // add it to data.nonce so acf_verify_ajax() can verify it using acf_request_arg('nonce')
+            if (field.get('nonce') && !acfe.has(data, 'nonce')) {
+                data.nonce = field.get('nonce');
+            }
+
+            return data;
+
+        }
 
     });
 

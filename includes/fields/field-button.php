@@ -21,7 +21,7 @@ class acfe_field_button extends acf_field{
             'button_type'   => 'button',
             'button_before' => '',
             'button_after'  => '',
-            'button_class'  => 'button button-secondary',
+            'button_class'  => 'acf-button button button-secondary',
             'button_id'     => '',
             'button_ajax'   => 0,
         );
@@ -37,9 +37,13 @@ class acfe_field_button extends acf_field{
      */
     function ajax_request(){
         
+        // vars
+        $nonce = acf_request_arg('nonce', '');
+        $key   = acf_request_arg('field_key', '');
+        
         // bail early
-        if(!acf_verify_ajax()){
-            die;
+        if(!acfe_verify_ajax($nonce, $key, true, 'acfe_button')){
+            die();
         }
         
         // vars
@@ -52,21 +56,21 @@ class acfe_field_button extends acf_field{
         
         // field not found
         if(!$field){
-            die;
+            die();
         }
         
         // setup meta
         acfe_setup_meta($acf, 'acfe/button', true);
             
             // actions
-            do_action("acfe/fields/button",                         $field, $post_id);
-            do_action("acfe/fields/button/name={$field['name']}",   $field, $post_id);
-            do_action("acfe/fields/button/key={$field_key}",        $field, $post_id);
+            do_action("acfe/fields/button",                       $field, $post_id);
+            do_action("acfe/fields/button/name={$field['name']}", $field, $post_id);
+            do_action("acfe/fields/button/key={$field_key}",      $field, $post_id);
         
         // reset
         acfe_reset_meta();
         
-        die;
+        die();
         
     }
     
@@ -155,46 +159,38 @@ class acfe_field_button extends acf_field{
      */
     function render_field($field){
         
-        // Before
+        // before html
         if($field['button_before']){
-            echo $field['button_before'];
+            echo acf_esc_html($field['button_before']);
         }
         
-        $ajax = false;
+        // attributes
+        $attrs = array(
+            'type'  => 'submit',
+            'id'    => $field['button_id'],
+            'class' => $field['button_class'],
+            'name'  => $field['name'],
+            'value' => $field['button_value'],
+        );
         
+        // ajax
         if($field['button_ajax']){
-            $ajax = 'data-ajax="1"';
+            $attrs['data-ajax'] = true;
+            $attrs['data-nonce'] = wp_create_nonce('acf_field_' . $field['type'] . '_' . $field['key']);
         }
         
-        // Button
+        // button
         if($field['button_type'] === 'button'){
-            
-            echo '<button
-                type="submit"
-                id="' . esc_attr($field['button_id']) . '" 
-                class="' . esc_attr($field['button_class']) . '" 
-                name="' . esc_attr($field['name']) . '"
-                value="' . esc_attr($field['button_value']) . '"
-                ' . $ajax . '
-                >' . esc_attr($field['button_value']) . '</button>';
+            echo '<button ' . acf_esc_atts($attrs) . '>' . esc_attr($field['button_value']) . '</button>';
         
-        // Submit
+        // input submit
         }elseif($field['button_type'] === 'submit'){
-            
-            echo '<input 
-                type="submit"
-                id="' . esc_attr($field['button_id']) . '" 
-                class="' . esc_attr($field['button_class']) . '"
-                name="' . esc_attr($field['name']) . '"
-                value="' . esc_attr($field['button_value']) . '"
-                ' . $ajax . '
-                />';
-            
+            echo '<input ' . acf_esc_atts($attrs) . ' />';
         }
         
-        // After
+        // after html
         if($field['button_after']){
-            echo $field['button_after'];
+            echo acf_esc_html($field['button_after']);
         }
         
     }

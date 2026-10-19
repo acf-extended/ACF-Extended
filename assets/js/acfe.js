@@ -1692,7 +1692,6 @@
 
 
     /**
-     *
      * acf.set
      *
      * Extends acf.set to allow dot notation & default value
@@ -1704,6 +1703,39 @@
     acf.set = function(name, value) {
         acfe.arraySet(this.data, name, value);
         return this;
+    };
+
+
+    /**
+     * acf.prepareForAjax
+     *
+     * Backport of acf.prepareForAjax for ACF < 6.0
+     *
+     * Prepares AJAX data prior to being sent.
+     *
+     * @since ACF 5.6.5
+     *
+     * @param Object  data             The data to prepare
+     * @param boolean use_global_nonce Should we ignore any nonce provided in the data object and force ACF's global nonce for this request
+     *
+     * @return Object The prepared data.
+     */
+    acf.prepareForAjax = function(data, use_global_nonce = false) {
+
+        // Set a default nonce if we don't have one already.
+        if (use_global_nonce || typeof data.nonce === 'undefined' || !data.nonce) {
+            data.nonce = acf.get('nonce');
+        }
+
+        data.post_id = acf.get('post_id');
+
+        if (acf.has('language')) {
+            data.lang = acf.get('language');
+        }
+
+        // Filter for 3rd party customization.
+        data = acf.applyFilters('prepare_for_ajax', data);
+        return data;
     };
 
 })(jQuery);

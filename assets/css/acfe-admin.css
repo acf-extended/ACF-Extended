@@ -1123,8 +1123,9 @@ html[dir=rtl] .acfe-postbox-left>.inside>.acf-field>.acf-input {
 }
 
 body.acfe-wp-6-5 .postbox .handle-actions .acf-hndle-cog {
-    line-height: 28px;
-    height: 26px
+    line-height: 9px;
+    height: 16px;
+    vertical-align: baseline
 }
 
 .postbox .handlediv {
@@ -1148,6 +1149,18 @@ body.acfe-wp-6-5 .postbox .handle-actions .acf-hndle-cog {
 .postbox .handle-order-lower .order-lower-indicator::before {
     font-size: 15px;
     top: .23rem
+}
+
+.postbox .wp-tooltip .handle-order-higher,
+.postbox .wp-tooltip .handle-order-lower {
+    height: 18px
+}
+
+.postbox .wp-tooltip .handle-order-higher .order-higher-indicator::before,
+.postbox .wp-tooltip .handle-order-higher .order-lower-indicator::before,
+.postbox .wp-tooltip .handle-order-lower .order-higher-indicator::before,
+.postbox .wp-tooltip .handle-order-lower .order-lower-indicator::before {
+    top: 0
 }
 
 #poststuff .stuffbox>h3,

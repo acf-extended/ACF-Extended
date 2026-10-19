@@ -93,6 +93,7 @@ function acfe_get_post_type_objects($args = array()){
  * acfe_get_pretty_post_statuses
  *
  * Similar to acf_get_pretty_post_types() but for Post Statuses
+ * Backward compatibility for acf_get_pretty_post_statuses() (introduced in ACF 6.1)
  *
  * @param array $posts_statuses
  *
@@ -106,18 +107,17 @@ function acfe_get_pretty_post_statuses($posts_statuses = array()){
     
     // get post statuses
     if(empty($posts_statuses)){
-        $posts_statuses = get_post_stati();
+        $posts_statuses = acfe_get_post_stati();
     }
     
     // loop
     foreach($posts_statuses as $post_status){
         
         // vars
-        $object = get_post_status_object($post_status);
-        $label = $object->label;
+        $label = acfe_get_post_status_label($post_status);
         
         // append to return
-        $return[ $object->name ] = $label;
+        $return[ $label ] = $label;
     
         // increase counter
         if(!isset($ref[ $label ])){
@@ -143,5 +143,48 @@ function acfe_get_pretty_post_statuses($posts_statuses = array()){
     
     // return
     return $return;
+    
+}
+
+
+/**
+ * acfe_get_post_stati
+ *
+ * Backward compatibility for acf_get_post_stati() (introduced in ACF 6.1)
+ *
+ * @param $args
+ *
+ * @return array
+ */
+function acfe_get_post_stati($args = array()){
+    
+    $args['internal'] = false;
+    
+    $post_statuses = get_post_stati($args);
+    
+    unset($post_statuses['acf-disabled']);
+    
+    $post_statuses = (array) apply_filters('acf/get_post_stati', $post_statuses, $args);
+    
+    return $post_statuses;
+}
+
+
+/**
+ * acfe_get_post_status_label
+ *
+ * Backward compatibility for acf_get_post_status_label() (introduced in ACF 6.1)
+ *
+ * @param $post_status
+ *
+ * @return string
+ */
+function acfe_get_post_status_label($post_status){
+    
+    $label = $post_status;
+    $obj   = get_post_status_object($post_status);
+    $label = is_object($obj) ? $obj->label : '';
+    
+    return $label;
     
 }

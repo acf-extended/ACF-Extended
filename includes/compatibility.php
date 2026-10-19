@@ -32,6 +32,7 @@ class acfe_compatibility{
         add_filter('acf/validate_field/type=file',                  array($this, 'field_image'), 20);
         add_filter('acf/validate_field/type=acfe_forms',            array($this, 'field_forms'), 20);
         add_filter('acf/validate_field/type=acfe_code_editor',      array($this, 'field_code_editor'), 20);
+        add_filter('acfe/field_wrapper_attributes/type=select',     array($this, 'field_select'), 20, 2);
         add_filter('acfe/load_fields/type=flexible_content',        array($this, 'field_flexible_settings_title'), 20, 2);
         add_filter('acf/prepare_field/name=acfe_flexible_category', array($this, 'field_flexible_layout_categories'), 10, 2);
         
@@ -560,6 +561,40 @@ class acfe_compatibility{
         }
         
         return $field;
+        
+    }
+    
+    
+    /**
+     * field_select
+     *
+     * acfe/field_wrapper_attributes/type=select:20
+     *
+     * Add 'data-nonce' using $field['nonce'] for backward ajax verify compatibility with ACF < 6.3.2
+     * We pass via acfe/field_wrapper_attributes filter so this is applied to all fields which render the select field (Taxonomy Terms etc...)
+     *
+     * @since 0.9.2.8
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    function field_select($wrapper, $field){
+        
+        // ACF < 6.3.2
+        if(acfe_is_acf('6.3.2')){
+            return $wrapper;
+        }
+        
+        if(!empty($field['nonce'])){
+            $wrapper['data-nonce'] = $field['nonce'];
+        }
+        
+        if(!empty($field['ajax']) && empty($field['nonce']) && acf_is_field_key($field['key'])){
+            $wrapper['data-nonce'] = wp_create_nonce('acf_field_' . $field['type'] . '_' . $field['key']);
+        }
+        
+        return $wrapper;
         
     }
     

@@ -5,7 +5,7 @@ Tags: acf, custom fields, meta, admin, fields
 Requires at least: 4.9
 Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 0.9.2.7
+Stable tag: 0.9.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -493,6 +493,39 @@ The content of the upcoming patch and work in progress features are all listed o
 8. Enhanced WordPress UI
 
 == Changelog ==
+
+= 0.9.2.8 =
+
+**ACF Extended Pro 0.9.2.8:**
+
+* Module: Scripts - Added "Rate Limit" parameter (`rate_limit` in seconds)
+* Field: Image Selector - Fixed display with ACF 6.8.6+
+* Field: Phone Number - Fixed input display with Enhanced WP7 UI
+* Field: Flexible Content - Layout Locations - Enhanced WP 7.0+ CSS integration
+* Field: Relationship / Post Object: Enhanced WP 7.0+ CSS integration
+* Module: Enhanced Post UI - Enhanced "Save Draft" button integration on private posts
+
+**ACF Extended Basic 0.9.2.8:**
+
+* Module: Form - `[acfe_form]` shortcode arguments are now restricted by an allow list
+* Module: Form - Default allowed shortcode args: `ID`, `name`, `attributes_submit_value`, `success_mesage`
+* Module: Form - Added shortcode filter `acfe/form/shortcode/allowed_args`
+* Module: Form - Template Tags usage is now disallowed in shortcode arguments (Karthik Ramakrishnan)
+* Module: Form - Fixed Template Tags security issue with `raw` context bypassing escape logic
+* Module: Form - Fixed Template Tags being applied twice on Post / Term Action
+* Module: Form - Enforced capability check for internal post types/taxonomies (Jakub Herman)
+* Module: Form - User Action - Added capability check when updating non-admin users (Karthik Ramakrishnan)
+* Module: Form - User Action - Added filter `acfe/form/validate_user_other_role`
+* Module: Form - Email action - "Delete attachment" capability check now applies to all attachments
+* Module: Form - "Apply Shortcode" setting is now also disabled by default for old forms (Karthik Ramakrishnan)
+* Module: Enhanced WP7 UI - Enhanced post publish metabox buttons integration
+* Field: Advanced Link - Added "Post Status" field setting
+* Field: Flexible Content - Dynamic Preview - Added ACF 6.8.5+ nonce check
+* Field Settings: Validation - Functions are not passed through allowed list (Jakub Herman)
+* Field Settings: Validation - Added allowed functions filter `acfe/validate/allowed_functions`
+* Fields: Fixed "Advanced" Field Types not being listed in "Add Field" dropdown on non-english setup
+* General: Added ACF 6.8.5+ nonce check backward compatibility for all previous version of ACF
+* General: Fixed WP 7.1+ Metaboxes integration for WP order buttons and ACF cog button
 
 = 0.9.2.7 =
 

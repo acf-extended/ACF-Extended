@@ -196,7 +196,7 @@ class acfe_module_form_field_groups{
     function ajax_field_groups_metabox(){
         
         // validate
-        if(!acf_verify_ajax()){
+        if(!acfe_verify_ajax() || !acf_current_user_can_admin()){
             die();
         }
         
@@ -241,7 +241,7 @@ class acfe_module_form_field_groups{
     function ajax_checkbox_choices(){
     
         // validate
-        if(!acf_verify_ajax()){
+        if(!acfe_verify_ajax() || !acf_current_user_can_admin()){
             die();
         }
     
@@ -336,8 +336,8 @@ class acfe_module_form_field_groups{
             return $field;
         }
         
-        // fix nonce with acf 6.3.10
-        $field['nonce'] = wp_create_nonce($field['key']);
+        // add nonce
+        $field['nonce'] = wp_create_nonce('acf_nonce');
         
         // append to choices
         foreach(acf_get_field_groups() as $field_group){
@@ -391,17 +391,11 @@ class acfe_module_form_field_groups{
      */
     function ajax_field_groups_choices(){
         
+        // vars
         $nonce = acf_request_arg('nonce', '');
-        $key   = acf_request_arg('field_key', '');
-        
-        // Back-compat for field settings.
-        if(!acf_is_field_key($key)){
-            $nonce = '';
-            $key   = '';
-        }
     
         // validate
-        if(!acf_verify_ajax($nonce, $key)){
+        if(!acfe_verify_ajax($nonce) || !acf_current_user_can_admin()){
             die();
         }
     
@@ -583,8 +577,8 @@ class acfe_module_form_field_groups{
         // is load
         $is_load = isset($field['wrapper']['data-related-field']) && !empty($field['wrapper']['data-related-field']);
         
-        // fix nonce with acf 6.3.10
-        $field['nonce'] = wp_create_nonce($field['key']);
+        // add nonce
+        $field['nonce'] = wp_create_nonce('acf_nonce');
         
         // global
         global $item;
@@ -696,17 +690,11 @@ class acfe_module_form_field_groups{
      */
     function ajax_select_choices(){
         
+        // vars
         $nonce = acf_request_arg('nonce', '');
-        $key   = acf_request_arg('field_key', '');
-        
-        // Back-compat for field settings.
-        if(!acf_is_field_key($key)){
-            $nonce = '';
-            $key   = '';
-        }
         
         // validate
-        if(!acf_verify_ajax($nonce, $key)){
+        if(!acfe_verify_ajax($nonce) || !acf_current_user_can_admin()){
             die();
         }
     
@@ -1234,7 +1222,7 @@ class acfe_module_form_field_groups{
                     'return_format' => 'value',
                     'allow_custom' => 1,
                     'placeholder' => '',
-                    'ajax_action' => 'acfe/form/map_field_groups_ajax'
+                    'ajax_action' => 'acfe/form/map_field_groups_ajax',
                 ),
                 array(
                     'key' => 'field_actions',

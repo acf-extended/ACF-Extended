@@ -162,7 +162,7 @@ class acfe_field_flexible_content_async{
         ));
         
         // verify nonce
-        if(!acf_verify_ajax($options['nonce'], $options['field_key'], true)){
+        if(!acfe_verify_ajax($options['nonce'], $options['field_key'], true, 'flexible_content')){
             die();
         }
         

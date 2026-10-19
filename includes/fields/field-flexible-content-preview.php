@@ -345,6 +345,7 @@ class acfe_field_flexible_content_preview{
                 'post_id'   => acf_get_valid_post_id(),
                 'i'         => $i,
                 'field_key' => $key,
+                'nonce'     => wp_create_nonce("acf_field_flexible_content_{$key}"),
                 'layout'    => $l_name,
                 'value'     => $value,
             ));
@@ -393,6 +394,11 @@ class acfe_field_flexible_content_preview{
                 'value'     => array()
             ));
             
+        }
+
+        // verify nonce
+        if(!acfe_verify_ajax($options['nonce'], $options['field_key'], true, 'flexible_content')){
+            die();
         }
         
         // Load field

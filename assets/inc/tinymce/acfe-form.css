@@ -1,0 +1,6 @@
+.wpview-wrap[data-wpview-type=acfe_form]>div {
+    border: 1px solid #ddd;
+    padding: 100px 25px;
+    background: #f8f8f8;
+    text-align: center
+}

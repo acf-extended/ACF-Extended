@@ -351,7 +351,7 @@ class acfe_module_form_action_user extends acfe_module_form_action{
         // apply tags
         $action = $this->setup_action($action, $form);
         
-        // security measures
+        // security for insert user and update user
         if($action['type'] === 'insert_user' || $action['type'] === 'update_user'){
             
             // get submitted roles
@@ -364,47 +364,59 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                 }
             }
             
-            // check 'promote_users' capability for insert/update administrator role
-            if((in_array('administrator', $save_roles, true) || in_array('super_admin', $save_roles, true)) && !current_user_can('promote_users')){
-                
-                // filters
-                $validate = true;
-                $validate = apply_filters("acfe/form/validate_user_admin_role",                          $validate, $form, $action);
-                $validate = apply_filters("acfe/form/validate_user_admin_role/form={$form['name']}",     $validate, $form, $action);
-                $validate = apply_filters("acfe/form/validate_user_admin_role/action={$action['name']}", $validate, $form, $action);
-                
-                // should validate
-                if($validate){
+            // filters
+            $validate_admin_role = true;
+            $validate_admin_role = apply_filters("acfe/form/validate_user_admin_role",                          $validate_admin_role, $form, $action);
+            $validate_admin_role = apply_filters("acfe/form/validate_user_admin_role/form={$form['name']}",     $validate_admin_role, $form, $action);
+            $validate_admin_role = apply_filters("acfe/form/validate_user_admin_role/action={$action['name']}", $validate_admin_role, $form, $action);
+            
+            // validate admin role
+            if($validate_admin_role){
+            
+                // check 'promote_users' capability for insert/update administrator role
+                if((in_array('administrator', $save_roles, true) || in_array('super_admin', $save_roles, true)) && !current_user_can('promote_users')){
                     return acfe_add_validation_error('', $errors['generic']);
                 }
                 
             }
             
-            // security check when updating an administrator user
+            // security for update user
             if($action['type'] === 'update_user'){
                 
-                // get target user ID
+                // target user ID must be set at this point
                 $target_user_id = (int) $action['save']['target'];
+                if(empty($target_user_id)){
+                    return acfe_add_validation_error('', $errors['generic']);
+                }
                 
-                if(!empty($target_user_id)){
+                // target user must exist at this point
+                $target_user = get_userdata($target_user_id);
+                if(empty($target_user)){
+                    return acfe_add_validation_error('', $errors['generic']);
+                }
+                
+                // validate admin role
+                if($validate_admin_role){
                     
-                    // get target user
-                    $target_user = get_userdata($target_user_id);
+                    // check if current user can edit target admin user
+                    if((in_array('administrator', $target_user->roles, true) || in_array('super_admin', $target_user->roles, true)) && !current_user_can('edit_user', $target_user_id)){
+                        return acfe_add_validation_error('', $errors['generic']);
+                    }
                     
-                    // check if target user is administrator and current user cant edit user
-                    if($target_user && (in_array('administrator', $target_user->roles, true) || in_array('super_admin', $target_user->roles, true)) && !current_user_can('edit_user', $target_user_id)){
-                        
-                        // filters
-                        $validate = true;
-                        $validate = apply_filters("acfe/form/validate_user_admin_role",                          $validate, $form, $action);
-                        $validate = apply_filters("acfe/form/validate_user_admin_role/form={$form['name']}",     $validate, $form, $action);
-                        $validate = apply_filters("acfe/form/validate_user_admin_role/action={$action['name']}", $validate, $form, $action);
-                        
-                        // should validate
-                        if($validate){
-                            return acfe_add_validation_error('', $errors['generic']);
-                        }
-                        
+                }
+                
+                // filters
+                $validate_other_role = true;
+                $validate_other_role = apply_filters("acfe/form/validate_user_other_role",                          $validate_other_role, $form, $action);
+                $validate_other_role = apply_filters("acfe/form/validate_user_other_role/form={$form['name']}",     $validate_other_role, $form, $action);
+                $validate_other_role = apply_filters("acfe/form/validate_user_other_role/action={$action['name']}", $validate_other_role, $form, $action);
+                
+                // validate other role
+                if($validate_other_role){
+                    
+                    // check if current user can edit target user
+                    if(!current_user_can('edit_user', $target_user_id)){
+                        return acfe_add_validation_error('', $errors['generic']);
                     }
                     
                 }
@@ -813,20 +825,26 @@ class acfe_module_form_action_user extends acfe_module_form_action{
                         )
                     );
                     
-                    // we must re-log the user
-                    // catch auth setcookie
-                    // and assign $_COOKIE so we don't need to reload the page
-                    add_action('set_auth_cookie',         array($this, 'set_auth_cookie'));
-                    add_action('set_logged_in_cookie',    array($this, 'set_logged_in_cookie'));
+                    // if current user is being updated
+                    if(get_current_user_id() === $user_id){
+                        
+                        // we must re-log the user
+                        // catch auth setcookie
+                        // and assign $_COOKIE so we don't need to reload the page
+                        add_action('set_auth_cookie',         array($this, 'set_auth_cookie'));
+                        add_action('set_logged_in_cookie',    array($this, 'set_logged_in_cookie'));
+                        
+                        // we must clear cache since the user is updated above
+                        clean_user_cache($user_id);
+                        wp_clear_auth_cookie();
+                        wp_set_current_user($user_id);
+                        wp_set_auth_cookie($user_id);
+                        
+                        remove_action('set_auth_cookie',      array($this, 'set_auth_cookie'));
+                        remove_action('set_logged_in_cookie', array($this, 'set_logged_in_cookie'));
+                        
+                    }
                     
-                    // we must clear cache since the user is updated above
-                    clean_user_cache($user_id);
-                    wp_clear_auth_cookie();
-                    wp_set_current_user($user_id);
-                    wp_set_auth_cookie($user_id);
-                    
-                    remove_action('set_auth_cookie',      array($this, 'set_auth_cookie'));
-                    remove_action('set_logged_in_cookie', array($this, 'set_logged_in_cookie'));
                 }
                 
                 break;

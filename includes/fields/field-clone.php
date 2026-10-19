@@ -37,7 +37,9 @@ class acfe_field_clone extends acfe_field_extend{
         $nonce = acf_request_arg('nonce', '');
         
         // validate
-        if(!acf_verify_ajax($nonce, 'acf/fields/clone/query')){
+        // ACF < 6.3.2: we use acf_verify_ajax() because the custom nonce was added after ACF 6.3.2
+        // before that, the classic acf_nonce is used
+        if(!acf_verify_ajax($nonce, 'acf/fields/clone/query') || !acf_current_user_can_admin()){
             die();
         }
         

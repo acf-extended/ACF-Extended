@@ -148,17 +148,17 @@ class acfe_module_form_front{
         }
         
     }
-    
-    
+
+
     /**
-     * get_form
+     * prepare_args
      *
      * @param $form
      *
-     * @return array|mixed
+     * @return array
      */
-    function get_form($form){
-        
+    function prepare_args($form){
+
         // allow name/ID
         if(!is_array($form)){
             $form = is_numeric($form) ? array('ID' => $form) : array('name' => $form);
@@ -172,48 +172,118 @@ class acfe_module_form_front{
             $form['ID'] = acf_extract_var($form, 'id');
         }
 
-        // get item
-        $item = acfe_get_module('form')->get_item($form);
-        if($item){
+        // return
+        return $form;
 
-            // cleanup vars (use item ID & name)
-            acf_extract_vars($form, array('ID', 'name'));
-            $form = acfe_parse_args_r($form, $item);
+    }
 
-        }else{
-            $form = acfe_get_module('form')->validate_item($form);
-        }
-        
+
+    /**
+     * validate_args
+     *
+     * @param $form
+     *
+     * @return mixed
+     */
+    function validate_args($form){
+
         // cleanup vars
         acf_extract_vars($form, array('label', 'modified', 'local', 'local_file', '_valid'));
-        
+
         // add post id
         if(!isset($form['post_id'])){
             $form['post_id'] = acfe_get_post_id();
         }
-        
+
         // add uniqid
         if(!isset($form['uniqid'])){
             $form['uniqid'] = acf_uniqid("acfe_form_{$form['name']}");
         }
-        
+
         // add cid (visible in the DOM)
         if(!isset($form['cid'])){
             $form['cid'] = uniqid();
         }
-        
+
         // add map
         if(!isset($form['map'])){
             $form['map'] = array();
         }
-        
+
         // add map default
         if(!isset($form['map_default'])){
             $form['map_default'] = $form['map'];
         }
-        
+
+        // return
+        return $form;
+
+    }
+
+
+    /**
+     * get_form
+     *
+     * @param $form
+     *
+     * @return array|false
+     */
+    function get_form($form){
+
+        // prepare args
+        $form = $this->prepare_args($form);
+
+        // get registered form
+        $item = acfe_get_module('form')->get_item($form);
+        if(!$item){
+            return false;
+        }
+
+        // cleanup args (use registered item ID & name)
+        acf_extract_vars($form, array('ID', 'name'));
+
+        // parse args
+        $form = acfe_parse_args_r($form, $item);
+
+        // validate args
+        $form = $this->validate_args($form);
+
+        // return
         return $form;
     
+    }
+
+
+    /**
+     * get_any_form
+     *
+     * @param $args
+     *
+     * @return array|mixed
+     */
+    function get_any_form($args){
+
+        // clone variable
+        $form = $args;
+
+        // try get registered form first
+        $args = $this->get_form($args);
+        if($args){
+            return $args;
+        }
+
+        // prepare args
+        $form = $this->prepare_args($form);
+
+        // use default item args
+        $form = acfe_get_module('form')->validate_item($form);
+
+        // validate args
+        $form = $this->validate_args($form);
+
+        // return
+        return $form;
+
     }
     
     
@@ -223,9 +293,6 @@ class acfe_module_form_front{
      * @param $form
      */
     function render_form($form){
-    
-        // get form
-        $form = $this->get_form($form);
         
         // tags context
         acfe_add_context('form', $form);
@@ -503,6 +570,29 @@ endif;
  * @param $form
  */
 function acfe_form($form = array()){
+
+    // get form
+    $form = acfe_get_any_form($form);
+
+    // render form
+    acf_get_instance('acfe_module_form_front')->render_form($form);
+
+}
+
+/**
+ * acfe_form_shortcode
+ *
+ * @param $form
+ */
+function acfe_form_shortcode($form = array()){
+
+    // get form
+    $form = acfe_get_form($form);
+    if(!$form){
+        return;
+    }
+
+    // render form
     acf_get_instance('acfe_module_form_front')->render_form($form);
 }
 
@@ -516,6 +606,18 @@ function acfe_form($form = array()){
  */
 function acfe_get_form($form = array()){
     return acf_get_instance('acfe_module_form_front')->get_form($form);
+}
+
+
+/**
+ * acfe_get_any_form
+ *
+ * @param $form
+ *
+ * @return mixed
+ */
+function acfe_get_any_form($form = array()){
+    return acf_get_instance('acfe_module_form_front')->get_any_form($form);
 }
 
 

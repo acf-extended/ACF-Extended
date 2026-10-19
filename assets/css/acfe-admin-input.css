@@ -484,6 +484,11 @@ body.acfe-wp-7-0:not(.block-editor-page) #minor-publishing-actions .preview {
     min-height: 32px
 }
 
+body.acfe-wp-7-0:not(.block-editor-page) #misc-publishing-actions .button {
+    line-height: 2.30769231;
+    min-height: 32px
+}
+
 body.acfe-wp-7-0:not(.block-editor-page) .acfe-misc-export .dashicons-editor-code,
 body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object-category::before,
 body.acfe-wp-7-0:not(.block-editor-page) .misc-pub-acfe-object-data::before,

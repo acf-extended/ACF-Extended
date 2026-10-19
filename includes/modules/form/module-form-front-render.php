@@ -365,8 +365,8 @@ class acfe_module_form_front_render{
         if($form['attributes']['submit']): ?>
             <div class="acf-form-submit">
                 
-                <?php printf($form['attributes']['submit']['button'], $form['attributes']['submit']['value']); ?>
-                <?php echo $form['attributes']['submit']['spinner']; ?>
+                <?php printf($form['attributes']['submit']['button'], esc_attr($form['attributes']['submit']['value'])); ?>
+                <?php echo acf_esc_html($form['attributes']['submit']['spinner']); ?>
 
             </div>
         <?php endif;
@@ -409,7 +409,7 @@ class acfe_module_form_front_render{
                 <script type="text/javascript">
                     (function($){
                     if(typeof acf !== 'undefined' && typeof acfe !== 'undefined'){
-                        acfe.set('forms.<?php echo $form['cid']; ?>', <?php echo json_encode($data); ?>);
+                        acfe.set('forms.<?php echo esc_attr($form['cid']); ?>', <?php echo json_encode($data); ?>);
                     }
                     })(jQuery);
                 </script>

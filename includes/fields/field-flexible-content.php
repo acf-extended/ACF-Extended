@@ -348,7 +348,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
             'data-min'          => $field['min'],
             'data-max'          => $field['max'],
             'data-button-label' => $field['button_label'],
-            'data-nonce'        => wp_create_nonce('acf_field_' . $field['type'] . '_' . $field['key'] )
+            'data-nonce'        => wp_create_nonce('acf_field_' . $field['type'] . '_' . $field['key'])
         );
         
         // empty
@@ -954,7 +954,7 @@ class acfe_field_flexible_content extends acfe_field_extend{
         ));
 
         // verify nonce
-        if(!acf_verify_ajax($options['nonce'], $options['field_key'], true)){
+        if(!acfe_verify_ajax($options['nonce'], $options['field_key'], true, 'flexible_content')){
             die();
         }
         

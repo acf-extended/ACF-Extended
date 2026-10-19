@@ -45,7 +45,6 @@ class acfe_field_taxonomy_terms extends acfe_field{
         
         // ajax
         $this->add_action('wp_ajax_acfe/fields/taxonomy_terms/allow_query',        array($this, 'ajax_query_allowed_terms'));
-        $this->add_action('wp_ajax_nopriv_acfe/fields/taxonomy_terms/allow_query', array($this, 'ajax_query_allowed_terms'));
     
         $this->add_action('wp_ajax_acf/fields/acfe_taxonomy_terms/query',          array($this, 'ajax_query'));
         $this->add_action('wp_ajax_nopriv_acf/fields/acfe_taxonomy_terms/query',   array($this, 'ajax_query'));
@@ -61,7 +60,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
     function ajax_query_allowed_terms(){
         
         // validate
-        if(!acf_verify_ajax()){
+        if(!acfe_verify_ajax() || !acf_current_user_can_admin()){
             die();
         }
         
@@ -229,18 +228,11 @@ class acfe_field_taxonomy_terms extends acfe_field{
     function ajax_query(){
         
         // vars
-        $nonce        = acf_request_arg('nonce', '');
-        $key          = acf_request_arg('field_key', '');
-        $is_field_key = acf_is_field_key($key);
-        
-        // back-compat for field settings.
-        if(!$is_field_key){
-            $nonce = '';
-            $key   = '';
-        }
+        $nonce = acf_request_arg('nonce', '');
+        $key   = acf_request_arg('field_key', '');
         
         // validate
-        if(!acf_verify_ajax($nonce, $key, $is_field_key)){
+        if(!acfe_verify_ajax($nonce, $key, true, 'acfe_taxonomy_terms')){
             die();
         }
         
@@ -928,8 +920,7 @@ class acfe_field_taxonomy_terms extends acfe_field{
         
         }
         
-        // fix acf 6.3.10 verify ajax nonce
-        // pass custom 'nonce' as: 'acf_field_select_field_abcde12345'
+        // Ajax nonce
         if($field['field_type'] === 'select' && $field['ajax'] && empty($field['nonce']) && acf_is_field_key($field['key'])){
             
             // assign key

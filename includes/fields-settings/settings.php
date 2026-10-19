@@ -46,7 +46,7 @@ class acfe_field_settings{
     function load_ajax(){
         
         // verify request
-        if(!acf_verify_ajax() || !acf_current_user_can_admin()){
+        if(!acfe_verify_ajax() || !acf_current_user_can_admin()){
             wp_send_json_error();
         }
         

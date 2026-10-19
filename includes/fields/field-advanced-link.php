@@ -17,8 +17,9 @@ class acfe_field_advanced_link extends acf_field{
         $this->label = __('Advanced Link', 'acfe');
         $this->category = 'relational';
         $this->defaults = array(
-            'post_type' => array(),
-            'taxonomy'  => array(),
+            'post_type'   => array(),
+            'post_status' => array(),
+            'taxonomy'    => array(),
         );
         
         $this->add_action('wp_ajax_acfe/fields/advanced_link/post_query',        array($this, 'ajax_query'));
@@ -45,6 +46,18 @@ class acfe_field_advanced_link extends acf_field{
             'ui'            => 1,
             'allow_null'    => 1,
             'placeholder'   => __('All post types', 'acf'),
+        ));
+
+        acf_render_field_setting($field, array(
+            'label'        => __('Filter by Post Status', 'acf'),
+            'instructions' => '',
+            'type'         => 'select',
+            'name'         => 'post_status',
+            'choices'      => acfe_get_pretty_post_statuses(),
+            'multiple'     => 1,
+            'ui'           => 1,
+            'allow_null'   => 1,
+            'placeholder'  => __( 'Any post status', 'acf' ),
         ));
         
         // filter taxonomies
@@ -115,7 +128,7 @@ class acfe_field_advanced_link extends acf_field{
                 </div>
             </div>
             
-            <a href="#" class="button" data-name="add" target=""><?php _e('Select Link', 'acf'); ?></a>
+            <a href="#" class="acf-button button" data-name="add" target=""><?php _e('Select Link', 'acf'); ?></a>
             
             <div class="link-wrap">
                 <span class="link-title"><?php echo esc_html($render['title']); ?></span>
@@ -180,7 +193,7 @@ class acfe_field_advanced_link extends acf_field{
                 )
             )
         );
-        
+
         // post
         $sub_fields[] = array(
             'name'              => 'post',
@@ -605,12 +618,11 @@ class acfe_field_advanced_link extends acf_field{
     function ajax_query(){
 
         // vars
-        $nonce        = acf_request_arg('nonce', '');
-        $key          = acf_request_arg('field_key', '');
-        $is_field_key = acf_is_field_key($key);
+        $nonce = acf_request_arg('nonce', '');
+        $key   = acf_request_arg('field_key', '');
 
         // validate
-        if(!acf_verify_ajax($nonce, $key, $is_field_key)){
+        if(!acfe_verify_ajax($nonce, $key, true, 'acfe_advanced_link')){
             die();
         }
 
@@ -676,11 +688,16 @@ class acfe_field_advanced_link extends acf_field{
             
         }
         
-        // post_type
+        // post type
         $args['post_type'] = acf_get_post_types();
         
         if(!empty($field['post_type'])){
             $args['post_type'] = acfe_as_array($field['post_type']);
+        }
+
+        // post status
+        if(!empty($field['post_status'])){
+            $args['post_status'] = acfe_as_array($field['post_status']);
         }
         
         // taxonomy
@@ -703,11 +720,17 @@ class acfe_field_advanced_link extends acf_field{
                 
             }
         }
+
+        $args['perm'] = 'readable';
+        $args = $this->acf_ensure_perm_readable_post_status($args);
         
         // filters
         $args = apply_filters('acf/fields/post_object/query',                        $args, $field, $options['post_id']);
         $args = apply_filters('acf/fields/post_object/query/name=' . $field['name'], $args, $field, $options['post_id']);
         $args = apply_filters('acf/fields/post_object/query/key=' . $field['key'],   $args, $field, $options['post_id']);
+
+        // re-normalize in case a filter reset `post_status` to 'any' while leaving `perm=readable`.
+        $args = $this->acf_ensure_perm_readable_post_status($args);
         
         // get posts grouped by post type
         $groups = acf_get_grouped_posts($args);
@@ -792,6 +815,40 @@ class acfe_field_advanced_link extends acf_field{
         // return
         return $response;
         
+    }
+
+
+    /**
+     * acf_ensure_perm_readable_post_status
+     *
+     * Backward compatibility for acf_ensure_perm_readable_post_status, introduced in ACF 6.8.7+
+     *
+     * @param $args
+     *
+     * @return array
+     */
+    function acf_ensure_perm_readable_post_status($args){
+
+        // ACF 6.8.7+
+        if(function_exists('acf_ensure_perm_readable_post_status')){
+            return acf_ensure_perm_readable_post_status($args);
+        }
+
+        if(!isset( $args['perm'] ) || 'readable' !== $args['perm']){
+            return $args;
+        }
+
+        $status = isset( $args['post_status'] ) ? $args['post_status'] : '';
+        $is_any = empty( $status )
+                  || 'any' === $status
+                  || ( is_array( $status ) && in_array( 'any', $status, true ) );
+
+        if ( $is_any ) {
+            $args['post_status'] = get_post_stati( array( 'exclude_from_search' => false ) );
+        }
+
+        return $args;
+
     }
     
 }

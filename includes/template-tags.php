@@ -966,12 +966,12 @@ class acfe_template_tags{
                                 }, false);
                             }
                             
-                            // escape brackets
-                            if(!empty($replace) && is_string($replace)){
-                                $replace = str_replace('{', 'ACFE_ESCAPE_START', $replace);
-                                $replace = str_replace('}', 'ACFE_ESCAPE_END', $replace);
-                            }
-                            
+                        }
+                        
+                        // escape brackets
+                        if(!empty($replace) && is_string($replace)){
+                            $replace = str_replace('{', 'ACFE_ESCAPE_START', $replace);
+                            $replace = str_replace('}', 'ACFE_ESCAPE_END', $replace);
                         }
                         
                         // marker
@@ -1016,6 +1016,71 @@ class acfe_template_tags{
             // replace
             $string = str_replace($search, $replace, $string);
         
+        }
+        
+        // keep looping
+        return true;
+        
+    }
+    
+    
+    /**
+     * clear
+     *
+     * @param $string
+     *
+     * @return array|mixed|string|string[]
+     */
+    function clear($string){
+        
+        // array
+        if(is_array($string)){
+            foreach(array_keys($string) as $key){
+                $string[ $key ] = $this->clear($string[ $key ]);
+            }
+        }
+        
+        // validate
+        if(!is_string($string) || empty($string)){
+            return $string;
+        }
+        
+        // match
+        while($this->match_clear($string)){}
+        
+        // return
+        return $string;
+        
+    }
+    
+    
+    /**
+     * match_clear
+     *
+     * @param $string
+     *
+     * @return bool
+     */
+    function match_clear(&$string){
+        
+        // tags
+        // match {name} {name:value} {name:value:value2} etc...
+        preg_match_all('/[{\w: +-\\\]*(?<full>{(?<name>[\w]+)(?!:})(?::(?<value>.*?))?})}*/', $string, $matches);
+        
+        // keys
+        $keys = current($matches);
+        
+        // stop loop
+        if(empty($keys)){
+            return false;
+        }
+        
+        // loop matches
+        foreach(array_keys($keys) as $i){
+            
+            // remove tags
+            $string = str_replace($matches['full'][ $i ], '', $string);
+            
         }
         
         // keep looping
@@ -1397,5 +1462,30 @@ function acfe_parse_tags($text, $tmp_context = null){
  */
 function acfe_apply_tags(&$text, $tmp_context = null){
     $text = acfe_parse_tags($text, $tmp_context);
+    return $text;
+}
+
+
+/**
+ * acfe_clear_tags
+ *
+ * @param $text
+ *
+ * @return mixed
+ */
+function acfe_clear_tags($text){
+    return acf_get_instance('acfe_template_tags')->clear($text);
+}
+
+
+/**
+ * acfe_apply_clear_tags
+ *
+ * @param $text
+ *
+ * @return mixed
+ */
+function acfe_apply_clear_tags(&$text){
+    $text = acfe_clear_tags($text);
     return $text;
 }
